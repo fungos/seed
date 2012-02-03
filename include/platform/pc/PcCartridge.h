@@ -42,7 +42,7 @@
 #if defined(_PC_)
 
 #include "interface/ICartridge.h"
-#include "FileSystem.h"#include "interface/IModule.h"
+#include "FileSystem.h"
 #include "Singleton.h"
 
 #include <stdio.h>
