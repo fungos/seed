@@ -47,7 +47,6 @@ File::File()
 	: pName(NULL)
 	, pData(NULL)
 	, iSize(0)
-	, bPackaged(FALSE)
 {
 }
 
@@ -56,7 +55,6 @@ File::File(const File &other)
 	pName = other.pName;
 	pData = other.pData;
 	iSize = other.iSize;
-	bPackaged = other.bPackaged;
 }
 
 File::File &operator=(const File &other)
@@ -66,7 +64,6 @@ File::File &operator=(const File &other)
 		pName = other.pName;
 		pData = other.pData;
 		iSize = other.iSize;
-		bPackaged = other.bPackaged;
 	}
 }
 
@@ -74,7 +71,6 @@ File::File(const char *filename)
 	: pName(filename)
 	, pData(NULL)
 	, iSize(0)
-	, bPackaged(FALSE)
 {
 
 }
@@ -86,7 +82,7 @@ File::~File()
 
 void File::Close()
 {
-	if (!bPackaged && pData)
+	if (pData)
 	{
 		Free(const_cast<void *>(pData));
 	}
@@ -94,7 +90,6 @@ void File::Close()
 	pName = NULL;
 	pData = NULL;
 	iSize = 0;
-	bPackaged = FALSE;
 }
 
 void File::SetSize(u32 size)

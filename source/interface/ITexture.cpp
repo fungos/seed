@@ -34,7 +34,6 @@
 	\brief Defines the Texture class interface
 */
 
-#include "interface/IFileSystem.h"
 #include "interface/ITexture.h"
 #include "Enum.h"
 #include "Log.h"

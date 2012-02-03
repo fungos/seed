@@ -39,17 +39,16 @@
  */
 
 #ifdef _WIN32
-  /* MSVC/Borland & Cygwin */
-   typedef off_t oggz_off_t;
-
-#define PRI_OGGZ_OFF_T "l"
-
+	/* MSVC/Borland & Cygwin */
+	typedef off_t oggz_off_t;
+	#define PRI_OGGZ_OFF_T "l"
 #else
-#include <oggz/oggz_off_t_generated.h>
+	#include <oggz/oggz_off_t_generated.h>
 
-#ifdef __APPLE__
-typedef off_t oggz_off_t;
-#else
+	#ifdef __APPLE__
+	typedef off_t oggz_off_t;
+	#else
+	#endif
 #endif
 
 #endif /* __OGGZ_OFF_T__ */

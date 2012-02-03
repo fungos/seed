@@ -40,8 +40,6 @@
 #include "ResourceLoader.h"
 #include "Texture.h"
 #include "Timer.h"
-#include "Package.h"
-#include "PackageManager.h"
 #include "FileSystem.h"
 #include "System.h"
 #include "Music.h"
@@ -52,7 +50,6 @@
 #include "Input.h"
 #include "ParticleEmitterObject.h"
 #include "ParticleManager.h"
-#include "StringPool.h"
 #include "Updater.h"
 #include "ModuleManager.h"
 #include "Cartridge.h"
@@ -160,7 +157,6 @@ bool Initialize()
 
 	ret = ret && pModuleManager->Add(pSystem);
 	ret = ret && pModuleManager->Add(pTimer);
-	ret = ret && pModuleManager->Add(pPackageManager);
 	ret = ret && pModuleManager->Add(pFileSystem);
 	ret = ret && pModuleManager->Add(pCartridge);
 	ret = ret && pModuleManager->Add(pScreen);
@@ -192,7 +188,6 @@ bool Initialize()
 
 	ResourceManager::Register(Seed::ObjectTexture,			TextureResourceLoader);
 	ResourceManager::Register(Seed::ObjectSprite,			SpriteResourceLoader);
-	ResourceManager::Register(Seed::ObjectPackage,			PackageResourceLoader);
 	ResourceManager::Register(Seed::ObjectSound,			SoundResourceLoader);
 	ResourceManager::Register(Seed::ObjectMusic,			MusicResourceLoader);
 	ResourceManager::Register(Seed::ObjectParticleEmitterObject, ParticleEmitterObjectResourceLoader);
@@ -254,7 +249,6 @@ void Shutdown()
 	pScreen->DestroyInstance();
 	pCartridge->DestroyInstance();
 	pFileSystem->DestroyInstance();
-	pPackageManager->DestroyInstance();
 	pTimer->DestroyInstance();
 	pSystem->DestroyInstance();
 

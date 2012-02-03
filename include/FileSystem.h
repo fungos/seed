@@ -31,15 +31,50 @@
 
 /*! \file FileSystem.h
 	\author	Danny Angelo Carminati Grein
-	\brief Include selector
+	\brief Filesystem module
 */
 
-#ifndef __FILE_SYSTEM_H__
-#define __FILE_SYSTEM_H__
+#ifndef __FILESYSTEM_H__
+#define __FILESYSTEM_H__
 
 #define FS_CHECK(x)	{ if (!x) { char *_err = PHYSFS_getLastError(); Log(TAG "Error: %s", _err); }}
 
-#include "../contrib/physfs/physfs.h"
-#include "interface/IFileSystem.h"
+#include "physfs/physfs.h"
+#include "Singleton.h"
+#include "Base.h"
+#include "Enum.h"
+#include "interface/IModule.h"
 
-#endif // __FILE_SYSTEM_H__
+namespace Seed {
+
+class SEED_CORE_API FileSystem : public IModule
+{
+	SEED_SINGLETON_DECLARE(FileSystem)
+	public:
+		virtual void SetWorkDirectory(const FilePath *dir);
+		virtual void SetWriteableDirectory(const FilePath *dir);
+		virtual void MakeDirectory(const FilePath *dir) const;
+
+		const FilePath *GetWorkDirectory() const;
+		const FilePath *GetWriteableDirectory() const;
+
+		// IModule
+		virtual bool Initialize();
+		virtual bool IsRequired() const;
+
+		// IObject
+		virtual const char *GetObjectName() const;
+
+	protected:
+		const FilePath *pWorkDir;
+		const FilePath *pWriteDir;
+
+	private:
+		SEED_DISABLE_COPY(FileSystem);
+};
+
+#define pFileSystem FileSystem::GetInstance()
+
+} // namespace
+
+#endif // __FILESYSTEM_H__

@@ -84,8 +84,6 @@
 
 #include <Number.h>
 
-#include <Package.h>
-#include <PackageManager.h>
 #include <ParticleEmitter.h>
 #include <ParticleManager.h>
 #include <Point.h>

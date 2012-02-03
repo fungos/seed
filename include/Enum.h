@@ -48,7 +48,6 @@ enum eObjectType
 	ObjectSprite,
 	ObjectSound,
 	ObjectMusic,
-	ObjectPackage,
 	ObjectEvent,
 	ObjectMovie,
 	ObjectSoundSource,

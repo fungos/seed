@@ -28,7 +28,7 @@ else
 	license = LGPL
 endif
 
-CFLAGS += $(CDEFS) -I$(SEEDSDK)/seed2/include -I../contrib
+CFLAGS += $(CDEFS) -I$(SEEDSDK)/seed/include -I../contrib
 CPPFLAGS = $(CFLAGS)
 LIBS = -lSeed2 -lSDL -lSDL_image
 LFLAGS = -L$(SEEDSDK)/seed2/bin
@@ -40,12 +40,12 @@ uname_R := $(shell sh -c 'uname -r 2>/dev/null || echo not')
 uname_P := $(shell sh -c 'uname -p 2>/dev/null || echo not')
 uname_V := $(shell sh -c 'uname -v 2>/dev/null || echo not')
 
-#	USE_SYSTEM_OGGVORBIS = YesPlease
-#	USE_SYSTEM_OGGZ = YesPlease
-#	USE_SYSTEM_OGGPLAY = YesPlease
-#	USE_SYSTEM_THEORA = YesPlease
-#	USE_SYSTEM_BOX2D = YesPlease
-#	USE_SYSTEM_PHYSFS = YesPlease
+#USE_SYSTEM_OGGVORBIS = YesPlease
+#USE_SYSTEM_OGGZ = YesPlease
+#USE_SYSTEM_OGGPLAY = YesPlease
+#USE_SYSTEM_THEORA = YesPlease
+#USE_SYSTEM_BOX2D = YesPlease
+#USE_SYSTEM_PHYSFS = YesPlease
 
 USE_CONTRIB_OGGVORBIS = YesPlease
 USE_CONTRIB_OGGZ = YesPlease

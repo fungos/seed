@@ -29,64 +29,89 @@
  **
  *****************************************************************************/
 
-/*! \file Package.h
-	\author Everton Fernando Patitucci da Silva
-	\brief Package system
+/*! \file FileSystem.cpp
+	\author	Danny Angelo Carminati Grein
+	\brief Filesystem module
 */
 
-#ifndef __PACKAGE_H__
-#define __PACKAGE_H__
-
-#include "Base.h"
-#include "interface/IResource.h"
+#include "FileSystem.h"
+#include "Log.h"
 #include "File.h"
+#include "System.h"
 #include "SeedInit.h"
 
-#include <map>
+#define TAG	"[FileSystem] "
 
 namespace Seed {
 
-class ResourceManager;
-class IResource;
+SEED_SINGLETON_DEFINE(FileSystem)
 
-IResource *PackageResourceLoader(const char *filename, ResourceManager *res);
-
-class SEED_CORE_API Package : public IResource
+FileSystem::FileSystem()
+	: pWorkDir(NULL)
+	, pWriteDir(NULL)
+	, pFile(NULL)
 {
-	friend IResource *PackageResourceLoader(const char *filename, ResourceManager *res);
-	friend class PackageManager;
+}
 
-	public:
-		Package(const char *name);
-		~Package();
+FileSystem::~FileSystem()
+{
+	this->Shutdown();
+}
 
-		// IResource
-		virtual u32 GetUsedMemory() const;
+bool FileSystem::Initialize()
+{
+	FS_CHECK(PHYSFS_init(Seed::Private::pcArgv));
+	if (!pWriteDir)
+		this->SetWriteableDirectory(pSystem->GetHomeFolder());
 
-		// IObject
-		virtual const char *GetObjectName() const;
-		virtual int GetObjectType() const;
+	return TRUE;
+}
 
-	protected:
-		const void *GetFile(const char *filename, u32 *filesize);
-		void LockUnload();
+bool FileSystem::Shutdown()
+{
+	FS_CHECK(PHYSFS_deinit());
+	return TRUE;
+}
 
-		// IResource
-		using IResource::Load;
-		virtual bool Load(const char *filename, ResourceManager *res);
-		virtual bool Load(const void *data, ResourceManager *res = pResourceManager);
-		virtual bool Unload();
+void FileSystem::SetWorkDirectory(const FilePath *dir)
+{
+	if (pWorkDir)
+		FS_CHECK(PHYSFS_removeFromSearchPath(dir));
 
-	private:
-		Package();
-		SEED_DISABLE_COPY(Package);
+	pWorkDir = dir;
 
-	private:
-		File				stFile;
-		u32					iFilesAmount;
-};
+	FS_CHECK(PHYSFS_mount(dir));
+}
+
+const FilePath *FileSystem::GetWorkDirectory() const
+{
+	return pWorkDir;
+}
+
+void FileSystem::SetWriteableDirectory(const FilePath *dir)
+{
+	pWriteDir = dir;
+	FS_CHECK(PHYSFS_setWriteDir(dir));
+}
+
+const FilePath *FileSystem::GetWriteableDirectory() const
+{
+	return pWriteDir;
+}
+
+void FileSystem::MakeDirectory(const FilePath *dir) const
+{
+	FS_CHECK(PHYSFS_mkdir(dir));
+}
+
+bool FileSystem::IsRequired() const
+{
+	return TRUE;
+}
+
+const char *FileSystem::GetObjectName() const
+{
+	return "FileSystem";
+}
 
 } // namespace
-
-#endif // __PACKAGE_H__
-

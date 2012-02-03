@@ -39,6 +39,7 @@
 #if defined(_OAL_OGG_)
 
 #include "Log.h"
+#include <vector>
 
 #define TAG "[Sound] "
 #define BUFFER_SIZE		8512

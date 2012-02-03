@@ -43,12 +43,8 @@
 
 namespace Seed {
 
-class IFileSystem;
-
 class SEED_CORE_API File : public IObject
 {
-	friend class IFileSystem;
-
 	public:
 		File();
 		File(const File & other);
