@@ -45,7 +45,7 @@ namespace Seed {
 
 File::File()
 	: pName(NULL)
-	, pData(NULL)
+	, pHandle(NULL)
 	, iSize(0)
 {
 }
@@ -53,7 +53,7 @@ File::File()
 File::File(const File &other)
 {
 	pName = other.pName;
-	pData = other.pData;
+	pHandle = other.pHandle;
 	iSize = other.iSize;
 }
 
@@ -62,14 +62,14 @@ File::File &operator=(const File &other)
 	if (this != &other)
 	{
 		pName = other.pName;
-		pData = other.pData;
+		pHandle = other.pHandle;
 		iSize = other.iSize;
 	}
 }
 
 File::File(const char *filename)
 	: pName(filename)
-	, pData(NULL)
+	, pHandle(NULL)
 	, iSize(0)
 {
 
@@ -80,16 +80,45 @@ File::~File()
 	this->Close();
 }
 
-void File::Close()
+bool File::Open(OpenMode mode)
 {
-	if (pData)
-	{
-		Free(const_cast<void *>(pData));
+	if (!pName) {
+		Log(TAG "Error: Invalid filename!");
+		return false;
 	}
 
-	pName = NULL;
-	pData = NULL;
-	iSize = 0;
+	switch (mode)
+	{
+		case ReadOnly:
+			pHandle = PHYSFS_openRead(pName);
+			break;
+		case ReadWrite:
+			pHandle = PHYSFS_openWrite(pName);
+			break;
+		case Append:
+			pHandle = PHYSFS_openAppend(pName);
+			break;
+		default:
+			break;
+	}
+
+	if (!pHandle) {
+		Log(TAG "Error: %s", PHYSFS_getLastError());
+		return false;
+	}
+
+	iSize = static_cast<u32>(PHYSFS_fileLength(pHandle));
+
+	return true;
+}
+
+
+void File::Close()
+{
+	if (!PHYSFS_close(pHandle))
+	{
+		Log(TAG, "Error: %s", PHYSFS_getLastError());
+	}
 }
 
 void File::SetSize(u32 size)
@@ -102,14 +131,42 @@ u32 File::GetSize() const
 	return iSize;
 }
 
-void File::SetData(const void *data)
+void *File::ReadAll() const
 {
-	pData = data;
+	if (Check()) {
+		void *data = Alloc(iSize);
+		if (PHYSFS_read(pHandle, data, iSize, -1) != -1) {
+			return data;
+		}
+	}
+
+	return NULL;
 }
 
-const void *File::GetData() const
+bool File::Read(void *buffer, int size)
 {
-	return pData;
+	if (Check()) {
+		if (PHYSFS_read(pHandle, buffer, size, -1) != -1) {
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool File::Eof() const
+{
+	return (Check() && PHYSFS_eof(pHandle);
+}
+
+bool File::Seek(int pos) const
+{
+	return (Check() && (PHYSFS_seek(pHandle, pos) != 0);
+}
+
+u32 File::Tell() const
+{
+	return PHYSFS_tell(pHandle);
 }
 
 const char *File::GetName() const
@@ -130,6 +187,16 @@ const char *File::GetObjectName() const
 int File::GetObjectType() const
 {
 	return Seed::ObjectFile;
+}
+
+bool File::Check()
+{
+	if (!pHandle) {
+		Log(TAG, "Error: Invalid handle, open the file before call this function");
+		return false;
+	}
+
+	return true;
 }
 
 } // namespace

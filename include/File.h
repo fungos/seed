@@ -46,20 +46,35 @@ namespace Seed {
 class SEED_CORE_API File : public IObject
 {
 	public:
+		enum OpenMode
+		{
+			ReadOnly,
+			ReadWrite,
+			Append,
+			Text
+		};
+
 		File();
 		File(const File & other);
 		File(const char *filename);
 		virtual ~File();
 
 		File &operator=(const File &other);
+
+		bool Open(OpenMode mode);
 		void Close();
 
 		u32 GetSize() const;
-		const void *GetData() const;
+
+		void *ReadAll();
+		bool Read(void *buffer, int size);
+		bool Eof() const;
+		bool Seek(int pos) const;
+		u32 Tell() const;
+
 		const char *GetName() const;
 
 		void SetSize(u32 size);
-		void SetData(const void *data);
 		void SetName(const char *name);
 
 		// IObject
@@ -67,9 +82,12 @@ class SEED_CORE_API File : public IObject
 		virtual int GetObjectType() const;
 
 	protected:
-		const char	*pName;
-		const void 	*pData;
-		u32			iSize;
+		bool Check();
+
+	private:
+		const char  *pName;
+		PHYSFS_file *pHandle;
+		u32          iSize;
 };
 
 } // namespace

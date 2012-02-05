@@ -94,6 +94,19 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define STRCASECMP						LIB_STRCASECMP
 #define STRDUP							LIB_STRDUP
 
+#ifdef USE_STL
+	#include <string>
+
+	#ifdef USE_BOOST_ALLOCATOR
+		#include <boost/pool/pool_alloc.hpp>
+		typedef std::basic_string<char, std::char_traits<char>, boost::fast_pool_allocator<char> > String;
+	#else
+		typedef std::string String;
+	#endif
+#elif
+    // String?
+#endif
+
 // Math
 #define FAST_DIV						LIB_FAST_DIV
 #define FAST_MOD						LIB_FAST_MOD
