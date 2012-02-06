@@ -55,7 +55,7 @@ class SEED_CORE_API File : public IObject
 		};
 
 		File();
-		File(const File & other);
+		File(const File &other);
 		File(const char *filename);
 		virtual ~File();
 

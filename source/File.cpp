@@ -82,7 +82,8 @@ File::~File()
 
 bool File::Open(OpenMode mode)
 {
-	if (!pName) {
+	if (!pName)
+	{
 		Log(TAG "Error: Invalid filename!");
 		return false;
 	}
@@ -90,19 +91,29 @@ bool File::Open(OpenMode mode)
 	switch (mode)
 	{
 		case ReadOnly:
+		{
 			pHandle = PHYSFS_openRead(pName);
-			break;
+		}
+		break;
+
 		case ReadWrite:
+		{
 			pHandle = PHYSFS_openWrite(pName);
-			break;
+		}
+		break;
+
 		case Append:
+		{
 			pHandle = PHYSFS_openAppend(pName);
-			break;
+		}
+		break;
+
 		default:
-			break;
+		break;
 	}
 
-	if (!pHandle) {
+	if (!pHandle)
+	{
 		Log(TAG "Error: %s", PHYSFS_getLastError());
 		return false;
 	}
@@ -133,11 +144,11 @@ u32 File::GetSize() const
 
 void *File::ReadAll() const
 {
-	if (Check()) {
+	if (this->Check())
+	{
 		void *data = Alloc(iSize);
-		if (PHYSFS_read(pHandle, data, iSize, -1) != -1) {
+		if (PHYSFS_read(pHandle, data, iSize, -1) != -1)
 			return data;
-		}
 	}
 
 	return NULL;
@@ -145,10 +156,10 @@ void *File::ReadAll() const
 
 bool File::Read(void *buffer, int size)
 {
-	if (Check()) {
-		if (PHYSFS_read(pHandle, buffer, size, -1) != -1) {
+	if (this->Check())
+	{
+		if (PHYSFS_read(pHandle, buffer, size, -1) != -1)
 			return true;
-		}
 	}
 
 	return false;
@@ -156,12 +167,12 @@ bool File::Read(void *buffer, int size)
 
 bool File::Eof() const
 {
-	return (Check() && PHYSFS_eof(pHandle);
+	return (this->Check() && PHYSFS_eof(pHandle);
 }
 
 bool File::Seek(int pos) const
 {
-	return (Check() && (PHYSFS_seek(pHandle, pos) != 0);
+	return (this->heck() && (PHYSFS_seek(pHandle, pos) != 0);
 }
 
 u32 File::Tell() const
@@ -191,12 +202,14 @@ int File::GetObjectType() const
 
 bool File::Check()
 {
-	if (!pHandle) {
+	bool ret = true;
+	if (!pHandle)
+	{
 		Log(TAG, "Error: Invalid handle, open the file before call this function");
-		return false;
+		ret = false;
 	}
 
-	return true;
+	return ret;
 }
 
 } // namespace
