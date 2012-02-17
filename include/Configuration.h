@@ -136,7 +136,7 @@ class SEED_CORE_API Configuration : public IObject
 		eRendererDeviceType GetRendererDeviceType() const;
 
 		void SetReaderType(eReaderType readerType);
-		eRendererDeviceType GetReaderType() const;
+		eReaderType GetReaderType() const;
 
 		// IObject
 		virtual const char *GetObjectName() const;
@@ -165,6 +165,7 @@ class SEED_CORE_API Configuration : public IObject
 
 		// General
 		eRendererDeviceType iRendererDeviceType;
+		eReaderType iReaderType;
 
 		f32 iInputRadius;
 };

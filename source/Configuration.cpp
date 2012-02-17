@@ -48,6 +48,7 @@ Configuration::Configuration()
 	, pcDescription(NULL)
 	, pcPublisherName(NULL)
 	, iRendererDeviceType(Seed::RendererDeviceOpenGL14)
+	, iReaderType(Seed::ReaderDefault)
 	, iInputRadius(0.0f)
 {
 }
@@ -152,16 +153,6 @@ bool Configuration::GetWarningMultipleInstances() const
 	return bWarningMultipleInstances;
 }
 
-void Configuration::SetMemorySize(u32 memsize)
-{
-	iMemorySize = memsize;
-}
-
-u32 Configuration::GetMemorySize() const
-{
-	return iMemorySize;
-}
-
 void Configuration::SetRendererDeviceType(eRendererDeviceType deviceType)
 {
 	iRendererDeviceType = deviceType;
@@ -177,7 +168,7 @@ void Configuration::SetReaderType(eReaderType readerType)
 	iReaderType = readerType;
 }
 
-eRendererDeviceType Configuration::GetReaderType() const
+eReaderType Configuration::GetReaderType() const
 {
 	return iReaderType;
 }
