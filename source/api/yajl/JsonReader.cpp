@@ -137,6 +137,11 @@ const char *JsonReader::ReadString(const char *key) const
 	return ret;
 }
 
+u32 JsonReader::ReadU32(const char *key) const
+{
+	return (u32)this->ReadS32(key);
+}
+
 s32 JsonReader::ReadS32(const char *key) const
 {
 	s32 ret = 0;

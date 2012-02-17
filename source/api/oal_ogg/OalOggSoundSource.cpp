@@ -41,8 +41,6 @@
 #include "SoundSystem.h"
 #include "Sound.h"
 #include "Log.h"
-#include "File.h"
-#include "Reader.h"
 
 #define TAG		"[SoundSource] "
 
@@ -59,29 +57,34 @@ SoundSource::~SoundSource()
 	this->Unload();
 }
 
+
 void SoundSource::Load(const char *filename, ResourceManager *res)
 {
 	ASSERT_NULL(filename);
 	ASSERT_NULL(res);
 
+	File f(filename);
+	Reader r(filename);
+	SECURITY_CHECK(f.GetData(), "Sound data couldn't be opened");
+
+	this->Load(&r, res);
+}
+
+void SoundSource::Load(IReader *reader, ResourceManager *res)
+{
+	ASSERT_NULL(reader);
+
 	if (pSoundSystem->IsInitialized())
 	{
 		this->Unload();
 
-		File f(filename);
-		Reader r(filename);
-		SECURITY_CHECK(f.GetData(), "Sound data couldn't be opened");
-
-		ReaderPath(volume);
-		u32 vol = r.ReadU32(volume);
+		u32 vol = reader->ReadU32("volume");
 		fVolume = (vol / 100.0f);
 
-		ReaderPath(flags);
-		u32 flg = r.ReadU32(flags);
+		u32 flg = reader->ReadU32("loop");
 		bLoop = ((flg & 0x01) == 0x01); // FIXME
 
-		ReaderPath(file)
-		const char *fname = r.ReadString(file);
+		const char *fname = reader->ReadString("file");
 		ASSERT_NULL(fname);
 
 		/* Get the resource */

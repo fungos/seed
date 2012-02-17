@@ -66,6 +66,11 @@ const char *IReader::ReadString(const char *key) const
 	return NULL;
 }
 
+u32 IReader::ReadU32(const char *key) const
+{
+	return 0;
+}
+
 s32 IReader::ReadS32(const char *key) const
 {
 	return 0;

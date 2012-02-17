@@ -44,7 +44,7 @@
 #include "Sound.h"
 #include "interface/ISoundSource.h"
 #include "interface/ISound.h"
-#include "File.h"
+#include "Reader.h"
 
 #if defined(__APPLE_CC__)
 #include <OpenAL/al.h>
@@ -66,6 +66,7 @@ class SEED_CORE_API SoundSource : public ISoundSource
 
 		// ISoundSource
 		using ISoundSource::Load;
+		virtual void Load(IReader *reader, ResourceManager *res = pResourceManager);
 		virtual void Load(const char *filename, ResourceManager *res = pResourceManager);
 		virtual void Unload();
 

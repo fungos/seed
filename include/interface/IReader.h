@@ -53,6 +53,7 @@ class SEED_CORE_API IReader
 		bool Load(const void *data);
 		bool Load(IReader *reader);
 		const char *ReadString(const char *key) const;
+		u32 ReadU32(const char *key) const;
 		s32 ReadS32(const char *key) const;
 		f32 ReadF32(const char *key) const;
 		bool ReadBool(const char *key) const;

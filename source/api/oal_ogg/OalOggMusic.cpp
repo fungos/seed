@@ -91,12 +91,10 @@ bool Music::Load(const char *filename, ResourceManager *res)
 		Reader r(filename);
 		SECURITY_CHECK(f.GetData(), "Music data couldn't be opened");
 
-		ReaderPath(volume);
-		u32 vol = r.ReadU32(volume);
+		u32 vol = r.ReadU32("volume");
 		fVolume = (vol / 100.0f);
 
-		ReaderPath(file)
-		const char *fname = r.ReadString(file);
+		const char *fname = r.ReadString("file");
 		ASSERT_NULL(fname);
 
 		/* prepare openal */
