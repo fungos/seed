@@ -78,11 +78,6 @@ void IGameApp::WriteDbg(const char *msg)
 	fprintf(stdout, "%s\n", msg);
 }
 
-bool IGameApp::HasError() const
-{
-	return FALSE;
-}
-
 Configuration *IGameApp::GetConfiguration()
 {
 	return &cConfig;
