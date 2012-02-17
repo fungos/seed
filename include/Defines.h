@@ -94,7 +94,7 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define STRCASECMP						LIB_STRCASECMP
 #define STRDUP							LIB_STRDUP
 
-#ifdef USE_STL
+#ifdef SEED_USE_STL
 	#include <string>
 
 	#ifdef USE_BOOST_ALLOCATOR
@@ -103,8 +103,8 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 	#else
 		typedef std::string String;
 	#endif
-#elif
-    // String?
+#else
+	// String?
 #endif
 
 // Math
