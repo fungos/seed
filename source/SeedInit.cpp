@@ -69,7 +69,7 @@ namespace Private
 	IGameApp	*pApplication;// 	= NULL;
 	bool		bInitialized;// 	= FALSE;
 	int			iArgc;//			= 0;
-	char		**pcArgv;//		= NULL;
+	const char	**pcArgv;//		= NULL;
 	bool		bDisableSound;//	= FALSE;
 	f32			fCurrentTime;//	= 0.0f;
 }
@@ -87,7 +87,7 @@ void CommandLineParameter(const char *param)
 	}
 }
 
-void CommandLineParse(int argc, char **argv)
+void CommandLineParse(int argc, const char **argv)
 {
 	int i = 0;
 	while (i < argc)
@@ -98,7 +98,7 @@ void CommandLineParse(int argc, char **argv)
 	}
 }
 
-void SetGameApp(IGameApp *app, int argc, char **argv)
+void SetGameApp(IGameApp *app, int argc, const char **argv)
 {
 	Private::iArgc = argc;
 	Private::pcArgv = argv;
@@ -167,7 +167,6 @@ bool Initialize()
 	if (!Private::bDisableSound)
 		ret = ret && pModuleManager->Add(pSoundSystem);
 
-	ret = ret && pModuleManager->Add(pGuiManager);
 	ret = ret && pModuleManager->Add(pResourceLoader);
 	ret = ret && pModuleManager->Add(pInput);
 	ret = ret && pModuleManager->Add(pParticleManager);
@@ -187,7 +186,6 @@ bool Initialize()
 	pUpdater->Add(pSceneManager);
 
 	ResourceManager::Register(Seed::ObjectTexture,			TextureResourceLoader);
-	ResourceManager::Register(Seed::ObjectSprite,			SpriteResourceLoader);
 	ResourceManager::Register(Seed::ObjectSound,			SoundResourceLoader);
 	ResourceManager::Register(Seed::ObjectMusic,			MusicResourceLoader);
 	ResourceManager::Register(Seed::ObjectParticleEmitterObject, ParticleEmitterObjectResourceLoader);

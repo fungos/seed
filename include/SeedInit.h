@@ -63,7 +63,7 @@ namespace Seed {
 	\param argc Command line argument count.
 	\param argv A pointer to the command line arguments.
 	*/
-	SEED_CORE_API void SetGameApp(IGameApp *app, int argc, char **argv);
+	SEED_CORE_API void SetGameApp(IGameApp *app, int argc, const char **argv);
 
 	/// Displays a output message by using IGameApp::WriteOut implementation.
 	/**
@@ -112,7 +112,7 @@ namespace Seed {
 	SEED_CORE_API void GetVersion(u32 *major, u32 *middle, u32 *minor);
 
 	SEED_CORE_API void CommandLineParameter(const char *param);
-	SEED_CORE_API void CommandLineParse(int argc, char **argv);
+	SEED_CORE_API void CommandLineParse(int argc, const char **argv);
 
 	/// Private states that Seed maintain, must not be accessed directly.
 	namespace Private
@@ -127,7 +127,7 @@ namespace Seed {
 		SEED_CORE_API extern int		iArgc;
 
 		/// Command line command string.
-		SEED_CORE_API extern char		**pcArgv;
+		SEED_CORE_API extern const char	**pcArgv;
 
 		/// Last frame time
 		SEED_CORE_API extern f32 fCurrentTime;
