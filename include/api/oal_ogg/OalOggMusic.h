@@ -98,7 +98,6 @@ class SEED_CORE_API Music : public IMusic
 		OggVorbis_File	oggStream;
 		ALenum			eFormat;
 		bool			bLoop;
-		File			stFile;
 };
 
 }} // namespace

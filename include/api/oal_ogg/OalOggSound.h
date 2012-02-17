@@ -82,8 +82,8 @@ class SEED_CORE_API Sound : public ISound
 		SEED_DISABLE_COPY(Sound);
 
 	private:
-		ALuint			iBuffer;
-		File			stFile;
+		ALuint	iBuffer;
+		u32		iSize;
 };
 
 }} // namespace

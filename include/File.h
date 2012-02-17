@@ -29,65 +29,48 @@
  **
  *****************************************************************************/
 
-/*! \file EventSystem.h
-	\author	Everton Fernando Patitucci da Silva
-	\brief A system event
+/*! \file File.h
+	\author	Danny Angelo Carminati Grein
+	\brief File
 */
 
 #ifndef __FILE_H__
 #define __FILE_H__
 
 #include "Defines.h"
-#include "FileSystem.h"
 #include "interface/IObject.h"
+#include "physfs/physfs.h"
 
 namespace Seed {
 
 class SEED_CORE_API File : public IObject
 {
 	public:
-		enum OpenMode
-		{
-			ReadOnly,
-			ReadWrite,
-			Append,
-			Text
-		};
-
 		File();
-		File(const File &other);
 		File(const char *filename);
 		virtual ~File();
 
+		File(const File &other);
 		File &operator=(const File &other);
 
-		bool Open(OpenMode mode);
 		void Close();
-
 		u32 GetSize() const;
-
-		void *ReadAll();
-		bool Read(void *buffer, int size);
-		bool Eof() const;
-		bool Seek(int pos) const;
-		u32 Tell() const;
-
+		void *GetData() const;
 		const char *GetName() const;
-
-		void SetSize(u32 size);
-		void SetName(const char *name);
 
 		// IObject
 		virtual const char *GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	protected:
-		bool Check();
+		bool Check() const;
+		bool Open();
 
 	private:
-		const char  *pName;
-		PHYSFS_file *pHandle;
-		u32          iSize;
+		const char		*pName;
+		PHYSFS_file		*pHandle;
+		mutable void	*pData;
+		u32				iSize;
 };
 
 } // namespace

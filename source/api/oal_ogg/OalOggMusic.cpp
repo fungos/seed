@@ -65,7 +65,6 @@ Music::Music()
 	, oggStream()
 	, eFormat(AL_FORMAT_MONO16)
 	, bLoop(TRUE)
-	, stFile()
 {
 	memset(iBuffers, '\0', sizeof(iBuffers));
 }
@@ -89,9 +88,8 @@ bool Music::Load(const char *filename, ResourceManager *res)
 
 		/* Open file .music */
 		File f(pFilename);
-		SECURITY_CHECK(f.GetData(), "Music data couldn't be opened");
-
 		Reader r(filename);
+		SECURITY_CHECK(f.GetData(), "Music data couldn't be opened");
 
 		ReaderPath(volume);
 		u32 vol = r.ReadU32(volume);
@@ -190,8 +188,6 @@ bool Music::Unload()
 	memset(iBuffers, '\0', sizeof(iBuffers));
 
 	ov_clear(&oggStream);
-	stFile.Close();
-
 	bLoaded = FALSE;
 
 	return TRUE;

@@ -49,7 +49,6 @@ SEED_SINGLETON_DEFINE(FileSystem)
 FileSystem::FileSystem()
 	: pWorkDir(NULL)
 	, pWriteDir(NULL)
-	, pFile(NULL)
 {
 }
 
@@ -60,7 +59,7 @@ FileSystem::~FileSystem()
 
 bool FileSystem::Initialize()
 {
-	FS_CHECK(PHYSFS_init(Seed::Private::pcArgv));
+	FS_CHECK(PHYSFS_init(Seed::Private::pcArgv[0]));
 	if (!pWriteDir)
 		this->SetWriteableDirectory(pSystem->GetHomeFolder());
 
@@ -80,7 +79,7 @@ void FileSystem::SetWorkDirectory(const FilePath *dir)
 
 	pWorkDir = dir;
 
-	FS_CHECK(PHYSFS_mount(dir));
+	FS_CHECK(PHYSFS_mount(dir, "/write", true));
 }
 
 const FilePath *FileSystem::GetWorkDirectory() const

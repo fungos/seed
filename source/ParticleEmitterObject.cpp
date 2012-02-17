@@ -61,7 +61,6 @@ ParticleEmitterObject::~ParticleEmitterObject()
 
 bool ParticleEmitterObject::Unload()
 {
-	pFileSystem->Close(&stFile);
 	return TRUE;
 }
 
@@ -76,13 +75,15 @@ bool ParticleEmitterObject::Load(const char *filename, ResourceManager *res)
 		pRes 	= res;
 		iMemory = 0;
 
-		SECURITY_CHECK(pFileSystem->Open(filename, &stFile), "Particle Emitter couldn't be opened");
+		File f(filename);
+		SECURITY_CHECK(f.GetData(), "Particle Emitter couldn't be opened");
 		//u8 *ptr = const_cast<u8 *>(static_cast<const u8 *>(stFile.GetData()));
 		//ObjectHeader *block = NULL;
 		//READ_STRUCT(block, ObjectHeader, ptr);
 		//SECURITY_CHECK(seed_validate_block(&stFile, block, SPRITE_OBJECT_MAGIC, SPRITE_OBJECT_VERSION), "Invalid block header for sound.");
 
-		iMemory += stFile.GetSize() + sizeof(this);
+		iMemory += f.GetSize() + sizeof(this);
+		stFile = f;
 
 		bLoaded = TRUE;
 	}

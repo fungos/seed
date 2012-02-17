@@ -57,7 +57,6 @@ IResource *SoundResourceLoader(const char *filename, ResourceManager *res)
 
 Sound::Sound()
 	: iBuffer(0)
-	, stFile()
 {
 }
 
@@ -85,12 +84,11 @@ bool Sound::Load(const char *filename, ResourceManager *res)
 
 		alGenBuffers(1, &iBuffer);
 
-		pFileSystem->Open(filename, &stFile);
-
+		File stFile(filename);
 		void *tmp = const_cast<void *>(stFile.GetData());
 		oggFile.dataPtr = static_cast<u8 *>(tmp);
 		oggFile.dataRead = 0;
-		oggFile.dataSize = stFile.GetSize();
+		oggFile.dataSize = iSize = stFile.GetSize();
 
 		vorbisCb.read_func = vorbis_read;
 		vorbisCb.close_func = vorbis_close;
@@ -102,7 +100,6 @@ bool Sound::Load(const char *filename, ResourceManager *res)
 			Log(TAG "Could not read ogg file from memory");
 
 			MEMSET(&oggFile, '\0', sizeof(oggFile));
-			stFile.Close();
 		}
 		else
 		{
@@ -136,10 +133,6 @@ bool Sound::Load(const char *filename, ResourceManager *res)
 			alBufferData(iBuffer, format, &buffer[0], static_cast<ALsizei>(buffer.size()), freq);
 		}
 
-#if !defined(DEBUG)
-		stFile.Close();
-#endif
-
 		bLoaded = TRUE;
 	}
 
@@ -149,7 +142,6 @@ bool Sound::Load(const char *filename, ResourceManager *res)
 bool Sound::Unload()
 {
 	alDeleteBuffers(1, &iBuffer);
-	stFile.Close();
 	bLoaded = FALSE;
 
 	return TRUE;
@@ -162,7 +154,7 @@ const void *Sound::GetData() const
 
 u32 Sound::GetUsedMemory() const
 {
-	return ISound::GetUsedMemory() + sizeof(this) + stFile.GetSize();
+	return ISound::GetUsedMemory() + sizeof(this) + iSize;
 }
 
 }} // namespace

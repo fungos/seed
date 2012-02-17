@@ -37,7 +37,7 @@
 #ifndef __FILESYSTEM_H__
 #define __FILESYSTEM_H__
 
-#define FS_CHECK(x)	{ if (!x) { char *_err = PHYSFS_getLastError(); Log(TAG "Error: %s", _err); }}
+#define FS_CHECK(x)	{ if (!x) { const char *_err = PHYSFS_getLastError(); Log(TAG "Error: %s", _err); }}
 
 #include "physfs/physfs.h"
 #include "Singleton.h"
@@ -60,6 +60,7 @@ class SEED_CORE_API FileSystem : public IModule
 
 		// IModule
 		virtual bool Initialize();
+		virtual bool Shutdown();
 		virtual bool IsRequired() const;
 
 		// IObject

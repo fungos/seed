@@ -42,6 +42,7 @@
 #include "Sound.h"
 #include "Log.h"
 #include "File.h"
+#include "Reader.h"
 
 #define TAG		"[SoundSource] "
 
@@ -50,7 +51,6 @@ namespace Seed { namespace OAL {
 SoundSource::SoundSource()
 	: iSource(0)
 	, pSound(NULL)
-	, stFile()
 {
 }
 
@@ -68,28 +68,24 @@ void SoundSource::Load(const char *filename, ResourceManager *res)
 	{
 		this->Unload();
 
-		/* Open file .sound */
-		SECURITY_CHECK(pFileSystem->Open(filename, &stFile), "Sound object couldn't be opened");
+		File f(filename);
+		Reader r(filename);
+		SECURITY_CHECK(f.GetData(), "Sound data couldn't be opened");
 
-		const u8 *ptr = static_cast<const u8 *>(stFile.GetData());
-		ObjectHeader *block = NULL;
-		READ_STRUCT(block, ObjectHeader, ptr);
-		SECURITY_CHECK(seed_validate_block(&stFile, block, SOUND_OBJECT_MAGIC, SOUND_OBJECT_VERSION), "Invalid block header for sound.");
+		ReaderPath(volume);
+		u32 vol = r.ReadU32(volume);
+		fVolume = (vol / 100.0f);
 
-		u32 volume = 0;
-		READ_U32(volume, ptr);
-		fVolume  = volume / 100.0f;
+		ReaderPath(flags);
+		u32 flg = r.ReadU32(flags);
+		bLoop = ((flg & 0x01) == 0x01); // FIXME
 
-		u32 flags = 0;
-		READ_U32(flags, ptr);
-		bLoop = ((flags & 0x01) == 0x01); // FIXME
-
-		const char *fname = NULL;
-		READ_STR(fname, ptr);
+		ReaderPath(file)
+		const char *fname = r.ReadString(file);
 		ASSERT_NULL(fname);
 
 		/* Get the resource */
-		pSound = static_cast<Sound *>(res->Get(fname, Seed::ObjectSound, pool));
+		pSound = static_cast<Sound *>(res->Get(fname, Seed::ObjectSound));
 
 		if (iSource)
 			alDeleteSources(1, &iSource);
@@ -120,8 +116,6 @@ void SoundSource::Unload()
 		alDeleteSources(1, &iSource);
 
 	sRelease(pSound);
-
-	stFile.Close();
 }
 
 void SoundSource::SetVolume(f32 vol)

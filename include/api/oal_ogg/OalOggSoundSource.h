@@ -83,7 +83,6 @@ class SEED_CORE_API SoundSource : public ISoundSource
 	private:
 		ALuint			iSource;
 		Sound			*pSound;
-		File			stFile;
 };
 
 }} // namespace

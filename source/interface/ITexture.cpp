@@ -163,7 +163,8 @@ bool ITexture::Load(const char *filename, ResourceManager *res)
 		pRes = res;
 		pFilename = filename;
 
-		pFileSystem->Open(filename, &stFile);
+		File f(filename);
+		stFile = f;
 
 		ret = (stFile.GetData() != NULL);
 	}
@@ -176,7 +177,6 @@ bool ITexture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 at
 	UNUSED(width)
 	UNUSED(height)
 	UNUSED(buffer)
-	UNUSED(pool)
 	UNUSED(atlasWidth)
 	UNUSED(atlasHeight)
 

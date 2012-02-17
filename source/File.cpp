@@ -29,9 +29,9 @@
  **
  *****************************************************************************/
 
-/*! \file EventSystem.cpp
-	\author	Everton Fernando Patitucci da Silva
-	\brief A system event
+/*! \file File.cpp
+	\author	Danny Angelo Carminati Grein
+	\brief File
 */
 
 #include "Defines.h"
@@ -43,36 +43,13 @@
 
 namespace Seed {
 
-File::File()
-	: pName(NULL)
-	, pHandle(NULL)
-	, iSize(0)
-{
-}
-
-File::File(const File &other)
-{
-	pName = other.pName;
-	pHandle = other.pHandle;
-	iSize = other.iSize;
-}
-
-File::File &operator=(const File &other)
-{
-	if (this != &other)
-	{
-		pName = other.pName;
-		pHandle = other.pHandle;
-		iSize = other.iSize;
-	}
-}
-
 File::File(const char *filename)
 	: pName(filename)
 	, pHandle(NULL)
+	, pData(NULL)
 	, iSize(0)
 {
-
+	this->Open();
 }
 
 File::~File()
@@ -80,7 +57,28 @@ File::~File()
 	this->Close();
 }
 
-bool File::Open(OpenMode mode)
+File::File(const File &other)
+{
+	pName = other.pName;
+	pHandle = other.pHandle;
+	pData = other.pData;
+	iSize = other.iSize;
+}
+
+File &File::operator=(const File &other)
+{
+	if (this != &other)
+	{
+		pName = other.pName;
+		pHandle = other.pHandle;
+		pData = other.pData;
+		iSize = other.iSize;
+	}
+
+	return *this;
+}
+
+bool File::Open()
 {
 	if (!pName)
 	{
@@ -88,30 +86,7 @@ bool File::Open(OpenMode mode)
 		return false;
 	}
 
-	switch (mode)
-	{
-		case ReadOnly:
-		{
-			pHandle = PHYSFS_openRead(pName);
-		}
-		break;
-
-		case ReadWrite:
-		{
-			pHandle = PHYSFS_openWrite(pName);
-		}
-		break;
-
-		case Append:
-		{
-			pHandle = PHYSFS_openAppend(pName);
-		}
-		break;
-
-		default:
-		break;
-	}
-
+	pHandle = PHYSFS_openRead(pName);
 	if (!pHandle)
 	{
 		Log(TAG "Error: %s", PHYSFS_getLastError());
@@ -119,22 +94,44 @@ bool File::Open(OpenMode mode)
 	}
 
 	iSize = static_cast<u32>(PHYSFS_fileLength(pHandle));
-
 	return true;
 }
 
-
 void File::Close()
 {
+	Delete(pData);
+
 	if (!PHYSFS_close(pHandle))
 	{
 		Log(TAG, "Error: %s", PHYSFS_getLastError());
 	}
 }
 
-void File::SetSize(u32 size)
+bool File::Check() const
 {
-	iSize = size;
+	bool ret = true;
+	if (!pHandle)
+	{
+		Log(TAG, "Error: Invalid handle, open the file before call this function");
+		ret = false;
+	}
+
+	return ret;
+}
+
+void *File::GetData() const
+{
+	if (pData)
+		return pData;
+
+	if (this->Check())
+	{
+		pData = (void *)Alloc(iSize);
+		if (PHYSFS_read(pHandle, pData, iSize, -1) != -1)
+			return pData;
+	}
+
+	return NULL;
 }
 
 u32 File::GetSize() const
@@ -142,52 +139,9 @@ u32 File::GetSize() const
 	return iSize;
 }
 
-void *File::ReadAll() const
-{
-	if (this->Check())
-	{
-		void *data = Alloc(iSize);
-		if (PHYSFS_read(pHandle, data, iSize, -1) != -1)
-			return data;
-	}
-
-	return NULL;
-}
-
-bool File::Read(void *buffer, int size)
-{
-	if (this->Check())
-	{
-		if (PHYSFS_read(pHandle, buffer, size, -1) != -1)
-			return true;
-	}
-
-	return false;
-}
-
-bool File::Eof() const
-{
-	return (this->Check() && PHYSFS_eof(pHandle);
-}
-
-bool File::Seek(int pos) const
-{
-	return (this->heck() && (PHYSFS_seek(pHandle, pos) != 0);
-}
-
-u32 File::Tell() const
-{
-	return PHYSFS_tell(pHandle);
-}
-
 const char *File::GetName() const
 {
 	return pName;
-}
-
-void File::SetName(const char *name)
-{
-	pName = name;
 }
 
 const char *File::GetObjectName() const
@@ -198,18 +152,6 @@ const char *File::GetObjectName() const
 int File::GetObjectType() const
 {
 	return Seed::ObjectFile;
-}
-
-bool File::Check()
-{
-	bool ret = true;
-	if (!pHandle)
-	{
-		Log(TAG, "Error: Invalid handle, open the file before call this function");
-		ret = false;
-	}
-
-	return ret;
 }
 
 } // namespace

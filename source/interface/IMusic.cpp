@@ -59,7 +59,6 @@ bool IMusic::Load(const char *filename, ResourceManager *res)
 {
 	UNUSED(filename);
 	UNUSED(res);
-	UNUSED(pool);
 	SEED_ABSTRACT_METHOD;
 
 	return FALSE;
