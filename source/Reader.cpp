@@ -47,21 +47,33 @@ Reader::Reader()
 	: IReader()
 	, pOpaque(&cNullReader)
 {
+	this->Init();
 }
 
 Reader::Reader(void *data)
 	: IReader()
 	, pOpaque(&cNullReader)
 {
-	this->Load(data);
+	this->Init();
+	pOpaque->Load(data);
 }
 
 Reader::Reader(const File &file)
 	: IReader()
 	, pOpaque(&cNullReader)
 {
-	this->Load(file.GetData());
+	this->Init();
+	pOpaque->Load(file.GetData());
 }
+
+Reader::Reader(Reader &reader)
+	: IReader()
+	, pOpaque(&cNullReader)
+{
+	this->Init();
+	pOpaque->Load(reader.pOpaque);
+}
+
 
 Reader::~Reader()
 {
@@ -71,7 +83,7 @@ Reader::~Reader()
 	pOpaque = NULL;
 }
 
-bool Reader::Load(const void *data)
+void Reader::Init()
 {
 	if (pOpaque == &cNullReader || pOpaque == NULL)
 	{
@@ -98,33 +110,51 @@ bool Reader::Load(const void *data)
 			break;
 		}
 	}
-
-	return pOpaque->Load(data);
 }
 
-const char *Reader::ReadString(const char **path)
+const char *Reader::ReadString(const char *key) const
 {
-	return pOpaque->ReadString(path);
+	return pOpaque->ReadString(key);
 }
 
-s32 Reader::ReadS32(const char **path)
+s32 Reader::ReadS32(const char *key) const
 {
-	return pOpaque->ReadS32(path);
+	return pOpaque->ReadS32(key);
 }
 
-u32 Reader::ReadU32(const char **path)
+u32 Reader::ReadU32(const char *key) const
 {
-	return (u32)pOpaque->ReadS32(path);
+	return (u32)pOpaque->ReadS32(key);
 }
 
-f32 Reader::ReadF32(const char **path)
+f32 Reader::ReadF32(const char *key) const
 {
-	return pOpaque->ReadF32(path);
+	return pOpaque->ReadF32(key);
 }
 
-bool Reader::ReadBool(const char **path)
+bool Reader::ReadBool(const char *key) const
 {
-	return pOpaque->ReadBool(path);
+	return pOpaque->ReadBool(key);
+}
+
+u32 Reader::SelectArray(const char *key) const
+{
+	return pOpaque->SelectArray(key);
+}
+
+void Reader::Next()
+{
+	return pOpaque->Next();
+}
+
+IReader &Reader::GetNext() const
+{
+	return pOpaque->GetNext();
+}
+
+IReader &Reader::GetNode(const char *key) const
+{
+	return pOpaque->GetNode(key);
 }
 
 } // namespace

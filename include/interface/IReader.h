@@ -47,11 +47,20 @@ class SEED_CORE_API IReader
 		IReader();
 		virtual ~IReader();
 
+		IReader(const IReader &other);
+		IReader &operator=(const IReader &other);
+
 		bool Load(const void *data);
-		const char *ReadString(const char **path);
-		s32 ReadS32(const char **path);
-		f32 ReadF32(const char **path);
-		bool ReadBool(const char **path);
+		bool Load(IReader *reader);
+		const char *ReadString(const char *key) const;
+		s32 ReadS32(const char *key) const;
+		f32 ReadF32(const char *key) const;
+		bool ReadBool(const char *key) const;
+
+		u32 SelectArray(const char *key) const;
+		void Next();
+		IReader &GetNext() const;
+		IReader &GetNode(const char *key) const;
 };
 
 } // namespace

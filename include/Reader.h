@@ -43,10 +43,6 @@
 
 namespace Seed {
 
-#define ReaderPath(s) const char *s[] = {"##s##", (const char *)0};
-#define ReaderPath1(s, p1) const char *s[] = {p1, (const char *)0};
-#define ReaderPath2(s, p1, p2) const char *s[] = {p1, p2, (const char *)0};
-
 extern SEED_CORE_API IReader cNullReader;
 
 class SEED_CORE_API Reader : public IReader
@@ -55,15 +51,24 @@ class SEED_CORE_API Reader : public IReader
 		Reader();
 		Reader(void *data);
 		Reader(const File &file);
+		Reader(Reader &reader);
 		virtual ~Reader();
 
 		// IReader
 		bool Load(const void *data);
-		const char *ReadString(const char **path);
-		s32 ReadS32(const char **path);
-		u32 ReadU32(const char **path);
-		f32 ReadF32(const char **path);
-		bool ReadBool(const char **path);
+		const char *ReadString(const char *key) const;
+		s32 ReadS32(const char *key) const;
+		u32 ReadU32(const char *key) const;
+		f32 ReadF32(const char *key) const;
+		bool ReadBool(const char *key) const;
+
+		u32 SelectArray(const char *key) const;
+		void Next();
+		IReader &GetNext() const;
+		IReader &GetNode(const char *key) const;
+
+	private:
+		void Init();
 
 	private:
 		SEED_DISABLE_COPY(Reader);
