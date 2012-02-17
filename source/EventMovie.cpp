@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -38,9 +38,7 @@
 #include "EventMovie.h"
 #include "Timeline.h"
 
-
 namespace Seed {
-
 
 EventMovie::EventMovie(const Timeline *timeline, const Keyframe *keyframe, u32 frame)
 	: IEvent(MOVIE, EVENT_MOVIE)
@@ -50,34 +48,28 @@ EventMovie::EventMovie(const Timeline *timeline, const Keyframe *keyframe, u32 f
 {
 }
 
-
 EventMovie::~EventMovie()
 {
 }
-
 
 const Timeline *EventMovie::GetTimeline() const
 {
 	return this->pTimeline;
 }
 
-
 const Keyframe *EventMovie::GetKeyframe() const
 {
 	return this->pKeyframe;
 }
-
 
 u32 EventMovie::GetFrame() const
 {
 	return this->iFrame;
 }
 
-
 const char *EventMovie::GetObjectName() const
 {
 	return "EventMovie";
 }
-
 
 } // namespace
