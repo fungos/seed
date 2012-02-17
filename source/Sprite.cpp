@@ -29,40 +29,41 @@
  **
  *****************************************************************************/
 
-/*! \file ISprite.cpp
+/*! \file Sprite.cpp
 	\author	Danny Angelo Carminati Grein
 	\brief Defines the Sprite class interface
 */
 
 #include "Defines.h"
-#include "interface/ISprite.h"
+#include "Sprite.h"
 #include "Screen.h"
 #include "Log.h"
 #include "Enum.h"
 #include "RendererDevice.h"
+#include "interface/ITexture.h"
 
-#define TAG "[ISprite] "
+#define TAG "[Sprite] "
 
 namespace Seed {
 
-ISprite::ISprite()
+Sprite::Sprite()
 	: IBasicMesh()
-	, pSprite(NULL)
-	, pAnimation(NULL)
-	, pAnimationFrames(NULL)
+	, ppAnimations(NULL)
+	, ppAnimationFrames(NULL)
 	, pFrame(NULL)
-	, pFrameImage(NULL)
-	, bInitialized(FALSE)
-	, bChanged(FALSE)
-	, bAnimation(FALSE)
-	, bLoop(FALSE)
-	, bPlaying(FALSE)
+	, pFrameTexture(NULL)
+	, bInitialized(false)
+	, bChanged(false)
+	, bAnimation(false)
+	, bLoop(false)
+	, bPlaying(false)
 	, fAspectHalfWidth(0.0f)
 	, fAspectHalfHeight(0.0f)
 	, fAspectWidth(0.0f)
 	, fAspectHeight(0.0f)
 	, iCurrentAnimation(0)
 	, iCurrentFrame(0)
+	, iAnimations(0)
 	, iFrames(0)
 	, fCurrentFrameRate(0.0f)
 	, fFrameTime(0.0f)
@@ -75,30 +76,27 @@ ISprite::ISprite()
 	, fTexT0(0.0f)
 	, fTexT1(0.0f)
 	, pRes(NULL)
-	, pFilename(NULL)
 {
 	iNumVertices = 4;
 }
 
-ISprite::~ISprite()
+Sprite::~Sprite()
 {
 	this->Unload();
 }
 
-void ISprite::Reset()
+void Sprite::Reset()
 {
-	sRelease(pFrameImage);
-	sRelease(pSprite);
-
-	pAnimation		= NULL;
+	pFrameTexture	= NULL;
+	ppAnimations	= NULL;
 	pFrame			= NULL;
-	pAnimationFrames = NULL;
-	bInitialized	= FALSE;
-	bChanged 		= FALSE;
-	bAnimation		= FALSE;
-	bLoop			= FALSE;
-	bVisible 		= TRUE;
-	bPlaying 		= FALSE;
+	ppAnimationFrames = NULL;
+	bInitialized	= false;
+	bChanged 		= false;
+	bAnimation		= false;
+	bLoop			= false;
+	bVisible 		= true;
+	bPlaying 		= false;
 
 	iCurrentFrame	= 0;
 	iFrames 		= 0;
@@ -116,66 +114,84 @@ void ISprite::Reset()
 	this->SetPriority(0);
 }
 
-bool ISprite::Unload()
+bool Sprite::Unload()
 {
-	sRelease(pFrameImage);
-	sRelease(pSprite);
+	if (ppAnimations)
+	{
+		for (u32 i = 0; i < iAnimations; i++)
+		{
+			Animation *a = ppAnimations[i];
+			a->Unload();
+			ppAnimations[i] = NULL;
+		}
 
-	pAnimation = NULL;
+		Free(ppAnimations);
+	}
+
+	pFrameTexture = NULL;
+	ppAnimations = NULL;
 	pFrame	= NULL;
-	pAnimationFrames = NULL;
-	bInitialized = FALSE;
+	ppAnimationFrames = NULL;
+	bInitialized = false;
 
-	return TRUE;
+	return true;
 }
 
-bool ISprite::Load(const char *filename)
+bool Sprite::Load(const void *data)
 {
-	return this->Load(filename, pResourceManager, pool);
+	return this->Load(data, pResourceManager);
 }
 
-bool ISprite::Load(const char *filename, ResourceManager *res)
+bool Sprite::Load(const void *data, ResourceManager *res)
 {
-	ASSERT_NULL(filename);
+	ASSERT_NULL(data);
 	ASSERT_NULL(res);
 
 	if (this->Unload())
 	{
-		pFilename = filename;
 		pRes = res;
 
-		pSprite = static_cast<SpriteObject *>(res->Get(filename, Seed::ObjectSprite));
+//		pSprite = static_cast<SpriteObject *>(res->Get(filename, Seed::ObjectSprite));
 		this->SetRotation(0);
 		this->SetAnimation(0u);
 
-		bChanged = TRUE;
-		bInitialized = TRUE;
+		bChanged = true;
+		bInitialized = true;
 
-		pAnimation = pSprite->GetAnimation(iCurrentAnimation);
-		pAnimationFrames = pSprite->GetFrames(pAnimation);
-		pFrame = &pAnimationFrames[iCurrentFrame];
+		ppAnimations = (Animation **)Alloc(iAnimations * sizeof(Animation *));
+		for (u32 i = 0; i < iAnimations; i++)
+		{
+			Animation *a = New(Animation);
+			a->Load(data);
+			ppAnimations[i] = a;
+		}
+
+		pAnimation = ppAnimations[iCurrentAnimation];
+		ppAnimationFrames = pAnimation->GetFrames();
+		iFrames = pAnimation->GetFrameCount();
+		pFrame = ppAnimationFrames[iCurrentFrame];
 	}
 
-	return TRUE;
+	return true;
 }
 
-void ISprite::Initialize()
+void Sprite::Initialize()
 {
 	this->ReconfigureAnimation();
-	bInitialized = TRUE;
+	bInitialized = true;
 }
 
-void ISprite::ReconfigureAnimation()
+void Sprite::ReconfigureAnimation()
 {
 	iFrames = pAnimation->iFrames;
 	bLoop = ((pAnimation->iFlags & Seed::FlagLooped) == Seed::FlagLooped);
 	bAnimation = ((pAnimation->iFlags & Seed::FlagAnimated) == Seed::FlagAnimated);
 	fFrameTime = 0.0f;
 
-	pFrame = &pAnimationFrames[iCurrentFrame];
+	pFrame = ppAnimationFrames[iCurrentFrame];
 
-	sRelease(pFrameImage);
-	pFrameImage = static_cast<ITexture *>(pRes->Get(_F(pFrame->iFileId), Seed::ObjectTexture));
+	sRelease(pFrameTexture);
+	pFrameTexture = pFrame->pTexture; //static_cast<ITexture *>(pRes->Get(pFrame->pFilename, Seed::ObjectTexture));
 
 	this->ReconfigureFrame();
 
@@ -185,18 +201,18 @@ void ISprite::ReconfigureAnimation()
 
 // WARNING: pFrameImage must be valid here.
 // FIXME: This can be simplified, do it someday.
-void ISprite::ReconfigureFrame()
+void Sprite::ReconfigureFrame()
 {
-	ASSERT_NULL(pFrameImage);
+	ASSERT_NULL(pFrameTexture);
 
 	fCurrentFrameRate = 1.0f / static_cast<f32>(pFrame->iTime);
 	if (pFrame->iWidth == 0)
-		iWidth = pFrameImage->GetWidthInPixel();
+		iWidth = pFrameTexture->GetWidthInPixel();
 	else
 		iWidth = static_cast<u16>(pFrame->iWidth);
 
 	if (pFrame->iHeight == 0)
-		iHeight = pFrameImage->GetHeightInPixel();
+		iHeight = pFrameTexture->GetHeightInPixel();
 	else
 		iHeight = static_cast<u16>(pFrame->iHeight);
 
@@ -214,8 +230,8 @@ void ISprite::ReconfigureFrame()
 	u32 iX = pFrame->iX;
 	u32 iY = pFrame->iY;
 
-	f32 rInvWidth = 1.0F / pFrameImage->GetAtlasWidthInPixel(); // full width from image, not only frame area
-	f32 rInvHeight = 1.0F / pFrameImage->GetAtlasHeightInPixel(); // full height from image, not only frame area
+	f32 rInvWidth = 1.0F / pFrameTexture->GetAtlasWidthInPixel(); // full width from image, not only frame area
+	f32 rInvHeight = 1.0F / pFrameTexture->GetAtlasHeightInPixel(); // full height from image, not only frame area
 
 	// Normalized Pixel Half Width/Height for pixel based vertex rendering
 	iHalfWidth = static_cast<s32>(pScreen->GetWidth() * (w / 2.0f));
@@ -229,24 +245,24 @@ void ISprite::ReconfigureFrame()
 	fTexT0 = static_cast<f32>((iY + 0.1f) * rInvHeight);
 	fTexT1 = static_cast<f32>((iY + 0.1f + iHeight) * rInvHeight);
 
-	bChanged = TRUE;
+	bChanged = true;
 }
 
-bool ISprite::SetAnimation(u32 index)
+bool Sprite::SetAnimation(u32 index)
 {
-	bool ret = FALSE;
-	if (pSprite)
+	bool ret = false;
+	if (bInitialized && index < iAnimations)
 	{
-		const Animation *pNewAnimation = pSprite->GetAnimation(index);
+		Animation *pNewAnimation = ppAnimations[index];
 		if (pNewAnimation)
 		{
 			pAnimation = pNewAnimation;
-			pAnimationFrames = pSprite->GetFrames(pAnimation);
+			ppAnimationFrames = pAnimation->GetFrames();
 			iCurrentAnimation = index;
 			iCurrentFrame = 0;
 			this->ReconfigureAnimation();
 
-			ret = TRUE;
+			ret = true;
 		}
 		else
 		{
@@ -256,21 +272,32 @@ bool ISprite::SetAnimation(u32 index)
 	return ret;
 }
 
-bool ISprite::SetAnimation(const char *name)
+bool Sprite::SetAnimation(const char *name)
 {
-	bool ret = FALSE;
-	if (pSprite)
+	bool ret = false;
+	if (bInitialized)
 	{
-		const Animation *pNewAnimation = pSprite->GetAnimation(name);
+		Animation *pNewAnimation = NULL;
+		u32 i = 0;
+		for (; i < iAnimations; i++)
+		{
+			Animation *p = ppAnimations[i];
+			if (!STRCMP(p->pName, name))
+			{
+				pNewAnimation = p;
+				break;
+			}
+		}
+
 		if (pNewAnimation)
 		{
 			pAnimation = pNewAnimation;
-			pAnimationFrames = pSprite->GetFrames(pAnimation);
-			iCurrentAnimation = pAnimation->iIndex;
+			ppAnimationFrames = pAnimation->GetFrames();
+			iCurrentAnimation = i;
 			iCurrentFrame = 0;
 			this->ReconfigureAnimation();
 
-			ret = TRUE;
+			ret = true;
 		}
 		else
 		{
@@ -280,77 +307,69 @@ bool ISprite::SetAnimation(const char *name)
 	return ret;
 }
 
-u32 ISprite::GetNumAnimations() const
+u32 Sprite::GetAnimationCount() const
 {
-	u32 ret = 0;
-	if (this->pSprite)
-		ret = pSprite->GetNumAnimations();
-
-	return ret;
+	return iAnimations;
 }
 
-u32 ISprite::GetAnimation() const
+u32 Sprite::GetAnimation() const
 {
-	u32 ret = 0;
-	if (this->pAnimation)
-		ret = pAnimation->iIndex;
-
-	return ret;
+	return iCurrentAnimation;
 }
 
-const char *ISprite::GetAnimationName() const
+const char *Sprite::GetAnimationName() const
 {
 	const char *ret = NULL;
-	if (this->pAnimation)
-		ret = pAnimation->iAnimationId; //pAnimation->pName;
+	if (pAnimation)
+		ret = pAnimation->pName;
 
 	return ret;
 }
 
-void ISprite::GotoAndStop(u32 frame)
+void Sprite::GotoAndStop(u32 frame)
 {
 	if (frame >= iFrames)
 		return;
 
 	iCurrentFrame = frame;
-	bPlaying = FALSE;
+	bPlaying = false;
 	this->ReconfigureAnimation();
 
 	if (this->bVisible)
-		bChanged = TRUE;
+		bChanged = true;
 }
 
-void ISprite::GotoAndPlay(u32 frame)
+void Sprite::GotoAndPlay(u32 frame)
 {
 	if (frame >= iFrames)
 		return;
 
 	iCurrentFrame = frame;
-	bPlaying = TRUE;
+	bPlaying = true;
 	this->ReconfigureAnimation();
 
 	if (this->bVisible)
-		bChanged = TRUE;
+		bChanged = true;
 }
 
-void ISprite::Stop()
+void Sprite::Stop()
 {
-	bPlaying = FALSE;
+	bPlaying = false;
 }
 
-void ISprite::Play()
+void Sprite::Play()
 {
 	fCurrentFrameRate = 1.0f / static_cast<f32>(pFrame->iTime);
-	bPlaying = TRUE;
-	bChanged = TRUE;
+	bPlaying = true;
+	bChanged = true;
 }
 
-bool ISprite::IsFinished() const
+bool Sprite::IsFinished() const
 {
 	return (iCurrentFrame == iFrames - 1);
 }
 
-void ISprite::NextFrame()
+void Sprite::NextFrame()
 {
 	if (iCurrentFrame < iFrames - 1)
 		iCurrentFrame++;
@@ -360,10 +379,10 @@ void ISprite::NextFrame()
 	this->ReconfigureAnimation();
 
 	if (this->bVisible)
-		bChanged = TRUE;
+		bChanged = true;
 }
 
-void ISprite::PreviousFrame()
+void Sprite::PreviousFrame()
 {
 	if (iCurrentFrame > 0)
 		iCurrentFrame--;
@@ -373,10 +392,10 @@ void ISprite::PreviousFrame()
 	this->ReconfigureAnimation();
 
 	if (this->bVisible)
-		bChanged = TRUE;
+		bChanged = true;
 }
 
-void ISprite::SetCurrentFrame(u32 frame)
+void Sprite::SetCurrentFrame(u32 frame)
 {
 	if (frame >= iFrames || frame == iCurrentFrame)
 		return;
@@ -384,51 +403,35 @@ void ISprite::SetCurrentFrame(u32 frame)
 	iCurrentFrame = frame;
 	this->ReconfigureAnimation();
 
-	bChanged = TRUE;
+	bChanged = true;
 }
 
-const Seed::ISprite::Frame *ISprite::GetCurrentFrameInfo() const
-{
-	return this->pFrame;
-}
-
-const Seed::ISprite::Frame *ISprite::GetAnimationFrameInfo(u32 animation, u32 frame) const
-{
-	const Animation *pNewAnimation = pSprite->GetAnimation(animation);
-	if (!pNewAnimation)
-	{
-		//Log(TAG "Warning animation %d not found.", index);
-		return NULL;
-	}
-	return &pSprite->GetFrames(pNewAnimation)[frame];
-}
-
-u32 ISprite::GetCurrentFrame() const
+u32 Sprite::GetCurrentFrame() const
 {
 	return iCurrentFrame;
 }
 
-u32 ISprite::GetNumFrames() const
+u32 Sprite::GetFrameCount() const
 {
 	return iFrames;
 }
 
-void ISprite::SetLoop(bool loop)
+void Sprite::SetLoop(bool loop)
 {
 	this->bLoop = loop;
 }
 
-bool ISprite::IsLoop() const
+bool Sprite::IsLoop() const
 {
 	return bLoop;
 }
 
-bool ISprite::IsAnimated() const
+bool Sprite::IsAnimated() const
 {
 	return bAnimation;
 }
 
-void ISprite::Update(f32 delta)
+void Sprite::Update(f32 delta)
 {
 	//IBasicMesh::Update(delta);
 
@@ -448,20 +451,15 @@ void ISprite::Update(f32 delta)
 				}
 				else
 				{
-					bChanged = FALSE;
+					bChanged = false;
 				}
 			}
 			else
 				iCurrentFrame++;
 
-			u32 oldId = pFrame->iFileId;
-			pFrame = &pAnimationFrames[iCurrentFrame];
-
-			if (oldId != pFrame->iFileId)
-			{
-				sRelease(pFrameImage);
-				pFrameImage = static_cast<ITexture *>(pRes->Get(_F(pFrame->iFileId), Seed::ObjectTexture));
-			}
+			pFrame = ppAnimationFrames[iCurrentFrame];
+			sRelease(pFrameTexture);
+			pFrameTexture = pFrame->pTexture;
 
 			this->ReconfigureFrame();
 		}
@@ -502,16 +500,16 @@ void ISprite::Update(f32 delta)
 	}
 
 	f32 ratio = pScreen->GetAspectRatio();
-	f32 x = fAspectHalfWidth + ISprite::GetX();
-	f32 y = fAspectHalfHeight + ISprite::GetY() * ratio;
+	f32 x = fAspectHalfWidth + Sprite::GetX();
+	f32 y = fAspectHalfHeight + Sprite::GetY() * ratio;
 
-	f32 lx = ISprite::GetLocalX();
-	f32 ly = ISprite::GetLocalY() * ratio;
+	f32 lx = Sprite::GetLocalX();
+	f32 ly = Sprite::GetLocalY() * ratio;
 
 	Matrix4x4f t1, t2, r, s;
 	t1 = TranslationMatrix(lx + x, ly + y, 0.0f);
-	r = RotationMatrix(AxisZ, DegToRad(ISprite::GetRotation()));
-	s = ScaleMatrix(ISprite::GetScaleX(), ISprite::GetScaleY(), 1.0f);
+	r = RotationMatrix(AxisZ, DegToRad(Sprite::GetRotation()));
+	s = ScaleMatrix(Sprite::GetScaleX(), Sprite::GetScaleY(), 1.0f);
 	t2 = TranslationMatrix(-lx, -ly, 0.0f);
 	Matrix4x4f transform = ((t1 * r) * s) * t2;
 
@@ -523,61 +521,61 @@ void ISprite::Update(f32 delta)
 		}
 	}
 
-	bChanged = FALSE;
-	bTransformationChanged = FALSE;
+	bChanged = false;
+	bTransformationChanged = false;
 }
 
-u32 ISprite::GetWidthInPixel() const
+u32 Sprite::GetWidthInPixel() const
 {
 	return iWidth;
 }
 
-u32 ISprite::GetHeightInPixel() const
+u32 Sprite::GetHeightInPixel() const
 {
 	return iHeight;
 }
 
-PIXEL ISprite::GetPixel(u32 x, u32 y) const
+PIXEL Sprite::GetPixel(u32 x, u32 y) const
 {
 	PIXEL ret = 0;
 
-	if (pFrame && pFrameImage) //pFrame->pImage)
-		ret = pFrameImage->GetPixel(x + pFrame->iX, y + pFrame->iY);
+	if (pFrame && pFrameTexture)
+		ret = pFrameTexture->GetPixel(x + pFrame->iX, y + pFrame->iY);
 
 	return ret;
 }
 
-u8 ISprite::GetPixelAlpha(u32 x, u32 y) const
+u8 Sprite::GetPixelAlpha(u32 x, u32 y) const
 {
 	u8 ret = 0;
-	if (pFrame && pFrameImage) //pFrame->pImage)
-		ret = pFrameImage->GetPixelAlpha(x + pFrame->iX, y + pFrame->iY);
+	if (pFrame && pFrameTexture)
+		ret = pFrameTexture->GetPixelAlpha(x + pFrame->iX, y + pFrame->iY);
 
 	return ret;
 }
 
-const void *ISprite::GetData() const
+const void *Sprite::GetData() const
 {
-	return pFrameImage->GetData();
+	return pFrameTexture->GetData();
 }
 
-ITexture *ISprite::GetTexture() const
+ITexture *Sprite::GetTexture() const
 {
-	return pFrameImage;
+	return pFrameTexture;
 }
 
-void ISprite::Render()
+void Sprite::Render()
 {
 	if (!this->bInitialized)
 		return;
 
-	ASSERT(pFrameImage);
+	ASSERT(pFrameTexture);
 
 	RendererPacket packet;
 	packet.iSize = iNumVertices;
 	packet.nMeshType = nMeshType;
 	packet.pVertexData = arCurrentVertexData;
-	packet.pTexture = pFrameImage;
+	packet.pTexture = pFrameTexture;
 	packet.nBlendMode = this->eBlendOperation;
 	packet.iColor = this->iColor;
 	pRendererDevice->UploadData(&packet);
@@ -586,12 +584,12 @@ void ISprite::Render()
 		pRendererDevice->DrawRect(this->GetX(), this->GetY(), this->GetWidth(), this->GetHeight(), PIXEL_COLOR(255, 255, 255, 255));
 }
 
-const char *ISprite::GetObjectName() const
+const char *Sprite::GetObjectName() const
 {
-	return "ISprite";
+	return "Sprite";
 }
 
-int ISprite::GetObjectType() const
+int Sprite::GetObjectType() const
 {
 	return Seed::ObjectSprite;
 }
