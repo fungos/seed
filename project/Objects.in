@@ -205,26 +205,9 @@ ifdef _QT_
 ../source/platform/qt/QtTimer.o
 endif
 
-ifdef _PS3_
-../source/platform/ps3dev/PS3Input.o \
-../source/platform/ps3dev/PS3Music.o \
-../source/platform/ps3dev/PS3Mutex.o \
-../source/platform/ps3dev/PS3RendererDevice.o \
-../source/platform/ps3dev/PS3Screen.o \
-../source/platform/ps3dev/PS3Sound.o \
-../source/platform/ps3dev/PS3SoundSource.o \
-../source/platform/ps3dev/PS3SoundSystem.o \
-../source/platform/ps3dev/PS3System.o \
-../source/platform/ps3dev/PS3Texture.o \
-../source/platform/ps3dev/PS3Thread.o \
-../source/platform/ps3dev/PS3Timer.o \
-../source/platform/ps3dev/vorbis_util.o
-endif
-
 ifdef SEED_BUILD
 OBJECTS += \
 ../source/interface/IReader.o \
-../source/Reader.o \
 ../source/platform/pc/PcCartridge.o \
 ../source/platform/pc/PcLog.o \
 ../source/platform/pc/PcRendererDevice.o \
@@ -237,7 +220,6 @@ OBJECTS += \
 ../source/platform/sdl/SdlTexture.o \
 ../source/platform/sdl/SdlThread.o \
 ../source/platform/sdl/SdlTimer.o \
-../source/SceneNode.o \
 ../source/api/directx/D3D8RendererDevice.o \
 ../source/api/directx/DirectXVersion.o \
 ../source/api/oal_ogg/OalOggMusic.o \
@@ -248,6 +230,9 @@ OBJECTS += \
 ../source/api/ogl/Ogl14RendererDevice.o \
 ../source/api/ogl/OglES1RendererDevice.o \
 ../source/api/theora/Theora.o \
+../source/Animation.o \
+../source/Reader.o \
+../source/SceneNode.o \
 ../source/Checksum.o \
 ../source/Configuration.o \
 ../source/EventFileSystem.o \
@@ -286,7 +271,6 @@ OBJECTS += \
 ../source/interface/ISound.o \
 ../source/interface/ISoundSource.o \
 ../source/interface/ISoundSystem.o \
-../source/interface/ISprite.o \
 ../source/interface/ISystem.o \
 ../source/interface/ITexture.o \
 ../source/interface/IThread.o \
@@ -310,6 +294,7 @@ OBJECTS += \
 ../source/interface/IEventListener.o \
 ../source/interface/IInputKeyboard.o \
 ../source/interface/IRenderable.o \
+../source/Frame.o \
 ../source/FileSystem.o \
 ../source/Key.o \
 ../source/Keyframe.o \
@@ -321,6 +306,7 @@ OBJECTS += \
 ../source/ParticleEmitterObject.o \
 ../source/ParticleManager.o \
 ../source/SeedInit.o \
+../source/Sprite.o \
 ../source/Timeline.o \
 ../source/Trigonometry.o \
 ../source/Updater.o \

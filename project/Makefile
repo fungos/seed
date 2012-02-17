@@ -12,7 +12,7 @@ LD = ld
 GCC = g++
 CC = gcc
 
-CDEFS = -D_SDL_ -DSEED_BUILD
+CDEFS = -D_SDL_ -DSEED_BUILD -DSEED_USE_STL
 CFLAGS = -Wall -shared
 
 ifneq ($(mode),release)
