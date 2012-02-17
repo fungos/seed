@@ -47,29 +47,59 @@ IReader::~IReader()
 {
 }
 
+IReader::IReader(const IReader &other)
+{
+}
+
+IReader &IReader::operator=(const IReader &other)
+{
+	return *this;
+}
+
 bool IReader::Load(const void *data)
 {
 	return false;
 }
 
-const char *IReader::ReadString(const char **path)
+const char *IReader::ReadString(const char *key) const
 {
 	return NULL;
 }
 
-s32 IReader::ReadS32(const char **path)
+s32 IReader::ReadS32(const char *key) const
 {
 	return 0;
 }
 
-f32 IReader::ReadF32(const char **path)
+f32 IReader::ReadF32(const char *key) const
 {
 	return 0.0f;
 }
 
-bool IReader::ReadBool(const char **path)
+bool IReader::ReadBool(const char *key) const
 {
 	return false;
+}
+
+u32 IReader::SelectArray(const char *key) const
+{
+	return 0;
+}
+
+void IReader::Next()
+{
+}
+
+IReader &IReader::GetNext() const
+{
+	IReader ret;
+	return ret;
+}
+
+IReader &IReader::GetNode(const char *key) const
+{
+	IReader ret;
+	return ret;
 }
 
 } // namespace
