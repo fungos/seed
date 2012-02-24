@@ -36,6 +36,7 @@
 
 #include "Reader.h"
 #include "SeedInit.h"
+#include "api/yajl/JsonReader.h"
 
 #define TAG "[Reader] "
 
@@ -66,7 +67,7 @@ Reader::Reader(const File &file)
 	pOpaque->Load(file.GetData());
 }
 
-Reader::Reader(Reader &reader)
+Reader::Reader(const Reader &reader)
 	: IReader()
 	, pOpaque(&cNullReader)
 {
@@ -93,7 +94,9 @@ void Reader::Init()
 			case ReaderJson:
 			{
 				Info(TAG "Creating reader json");
-				pOpaque = New(JsonReader());
+				//pOpaque = New(JsonReader());
+				//pOpaque = new JsonReader();
+				JsonReader a;
 			}
 			break;
 #endif
@@ -102,7 +105,7 @@ void Reader::Init()
 			{
 #if defined(SEED_ENABLE_JSON)
 				Info(TAG "Creating reader json");
-				pOpaque = New(JsonReader());
+				//pOpaque = New(JsonReader());
 #else
 				Info(TAG "Failed creating reader, using null");
 #endif
@@ -147,12 +150,12 @@ void Reader::Next()
 	return pOpaque->Next();
 }
 
-IReader &Reader::GetNext() const
+IReader *Reader::GetNext() const
 {
 	return pOpaque->GetNext();
 }
 
-IReader &Reader::GetNode(const char *key) const
+IReader *Reader::GetNode(const char *key) const
 {
 	return pOpaque->GetNode(key);
 }

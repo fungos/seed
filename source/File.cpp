@@ -43,8 +43,16 @@
 
 namespace Seed {
 
-File::File(const char *filename)
-	: pName(filename)
+File::File()
+	: sName()
+	, pHandle(NULL)
+	, pData(NULL)
+	, iSize(0)
+{
+}
+
+File::File(const String &filename)
+	: sName(filename)
 	, pHandle(NULL)
 	, pData(NULL)
 	, iSize(0)
@@ -59,7 +67,7 @@ File::~File()
 
 File::File(const File &other)
 {
-	pName = other.pName;
+	sName = other.sName;
 	pHandle = other.pHandle;
 	pData = other.pData;
 	iSize = other.iSize;
@@ -69,7 +77,7 @@ File &File::operator=(const File &other)
 {
 	if (this != &other)
 	{
-		pName = other.pName;
+		sName = other.sName;
 		pHandle = other.pHandle;
 		pData = other.pData;
 		iSize = other.iSize;
@@ -78,23 +86,17 @@ File &File::operator=(const File &other)
 	return *this;
 }
 
-bool File::Open()
+void File::Open()
 {
-	if (!pName)
-	{
-		Log(TAG "Error: Invalid filename!");
-		return false;
-	}
-
-	pHandle = PHYSFS_openRead(pName);
+	ASSERT_MSG(sName.length(), TAG "Error: No filename was given to open file!");
+	pHandle = PHYSFS_openRead(sName.c_str());
 	if (!pHandle)
 	{
-		Log(TAG "Error: %s", PHYSFS_getLastError());
-		return false;
+		Log(TAG "Error: file: %s - %s", sName.c_str(), PHYSFS_getLastError());
+		ASSERT_MSG(false, "Aborted, file not found.");
 	}
 
 	iSize = static_cast<u32>(PHYSFS_fileLength(pHandle));
-	return true;
 }
 
 void File::Close()
@@ -139,9 +141,9 @@ u32 File::GetSize() const
 	return iSize;
 }
 
-const char *File::GetName() const
+const String File::GetName() const
 {
-	return pName;
+	return sName;
 }
 
 const char *File::GetObjectName() const

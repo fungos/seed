@@ -46,8 +46,8 @@
 #include "RendererManager.h"
 #include "api/directx/DirectXVersion.h"
 
-#if defined(_SDL_)
-#include "platform/sdl/SdlDefines.h"
+#if defined(BUILD_SDL)
+#include "platform/sdl/sdlDefines.h"
 #endif
 
 #define TAG "[D3D8RendererDevice] "

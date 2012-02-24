@@ -37,18 +37,12 @@
 #ifndef __TIMER_H__
 #define __TIMER_H__
 
-#if defined(_SDL_)
-	#include "platform/sdl/SdlTimer.h"
-	using namespace Seed::SDL;
-#elif defined(_IPHONE_)
-	#include "platform/iphone/IphTimer.h"
-	using namespace Seed::iPhone;
-#elif defined(_QT_)
-	#include "platform/qt/QtTimer.h"
-	using namespace Seed::QT;
-#elif defined(_PS3DEV_)
-	#include "platform/ps3dev/PS3Timer.h"
-	using namespace Seed::PS3;
+#if defined(BUILD_SDL)
+	#include "platform/sdl/sdlTimer.h"
+#elif defined(BUILD_IOS)
+	#include "platform/ios/iosTimer.h"
+#elif defined(BUILD_QT)
+	#include "platform/qt/qtTimer.h"
 #endif // platform
 
 #endif // __TIMER_H__

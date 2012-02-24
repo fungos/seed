@@ -47,7 +47,7 @@ class SEED_CORE_API File : public IObject
 {
 	public:
 		File();
-		File(const char *filename);
+		File(const String &filename);
 		virtual ~File();
 
 		File(const File &other);
@@ -56,7 +56,7 @@ class SEED_CORE_API File : public IObject
 		void Close();
 		u32 GetSize() const;
 		void *GetData() const;
-		const char *GetName() const;
+		const String GetName() const;
 
 		// IObject
 		virtual const char *GetObjectName() const;
@@ -64,10 +64,10 @@ class SEED_CORE_API File : public IObject
 
 	protected:
 		bool Check() const;
-		bool Open();
+		void Open();
 
 	private:
-		const char		*pName;
+		String			sName;
 		PHYSFS_file		*pHandle;
 		mutable void	*pData;
 		u32				iSize;

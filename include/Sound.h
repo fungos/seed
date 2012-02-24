@@ -37,15 +37,10 @@
 #ifndef __SOUND_H__
 #define __SOUND_H__
 
-#if defined(_SDL_) || defined(_QT_)
-	#include "api/oal_ogg/OalOggSound.h"
-	using namespace Seed::OAL;
-#elif defined(_IPHONE_)
-	#include "platform/iphone/IphSound.h"
-	using namespace Seed::iPhone;
-#elif defined(_PS3DEV_)
-	#include "platform/ps3dev/PS3Sound.h"
-	using namespace Seed::PS3;
+#if defined(BUILD_SDL) || defined(BUILD_QT)
+	#include "api/oal/oalSound.h"
+#elif defined(BUILD_IOS)
+	#include "platform/ios/iosSound.h"
 #endif // platform
 
 #endif // __SOUND_H__

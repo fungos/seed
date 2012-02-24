@@ -103,12 +103,10 @@
 #include <SoundSource.h>
 #include <StateMachine.h>
 #include <Sprite.h>
-#include <StringPool.h>
 #include <SceneManager.h>
 #include <System.h>
 #include <Updater.h>
 
-#include <Text.h>
 #include <Thread.h>
 #include <Timer.h>
 #include <Trigonometry.h>

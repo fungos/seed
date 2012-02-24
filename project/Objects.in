@@ -134,12 +134,12 @@ endif
 
 ifdef USE_CONTRIB_PHYSFS
 OBJECTS += \
+../contrib/physfs/platform/unix.o \
+../contrib/physfs/platform/posix.o \
 ../contrib/physfs/platform/macosx.o \
 ../contrib/physfs/platform/os2.o \
 ../contrib/physfs/platform/pocketpc.o \
 ../contrib/physfs/platform/beos.o \
-../contrib/physfs/platform/unix.o \
-../contrib/physfs/platform/posix.o \
 ../contrib/physfs/platform/windows.o \
 ../contrib/physfs/physfs_byteorder.o \
 ../contrib/physfs/archivers/zip.o \
@@ -159,7 +159,7 @@ OBJECTS += \
 ../contrib/physfs/zlib123/uncompr.o \
 ../contrib/physfs/zlib123/deflate.o \
 ../contrib/physfs/zlib123/crc32.o
-ifdef _SDL_
+ifdef BUILD_SDL
 OBJECTS += ../contrib/physfs/extras/physfsrwops.o
 endif
 endif
@@ -178,57 +178,57 @@ OBJECTS += \
 ../source/api/yajl/JsonReader.o
 endif
 
-ifdef _IPHONE_
+ifdef BUILD_IOS
 OBJECTS += \
-../source/platform/iphone/IphInput.o \
-../source/platform/iphone/IphMusic.o \
-../source/platform/iphone/IphMutex.o \
-../source/platform/iphone/IphScreen.o \
-../source/platform/iphone/IphSound.o \
-../source/platform/iphone/IphSoundSource.o \
-../source/platform/iphone/IphSoundSystem.o \
-../source/platform/iphone/IphSystem.o \
-../source/platform/iphone/IphTexture.o \
-../source/platform/iphone/IphThread.o \
-../source/platform/iphone/IphTimer.o
+../source/platform/ios/iosInput.o \
+../source/platform/ios/iosMusic.o \
+../source/platform/ios/iosMutex.o \
+../source/platform/ios/iosScreen.o \
+../source/platform/ios/iosSound.o \
+../source/platform/ios/iosSoundSource.o \
+../source/platform/ios/iosSoundSystem.o \
+../source/platform/ios/iosSystem.o \
+../source/platform/ios/iosTexture.o \
+../source/platform/ios/iosThread.o \
+../source/platform/ios/iosTimer.o
 endif
 
-ifdef _QT_
-../source/platform/qt/QtInput.o \
-../source/platform/qt/QtMutex.o \
-../source/platform/qt/QtScene.o \
-../source/platform/qt/QtScreen.o \
-../source/platform/qt/QtSurface.o \
-../source/platform/qt/QtSystem.o \
-../source/platform/qt/QtTexture.o \
-../source/platform/qt/QtThread.o \
-../source/platform/qt/QtTimer.o
+ifdef BUILD_QT
+../source/platform/qt/qtInput.o \
+../source/platform/qt/qtMutex.o \
+../source/platform/qt/qtScene.o \
+../source/platform/qt/qtScreen.o \
+../source/platform/qt/qtSurface.o \
+../source/platform/qt/qtSystem.o \
+../source/platform/qt/qtTexture.o \
+../source/platform/qt/qtThread.o \
+../source/platform/qt/qtTimer.o
 endif
 
 ifdef SEED_BUILD
 OBJECTS += \
 ../source/interface/IReader.o \
-../source/platform/pc/PcCartridge.o \
-../source/platform/pc/PcLog.o \
-../source/platform/pc/PcRendererDevice.o \
+../source/platform/pc/pcCartridge.o \
+../source/platform/pc/pcLog.o \
+../source/platform/pc/pcRendererDevice.o \
 ../source/platform/pc/posix.o \
 ../source/platform/pc/win32.o \
-../source/platform/sdl/SdlInput.o \
-../source/platform/sdl/SdlMutex.o \
-../source/platform/sdl/SdlScreen.o \
-../source/platform/sdl/SdlSystem.o \
-../source/platform/sdl/SdlTexture.o \
-../source/platform/sdl/SdlThread.o \
-../source/platform/sdl/SdlTimer.o \
+../source/platform/sdl/sdlInput.o \
+../source/platform/sdl/sdlMutex.o \
+../source/platform/sdl/sdlScreen.o \
+../source/platform/sdl/sdlSystem.o \
+../source/platform/sdl/sdlTexture.o \
+../source/platform/sdl/sdlThread.o \
+../source/platform/sdl/sdlTimer.o \
 ../source/api/directx/D3D8RendererDevice.o \
 ../source/api/directx/DirectXVersion.o \
-../source/api/oal_ogg/OalOggMusic.o \
-../source/api/oal_ogg/OalOggSound.o \
-../source/api/oal_ogg/OalOggSoundSource.o \
-../source/api/oal_ogg/OalOggSoundSystem.o \
-../source/api/oal_ogg/vorbis_util.o \
-../source/api/ogl/Ogl14RendererDevice.o \
-../source/api/ogl/OglES1RendererDevice.o \
+../source/api/oal/oalMusic.o \
+../source/api/oal/oalSound.o \
+../source/api/oal/oalSoundSource.o \
+../source/api/oal/oalSoundSystem.o \
+../source/api/oal/vorbis_util.o \
+../source/api/ogl/ogl14RendererDevice.o \
+../source/api/ogl/oglES1RendererDevice.o \
 ../source/api/theora/Theora.o \
 ../source/Animation.o \
 ../source/Reader.o \

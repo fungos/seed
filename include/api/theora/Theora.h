@@ -39,7 +39,7 @@
 
 #include "Defines.h"
 
-#if SEED_USE_THEORA == 1 && !defined(_IPHONE_)
+#if SEED_USE_THEORA == 1 && !defined(BUILD_IOS)
 
 #include "Thread.h"
 #include "Mutex.h"
@@ -51,7 +51,7 @@
 
 /* FIXME: Somebody please create a Semaphore class! */
 #if defined(linux) || defined(SOLARIS) || defined(AIX) || defined(__FreeBSD__) || defined(LINUX)
-#if defined(_SDL_)
+#if defined(BUILD_SDL)
 	#include <SDL/SDL.h>
 	#include <SDL/SDL_thread.h>
 	#include <SDL/SDL_mutex.h>
@@ -87,7 +87,7 @@
 	#define SEM_CLOSE(p)	sem_destroy(&(p))
 	typedef sem_t			semaphore;
 */
-#endif // _SDL_
+#endif // BUILD_SDL
 #elif defined(WIN32)
 #pragma push_macro("Delete")
 #pragma push_macro("bool")

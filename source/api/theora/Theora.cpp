@@ -36,7 +36,7 @@
 
 #include "Defines.h"
 
-#if SEED_USE_THEORA == 1 && !defined(_IPHONE_)
+#if SEED_USE_THEORA == 1 && !defined(BUILD_IOS)
 
 #include "api/theora/Theora.h"
 #include "Log.h"

@@ -53,14 +53,12 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #pragma warning(disable:4251) // stl + dll
 #endif
 
-#if defined(_SDL_)
-	#include "platform/sdl/SdlDefines.h"
-#elif defined(_IPHONE_)
-	#include "platform/iphone/IphDefines.h"
-#elif defined(_QT_)
-	#include "platform/qt/QtDefines.h"
-#elif defined(_PS3DEV_)
-	#include "platform/ps3dev/PS3Defines.h"
+#if defined(BUILD_SDL)
+	#include "platform/sdl/sdlDefines.h"
+#elif defined(BUILD_IOS)
+	#include "platform/ios/iosDefines.h"
+#elif defined(BUILD_QT)
+	#include "platform/qt/qtDefines.h"
 #endif // platform selector
 
 #ifndef SEED_CORE_API

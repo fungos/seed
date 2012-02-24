@@ -37,18 +37,12 @@
 #ifndef __SYSTEM_H__
 #define __SYSTEM_H__
 
-#if defined(_SDL_)
-	#include "platform/sdl/SdlSystem.h"
-	using namespace Seed::SDL;
-#elif defined(_IPHONE_)
-	#include "platform/iphone/IphSystem.h"
-	using namespace Seed::iPhone;
-#elif defined(_QT_)
-	#include "platform/qt/QtSystem.h"
-	using namespace Seed::QT;
-#elif defined(_PS3DEV_)
-	#include "platform/ps3dev/PS3System.h"
-	using namespace Seed::PS3;
+#if defined(BUILD_SDL)
+	#include "platform/sdl/sdlSystem.h"
+#elif defined(BUILD_IOS)
+	#include "platform/ios/iosSystem.h"
+#elif defined(BUILD_QT)
+	#include "platform/qt/qtSystem.h"
 #endif // platform
 
 #endif // __SYSTEM_H__

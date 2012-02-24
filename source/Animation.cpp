@@ -59,7 +59,7 @@ Animation::~Animation()
 {
 }
 
-bool Animation::Load(const void *data)
+bool Animation::Load(const IReader &reader)
 {
 	return true;
 }

@@ -38,6 +38,7 @@
 #define __IREADER_H__
 
 #include "Defines.h"
+#include "File.h"
 
 namespace Seed {
 
@@ -45,13 +46,15 @@ class SEED_CORE_API IReader
 {
 	public:
 		IReader();
+		IReader(const File &file);
 		virtual ~IReader();
 
 		IReader(const IReader &other);
 		IReader &operator=(const IReader &other);
 
+		bool Load(String filename);
 		bool Load(const void *data);
-		bool Load(IReader *reader);
+		bool Load(const IReader &reader);
 		const char *ReadString(const char *key) const;
 		u32 ReadU32(const char *key) const;
 		s32 ReadS32(const char *key) const;
@@ -60,8 +63,8 @@ class SEED_CORE_API IReader
 
 		u32 SelectArray(const char *key) const;
 		void Next();
-		IReader &GetNext() const;
-		IReader &GetNode(const char *key) const;
+		IReader *GetNext() const;
+		IReader *GetNode(const char *key) const;
 };
 
 } // namespace

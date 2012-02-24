@@ -39,6 +39,7 @@
 
 #include "Defines.h"
 #include "interface/IObject.h"
+#include "interface/IReader.h"
 
 namespace Seed {
 
@@ -50,7 +51,7 @@ class SEED_CORE_API Animation : public IObject
 		Animation();
 		virtual ~Animation();
 
-		bool Load(const void *data);
+		bool Load(const IReader &reader);
 		bool Unload();
 
 		Frame **GetFrames() const;

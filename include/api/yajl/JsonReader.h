@@ -65,10 +65,10 @@ class SEED_CORE_API JsonReader : public IReader
 		f32 ReadF32(const char *key) const;
 		bool ReadBool(const char *key) const;
 
-		u32 SelectArray(const char *key) const;
+		u32 SelectArray(const char *key);
 		void Next();
-		IReader &GetNext() const;
-		IReader &GetNode(const char *key) const;
+		IReader &GetNext();
+		IReader *GetNode(const char *key) const;
 
 	private:
 		JsonReader(const yajl_val node);

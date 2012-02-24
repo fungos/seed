@@ -37,25 +37,25 @@
 #ifndef __RENDERER_DEVICE_H__
 #define __RENDERER_DEVICE_H__
 
-#if defined(_IPHONE_)
+#if defined(BUILD_IOS)
 	#include "platform/pc/PcRendererDevice.h"
 	#include "api/ogl/OglES1RendererDevice.h"
 
 	using namespace Seed::PC;
-#elif defined(_SDL_)
-	#include "platform/pc/PcRendererDevice.h"
-	#include "api/ogl/Ogl14RendererDevice.h"
+#elif defined(BUILD_SDL)
+	#include "platform/pc/pcRendererDevice.h"
+	#include "api/ogl/ogl14RendererDevice.h"
 
 	#if defined(SEED_ENABLE_OGL20)
-	#include "api/ogl/Ogl20RendererDevice.h"
+	#include "api/ogl/ogl20RendererDevice.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL30)
-	#include "api/ogl/Ogl30RendererDevice.h"
+	#include "api/ogl/ogl30RendererDevice.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL40)
-	#include "api/ogl/Ogl40RendererDevice.h"
+	#include "api/ogl/ogl40RendererDevice.h"
 	#endif
 
 	#if defined(SEED_ENABLE_D3D8)
@@ -75,15 +75,12 @@
 	#endif
 
 	using namespace Seed::PC;
-#elif defined(_QT_)
-//	#include "platform/qt/QtRendererDevice.h"
-	#include "platform/pc/PcRendererDevice.h"
-	#include "api/ogl/Ogl14RendererDevice.h"
+#elif defined(BUILD_QT)
+//	#include "platform/qt/qtRendererDevice.h"
+	#include "platform/pc/pcRendererDevice.h"
+	#include "api/ogl/ogl14RendererDevice.h"
 	using namespace Seed::PC;
 	//using namespace Seed::QT;
-#elif defined(_PS3DEV_)
-	#include "platform/ps3dev/PS3RendererDevice.h"
-	using namespace Seed::PS3;
 #endif
 
 #endif // __RENDERER_DEVICE_H__

@@ -37,18 +37,12 @@
 #ifndef __INPUT_H__
 #define __INPUT_H__
 
-#if defined(_SDL_)
-	#include "platform/sdl/SdlInput.h"
-	using namespace Seed::SDL;
-#elif defined(_IPHONE_)
-	#include "platform/iphone/IphInput.h"
-	using namespace Seed::iPhone;
-#elif defined(_QT_)
-	#include "platform/qt/QtInput.h"
-	using namespace Seed::QT;
-#elif defined(_PS3DEV_)
-	#include "platform/ps3dev/PS3Input.h"
-	using namespace Seed::PS3;
+#if defined(BUILD_SDL)
+	#include "platform/sdl/sdlInput.h"
+#elif defined(BUILD_IOS)
+	#include "platform/ios/iosInput.h"
+#elif defined(BUILD_QT)
+	#include "platform/qt/qtInput.h"
 #endif // platform
 
 #endif // __INPUT_H__

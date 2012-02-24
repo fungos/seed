@@ -39,6 +39,7 @@
 
 #include "Defines.h"
 #include "interface/IBasicMesh.h"
+#include "Reader.h"
 #include "SeedInit.h"
 #include "Animation.h"
 #include "Frame.h"
@@ -58,8 +59,7 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		Sprite();
 		virtual ~Sprite();
 
-		virtual bool Load(const void *data);
-		virtual bool Load(const void *data, ResourceManager *res = pResourceManager);
+		virtual bool Load(const Reader &reader, ResourceManager *res = pResourceManager);
 		virtual bool Unload();
 
 		virtual ITexture *GetTexture() const;

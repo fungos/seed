@@ -37,9 +37,8 @@
 #ifndef __CARTRIDGE_H__
 #define __CARTRIDGE_H__
 
-#if defined(_SDL_) || defined(_QT_) || defined(_IPHONE_) || defined(_PS3DEV_)
-	#include "platform/pc/PcCartridge.h"
-	using namespace Seed::PC;
-#endif // _PC_
+#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_IOS)
+	#include "platform/pc/pcCartridge.h"
+#endif // BUILD_PC
 
 #endif // __CARTRIDGE_H__

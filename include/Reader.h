@@ -51,11 +51,10 @@ class SEED_CORE_API Reader : public IReader
 		Reader();
 		Reader(void *data);
 		Reader(const File &file);
-		Reader(Reader &reader);
+		Reader(const Reader &reader);
 		virtual ~Reader();
 
 		// IReader
-		bool Load(const void *data);
 		const char *ReadString(const char *key) const;
 		s32 ReadS32(const char *key) const;
 		u32 ReadU32(const char *key) const;
@@ -64,15 +63,11 @@ class SEED_CORE_API Reader : public IReader
 
 		u32 SelectArray(const char *key) const;
 		void Next();
-		IReader &GetNext() const;
-		IReader &GetNode(const char *key) const;
+		IReader *GetNext() const;
+		IReader *GetNode(const char *key) const;
 
 	private:
 		void Init();
-
-	private:
-		SEED_DISABLE_COPY(Reader);
-
 		IReader	*pOpaque;
 };
 

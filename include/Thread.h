@@ -37,18 +37,12 @@
 #ifndef __THREAD_H__
 #define __THREAD_H__
 
-#if defined(_SDL_)
-	#include "platform/sdl/SdlThread.h"
-	using namespace Seed::SDL;
-#elif defined(_IPHONE_)
-	#include "platform/iphone/IphThread.h"
-	using namespace Seed::iPhone;
-#elif defined(_QT_)
-	#include "platform/qt/QtThread.h"
-	using namespace Seed::QT;
-#elif defined(_PS3DEV_)
-	#include "platform/ps3dev/PS3Thread.h"
-	using namespace Seed::PS3;
+#if defined(BUILD_SDL)
+	#include "platform/sdl/sdlThread.h"
+#elif defined(BUILD_IOS)
+	#include "platform/ios/iosThread.h"
+#elif defined(BUILD_QT)
+	#include "platform/qt/qtThread.h"
 #endif // platform
 
 #endif // __THREAD_H__

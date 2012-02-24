@@ -47,8 +47,6 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(FileSystem)
 
 FileSystem::FileSystem()
-	: pWorkDir(NULL)
-	, pWriteDir(NULL)
 {
 }
 
@@ -60,8 +58,7 @@ FileSystem::~FileSystem()
 bool FileSystem::Initialize()
 {
 	FS_CHECK(PHYSFS_init(Seed::Private::pcArgv[0]));
-	if (!pWriteDir)
-		this->SetWriteableDirectory(pSystem->GetHomeFolder());
+	FS_CHECK(PHYSFS_setSaneConfig(Seed::pConfiguration->GetPublisherName(), Seed::pConfiguration->GetApplicationTitle(), "zip", false, false));
 
 	return TRUE;
 }
@@ -72,35 +69,14 @@ bool FileSystem::Shutdown()
 	return TRUE;
 }
 
-void FileSystem::SetWorkDirectory(const FilePath *dir)
-{
-	if (pWorkDir)
-		FS_CHECK(PHYSFS_removeFromSearchPath(dir));
-
-	pWorkDir = dir;
-
-	FS_CHECK(PHYSFS_mount(dir, "/write", true));
-}
-
 const FilePath *FileSystem::GetWorkDirectory() const
 {
-	return pWorkDir;
-}
-
-void FileSystem::SetWriteableDirectory(const FilePath *dir)
-{
-	pWriteDir = dir;
-	FS_CHECK(PHYSFS_setWriteDir(dir));
+	return PHYSFS_getUserDir();
 }
 
 const FilePath *FileSystem::GetWriteableDirectory() const
 {
-	return pWriteDir;
-}
-
-void FileSystem::MakeDirectory(const FilePath *dir) const
-{
-	FS_CHECK(PHYSFS_mkdir(dir));
+	return PHYSFS_getWriteDir();
 }
 
 bool FileSystem::IsRequired() const

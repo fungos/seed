@@ -179,7 +179,7 @@ void print_system_info()
 
 bool system_check_multiple_instance()
 {
-#if !defined(_QT_)
+#if !defined(BUILD_QT)
 	DWORD error = 0;
 
 	HANDLE handleProcess;

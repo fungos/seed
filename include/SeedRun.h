@@ -2,7 +2,7 @@
 #define _SEEDRUN_H_
 
 template <class T>
-int SeedRun(int argc, char **argv)
+int SeedRun(int argc, const char **argv)
 {
 	T app;
 	Seed::SetGameApp(&app, argc, argv);
@@ -10,10 +10,7 @@ int SeedRun(int argc, char **argv)
 	{
 		while (!pSystem->IsShuttingDown())
 		{
-			if (!app.HasError())
-			{
-				Seed::Update();
-			}
+			Seed::Update();
 			pTimer->Sleep(1);
 		}
 	}
@@ -22,4 +19,4 @@ int SeedRun(int argc, char **argv)
 	return EXIT_SUCCESS;
 }
 
-#endif
+#endif // _SEEDRUN_H_

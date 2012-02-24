@@ -37,18 +37,12 @@
 #ifndef __MUTEX_H__
 #define __MUTEX_H__
 
-#if defined(_SDL_)
-	#include "platform/sdl/SdlMutex.h"
-	using namespace Seed::SDL;
-#elif defined(_IPHONE_)
-	#include "platform/iphone/IphMutex.h"
-	using namespace Seed::iPhone;
-#elif defined(_QT_)
-	#include "platform/qt/QtMutex.h"
-	using namespace Seed::QT;
-#elif defined(_PS3DEV_)
-	#include "platform/ps3dev/PS3Mutex.h"
-	using namespace Seed::PS3;
+#if defined(BUILD_SDL)
+	#include "platform/sdl/sdlMutex.h"
+#elif defined(BUILD_IOS)
+	#include "platform/ios/iosMutex.h"
+#elif defined(BUILD_QT)
+	#include "platform/qt/qtMutex.h"
 #endif // platform
 
 #endif // __MUTEX_H__

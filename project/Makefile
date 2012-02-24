@@ -12,7 +12,7 @@ LD = ld
 GCC = g++
 CC = gcc
 
-CDEFS = -D_SDL_ -DSEED_BUILD -DSEED_USE_STL
+CDEFS = -DSEED_BUILD -DSEED_USE_STL -DBUILD_SDL
 CFLAGS = -Wall -shared
 
 ifneq ($(mode),release)
@@ -30,8 +30,8 @@ endif
 
 CFLAGS += $(CDEFS) -I$(SEEDSDK)/seed/include -I../contrib
 CPPFLAGS = $(CFLAGS)
-LIBS = -lSeed2 -lSDL -lSDL_image
-LFLAGS = -L$(SEEDSDK)/seed2/bin
+LIBS = -lSeed
+LFLAGS = -L$(SEEDSDK)/seed/bin
 
 uname_S := $(shell sh -c 'uname -s 2>/dev/null || echo not')
 uname_M := $(shell sh -c 'uname -m 2>/dev/null || echo not')
@@ -63,7 +63,7 @@ ifeq ($(uname_S),Linux)
 	#`sdl-config --cflags` -I/usr/local/include
 	#LFLAGS += -L/usr/local/lib
 	# `sdl-config --libs`
-	LIBS += -lopenal -lGL
+	LIBS += -lopenal -lGL -lSDL -lSDL_image
 	# -logg -loggz -loggplay -ltheora -lvorbis -lvorbisfile
 endif
 ifeq ($(uname_S),Darwin)

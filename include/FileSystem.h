@@ -51,10 +51,6 @@ class SEED_CORE_API FileSystem : public IModule
 {
 	SEED_SINGLETON_DECLARE(FileSystem)
 	public:
-		virtual void SetWorkDirectory(const FilePath *dir);
-		virtual void SetWriteableDirectory(const FilePath *dir);
-		virtual void MakeDirectory(const FilePath *dir) const;
-
 		const FilePath *GetWorkDirectory() const;
 		const FilePath *GetWriteableDirectory() const;
 
@@ -65,10 +61,6 @@ class SEED_CORE_API FileSystem : public IModule
 
 		// IObject
 		virtual const char *GetObjectName() const;
-
-	protected:
-		const FilePath *pWorkDir;
-		const FilePath *pWriteDir;
 
 	private:
 		SEED_DISABLE_COPY(FileSystem);

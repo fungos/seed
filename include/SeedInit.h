@@ -134,7 +134,7 @@ namespace Seed {
 	} // namespace
 
 	/// iPhone platform related implementation using iPhoneOS SDK
-	namespace iPhone
+	namespace iOS
 	{
 	} // namespace
 

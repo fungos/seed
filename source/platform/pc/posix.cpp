@@ -48,8 +48,8 @@
 
 #define TAG	"[Platform] "
 
-#if defined(_IPHONE_)
-#include "platform/iphone/IphoneView.h"
+#if defined(BUILD_IOS)
+#include "platform/ios/iosoneView.h"
 #elif defined(__APPLE_CC__)
 #include "SeedInit.h"
 static char pcBundle[2048];
@@ -186,7 +186,7 @@ const FilePath *get_user_home_folder()
 
 void get_current_directory(FilePath *buff, int size)
 {
-#if defined(_IPHONE_)
+#if defined(BUILD_IOS)
 	memset(buff, '\0', size);
 	memcpy(buff, iphGetRootPath(), size);
 #elif defined(__APPLE_CC__)

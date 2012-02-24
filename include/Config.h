@@ -43,19 +43,18 @@
 	#define SEED_TYPE "Release"
 #endif // DEBUG
 
-#if defined(_IPHONE_)
+#if defined(BUILD_IOS)
 	#define SEED_PLATFORM_NAME "iPhone"
-#elif defined(_SDL_)
+#elif defined(BUILD_SDL)
 	#define SEED_PLATFORM_NAME "SDL"
-#elif defined(_QT_)
+#elif defined(BUILD_QT)
 	#define SEED_PLATFORM_NAME "Qt"
-#elif defined(_PS3DEV_)
-	#define SEED_PLATFORM_NAME "PS3"
-#endif // _IPHONE_
+#endif // BUILD_IOS
 
 //================================================================================
 // FEATURES CAPPING
 //================================================================================
+#define SEED_USE_JSON						1
 #define SEED_USE_THEORA						0
 #define SEED_ENABLE_DEPTH_TEST				0
 

@@ -137,14 +137,8 @@ bool Sprite::Unload()
 	return true;
 }
 
-bool Sprite::Load(const void *data)
+bool Sprite::Load(const Reader &reader, ResourceManager *res)
 {
-	return this->Load(data, pResourceManager);
-}
-
-bool Sprite::Load(const void *data, ResourceManager *res)
-{
-	ASSERT_NULL(data);
 	ASSERT_NULL(res);
 
 	if (this->Unload())
@@ -162,7 +156,7 @@ bool Sprite::Load(const void *data, ResourceManager *res)
 		for (u32 i = 0; i < iAnimations; i++)
 		{
 			Animation *a = New(Animation);
-			a->Load(data);
+			a->Load(reader);
 			ppAnimations[i] = a;
 		}
 

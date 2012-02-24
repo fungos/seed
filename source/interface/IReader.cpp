@@ -47,6 +47,10 @@ IReader::~IReader()
 {
 }
 
+IReader::IReader(const File &file)
+{
+}
+
 IReader::IReader(const IReader &other)
 {
 }
@@ -57,6 +61,16 @@ IReader &IReader::operator=(const IReader &other)
 }
 
 bool IReader::Load(const void *data)
+{
+	return false;
+}
+
+bool IReader::Load(String filename)
+{
+	return false;
+}
+
+bool IReader::Load(const IReader &reader)
 {
 	return false;
 }
@@ -95,16 +109,14 @@ void IReader::Next()
 {
 }
 
-IReader &IReader::GetNext() const
+IReader *IReader::GetNext() const
 {
-	IReader ret;
-	return ret;
+	return new IReader();
 }
 
-IReader &IReader::GetNode(const char *key) const
+IReader *IReader::GetNode(const char *key) const
 {
-	IReader ret;
-	return ret;
+	return new IReader();
 }
 
 } // namespace

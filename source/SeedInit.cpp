@@ -172,7 +172,7 @@ bool Initialize()
 	ret = ret && pModuleManager->Add(pParticleManager);
 
 	pUpdater->Add(Private::pApplication);
-#if !defined(_IPHONE_)
+#if !defined(BUILD_IOS)
 	pUpdater->Add(pInput);
 #endif
 
@@ -224,7 +224,7 @@ void Render()
 {
 	pScreen->Update();
 	// FIXME: Viewport Render and Screen Update must be generic
-#if !defined(_QT_)
+#if !defined(BUILD_QT)
 	pViewManager->Render();
 #endif
 }

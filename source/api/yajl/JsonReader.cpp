@@ -151,7 +151,7 @@ s32 JsonReader::ReadS32(const char *key) const
 	if (v && YAJL_IS_INTEGER(v))
 		ret = (s32)YAJL_GET_INTEGER(v);
 	else
-		Log(TAG _FUNCTION_ " Error reading a s32 for key %s", key);
+		Log(TAG "Error reading a s32 for key %s", key);
 
 	return ret;
 }
@@ -165,7 +165,7 @@ f32 JsonReader::ReadF32(const char *key) const
 	if (v && YAJL_IS_DOUBLE(v))
 		ret = (f32)YAJL_GET_DOUBLE(v);
 	else
-		Log(TAG _FUNCTION_ " Error reading a f32 for key %s", key);
+		Log(TAG "Error reading a f32 for key %s", key);
 
 	return ret;
 }
@@ -177,19 +177,19 @@ bool JsonReader::ReadBool(const char *key) const
 	return (v && YAJL_IS_TRUE(v));
 }
 
-u32 JsonReader::SelectArray(const char *key) const
+u32 JsonReader::SelectArray(const char *key)
 {
 	const char *path[] = {key, (const char *)0};
 	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_array);
 
 	if (YAJL_IS_ARRAY(v))
 	{
-		Log(TAG _FUNCTION_ " Array %s found, len: %ld\n", key, YAJL_GET_ARRAY(v)->len);
+		Log(TAG "Array %s found, len: %ld\n", key, YAJL_GET_ARRAY(v)->len);
 		pCurArray = v;
 		iPos = 0;
 	}
 	else
-		Log(TAG _FUNCTION_ " Array %s not found\n", key);
+		Log(TAG "Array %s not found\n", key);
 
 	return YAJL_GET_ARRAY(v)->len;
 }
@@ -203,7 +203,7 @@ void JsonReader::Next()
 	}
 }
 
-IReader &JsonReader::GetNext() const
+IReader &JsonReader::GetNext()
 {
 	IReader ret;
 	if (pCurArray && iPos < YAJL_GET_ARRAY(pCurArray)->len)
@@ -215,17 +215,17 @@ IReader &JsonReader::GetNext() const
 	return ret;
 }
 
-IReader &JsonReader::GetNode(const char *key) const
+IReader *JsonReader::GetNode(const char *key) const
 {
 	const char *path[] = {key, (const char *)0};
 	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_object);
 
 	if (!YAJL_IS_OBJECT(v))
-		Log(TAG _FUNCTION_ " Node %s not found\n", key);
+		Log(TAG "Node %s not found\n", key);
 	else
-		Log(TAG _FUNCTION_ " Node %s found\n", key);
+		Log(TAG "Node %s found\n", key);
 
-	return JsonReader(v);
+	return new JsonReader(v);
 }
 
 }
