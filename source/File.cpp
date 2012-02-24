@@ -129,7 +129,7 @@ void *File::GetData() const
 	if (this->Check())
 	{
 		pData = (void *)Alloc(iSize);
-		if (PHYSFS_read(pHandle, pData, iSize, -1) != -1)
+		if (PHYSFS_read(pHandle, pData, iSize, 1) != -1)
 			return pData;
 	}
 

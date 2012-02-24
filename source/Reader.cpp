@@ -51,7 +51,7 @@ Reader::Reader()
 	this->Init();
 }
 
-Reader::Reader(void *data)
+Reader::Reader(const void *data)
 	: IReader()
 	, pOpaque(&cNullReader)
 {
@@ -59,7 +59,7 @@ Reader::Reader(void *data)
 	pOpaque->Load(data);
 }
 
-Reader::Reader(const File &file)
+Reader::Reader(File &file)
 	: IReader()
 	, pOpaque(&cNullReader)
 {
@@ -67,14 +67,13 @@ Reader::Reader(const File &file)
 	pOpaque->Load(file.GetData());
 }
 
-Reader::Reader(const Reader &reader)
+Reader::Reader(Reader &reader)
 	: IReader()
 	, pOpaque(&cNullReader)
 {
 	this->Init();
 	pOpaque->Load(reader.pOpaque);
 }
-
 
 Reader::~Reader()
 {
@@ -90,22 +89,20 @@ void Reader::Init()
 	{
 		switch (pConfiguration->GetReaderType())
 		{
-#if defined(SEED_ENABLE_JSON)
+#if defined(SEED_USE_JSON)
 			case ReaderJson:
 			{
 				Info(TAG "Creating reader json");
-				//pOpaque = New(JsonReader());
-				//pOpaque = new JsonReader();
-				JsonReader a;
+				pOpaque = New(JsonReader());
 			}
 			break;
 #endif
 
 			default:
 			{
-#if defined(SEED_ENABLE_JSON)
+#if defined(SEED_USE_JSON)
 				Info(TAG "Creating reader json");
-				//pOpaque = New(JsonReader());
+				pOpaque = New(JsonReader());
 #else
 				Info(TAG "Failed creating reader, using null");
 #endif
@@ -115,49 +112,49 @@ void Reader::Init()
 	}
 }
 
-const char *Reader::ReadString(const char *key) const
+const char *Reader::ReadString(const char *key, const char *value) const
 {
-	return pOpaque->ReadString(key);
+	return pOpaque->ReadString(key, value);
 }
 
-s32 Reader::ReadS32(const char *key) const
+s32 Reader::ReadS32(const char *key, s32 value) const
 {
-	return pOpaque->ReadS32(key);
+	return pOpaque->ReadS32(key, value);
 }
 
-u32 Reader::ReadU32(const char *key) const
+u32 Reader::ReadU32(const char *key, u32 value) const
 {
-	return (u32)pOpaque->ReadS32(key);
+	return (u32)pOpaque->ReadS32(key, value);
 }
 
-f32 Reader::ReadF32(const char *key) const
+f32 Reader::ReadF32(const char *key, f32 value) const
 {
-	return pOpaque->ReadF32(key);
+	return pOpaque->ReadF32(key, value);
 }
 
-bool Reader::ReadBool(const char *key) const
+bool Reader::ReadBool(const char *key, bool value) const
 {
-	return pOpaque->ReadBool(key);
+	return pOpaque->ReadBool(key, value);
 }
 
-u32 Reader::SelectArray(const char *key) const
+u32 Reader::SelectArray(const char *key)
 {
 	return pOpaque->SelectArray(key);
 }
 
-void Reader::Next()
+void Reader::SelectNext()
 {
-	return pOpaque->Next();
+	pOpaque->SelectNext();
 }
 
-IReader *Reader::GetNext() const
+void Reader::SelectNode(const char *key)
 {
-	return pOpaque->GetNext();
+	pOpaque->SelectNode(key);
 }
 
-IReader *Reader::GetNode(const char *key) const
+void Reader::Unselect()
 {
-	return pOpaque->GetNode(key);
+	pOpaque->Unselect();
 }
 
 } // namespace

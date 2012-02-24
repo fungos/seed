@@ -63,8 +63,6 @@ class SEED_CORE_API IBasicMesh : public ISceneObject
 		SEED_DISABLE_COPY(IBasicMesh);
 
 	protected:
-		ResourceManager *pRes;
-
 		//Custom vertex and uv map
 		sVertex *arCustomVertexData; // user vertex data
 		sVertex *arCurrentVertexData; // transformed vertex data

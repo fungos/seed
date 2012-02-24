@@ -375,13 +375,6 @@ enum eCartridgeError
 	ErrorInvalidArgument		/*!< Invalid parameter supplied to a method. */
 };
 
-enum eAnimationFlag
-{
-	FlagNone 		= 0x00,
-	FlagLooped 		= 0x01,
-	FlagAnimated 	= 0x02
-};
-
 enum eTextureFilterType
 {
 	TextureFilterTypeMin,

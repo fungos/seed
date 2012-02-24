@@ -8,6 +8,7 @@ TestBase::TestBase()
 {
 	cConfig.SetApplicationTitle("tests");
 	cConfig.SetPublisherName("seed");
+	cConfig.SetVideoMode(Seed::Video_800x600);
 }
 
 TestBase::~TestBase()
@@ -37,7 +38,9 @@ bool TestBase::Initialize()
 	pSceneStatic = &cSceneStatic;
 	/* ------- Rendering Initialization ------- */
 
-	sptLogo.Load(File("logo.sprite"));
+	File f("logo.sprite");
+	Reader r(f);
+	sptLogo.Load(r);
 	sptLogo.SetPosition(0.0f, 0.0f);
 	sptLogo.SetVisible(TRUE);
 	cScene.Add(&sptLogo);

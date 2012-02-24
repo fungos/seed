@@ -47,11 +47,13 @@ namespace Seed {
 Animation::Animation()
 	: IObject()
 	, ppFrames(NULL)
-	, pName(NULL)
+	, sName()
 	, iIndex(0)
 	, iFrames(0)
-	, iFlags(0)
 	, iAnimationId(0)
+	, iFps(60)
+	, bAnimated(true)
+	, bLoop(true)
 {
 }
 
@@ -59,8 +61,20 @@ Animation::~Animation()
 {
 }
 
-bool Animation::Load(const IReader &reader)
+bool Animation::Load(Reader &reader, ResourceManager *res)
 {
+	ASSERT_NULL(res);
+
+	if (this->Unload())
+	{
+		pRes = res;
+		sName = reader.ReadString("name", "animation");
+		bAnimated = reader.ReadBool("animated", true);
+		bLoop = reader.ReadBool("loop", true);
+		iFps = reader.ReadU32("fps", 60);
+		iFrames = reader.SelectArray("frames");
+	}
+
 	return true;
 }
 

@@ -87,7 +87,7 @@ JsonReader &JsonReader::operator=(const JsonReader &other)
 	return *this;
 }
 
-bool JsonReader::Load(void *data)
+bool JsonReader::Load(const void *data)
 {
 	bool ret = false;
 	char err[1024];
@@ -110,14 +110,14 @@ bool JsonReader::Load(void *data)
 	return ret;
 }
 
-bool JsonReader::Load(IReader *reader)
+bool JsonReader::Load(const IReader &reader)
 {
 	bool ret = false;
 
 	yajl_tree_free(pRootNode);
-	pCurNode = static_cast<JsonReader *>(reader)->pCurNode;
-	pCurArray = static_cast<JsonReader *>(reader)->pCurArray;
-	iPos = static_cast<JsonReader *>(reader)->iPos;
+	pCurNode = static_cast<const JsonReader *>(&reader)->pCurNode;
+	pCurArray = static_cast<const JsonReader *>(&reader)->pCurArray;
+	iPos = static_cast<const JsonReader *>(&reader)->iPos;
 
 	if (pCurNode != NULL)
 		ret = true;
@@ -125,9 +125,9 @@ bool JsonReader::Load(IReader *reader)
 	return ret;
 }
 
-const char *JsonReader::ReadString(const char *key) const
+const char *JsonReader::ReadString(const char *key, const char *value) const
 {
-	const char *ret = NULL;
+	const char *ret = value;
 
 	const char *path[] = {key, (const char *)0};
 	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_string);
@@ -137,14 +137,23 @@ const char *JsonReader::ReadString(const char *key) const
 	return ret;
 }
 
-u32 JsonReader::ReadU32(const char *key) const
+u32 JsonReader::ReadU32(const char *key, u32 value) const
 {
-	return (u32)this->ReadS32(key);
+	u32 ret = value;
+
+	const char *path[] = {key, (const char *)0};
+	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_number);
+	if (v && YAJL_IS_INTEGER(v))
+		ret = YAJL_GET_INTEGER(v);
+	else
+		Log(TAG "Error reading a u32 for key %s", key);
+
+	return ret;
 }
 
-s32 JsonReader::ReadS32(const char *key) const
+s32 JsonReader::ReadS32(const char *key, s32 value) const
 {
-	s32 ret = 0;
+	s32 ret = value;
 
 	const char *path[] = {key, (const char *)0};
 	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_number);
@@ -156,9 +165,9 @@ s32 JsonReader::ReadS32(const char *key) const
 	return ret;
 }
 
-f32 JsonReader::ReadF32(const char *key) const
+f32 JsonReader::ReadF32(const char *key, f32 value) const
 {
-	f32 ret = 0.0f;
+	f32 ret = value;
 
 	const char *path[] = {key, (const char *)0};
 	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_number);
@@ -170,11 +179,16 @@ f32 JsonReader::ReadF32(const char *key) const
 	return ret;
 }
 
-bool JsonReader::ReadBool(const char *key) const
+bool JsonReader::ReadBool(const char *key, bool value) const
 {
 	const char *path[] = {key, (const char *)0};
 	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_true);
-	return (v && YAJL_IS_TRUE(v));
+
+	bool ret = value;
+	if (v)
+		ret = YAJL_IS_TRUE(v);
+
+	return ret;
 }
 
 u32 JsonReader::SelectArray(const char *key)
@@ -194,38 +208,34 @@ u32 JsonReader::SelectArray(const char *key)
 	return YAJL_GET_ARRAY(v)->len;
 }
 
-void JsonReader::Next()
+void JsonReader::SelectNext()
 {
 	if (pCurArray && iPos < YAJL_GET_ARRAY(pCurArray)->len)
 	{
-		pCurArray = YAJL_GET_ARRAY(pCurArray)->values[iPos];
+		pCurNode = YAJL_GET_ARRAY(pCurArray)->values[iPos];
 		iPos++;
 	}
 }
 
-IReader &JsonReader::GetNext()
-{
-	IReader ret;
-	if (pCurArray && iPos < YAJL_GET_ARRAY(pCurArray)->len)
-	{
-		ret.Load(YAJL_GET_ARRAY(pCurArray)->values[iPos]);
-		iPos++;
-	}
-
-	return ret;
-}
-
-IReader *JsonReader::GetNode(const char *key) const
+void JsonReader::SelectNode(const char *key)
 {
 	const char *path[] = {key, (const char *)0};
 	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_object);
 
 	if (!YAJL_IS_OBJECT(v))
+	{
 		Log(TAG "Node %s not found\n", key);
+	}
 	else
+	{
 		Log(TAG "Node %s found\n", key);
+		pCurNode = v;
+	}
+}
 
-	return new JsonReader(v);
+void JsonReader::Unselect()
+{
+	pCurNode = pRootNode;
 }
 
 }

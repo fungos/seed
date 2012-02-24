@@ -40,6 +40,8 @@
 #include "Defines.h"
 #include "interface/IObject.h"
 #include "interface/IReader.h"
+#include "SeedInit.h"
+#include "Reader.h"
 
 namespace Seed {
 
@@ -51,7 +53,7 @@ class SEED_CORE_API Animation : public IObject
 		Animation();
 		virtual ~Animation();
 
-		bool Load(const IReader &reader);
+		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 		bool Unload();
 
 		Frame **GetFrames() const;
@@ -62,12 +64,15 @@ class SEED_CORE_API Animation : public IObject
 		virtual int GetObjectType() const;
 
 //	private:
+		ResourceManager *pRes;
 		Frame		**ppFrames;
-		const char	*pName;
+		String		sName;
 		u32			iIndex;
 		u32			iFrames;
-		u32			iFlags;
 		u32			iAnimationId;
+		u32			iFps;
+		bool		bAnimated;
+		bool		bLoop;
 };
 
 } // namespace

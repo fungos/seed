@@ -37,7 +37,6 @@ namespace Seed {
 
 IBasicMesh::IBasicMesh()
 	: ISceneObject()
-	, pRes(NULL)
 	, arCustomVertexData(NULL)
 	, arCurrentVertexData(NULL)
 	, iNumVertices(0)

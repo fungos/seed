@@ -5,3 +5,4 @@
 ../testbase.h
 Makefile
 Objects.in
+../bin/logo.sprite

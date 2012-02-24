@@ -346,7 +346,9 @@ ParticleEmitter::~ParticleEmitter()
 			//par->fRotation = par->fSpin;
 			par->bTransformationChanged = TRUE;
 
-			par->Load(File(pSpriteFilename), pRes);
+			File f(pSpriteFilename);
+			Reader r(f);
+			par->Load(r, pRes);
 			par->SetAnimation(iAnimation);
 			par->SetVisible(TRUE);
 			//par->SetParent(this);
@@ -405,7 +407,9 @@ ParticleEmitter::~ParticleEmitter()
 			if (!arParticles[i].bActive)
 				continue;
 
-			arParticles[i].Load(File(filename), pRes);
+			File f(filename);
+			Reader r(f);
+			arParticles[i].Load(r, pRes);
 			arParticles[i].SetAnimation(iAnimation);
 		}
 	}

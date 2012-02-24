@@ -65,13 +65,13 @@ void SoundSource::Load(IReader *reader, ResourceManager *res)
 	{
 		this->Unload();
 
-		u32 vol = reader->ReadU32("volume");
+		u32 vol = reader->ReadU32("volume", 100);
 		fVolume = (vol / 100.0f);
 
-		u32 flg = reader->ReadU32("loop");
+		u32 flg = reader->ReadU32("loop", 1);
 		bLoop = ((flg & 0x01) == 0x01); // FIXME
 
-		const char *fname = reader->ReadString("file");
+		const char *fname = reader->ReadString("file", NULL);
 		ASSERT_NULL(fname);
 
 		/* Get the resource */

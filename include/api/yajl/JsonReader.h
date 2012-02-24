@@ -57,18 +57,18 @@ class SEED_CORE_API JsonReader : public IReader
 		JsonReader &operator=(const JsonReader &other);
 
 		// IReader
-		bool Load(void *data);
-		bool Load(IReader *reader);
-		const char *ReadString(const char *key) const;
-		u32 ReadU32(const char *key) const;
-		s32 ReadS32(const char *key) const;
-		f32 ReadF32(const char *key) const;
-		bool ReadBool(const char *key) const;
+		virtual bool Load(const void *data);
+		virtual bool Load(const IReader &reader);
+		virtual const char *ReadString(const char *key, const char *value) const;
+		virtual u32 ReadU32(const char *key, u32 value) const;
+		virtual s32 ReadS32(const char *key, s32 value) const;
+		virtual f32 ReadF32(const char *key, f32 value) const;
+		virtual bool ReadBool(const char *key, bool value) const;
 
-		u32 SelectArray(const char *key);
-		void Next();
-		IReader &GetNext();
-		IReader *GetNode(const char *key) const;
+		virtual u32 SelectArray(const char *key);
+		virtual void SelectNext();
+		virtual void SelectNode(const char *key);
+		virtual void Unselect();
 
 	private:
 		JsonReader(const yajl_val node);
@@ -77,7 +77,7 @@ class SEED_CORE_API JsonReader : public IReader
 		yajl_val	pRootNode;
 		yajl_val	pCurNode;
 		yajl_val	pCurArray;
-		int			iPos;
+		u32			iPos;
 };
 
 } // namespace

@@ -49,22 +49,22 @@ class SEED_CORE_API Reader : public IReader
 {
 	public:
 		Reader();
-		Reader(void *data);
-		Reader(const File &file);
-		Reader(const Reader &reader);
+		Reader(const void *data);
+		Reader(File &file);
+		Reader(Reader &reader);
 		virtual ~Reader();
 
 		// IReader
-		const char *ReadString(const char *key) const;
-		s32 ReadS32(const char *key) const;
-		u32 ReadU32(const char *key) const;
-		f32 ReadF32(const char *key) const;
-		bool ReadBool(const char *key) const;
+		virtual const char *ReadString(const char *key, const char *value) const;
+		virtual s32 ReadS32(const char *key, s32 value) const;
+		virtual u32 ReadU32(const char *key, u32 value) const;
+		virtual f32 ReadF32(const char *key, f32 value) const;
+		virtual bool ReadBool(const char *key, bool value) const;
 
-		u32 SelectArray(const char *key) const;
-		void Next();
-		IReader *GetNext() const;
-		IReader *GetNode(const char *key) const;
+		virtual u32 SelectArray(const char *key);
+		virtual void SelectNext();
+		virtual void SelectNode(const char *key);
+		virtual void Unselect();
 
 	private:
 		void Init();

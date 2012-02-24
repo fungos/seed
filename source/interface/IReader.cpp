@@ -47,7 +47,7 @@ IReader::~IReader()
 {
 }
 
-IReader::IReader(const File &file)
+IReader::IReader(File &file)
 {
 }
 
@@ -65,58 +65,51 @@ bool IReader::Load(const void *data)
 	return false;
 }
 
-bool IReader::Load(String filename)
+bool IReader::Load(IReader &reader)
 {
 	return false;
 }
 
-bool IReader::Load(const IReader &reader)
+const char *IReader::ReadString(const char *key, const char *value) const
 {
-	return false;
+	return value;
 }
 
-const char *IReader::ReadString(const char *key) const
+u32 IReader::ReadU32(const char *key, u32 value) const
 {
-	return NULL;
+	return value;
 }
 
-u32 IReader::ReadU32(const char *key) const
+s32 IReader::ReadS32(const char *key, s32 value) const
+{
+	return value;
+}
+
+f32 IReader::ReadF32(const char *key, f32 value) const
+{
+	return value;
+}
+
+bool IReader::ReadBool(const char *key, bool value) const
+{
+	return value;
+}
+
+u32 IReader::SelectArray(const char *key)
 {
 	return 0;
 }
 
-s32 IReader::ReadS32(const char *key) const
-{
-	return 0;
-}
-
-f32 IReader::ReadF32(const char *key) const
-{
-	return 0.0f;
-}
-
-bool IReader::ReadBool(const char *key) const
-{
-	return false;
-}
-
-u32 IReader::SelectArray(const char *key) const
-{
-	return 0;
-}
-
-void IReader::Next()
+void IReader::SelectNext()
 {
 }
 
-IReader *IReader::GetNext() const
+void IReader::SelectNode(const char *key)
 {
-	return new IReader();
 }
 
-IReader *IReader::GetNode(const char *key) const
+void IReader::Unselect()
 {
-	return new IReader();
 }
 
 } // namespace

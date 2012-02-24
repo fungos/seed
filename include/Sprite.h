@@ -59,7 +59,7 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		Sprite();
 		virtual ~Sprite();
 
-		virtual bool Load(const Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 		virtual bool Unload();
 
 		virtual ITexture *GetTexture() const;
@@ -72,7 +72,7 @@ class SEED_CORE_API Sprite : public IBasicMesh
 
 		virtual void SetLoop(bool loop);
 		virtual bool SetAnimation(u32 index);
-		virtual bool SetAnimation(const char *name);
+		virtual bool SetAnimation(String name);
 		virtual void SetCurrentFrame(u32 frame);
 		virtual void GotoAndStop(u32 frame);
 		virtual void GotoAndPlay(u32 frame);
@@ -82,7 +82,7 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual void NextFrame();
 		virtual void PreviousFrame();
 		virtual u32  GetAnimation() const;
-		virtual const char *GetAnimationName() const;
+		virtual const String GetAnimationName() const;
 		virtual u32 GetAnimationCount() const;
 		virtual u32  GetFrameCount() const;
 		virtual u32  GetCurrentFrame() const;
@@ -116,13 +116,6 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		Frame		*pFrame;
 		ITexture	*pFrameTexture;
 
-		bool bInitialized;
-		bool bChanged;
-		bool bAnimation;
-		bool bLoop;
-		bool bPlaying;
-		bool bFinished;
-
 		// Frame related width and height *proportional to view port aspect ratio* for rendering only
 		f32 fAspectHalfWidth; // real half width
 		f32 fAspectHalfHeight; // real half height
@@ -148,8 +141,16 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		f32 fTexT0;
 		f32 fTexT1;
 
-		ResourceManager *pRes;
 		sVertex vert[4];
+
+		String sName;
+
+		bool bInitialized;
+		bool bChanged;
+		bool bAnimation;
+		bool bLoop;
+		bool bPlaying;
+		bool bFinished;
 
 	private:
 		SEED_DISABLE_COPY(Sprite);

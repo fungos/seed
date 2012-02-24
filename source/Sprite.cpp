@@ -52,11 +52,6 @@ Sprite::Sprite()
 	, ppAnimationFrames(NULL)
 	, pFrame(NULL)
 	, pFrameTexture(NULL)
-	, bInitialized(false)
-	, bChanged(false)
-	, bAnimation(false)
-	, bLoop(false)
-	, bPlaying(false)
 	, fAspectHalfWidth(0.0f)
 	, fAspectHalfHeight(0.0f)
 	, fAspectWidth(0.0f)
@@ -75,7 +70,13 @@ Sprite::Sprite()
 	, fTexS1(0.0f)
 	, fTexT0(0.0f)
 	, fTexT1(0.0f)
-	, pRes(NULL)
+	, vert()
+	, sName()
+	, bInitialized(false)
+	, bChanged(false)
+	, bAnimation(false)
+	, bLoop(false)
+	, bPlaying(false)
 {
 	iNumVertices = 4;
 }
@@ -137,15 +138,15 @@ bool Sprite::Unload()
 	return true;
 }
 
-bool Sprite::Load(const Reader &reader, ResourceManager *res)
+bool Sprite::Load(Reader &reader, ResourceManager *res)
 {
 	ASSERT_NULL(res);
 
 	if (this->Unload())
 	{
-		pRes = res;
+		sName = reader.ReadString("name", "sprite");
+		iAnimations = reader.SelectArray("animations");
 
-//		pSprite = static_cast<SpriteObject *>(res->Get(filename, Seed::ObjectSprite));
 		this->SetRotation(0);
 		this->SetAnimation(0u);
 
@@ -156,7 +157,8 @@ bool Sprite::Load(const Reader &reader, ResourceManager *res)
 		for (u32 i = 0; i < iAnimations; i++)
 		{
 			Animation *a = New(Animation);
-			a->Load(reader);
+			reader.SelectNext();
+			a->Load(reader, res);
 			ppAnimations[i] = a;
 		}
 
@@ -178,8 +180,8 @@ void Sprite::Initialize()
 void Sprite::ReconfigureAnimation()
 {
 	iFrames = pAnimation->iFrames;
-	bLoop = ((pAnimation->iFlags & Seed::FlagLooped) == Seed::FlagLooped);
-	bAnimation = ((pAnimation->iFlags & Seed::FlagAnimated) == Seed::FlagAnimated);
+	bLoop = pAnimation->bLoop;
+	bAnimation = pAnimation->bAnimated;
 	fFrameTime = 0.0f;
 
 	pFrame = ppAnimationFrames[iCurrentFrame];
@@ -266,7 +268,7 @@ bool Sprite::SetAnimation(u32 index)
 	return ret;
 }
 
-bool Sprite::SetAnimation(const char *name)
+bool Sprite::SetAnimation(String name)
 {
 	bool ret = false;
 	if (bInitialized)
@@ -276,7 +278,7 @@ bool Sprite::SetAnimation(const char *name)
 		for (; i < iAnimations; i++)
 		{
 			Animation *p = ppAnimations[i];
-			if (!STRCMP(p->pName, name))
+			if (p->sName == name)
 			{
 				pNewAnimation = p;
 				break;
@@ -311,11 +313,11 @@ u32 Sprite::GetAnimation() const
 	return iCurrentAnimation;
 }
 
-const char *Sprite::GetAnimationName() const
+const String Sprite::GetAnimationName() const
 {
-	const char *ret = NULL;
+	String ret;
 	if (pAnimation)
-		ret = pAnimation->pName;
+		ret = pAnimation->sName;
 
 	return ret;
 }
