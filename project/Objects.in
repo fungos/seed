@@ -232,7 +232,6 @@ OBJECTS += \
 ../source/api/theora/Theora.o \
 ../source/Animation.o \
 ../source/Reader.o \
-../source/SceneNode.o \
 ../source/Checksum.o \
 ../source/Configuration.o \
 ../source/EventFileSystem.o \
@@ -252,6 +251,7 @@ OBJECTS += \
 ../source/ResourceManager.o \
 ../source/SaveSystem.o \
 ../source/SceneManager.o \
+../source/SceneNode.o \
 ../source/File.o \
 ../source/Image.o \
 ../source/interface/IBasicMesh.o \
@@ -265,7 +265,6 @@ OBJECTS += \
 ../source/interface/IEventInputPointerListener.o \
 ../source/interface/IRendererDevice.o \
 ../source/interface/IResource.o \
-../source/interface/ISceneNode.o \
 ../source/interface/ISceneObject.o \
 ../source/interface/IScreen.o \
 ../source/interface/ISound.o \

@@ -255,6 +255,29 @@ SEED_COMPILE_TIME_ASSERT(s64, sizeof(s64) == 8);
 typedef enum { SEED_ENUM_ASSERT_VALUE } SEED_ENUM_ASSERT;
 SEED_COMPILE_TIME_ASSERT(enum, sizeof(SEED_ENUM_ASSERT) == sizeof(u32));
 
+#define DEFINE_VECTOR_TYPE(type)		typedef std::vector<type *> type##Vector; \
+										typedef type##Vector::iterator type##VectorIterator; \
+										typedef type##Vector::const_iterator Const##type##VectorIterator;
+
+#define VectorRemove(v, val)		v.erase(std::remove(v.begin(), v.end(), val), v.end())
+#define VectorAdd(v, val)			v.push_back(val)
+
+#define ForEach(type, v, block)			{\
+											type##VectorIterator it = v.begin();\
+											type##VectorIterator end = v.end();\
+											for (; it != end; ++it)\
+												block\
+										}
+
+#define ForEachConst(type, v, block)	{\
+											Const##type##VectorIterator it = v.begin();\
+											Const##type##VectorIterator end = v.end();\
+											for (; it != end; ++it)\
+												block\
+										}
+
 #include "LeakReport.h"
+#include <vector>
+#include <algorithm>
 
 #endif // __SEED_DEFINES_H__

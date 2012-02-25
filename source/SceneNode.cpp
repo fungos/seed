@@ -31,12 +31,67 @@
 
 /*! \file SceneNode.cpp
 	\author	Danny Angelo Carminati Grein
-	\brief Scene Node
+	\brief Scene Node object
 */
 
 #include "SceneNode.h"
+#include "Defines.h"
+#include <algorithm>
+
+#define TAG "[SceneNode] "
 
 namespace Seed {
 
+SceneNode::SceneNode()
+	: vChild()
+{
+}
+
+SceneNode::~SceneNode()
+{
+	ISceneObjectVector().swap(vChild);
+}
+
+void SceneNode::Reset()
+{
+	ISceneObjectVector().swap(vChild);
+}
+
+bool SceneNode::IsNode() const
+{
+	return true;
+}
+
+void SceneNode::Update(f32 dt)
+{
+	ForEach(ISceneObject, vChild,
+	{
+		(*it)->Update(dt);
+	});
+}
+
+void SceneNode::Render()
+{
+}
+
+void SceneNode::Add(ISceneObject *obj)
+{
+	VectorAdd(vChild, obj);
+}
+
+void SceneNode::Remove(ISceneObject *obj)
+{
+	VectorRemove(vChild, obj);
+}
+
+u32 SceneNode::Size() const
+{
+	return vChild.size();
+}
+
+ISceneObject *SceneNode::GetChildAt(u32 i)
+{
+	return vChild.at(i);
+}
 
 } // namespace

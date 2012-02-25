@@ -77,7 +77,6 @@
 #include <interface/IEventMovieListener.h>
 #include <interface/IObject.h>
 #include <interface/ISceneObject.h>
-#include <interface/ISceneNode.h>
 
 #include <Music.h>
 #include <Mutex.h>

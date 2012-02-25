@@ -31,89 +31,43 @@
 
 /*! \file SceneNode.h
 	\author	Danny Angelo Carminati Grein
-	\brief Scene Node
+	\brief Scene Node object
 */
 
 #ifndef __SCENE_NODE_H__
 #define __SCENE_NODE_H__
 
-#include "Array.h"
-#include "interface/ISceneNode.h"
+#include "interface/ISceneObject.h"
+#include <vector>
 
 namespace Seed {
 
-template <int NODES> class SceneNode : public ISceneNode
+DEFINE_VECTOR_TYPE(ISceneObject)
+
+class SEED_CORE_API SceneNode : public ISceneObject
 {
+	friend class Renderer;
 	public:
-		SceneNode()
-		{
-			arNodes.Truncate();
-		}
+		SceneNode();
+		virtual ~SceneNode();
 
-		virtual ~SceneNode()
-		{
-			arNodes.Truncate();
-		}
+		virtual bool IsNode() const;
 
-		virtual void Add(ISceneObject *obj)
-		{
-			if (obj)
-			{
-				for (u32 i = 0; i < arNodes.Size(); i++)
-				{
-					if (arNodes[i] == obj)
-						return;
-				}
+		// IRenderable
+		virtual void Update(f32 dt);
+		virtual void Render();
+		virtual void Reset();
 
-				obj->SetParent(this);
-				arNodes.Add(obj);
-			}
-		}
-
-		virtual void Remove(ISceneObject *obj)
-		{
-			if (obj)
-			{
-				arNodes.Remove(obj);
-			}
-		}
-
-		virtual void Update(f32 delta)
-		{
-			for (u32 i = 0; i < arNodes.Size(); i++)
-			{
-				arNodes[i]->Update(delta);
-			}
-		}
-
-		virtual void Render()
-		{
-			/*for (u32 i = 0; i < arNodes.Size(); i++)
-			{
-				arNodes[i]->Render();
-			}*/
-		}
-
-		virtual void Reset()
-		{
-			arNodes.Truncate();
-		}
-
-		virtual u32 Size() const
-		{
-			return arNodes.Size();
-		}
-
-		virtual ISceneObject *GetChildAt(u32 i)
-		{
-			return arNodes[i];
-		}
+		virtual void Add(ISceneObject *obj);
+		virtual void Remove(ISceneObject *obj);
+		virtual u32 Size() const;
+		virtual ISceneObject *GetChildAt(u32 i);
 
 	private:
 		SEED_DISABLE_COPY(SceneNode);
 
-	private:
-		Array<ISceneObject *, NODES> arNodes;
+	protected:
+		ISceneObjectVector vChild;
 };
 
 } // namespace

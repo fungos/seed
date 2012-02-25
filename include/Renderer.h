@@ -40,10 +40,9 @@
 #include "Array.h"
 #include "interface/IUpdatable.h"
 #include "interface/IModule.h"
+#include "SceneNode.h"
 
 #include <vector>
-
-#define RENDERER_MAX_SCENES 32
 
 namespace Seed {
 
@@ -57,9 +56,7 @@ Rendering engine interface
 */
 class SEED_CORE_API Renderer : public IUpdatable, public IModule
 {
-	typedef std::vector<ISceneNode *> NodeVector;
-	typedef NodeVector::iterator NodeVectorIterator;
-	typedef NodeVector::const_iterator ConstNodeVectorIterator;
+	DEFINE_VECTOR_TYPE(SceneNode)
 
 	typedef std::vector<ISceneObject *> RenderableVector;
 	typedef RenderableVector::iterator RenderableVectorIterator;
@@ -78,8 +75,8 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 		virtual void Sort(RenderableVector &vec);
 		virtual void Culler();
 
-		void Add(ISceneNode *node);
-		void Remove(ISceneNode *node);
+		void Add(SceneNode *node);
+		void Remove(SceneNode *node);
 
 		// IUpdatable
 		//virtual bool Reset();
@@ -89,13 +86,13 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 		virtual const char *GetObjectName() const;
 
 	protected:
-		Array<ISceneNode *, RENDERER_MAX_SCENES> arScenes;
+		SceneNodeVector vScenes;
 		RenderableVector vRenderables;
 		RenderableVector vVisibleRenderables;
 
 	private:
 		void RenderObjects(const RenderableVector &vec) const;
-		void PushChildNodes(ISceneNode *, NodeVector &vec);
+		void PushChildNodes(SceneNode *, SceneNodeVector &vec);
 
 		SEED_DISABLE_COPY(Renderer);
 };

@@ -1,6 +1,6 @@
 #include "testbase.h"
 
-ISceneNode *pScene;
+SceneNode *pScene;
 
 TestBase::TestBase()
 {

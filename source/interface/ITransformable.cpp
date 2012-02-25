@@ -40,13 +40,13 @@
 namespace Seed {
 
 ITransformable::ITransformable()
-	: bTransformationChanged(true)
-	, pParent(NULL)
+	: pParent(NULL)
 	, vPos(0.0f, 0.0f, 0.0f)
 	, vLocalPos(0.0f, 0.0f, 0.0f)
 	, vScale(1.0f, 1.0f, 1.0f)
 	, vBoundingBox(0.0f, 0.0f, 0.0f)
 	, fRotation(0.0f)
+	, bTransformationChanged(true)
 {
 }
 

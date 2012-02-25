@@ -4,7 +4,7 @@
 #include <Seed.h>
 using namespace Seed;
 
-extern ISceneNode *pScene;
+extern SceneNode *pScene;
 
 using namespace Seed;
 
@@ -29,7 +29,7 @@ class TestBase : public IGameApp, public IEventSystemListener, public IEventInpu
 		SEED_DISABLE_COPY(TestBase);
 
 	protected:
-		SceneNode<1024> cScene;
+		SceneNode	cScene;
 		Viewport	cViewport;
 		Renderer	cRenderer;
 		Sprite		sptLogo;

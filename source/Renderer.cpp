@@ -36,7 +36,7 @@
 
 #include "Renderer.h"
 #include "Log.h"
-#include "interface/ISceneNode.h"
+#include "SceneNode.h"
 #include "RendererDevice.h"
 #include "Profiler.h"
 
@@ -45,30 +45,44 @@
 
 namespace Seed {
 
+bool PredicateIsNodeAndVisible(SceneNode *obj)
+{
+	return (obj->IsNode() && obj->IsVisible());
+}
+
+bool PredicateIsVisible(ISceneObject *obj)
+{
+	return (obj->IsVisible());
+}
+
 Renderer::Renderer()
-	: vRenderables()
-	//, vVisibleRenderables()
+	: vScenes()
+	, vRenderables()
+	, vVisibleRenderables()
 {
 }
 
 Renderer::~Renderer()
 {
+	vScenes.clear();
+	SceneNodeVector().swap(vScenes);
+
 	vRenderables.clear();
 	RenderableVector().swap(vRenderables);
 
-	//vVisibleRenderables.clear();
-	//RenderableVector().swap(vVisibleRenderables);
+	vVisibleRenderables.clear();
+	RenderableVector().swap(vVisibleRenderables);
 }
 
-void Renderer::PushChildNodes(ISceneNode *node, NodeVector &v)
+void Renderer::PushChildNodes(SceneNode *node, SceneNodeVector &v)
 {
 	for (u32 i = 0; i < node->Size(); i++)
 	{
 		ISceneObject *obj = node->GetChildAt(i);
-		if (obj && obj->IsNode() && obj->IsVisible())
+		if (obj->IsNode() && obj->IsVisible())
 		{
-			v.push_back(static_cast<ISceneNode *>(obj));
-			this->PushChildNodes(static_cast<ISceneNode *>(obj), v);
+			v.push_back(static_cast<SceneNode *>(obj));
+			this->PushChildNodes(static_cast<SceneNode *>(obj), v);
 		}
 	}
 }
@@ -83,26 +97,24 @@ bool Renderer::Update(f32 dt)
 
 	vRenderables.clear();
 
-	NodeVector v;
-	for (u32 i = 0; i < arScenes.Size(); i++)
+	SceneNodeVector v(vScenes);
+	ForEach(SceneNode, v,
 	{
-		ISceneNode *node = arScenes[i];
-		v.push_back(node);
-		this->PushChildNodes(node, v);
-	}
+		this->PushChildNodes((*it), v);
+	});
 
-	NodeVectorIterator it = v.begin();
-	NodeVectorIterator end = v.end();
+	SceneNodeVectorIterator it = v.begin();
+	SceneNodeVectorIterator end = v.end();
 	for (; it != end; ++it)
 	{
-		ISceneNode *node = (*it);
+		SceneNode *node = (*it);
+		ISceneObjectVector nv = node->vChild;
 
-		for (u32 i = 0; i < node->Size(); i++)
+		ForEach(ISceneObject, nv,
 		{
-			ISceneObject *obj = node->GetChildAt(i);
-			if (obj->IsVisible())
-				vRenderables.push_back(obj);
-		}
+			if ((*it)->IsVisible())
+				VectorAdd(vRenderables, *it);
+		});
 	}
 
 	return true;
@@ -189,14 +201,14 @@ void Renderer::End() const
 	pRendererDevice->End();
 }
 
-void Renderer::Add(ISceneNode *node)
+void Renderer::Add(SceneNode *node)
 {
-	arScenes.Add(node);
+	VectorAdd(vScenes, node);
 }
 
-void Renderer::Remove(ISceneNode *node)
+void Renderer::Remove(SceneNode *node)
 {
-	arScenes.Remove(node);
+	VectorRemove(vScenes, node);
 }
 
 const char *Renderer::GetObjectName() const

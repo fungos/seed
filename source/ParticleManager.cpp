@@ -46,7 +46,6 @@ ParticleManager::ParticleManager()
 	, bPaused(false)
 	, bStopped(false)
 {
-	vEmitter.Truncate();
 }
 
 ParticleManager::~ParticleManager()
@@ -64,7 +63,6 @@ bool ParticleManager::Initialize()
 bool ParticleManager::Reset()
 {
 	this->Kill();
-	vEmitter.Truncate();
 
 	return true; // abstract IModule::Reset();
 }
@@ -103,24 +101,20 @@ bool ParticleManager::Update(f32 dt)
 
 void ParticleManager::Kill()
 {
-	for (u32 i = 0; i < vEmitter.Size(); i++)
+	ForEach(ParticleEmitter, vEmitter,
 	{
-		ParticleEmitter *p = vEmitter[i];
-		ASSERT_NULL(p);
+		(*it)->Kill();
+	});
 
-		p->Kill();
-	}
+	ParticleEmitterVector().swap(vEmitter);
 }
 
 void ParticleManager::Stop()
 {
-	for (u32 i = 0; i < vEmitter.Size(); i++)
+	ForEach(ParticleEmitter, vEmitter,
 	{
-		ParticleEmitter *p = vEmitter[i];
-		ASSERT_NULL(p);
-
-		p->Stop();
-	}
+		(*it)->Stop();
+	});
 
 	bPaused = false;
 	bStopped = true;
@@ -133,13 +127,10 @@ bool ParticleManager::IsStopped() const
 
 void ParticleManager::Pause()
 {
-	for (u32 i = 0; i < vEmitter.Size(); i++)
+	ForEach(ParticleEmitter, vEmitter,
 	{
-		ParticleEmitter *p = vEmitter[i];
-		ASSERT_NULL(p);
-
-		p->Pause();
-	}
+		(*it)->Pause();
+	});
 
 	bPaused = true;
 }
@@ -151,13 +142,10 @@ bool ParticleManager::IsPaused() const
 
 void ParticleManager::Play()
 {
-	for (u32 i = 0; i < vEmitter.Size(); i++)
+	ForEach(ParticleEmitter, vEmitter,
 	{
-		ParticleEmitter *p = vEmitter[i];
-		ASSERT_NULL(p);
-
-		p->Play();
-	}
+		(*it)->Play();
+	});
 
 	bPaused = false;
 	bStopped = false;
@@ -171,54 +159,29 @@ bool ParticleManager::IsPlaying() const
 void ParticleManager::Disable()
 {
 	IModule::Disable();
-
-	for (u32 i = 0; i < vEmitter.Size(); i++)
+	ForEach(ParticleEmitter, vEmitter,
 	{
-		ParticleEmitter *p = vEmitter[i];
-		ASSERT_NULL(p);
-
-		p->Disable();
-	}
+		(*it)->Disable();
+	});
 }
 
 void ParticleManager::Enable()
 {
 	IModule::Enable();
-
-	for (u32 i = 0; i < vEmitter.Size(); i++)
+	ForEach(ParticleEmitter, vEmitter,
 	{
-		ParticleEmitter *p = vEmitter[i];
-		ASSERT_NULL(p);
-
-		p->Enable();
-	}
+		(*it)->Enable();
+	});
 }
 
 void ParticleManager::Add(ParticleEmitter *emitter)
 {
-	ASSERT_NULL(emitter);
-
-	bool found = false;
-	for (u32 i = 0; i < vEmitter.Size(); i++)
-	{
-		if (vEmitter[i] == emitter)
-		{
-			found = true;
-			break;
-		}
-	}
-
-	if (!found)
-	{
-		vEmitter.Add();
-		vEmitter[vEmitter.Size() - 1] = emitter;
-	}
+	VectorAdd(vEmitter, emitter);
 }
 
 void ParticleManager::Remove(ParticleEmitter *emitter)
 {
-	ASSERT_NULL(emitter);
-	vEmitter.Remove(emitter);
+	VectorRemove(vEmitter, emitter);
 }
 
 const char *ParticleManager::GetObjectName() const

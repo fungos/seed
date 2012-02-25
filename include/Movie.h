@@ -43,10 +43,12 @@
 
 namespace Seed {
 
-#define SEED_MOVIE_TIMELINES 36
-
-class SEED_CORE_API Movie : public SceneNode<SEED_MOVIE_TIMELINES>
+class SEED_CORE_API Movie : public SceneNode
 {
+	typedef std::vector<Timeline *> TimelineVector;
+	typedef TimelineVector::iterator TimelineVectorIterator;
+	typedef TimelineVector::const_iterator ConstTimelineVectorIterator;
+
 	public:
 		Movie();
 		virtual ~Movie();
@@ -70,7 +72,7 @@ class SEED_CORE_API Movie : public SceneNode<SEED_MOVIE_TIMELINES>
 	private:
 		bool	bPlaying;
 		f32		fElapsedTime;
-		Array<Timeline *, SEED_MOVIE_TIMELINES> arTimelines;
+		TimelineVector vTimelines;
 };
 
 } // namespace

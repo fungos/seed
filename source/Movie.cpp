@@ -41,7 +41,7 @@ namespace Seed {
 Movie::Movie()
 	: bPlaying(true)
 	, fElapsedTime(0.0f)
-	, arTimelines()
+	, vTimelines()
 {
 }
 
@@ -52,7 +52,7 @@ Movie::~Movie()
 
 void Movie::AddTimeline(Timeline *timeline)
 {
-	arTimelines.Add(timeline);
+	vTimelines.push_back(timeline);
 	timeline->SetParent(this);
 	this->Add(timeline->GetObject());
 }
@@ -64,25 +64,28 @@ void Movie::Update(f32 delta)
 
 	fElapsedTime += delta;
 	f32 frame = 1 / 60.0f;
-	
+
 	if (fElapsedTime >= frame)
 	{
 		fElapsedTime -= frame;
-		for (u32 i = 0; i < arTimelines.Size(); i++)
+		TimelineVectorIterator it = vTimelines.begin();
+		TimelineVectorIterator end = vTimelines.end();
+		for (; it != end; ++it)
 		{
+			Timeline *obj = (*it);
 			if (bTransformationChanged)
 			{
-				arTimelines[i]->SetLocalPosition(this->GetLocalX(), this->GetLocalY());
-				arTimelines[i]->SetPosition(this->GetX(), this->GetY());
-				arTimelines[i]->SetScale(this->GetScaleX(), this->GetScaleY());
-				arTimelines[i]->SetRotation(this->GetRotation());
+				obj->SetLocalPosition(this->GetLocalX(), this->GetLocalY());
+				obj->SetPosition(this->GetX(), this->GetY());
+				obj->SetScale(this->GetScaleX(), this->GetScaleY());
+				obj->SetRotation(this->GetRotation());
 			}
 
-			arTimelines[i]->Update();
+			obj->Update();
 		}
 	}
 
-	SceneNode<SEED_MOVIE_TIMELINES>::Update(delta);
+	SceneNode::Update(delta);
 }
 
 void Movie::Play()
@@ -99,18 +102,24 @@ void Movie::Stop()
 
 void Movie::Rewind()
 {
-	for (u32 i = 0; i < arTimelines.Size(); i++)
+	TimelineVectorIterator it = vTimelines.begin();
+	TimelineVectorIterator end = vTimelines.end();
+	for (; it != end; ++it)
 	{
-		arTimelines[i]->Rewind();
+		(*it)->Rewind();
 	}
 }
 
 void Movie::Reset()
 {
-	for (u32 i = 0; i < arTimelines.Size(); i++)
-		arTimelines[i]->Reset();
+	TimelineVectorIterator it = vTimelines.begin();
+	TimelineVectorIterator end = vTimelines.end();
+	for (; it != end; ++it)
+	{
+		(*it)->Reset();
+	}
 
-	arTimelines.Truncate();
+	TimelineVector().swap(vTimelines);
 }
 
 const char *Movie::GetObjectName() const

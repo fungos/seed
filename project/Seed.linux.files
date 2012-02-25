@@ -60,7 +60,6 @@ Objects.in
 ../include/interface/IRenderable.h
 ../include/interface/IRendererDevice.h
 ../include/interface/IResource.h
-../include/interface/ISceneNode.h
 ../include/interface/ISceneObject.h
 ../include/interface/IScreen.h
 ../include/interface/ISound.h
@@ -197,7 +196,6 @@ Objects.in
 ../source/platform/sdl/sdlTexture.cpp
 ../source/platform/sdl/sdlThread.cpp
 ../source/platform/sdl/sdlTimer.cpp
-../source/SceneNode.cpp
 ../source/api/directx/D3D8RendererDevice.cpp
 ../source/api/directx/DirectXVersion.cpp
 ../source/api/oal/oalMusic.cpp
@@ -232,6 +230,7 @@ Objects.in
 ../source/ResourceManagerDebug.cpp
 ../source/SaveSystem.cpp
 ../source/SceneManager.cpp
+../source/SceneNode.cpp
 ../source/Frame.cpp
 ../source/File.cpp
 ../source/Image.cpp
@@ -246,7 +245,6 @@ Objects.in
 ../source/interface/IEventInputPointerListener.cpp
 ../source/interface/IRendererDevice.cpp
 ../source/interface/IResource.cpp
-../source/interface/ISceneNode.cpp
 ../source/interface/ISceneObject.cpp
 ../source/interface/IScreen.cpp
 ../source/interface/ISound.cpp

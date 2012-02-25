@@ -42,8 +42,6 @@
 #include "Array.h"
 #include "Singleton.h"
 
-#define MAX_PARTICLE_EMITTERS	256
-
 namespace Seed {
 
 class ParticleEmitter;
@@ -51,6 +49,8 @@ class ParticleEmitter;
 class SEED_CORE_API ParticleManager : public IModule, public IUpdatable
 {
 	SEED_SINGLETON_DECLARE(ParticleManager)
+
+	DEFINE_VECTOR_TYPE(ParticleEmitter)
 
 	public:
 		virtual void Play();
@@ -88,7 +88,7 @@ class SEED_CORE_API ParticleManager : public IModule, public IUpdatable
 		SEED_DISABLE_COPY(ParticleManager);
 
 	private:
-		Array<ParticleEmitter *, MAX_PARTICLE_EMITTERS>	vEmitter;
+		ParticleEmitterVector vEmitter;
 
 		bool	bPaused;
 		bool	bStopped;
