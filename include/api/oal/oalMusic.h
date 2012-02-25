@@ -60,11 +60,11 @@
 
 namespace Seed { namespace OAL {
 
-IResource *MusicResourceLoader(const char *filename, ResourceManager *res = pResourceManager);
+IResource *MusicResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
 class SEED_CORE_API Music : public IMusic
 {
-	friend IResource *MusicResourceLoader(const char *filename, ResourceManager *res);
+	friend IResource *MusicResourceLoader(const String &filename, ResourceManager *res);
 	friend class SoundSystem;
 
 	public:

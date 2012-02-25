@@ -48,11 +48,11 @@
 
 namespace Seed { namespace QT {
 
-IResource *TextureResourceLoader(const char *filename, ResourceManager *res = pResourceManager);
+IResource *TextureResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
 class Texture : public ITexture
 {
-	friend IResource *TextureResourceLoader(const char *filename, ResourceManager *res);
+	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);
 	friend class Sprite;
 
 	public:
@@ -77,7 +77,7 @@ class Texture : public ITexture
 
 		// IResource
 		using IResource::Load;
-		virtual bool Load(const char *filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res);
 		virtual bool Unload();
 		virtual u32 GetUsedMemory() const;
 

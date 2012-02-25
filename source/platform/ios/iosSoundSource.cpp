@@ -59,9 +59,8 @@ SoundSource::~SoundSource()
 	this->Unload();
 }
 
-void SoundSource::Load(const char *filename, ResourceManager *res)
+void SoundSource::Load(const String &filename, ResourceManager *res)
 {
-	ASSERT_NULL(filename);
 	ASSERT_NULL(res);
 
 	if (pSoundSystem->IsInitialized())

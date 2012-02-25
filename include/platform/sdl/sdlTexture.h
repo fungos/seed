@@ -46,11 +46,11 @@
 
 namespace Seed { namespace SDL {
 
-IResource *TextureResourceLoader(const char *filename, ResourceManager *res = pResourceManager);
+IResource *TextureResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
 class SEED_CORE_API Texture : public ITexture
 {
-	friend IResource *TextureResourceLoader(const char *filename, ResourceManager *res);
+	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);
 
 	public:
 		Texture();
@@ -73,7 +73,7 @@ class SEED_CORE_API Texture : public ITexture
 
 		// IResource
 		using IResource::Load;
-		virtual bool Load(const char *filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res);
 		virtual bool Unload();
 		virtual u32 GetUsedMemory() const;
 

@@ -38,6 +38,7 @@
 #include "Frame.h"
 #include "Log.h"
 #include "Enum.h"
+#include "Texture.h"
 
 #define TAG		"[Frame] "
 
@@ -45,9 +46,9 @@ namespace Seed {
 
 Frame::Frame()
 	: IObject()
+	, pRes(NULL)
 	, pTexture(NULL)
 	, sName()
-	, sResource()
 	, iIndex(0)
 	, iTime(0)
 	, iX(0)
@@ -70,12 +71,15 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 	{
 		pRes = res;
 		sName = reader.ReadString("name", "frame");
-		sResource = reader.ReadString("resource", "default");
 		iTime = reader.ReadU32("repeat", 1);
 		iX = reader.ReadU32("y", 0);
 		iY = reader.ReadU32("x", 0);
 		iWidth = reader.ReadU32("width", 0);
 		iHeight = reader.ReadU32("height", 0);
+
+		String tex = reader.ReadString("texture", "default");
+
+		pTexture = (ITexture *)pRes->Get(tex, Seed::ObjectTexture);
 	}
 
 	return true;
@@ -83,7 +87,14 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 
 bool Frame::Unload()
 {
+	if (pRes)
+	{
+		if (pTexture)
+			sRelease(pTexture);
 
+		pRes = NULL;
+	}
+	return true;
 }
 
 const char *Frame::GetObjectName() const

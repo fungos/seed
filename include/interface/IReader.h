@@ -46,7 +46,7 @@ class SEED_CORE_API IReader
 {
 	public:
 		IReader();
-		IReader(File &file);
+		IReader(const File &file);
 		virtual ~IReader();
 
 		IReader(const IReader &other);

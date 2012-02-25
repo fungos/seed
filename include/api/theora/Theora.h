@@ -141,8 +141,8 @@ class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 		virtual void Rewind();
 
 		using Image::Load;
-		virtual bool Load(const char *filename);
-		virtual bool Load(const char *filename, ResourceManager *res = pResourceManager);
+		virtual bool Load(const String &filename);
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual void Reset();
 		virtual bool Unload();
 

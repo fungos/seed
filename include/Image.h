@@ -51,8 +51,8 @@ class SEED_CORE_API Image : public ISceneObject
 		Image();
 		virtual ~Image();
 
-		virtual bool Load(const char *filename);
-		virtual bool Load(const char *filename, ResourceManager *res = pResourceManager);
+		virtual bool Load(const String &filename);
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual bool Load(ITexture *texture);
 		virtual bool Unload();
 
@@ -69,7 +69,7 @@ class SEED_CORE_API Image : public ISceneObject
 
 		ITexture		*pTexture;
 		ResourceManager *pRes;
-		const char		*pFilename;
+		String			sFilename;
 
 		f32 fAspectHalfWidth; // real half width
 		f32 fAspectHalfHeight; // real half height

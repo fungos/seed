@@ -54,7 +54,7 @@ class SEED_CORE_API Keyframe
 		};
 
 	public:
-		const char *pstrName;
+		String		sName;
 		f32 		fRotation;
 		Point2f 	ptPos;
 		Point2f 	ptLocalPos;

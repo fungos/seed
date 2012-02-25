@@ -31,7 +31,7 @@
 
 /*! \file Sprite.cpp
 	\author	Danny Angelo Carminati Grein
-	\brief Defines the Sprite class interface
+	\brief Sprite is an animated 2D image composed with animations and frames.
 */
 
 #include "Defines.h"
@@ -156,16 +156,11 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 			ppAnimations[i] = a;
 		}
 
-		this->SetRotation(0);
-		this->SetAnimation(0u);
-
 		bChanged = true;
 		bInitialized = true;
 
-		pAnimation = ppAnimations[iCurrentAnimation];
-		ppAnimationFrames = pAnimation->GetFrames();
-		iFrames = pAnimation->GetFrameCount();
-		pFrame = ppAnimationFrames[iCurrentFrame];
+		this->SetRotation(0);
+		this->SetAnimation(0u);
 	}
 
 	return true;
@@ -179,15 +174,13 @@ void Sprite::Initialize()
 
 void Sprite::ReconfigureAnimation()
 {
-	iFrames = pAnimation->iFrames;
 	bLoop = pAnimation->bLoop;
 	bAnimation = pAnimation->bAnimated;
 	fFrameTime = 0.0f;
 
+	iFrames = pAnimation->iFrames;
 	pFrame = ppAnimationFrames[iCurrentFrame];
-
-	sRelease(pFrameTexture);
-	pFrameTexture = pFrame->pTexture; //static_cast<ITexture *>(pRes->Get(pFrame->pFilename, Seed::ObjectTexture));
+	pFrameTexture = pFrame->pTexture;
 
 	this->ReconfigureFrame();
 
@@ -256,6 +249,7 @@ bool Sprite::SetAnimation(u32 index)
 			ppAnimationFrames = pAnimation->GetFrames();
 			iCurrentAnimation = index;
 			iCurrentFrame = 0;
+
 			this->ReconfigureAnimation();
 
 			ret = true;
@@ -454,7 +448,6 @@ void Sprite::Update(f32 delta)
 				iCurrentFrame++;
 
 			pFrame = ppAnimationFrames[iCurrentFrame];
-			sRelease(pFrameTexture);
 			pFrameTexture = pFrame->pTexture;
 
 			this->ReconfigureFrame();

@@ -362,13 +362,13 @@ void Timeline::SetRotation(f32 rotation)
 	fParentRotation = rotation;
 }
 
-s32 Timeline::FindKeyframeByName(const char *pstrName)
+s32 Timeline::FindKeyframeByName(const String &name)
 {
 	for (s32 i = 0; i < MAX_KEYFRAMES; i++)
 	{
 		if (!arKeyframes[i])
 			continue;
-		else if (!STRCMP(arKeyframes[i]->pstrName, pstrName))
+		else if (arKeyframes[i]->sName == name)
 			return i;
 	}
 

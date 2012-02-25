@@ -73,11 +73,17 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define SEED_EXTRA_API
 #endif
 
+#include <string>
+#ifdef USE_BOOST_ALLOCATOR
+	#include <boost/pool/pool_alloc.hpp>
+	typedef std::basic_string<char, std::char_traits<char>, boost::fast_pool_allocator<char> > String;
+#else
+	typedef std::string String;
+#endif
+
 #define STRING_LENGTH					LIB_STRLEN
 #define SIZE_T							LIB_SIZE_T
-
 #define UNUSED(var)						(void)var;
-
 #define RAND							LIB_RAND
 
 #undef MEMSET4
@@ -91,19 +97,6 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define STRLCAT							LIB_STRLCAT
 #define STRCASECMP						LIB_STRCASECMP
 #define STRDUP							LIB_STRDUP
-
-#ifdef SEED_USE_STL
-	#include <string>
-
-	#ifdef USE_BOOST_ALLOCATOR
-		#include <boost/pool/pool_alloc.hpp>
-		typedef std::basic_string<char, std::char_traits<char>, boost::fast_pool_allocator<char> > String;
-	#else
-		typedef std::string String;
-	#endif
-#else
-	// String?
-#endif
 
 // Math
 #define FAST_DIV						LIB_FAST_DIV

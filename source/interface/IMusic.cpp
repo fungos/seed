@@ -55,7 +55,7 @@ bool IMusic::Unload()
 	return FALSE;
 }
 
-bool IMusic::Load(const char *filename, ResourceManager *res)
+bool IMusic::Load(const String &filename, ResourceManager *res)
 {
 	UNUSED(filename);
 	UNUSED(res);

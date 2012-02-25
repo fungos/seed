@@ -51,7 +51,7 @@
 
 namespace Seed { namespace iOS {
 
-IResource *MusicResourceLoader(const char *filename, ResourceManager *res)
+IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 {
 	UNUSED(res);
 
@@ -72,14 +72,14 @@ Music::~Music()
 	this->Unload();
 }
 
-bool Music::Load(const char *filename, ResourceManager *res)
+bool Music::Load(const String &filename, ResourceManager *res)
 {
 	ASSERT_NULL(filename);
 	ASSERT_NULL(res);
 
 	if (pSoundSystem->IsInitialized() && this->Unload())
 	{
-		pFilename = filename;
+		sFilename = filename;
 		pRes = res;
 
 		/* Open file .music */

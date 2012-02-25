@@ -58,6 +58,7 @@ bool IGameApp::Shutdown()
 {
 	Log(TAG "Shutting down...");
 
+	cResourceManager.Print();
 	cResourceManager.Reset();
 
 	return TRUE;

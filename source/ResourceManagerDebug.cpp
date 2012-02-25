@@ -38,7 +38,6 @@
 #include "Log.h"
 #include "ResourceManager.h"
 #include "Timer.h"
-#include "Base.h"
 
 #define TAG		"[ResourceManager] "
 
@@ -57,9 +56,9 @@ namespace Seed {
 
 void *ResourceManager::mapLoaders[ObjectUser];
 
-ResourceManager::ResourceManager(const char *name)
+ResourceManager::ResourceManager(const String &name)
 	: bHasUnusedResource(FALSE)
-	, pcName(name)
+	, sName(name)
 {
 	MEMSET(mapLoaders, 0, sizeof(mapLoaders));
 	MEMSET(mapResources, 0, sizeof(mapResources));
@@ -71,7 +70,7 @@ ResourceManager::~ResourceManager()
 	{
 		if (mapResources[i].pValue != NULL)
 		{
-			LOG(TAG "WARNING: Some resources still allocated in '%s'.", pcName);
+			LOG(TAG "WARNING: Some resources still allocated in '%s'.", sName.c_str());
 			this->Print();
 			break;
 		}
@@ -87,7 +86,7 @@ void ResourceManager::Reset()
 		if (mapResources[i].pValue != NULL)
 		{
 			IResource *second = (IResource *)mapResources[i].pValue;
-			const char *first = mapResources[i].pcKey;
+			String first = mapResources[i].sKey;
 
 			LOG(TAG "Deallocating %s.", first);
 			Delete(second);
@@ -97,17 +96,15 @@ void ResourceManager::Reset()
 	MEMSET(mapResources, 0, sizeof(mapResources));
 }
 
-IResource *ResourceManager::Get(const char *filename, Seed::eObjectType resourceType)
+IResource *ResourceManager::Get(const String &filename, Seed::eObjectType resourceType)
 {
 	IResource *res = NULL;
 
 	for (int i = 0; i < 100; i++)
 	{
-		if (mapResources[i].pcKey && filename && STRCMP(mapResources[i].pcKey, filename) == 0)
+		if (mapResources[i].sKey == filename)
 		{
 			IResource *second = (IResource *)mapResources[i].pValue;
-			//const char *first = mapResources[i].pcKey;
-
 			res = second;
 			res->IncrementReference();
 			//Log(TAG "Found allocated resource, incrementing reference counter to: %d.", res->GetReferenceCount());
@@ -145,18 +142,18 @@ void ResourceManager::GarbageCollect()
 		if (mapResources[i].pValue != NULL)
 		{
 			IResource *second = (IResource *)mapResources[i].pValue;
-			const char *first = mapResources[i].pcKey;
+			String first = mapResources[i].sKey;
 
 			IResource *res = second;
 			u32 r = res->GetReferenceCount();
 			if (!r)
 			{
-				LOG(TAG "\tdeleting %s from [%s].", first, pcName);
+				LOG(TAG "\tdeleting %s from [%s].", first.c_str(), sName.c_str());
 
 				Delete(res);
 
 				mapResources[i].pValue = NULL;
-				mapResources[i].pcKey = NULL;
+				mapResources[i].sKey = "";
 
 				bHasUnusedResource = TRUE;
 			}
@@ -172,7 +169,7 @@ void ResourceManager::GarbageCollect()
 #if defined(DEBUG)
 	end = pTimer->GetMilliseconds();
 	LOG(TAG "Garbage collection done in %d milliseconds.",  (u32)(end - begin));
-	LOG(TAG "Resources inside '%s': ", pcName);
+	LOG(TAG "Resources inside '%s': ", sName.c_str());
 	this->Print();
 #endif // DEBUG
 }
@@ -184,7 +181,7 @@ void ResourceManager::Unload(Seed::eObjectType resourceType)
 		if (mapResources[i].pValue != NULL)
 		{
 			IResource *second = (IResource *)mapResources[i].pValue;
-			const char *first = mapResources[i].pcKey;
+			String first = mapResources[i].sKey;
 
 			IResource *res = second;
 			if (res->GetObjectType() == resourceType)
@@ -203,7 +200,7 @@ void ResourceManager::Reload(Seed::eObjectType resourceType)
 		if (mapResources[i].pValue != NULL)
 		{
 			IResource *second = (IResource *)mapResources[i].pValue;
-			const char *first = mapResources[i].pcKey;
+			String first = mapResources[i].sKey;
 
 			IResource *res = second;
 			if (res->GetObjectType() == resourceType)
@@ -237,41 +234,41 @@ void ResourceManager::Unregister(Seed::eObjectType resourceType)
 	mapLoaders[resourceType] = NULL;
 }
 
-void ResourceManager::Add(const char *filename, IResource *res)
+void ResourceManager::Add(const String &filename, IResource *res)
 {
 	for (int i = 0; i < 100; i++)
 	{
-		if (mapResources[i].pcKey && STRCMP(mapResources[i].pcKey, filename) == 0)
+		if (mapResources[i].sKey && mapResources[i].sKe == filename)
 		{
-			LOG(TAG "The resource %s already is allocated in '%s'.", filename, pcName);
+			LOG(TAG "The resource %s already is allocated in '%s'.", filename, sName.c_str());
 			return;
 		}
-		else if (mapResources[i].pcKey == NULL)
+		else if (mapResources[i].sKey == "")
 		{
-			LOG(TAG "Adding resource to position %d: %s: %s.", i, res->GetObjectName(), filename);
-			mapResources[i].pcKey = filename;
+			LOG(TAG "Adding resource to position %d: %s: %s.", i, res->GetObjectName(), filename.c_str());
+			mapResources[i].sKey = filename;
 			mapResources[i].pValue = (void *)res;
 			return;
 		}
 	}
 
-	LOG(TAG "Reached resource limit for '%s'.", pcName);
+	LOG(TAG "Reached resource limit for '%s'.", sName.c_str());
 }
 
-void ResourceManager::Remove(const char *filename)
+void ResourceManager::Remove(const String &filename)
 {
 	for (int i = 0; i < 100; i++)
 	{
-		if (mapResources[i].pcKey && STRCMP(mapResources[i].pcKey, filename) == 0)
+		if (mapResources[i].sKey && mapResources[i].sKey == filename)
 		{
-			LOG(TAG "Removing resource '%s'.", filename);
-			mapResources[i].pcKey = NULL;
+			LOG(TAG "Removing resource '%s'.", filename.c_str());
+			mapResources[i].sKey = "";
 			mapResources[i].pValue = NULL;
 			return;
 		}
 	}
 
-	LOG(TAG "Resource %s not found in '%s'.", filename, pcName);
+	LOG(TAG "Resource %s not found in '%s'.", filename.c_str(), sName.c_str());
 }
 
 void ResourceManager::PrintUsedMemoryByResource()
@@ -282,11 +279,11 @@ void ResourceManager::PrintUsedMemoryByResource()
 		if (mapResources[i].pValue != NULL)
 		{
 			IResource *second = (IResource *)mapResources[i].pValue;
-			const char *first = mapResources[i].pcKey;
+			String first = mapResources[i].sKey;
 
 			IResource *res = second;
 
-			Dbg(TAG "Resource: %s/%s Memory: %d References: %d Type: %s", first, res->pFilename, res->GetUsedMemory(), res->GetReferenceCount(), res->GetObjectName());
+			Dbg(TAG "Resource: %s/%s Memory: %d References: %d Type: %s", first, res->sFilename.c_str(), res->GetUsedMemory(), res->GetReferenceCount(), res->GetObjectName());
 			total += res->GetUsedMemory();
 		}
 	}
@@ -313,20 +310,20 @@ u32 ResourceManager::GetTotalUsedMemory()
 void ResourceManager::Print()
 {
 	u32 cnt = 0;
-	Log(TAG "Listing loaded resources in '%s':", pcName);
+	Log(TAG "Listing loaded resources in '%s':",sName.c_str());
 
 	for (int i = 0; i < 100; i++)
 	{
 		if (mapResources[i].pValue != NULL)
 		{
 			IResource *res = (IResource *)mapResources[i].pValue;
-			const char *name = mapResources[i].pcKey;
+			String name = mapResources[i].sKey;
 
-			Log(TAG "\t%s [%s] [%d]", name, res->GetObjectName(), res->GetReferenceCount());
+			Log(TAG "\t%s [%s] [%d]", name.c_str(), res->GetObjectName(), res->GetReferenceCount());
 			cnt++;
 		}
 	}
-	Log(TAG "%s Total: %d resources.", pcName, cnt);
+	Log(TAG "%s Total: %d resources.", sName.c_str(), cnt);
 }
 
 } // namespace

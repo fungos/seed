@@ -13,7 +13,6 @@ Objects.in
 ../include/api/yajl/JsonReader.h
 ../include/Array.h
 ../include/Animation.h
-../include/Base.h
 ../include/Cartridge.h
 ../include/Checksum.h
 ../include/Config.h
@@ -91,6 +90,7 @@ Objects.in
 ../include/ParticleManager.h
 ../include/Point.h
 ../include/Profiler.h
+../include/Project.h
 ../include/Quaternion.h
 ../include/Rand.h
 ../include/Reader.h
@@ -285,6 +285,7 @@ Objects.in
 ../source/ParticleEmitter.cpp
 ../source/ParticleEmitterObject.cpp
 ../source/ParticleManager.cpp
+../source/Project.cpp
 ../source/SeedInit.cpp
 ../source/Sprite.cpp
 ../source/Timeline.cpp

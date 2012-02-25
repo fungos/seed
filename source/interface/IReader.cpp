@@ -47,7 +47,7 @@ IReader::~IReader()
 {
 }
 
-IReader::IReader(File &file)
+IReader::IReader(const File &file)
 {
 }
 

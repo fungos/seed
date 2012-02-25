@@ -48,11 +48,11 @@
 
 namespace Seed { namespace iOS {
 
-IResource *TextureResourceLoader(const char *filename, ResourceManager *res = pResourceManager);
+IResource *TextureResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
 class Texture : public ITexture
 {
-	friend IResource *TextureResourceLoader(const char *filename, ResourceManager *res);
+	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);
 	friend class Sprite;
 
 	public:
@@ -78,7 +78,7 @@ class Texture : public ITexture
 		virtual void Close();
 
 		// IResource
-		virtual bool Load(const char *filename, ResourceManager *res = pResourceManager);
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual bool Unload();
 		virtual u32 GetUsedMemory() const;
 
@@ -98,7 +98,7 @@ class Texture : public ITexture
 			kTexture2DPixelFormat_RGBA8888,
 			kTexture2DPixelFormat_RGB565,
 			kTexture2DPixelFormat_A8,
-			kTexture2DPixelFormat_RGBA2,
+			kTexture2DPixelFormat_RGBA2
 		};
 
 	private:

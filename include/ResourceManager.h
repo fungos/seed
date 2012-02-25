@@ -38,16 +38,15 @@
 #define __RESOURCE_MANAGER_H__
 
 #include "interface/IResource.h"
-#include "Base.h"
 #include "Enum.h"
 
 #include <map>
 
 namespace Seed {
 
-typedef IResource *(*pResourceLoaderFunc)(const char *filename, ResourceManager *res);
+typedef IResource *(*pResourceLoaderFunc)(const String &filename, ResourceManager *res);
 
-typedef std::map<const char *, IResource *, LowerThanStringComparator> ResourceMap;
+typedef std::map<String, IResource *> ResourceMap;
 typedef ResourceMap::iterator ResourceIterator;
 
 typedef std::map<Seed::eObjectType, pResourceLoaderFunc> LoaderMap;
@@ -56,11 +55,11 @@ typedef LoaderMap::iterator LoaderIterator;
 class SEED_CORE_API ResourceManager
 {
 	public:
-		ResourceManager(const char *name);
+		ResourceManager(const String &name);
 		~ResourceManager();
 
 		void Reset();
-		IResource *Get(const char *filename, Seed::eObjectType resourceType = Seed::ObjectTexture);
+		IResource *Get(const String &filename, Seed::eObjectType resourceType = Seed::ObjectTexture);
 		void GarbageCollect();
 
 		u32 GetTotalUsedMemory();
@@ -76,13 +75,13 @@ class SEED_CORE_API ResourceManager
 	private:
 		SEED_DISABLE_COPY(ResourceManager);
 
-		void Add(const char *filename, IResource *res);
-		void Remove(const char *filename);
+		void Add(const String &filename, IResource *res);
+		void Remove(const String &filename);
 
 	private:
 		bool bHasUnusedResource;
 
-		const char *pcName;
+		const String sName;
 
 		ResourceMap mapResources;
 		static LoaderMap mapLoaders;

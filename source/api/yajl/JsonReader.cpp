@@ -198,12 +198,12 @@ u32 JsonReader::SelectArray(const char *key)
 
 	if (YAJL_IS_ARRAY(v))
 	{
-		Log(TAG "Array %s found, len: %ld\n", key, YAJL_GET_ARRAY(v)->len);
+		Log(TAG "Array %s found, len: %ld", key, YAJL_GET_ARRAY(v)->len);
 		pCurArray = v;
 		iPos = 0;
 	}
 	else
-		Log(TAG "Array %s not found\n", key);
+		Log(TAG "Array %s not found", key);
 
 	return YAJL_GET_ARRAY(v)->len;
 }
@@ -224,11 +224,11 @@ void JsonReader::SelectNode(const char *key)
 
 	if (!YAJL_IS_OBJECT(v))
 	{
-		Log(TAG "Node %s not found\n", key);
+		Log(TAG "Node %s not found", key);
 	}
 	else
 	{
-		Log(TAG "Node %s found\n", key);
+		Log(TAG "Node %s found", key);
 		pCurNode = v;
 	}
 }

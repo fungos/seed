@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -67,11 +67,11 @@ class SEED_CORE_API ISoundSource : public IObject
 	public:
 		ISoundSource();
 		virtual ~ISoundSource();
-		
+
 		//virtual void SetSound(ISound *sound);
 		//virtual ISound *GetSound() const;
-		virtual void Load(const char *filename);
-		virtual void Load(const char *filename, ResourceManager *res = pResourceManager);
+		virtual void Load(const String &filename);
+		virtual void Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual void Unload();
 
 		virtual void SetPosition(f32 x, f32 y, f32 z);
@@ -85,12 +85,12 @@ class SEED_CORE_API ISoundSource : public IObject
 		virtual void SetOrientation(f32 x, f32 y, f32 z);
 		virtual void SetOrientation(Vector3f vec);
 		virtual void GetOrientation(Vector3f *vec) const;
-		
+
 		virtual void SetVolume(f32 vol);
 		virtual f32 GetVolume() const;
 		/// When global volume is changed the SoundSystem will call UpdateVolume.
 		virtual void UpdateVolume();
-		
+
 		virtual bool IsPlaying() const;
 		virtual void Play();
 		virtual void Stop(f32 ms = 0.0f);

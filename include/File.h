@@ -53,10 +53,12 @@ class SEED_CORE_API File : public IObject
 		File(const File &other);
 		File &operator=(const File &other);
 
+		bool Load(const String &filename);
+
 		void Close();
 		u32 GetSize() const;
 		void *GetData() const;
-		const String GetName() const;
+		const String &GetName() const;
 
 		// IObject
 		virtual const char *GetObjectName() const;

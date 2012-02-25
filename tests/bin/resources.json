@@ -1,0 +1,8 @@
+{
+	"resources" : [
+		{
+			"name": "logo",
+			"file": "logo.tga"
+		}
+	]
+}

@@ -38,7 +38,6 @@
 #include "Log.h"
 #include "ResourceManager.h"
 #include "Timer.h"
-#include "Base.h"
 
 #define TAG		"[ResourceManager] "
 
@@ -57,9 +56,9 @@ namespace Seed {
 
 LoaderMap ResourceManager::mapLoaders;
 
-ResourceManager::ResourceManager(const char *name)
+ResourceManager::ResourceManager(const String &name)
 	: bHasUnusedResource(FALSE)
-	, pcName(name)
+	, sName(name)
 	, mapResources()
 {
 }
@@ -68,7 +67,7 @@ ResourceManager::~ResourceManager()
 {
 	if (mapResources.size())
 	{
-		LOG(TAG "WARNING: Some resources still allocated in '%s'.", pcName);
+		LOG(TAG "WARNING: Some resources still allocated in '%s'.", sName.c_str());
 		this->Print();
 	}
 
@@ -82,7 +81,7 @@ void ResourceManager::Reset()
 
 	for (; it != itEnd; ++it)
 	{
-		LOG(TAG "Deallocating %s.", (*it).first);
+		LOG(TAG "Deallocating %s.", (*it).first.c_str());
 		Delete((*it).second);
 	}
 
@@ -90,17 +89,17 @@ void ResourceManager::Reset()
 	ResourceMap().swap(mapResources);
 }
 
-IResource *ResourceManager::Get(const char *filename, Seed::eObjectType resourceType)
+IResource *ResourceManager::Get(const String &filename, Seed::eObjectType resourceType)
 {
 	IResource *res = NULL;
 
 	if (mapResources.find(filename) == mapResources.end())
 	{
-		LOG(TAG "Resource %s not found in '%s'.", filename, pcName);
+		LOG(TAG "Resource %s not found in '%s'.", filename.c_str(), sName.c_str());
 		LoaderIterator it = mapLoaders.find(resourceType);
 		if (it == mapLoaders.end())
 		{
-			LOG(TAG "Resource loader for %s not found.", filename);
+			LOG(TAG "Resource loader for %s not found.", filename.c_str());
 			return NULL;
 		}
 
@@ -112,12 +111,11 @@ IResource *ResourceManager::Get(const char *filename, Seed::eObjectType resource
 		}
 		else
 		{
-			Log(TAG "WARNING: Resource file '%s' not found - couldn't load.", filename);
+			Log(TAG "WARNING: Resource file '%s' not found - couldn't load.", filename.c_str());
 		}
 	}
 	else
 	{
-		// TODO: check if we need to do a sAquire here... something is strange here.
 		res = mapResources[filename];
 	}
 
@@ -132,8 +130,6 @@ void ResourceManager::GarbageCollect()
 	ResourceIterator it = mapResources.begin();
 	ResourceIterator itEnd = mapResources.end();
 
-	//LOG(TAG "Starting garbage collection in '%s'...", pcName);
-
 #if defined(DEBUG)
 	u64 begin = pTimer->GetMilliseconds();
 	u64 end = 0;
@@ -146,7 +142,6 @@ void ResourceManager::GarbageCollect()
 		u32 r = res->GetReferenceCount();
 		if (!r)
 		{
-			//LOG(TAG "\tdeleting %s from [%s].", (*it).first, pcName);
 			mapResources.erase(it++);
 			Delete(res);
 
@@ -167,7 +162,7 @@ void ResourceManager::GarbageCollect()
 #if defined(DEBUG)
 	end = pTimer->GetMilliseconds();
 	LOG(TAG "Garbage collection done in %d milliseconds.",  (u32)(end - begin));
-	LOG(TAG "Resources inside '%s': ", pcName);
+	LOG(TAG "Resources inside '%s': ", sName.c_str());
 	this->Print();
 #endif // DEBUG
 
@@ -184,7 +179,7 @@ void ResourceManager::Unload(Seed::eObjectType resourceType)
 
 		if (res->GetObjectType() == resourceType)
 		{
-			LOG(TAG "Unloading %s %s.", res->GetObjectName(), (*it).first);
+			LOG(TAG "Unloading %s %s.", res->GetObjectName(), (*it).first.c_str());
 			res->Unload();
 		}
 	}
@@ -201,8 +196,8 @@ void ResourceManager::Reload(Seed::eObjectType resourceType)
 
 		if (res->GetObjectType() == resourceType)
 		{
-			LOG(TAG "Reloading %s %s.", res->GetObjectName(), (*it).first);
-			res->Load(res->pFilename, res->pRes);
+			LOG(TAG "Reloading %s %s.", res->GetObjectName(), (*it).first.c_str());
+			res->Load(res->sFilename, res->pRes);
 		}
 	}
 }
@@ -231,24 +226,24 @@ void ResourceManager::Unregister(Seed::eObjectType resourceType)
 	mapLoaders.erase(it);
 }
 
-void ResourceManager::Add(const char *filename, IResource *res)
+void ResourceManager::Add(const String &filename, IResource *res)
 {
 	if (mapResources.find(filename) != mapResources.end())
 	{
-		LOG(TAG "The resource %s already is allocated in '%s'.", filename, pcName);
+		LOG(TAG "The resource %s already is allocated in '%s'.", filename.c_str(), sName.c_str());
 		return;
 	}
 
 	mapResources[filename] = res;
 }
 
-void ResourceManager::Remove(const char *filename)
+void ResourceManager::Remove(const String &filename)
 {
 	ResourceIterator it = mapResources.find(filename);
 
 	if (it == mapResources.end())
 	{
-		LOG(TAG "Resource %s not found in '%s'.", filename, pcName);
+		LOG(TAG "Resource %s not found in '%s'.", filename.c_str(), sName.c_str());
 		return;
 	}
 
@@ -265,7 +260,7 @@ void ResourceManager::PrintUsedMemoryByResource()
 	{
 		IResource *res = (*it).second;
 
-		Dbg(TAG "Resource: %s Memory: %d References: %d Type: %s", res->pFilename, res->GetUsedMemory(), res->GetReferenceCount(), res->GetObjectName());
+		Dbg(TAG "Resource: %s Memory: %d References: %d Type: %s", res->sFilename.c_str(), res->GetUsedMemory(), res->GetReferenceCount(), res->GetObjectName());
 		total += res->GetUsedMemory();
 	}
 
@@ -295,17 +290,17 @@ void ResourceManager::Print()
 	ResourceIterator itEnd = mapResources.end();
 
 	u32 cnt = 0;
-	Log(TAG "Listing %d loaded resources in '%s':", mapResources.size(), pcName);
+	Log(TAG "Listing %d loaded resources in '%s':", mapResources.size(), sName.c_str());
 	for (; it != itEnd; ++it)
 	{
 		IResource *res = (*it).second;
-		const char *name = (*it).first;
+		const String name = (*it).first;
 
-		Log(TAG "\t%s [%s] [%d]", name, res->GetObjectName(), res->GetReferenceCount());
+		Log(TAG "\t%s [%s] [%d]", name.c_str(), res->GetObjectName(), res->GetReferenceCount());
 		cnt++;
 	}
 
-	Log(TAG "%s Total: %d resources.", pcName, cnt);
+	Log(TAG "%s Total: %d resources.", sName.c_str(), cnt);
 #endif // DEBUG
 }
 

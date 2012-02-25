@@ -100,11 +100,11 @@ struct SEED_CORE_API ParticleEmitterInfo
 	f32					fInterval;
 };
 
-IResource *ParticleEmitterObjectResourceLoader(const char *filename, ResourceManager *res);
+IResource *ParticleEmitterObjectResourceLoader(const String &filename, ResourceManager *res);
 
 class SEED_CORE_API ParticleEmitterObject : public IResource
 {
-	friend IResource *ParticleEmitterObjectResourceLoader(const char *filename, ResourceManager *res);
+	friend IResource *ParticleEmitterObjectResourceLoader(const String &filename, ResourceManager *res);
 	friend class ParticleEmitter;
 
 	public:
@@ -124,7 +124,7 @@ class SEED_CORE_API ParticleEmitterObject : public IResource
 		// IResource
 		using IResource::Load;
 		virtual bool Unload();
-		virtual bool Load(const char *filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res);
 
 	private:
 		SEED_DISABLE_COPY(ParticleEmitterObject);

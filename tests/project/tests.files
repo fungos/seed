@@ -6,3 +6,4 @@
 Makefile
 Objects.in
 ../bin/logo.sprite
+../bin/resources.json

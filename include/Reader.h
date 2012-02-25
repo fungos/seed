@@ -50,16 +50,16 @@ class SEED_CORE_API Reader : public IReader
 	public:
 		Reader();
 		Reader(const void *data);
-		Reader(File &file);
+		Reader(const File &file);
 		Reader(Reader &reader);
 		virtual ~Reader();
 
 		// IReader
-		virtual const char *ReadString(const char *key, const char *value) const;
+		virtual const char *ReadString(const char *key, const char *value = "") const;
 		virtual s32 ReadS32(const char *key, s32 value) const;
 		virtual u32 ReadU32(const char *key, u32 value) const;
 		virtual f32 ReadF32(const char *key, f32 value) const;
-		virtual bool ReadBool(const char *key, bool value) const;
+		virtual bool ReadBool(const char *key, bool value = false) const;
 
 		virtual u32 SelectArray(const char *key);
 		virtual void SelectNext();

@@ -59,7 +59,7 @@ Reader::Reader(const void *data)
 	pOpaque->Load(data);
 }
 
-Reader::Reader(File &file)
+Reader::Reader(const File &file)
 	: IReader()
 	, pOpaque(&cNullReader)
 {

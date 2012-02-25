@@ -86,6 +86,13 @@ File &File::operator=(const File &other)
 	return *this;
 }
 
+bool File::Load(const String &filename)
+{
+	this->Close();
+	sName = filename;
+	this->Open();
+}
+
 void File::Open()
 {
 	ASSERT_MSG(sName.length(), TAG "Error: No filename was given to open file!");
@@ -102,11 +109,9 @@ void File::Open()
 void File::Close()
 {
 	Delete(pData);
-
-	if (!PHYSFS_close(pHandle))
-	{
-		Log(TAG, "Error: %s", PHYSFS_getLastError());
-	}
+	PHYSFS_close(pHandle);
+	iSize = 0;
+	sName = "";
 }
 
 bool File::Check() const
@@ -141,7 +146,7 @@ u32 File::GetSize() const
 	return iSize;
 }
 
-const String File::GetName() const
+const String &File::GetName() const
 {
 	return sName;
 }

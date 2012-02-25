@@ -55,11 +55,11 @@
 
 namespace Seed { namespace OAL {
 
-IResource *SoundResourceLoader(const char *filename, ResourceManager *res = pResourceManager);
+IResource *SoundResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
 class SEED_CORE_API Sound : public ISound
 {
-	friend IResource *SoundResourceLoader(const char *filename, ResourceManager *res);
+	friend IResource *SoundResourceLoader(const String &filename, ResourceManager *res);
 	friend class SoundSystem;
 	friend class SoundSource;
 
@@ -71,7 +71,7 @@ class SEED_CORE_API Sound : public ISound
 
 		// IResource
 		using IResource::Load;
-		virtual bool Load(const char *filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res);
 		virtual bool Unload();
 		virtual u32 GetUsedMemory() const;
 

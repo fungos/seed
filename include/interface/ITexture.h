@@ -106,7 +106,7 @@ class SEED_CORE_API ITexture : public IResource
 		// IResource
 		using IResource::Load;
 		virtual bool Unload();
-		virtual bool Load(const char *filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res);
 
 		/// Create a texture using a pre-allocated buffer.
 		/**

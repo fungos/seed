@@ -55,7 +55,7 @@ enum eImageFormat
 	JPG
 };
 
-IResource *TextureResourceLoader(const char *filename, ResourceManager *res)
+IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 {
 	Texture *image = New(Texture());
 	image->Load(filename, res);
@@ -95,7 +95,7 @@ void Texture::Reset()
 	iAtlasHeight = 0;
 }
 
-bool Texture::Load(const char *filename, ResourceManager *res)
+bool Texture::Load(const String &filename, ResourceManager *res)
 {
 	if (ITexture::Load(filename, res))
 	{
@@ -209,7 +209,7 @@ bool Texture::Load(const char *filename, ResourceManager *res)
 	}
 	else
 	{
-		Log(TAG "ERROR: Could not find/load texture %s.", filename);
+		Log(TAG "ERROR: Could not find/load texture %s.", filename.c_str());
 	}
 
 	return bLoaded;
@@ -224,7 +224,7 @@ bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 atl
 
 	if (this->Unload())
 	{
-		pFilename = "[dynamic sdl texture]";
+		sFilename = "[dynamic sdl texture]";
 
 		fWidth = (f32)width / (f32)pScreen->GetWidth();
 		fHeight = (f32)height / (f32)pScreen->GetHeight();

@@ -51,12 +51,12 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		ParticleEmitter();
 		virtual ~ParticleEmitter();
 
-		virtual void SetSprite(const char *filename);
+		virtual void SetSprite(const String &filename);
 		virtual void SetAnimation(u32 anim);
 
 		virtual void SetFilter(eTextureFilterType type, eTextureFilter filter);
 
-		virtual void Load(const char *filename, ResourceManager *res = pResourceManager);
+		virtual void Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual void Unload();
 		virtual void Reset();
 
@@ -98,8 +98,8 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		ParticleEmitterObject		*pEmitterObject;
 		ParticleEmitterInfo			psInfo;
 		ResourceManager				*pRes;
-		const char					*pFilename;
-		const char					*pSpriteFilename;
+		String						sFilename;
+		String						sSpriteFilename;
 		bool						bParticlesFollowEmitter;
 
 		f32							fAge;

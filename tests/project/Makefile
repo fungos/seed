@@ -9,12 +9,12 @@ LD = ld
 GCC = g++
 CC = gcc
 
-CDEFS = -DSEED_USE_STL -DBUILD_SDL
+CDEFS = -DBUILD_SDL
 CFLAGS = -Wall
 
 ifneq ($(mode),release)
 	CFLAGS += -g
-	CDEFS += -DDEBUG -DYMEM_DEBUG -DYMEM_PARANOID_CHECK -DSEED_ENABLE_PROFILER
+	CDEFS += -DDEBUG -DSEED_ENABLE_PROFILER
 	mode = debug
 endif
 

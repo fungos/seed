@@ -78,7 +78,7 @@ class SEED_CORE_API IMusic : public IResource
 
 		// IResource
 		using IResource::Load;
-		virtual bool Load(const char *filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res);
 		virtual bool Unload();
 
 		// IObject

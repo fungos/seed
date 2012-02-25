@@ -95,9 +95,7 @@ bool Animation::Unload()
 		for (u32 i = 0; i < iFrames; i++)
 		{
 			Frame *f = ppFrames[i];
-			f->Unload();
 			ppFrames[i] = NULL;
-
 			Delete(f);
 		}
 

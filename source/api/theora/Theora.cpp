@@ -154,12 +154,12 @@ bool Theora::Run()
 	return ret;
 }
 
-bool Theora::Load(const char *filename)
+bool Theora::Load(const String &filename)
 {
 	return this->Load(filename, pResourceManager, pool);
 }
 
-bool Theora::Load(const char *filename, ResourceManager *res)
+bool Theora::Load(const String &filename, ResourceManager *res)
 {
 	pRes = res;
 

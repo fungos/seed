@@ -58,12 +58,12 @@ class SEED_CORE_API ResourceGroup
 		ResourceGroup();
 		virtual ~ResourceGroup();
 
-		void Add(const char *filename, Seed::eObjectType resourceType = Seed::ObjectSprite, ResourceManager *res = pResourceManager);
+		void Add(const String &filename, Seed::eObjectType resourceType = Seed::ObjectSprite, ResourceManager *res = pResourceManager);
 
 	protected:
 		typedef struct SEED_CORE_API QueueItem
 		{
-			const char 			*filename;
+			String				filename;
 			IResource			*resource;
 			Seed::eObjectType 	resourceType;
 			ResourceManager		*resManager;

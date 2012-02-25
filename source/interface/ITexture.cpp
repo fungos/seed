@@ -152,19 +152,16 @@ bool ITexture::Unload()
 	return TRUE;
 }
 
-bool ITexture::Load(const char *filename, ResourceManager *res)
+bool ITexture::Load(const String &filename, ResourceManager *res)
 {
-	ASSERT_NULL(filename);
 	ASSERT_NULL(res);
 
 	bool ret = FALSE;
 	if (this->Unload())
 	{
 		pRes = res;
-		pFilename = filename;
-
-		File f(filename);
-		stFile = f;
+		sFilename = filename;
+		stFile.Load(filename);
 
 		ret = (stFile.GetData() != NULL);
 	}

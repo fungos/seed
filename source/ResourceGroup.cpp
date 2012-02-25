@@ -54,7 +54,7 @@ ResourceGroup::~ResourceGroup()
 }
 
 
-void ResourceGroup::Add(const char *filename, Seed::eObjectType resourceType, ResourceManager *res)
+void ResourceGroup::Add(const String &filename, Seed::eObjectType resourceType, ResourceManager *res)
 {
 	QueueItem *pNewItem 	= New(QueueItem());
 	pNewItem->filename 		= filename;

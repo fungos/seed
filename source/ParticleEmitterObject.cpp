@@ -41,7 +41,7 @@
 namespace Seed {
 
 
-IResource *ParticleEmitterObjectResourceLoader(const char *filename, ResourceManager *res)
+IResource *ParticleEmitterObjectResourceLoader(const String &filename, ResourceManager *res)
 {
 	ParticleEmitterObject *obj = New(ParticleEmitterObject());
 	obj->Load(filename, res);
@@ -64,14 +64,13 @@ bool ParticleEmitterObject::Unload()
 	return TRUE;
 }
 
-bool ParticleEmitterObject::Load(const char *filename, ResourceManager *res)
+bool ParticleEmitterObject::Load(const String &filename, ResourceManager *res)
 {
-	ASSERT_NULL(filename);
 	ASSERT_NULL(res);
 
 	if (this->Unload())
 	{
-		pFilename = filename;
+		sFilename = filename;
 		pRes 	= res;
 		iMemory = 0;
 

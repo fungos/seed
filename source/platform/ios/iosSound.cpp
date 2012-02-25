@@ -70,12 +70,12 @@ ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid *data, ALs
 
 namespace Seed { namespace iOS {
 
-IResource *SoundResourceLoader(const char *filename, ResourceManager *res)
+IResource *SoundResourceLoader(const String &filename, ResourceManager *res)
 {
 	UNUSED(res);
 
 	Sound *sound = New(Sound());
-	sound->Load(filename, res, pool);
+	sound->Load(filename, res);
 	return sound;
 }
 
@@ -98,14 +98,14 @@ void Sound::Reset()
 	this->Unload();
 }
 
-bool Sound::Load(const char *filename, ResourceManager *res)
+bool Sound::Load(const String &filename, ResourceManager *res)
 {
 	if (this->Unload())
 	{
-		pFilename = filename;
+		sFilename = filename;
 		pRes = res;
 
-		this->ReadData(filename);
+		this->ReadData(filename.c_str());
 
 		bLoaded = TRUE;
 	}

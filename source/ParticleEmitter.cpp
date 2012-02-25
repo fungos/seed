@@ -46,8 +46,8 @@ ParticleEmitter::ParticleEmitter()
 	: pEmitterObject(NULL)
 	, psInfo()
 	, pRes(NULL)
-	, pFilename(NULL)
-	, pSpriteFilename(NULL)
+	, sFilename()
+	, sSpriteFilename()
 	, bParticlesFollowEmitter(FALSE)
 	, fAge(0.0f)
 	, fRespawnAge(0.0f)
@@ -75,17 +75,16 @@ ParticleEmitter::~ParticleEmitter()
 	this->Unload();
 }
 
- void ParticleEmitter::Load(const char *filename, ResourceManager *res)
+ void ParticleEmitter::Load(const String &filename, ResourceManager *res)
 {
 	this->Unload();
 
 	if (bEnabled)
 	{
-		ASSERT_NULL(filename);
 		ASSERT_NULL(res);
 
 		pRes = res;
-		pFilename = filename;
+		sFilename = filename;
 		pEmitterObject = reinterpret_cast<ParticleEmitterObject *>(res->Get(filename, Seed::ObjectParticleEmitterObject));
 		psInfo = *(pEmitterObject->GetData());
 		iAnimation = psInfo.iTextureFrame;
@@ -108,12 +107,8 @@ ParticleEmitter::~ParticleEmitter()
 	fInterval = 0.0f;
 	iAnimation = 0;
 	sRelease(pEmitterObject);
-	pFilename	= NULL;
+	sFilename	= "";
 	pRes		= NULL;
-
-	//pSpriteFilename = NULL;
-	//arParticles = NULL;
-	//iParticlesAmount = 0;
 }
 
  void ParticleEmitter::Reset()
@@ -346,7 +341,7 @@ ParticleEmitter::~ParticleEmitter()
 			//par->fRotation = par->fSpin;
 			par->bTransformationChanged = TRUE;
 
-			File f(pSpriteFilename);
+			File f(sSpriteFilename);
 			Reader r(f);
 			par->Load(r, pRes);
 			par->SetAnimation(iAnimation);
@@ -397,11 +392,11 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::SetSprite(const char *filename)
+ void ParticleEmitter::SetSprite(const String &filename)
 {
 	if (bEnabled && pEmitterObject)
 	{
-		pSpriteFilename = filename;
+		sSpriteFilename = filename;
 		for (u32 i = 0; i < iParticlesAmount; i++)
 		{
 			if (!arParticles[i].bActive)

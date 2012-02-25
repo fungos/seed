@@ -53,7 +53,7 @@ class SEED_CORE_API ISound : public IResource
 
 		// IResource
 		using IResource::Load;
-		virtual bool Load(const char *filename, ResourceManager *res) = 0;
+		virtual bool Load(const String &filename, ResourceManager *res) = 0;
 		virtual bool Unload() = 0;
 
 		// IObject

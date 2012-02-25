@@ -9,17 +9,17 @@
 			"frames": [
 				{
 					"name": "frame1",
-					"resource": "resource1",
+					"texture": "logo.tga",
 					"repeat": 5
 				},
 				{
 					"name": "frame2",
-					"resource": "resource2",
+					"texture": "logo.tga",
 					"repeat": 10
 				},
 				{
 					"name": "frame3",
-					"resource": "resource3"
+					"texture": "logo.tga"
 				}
 			]
 		}

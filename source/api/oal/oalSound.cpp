@@ -46,7 +46,7 @@
 
 namespace Seed { namespace OAL {
 
-IResource *SoundResourceLoader(const char *filename, ResourceManager *res)
+IResource *SoundResourceLoader(const String &filename, ResourceManager *res)
 {
 	UNUSED(res);
 
@@ -70,11 +70,11 @@ void Sound::Reset()
 	this->Unload();
 }
 
-bool Sound::Load(const char *filename, ResourceManager *res)
+bool Sound::Load(const String &filename, ResourceManager *res)
 {
 	if (this->Unload())
 	{
-		pFilename = filename;
+		sFilename = filename;
 		pRes = res;
 
 		OggVorbis_File	oggStream;

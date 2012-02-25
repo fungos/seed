@@ -9,7 +9,7 @@ namespace Seed {
 Image::Image()
 	: pTexture(NULL)
 	, pRes(NULL)
-	, pFilename(NULL)
+	, sFilename(NULL)
 	, fAspectHalfWidth(0.0f)
 	, fAspectHalfHeight(0.0f)
 	, fAspectWidth(0.0f)
@@ -42,19 +42,18 @@ bool Image::Unload()
 	return TRUE;
 }
 
-bool Image::Load(const char *filename)
+bool Image::Load(const String &filename)
 {
 	return this->Load(filename, pResourceManager);
 }
 
-bool Image::Load(const char *filename, ResourceManager *res)
+bool Image::Load(const String &filename, ResourceManager *res)
 {
-	ASSERT_NULL(filename);
 	ASSERT_NULL(res);
 
 	if (this->Unload())
 	{
-		pFilename = filename;
+		sFilename = filename;
 		pRes = res;
 
 		pTexture = static_cast<ITexture *>(res->Get(filename, Seed::ObjectTexture));
@@ -159,7 +158,7 @@ bool Image::Load(ITexture *texture)
 	}
 	pTexture = NULL;
 
-	pFilename = "[dynamic texture]";
+	sFilename = "[dynamic texture]";
 	pTexture = texture;
 
 	iWidth = pTexture->GetWidthInPixel();

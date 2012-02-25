@@ -47,7 +47,7 @@
 
 namespace Seed { namespace OAL {
 
-IResource *MusicResourceLoader(const char *filename, ResourceManager *res)
+IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 {
 	UNUSED(res);
 

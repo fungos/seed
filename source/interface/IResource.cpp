@@ -42,7 +42,7 @@ namespace Seed {
 IResource::IResource()
 	: bLoaded(FALSE)
 	, pRes(NULL)
-	, pFilename(NULL)
+	, sFilename()
 	, iRefCount(0)
 {
 }
@@ -81,14 +81,14 @@ u32 IResource::GetReferenceCount() const
 	return iRefCount;
 }
 
-bool IResource::Load(const char *filename)
+bool IResource::Load(const String &filename)
 {
 	return this->Load(filename, pResourceManager);
 }
 
-const char *IResource::GetFilename() const
+const String &IResource::GetFilename() const
 {
-	return pFilename;
+	return sFilename;
 }
 
 } // namespace

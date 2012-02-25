@@ -305,6 +305,7 @@ OBJECTS += \
 ../source/ParticleEmitter.o \
 ../source/ParticleEmitterObject.o \
 ../source/ParticleManager.o \
+../source/Project.o \
 ../source/SeedInit.o \
 ../source/Sprite.o \
 ../source/Timeline.o \

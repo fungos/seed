@@ -63,7 +63,6 @@ class SEED_CORE_API Frame : public IObject
 		ResourceManager *pRes;
 		ITexture	*pTexture;
 		String		sName;
-		String		sResource;
 		u32			iIndex;
 		u32			iTime;
 		u32			iX;

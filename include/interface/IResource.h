@@ -55,12 +55,12 @@ class SEED_CORE_API IResource : public IObject
 		IResource();
 		virtual ~IResource();
 
-		virtual bool Load(const char *filename);
-		virtual bool Load(const char *filename, ResourceManager *res) = 0;
+		virtual bool Load(const String &filename);
+		virtual bool Load(const String &filename, ResourceManager *res) = 0;
 		virtual bool Unload() = 0;
 
 		virtual u32 GetUsedMemory() const;
-		const char *GetFilename() const;
+		const String &GetFilename() const;
 
 		void Release();
 		void Acquire();
@@ -74,7 +74,7 @@ class SEED_CORE_API IResource : public IObject
 	protected:
 		bool			bLoaded;
 		ResourceManager *pRes;
-		const char		*pFilename;
+		String			sFilename;
 
 	private:
 		SEED_DISABLE_COPY(IResource);

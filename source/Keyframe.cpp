@@ -39,7 +39,7 @@
 namespace Seed {
 
 Keyframe::Keyframe()
-	: pstrName("")
+	: sName("")
 	, fRotation(0.0f)
 	, ptPos(0.0f, 0.0f)
 	, ptLocalPos(0.0f, 0.0f)

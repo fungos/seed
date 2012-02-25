@@ -91,7 +91,7 @@ class SEED_CORE_API Timeline
 
 		s32 FindNextKeyframe();
 		s32 FindPreviousKeyframe();
-		s32 FindKeyframeByName(const char *pstrName);
+		s32 FindKeyframeByName(const String &name);
 
 		f32 EaseQuadPercent(f32 time, f32 begin, f32 change, f32 duration, f32 easing);
 

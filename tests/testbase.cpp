@@ -38,8 +38,7 @@ bool TestBase::Initialize()
 	pSceneStatic = &cSceneStatic;
 	/* ------- Rendering Initialization ------- */
 
-	File f("logo.sprite");
-	Reader r(f);
+	Reader r(File("logo.sprite"));
 	sptLogo.Load(r);
 	sptLogo.SetPosition(0.0f, 0.0f);
 	sptLogo.SetVisible(TRUE);
@@ -75,6 +74,8 @@ bool TestBase::Shutdown()
 
 	pInput->RemoveKeyboardListener(this);
 	pSystem->RemoveListener(this);
+
+	IGameApp::Shutdown();
 
 	return true;
 }

@@ -31,7 +31,7 @@
 
 /*! \file Sprite.h
 	\author	Danny Angelo Carminati Grein
-	\brief Defines the Sprite class interface
+	\brief Sprite is an animated 2D image composed with animations and frames.
 */
 
 #ifndef __SPRITE_H__

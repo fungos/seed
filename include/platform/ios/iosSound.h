@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -52,11 +52,11 @@ ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid *data, ALs
 
 namespace Seed { namespace iOS {
 
-IResource *SoundResourceLoader(const char *filename, ResourceManager *res = pResourceManager);
+IResource *SoundResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
 class SEED_CORE_API Sound : public ISound
 {
-	friend IResource *SoundResourceLoader(const char *filename, ResourceManager *res);
+	friend IResource *SoundResourceLoader(const String &ilename, ResourceManager *res);
 	friend class SoundSystem;
 	friend class SoundSource;
 
@@ -67,7 +67,7 @@ class SEED_CORE_API Sound : public ISound
 		void Reset();
 
 		// IResource
-		virtual bool Load(const char *filename, ResourceManager *res = pResourceManager);
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual bool Unload();
 		virtual u32 GetUsedMemory() const;
 

@@ -46,12 +46,12 @@
 
 namespace Seed { namespace QT {
 
-IResource *TextureResourceLoader(const char *filename, ResourceManager *res)
+IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 {
 	UNUSED(res);
 
 	Texture *image = new Texture();
-	image->Load(filename, res, pool);
+	image->Load(filename, res);
 
 	return image;
 }
@@ -85,12 +85,10 @@ void Texture::Reset()
 	iAtlasHeight = 0;
 }
 
-bool Texture::Load(const char *filename, ResourceManager *res)
+bool Texture::Load(const String &filename, ResourceManager *res)
 {
 	UNUSED(res);
-	UNUSED(pool);
 	ASSERT_NULL(res);
-	ASSERT_NULL(filename);
 
 	if (this->Unload())
 	{
