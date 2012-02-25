@@ -39,12 +39,12 @@
 
 #include "Defines.h"
 
-#include "interface/ITransformable2D.h"
+#include "interface/ITransformable.h"
 #include "interface/IPlayable.h"
 
 namespace Seed {
 
-class IVideo : public ITransformable2D//, public IPlayable
+class IVideo : public ITransformable//, public IPlayable
 {
 	public:
 		IVideo();

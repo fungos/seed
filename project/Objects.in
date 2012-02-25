@@ -275,7 +275,7 @@ OBJECTS += \
 ../source/interface/ITexture.o \
 ../source/interface/IThread.o \
 ../source/interface/ITimer.o \
-../source/interface/ITransformable2D.o \
+../source/interface/ITransformable.o \
 ../source/interface/IUpdatable.o \
 ../source/interface/IVideo.o \
 ../source/interface/IInputMotion.o \

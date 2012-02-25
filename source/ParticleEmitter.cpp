@@ -53,7 +53,7 @@ ParticleEmitter::ParticleEmitter()
 	, fRespawnAge(0.0f)
 	, fEmissionResidue(0.0f)
 	, fInterval(0.0f)
-	, ptPrevLocation(0.0f, 0.0f)
+	, vPrevLocation(0.0f, 0.0f, 0.0f)
 	, fTx(0.0f)
 	, fTy(0.0f)
 	, fScale(1.0f)
@@ -113,11 +113,10 @@ ParticleEmitter::~ParticleEmitter()
 
  void ParticleEmitter::Reset()
 {
-	ITransformable2D::Reset();
-	//ptLocation.x = 0.0f;
-	//ptLocation.y = 0.0f;
-	ptPrevLocation.x = 0.0f;
-	ptPrevLocation.y = 0.0f;
+	ITransformable::Reset();
+	vPrevLocation.x = 0.0f;
+	vPrevLocation.y = 0.0f;
+	vPrevLocation.z = 0.0f;
 	fTx = 0.0f;
 	fTy = 0.0f;
 	fScale = 1.0f;
@@ -164,9 +163,9 @@ ParticleEmitter::~ParticleEmitter()
 	//u32 i = 0;
 	f32 ang = 0.0f;
 	Particle *par = NULL;
-	Point<f32> accel(0.0f, 0.0f);
-	Point<f32> accel2(0.0f, 0.0f);
-	Point<f32> location = this->GetPosition();
+	Vector3f accel(0.0f, 0.0f, 0.0f);
+	Vector3f accel2(0.0f, 0.0f, 0.0f);
+	Vector3f location = this->GetPosition();
 
 	if (fAge == -2.0f && psInfo.fLifetime != -1.0f && fInterval > 0.0f)// && nParticlesAlive == 0)
 	{
@@ -208,7 +207,7 @@ ParticleEmitter::~ParticleEmitter()
 			continue;
 		}
 
-		accel = par->ptPos - location;
+		accel = par->vPos - location;
 		accel.Normalize();
 		accel2 = accel;
 		accel *= par->fRadialAccel;
@@ -220,8 +219,8 @@ ParticleEmitter::~ParticleEmitter()
 		accel2.y = ang * 1.25f;
 
 		accel2 *= par->fTangentialAccel;
-		par->ptVelocity += (accel + accel2) * deltaTime;
-		par->ptVelocity.y += par->fGravity * deltaTime * 1.25f;
+		par->vVelocity += (accel + accel2) * deltaTime;
+		par->vVelocity.y += par->fGravity * deltaTime * 1.25f;
 
 		par->fSpin += par->fSpinDelta * deltaTime;
 		par->fSize += par->fSizeDelta * deltaTime;
@@ -232,16 +231,16 @@ ParticleEmitter::~ParticleEmitter()
 
 		par->SetColor(par->fColorR, par->fColorG, par->fColorB, par->fColorA);
 		//par->SetScale(par->fSize);
-		//par->AddPosition(par->ptVelocity * deltaTime);
-		par->ptScale.x = par->fSize;
-		par->ptScale.y = par->fSize;
+		//par->AddPosition(par->vVelocity * deltaTime);
+		par->vScale.x = par->fSize;
+		par->vScale.y = par->fSize;
 		par->fRotation += par->fSpin;
 		//if (par->fRotation >= 360.0f)
 		//	par->fRotation -= 360.0f;
 		//if (par->fRotation < 0.0f)
 		//	par->fRotation += 360.0f;
 
-		par->ptPos += (par->ptVelocity * deltaTime);
+		par->vPos += (par->vVelocity * deltaTime);
 		bTransformationChanged = TRUE;
 		par->bTransformationChanged = TRUE;
 		par->bChanged = TRUE;
@@ -279,7 +278,7 @@ ParticleEmitter::~ParticleEmitter()
 			par->fAge = 0.0f;
 			par->fTerminalAge = pRand->Get(psInfo.fParticleLifeMin, psInfo.fParticleLifeMax) * 0.70f;
 
-			Point<f32> pos = ptPrevLocation + (location - ptPrevLocation) * pRand->Get(0.0f, 1.0f);
+			Vector3f pos = vPrevLocation + (location - vPrevLocation) * pRand->Get(0.0f, 1.0f);
 
 			if (!psInfo.fWidth)
 			{
@@ -302,11 +301,11 @@ ParticleEmitter::~ParticleEmitter()
 			ang = psInfo.fDirection - kPiOver2 + pRand->Get(0, psInfo.fSpread) - psInfo.fSpread / 2.0f;
 
 			if (psInfo.bRelative)
-				ang += (ptPrevLocation - location).Angle() + kPiOver2;
+				ang += (vPrevLocation - location).Angle() + kPiOver2;
 
-			par->ptVelocity.x = cosf(ang);
-			par->ptVelocity.y = sinf(ang) * 1.25f;
-			par->ptVelocity *= pRand->Get(psInfo.fSpeedMin/300.0f, psInfo.fSpeedMax/300.0f) * 0.70f;
+			par->vVelocity.x = cosf(ang);
+			par->vVelocity.y = sinf(ang) * 1.25f;
+			par->vVelocity *= pRand->Get(psInfo.fSpeedMin/300.0f, psInfo.fSpeedMax/300.0f) * 0.70f;
 
 			par->fGravity = pRand->Get(psInfo.fGravityMin/900.0f, psInfo.fGravityMax/900.0f) * 3.0f;
 			par->fRadialAccel = pRand->Get(psInfo.fRadialAccelMin/900.0f, psInfo.fRadialAccelMax/900.0f) * 4.0f;
@@ -334,10 +333,10 @@ ParticleEmitter::~ParticleEmitter()
 			else
 				par->SetBlending(BlendAdditive);
 			//par->SetScale(par->fSize);
-			par->ptScale.x = par->fSize;
-			par->ptScale.y = par->fSize;
+			par->vScale.x = par->fSize;
+			par->vScale.y = par->fSize;
 			//par->SetPosition(pos);
-			par->ptPos = pos;
+			par->vPos = pos;
 			//par->fRotation = par->fSpin;
 			par->bTransformationChanged = TRUE;
 
@@ -364,9 +363,9 @@ ParticleEmitter::~ParticleEmitter()
 	}
 
 	if (bParticlesFollowEmitter)
-		MoveEverything(ptPos);
+		MoveEverything(vPos);
 
-	ptPrevLocation = location;
+	vPrevLocation = location;
 	bTransformationChanged = FALSE;
 
 	for (u32 i = 0; i < iParticlesAmount; i++)
@@ -430,7 +429,7 @@ ParticleEmitter::~ParticleEmitter()
 
 		if (!bPaused)
 		{
-			ptPrevLocation = ptPos;
+			vPrevLocation = vPos;
 			if (psInfo.fLifetime == -1.0f)
 				fAge = -1.0f;
 			else
@@ -517,10 +516,10 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::MoveEverything(const Point<f32> &pos)
+ void ParticleEmitter::MoveEverything(const Vector3f &pos)
 {
-	Point<f32> dpos = pos - ptPrevLocation;
-	ptPrevLocation = pos;
+	Vector3f dpos = pos - vPrevLocation;
+	vPrevLocation = pos;
 
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{

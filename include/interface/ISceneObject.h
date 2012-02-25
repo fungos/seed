@@ -38,12 +38,12 @@
 #define __ISCENE_OBJECT_H__
 
 #include "Array.h"
-#include "interface/ITransformable2D.h"
+#include "interface/ITransformable.h"
 #include "interface/IRenderable.h"
 
 namespace Seed {
 
-class SEED_CORE_API ISceneObject : public ITransformable2D, public IRenderable
+class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable
 {
 	public:
 		ISceneObject();

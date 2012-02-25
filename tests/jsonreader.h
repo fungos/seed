@@ -16,7 +16,6 @@ class TestJsonReader : public TestBase
 		SEED_DISABLE_COPY(TestJsonReader);
 
 	private:
-		Sprite spt;
 		f32 fRot;
 		u32 iCol;
 		u32 iCount;

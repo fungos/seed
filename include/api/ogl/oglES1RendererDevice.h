@@ -82,6 +82,8 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void Enable2D() const;
 		virtual void Disable2D() const;
 
+		virtual bool NeedPowerOfTwoTextures() const;
+
 		// IModule
 		virtual bool Initialize();
 		virtual bool Reset();

@@ -29,24 +29,24 @@
  **
  *****************************************************************************/
 
-/*! \file ITransformable2D.h
+/*! \file ITransformable.h
 	\author	Danny Angelo Carminati Grein
-	\brief Defines a primitive Transformable2D class interface
+	\brief An object that can be manipulated in space
 */
 
-#ifndef __ITRANSFORMABLE2D_H__
-#define __ITRANSFORMABLE2D_H__
+#ifndef __ITransformable_H__
+#define __ITransformable_H__
 
 #include "Defines.h"
-#include "Point.h"
+#include "Vector.h"
 
 namespace Seed {
 
-class SEED_CORE_API ITransformable2D
+class SEED_CORE_API ITransformable
 {
 	public:
-		ITransformable2D();
-		virtual ~ITransformable2D();
+		ITransformable();
+		virtual ~ITransformable();
 
 		virtual void SetWidth(f32 w);
 		virtual void SetHeight(f32 h);
@@ -58,8 +58,8 @@ class SEED_CORE_API ITransformable2D
 
 		virtual void SetPosition(f32 x, f32 y);
 		virtual void AddPosition(f32 x, f32 y);
-		virtual void SetPosition(const Point2f &pos);
-		virtual void AddPosition(const Point2f &pos);
+		virtual void SetPosition(const Vector3f &pos);
+		virtual void AddPosition(const Vector3f &pos);
 
 		virtual void SetLocalX(f32 x);
 		virtual void SetLocalY(f32 y);
@@ -68,8 +68,8 @@ class SEED_CORE_API ITransformable2D
 
 		virtual void SetLocalPosition(f32 x, f32 y);
 		virtual void AddLocalPosition(f32 x, f32 y);
-		virtual void SetLocalPosition(const Point2f &pos);
-		virtual void AddLocalPosition(const Point2f &pos);
+		virtual void SetLocalPosition(const Vector3f &pos);
+		virtual void AddLocalPosition(const Vector3f &pos);
 
 		virtual void SetRotation(f32 rot);
 		virtual void AddRotation(f32 rot);
@@ -78,13 +78,13 @@ class SEED_CORE_API ITransformable2D
 		virtual void SetScaleY(f32 scaleY);
 		virtual void SetScale(f32 scale);
 		virtual void SetScale(f32 scaleX, f32 scaleY);
-		virtual void SetScale(const Point2f &scale);
+		virtual void SetScale(const Vector3f &scale);
 
 		virtual void AddScaleX(f32 scaleX);
 		virtual void AddScaleY(f32 scaleY);
 		virtual void AddScale(f32 scale);
 		virtual void AddScale(f32 scaleX, f32 scaleY);
-		virtual void AddScale(const Point2f &scale);
+		virtual void AddScale(const Vector3f &scale);
 
 		// Normalized Width and Height
 		virtual f32 GetWidth() const;
@@ -92,11 +92,11 @@ class SEED_CORE_API ITransformable2D
 
 		virtual f32 GetX() const;
 		virtual f32 GetY() const;
-		virtual Point2f GetPosition() const;
+		virtual Vector3f GetPosition() const;
 
 		virtual f32 GetLocalX() const;
 		virtual f32 GetLocalY() const;
-		virtual Point2f GetLocal() const;
+		virtual Vector3f GetLocal() const;
 
 		virtual f32 GetRotation() const;
 
@@ -104,53 +104,49 @@ class SEED_CORE_API ITransformable2D
 		virtual f32 GetScaleY() const;
 
 		virtual bool ContainsPoint(f32 x, f32 y) const;
-		virtual bool ContainsPoint(const Point2f &pos) const;
+		virtual bool ContainsPoint(const Vector3f &pos) const;
 
-		virtual void SetPriority(u32 prio);
-		virtual u32 GetPriority() const;
+		virtual void SetPriority(f32 prio);
+		virtual f32 GetPriority() const;
 
 		/// Set a parent for this transformable
 		/**
-		When a Transformable2D has a parent it will inherit all it's properies.
-		If you use a instanced Transformable2D and delete it, you're responsable
+		When a Transformable has a parent it will inherit all it's properies.
+		If you use a instanced Transformable and delete it, you're responsable
 		to set the parent of this object to NULL or we can crash badly.
-		\param Set a Transformable2D as parent for this object
+		\param Set a Transformable as parent for this object
 		 */
-		virtual void SetParent(ITransformable2D *pParent);
-		virtual ITransformable2D *GetParent() const;
+		virtual void SetParent(ITransformable *pParent);
+		virtual ITransformable *GetParent() const;
 
 		virtual void Reset();
 
 		virtual bool IsChanged() const;
 
 	protected:
-		bool bTransformationChanged;
-		ITransformable2D *pParent;
-		Point2f ptPos;
-		Point2f ptLocalPos;
-		Point2f ptScale;
+		ITransformable *pParent;
+		Vector3f vPos;
+		Vector3f vLocalPos;
+		Vector3f vScale;
+		Vector3f vBoundingBox;
 		f32 fRotation;
-		u32	iPriority;
-
-	public: // FIXME: Font needs it...
-		f32 fWidth;
-		f32 fHeight;
+		bool bTransformationChanged;
 
 	private:
-		SEED_DISABLE_COPY(ITransformable2D);
+		SEED_DISABLE_COPY(ITransformable);
 };
 
-struct SEED_CORE_API ITransformable2DAscendingPrioritySort
+struct SEED_CORE_API ITransformableAscendingPrioritySort
 {
-	bool operator()(ITransformable2D * const &left, ITransformable2D * const &right)
+	bool operator()(ITransformable * const &left, ITransformable * const &right)
 	{
 		return (left->GetPriority() < right->GetPriority());
 	}
 };
 
-struct SEED_CORE_API ITransformable2DDescendingPrioritySort
+struct SEED_CORE_API ITransformableDescendingPrioritySort
 {
-	bool operator()(ITransformable2D * const &left, ITransformable2D * const &right)
+	bool operator()(ITransformable * const &left, ITransformable * const &right)
 	{
 		return (left->GetPriority() > right->GetPriority());
 	}
@@ -158,4 +154,4 @@ struct SEED_CORE_API ITransformable2DDescendingPrioritySort
 
 } // namespace
 
-#endif // __ITRANSFORMABLE2D_H__
+#endif // __ITransformable_H__

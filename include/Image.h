@@ -64,6 +64,9 @@ class SEED_CORE_API Image : public ISceneObject
 		virtual int GetObjectType() const;
 		virtual const char *GetObjectName() const;
 
+	private:
+		void UpdateCoords();
+
 	protected:
 		SEED_DISABLE_COPY(Image);
 
@@ -71,22 +74,11 @@ class SEED_CORE_API Image : public ISceneObject
 		ResourceManager *pRes;
 		String			sFilename;
 
-		f32 fAspectHalfWidth; // real half width
-		f32 fAspectHalfHeight; // real half height
-		f32 fAspectWidth; // real width
-		f32 fAspectHeight; // real height
-
 		// Frame related width and heigth used for rendering only
 		s32 iHalfWidth; // half width in pixel
 		s32 iHalfHeight; // half height in pixel
 		u32 iWidth; // width in pixel
 		u32 iHeight; // height in pixel
-
-		f32 fTexS0;
-		f32 fTexS1;
-		f32 fTexT0;
-		f32 fTexT1;
-
 		sVertex vert[4];
 
 		bool bDynamic;

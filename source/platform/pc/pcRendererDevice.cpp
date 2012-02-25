@@ -242,6 +242,11 @@ void RendererDevice::Disable2D() const
 	pApiDevice->Disable2D();
 }
 
+bool RendererDevice::NeedPowerOfTwoTextures() const
+{
+	return pApiDevice->NeedPowerOfTwoTextures();
+}
+
 void RendererDevice::Update()
 {
 	pApiDevice->Update();

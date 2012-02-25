@@ -144,6 +144,11 @@ void IRendererDevice::Disable2D() const
 	SEED_ABSTRACT_METHOD;
 }
 
+bool IRendererDevice::NeedPowerOfTwoTextures() const
+{
+	return false;
+}
+
 void IRendererDevice::Update()
 {
 }

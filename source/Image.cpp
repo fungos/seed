@@ -10,18 +10,10 @@ Image::Image()
 	: pTexture(NULL)
 	, pRes(NULL)
 	, sFilename(NULL)
-	, fAspectHalfWidth(0.0f)
-	, fAspectHalfHeight(0.0f)
-	, fAspectWidth(0.0f)
-	, fAspectHeight(0.0f)
 	, iHalfWidth(0)
 	, iHalfHeight(0)
 	, iWidth(0)
 	, iHeight(0)
-	, fTexS0(0.0f)
-	, fTexS1(0.0f)
-	, fTexT0(0.0f)
-	, fTexT1(0.0f)
 	, bDynamic(FALSE)
 {
 }
@@ -33,10 +25,7 @@ Image::~Image()
 bool Image::Unload()
 {
 	if (!bDynamic)
-	{
 		sRelease(pTexture);
-	}
-
 	pTexture = NULL;
 
 	return TRUE;
@@ -57,34 +46,7 @@ bool Image::Load(const String &filename, ResourceManager *res)
 		pRes = res;
 
 		pTexture = static_cast<ITexture *>(res->Get(filename, Seed::ObjectTexture));
-
-		iWidth = pTexture->GetWidthInPixel();
-		iHeight = pTexture->GetHeightInPixel();
-		f32 aspectH = pScreen->GetAspectRatio();
-
-		f32 w = pTexture->GetWidth();
-		f32 h = pTexture->GetHeight();
-
-		ITransformable2D::SetWidth(w); // set normalized width
-		ITransformable2D::SetHeight(h); // set normalized height
-
-		fAspectWidth = w;
-		fAspectHeight = h * aspectH;
-		fAspectHalfWidth = fAspectWidth / 2.0f;
-		fAspectHalfHeight = fAspectHeight / 2.0f;
-
-		f32 rInvWidth = 1.0F / pTexture->GetAtlasWidthInPixel(); // full width from image, not only frame area
-		f32 rInvHeight = 1.0F / pTexture->GetAtlasHeightInPixel(); // full height from image, not only frame area
-
-		// Normalized Pixel Half Width/Height for pixel based vertex rendering
-		iHalfWidth = static_cast<s32>(pScreen->GetWidth() * (w / 2.0f));
-		iHalfHeight = static_cast<s32>(pScreen->GetHeight() *  (h / 2.0f));
-
-		fTexS0 = 0.0f;
-		fTexS1 = static_cast<f32>(iWidth * rInvWidth);
-		fTexT0 = 0.0f;
-		fTexT1 = static_cast<f32>(iHeight * rInvHeight);
-
+		this->UpdateCoords();
 		bDynamic = FALSE;
 	}
 
@@ -96,24 +58,20 @@ void Image:: Update(f32 delta)
 	UNUSED(delta);
 	if (this->IsChanged())
 	{
-		vert[0].cVertex = Vector3f(-fAspectHalfWidth, -fAspectHalfHeight, (f32)iPriority);
+		vert[0].cVertex = Vector3f(-iHalfWidth, -iHeight, vPos.z);
 		vert[0].iColor = iColor;
-		vert[0].cCoords = Point2f(fTexS0, fTexT0);
 
-		vert[1].cVertex = Vector3f(+fAspectHalfWidth, -fAspectHalfHeight, (f32)iPriority);
+		vert[1].cVertex = Vector3f(+iHalfWidth, -iHalfHeight, vPos.z);
 		vert[1].iColor = iColor;
-		vert[1].cCoords = Point2f(fTexS1, fTexT0);
 
-		vert[2].cVertex = Vector3f(-fAspectHalfWidth, +fAspectHalfHeight, (f32)iPriority);
+		vert[2].cVertex = Vector3f(-iHalfWidth, +iHalfHeight, vPos.z);
 		vert[2].iColor = iColor;
-		vert[2].cCoords = Point2f(fTexS0, fTexT1);
 
-		vert[3].cVertex = Vector3f(+fAspectHalfWidth, +fAspectHalfHeight, (f32)iPriority);
+		vert[3].cVertex = Vector3f(+iHalfWidth, +iHalfHeight, vPos.z);
 		vert[3].iColor = iColor;
-		vert[3].cCoords = Point2f(fTexS1, fTexT1);
 
-		f32 x = fAspectHalfWidth + this->GetX();
-		f32 y = fAspectHalfHeight + this->GetY() * pScreen->GetAspectRatio();
+		f32 x = iHalfWidth + this->GetX();
+		f32 y = iHalfHeight + this->GetY() * pScreen->GetAspectRatio();
 		f32 lx = this->GetLocalX();
 		f32 ly = this->GetLocalY();
 
@@ -160,37 +118,34 @@ bool Image::Load(ITexture *texture)
 
 	sFilename = "[dynamic texture]";
 	pTexture = texture;
-
-	iWidth = pTexture->GetWidthInPixel();
-	iHeight = pTexture->GetHeightInPixel();
-	f32 aspectH = pScreen->GetAspectRatio();
-
-	f32 w = pTexture->GetWidth();
-	f32 h = pTexture->GetHeight();
-
-	ITransformable2D::SetWidth(w); // set normalized width
-	ITransformable2D::SetHeight(h); // set normalized height
-
-	fAspectWidth = w;
-	fAspectHeight = h * aspectH;
-	fAspectHalfWidth = fAspectWidth / 2.0f;
-	fAspectHalfHeight = fAspectHeight / 2.0f;
-
-	f32 rInvWidth = 1.0F / pTexture->GetAtlasWidthInPixel(); // full width from image, not only frame area
-	f32 rInvHeight = 1.0F / pTexture->GetAtlasHeightInPixel(); // full height from image, not only frame area
-
-	// Normalized Pixel Half Width/Height for pixel based vertex rendering
-	iHalfWidth = static_cast<s32>(pScreen->GetWidth() * (w / 2.0f));
-	iHalfHeight = static_cast<s32>(pScreen->GetHeight() *  (h / 2.0f));
-
-	fTexS0 = 0.0f;
-	fTexS1 = static_cast<f32>(iWidth * rInvWidth);
-	fTexT0 = 0.0f;
-	fTexT1 = static_cast<f32>(iHeight * rInvHeight);
-
+	this->UpdateCoords();
 	bDynamic = TRUE;
 
 	return TRUE;
+}
+
+void Image::UpdateCoords()
+{
+	iWidth = pTexture->GetWidth();
+	iHeight = pTexture->GetHeight();
+	ITransformable::SetWidth(pTexture->GetWidth()); // set normalized width
+	ITransformable::SetHeight(pTexture->GetHeight()); // set normalized height
+
+	f32 rInvWidth = 1.0f / pTexture->GetAtlasWidth(); // full width from image, not only frame area
+	f32 rInvHeight = 1.0f / pTexture->GetAtlasHeight(); // full height from image, not only frame area
+
+	iHalfWidth = iWidth >> 1;
+	iHalfHeight = iHeight >> 1;
+
+	f32 s0 = 0.0f;
+	f32 s1 = static_cast<f32>(iWidth * rInvWidth);
+	f32 t0 = 0.0f;
+	f32 t1 = static_cast<f32>(iHeight * rInvHeight);
+
+	vert[0].cCoords = Point2f(s0, t0);
+	vert[1].cCoords = Point2f(s1, t0);
+	vert[2].cCoords = Point2f(s0, t1);
+	vert[3].cCoords = Point2f(s1, t1);
 }
 
 int Image::GetObjectType() const

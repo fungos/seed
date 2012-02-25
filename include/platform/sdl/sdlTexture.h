@@ -68,8 +68,8 @@ class SEED_CORE_API Texture : public ITexture
 		virtual void Reset();
 		virtual bool Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth = 0, u32 atlasHeight = 0); // O que acontece no Reload?
 
-		virtual u32 GetAtlasWidthInPixel() const;
-		virtual u32 GetAtlasHeightInPixel() const;
+		virtual u32 GetAtlasWidth() const;
+		virtual u32 GetAtlasHeight() const;
 
 		// IResource
 		using IResource::Load;

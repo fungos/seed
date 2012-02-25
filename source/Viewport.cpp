@@ -42,7 +42,7 @@
 namespace Seed {
 
 Viewport::Viewport()
-	: cArea(0.0f, 0.0f, 1.0f, 1.0f)
+	: cArea(0.0f, 0.0f, 0.0f, 0.0f)
 	, pRenderer(NULL)
 {
 }
@@ -54,24 +54,23 @@ Viewport::~Viewport()
 void Viewport::SetRenderer(Renderer *renderer)
 {
 	ASSERT_NULL(renderer);
-
 	pRenderer = renderer;
 }
 
 void Viewport::SetPosition(f32 x, f32 y)
 {
-	this->cArea.x = x;
-	this->cArea.y = y;
+	cArea.x = x;
+	cArea.y = y;
 }
 
 void Viewport::SetWidth(f32 w)
 {
-	this->cArea.width = w;
+	cArea.width = w;
 }
 
 void Viewport::SetHeight(f32 h)
 {
-	this->cArea.height = h;
+	cArea.height = h;
 }
 
 Renderer *Viewport::GetRenderer() const

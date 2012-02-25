@@ -86,7 +86,7 @@ File &File::operator=(const File &other)
 	return *this;
 }
 
-bool File::Load(const String &filename)
+void File::Load(const String &filename)
 {
 	this->Close();
 	sName = filename;
@@ -126,14 +126,14 @@ bool File::Check() const
 	return ret;
 }
 
-void *File::GetData() const
+u8 *File::GetData() const
 {
 	if (pData)
 		return pData;
 
 	if (this->Check())
 	{
-		pData = (void *)Alloc(iSize);
+		pData = (u8 *)Alloc(iSize);
 		if (PHYSFS_read(pHandle, pData, iSize, 1) != -1)
 			return pData;
 	}

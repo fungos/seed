@@ -379,8 +379,8 @@ void D3D8RendererDevice::TextureRequestProcess() const
 		}
 		else
 		{
-			u32 w = texture->GetAtlasWidthInPixel();
-			u32 h = texture->GetAtlasHeightInPixel();
+			u32 w = texture->GetAtlasWidth();
+			u32 h = texture->GetAtlasHeight();
 
 			// FIXME: only 32bits for now
 			IDirect3DTexture8 *t;
@@ -421,8 +421,8 @@ void D3D8RendererDevice::TextureDataUpdate(ITexture *texture)
 	const void *data = texture->GetData();
 	if (data)
 	{
-		u32 w = texture->GetAtlasWidthInPixel();
-		u32 h = texture->GetAtlasHeightInPixel();
+		u32 w = texture->GetAtlasWidth();
+		u32 h = texture->GetAtlasHeight();
 		IDirect3DTexture8 *t = static_cast<IDirect3DTexture8 *>(texture->pTextureId);
 
 		D3DLOCKED_RECT r;

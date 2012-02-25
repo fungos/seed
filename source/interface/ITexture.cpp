@@ -48,8 +48,6 @@ ITexture::ITexture()
 	, nMagFilter(Seed::TextureFilterNearest)
 	, iWidth(0)
 	, iHeight(0)
-	, fWidth(0.0f)
-	, fHeight(0.0f)
 {
 }
 
@@ -64,9 +62,6 @@ void ITexture::Reset()
 
 	iWidth = 0;
 	iHeight = 0;
-
-	fWidth = 0.0f;
-	fHeight = 0.0f;
 
 	nMinFilter = Seed::TextureFilterLinear;
 	nMagFilter = Seed::TextureFilterNearest;
@@ -110,34 +105,24 @@ u8 ITexture::GetPixelAlpha(u32 x, u32 y) const
 	return 0;
 }
 
-u32 ITexture::GetAtlasWidthInPixel() const
+u32 ITexture::GetAtlasWidth() const
 {
 	return iWidth;
 }
 
-u32 ITexture::GetAtlasHeightInPixel() const
+u32 ITexture::GetAtlasHeight() const
 {
 	return iHeight;
 }
 
-u32 ITexture::GetWidthInPixel() const
+u32 ITexture::GetWidth() const
 {
 	return iWidth;
 }
 
-u32 ITexture::GetHeightInPixel() const
+u32 ITexture::GetHeight() const
 {
 	return iHeight;
-}
-
-f32 ITexture::GetWidth() const
-{
-	return fWidth;
-}
-
-f32 ITexture::GetHeight() const
-{
-	return fHeight;
 }
 
 void ITexture::Close()

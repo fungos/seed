@@ -44,7 +44,7 @@
 namespace Seed {
 
 ISceneObject::ISceneObject()
-	: ITransformable2D()
+	: ITransformable()
 	, IRenderable()
 {
 }

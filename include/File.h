@@ -53,11 +53,11 @@ class SEED_CORE_API File : public IObject
 		File(const File &other);
 		File &operator=(const File &other);
 
-		bool Load(const String &filename);
+		void Load(const String &filename);
 
 		void Close();
 		u32 GetSize() const;
-		void *GetData() const;
+		u8 *GetData() const;
 		const String &GetName() const;
 
 		// IObject
@@ -71,7 +71,7 @@ class SEED_CORE_API File : public IObject
 	private:
 		String			sName;
 		PHYSFS_file		*pHandle;
-		mutable void	*pData;
+		mutable u8		*pData;
 		u32				iSize;
 };
 

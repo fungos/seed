@@ -37,7 +37,7 @@
 #ifndef __PARTICLE_EMITTER_H__
 #define __PARTICLE_EMITTER_H__
 
-#include "interface/ITransformable2D.h"
+#include "interface/ITransformable.h"
 #include "ParticleEmitterObject.h"
 
 namespace Seed {
@@ -92,7 +92,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 	private:
 		SEED_DISABLE_COPY(ParticleEmitter);
 
-		void MoveEverything(const Point<f32> &pos);
+		void MoveEverything(const Vector3f &pos);
 
 	private:
 		ParticleEmitterObject		*pEmitterObject;
@@ -107,13 +107,10 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		f32							fEmissionResidue;
 		f32							fInterval;
 
-		Point<f32>					ptPrevLocation;
-		//Point<f32>				ptLocation;
+		Vector3f					vPrevLocation;
 		f32							fTx;
 		f32							fTy;
 		f32							fScale;
-
-		//u32						iParticlesAlive;
 		u32							iAnimation;
 
 		bool						bPaused;

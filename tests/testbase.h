@@ -5,7 +5,6 @@
 using namespace Seed;
 
 extern ISceneNode *pScene;
-extern ISceneNode *pSceneStatic;
 
 using namespace Seed;
 
@@ -19,7 +18,6 @@ class TestBase : public IGameApp, public IEventSystemListener, public IEventInpu
 		virtual bool Update(f32 dt);
 		virtual bool Reset();
 		virtual bool Shutdown();
-		virtual bool HasError() const;
 
 		// IEventSystemListener
 		virtual void OnSystemShutdown(const EventSystem *ev);
@@ -32,13 +30,9 @@ class TestBase : public IGameApp, public IEventSystemListener, public IEventInpu
 
 	protected:
 		SceneNode<1024> cScene;
-		SceneNode<128> cSceneStatic;
-		Array<int, 10> cArray;
 		Viewport	cViewport;
 		Renderer	cRenderer;
 		Sprite		sptLogo;
-
-		f32 fInfoElapsedTime;
 };
 
 #endif // _TESTBASE_H_

@@ -135,62 +135,63 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		iWidth = pSurface->w;
 		iHeight = pSurface->h;
 
-		/*
-		If the image isn't power of two, we need fix it.
-		*/
-		u32 width = 1;
-		while (width < iWidth)
-			width *= 2;
-
-		u32 height = 1;
-		while (height < iHeight)
-			height *= 2;
-
-		eRendererDeviceType type = pConfiguration->GetRendererDeviceType();
-		if (type >= Seed::RendererDeviceOpenGLES1 && type <= Seed::RendererDeviceOpenGL40)
+		if (pRendererDevice->NeedPowerOfTwoTextures())
 		{
 			/*
-			HACK:
-			When using OpenGL we must pass power of 2 textures to the device, so we check if the texture need fix and create
-			a new and correct surface for it. When using DirectX the device will not use SDL Surface to load texture, it will
-			load directly from our in memory file and then close it, so we don't need to fix our texture.
+			If the image isn't power of two, we need fix it.
 			*/
+			u32 width = 1;
+			while (width < iWidth)
+				width *= 2;
 
-			if (width != iWidth || height != iHeight)
+			u32 height = 1;
+			while (height < iHeight)
+				height *= 2;
+
+			eRendererDeviceType type = pConfiguration->GetRendererDeviceType();
+			if (type >= Seed::RendererDeviceOpenGLES1 && type <= Seed::RendererDeviceOpenGL40)
 			{
-				Log(TAG "WARNING: texture size not optimal, changing from %dx%d to %dx%d", iWidth, iHeight, width, height);
+				/*
+				HACK:
+				When using OpenGL we must pass power of 2 textures to the device, so we check if the texture need fix and create
+				a new and correct surface for it. When using DirectX the device will not use SDL Surface to load texture, it will
+				load directly from our in memory file and then close it, so we don't need to fix our texture.
+				*/
 
-				SDL_Surface *pTempSurface = NULL;
-				Uint32 rmask, gmask, bmask, amask;
+				if (width != iWidth || height != iHeight)
+				{
+					Log(TAG "WARNING: texture size not optimal, changing from %dx%d to %dx%d", iWidth, iHeight, width, height);
 
-				#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-					rmask = 0xff000000;
-					gmask = 0x00ff0000;
-					bmask = 0x0000ff00;
-					amask = 0x000000ff;
-				#else
-					rmask = 0x000000ff;
-					gmask = 0x0000ff00;
-					bmask = 0x00ff0000;
-					amask = 0xff000000;
-				#endif
+					SDL_Surface *pTempSurface = NULL;
+					Uint32 rmask, gmask, bmask, amask;
 
-				pTempSurface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA , width, height, 32, bmask, gmask, rmask, amask);
+					#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+						rmask = 0xff000000;
+						gmask = 0x00ff0000;
+						bmask = 0x0000ff00;
+						amask = 0x000000ff;
+					#else
+						rmask = 0x000000ff;
+						gmask = 0x0000ff00;
+						bmask = 0x00ff0000;
+						amask = 0xff000000;
+					#endif
 
-				SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_OPAQUE);
-				SDL_SetAlpha(pSurface, 0, SDL_ALPHA_OPAQUE);
-				SDL_BlitSurface(pSurface, NULL, pTempSurface, NULL);
-				SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_TRANSPARENT);
-				SDL_SetAlpha(pSurface, 0, SDL_ALPHA_TRANSPARENT);
+					pTempSurface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA , width, height, 32, bmask, gmask, rmask, amask);
 
-				SDL_FreeSurface(pSurface);
-				pSurface = pTempSurface;
+					SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_OPAQUE);
+					SDL_SetAlpha(pSurface, 0, SDL_ALPHA_OPAQUE);
+					SDL_BlitSurface(pSurface, NULL, pTempSurface, NULL);
+					SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_TRANSPARENT);
+					SDL_SetAlpha(pSurface, 0, SDL_ALPHA_TRANSPARENT);
+
+					SDL_FreeSurface(pSurface);
+					pSurface = pTempSurface;
+				}
 			}
 		}
 
 		// FIXME: Must divide by res_width , res_height - not by screen width/height
-		fWidth = (f32)iWidth / (f32)pScreen->GetWidth();
-		fHeight = (f32)iHeight / (f32)pScreen->GetHeight();
 		iAtlasWidth = pSurface->w;
 		iAtlasHeight = pSurface->h;
 
@@ -226,8 +227,6 @@ bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 atl
 	{
 		sFilename = "[dynamic sdl texture]";
 
-		fWidth = (f32)width / (f32)pScreen->GetWidth();
-		fHeight = (f32)height / (f32)pScreen->GetHeight();
 		iWidth = iAtlasWidth = width;
 		iHeight = iAtlasHeight = height;
 
@@ -277,12 +276,12 @@ const void *Texture::GetData() const
 	return pData;
 }
 
-u32 Texture::GetAtlasWidthInPixel() const
+u32 Texture::GetAtlasWidth() const
 {
 	return iAtlasWidth;
 }
 
-u32 Texture::GetAtlasHeightInPixel() const
+u32 Texture::GetAtlasHeight() const
 {
 	return iAtlasHeight;
 }

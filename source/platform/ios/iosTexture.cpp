@@ -171,12 +171,12 @@ const void *Texture::GetData() const
 	return pData;
 }
 
-u32 Texture::GetAtlasWidthInPixel() const
+u32 Texture::GetAtlasWidth() const
 {
 	return iAtlasWidth;
 }
 
-u32 Texture::GetAtlasHeightInPixel() const
+u32 Texture::GetAtlasHeight() const
 {
 	return iAtlasHeight;
 }

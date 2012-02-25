@@ -85,8 +85,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 		alGenBuffers(1, &iBuffer);
 
 		File stFile(filename);
-		void *tmp = const_cast<void *>(stFile.GetData());
-		oggFile.dataPtr = static_cast<u8 *>(tmp);
+		oggFile.dataPtr = stFile.GetData();
 		oggFile.dataRead = 0;
 		oggFile.dataSize = iSize = stFile.GetSize();
 

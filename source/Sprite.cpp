@@ -52,24 +52,10 @@ Sprite::Sprite()
 	, ppAnimationFrames(NULL)
 	, pFrame(NULL)
 	, pFrameTexture(NULL)
-	, fAspectHalfWidth(0.0f)
-	, fAspectHalfHeight(0.0f)
-	, fAspectWidth(0.0f)
-	, fAspectHeight(0.0f)
 	, iCurrentAnimation(0)
 	, iCurrentFrame(0)
 	, iAnimations(0)
 	, iFrames(0)
-	, fCurrentFrameRate(0.0f)
-	, fFrameTime(0.0f)
-	, iHalfWidth(0)
-	, iHalfHeight(0)
-	, iWidth(0)
-	, iHeight(0)
-	, fTexS0(0.0f)
-	, fTexS1(0.0f)
-	, fTexT0(0.0f)
-	, fTexT1(0.0f)
 	, vert()
 	, sName()
 	, bInitialized(false)
@@ -101,16 +87,7 @@ void Sprite::Reset()
 
 	iCurrentFrame	= 0;
 	iFrames 		= 0;
-	fCurrentFrameRate = 1.0f / SPRITE_GLOBAL_FRAME_TIME;
 	fFrameTime		= 0.0f;
-	iWidth 			= 0;
-	iHeight 		= 0;
-	iHalfWidth 		= 0;
-	iHalfHeight 	= 0;
-	fTexS0			= 0;
-	fTexS1			= 0;
-	fTexT0			= 0;
-	fTexT1			= 0;
 
 	this->SetPriority(0);
 }
@@ -188,51 +165,14 @@ void Sprite::ReconfigureAnimation()
 		this->Play();
 }
 
-// WARNING: pFrameImage must be valid here.
-// FIXME: This can be simplified, do it someday.
 void Sprite::ReconfigureFrame()
 {
 	ASSERT_NULL(pFrameTexture);
 
-	fCurrentFrameRate = 1.0f / static_cast<f32>(pFrame->iTime);
-	if (pFrame->iWidth == 0)
-		iWidth = pFrameTexture->GetWidthInPixel();
-	else
-		iWidth = static_cast<u16>(pFrame->iWidth);
-
-	if (pFrame->iHeight == 0)
-		iHeight = pFrameTexture->GetHeightInPixel();
-	else
-		iHeight = static_cast<u16>(pFrame->iHeight);
-
-	f32 w = 1.0f;//(iWidth / static_cast<f32>(pFrame->iResolutionWidth));
-	f32 h = 1.0f;//(iHeight / static_cast<f32>(pFrame->iResolutionHeight));
-
-	ITransformable2D::SetWidth(w); // set normalized width
-	ITransformable2D::SetHeight(h); // set normalized height
-
-	fAspectWidth = w;
-	fAspectHeight = h * pScreen->GetAspectRatio();
-	fAspectHalfWidth = fAspectWidth / 2.0f;
-	fAspectHalfHeight = fAspectHeight / 2.0f;
-
-	u32 iX = pFrame->iX;
-	u32 iY = pFrame->iY;
-
-	f32 rInvWidth = 1.0F / pFrameTexture->GetAtlasWidthInPixel(); // full width from image, not only frame area
-	f32 rInvHeight = 1.0F / pFrameTexture->GetAtlasHeightInPixel(); // full height from image, not only frame area
-
-	// Normalized Pixel Half Width/Height for pixel based vertex rendering
-	iHalfWidth = static_cast<s32>(pScreen->GetWidth() * (w / 2.0f));
-	iHalfHeight = static_cast<s32>(pScreen->GetHeight() *  (h / 2.0f));
-
-	/*
-	FIXME: 0.1f from hell
-	*/
-	fTexS0 = static_cast<f32>((iX + 0.1f) * rInvWidth);
-	fTexS1 = static_cast<f32>((iX + 0.1f + iWidth) * rInvWidth);
-	fTexT0 = static_cast<f32>((iY + 0.1f) * rInvHeight);
-	fTexT1 = static_cast<f32>((iY + 0.1f + iHeight) * rInvHeight);
+	ITransformable::SetWidth(pFrame->iWidth);
+	ITransformable::SetHeight(pFrame->iHeight);
+	ITransformable::SetLocalX(pFrame->iHalfWidth);
+	ITransformable::SetLocalY(pFrame->iHalfHeight);
 
 	bChanged = true;
 }
@@ -349,7 +289,6 @@ void Sprite::Stop()
 
 void Sprite::Play()
 {
-	fCurrentFrameRate = 1.0f / static_cast<f32>(pFrame->iTime);
 	bPlaying = true;
 	bChanged = true;
 }
@@ -429,10 +368,10 @@ void Sprite::Update(f32 delta)
 	{
 		fFrameTime += delta;
 
-		if (fFrameTime > fCurrentFrameRate)
+		f32 rate = pFrame->fFrameRate;
+		if (fFrameTime > rate)
 		{
-			fFrameTime -= fCurrentFrameRate;
-
+			fFrameTime -= rate;
 			if (iCurrentFrame + 1 == iFrames)
 			{
 				if (bLoop)
@@ -457,71 +396,60 @@ void Sprite::Update(f32 delta)
 	if (!bChanged && !this->IsChanged())
 		return;
 
-	uPixel p = iColor;
-	p.rgba.r = iColor.argb.r;
-	p.rgba.g = iColor.argb.g;
-	p.rgba.b = iColor.argb.b;
-	p.rgba.a = iColor.argb.a;
-
-	if (!arCustomVertexData)
-	{
-		arCurrentVertexData = &vert[0];
-
-		vert[0].cVertex = Vector3f(-fAspectHalfWidth, -fAspectHalfHeight, (f32)iPriority);
-		vert[0].iColor = p;
-		vert[0].cCoords = Point2f(fTexS0, fTexT0);
-
-		vert[1].cVertex = Vector3f(+fAspectHalfWidth, -fAspectHalfHeight, (f32)iPriority);
-		vert[1].iColor = p;
-		vert[1].cCoords = Point2f(fTexS1, fTexT0);
-
-		vert[2].cVertex = Vector3f(-fAspectHalfWidth, +fAspectHalfHeight, (f32)iPriority);
-		vert[2].iColor = p;
-		vert[2].cCoords = Point2f(fTexS0, fTexT1);
-
-		vert[3].cVertex = Vector3f(+fAspectHalfWidth, +fAspectHalfHeight, (f32)iPriority);
-		vert[3].iColor = p;
-		vert[3].cCoords = Point2f(fTexS1, fTexT1);
-	}
-	else
+	if (arCustomVertexData)
 	{
 		arCurrentVertexData = arCustomVertexData;
 	}
-
-	f32 ratio = pScreen->GetAspectRatio();
-	f32 x = fAspectHalfWidth + Sprite::GetX();
-	f32 y = fAspectHalfHeight + Sprite::GetY() * ratio;
-
-	f32 lx = Sprite::GetLocalX();
-	f32 ly = Sprite::GetLocalY() * ratio;
-
-	Matrix4x4f t1, t2, r, s;
-	t1 = TranslationMatrix(lx + x, ly + y, 0.0f);
-	r = RotationMatrix(AxisZ, DegToRad(Sprite::GetRotation()));
-	s = ScaleMatrix(Sprite::GetScaleX(), Sprite::GetScaleY(), 1.0f);
-	t2 = TranslationMatrix(-lx, -ly, 0.0f);
-	Matrix4x4f transform = ((t1 * r) * s) * t2;
-
-	if (bTransformationChanged || !arCustomVertexData)
+	else if (bTransformationChanged)
 	{
+		arCurrentVertexData = &vert[0];
+
+		f32 u0, u1, v0, v1, x, y, w, h, z;
+		uPixel p = iColor;
+		p.rgba.r = iColor.argb.r;
+		p.rgba.g = iColor.argb.g;
+		p.rgba.b = iColor.argb.b;
+		p.rgba.a = iColor.argb.a;
+
+		x = vPos.x;
+		y = vPos.y;
+		z = vPos.z;
+		w = vBoundingBox.x;
+		h = vBoundingBox.y;
+		u0 = pFrame->fTexS0;
+		v0 = pFrame->fTexT0;
+		u1 = pFrame->fTexS1;
+		v1 = pFrame->fTexT1;
+
+		vert[0].cVertex = Vector3f(x, y, z);
+		vert[0].iColor = p;
+		vert[0].cCoords = Point2f(u0, v0);
+
+		vert[1].cVertex = Vector3f(w, y, z);
+		vert[1].iColor = p;
+		vert[1].cCoords = Point2f(u1, v0);
+
+		vert[2].cVertex = Vector3f(x, h, z);
+		vert[2].iColor = p;
+		vert[2].cCoords = Point2f(u0, v1);
+
+		vert[3].cVertex = Vector3f(w, h, z);
+		vert[3].iColor = p;
+		vert[3].cCoords = Point2f(u1, v1);
+
+		Matrix4x4f t1, t2, r, s;
+		t1 = TranslationMatrix(vPos + vLocalPos);
+		r = RotationMatrix(AxisZ, DegToRad(Sprite::GetRotation()));
+		s = ScaleMatrix(vScale);
+		t2 = TranslationMatrix(-vLocalPos);
+		Matrix4x4f transform = ((t1 * r) * s) * t2;
+
 		for (u32 i = 0; i < iNumVertices; i++)
-		{
 			transform.Transform(arCurrentVertexData[i].cVertex);
-		}
 	}
 
 	bChanged = false;
 	bTransformationChanged = false;
-}
-
-u32 Sprite::GetWidthInPixel() const
-{
-	return iWidth;
-}
-
-u32 Sprite::GetHeightInPixel() const
-{
-	return iHeight;
 }
 
 PIXEL Sprite::GetPixel(u32 x, u32 y) const

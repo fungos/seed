@@ -41,6 +41,7 @@
 #include "interface/IObject.h"
 #include "SeedInit.h"
 #include "Reader.h"
+#include "Point.h"
 
 namespace Seed {
 
@@ -59,16 +60,21 @@ class SEED_CORE_API Frame : public IObject
 		virtual const char *GetObjectName() const;
 		virtual int GetObjectType() const;
 
-//	private:
 		ResourceManager *pRes;
 		ITexture	*pTexture;
 		String		sName;
 		u32			iIndex;
-		u32			iTime;
 		u32			iX;
 		u32			iY;
 		u32			iWidth;
 		u32			iHeight;
+		u32			iHalfWidth;
+		u32			iHalfHeight;
+		f32			fFrameRate;
+		f32			fTexS0;
+		f32			fTexS1;
+		f32			fTexT0;
+		f32			fTexT1;
 };
 
 } // namespace

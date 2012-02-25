@@ -88,8 +88,6 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual u32  GetCurrentFrame() const;
 		virtual bool IsLoop() const;
 		virtual bool IsAnimated() const;
-		virtual u32 GetWidthInPixel() const;
-		virtual u32 GetHeightInPixel() const;
 
 		//virtual void SetCustomVertexDataArray(Vector3f *myVertexData, u32 qty, eMeshType type = Seed::TriangleStrip);
 		//virtual void SetCustomCoordsDataArray(f32 *myCoordsData, u32 qty);
@@ -116,33 +114,13 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		Frame		*pFrame;
 		ITexture	*pFrameTexture;
 
-		// Frame related width and height *proportional to view port aspect ratio* for rendering only
-		f32 fAspectHalfWidth; // real half width
-		f32 fAspectHalfHeight; // real half height
-		f32 fAspectWidth; // real width
-		f32 fAspectHeight; // real height
-
 		u32 iCurrentAnimation;
 		u32 iCurrentFrame;
 		u32 iAnimations;
 		u32 iFrames;
-		f32 fCurrentFrameRate;
 		f32 fFrameTime;
-		//u32 iVertexColor;
-
-		// Frame related width and heigth used for rendering only
-		s32 iHalfWidth; // half width in pixel
-		s32 iHalfHeight; // half height in pixel
-		u32 iWidth; // width in pixel
-		u32 iHeight; // height in pixel
-
-		f32 fTexS0;
-		f32 fTexS1;
-		f32 fTexT0;
-		f32 fTexT1;
 
 		sVertex vert[4];
-
 		String sName;
 
 		bool bInitialized;

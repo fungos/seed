@@ -69,6 +69,8 @@ class SEED_CORE_API IRendererDevice : public IModule
 		virtual void Enable2D() const;
 		virtual void Disable2D() const;
 
+		virtual bool NeedPowerOfTwoTextures() const;
+
 		virtual void Begin() const;
 		virtual void End() const;
 

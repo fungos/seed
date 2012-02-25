@@ -354,8 +354,8 @@ void OGL14RendererDevice::TextureRequestProcess() const
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
 			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-			GLuint w = texture->GetAtlasWidthInPixel();
-			GLuint h = texture->GetAtlasHeightInPixel();
+			GLuint w = texture->GetAtlasWidth();
+			GLuint h = texture->GetAtlasHeight();
 			const void *data = texture->GetData();
 
 			// if data == NULL then this can be a dynamic texture. we need just the texture id.
@@ -406,8 +406,8 @@ void OGL14RendererDevice::TextureDataUpdate(ITexture *texture)
 	{
 		glBindTexture(GL_TEXTURE_2D, texture->iTextureId);
 
-		GLuint w = texture->GetAtlasWidthInPixel();
-		GLuint h = texture->GetAtlasHeightInPixel();
+		GLuint w = texture->GetAtlasWidth();
+		GLuint h = texture->GetAtlasHeight();
 		const void *data = texture->GetData();
 		ASSERT_NULL(data);
 
@@ -469,10 +469,11 @@ void OGL14RendererDevice::UploadData(void *userData)
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glBegin(this->GetOpenGLMeshType(packet->nMeshType));
+	glEnable(GL_TEXTURE_2D);
 	for (u32 i = 0; i < packet->iSize; i++)
 	{
 		glTexCoord2f(data[i].cCoords.x, data[i].cCoords.y);
-		glVertex3f(data[i].cVertex.x, data[i].cVertex.y, data[i].cVertex.z);
+		glVertex2f(data[i].cVertex.x, data[i].cVertex.y);//, data[i].cVertex.z);
 	}
 	glEnd();
 
@@ -488,31 +489,20 @@ int OGL14RendererDevice::GetOpenGLMeshType(eMeshType type) const
 void OGL14RendererDevice::BackbufferFill(PIXEL color)
 {
 	glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_CURRENT_BIT | GL_COLOR_BUFFER_BIT);
-
-	const GLfloat vertices[] =
-	{
-		0.0f, 0.0f,
-		0.0f, 1.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-	};
-
+	const GLfloat vertices[] = {0.0f, 0.0f, 0.0f, pScreen->GetHeight(), pScreen->GetWidth(), 0.0f, pScreen->GetWidth(), pScreen->GetHeight()};
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
+
 	glEnableClientState(GL_VERTEX_ARRAY);
-
 	glDisable(GL_TEXTURE_2D);
-
 	glEnable(GL_BLEND);
+
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	glColor4ub(PIXEL_GET_R(color), PIXEL_GET_G(color), PIXEL_GET_B(color), PIXEL_GET_A(color));
-
 	glPushMatrix();
 		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glPopMatrix();
-
-	//glEnable(GL_TEXTURE_2D);
 
 	glPopAttrib();
 }
@@ -522,49 +512,45 @@ void OGL14RendererDevice::SetViewport(const Rect<f32> &area) const
 	GLint x, y;
 	GLsizei width, height;
 
-	x = static_cast<GLint>(area.x * pScreen->GetWidth());
-	y = static_cast<GLint>(area.y * pScreen->GetHeight());
-	width = static_cast<GLsizei>(area.width * pScreen->GetWidth());
-	height = static_cast<GLsizei>(area.height * pScreen->GetHeight());
+	x = static_cast<GLint>(area.x);
+	y = static_cast<GLint>(area.y);
+	width = static_cast<GLsizei>(area.width);
+	height = static_cast<GLsizei>(area.height);
 
-	glViewport(x, pScreen->GetHeight() - y - height, width, height);
+	glViewport(x, y, width, height);
 }
 
 void OGL14RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill) const
 {
 	GLfloat vertices[8];
 
-	f32 ratio = ((f32)pScreen->GetHeight() / (f32)pScreen->GetWidth());
-	f32 fAspectHalfWidth = w / 2.0f;
-	f32 fAspectHalfHeight = (h * ratio) / 2.0f;
-
 	// A
-	vertices[0] = - fAspectHalfWidth;
-	vertices[1] = - fAspectHalfHeight;
+	vertices[0] = x;
+	vertices[1] = y;
 
 	// B
-	vertices[2] = + fAspectHalfWidth;
-	vertices[3] = - fAspectHalfHeight;
+	vertices[2] = w;
+	vertices[3] = y;
 
 	if (!fill)
 	{
-		// C
-		vertices[4] = + fAspectHalfWidth;
-		vertices[5] = + fAspectHalfHeight;
-
 		// D
-		vertices[6] = - fAspectHalfWidth;
-		vertices[7] = + fAspectHalfHeight;
+		vertices[4] = w;
+		vertices[5] = h;
+
+		// C
+		vertices[6] = x;
+		vertices[7] = h;
 	}
 	else
 	{
 		// C
-		vertices[4] = - fAspectHalfWidth;
-		vertices[5] = + fAspectHalfHeight;
+		vertices[4] = x;
+		vertices[5] = h;
 
 		// D
-		vertices[6] = + fAspectHalfWidth;
-		vertices[7] = + fAspectHalfHeight;
+		vertices[6] = w;
+		vertices[7] = h;
 	}
 
 	glColor4ub(PIXEL_GET_R(color), PIXEL_GET_G(color), PIXEL_GET_B(color), PIXEL_GET_A(color));
@@ -572,14 +558,10 @@ void OGL14RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glEnableClientState(GL_VERTEX_ARRAY);
 
-	f32 nx = fAspectHalfWidth + x;
-	f32 ny = fAspectHalfHeight + y * ratio;
-
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
 	glPushMatrix();
 		glLoadIdentity();
-		glTranslatef(nx, ny, 0.0f);
 		if (fill)
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		else
@@ -593,15 +575,11 @@ void OGL14RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool
 void OGL14RendererDevice::Enable2D() const
 {
 #if !defined(BUILD_QT)
-	f32 viewW = static_cast<f32>(pScreen->GetWidth());
-	f32 viewH = static_cast<f32>(pScreen->GetHeight());
-
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
 
-	f32 aspectH = viewH / viewW;
-	glOrtho(0.0f, 1.0f, aspectH, 0.0f, -SEED_MAX_PRIORITY, 0);
+	glOrtho(0.0f, pScreen->GetWidth(), pScreen->GetHeight(), 0.0f, -SEED_MAX_PRIORITY, 0);
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();

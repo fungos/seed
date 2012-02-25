@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -56,7 +56,7 @@ class SEED_CORE_API Particle : public Sprite
 
 	protected:
 		bool	bActive;
-		Point<f32>	ptVelocity;
+		Vector3f vVelocity;
 
 		f32		fGravity;
 		f32		fRadialAccel;
@@ -80,8 +80,6 @@ class SEED_CORE_API Particle : public Sprite
 		f32		fColorDeltaG;
 		f32		fColorDeltaB;
 		f32		fColorDeltaA;
-
-		//ITransformable2D	*pObject;
 
 	private:
 		SEED_DISABLE_COPY(Particle);

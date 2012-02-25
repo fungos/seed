@@ -70,7 +70,7 @@ Objects.in
 ../include/interface/ITexture.h
 ../include/interface/IThread.h
 ../include/interface/ITimer.h
-../include/interface/ITransformable2D.h
+../include/interface/ITransformable.h
 ../include/interface/IUpdatable.h
 ../include/interface/IVideo.h
 ../include/Key.h
@@ -256,7 +256,7 @@ Objects.in
 ../source/interface/ITexture.cpp
 ../source/interface/IThread.cpp
 ../source/interface/ITimer.cpp
-../source/interface/ITransformable2D.cpp
+../source/interface/ITransformable.cpp
 ../source/interface/IUpdatable.cpp
 ../source/interface/IVideo.cpp
 ../source/interface/IInputMotion.cpp

@@ -239,12 +239,12 @@ void Texture::Update(PIXEL *buffer)
 	UNUSED(buffer);
 }
 
-u32 Texture::GetAtlasWidthInPixel() const
+u32 Texture::GetAtlasWidth() const
 {
 	return iAtlasWidth;
 }
 
-u32 Texture::GetAtlasHeightInPixel() const
+u32 Texture::GetAtlasHeight() const
 {
 	return iAtlasHeight;
 }

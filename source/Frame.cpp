@@ -50,11 +50,15 @@ Frame::Frame()
 	, pTexture(NULL)
 	, sName()
 	, iIndex(0)
-	, iTime(0)
 	, iX(0)
 	, iY(0)
 	, iWidth(0)
 	, iHeight(0)
+	, fFrameRate(0.0f)
+	, fTexS0(0.0f)
+	, fTexS1(0.0f)
+	, fTexT0(0.0f)
+	, fTexT1(0.0f)
 {
 }
 
@@ -71,15 +75,28 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 	{
 		pRes = res;
 		sName = reader.ReadString("name", "frame");
-		iTime = reader.ReadU32("repeat", 1);
-		iX = reader.ReadU32("y", 0);
-		iY = reader.ReadU32("x", 0);
-		iWidth = reader.ReadU32("width", 0);
-		iHeight = reader.ReadU32("height", 0);
 
 		String tex = reader.ReadString("texture", "default");
-
 		pTexture = (ITexture *)pRes->Get(tex, Seed::ObjectTexture);
+
+		iX = reader.ReadU32("y", 0);
+		iY = reader.ReadU32("x", 0);
+		iWidth = reader.ReadU32("width", pTexture->GetWidth());
+		iHeight = reader.ReadU32("height", pTexture->GetHeight());
+
+		u32 time = reader.ReadU32("repeat", 1);
+		fFrameRate = 1.0f / static_cast<f32>(time);
+
+		f32 rInvWidth = 1.0f / pTexture->GetAtlasWidth(); // full width from image, not only frame area
+		f32 rInvHeight = 1.0f / pTexture->GetAtlasHeight(); // full height from image, not only frame area
+
+		iHalfWidth = iWidth >> 1;
+		iHalfHeight = iHeight >> 1;
+
+		fTexS0 = static_cast<f32>((iX + 0.1f) * rInvWidth);
+		fTexS1 = static_cast<f32>((iX + 0.1f + iWidth) * rInvWidth);
+		fTexT0 = static_cast<f32>((iY + 0.1f) * rInvHeight);
+		fTexT1 = static_cast<f32>((iY + 0.1f + iHeight) * rInvHeight);
 	}
 
 	return true;

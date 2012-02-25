@@ -66,23 +66,17 @@ class SEED_CORE_API ITexture : public IResource
 		/// GetPixelAlpha returns only the alpha component of the pixel.
 		virtual u8 GetPixelAlpha(u32 x, u32 y) const;
 
-		/// Gets the texture width in pixels.
-		virtual u32 GetWidthInPixel() const;
-
-		/// Gets the texture height in pixels.
-		virtual u32 GetHeightInPixel() const;
-
 		/// Gets the full atlas width in pixels.
-		virtual u32 GetAtlasWidthInPixel() const;
+		virtual u32 GetAtlasWidth() const;
 
 		/// Gets the full atlas height in pixels.
-		virtual u32 GetAtlasHeightInPixel() const;
+		virtual u32 GetAtlasHeight() const;
 
-		/// Gets the texture width normalized (0.0f - 1.0f).
-		virtual f32 GetWidth() const;
+		/// Gets the texture width.
+		virtual u32 GetWidth() const;
 
-		/// Gets the texture height normalized (0.0f - 1.0f).
-		virtual f32 GetHeight() const;
+		/// Gets the texture height.
+		virtual u32 GetHeight() const;
 
 		/// Specify a filtering to be used with this texture.
 		/**
@@ -151,9 +145,6 @@ class SEED_CORE_API ITexture : public IResource
 
 		u32		iWidth;
 		u32		iHeight;
-
-		f32		fWidth;
-		f32		fHeight;
 
 	private:
 		SEED_DISABLE_COPY(ITexture);

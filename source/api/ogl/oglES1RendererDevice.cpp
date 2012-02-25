@@ -360,8 +360,8 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			// if data == NULL then this can be a dynamic texture. we need just the texture id.
 			if (data)
 			{
-				GLuint w = texture->GetAtlasWidthInPixel();
-				GLuint h = texture->GetAtlasHeightInPixel();
+				GLuint w = texture->GetAtlasWidth();
+				GLuint h = texture->GetAtlasHeight();
 				//bool compressed = texture->IsCompressed();
 				u32 bpp = texture->GetBytesPerPixel();
 
@@ -425,8 +425,8 @@ void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 	{
 		glBindTexture(GL_TEXTURE_2D, texId);
 
-		GLuint w = texture->GetAtlasWidthInPixel();
-		GLuint h = texture->GetAtlasHeightInPixel();
+		GLuint w = texture->GetAtlasWidth();
+		GLuint h = texture->GetAtlasHeight();
 		const void *data = texture->GetData();
 		ASSERT_NULL(data);
 
@@ -604,38 +604,16 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, boo
 // FIXME: Viewport aspect ratio...
 void OGLES1RendererDevice::Enable2D() const
 {
-	/*
-	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	{
-		Info(TAG "ERROR: Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-	}
-	 */
-
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
 
-	f32 aspect = pScreen->GetAspectRatio();
-	/*
-	// portrait
-	if (pScreen->GetMode() == Seed::Video_iOSPortrait)
-	{*/
-		glOrthof(0.0f, 1.0f, aspect - 0.001f, 0.0f, -SEED_MAX_PRIORITY, 0);
-	/*}
-	// landscape
-	else if (pScreen->GetMode() == Seed::Video_iOSLandscape)
-	{
-		glOrthof(0.0f, aspect, 1.0f, 0.0f, -SEED_MAX_PRIORITY, 0);
-		glTranslatef(0.0f, 1.0f, 0.0f);
-		glRotatef(-90.0f, 0.0f, 0.0f, 1.0f);
-	}*/
+	glOrthof(0.0f, pScreen->GetWidth(), pScreen->GetHeight(), 0.0f, -SEED_MAX_PRIORITY, 0);
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
 	glScalef(1.0f, 1.0f, -1.0f);
 
-	// Save previous Renderer state
-	//glPushAttrib(GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
 	glAlphaFunc(GL_GREATER, 0.1f);
 	glEnable(GL_ALPHA_TEST);
@@ -644,6 +622,11 @@ void OGLES1RendererDevice::Enable2D() const
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
+}
+
+bool OGLES1RendererDevice::NeedPowerOfTwoTextures() const
+{
+	return true;
 }
 
 void OGLES1RendererDevice::Disable2D() const
