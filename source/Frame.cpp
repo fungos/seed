@@ -46,21 +46,44 @@ namespace Seed {
 Frame::Frame()
 	: IObject()
 	, pTexture(NULL)
-	, pName(NULL)
-	, pFilename(NULL)
+	, sName()
+	, sResource()
 	, iIndex(0)
 	, iTime(0)
 	, iX(0)
 	, iY(0)
 	, iWidth(0)
 	, iHeight(0)
-	, iResolutionWidth(0)
-	, iResolutionHeight(0)
 {
 }
 
 Frame::~Frame()
 {
+	this->Unload();
+}
+
+bool Frame::Load(Reader &reader, ResourceManager *res)
+{
+	ASSERT_NULL(res);
+
+	if (this->Unload())
+	{
+		pRes = res;
+		sName = reader.ReadString("name", "frame");
+		sResource = reader.ReadString("resource", "default");
+		iTime = reader.ReadU32("repeat", 1);
+		iX = reader.ReadU32("y", 0);
+		iY = reader.ReadU32("x", 0);
+		iWidth = reader.ReadU32("width", 0);
+		iHeight = reader.ReadU32("height", 0);
+	}
+
+	return true;
+}
+
+bool Frame::Unload()
+{
+
 }
 
 const char *Frame::GetObjectName() const

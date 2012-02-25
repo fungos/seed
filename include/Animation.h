@@ -64,7 +64,6 @@ class SEED_CORE_API Animation : public IObject
 		virtual int GetObjectType() const;
 
 //	private:
-		ResourceManager *pRes;
 		Frame		**ppFrames;
 		String		sName;
 		u32			iIndex;

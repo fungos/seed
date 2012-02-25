@@ -39,6 +39,8 @@
 
 #include "Defines.h"
 #include "interface/IObject.h"
+#include "SeedInit.h"
+#include "Reader.h"
 
 namespace Seed {
 
@@ -50,22 +52,24 @@ class SEED_CORE_API Frame : public IObject
 		Frame();
 		virtual ~Frame();
 
+		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		bool Unload();
+
 		// IObject
 		virtual const char *GetObjectName() const;
 		virtual int GetObjectType() const;
 
 //	private:
+		ResourceManager *pRes;
 		ITexture	*pTexture;
-		const char	*pName;
-		const char	*pFilename;
+		String		sName;
+		String		sResource;
 		u32			iIndex;
 		u32			iTime;
 		u32			iX;
 		u32			iY;
 		u32			iWidth;
 		u32			iHeight;
-		u32			iResolutionWidth;
-		u32			iResolutionHeight;
 };
 
 } // namespace

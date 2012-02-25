@@ -122,8 +122,8 @@ bool Sprite::Unload()
 		for (u32 i = 0; i < iAnimations; i++)
 		{
 			Animation *a = ppAnimations[i];
-			a->Unload();
 			ppAnimations[i] = NULL;
+			Delete(a);
 		}
 
 		Free(ppAnimations);
@@ -147,12 +147,6 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 		sName = reader.ReadString("name", "sprite");
 		iAnimations = reader.SelectArray("animations");
 
-		this->SetRotation(0);
-		this->SetAnimation(0u);
-
-		bChanged = true;
-		bInitialized = true;
-
 		ppAnimations = (Animation **)Alloc(iAnimations * sizeof(Animation *));
 		for (u32 i = 0; i < iAnimations; i++)
 		{
@@ -161,6 +155,12 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 			a->Load(reader, res);
 			ppAnimations[i] = a;
 		}
+
+		this->SetRotation(0);
+		this->SetAnimation(0u);
+
+		bChanged = true;
+		bInitialized = true;
 
 		pAnimation = ppAnimations[iCurrentAnimation];
 		ppAnimationFrames = pAnimation->GetFrames();
@@ -212,8 +212,8 @@ void Sprite::ReconfigureFrame()
 	else
 		iHeight = static_cast<u16>(pFrame->iHeight);
 
-	f32 w = (iWidth / static_cast<f32>(pFrame->iResolutionWidth));
-	f32 h = (iHeight / static_cast<f32>(pFrame->iResolutionHeight));
+	f32 w = 1.0f;//(iWidth / static_cast<f32>(pFrame->iResolutionWidth));
+	f32 h = 1.0f;//(iHeight / static_cast<f32>(pFrame->iResolutionHeight));
 
 	ITransformable2D::SetWidth(w); // set normalized width
 	ITransformable2D::SetHeight(h); // set normalized height

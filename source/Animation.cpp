@@ -59,6 +59,7 @@ Animation::Animation()
 
 Animation::~Animation()
 {
+	this->Unload();
 }
 
 bool Animation::Load(Reader &reader, ResourceManager *res)
@@ -67,12 +68,21 @@ bool Animation::Load(Reader &reader, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		pRes = res;
 		sName = reader.ReadString("name", "animation");
 		bAnimated = reader.ReadBool("animated", true);
 		bLoop = reader.ReadBool("loop", true);
 		iFps = reader.ReadU32("fps", 60);
 		iFrames = reader.SelectArray("frames");
+
+		ppFrames = (Frame **)Alloc(iFrames * sizeof(Frame *));
+		for (u32 i = 0; i < iFrames; i++)
+		{
+			Frame *f = New(Frame);
+			reader.SelectNext();
+			f->Load(reader, res);
+			f->iIndex = i;
+			ppFrames[i] = f;
+		}
 	}
 
 	return true;
@@ -80,6 +90,21 @@ bool Animation::Load(Reader &reader, ResourceManager *res)
 
 bool Animation::Unload()
 {
+	if (ppFrames)
+	{
+		for (u32 i = 0; i < iFrames; i++)
+		{
+			Frame *f = ppFrames[i];
+			f->Unload();
+			ppFrames[i] = NULL;
+
+			Delete(f);
+		}
+
+		Free(ppFrames);
+	}
+
+	ppFrames = NULL;
 	return true;
 }
 
