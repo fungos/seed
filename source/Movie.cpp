@@ -68,9 +68,8 @@ void Movie::Update(f32 delta)
 	if (fElapsedTime >= frame)
 	{
 		fElapsedTime -= frame;
-		TimelineVectorIterator it = vTimelines.begin();
-		TimelineVectorIterator end = vTimelines.end();
-		for (; it != end; ++it)
+
+		ForEach(Timeline, vTimelines,
 		{
 			Timeline *obj = (*it);
 			if (bTransformationChanged)
@@ -82,7 +81,7 @@ void Movie::Update(f32 delta)
 			}
 
 			obj->Update();
-		}
+		});
 	}
 
 	SceneNode::Update(delta);
@@ -102,22 +101,18 @@ void Movie::Stop()
 
 void Movie::Rewind()
 {
-	TimelineVectorIterator it = vTimelines.begin();
-	TimelineVectorIterator end = vTimelines.end();
-	for (; it != end; ++it)
+	ForEach(Timeline, vTimelines,
 	{
 		(*it)->Rewind();
-	}
+	});
 }
 
 void Movie::Reset()
 {
-	TimelineVectorIterator it = vTimelines.begin();
-	TimelineVectorIterator end = vTimelines.end();
-	for (; it != end; ++it)
+	ForEach(Timeline, vTimelines,
 	{
 		(*it)->Reset();
-	}
+	});
 
 	TimelineVector().swap(vTimelines);
 }

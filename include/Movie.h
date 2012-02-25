@@ -45,9 +45,7 @@ namespace Seed {
 
 class SEED_CORE_API Movie : public SceneNode
 {
-	typedef std::vector<Timeline *> TimelineVector;
-	typedef TimelineVector::iterator TimelineVectorIterator;
-	typedef TimelineVector::const_iterator ConstTimelineVectorIterator;
+	DEFINE_VECTOR_TYPE(Timeline)
 
 	public:
 		Movie();
