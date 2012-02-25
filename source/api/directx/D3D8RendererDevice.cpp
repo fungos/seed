@@ -56,7 +56,7 @@
 namespace Seed { namespace DirectX {
 
 D3D8RendererDevice::D3D8RendererDevice()
-	: bLost(FALSE)
+	: bLost(false)
 {
 	Log(TAG "Initializing...");
 
@@ -86,7 +86,7 @@ bool D3D8RendererDevice::Initialize()
 
 		MessageBox(hWnd, buf, "Wrong DirectX version", MB_OK);
 		//pSystem->Shutdown();
-		return FALSE;
+		return false;
 	}
 	//setting parameters that will be needed to created direct3D device
 
@@ -95,12 +95,12 @@ bool D3D8RendererDevice::Initialize()
 	{
 		MessageBox(hWnd, "Could not create Direct3D 8.1 Object", "Direct3D Object", MB_OK);
 		//pSystem->Shutdown();
-		return FALSE;
+		return false;
 	}
 
 	if (FAILED(mObject->GetAdapterDisplayMode(D3DADAPTER_DEFAULT, &mMode)))
 	{
-		return FALSE;
+		return false;
 	}
 
 	ZeroMemory(&mParams, sizeof(mParams));
@@ -122,7 +122,7 @@ bool D3D8RendererDevice::Initialize()
 		mParams.BackBufferFormat = mMode.Format;
 	}
 
-	mParams.EnableAutoDepthStencil = FALSE;
+	mParams.EnableAutoDepthStencil = false;
 	mParams.MultiSampleType = D3DMULTISAMPLE_NONE;
 
 	int retry = 0;
@@ -161,7 +161,7 @@ bool D3D8RendererDevice::Initialize()
 		_snprintf(a, 250, "Error: %x", error);
 		MessageBox(hWnd,"Could not create Direct3D 8.1 Device", a, MB_OK);
 		//pSystem->Shutdown();
-		return FALSE;
+		return false;
 	}
 
 	if (!pScreen->IsFullscreen())
@@ -234,14 +234,14 @@ bool D3D8RendererDevice::Reset()
 		mParams.BackBufferFormat = mMode.Format;
 	}
 
-	mParams.EnableAutoDepthStencil = FALSE;
+	mParams.EnableAutoDepthStencil = false;
 	mParams.MultiSampleType = D3DMULTISAMPLE_NONE;
 
 	mDevice->Reset(&mParams);
 
 	this->Enable2D();
 
-	return TRUE; // abstract IRenderer::Reset();
+	return true; // abstract IRenderer::Reset();
 }
 
 bool D3D8RendererDevice::Shutdown()
@@ -256,7 +256,7 @@ bool D3D8RendererDevice::Shutdown()
 		if ((objects = mDevice->Release()) > 0)
 		{
 			Info(TAG "There are %d objects in RendererDevice - shutdown will fail.", objects);
-			ret = FALSE;
+			ret = false;
 		}
 	}
 	mDevice = NULL;
@@ -593,11 +593,11 @@ void D3D8RendererDevice::Enable2D() const
 	mDevice->SetRenderState(D3DRS_ZENABLE, D3DZB_FALSE);
 	mDevice->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
 
-	mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	mDevice->SetRenderState(D3DRS_ALPHABLENDENABLE, true);
 	mDevice->SetRenderState(D3DRS_ALPHAREF, (DWORD)0x00000001);
 	mDevice->SetRenderState(D3DRS_ALPHAFUNC, D3DCMP_GREATER);
-	mDevice->SetRenderState(D3DRS_ALPHATESTENABLE, TRUE);
-	mDevice->SetRenderState(D3DRS_LIGHTING, FALSE);
+	mDevice->SetRenderState(D3DRS_ALPHATESTENABLE, true);
+	mDevice->SetRenderState(D3DRS_LIGHTING, false);
 }
 
 void D3D8RendererDevice::Disable2D() const
@@ -617,7 +617,7 @@ void D3D8RendererDevice::Update()
 				{
 					Info(TAG "WARNING: DirectX Device Lost.");
 					pRendererManager->Disable();
-					bLost = TRUE;
+					bLost = true;
 				}
 			}
 			break;
@@ -634,7 +634,7 @@ void D3D8RendererDevice::Update()
 					pResourceManager->Reload(Seed::ObjectTexture);
 
 					pRendererManager->Enable();
-					bLost = FALSE;
+					bLost = false;
 				}
 			}
 			break;

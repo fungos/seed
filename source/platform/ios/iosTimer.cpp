@@ -64,7 +64,7 @@ bool Timer::Initialize()
 	this->Reset();
 	Log(TAG "Initialization completed.");
 
-	return TRUE;
+	return true;
 }
 
 bool Timer::Reset()
@@ -75,7 +75,7 @@ bool Timer::Reset()
 
 	//fStart = CFAbsoluteTimeGetCurrent();
 
-	return TRUE;
+	return true;
 }
 
 bool Timer::Shutdown()

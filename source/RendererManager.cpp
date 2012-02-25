@@ -48,7 +48,7 @@ SEED_SINGLETON_DEFINE(RendererManager)
 
 RendererManager::RendererManager()
 	: arRenderer()
-	, bEnabled(TRUE)
+	, bEnabled(true)
 {
 	arRenderer.Truncate();
 }
@@ -67,13 +67,13 @@ bool RendererManager::Initialize()
 		arRenderer[i]->Initialize();
 	}
 
-	return TRUE;
+	return true;
 }
 
 bool RendererManager::Reset()
 {
 	arRenderer.Truncate();
-	return TRUE;
+	return true;
 }
 
 bool RendererManager::Shutdown()
@@ -88,7 +88,7 @@ bool RendererManager::Shutdown()
 
 bool RendererManager::Update(f32 dt)
 {
-	bool ret = TRUE;
+	bool ret = true;
 
 	if (bEnabled)
 	{
@@ -105,12 +105,12 @@ void RendererManager::Add(Renderer *renderer)
 {
 	ASSERT_NULL(renderer);
 
-	bool found = FALSE;
+	bool found = false;
 	for (u32 i = 0; i < arRenderer.Size(); i++)
 	{
 		if (arRenderer[i] == renderer)
 		{
-			found = TRUE;
+			found = true;
 			break;
 		}
 	}
@@ -130,7 +130,7 @@ void RendererManager::Remove(Renderer *renderer)
 
 void RendererManager::Disable()
 {
-	bEnabled = FALSE;
+	bEnabled = false;
 	for (u32 i = 0; i < arRenderer.Size(); i++)
 	{
 		arRenderer[i]->Disable();
@@ -139,7 +139,7 @@ void RendererManager::Disable()
 
 void RendererManager::Enable()
 {
-	bEnabled = TRUE;
+	bEnabled = true;
 	for (u32 i = 0; i < arRenderer.Size(); i++)
 	{
 		arRenderer[i]->Enable();

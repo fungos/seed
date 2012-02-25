@@ -133,7 +133,7 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 		/*!
 			Checks whatever system is shutting down.
 
-			\return TRUE if system is shutting down, FALSE otherwise.
+			\return true if system is shutting down, false otherwise.
 		 */
 		virtual bool IsShuttingDown() const = 0;
 
@@ -141,7 +141,7 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 		/*!
 			Checks whatever system is resetting.
 
-			\return TRUE if system is resetting, FALSE otherwise.
+			\return true if system is resetting, false otherwise.
 		 */
 		virtual bool IsResetting() const = 0;
 
@@ -156,7 +156,7 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 		/*!
 			Checks whatever system is in sleep/standby mode.
 
-			\return TRUE if system is in sleep/standby mode, FALSE otherwise.
+			\return true if system is in sleep/standby mode, false otherwise.
 		 */
 		virtual bool IsSleeping() const = 0;
 

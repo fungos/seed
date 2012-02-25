@@ -61,7 +61,7 @@ bool IGameApp::Shutdown()
 	cResourceManager.Print();
 	cResourceManager.Reset();
 
-	return TRUE;
+	return true;
 }
 
 void IGameApp::WriteOut(const char *msg)

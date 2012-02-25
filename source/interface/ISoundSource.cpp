@@ -51,7 +51,7 @@ ISoundSource::ISoundSource()
 	, fFadeTime(0.0f)
 	, fStartFadeTime(0)
 	, eState(SourceNone)
-	, bLoop(FALSE)
+	, bLoop(false)
 {
 }
 

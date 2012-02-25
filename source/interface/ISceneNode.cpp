@@ -51,7 +51,7 @@ ISceneNode::~ISceneNode()
 
 bool ISceneNode::IsNode() const
 {
-	return TRUE;
+	return true;
 }
 
 void ISceneNode::Update(f32 dt)

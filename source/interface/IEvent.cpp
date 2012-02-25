@@ -44,14 +44,14 @@ namespace Seed {
 IEvent::IEvent(eType myType, u32 myId)
 	: iType(myType)
 	, iId(myId)
-	, bConsumed(FALSE)
+	, bConsumed(false)
 {
 }
 
 IEvent::IEvent()
 	: iType(UNDEFINED)
 	, iId(EVENT_UNDEFINED)
-	, bConsumed(FALSE)
+	, bConsumed(false)
 {
 }
 
@@ -59,7 +59,7 @@ IEvent::~IEvent()
 {
 	this->iType 	= UNDEFINED;
 	this->iId 		= EVENT_UNDEFINED;
-	this->bConsumed = FALSE;
+	this->bConsumed = false;
 }
 
 u32 IEvent::GetId() const
@@ -74,7 +74,7 @@ IEvent::eType IEvent::GetEventType()
 
 void IEvent::Consume() const
 {
-	this->bConsumed = TRUE;
+	this->bConsumed = true;
 }
 
 bool IEvent::IsConsumed() const

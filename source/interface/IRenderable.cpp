@@ -43,7 +43,7 @@ namespace Seed {
 IRenderable::IRenderable()
 	: eBlendOperation(BlendNone)
 	, iColor(255, 255, 255, 255)
-	, bVisible(TRUE)
+	, bVisible(true)
 {
 }
 
@@ -56,7 +56,7 @@ void IRenderable::Reset()
 {
 	eBlendOperation = BlendNone;
 	iColor.pixel = 0;
-	bVisible = TRUE;
+	bVisible = true;
 }
 
 void IRenderable::Render()

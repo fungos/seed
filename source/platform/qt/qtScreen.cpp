@@ -70,7 +70,7 @@ bool Screen::Reset()
 	IModule::Reset();
 	iFadeStatus = 0;
 
-	return TRUE;
+	return true;
 }
 
 void Screen::PrepareMode()
@@ -149,10 +149,10 @@ bool Screen::Initialize()
 	Log(TAG "Video resolution is %dx%dx%d.", iWidth, iHeight, iBPP);
 	Log(TAG "Initialization completed.");
 
-	bFullScreen = FALSE;
-	bFading = FALSE;
+	bFullScreen = false;
+	bFading = false;
 
-	return TRUE;
+	return true;
 }
 
 bool Screen::Shutdown()
@@ -179,7 +179,7 @@ void Screen::FadeOut()
 	if (bFading)
 		return;
 
-	bFading		= TRUE;
+	bFading		= true;
 	fadeType	= FADE_OUT;
 	iFadeStatus	= FADE_OUT_TRANS;
 }
@@ -189,14 +189,14 @@ void Screen::FadeIn()
 	if (bFading)
 		return;
 
-	bFading		= TRUE;
+	bFading		= true;
 	fadeType	= FADE_IN;
 	iFadeStatus	= FADE_OUT_SOLID;
 }
 
 void Screen::CancelFade()
 {
-	bFading		= FALSE;
+	bFading		= false;
 	iFadeStatus	= FADE_OUT_TRANS;
 }
 
@@ -232,7 +232,7 @@ void Screen::ToggleFullscreen()
 
 void Screen::ApplyFade()
 {
-	if (this->bFading == FALSE)
+	if (this->bFading == false)
 		return;
 
 	if (fadeType == FADE_IN)
@@ -241,7 +241,7 @@ void Screen::ApplyFade()
 
 		if (iFadeStatus <= FADE_OUT_TRANS)
 		{
-			bFading = FALSE;
+			bFading = false;
 			iFadeStatus = FADE_OUT_TRANS;
 		}
 	}
@@ -251,7 +251,7 @@ void Screen::ApplyFade()
 
 		if (iFadeStatus >= FADE_OUT_SOLID)
 		{
-			bFading = FALSE;
+			bFading = false;
 			iFadeStatus = FADE_OUT_SOLID;
 		}
 	}

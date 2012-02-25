@@ -76,10 +76,10 @@ Screen::~Screen()
 
 bool Screen::Reset()
 {
-	bFading    	= FALSE;
+	bFading    	= false;
 	iFadeStatus 	= FADE_OUT_TRANS;
 
-	return TRUE;
+	return true;
 }
 
 bool Screen::Initialize()
@@ -98,7 +98,7 @@ bool Screen::Initialize()
 
 	Log(TAG "Initialization completed.");
 
-	return TRUE;
+	return true;
 }
 
 bool Screen::Shutdown()
@@ -122,7 +122,7 @@ void Screen::FadeOut()
 	if (bFading)
 		return;
 
-	bFading		= TRUE;
+	bFading		= true;
 	fadeType	= FADE_OUT;
 	iFadeStatus	= FADE_OUT_TRANS;
 }
@@ -132,7 +132,7 @@ void Screen::FadeIn()
 	if (bFading)
 		return;
 
-	bFading		= TRUE;
+	bFading		= true;
 	fadeType	= FADE_IN;
 	iFadeStatus	= FADE_OUT_SOLID;
 }
@@ -142,7 +142,7 @@ void Screen::CancelFade()
 	if (!bFading)
 		return;
 
-	bFading		= FALSE;
+	bFading		= false;
 	iFadeStatus	= FADE_OUT_TRANS;
 }
 
@@ -177,7 +177,7 @@ void Screen::Resize(int w, int h)
 
 void Screen::ApplyFade()
 {
-	if (bFading == FALSE)
+	if (bFading == false)
 		return;
 
 	if (fadeType == FADE_IN)
@@ -186,7 +186,7 @@ void Screen::ApplyFade()
 
 		if (iFadeStatus <= FADE_OUT_TRANS)
 		{
-			bFading = FALSE;
+			bFading = false;
 			iFadeStatus = FADE_OUT_TRANS;
 		}
 	}
@@ -196,7 +196,7 @@ void Screen::ApplyFade()
 
 		if (iFadeStatus >= FADE_OUT_SOLID)
 		{
-			bFading = FALSE;
+			bFading = false;
 			iFadeStatus = FADE_OUT_SOLID;
 		}
 	}

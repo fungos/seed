@@ -69,7 +69,7 @@ void Thread::Destroy()
 bool Thread::Run()
 {
 	IThread::Run();
-	return TRUE;
+	return true;
 }
 
 void Thread::run()

@@ -71,11 +71,11 @@ Theora::Theora()
 	, fTexScaleX(0.0f)
 	, fTexScaleY(0.0f)
 	, fElapsedTime(0.0f)
-	, bLoaded(FALSE)
-	, bPaused(TRUE)
-	, bPlaying(FALSE)
-	, bFinished(FALSE)
-	, bTerminateThread(FALSE)
+	, bLoaded(false)
+	, bPaused(true)
+	, bPlaying(false)
+	, bFinished(false)
+	, bTerminateThread(false)
 	, sem(0)
 {
 }
@@ -90,10 +90,10 @@ void Theora::Reset()
 {
 	IRenderable::Reset();
 
-	bFinished = FALSE;
-	bPaused = TRUE;
-	bPlaying = FALSE;
-	bTerminateThread = FALSE;
+	bFinished = false;
+	bPaused = true;
+	bPlaying = false;
+	bTerminateThread = false;
 
 	this->Unload();
 }
@@ -102,14 +102,14 @@ bool Theora::Unload()
 {
 	Image::Unload();
 
-	bFinished = TRUE;
-	bTerminateThread = TRUE;
-	bPlaying = FALSE;
-	bPaused = TRUE;
+	bFinished = true;
+	bTerminateThread = true;
+	bPlaying = false;
+	bPaused = true;
 
 	Free(pTexData);
 
-	return TRUE;
+	return true;
 }
 
 bool Theora::Run()
@@ -130,8 +130,8 @@ bool Theora::Run()
 
 			if (r != E_OGGPLAY_CONTINUE && r != E_OGGPLAY_USER_INTERRUPT)
 			{
-				//bPlaying = FALSE;
-				bFinished = TRUE;
+				//bPlaying = false;
+				bFinished = true;
 				pTimer->Sleep(10);
 				SEM_CHECK(sem) SEM_WAIT(sem);
 			}
@@ -168,8 +168,8 @@ bool Theora::Load(const String &filename, ResourceManager *res)
 		OggPlayReader *reader = oggplay_file_reader_new(filename);
 		pPlayer = oggplay_open_with_reader(reader);
 
-		bLoaded = FALSE;
-		bTerminateThread = FALSE;
+		bLoaded = false;
+		bTerminateThread = false;
 
 		if (pPlayer)
 		{
@@ -309,7 +309,7 @@ bool Theora::GoToFrame(u32 frame)
 {
 	ASSERT(frame < iTotalFrames);
 
-	bool ret = FALSE;
+	bool ret = false;
 	iFrameCount = frame;
 	ogg_int64_t pos = static_cast<ogg_int64_t>(frame * fDelay);
 
@@ -319,7 +319,7 @@ bool Theora::GoToFrame(u32 frame)
 	}
 	else
 	{
-		ret = TRUE;
+		ret = true;
 		SEM_CHECK(sem) SEM_SIGNAL(sem);
 	}
 
@@ -328,7 +328,7 @@ bool Theora::GoToFrame(u32 frame)
 
 void Theora::Rewind()
 {
-	bPaused = TRUE;
+	bPaused = true;
 	iFrameCount = 0;
 	if (oggplay_seek(pPlayer, 0) == E_OGGPLAY_CANT_SEEK)
 	{
@@ -370,16 +370,16 @@ void Theora::DoPlay()
 		if (!bPaused)
 			this->Rewind();
 
-		bFinished = FALSE;
-		bPlaying = TRUE;
-		bPaused = FALSE;
+		bFinished = false;
+		bPlaying = true;
+		bPaused = false;
 	}
 }
 
 void Theora::Stop()
 {
-	bPlaying = FALSE;
-	bPaused = FALSE;
+	bPlaying = false;
+	bPaused = false;
 }
 
 bool Theora::IsStopped() const
@@ -390,8 +390,8 @@ bool Theora::IsStopped() const
 void Theora::Pause()
 {
 	iLastFrameTime = 0;
-	bPaused = TRUE;
-	bPlaying = FALSE;
+	bPaused = true;
+	bPlaying = false;
 }
 
 bool Theora::IsPaused() const
@@ -443,7 +443,7 @@ void Theora::ProcessVideoData(OggPlayVideoData *data)
 
 bool Theora::WaitFrameRate()
 {
-	bool ret = FALSE;
+	bool ret = false;
 	if (!iLastFrameTime)
 		iLastFrameTime = pTimer->GetMilliseconds();
 
@@ -455,7 +455,7 @@ bool Theora::WaitFrameRate()
 	if (fElapsedTime >= fDelay)
 	{
 		fElapsedTime -= fDelay;
-		ret = TRUE;
+		ret = true;
 	}
 
 	return ret;
@@ -491,11 +491,11 @@ void Theora::ConfigureRendering()
 	cTexture.Load(ROUND_UP(iWidth, 32), iHeight, static_cast<PIXEL *>((void *)pTexData), iTexWidth, iTexHeight);
 	Image::Load(&cTexture);
 
-	bTerminateThread = FALSE;
-	bLoaded = TRUE;
-	bPlaying = FALSE;
-	bFinished = FALSE;
-	bPaused = TRUE;
+	bTerminateThread = false;
+	bLoaded = true;
+	bPlaying = false;
+	bFinished = false;
+	bPaused = true;
 
 	this->Create();
 	this->Run();

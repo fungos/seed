@@ -79,7 +79,7 @@ bool Renderer::Update(f32 dt)
 	SEED_FUNCTION_PROFILER;
 
 	if (!IModule::IsEnabled())
-		return FALSE;
+		return false;
 
 	vRenderables.clear();
 
@@ -105,7 +105,7 @@ bool Renderer::Update(f32 dt)
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 void Renderer::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill) const

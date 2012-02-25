@@ -86,12 +86,7 @@ typedef signed char 			s8;
 typedef float 					f32;
 
 typedef float 					fixed32;
-
-typedef signed char 			bool;
 typedef int 					PIXEL;
-
-#define FALSE	0
-#define TRUE	1
 
 #if SEED_PATH_WIDE == 1
 typedef wchar_t					FilePath;

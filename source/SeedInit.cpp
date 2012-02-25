@@ -67,10 +67,10 @@ namespace Seed {
 namespace Private
 {
 	IGameApp	*pApplication;// 	= NULL;
-	bool		bInitialized;// 	= FALSE;
+	bool		bInitialized;// 	= false;
 	int			iArgc;//			= 0;
 	const char	**pcArgv;//		= NULL;
-	bool		bDisableSound;//	= FALSE;
+	bool		bDisableSound;//	= false;
 	f32			fCurrentTime;//	= 0.0f;
 }
 
@@ -83,7 +83,7 @@ void CommandLineParameter(const char *param)
 {
 	if (!STRCASECMP(param, "--nosound"))
 	{
-		Private::bDisableSound = TRUE;
+		Private::bDisableSound = true;
 	}
 }
 
@@ -151,7 +151,7 @@ bool Initialize()
 	Info(SEED_TAG "\tMusic Buffer: %d", SEED_MUSIC_STREAMING_BUFFER_SIZE);
 	Info(SEED_TAG "Initializing...");
 
-	bool ret = TRUE;
+	bool ret = true;
 
 	pChecksum = Checksum::GetInstance();
 
@@ -193,7 +193,7 @@ bool Initialize()
 	//pSystem->InitializeHome(); FIXME home can only be initialized after the ROM package with the
 	//default error font was called and this is done at app->Initialize since the memory manager is not
 	//ready during Setup
-	Private::bInitialized = TRUE;
+	Private::bInitialized = true;
 
 	ret = ret && pModuleManager->Add(Private::pApplication);
 
@@ -254,7 +254,7 @@ void Shutdown()
 	ProfilerTerminate;
 	LeakReportPrint;
 
-	Private::bInitialized = FALSE;
+	Private::bInitialized = false;
 	Private::pApplication = NULL;
 }
 

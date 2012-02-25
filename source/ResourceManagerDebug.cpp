@@ -57,7 +57,7 @@ namespace Seed {
 void *ResourceManager::mapLoaders[ObjectUser];
 
 ResourceManager::ResourceManager(const String &name)
-	: bHasUnusedResource(FALSE)
+	: bHasUnusedResource(false)
 	, sName(name)
 {
 	MEMSET(mapLoaders, 0, sizeof(mapLoaders));
@@ -155,14 +155,14 @@ void ResourceManager::GarbageCollect()
 				mapResources[i].pValue = NULL;
 				mapResources[i].sKey = "";
 
-				bHasUnusedResource = TRUE;
+				bHasUnusedResource = true;
 			}
 		}
 	}
 
 	if (bHasUnusedResource)
 	{
-		bHasUnusedResource = FALSE;
+		bHasUnusedResource = false;
 		this->GarbageCollect();
 	}
 

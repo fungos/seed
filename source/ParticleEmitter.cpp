@@ -48,7 +48,7 @@ ParticleEmitter::ParticleEmitter()
 	, pRes(NULL)
 	, sFilename()
 	, sSpriteFilename()
-	, bParticlesFollowEmitter(FALSE)
+	, bParticlesFollowEmitter(false)
 	, fAge(0.0f)
 	, fRespawnAge(0.0f)
 	, fEmissionResidue(0.0f)
@@ -58,8 +58,8 @@ ParticleEmitter::ParticleEmitter()
 	, fTy(0.0f)
 	, fScale(1.0f)
 	, iAnimation(0)
-	, bPaused(FALSE)
-	, bEnabled(TRUE)
+	, bPaused(false)
+	, bEnabled(true)
 	, nMinFilter(TextureFilterLinear)
 	, nMagFilter(TextureFilterLinear)
 	, iParticlesAmount(0)
@@ -101,7 +101,7 @@ ParticleEmitter::~ParticleEmitter()
 			continue;
 
 		arParticles[i].Unload();
-		arParticles[i].bActive = FALSE;
+		arParticles[i].bActive = false;
 	}
 
 	fInterval = 0.0f;
@@ -124,7 +124,7 @@ ParticleEmitter::~ParticleEmitter()
 	//iParticlesAlive = 0;
 	fAge = -2.0f;
 	fRespawnAge = 0.0f;
-	bPaused = FALSE;
+	bPaused = false;
 
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{
@@ -132,7 +132,7 @@ ParticleEmitter::~ParticleEmitter()
 			continue;
 
 		arParticles[i].Unload();
-		arParticles[i].bActive = FALSE;
+		arParticles[i].bActive = false;
 	}
 }
 
@@ -196,10 +196,10 @@ ParticleEmitter::~ParticleEmitter()
 		par->fAge += deltaTime;
 		if (par->fAge >= par->fTerminalAge)
 		{
-			//par->SetVisible(FALSE);
+			//par->SetVisible(false);
 
 			arParticles[i].Unload();
-			arParticles[i].bActive = FALSE;
+			arParticles[i].bActive = false;
 
 			//iParticlesAlive--;
 			//MEMCOPY(par, &arParticles[iParticlesAlive], sizeof(Particle));
@@ -241,9 +241,9 @@ ParticleEmitter::~ParticleEmitter()
 		//	par->fRotation += 360.0f;
 
 		par->vPos += (par->vVelocity * deltaTime);
-		bTransformationChanged = TRUE;
-		par->bTransformationChanged = TRUE;
-		par->bChanged = TRUE;
+		bTransformationChanged = true;
+		par->bTransformationChanged = true;
+		par->bChanged = true;
 		//par++;
 	}
 
@@ -261,14 +261,14 @@ ParticleEmitter::~ParticleEmitter()
 			//if (arParticles.Size() >= iParticlesAmount)
 			//	break;
 
-			bool bFull = TRUE;
+			bool bFull = true;
 			for (u32 j = 0; j < iParticlesAmount; j++)
 			{
 				if (!arParticles[j].bActive)
 				{
-					arParticles[j].bActive = TRUE;
+					arParticles[j].bActive = true;
 					par = &arParticles[j];
-					bFull = FALSE;
+					bFull = false;
 					break;
 				}
 			}
@@ -338,13 +338,13 @@ ParticleEmitter::~ParticleEmitter()
 			//par->SetPosition(pos);
 			par->vPos = pos;
 			//par->fRotation = par->fSpin;
-			par->bTransformationChanged = TRUE;
+			par->bTransformationChanged = true;
 
 			File f(sSpriteFilename);
 			Reader r(f);
 			par->Load(r, pRes);
 			par->SetAnimation(iAnimation);
-			par->SetVisible(TRUE);
+			par->SetVisible(true);
 			//par->SetParent(this);
 
 			//iParticlesAlive++;
@@ -366,7 +366,7 @@ ParticleEmitter::~ParticleEmitter()
 		MoveEverything(vPos);
 
 	vPrevLocation = location;
-	bTransformationChanged = FALSE;
+	bTransformationChanged = false;
 
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{
@@ -439,7 +439,7 @@ ParticleEmitter::~ParticleEmitter()
 		}
 		else
 		{
-			bPaused = FALSE;
+			bPaused = false;
 		}
 	}
 }
@@ -454,7 +454,7 @@ ParticleEmitter::~ParticleEmitter()
 	fRespawnAge = 0.0f;
 	fAge = -2.0f;
 	fInterval = 0.0f;
-	bPaused = FALSE;
+	bPaused = false;
 }
 
  bool ParticleEmitter::IsStopped() const
@@ -464,7 +464,7 @@ ParticleEmitter::~ParticleEmitter()
 
  void ParticleEmitter::Pause()
 {
-	bPaused = TRUE;
+	bPaused = true;
 }
 
  bool ParticleEmitter::IsPaused() const
@@ -477,7 +477,7 @@ ParticleEmitter::~ParticleEmitter()
 	fRespawnAge = 0.0f;
 	fAge = -2.0f;
 //	iParticlesAlive = 0;
-	bPaused = FALSE;
+	bPaused = false;
 
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{
@@ -485,18 +485,18 @@ ParticleEmitter::~ParticleEmitter()
 			continue;
 
 		arParticles[i].Unload();
-		arParticles[i].bActive = FALSE;
+		arParticles[i].bActive = false;
 	}
 }
 
  void ParticleEmitter::Enable()
 {
-	bEnabled = TRUE;
+	bEnabled = true;
 }
 
  void ParticleEmitter::Disable()
 {
-	bEnabled = FALSE;
+	bEnabled = false;
 }
 
  bool ParticleEmitter::IsEnabled() const

@@ -134,14 +134,14 @@ bool ITexture::Unload()
 {
 	stFile.Close();
 
-	return TRUE;
+	return true;
 }
 
 bool ITexture::Load(const String &filename, ResourceManager *res)
 {
 	ASSERT_NULL(res);
 
-	bool ret = FALSE;
+	bool ret = false;
 	if (this->Unload())
 	{
 		pRes = res;
@@ -163,7 +163,7 @@ bool ITexture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 at
 	UNUSED(atlasHeight)
 
 	SEED_ABSTRACT_METHOD
-	return TRUE;
+	return true;
 }
 
 void ITexture::SetFilter(eTextureFilterType type, eTextureFilter filter)

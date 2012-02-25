@@ -39,7 +39,7 @@
 namespace Seed {
 
 Movie::Movie()
-	: bPlaying(TRUE)
+	: bPlaying(true)
 	, fElapsedTime(0.0f)
 	, arTimelines()
 {
@@ -88,13 +88,13 @@ void Movie::Update(f32 delta)
 void Movie::Play()
 {
 	fElapsedTime = 0.0f;
-	bPlaying = TRUE;
+	bPlaying = true;
 }
 
 void Movie::Stop()
 {
 	fElapsedTime = 0.0f;
-	bPlaying = FALSE;
+	bPlaying = false;
 }
 
 void Movie::Rewind()

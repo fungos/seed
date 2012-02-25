@@ -50,7 +50,7 @@ SEED_SINGLETON_DEFINE(ResourceLoader)
 ResourceLoader::ResourceLoader()
 	: vListeners()
 	, vGroups()
-	, bRunning(FALSE)
+	, bRunning(false)
 	, stMutex()
 {
 }
@@ -62,7 +62,7 @@ ResourceLoader::~ResourceLoader()
 bool ResourceLoader::Reset()
 {
 	IModule::Reset();
-	return TRUE;
+	return true;
 }
 
 bool ResourceLoader::Initialize()
@@ -70,20 +70,20 @@ bool ResourceLoader::Initialize()
 	Log(TAG "Initializing...");
 	IModule::Initialize();
 	this->Create();
-	this->bRunning = TRUE;
+	this->bRunning = true;
 	Log(TAG "Initialization completed.");
 
-	return TRUE;
+	return true;
 }
 
 bool ResourceLoader::Shutdown()
 {
-	this->bRunning = FALSE;
+	this->bRunning = false;
 	this->Destroy();
 	IModule::Shutdown();
 	Log(TAG "Terminated.");
 
-	return TRUE;
+	return true;
 }
 
 bool ResourceLoader::Update(f32 dt)
@@ -91,7 +91,7 @@ bool ResourceLoader::Update(f32 dt)
 	UNUSED(dt);
 
 	if (!bRunning)
-		return FALSE;
+		return false;
 
 	ResourceGroup *group = NULL;
 
@@ -103,7 +103,7 @@ bool ResourceLoader::Update(f32 dt)
 	stMutex.Unlock();
 
 	if (!group)
-		return TRUE;
+		return true;
 
 	stMutex.Lock();
 	if (group->IsLoaded())
@@ -129,7 +129,7 @@ bool ResourceLoader::Update(f32 dt)
 	}
 	stMutex.Unlock();
 
-	return TRUE;
+	return true;
 }
 
 bool ResourceLoader::Run()
@@ -148,10 +148,10 @@ bool ResourceLoader::Run()
 		stMutex.Unlock();
 
 		if (!group)
-			return TRUE;
+			return true;
 
 		if (group->IsLoaded())
-			return TRUE;
+			return true;
 
 		if (group->Load())
 		{

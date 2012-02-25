@@ -80,7 +80,7 @@ bool SoundSystem::Initialize()
 	{
 		Info(TAG "WARNING: Could not open OpenAL device - running wihtout sound!");
 		//ASSERT_NULL(pDevice);
-		r = FALSE;
+		r = false;
 	}
 	else
 	{
@@ -89,7 +89,7 @@ bool SoundSystem::Initialize()
 		{
 			Info(TAG "WARNING: Could not create OpenAL context - running without sound!");
 			//ASSERT_NULL(pContext);
-			r = FALSE;
+			r = false;
 		}
 		else
 		{
@@ -130,12 +130,12 @@ bool SoundSystem::Reset()
 		arSource.Truncate();
 		// abstract IModule::Reset();
 	}
-	return TRUE;
+	return true;
 }
 
 bool SoundSystem::Shutdown()
 {
-	bool r = TRUE;
+	bool r = true;
 	if (bInitialized)
 	{
 		Log(TAG "Terminating...");
@@ -162,10 +162,10 @@ bool SoundSystem::Update(f32 dt)
 		if (pCurrentMusic)
 			this->UpdateMusic(dt, pCurrentMusic);
 
-		bChanged = FALSE;
+		bChanged = false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 void SoundSystem::UpdateSounds(f32 dt)

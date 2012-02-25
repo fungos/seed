@@ -102,7 +102,7 @@ bool OGLES1RendererDevice::Reset()
 {
 	arTexture.Truncate();
 
-	return TRUE; // abstract IRenderer::Reset();
+	return true; // abstract IRenderer::Reset();
 }
 
 bool OGLES1RendererDevice::Shutdown()
@@ -174,13 +174,13 @@ bool OGLES1RendererDevice::CheckExtension(const char *extName)
 		size_t n = strcspn(p, " ");
 		if ((extNameLen == n) && (strncmp(extName, p, n) == 0))
 		{
-			return TRUE;
+			return true;
 		}
 
 		p += (n + 1);
 	}
 
-	return FALSE;
+	return false;
 }
 
 void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) const

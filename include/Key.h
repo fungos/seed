@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -52,19 +52,19 @@ class SEED_CORE_API Key
 		/*!
 		Check if this key is a printable character.
 
-		\return TRUE if the key is a letter, a number or a whitespace, everything else returns FALSE.
+		\return true if the key is a letter, a number or a whitespace, everything else returns false.
 		 */
 		bool IsCharacter() const;
 
 		//! Checks if this key is a number.
 		/*!
-			\return TRUE if the key is a a number from 0 to 9, everything else returns FALSE.
+			\return true if the key is a a number from 0 to 9, everything else returns false.
 		 */
 		bool IsNumber() const;
 
 		//! Checks if this key is a letter.
 		/*!
-			\return TRUE if the key is a letter between a-z or A-Z, everything else returns FALSE.
+			\return true if the key is a letter between a-z or A-Z, everything else returns false.
 		 */
 		bool IsLetter() const;
 

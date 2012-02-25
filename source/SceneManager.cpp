@@ -66,12 +66,12 @@ void SceneManager::Add(ISceneObject *obj)
 {
 	ASSERT_NULL(obj);
 
-	bool found = FALSE;
+	bool found = false;
 	for (u32 i = 0; i < arObject.Size(); i++)
 	{
 		if (arObject[i] == obj)
 		{
-			found = TRUE;
+			found = true;
 			break;
 		}
 	}
@@ -96,7 +96,7 @@ bool SceneManager::Update(f32 delta)
 		arObject[i]->Update(delta);
 	}
 
-	return TRUE;
+	return true;
 }
 
 } // namespace

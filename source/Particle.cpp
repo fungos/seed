@@ -43,7 +43,7 @@ namespace Seed {
 
 
 Particle::Particle()
-	: bActive(FALSE)
+	: bActive(false)
 	, vVelocity(0.0f, 0.0f, 0.0f)
 	, fGravity(0.0f)
 	, fRadialAccel(0.0f)

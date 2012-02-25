@@ -387,10 +387,10 @@ oggz_get_bos (OGGZ * oggz, long serialno)
 	for (i = 0; i < size; i++) {
 	  stream = (oggz_stream_t *)oggz_vector_nth_p (oggz->streams, i);
 #if 1
-	  /* If this stream has delivered a non bos packet, return FALSE */
+	  /* If this stream has delivered a non bos packet, return false */
 	  if (stream->delivered_non_b_o_s) return 0;
 #else
-	  /* If this stream has delivered its bos packet, return FALSE */
+	  /* If this stream has delivered its bos packet, return false */
 	  if (!stream->b_o_s) return 0;
 #endif
 	}

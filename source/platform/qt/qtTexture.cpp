@@ -70,7 +70,7 @@ Texture::~Texture()
 bool Texture::Unload()
 {
 	this->Reset();
-	return TRUE;
+	return true;
 }
 
 void Texture::Reset()
@@ -96,7 +96,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 
 		if (image.isNull())
 		{
-			return FALSE;
+			return false;
 		}
 
 		image = image.convertToFormat(QImage::Format_ARGB32);
@@ -113,7 +113,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		fHeight = (f32)iHeight / (f32)pScreen->GetHeight();
 	}
 
-	return TRUE;
+	return true;
 }
 
 bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 texWidth, u32 texHeight)
@@ -130,7 +130,7 @@ bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 texWidth, u32 texHe
 
 		if (image.isNull())
 		{
-			return FALSE;
+			return false;
 		}
 
 		iWidth = width;
@@ -145,7 +145,7 @@ bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 texWidth, u32 texHe
 		fHeight = (f32)iHeight / (f32)pScreen->GetHeight();
 	}
 
-	return TRUE;
+	return true;
 }
 
 const void *Texture::GetData() const

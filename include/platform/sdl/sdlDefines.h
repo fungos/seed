@@ -219,10 +219,6 @@ typedef u32 					PIXEL;
 	#define PLATFORM_PATH_SEPARATOR			'/'
 #endif // WIN32
 
-#define bool 	bool
-#define FALSE	0
-#define TRUE	1
-
 #define LIB_SIZE_T				size_t
 #define LIB_RAND				rand() //(u32)(srand((unsigned int)(time(NULL))))
 

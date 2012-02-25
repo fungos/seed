@@ -43,7 +43,7 @@ namespace Seed {
 
 EventResourceLoader::EventResourceLoader()
 	: IEvent(RESOURCE, EVENT_RESOURCE_LOADER)
-	, pGroup(FALSE)
+	, pGroup(false)
 {
 }
 

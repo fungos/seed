@@ -101,7 +101,7 @@ class SEED_CORE_API OGL14RendererDevice : public IRendererDevice
 		virtual void BackbufferFill(const PIXEL color = 0);
 
 		virtual void SetViewport(const Rect<f32> &area) const;
-		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill = FALSE) const;
+		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill = false) const;
 		virtual void Enable2D() const;
 		virtual void Disable2D() const;
 

@@ -52,7 +52,7 @@ static int __seed_thread_loop_callback(void *param)
 }
 
 Thread::Thread()
-	: bRunning(TRUE)
+	: bRunning(true)
 	, pThread(NULL)
 {
 }
@@ -66,7 +66,7 @@ void Thread::Create(s32 priority)
 {
 	UNUSED(priority);
 
-	bRunning = TRUE;
+	bRunning = true;
 	if (!pThread)
 	{
 		pThread = SDL_CreateThread(__seed_thread_loop_callback, this);
@@ -76,7 +76,7 @@ void Thread::Create(s32 priority)
 
 void Thread::Destroy()
 {
-	bRunning = FALSE;
+	bRunning = false;
 
 	if (pThread)
 	{

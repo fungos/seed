@@ -42,8 +42,8 @@ IPlayable::IPlayable()
 	: fFrameRate(30.0f)
 	, iTotalFrames(0)
 	, nState(PlayableStopped)
-	, bFinished(FALSE)
-	, bLoop(FALSE)
+	, bFinished(false)
+	, bLoop(false)
 {
 }
 
@@ -83,7 +83,7 @@ bool IPlayable::IsPaused() const
 
 bool IPlayable::IsSeekable() const
 {
-	return FALSE;
+	return false;
 }
 
 void IPlayable::Seek(f32 pos)

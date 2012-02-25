@@ -40,7 +40,7 @@
 namespace Seed {
 
 IScreen::IScreen()
-	: bFading(FALSE)
+	: bFading(false)
 	, nMode(Seed::Video_AutoDetect)
 	, fAspectRatio(static_cast<f32>(PLATFORM_MAX_SCREEN_HEIGHT)/static_cast<f32>(PLATFORM_MAX_SCREEN_WIDTH))
 	, iHeight(PLATFORM_MAX_SCREEN_HEIGHT)
@@ -75,13 +75,13 @@ void IScreen::ToggleFullscreen()
 bool IScreen::HasWindowedMode() const
 {
 	SEED_ABSTRACT_METHOD;
-	return FALSE;
+	return false;
 }
 
 bool IScreen::IsFullscreen() const
 {
 	SEED_ABSTRACT_METHOD;
-	return TRUE;
+	return true;
 }
 
 void IScreen::Update()
@@ -114,7 +114,7 @@ void IScreen::FadeOut()
 
 bool IScreen::IsRequired() const
 {
-	return TRUE;
+	return true;
 }
 
 const char *IScreen::GetObjectName() const

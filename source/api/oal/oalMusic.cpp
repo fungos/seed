@@ -64,7 +64,7 @@ Music::Music()
 	, vorbisComment(NULL)
 	, oggStream()
 	, eFormat(AL_FORMAT_MONO16)
-	, bLoop(TRUE)
+	, bLoop(true)
 {
 	memset(iBuffers, '\0', sizeof(iBuffers));
 }
@@ -102,7 +102,7 @@ bool Music::Load(const IReader &reader, ResourceManager *res)
 		if (err != AL_NO_ERROR)
 		{
 			Info(TAG "Could not create OpenAL music source (0x%04x).", err);
-			bLoaded = FALSE;
+			bLoaded = false;
 			return bLoaded;
 		}
 
@@ -112,7 +112,7 @@ bool Music::Load(const IReader &reader, ResourceManager *res)
 		{
 			alDeleteSources(1, &iSource);
 			memset(iBuffers, '\0', sizeof(iBuffers));
-			bLoaded = FALSE;
+			bLoaded = false;
 
 			Info(TAG "Could not generate OpenAL music buffers (0x%04x).", err);//alGetError());
 		}
@@ -123,7 +123,7 @@ bool Music::Load(const IReader &reader, ResourceManager *res)
 			alDeleteSources(1, &iSource);
 			alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers);
 			memset(iBuffers, '\0', sizeof(iBuffers));
-			bLoaded = FALSE;
+			bLoaded = false;
 
 			Info(TAG "Could not open '%s' ogg stream (file does not exist or is not a valid ogg file).", fname);
 			return bLoaded;
@@ -143,7 +143,7 @@ bool Music::Load(const IReader &reader, ResourceManager *res)
 
 		this->Reset();
 
-		bLoaded = TRUE;
+		bLoaded = true;
 	}
 
 	return bLoaded;
@@ -152,7 +152,7 @@ bool Music::Load(const IReader &reader, ResourceManager *res)
 bool Music::Unload()
 {
 	if (!bLoaded)
-		return TRUE;
+		return true;
 
 	eState = Seed::MusicStopped;
 	eFormat = AL_FORMAT_MONO16;
@@ -184,9 +184,9 @@ bool Music::Unload()
 	memset(iBuffers, '\0', sizeof(iBuffers));
 
 	ov_clear(&oggStream);
-	bLoaded = FALSE;
+	bLoaded = false;
 
-	return TRUE;
+	return true;
 }
 
 void Music::Reset()

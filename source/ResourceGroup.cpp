@@ -42,7 +42,7 @@ namespace Seed {
 
 ResourceGroup::ResourceGroup()
 	: queue()
-	, bLoaded(FALSE)
+	, bLoaded(false)
 {
 }
 
@@ -62,7 +62,7 @@ void ResourceGroup::Add(const String &filename, Seed::eObjectType resourceType, 
 	pNewItem->resourceType 	= resourceType;
 	pNewItem->resManager	= res;
 	pNewItem->startTime		= (u32)pTimer->GetMilliseconds();
-	pNewItem->erased		= FALSE;
+	pNewItem->erased		= false;
 
 	queue.push_back(pNewItem);
 }
@@ -89,7 +89,7 @@ bool ResourceGroup::Load()
 		pQueueItem->resource = res;
 	}
 
-	return TRUE;
+	return true;
 }
 
 
@@ -111,13 +111,13 @@ bool ResourceGroup::Unload()
 	queue.clear();
 	QueueVector().swap(queue);
 
-	return TRUE;
+	return true;
 }
 
 
 void ResourceGroup::SetLoaded()
 {
-	this->bLoaded = TRUE;
+	this->bLoaded = true;
 }
 
 

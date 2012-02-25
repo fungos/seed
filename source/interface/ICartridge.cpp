@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -60,7 +60,7 @@ bool ICartridge::Write(u32 dest, const void *src, u32 len)
 	UNUSED(src);
 	UNUSED(len);
 	SEED_ABSTRACT_METHOD;
-	return FALSE;
+	return false;
 }
 
 u32 ICartridge::GetSize() const
@@ -74,14 +74,14 @@ bool ICartridge::Read(u32 src, void *dest, u32 len)
 	UNUSED(src);
 	UNUSED(len);
 	SEED_ABSTRACT_METHOD;
-	return FALSE;
+	return false;
 }
 
 bool ICartridge::Prepare(eCartridgeSize size)
 {
 	UNUSED(size);
 	SEED_ABSTRACT_METHOD;
-	return FALSE;
+	return false;
 }
 
 u32 ICartridge::GetOffsetForSlot(u32 headerSize, u32 sharedSize, u32 dataSize, u32 slot) const

@@ -97,8 +97,6 @@ typedef char					FilePath;
 #endif
 
 #if defined(WIN32)
-	#undef bool
-	#define bool bool
 	#undef OUT
 	#define ATTRIBUTE_ALIGN(x)
 	#define LIB_FOPEN(a, b)					_wfopen((wchar_t *)a, L##b)
@@ -115,14 +113,6 @@ typedef char					FilePath;
 	#define LIB_FOPEN(a, b)					fopen((const char *)a, b)
 	#define PLATFORM_PATH_SEPARATOR			'/'
 #endif // WIN32
-
-#if !defined(FALSE)
-#define FALSE	0
-#endif // FALSE
-
-#if !defined(TRUE)
-#define TRUE	1
-#endif // TRUE
 
 #define LIB_SIZE_T					size_t
 #define LIB_RAND					rand() //(u32)(srand((unsigned int)(time(NULL))))

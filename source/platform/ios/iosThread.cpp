@@ -53,8 +53,8 @@ static void *__seed_thread_loop_callback(void *param)
 }
 
 Thread::Thread()
-	: bCreated(FALSE)
-	, bRunning(FALSE)
+	: bCreated(false)
+	, bRunning(false)
 {
 }
 
@@ -65,30 +65,30 @@ Thread::~Thread()
 
 void Thread::Destroy()
 {
-	bRunning = FALSE;
+	bRunning = false;
 	if (bCreated)
 	{
 		pthread_exit(NULL);
-		bCreated = FALSE;
+		bCreated = false;
 	}
 	thread = 0;
 }
 
 void Thread::Create()
 {
-	bRunning = TRUE;
+	bRunning = true;
 	if (!bCreated)
 	{
 		int err = pthread_create(&thread, 0, __seed_thread_loop_callback, (void *)this);
 		UNUSED(err);
 		ASSERT_MSG(err == 0, TAG "Failed to create thread.");
-		bCreated = TRUE;
+		bCreated = true;
 	}
 }
 
 bool Thread::Run()
 {
-	return TRUE;
+	return true;
 }
 
 }} // namespace

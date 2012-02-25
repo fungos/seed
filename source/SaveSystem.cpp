@@ -47,7 +47,7 @@
 namespace Seed {
 
 SEED_SINGLETON_DEFINE(SaveSystem)
-bool SaveSystem::bIsSaving = FALSE;
+bool SaveSystem::bIsSaving = false;
 
 SaveSystem::SaveSystem()
 	: iTotalSlots(PLATFORM_SAVESYSTEM_SLOTS_MAX)
@@ -56,7 +56,7 @@ SaveSystem::SaveSystem()
 	, iSharedDataSize(0)
 	, iID(0)
 	, cardType(Cartridge512b)
-	, bInitialized(FALSE)
+	, bInitialized(false)
 	, pcSaveGameFolder()
 {
 }
@@ -77,12 +77,12 @@ eCartridgeError SaveSystem::Initialize(eCartridgeSize type)
 		if (!pCartridge->Prepare(type))
 		{
 			Log(TAG "Failed to initialize cartridge.");
-			bIsSaving = FALSE;
+			bIsSaving = false;
 			return pCartridge->GetLastError();
 		}
 
-		bInitialized = TRUE;
-		bIsSaving = FALSE;
+		bInitialized = true;
+		bIsSaving = false;
 		Log(TAG "Initialization completed.");
 	}
 	else
@@ -119,7 +119,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 		return Seed::ErrorNotInitialized;
 	}
 
-	bIsSaving = TRUE;
+	bIsSaving = true;
 	Log(TAG "Preparing Save System");
 
 	iSlotDataSize	= slotDataSize;
@@ -130,7 +130,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 	if (pCartridge->GetSize() < requiredSize)
 	{
 		Log(TAG "Cartridge %d bytes of space, slot size and header require %d bytes.", pCartridge->GetSize(), requiredSize);
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return Seed::ErrorInvalidArgument;
 	}
 
@@ -139,7 +139,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 
 	if (error != Seed::ErrorNone)
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return error;
 	}
 
@@ -188,7 +188,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 		Free(slotTestMemory);
 	}
 
-	bIsSaving = FALSE;
+	bIsSaving = false;
 	Log(TAG "Save System Preparation Complete");
 
 	return ret;
@@ -198,11 +198,11 @@ eCartridgeError SaveSystem::FormatCard(void *slotBlankData, void *sharedBlankDat
 {
 	eCartridgeError error;
 	sSaveInfo header;
-	bIsSaving = TRUE;
+	bIsSaving = true;
 
 	if (!bInitialized)
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return Seed::ErrorNotInitialized;
 	}
 
@@ -212,7 +212,7 @@ eCartridgeError SaveSystem::FormatCard(void *slotBlankData, void *sharedBlankDat
 
 	if (error != Seed::ErrorNone)
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return error;
 	}
 
@@ -221,7 +221,7 @@ eCartridgeError SaveSystem::FormatCard(void *slotBlankData, void *sharedBlankDat
 		error = this->FormatShared(sharedBlankData);
 		if (error != Seed::ErrorNone)
 		{
-			bIsSaving = FALSE;
+			bIsSaving = false;
 			return error;
 		}
 	}
@@ -231,28 +231,28 @@ eCartridgeError SaveSystem::FormatCard(void *slotBlankData, void *sharedBlankDat
 		error = this->FormatSlot(i, slotBlankData);
 		if (error != Seed::ErrorNone)
 		{
-			bIsSaving = FALSE;
+			bIsSaving = false;
 			return error;
 		}
 	}
 
-	bIsSaving = FALSE;
+	bIsSaving = false;
 	return Seed::ErrorNone;
 }
 
 eCartridgeError SaveSystem::FormatShared(void *sharedBlankData)
 {
-	bIsSaving = TRUE;
+	bIsSaving = true;
 
 	if (!bInitialized)
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return Seed::ErrorNotInitialized;
 	}
 
 	if (iSharedDataSize == 0 || sharedBlankData == NULL)
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return Seed::ErrorNone;
 	}
 
@@ -261,35 +261,35 @@ eCartridgeError SaveSystem::FormatShared(void *sharedBlankData)
 	u32 offsetCrc 			= sizeof(sSaveInfo) + iSharedDataSize;
 	if (!pCartridge->Write(offset, sharedBlankData, iSharedDataSize))
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return pCartridge->GetLastError();
 	}
 
 	if (!pCartridge->Write(offsetCrc, &sharedBlankDataCRC, sizeof(u32)))
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return pCartridge->GetLastError();
 	}
 	this->Wait();
 
-	bIsSaving = FALSE;
+	bIsSaving = false;
 	return Seed::ErrorNone;
 }
 
 eCartridgeError SaveSystem::FormatSlot(u8 slot, void *slotBlankData)
 {
-	bIsSaving = TRUE;
+	bIsSaving = true;
 
 	if (!bInitialized)
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return Seed::ErrorNotInitialized;
 	}
 
 	if (slot > iTotalSlots)
 	{
 		Log(TAG "Maximum of %d save game slots allowed.", iTotalSlots);
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return Seed::ErrorInvalidArgument;
 	}
 
@@ -299,18 +299,18 @@ eCartridgeError SaveSystem::FormatSlot(u8 slot, void *slotBlankData)
 
 	if (!pCartridge->Write(offset, slotBlankData, iSlotDataSize))
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return pCartridge->GetLastError();
 	}
 
 	if (!pCartridge->Write(offsetCrc, &blankDataCRC, sizeof(u32)))
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return pCartridge->GetLastError();
 	}
 	this->Wait();
 
-	bIsSaving = FALSE;
+	bIsSaving = false;
 	return Seed::ErrorNone;
 }
 
@@ -369,18 +369,18 @@ eCartridgeError SaveSystem::GetLastUsedSlot(u32 *lastSlot)
 
 eCartridgeError SaveSystem::Save(u32 slot, void *slotData, void *sharedData)
 {
-	bIsSaving = TRUE;
+	bIsSaving = true;
 
 	if (!bInitialized)
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return Seed::ErrorNotInitialized;
 	}
 
 	if (slot > iTotalSlots)
 	{
 		Log(TAG "Maximum of %d save game slots allowed.", iTotalSlots);
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return Seed::ErrorInvalidArgument;
 	}
 
@@ -391,7 +391,7 @@ eCartridgeError SaveSystem::Save(u32 slot, void *slotData, void *sharedData)
 	if (error != Seed::ErrorNone)
 	{
 		Log(TAG "Error updating header information.");
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return error;
 	}
 
@@ -400,21 +400,21 @@ eCartridgeError SaveSystem::Save(u32 slot, void *slotData, void *sharedData)
 
 	if (!pCartridge->Write(offset, slotData, iSlotDataSize))
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return pCartridge->GetLastError();
 	}
 
 	u32 slotCRC = (u32)pChecksum->Calculate((const char *)slotData, iSlotDataSize);
 	if (!pCartridge->Write(offsetCrc, &slotCRC, sizeof(u32)))
 	{
-		bIsSaving = FALSE;
+		bIsSaving = false;
 		return pCartridge->GetLastError();
 	}
 
 	error = this->WriteSharedData(sharedData);
 
 	this->Wait();
-	bIsSaving = FALSE;
+	bIsSaving = false;
 
 	return error;
 }

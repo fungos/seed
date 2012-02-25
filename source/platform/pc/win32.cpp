@@ -190,7 +190,7 @@ bool system_check_multiple_instance()
 	if (!handleProcess)
 	{
 		Log(TAG "ERROR! could not create a object mutex. Error:%d ", error);
-		return TRUE;
+		return true;
 	}
 	else if (error == ERROR_ALREADY_EXISTS)
 	{
@@ -201,15 +201,15 @@ bool system_check_multiple_instance()
 			{
 				MessageBox(NULL, "There is already an instance of this application running!", Seed::pConfiguration->GetApplicationTitle(), MB_ICONWARNING);
 			}
-			SwitchToThisWindow(hWnd, FALSE);
+			SwitchToThisWindow(hWnd, false);
 			ShowWindow(hWnd, SW_RESTORE);
-			return FALSE;
+			return false;
 		}
 	}
 #else
 	#warning "Implementar 'system_check_multiple_instance' no Qt"
 #endif
-	return TRUE;
+	return true;
 }
 
 #endif // WIN32

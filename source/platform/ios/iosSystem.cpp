@@ -60,7 +60,7 @@ System::~System()
 
 bool System::Reset()
 {
-	return TRUE;
+	return true;
 }
 
 bool System::Initialize()
@@ -70,7 +70,7 @@ bool System::Initialize()
 
 	pFileSystem->SetWriteableDirectory(iphGetHomePath());
 
-	return TRUE;
+	return true;
 }
 
 bool System::Shutdown()
@@ -78,7 +78,7 @@ bool System::Shutdown()
 	Log(TAG "Terminated.");
 	Log(TAG "Terminated.");
 
-	return TRUE;
+	return true;
 }
 
 bool System::Update(f32 delta)
@@ -87,7 +87,7 @@ bool System::Update(f32 delta)
 
 	this->WaitForRetrace(this->iFrameRate);
 
-	return TRUE;
+	return true;
 }
 
 void System::Sleep()
@@ -97,17 +97,17 @@ void System::Sleep()
 
 bool System::IsSleeping() const
 {
-	return FALSE;
+	return false;
 }
 
 bool System::IsShuttingDown() const
 {
-	return FALSE;
+	return false;
 }
 
 bool System::IsResetting() const
 {
-	return FALSE;
+	return false;
 }
 
 void System::WaitForRetrace(eSystemFrameRate rate)
@@ -143,17 +143,17 @@ void System::EnableHome()
 
 bool System::IsHomeEnabled() const
 {
-	return FALSE;
+	return false;
 }
 
 bool System::IsHomeRunning() const
 {
-	return FALSE;
+	return false;
 }
 
 bool System::InitializeHome()
 {
-	return FALSE;
+	return false;
 }
 
 }} // namespace

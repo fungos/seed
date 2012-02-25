@@ -36,13 +36,13 @@ namespace Seed {
 
 
 Configuration::Configuration()
-	: bDebugSprite(FALSE)
+	: bDebugSprite(false)
 	, nVideoMode(Video_AutoDetect)
 	, iResolutionWidth(800)
 	, iResolutionHeight(600)
 	, pcWorkingDirectory(NULL)
-	, bMultipleInstances(FALSE)
-	, bWarningMultipleInstances(FALSE)
+	, bMultipleInstances(false)
+	, bWarningMultipleInstances(false)
 	, iFrameRate(Seed::FrameRateLockAt60)
 	, pcTitle(NULL)
 	, pcDescription(NULL)

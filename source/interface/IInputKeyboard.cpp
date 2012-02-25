@@ -394,17 +394,17 @@ IInputKeyboard::~IInputKeyboard()
 /*
 bool IInputKeyboard::IsKeyHold(u32 key) const
 {
-	return FALSE;
+	return false;
 }
 
 bool IInputKeyboard::IsKeyPressed(u32 key) const
 {
-	return FALSE;
+	return false;
 }
 
 bool IInputKeyboard::IsKeyReleased(u32 key) const
 {
-	return FALSE;
+	return false;
 }
 */
 

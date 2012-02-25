@@ -62,7 +62,7 @@ IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 }
 
 Music::Music()
-	: bLoop(TRUE)
+	: bLoop(true)
 	, stFile()
 {
 }
@@ -119,13 +119,13 @@ bool Music::Load(const String &filename, ResourceManager *res)
 				[p prepareToPlay];
 				//[p play];
 
-				bLoaded = TRUE;
+				bLoaded = true;
 			}
 			else
 			{
 				Log(TAG "Error: %s", [[err localizedDescription] cStringUsingEncoding: NSASCIIStringEncoding]);
 				Log(TAG "Error happened when trying to play music %s.", fname);
-				bLoaded = FALSE;
+				bLoaded = false;
 			}
 		}
 	}
@@ -136,7 +136,7 @@ bool Music::Load(const String &filename, ResourceManager *res)
 bool Music::Unload()
 {
 	if (!bLoaded)
-		return TRUE;
+		return true;
 
 	eState = Seed::MusicStopped;
 	fVolume = 1.0f;
@@ -144,7 +144,7 @@ bool Music::Unload()
 	pSoundSystem->StopMusic(0, this);
 	stFile.Close();
 
-	bLoaded = FALSE;
+	bLoaded = false;
 
 	AVAudioPlayer *p = (AVAudioPlayer *)pAVPlayer;
 	if (p)
@@ -154,7 +154,7 @@ bool Music::Unload()
 		pAVPlayer = NULL;
 	}
 
-	return TRUE;
+	return true;
 }
 
 void Music::Reset()
@@ -167,7 +167,7 @@ bool Music::Update(f32 dt)
 	UNUSED(dt);
 
 	if (!pAVPlayer)
-		return FALSE;
+		return false;
 
 	AVAudioPlayer *p = (AVAudioPlayer *)pAVPlayer;
 	if (eState == Seed::MusicPlay || eState == Seed::MusicFadeIn)

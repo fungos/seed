@@ -107,7 +107,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 
 		this->ReadData(filename.c_str());
 
-		bLoaded = TRUE;
+		bLoaded = true;
 	}
 
 	return bLoaded;
@@ -124,9 +124,9 @@ bool Sound::Unload()
 	iSize = 0;
 	iBuffer = 0;
 
-	bLoaded = FALSE;
+	bLoaded = false;
 
-	return TRUE;
+	return true;
 }
 
 const void *Sound::GetData() const
@@ -158,7 +158,7 @@ void Sound::ReadData(const char *file)
 	path = [@AUDIO_DATA_PATH stringByAppendingString: path];
 	path = [root stringByAppendingString: path];
 
-	CFURLRef fileURL = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)path, kCFURLPOSIXPathStyle, FALSE);
+	CFURLRef fileURL = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)path, kCFURLPOSIXPathStyle, false);
 	err = AudioFileOpenURL(fileURL, kAudioFileReadPermission, 0, &afid);
 	if (err)
 		{ Log(TAG "ReadAudioData: file %s%s%s not found, Error = %ld.", AUDIO_DATA_PATH, file, AUDIO_DATA_EXT, err); goto Exit; }

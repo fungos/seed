@@ -51,8 +51,8 @@ Keyframe::Keyframe()
 	, iColorG(255)
 	, iColorB(255)
 	, iColorA(255)
-	, bTween(FALSE)
-	, bBlank(FALSE)
+	, bTween(false)
+	, bBlank(false)
 {
 }
 

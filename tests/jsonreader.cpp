@@ -5,7 +5,7 @@ TestJsonReader::TestJsonReader()
 	, fRot(0.0f)
 	, iCol(0)
 	, iCount(0)
-	, bDir(TRUE)
+	, bDir(true)
 {
 }
 
@@ -28,10 +28,10 @@ bool TestJsonReader::Update(f32 dt)
 		iCol--;
 
 	if (iCol == 255)
-		bDir = FALSE;
+		bDir = false;
 
 	if (iCol == 0)
-		bDir = TRUE;
+		bDir = true;
 
 	if (iCount == 200)
 		pScreen->FadeOut();
@@ -43,5 +43,5 @@ bool TestJsonReader::Update(f32 dt)
 	}
 	iCount++;
 
-	return TRUE;
+	return true;
 }

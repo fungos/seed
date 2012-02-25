@@ -57,9 +57,9 @@ SEED_SINGLETON_DEFINE(System);
 System::System()
 	: iRetraceCount(0)
 	, iFrameRate(FrameRateLockAt60)
-	, bShutdown(FALSE)
-	, bSleeping(FALSE)
-	, bDefaultCursorEnabled(FALSE)
+	, bShutdown(false)
+	, bSleeping(false)
+	, bDefaultCursorEnabled(false)
 	, fElapsedTime(0.0f)
 	, iLastFrameTime(0)
 	, iFpsTime(0)
@@ -72,7 +72,7 @@ System::~System()
 
 bool System::Reset()
 {
-	return TRUE;
+	return true;
 }
 
 bool System::Initialize()
@@ -98,15 +98,15 @@ bool System::Initialize()
 
 	Log(TAG "Initialization completed.");
 
-	return TRUE;
+	return true;
 }
 
 bool System::Shutdown()
 {
-	this->bShutdown = TRUE;
+	this->bShutdown = true;
 	Log(TAG "Terminating...");
 
-	return TRUE;
+	return true;
 }
 
 bool System::Update(f32 dt)
@@ -118,7 +118,7 @@ bool System::Update(f32 dt)
 	{
 		if (!this->bSleeping)
 		{
-			this->bSleeping = TRUE;
+			this->bSleeping = true;
 
 			EventSystem ev;
 			this->SendEventSleep(&ev);
@@ -128,7 +128,7 @@ bool System::Update(f32 dt)
 	{
 		if (this->bSleeping)
 		{
-			this->bSleeping = FALSE;
+			this->bSleeping = false;
 
 			EventSystem ev;
 			this->SendEventSleep(&ev);
@@ -136,7 +136,7 @@ bool System::Update(f32 dt)
 	}
 
 	//this->WaitForRetrace(this->iFrameRate);
-	return TRUE;
+	return true;
 }
 
 void System::Sleep()
@@ -156,7 +156,7 @@ bool System::IsShuttingDown() const
 
 bool System::IsResetting() const
 {
-	return FALSE;
+	return false;
 }
 
 void System::WaitForRetrace(eSystemFrameRate rate)
@@ -237,17 +237,17 @@ void System::HangUp()
 
 bool System::IsHomeEnabled() const
 {
-	return FALSE;
+	return false;
 }
 
 bool System::IsHomeRunning() const
 {
-	return FALSE;
+	return false;
 }
 
 bool System::InitializeHome()
 {
-	return TRUE;
+	return true;
 }
 
 void System::EnableHome()

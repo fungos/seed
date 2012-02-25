@@ -52,7 +52,7 @@ SEED_SINGLETON_DEFINE(ViewManager)
 ViewManager::ViewManager()
 	: arViewport()
 	, pCurrentViewport(NULL)
-	, bEnabled(TRUE)
+	, bEnabled(true)
 {
 	arViewport.Truncate();
 }
@@ -71,13 +71,13 @@ bool ViewManager::Initialize()
 		arViewport[i]->GetRenderer()->Initialize();
 	}
 
-	return TRUE;
+	return true;
 }
 
 bool ViewManager::Reset()
 {
 	arViewport.Truncate();
-	return TRUE;
+	return true;
 }
 
 bool ViewManager::Shutdown()
@@ -96,12 +96,12 @@ void ViewManager::Add(Viewport *view)
 {
 	ASSERT_NULL(view);
 
-	bool found = FALSE;
+	bool found = false;
 	for (u32 i = 0; i < arViewport.Size(); i++)
 	{
 		if (arViewport[i] == view)
 		{
-			found = TRUE;
+			found = true;
 			break;
 		}
 	}
@@ -120,12 +120,12 @@ void ViewManager::Remove(Viewport *view)
 
 void ViewManager::Disable()
 {
-	bEnabled = FALSE;
+	bEnabled = false;
 }
 
 void ViewManager::Enable()
 {
-	bEnabled = TRUE;
+	bEnabled = true;
 }
 
 void ViewManager::Render()

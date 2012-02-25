@@ -40,7 +40,7 @@
 namespace Seed {
 
 IMutex::IMutex()
-	: bLocked(FALSE)
+	: bLocked(false)
 {
 }
 
@@ -50,18 +50,18 @@ IMutex::~IMutex()
 
 void IMutex::Lock()
 {
-	this->bLocked = TRUE;
+	this->bLocked = true;
 }
 
 void IMutex::Unlock()
 {
-	this->bLocked = FALSE;
+	this->bLocked = false;
 }
 
 bool IMutex::TryLock()
 {
 	SEED_ABSTRACT_METHOD;
-	return TRUE;
+	return true;
 }
 
 } // namespace

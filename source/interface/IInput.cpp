@@ -49,27 +49,27 @@ IInput::~IInput()
 
 bool IInput::IsPointer() const
 {
-	return FALSE;
+	return false;
 }
 
 bool IInput::IsJoystick() const
 {
-	return FALSE;
+	return false;
 }
 
 bool IInput::IsMotion() const
 {
-	return FALSE;
+	return false;
 }
 
 bool IInput::IsKeyboard() const
 {
-	return FALSE;
+	return false;
 }
 
 bool IInput::IsRequired() const
 {
-	return TRUE;
+	return true;
 }
 
 const char *IInput::GetObjectName() const

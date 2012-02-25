@@ -58,7 +58,7 @@ bool IInputPointer::IsHold(u32 button, u16 joystick) const
 	UNUSED(button);
 	UNUSED(joystick);
 	SEED_ABSTRACT_METHOD;
-	return FALSE;
+	return false;
 }
 
 bool IInputPointer::IsPressed(u32 button, u16 joystick) const
@@ -66,7 +66,7 @@ bool IInputPointer::IsPressed(u32 button, u16 joystick) const
 	UNUSED(button);
 	UNUSED(joystick);
 	SEED_ABSTRACT_METHOD;
-	return FALSE;
+	return false;
 }
 
 bool IInputPointer::IsReleased(u32 button, u16 joystick) const
@@ -74,7 +74,7 @@ bool IInputPointer::IsReleased(u32 button, u16 joystick) const
 	UNUSED(button);
 	UNUSED(joystick);
 	SEED_ABSTRACT_METHOD;
-	return FALSE;
+	return false;
 }
 
 f32 IInputPointer::GetX(u16 joystick) const
@@ -150,7 +150,7 @@ bool IInputPointer::IsEnabled(u16 joystick) const
 {
 	UNUSED(joystick);
 	SEED_ABSTRACT_METHOD;
-	return FALSE;
+	return false;
 }
 
 void IInputPointer::AddPointerListener(IEventInputPointerListener *listener)

@@ -66,7 +66,7 @@ void ISceneObject::Render()
 
 bool ISceneObject::IsNode() const
 {
-	return FALSE;
+	return false;
 }
 
 } // namespace

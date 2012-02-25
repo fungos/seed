@@ -57,7 +57,7 @@ namespace Seed {
 LoaderMap ResourceManager::mapLoaders;
 
 ResourceManager::ResourceManager(const String &name)
-	: bHasUnusedResource(FALSE)
+	: bHasUnusedResource(false)
 	, sName(name)
 	, mapResources()
 {
@@ -145,7 +145,7 @@ void ResourceManager::GarbageCollect()
 			mapResources.erase(it++);
 			Delete(res);
 
-			bHasUnusedResource = TRUE;
+			bHasUnusedResource = true;
 		}
 		else
 		{
@@ -155,7 +155,7 @@ void ResourceManager::GarbageCollect()
 
 	if (bHasUnusedResource)
 	{
-		bHasUnusedResource = FALSE;
+		bHasUnusedResource = false;
 		this->GarbageCollect();
 	}
 

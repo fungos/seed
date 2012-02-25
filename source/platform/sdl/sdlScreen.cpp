@@ -67,7 +67,7 @@ SEED_SINGLETON_DEFINE(Screen);
 Screen::Screen()
 	: iHandle(0)
 	, surfaceSize(0)
-	, bFullScreen(FALSE)
+	, bFullScreen(false)
 	, iFadeStatus(0)
 	, fadeType(FADE_IN)
 	, iBPP(32)
@@ -83,7 +83,7 @@ Screen::~Screen()
 
 bool Screen::Reset()
 {
-	return TRUE;
+	return true;
 }
 
 void Screen::PrepareMode()
@@ -199,25 +199,25 @@ bool Screen::Initialize()
 	Log(TAG "Initializing...");
 
 	IScreen::SetMode(pConfiguration->GetVideoMode());
-	bFading = FALSE;
+	bFading = false;
 	iFadeStatus = 16;
 
 	if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
 	{
 		Log(TAG "ERROR: Failed to initialize screen.");
 		Log(TAG "Initialization failed.");
-		return FALSE;
+		return false;
 	}
 
 	this->PrepareMode();
 	if (!videoInfo)
 	{
 		Log(TAG "ERROR: You must set up a video mode!");
-		return FALSE;
+		return false;
 	}
 
 	if (!this->InitializeVideo())
-		return FALSE;
+		return false;
 
 	Info(TAG "Video resolution is %dx%dx%d.", iWidth, iHeight, iBPP);
 
@@ -228,12 +228,12 @@ bool Screen::Initialize()
 #endif // DEBUG
 
 	Log(TAG "Initialization completed.");
-	return TRUE;
+	return true;
 }
 
 bool Screen::InitializeVideo()
 {
-	bool ret = TRUE;
+	bool ret = true;
 
 	if (pSurface)
 	{
@@ -289,12 +289,12 @@ bool Screen::InitializeVideo()
 	if (!pSurface)
 	{
 		Log(TAG "Could not set video mode: %s\n", SDL_GetError());
-		ret = FALSE;
+		ret = false;
 	}
 	else
 	{
 #if defined(WIN32)
-		bool icon = FALSE;
+		bool icon = false;
 
 		/*
 		If there is a icon.ico file in the SAME directory of the executable (can't be workdir) we will use it, otherwise we will look for
@@ -310,14 +310,14 @@ bool Screen::InitializeVideo()
 			const HANDLE bigIcon = ::LoadImage(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
 			if (bigIcon)
 			{
-				icon = TRUE;
+				icon = true;
 				::SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)bigIcon);
 			}
 
 			const HANDLE lilIcon = ::LoadImage(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
 			if (bigIcon)
 			{
-				icon = TRUE;
+				icon = true;
 				::SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)lilIcon);
 			}
 		}
@@ -357,7 +357,7 @@ bool Screen::Shutdown()
 
 	Log(TAG "Terminated.");
 
-	return TRUE;
+	return true;
 }
 
 void Screen::Update()
@@ -371,7 +371,7 @@ void Screen::FadeOut()
 	if (bFading)
 		return;
 
-	bFading		= TRUE;
+	bFading		= true;
 	fadeType	= FADE_OUT;
 	iFadeStatus	= FADE_OUT_TRANS;
 }
@@ -381,14 +381,14 @@ void Screen::FadeIn()
 	if (bFading)
 		return;
 
-	bFading		= TRUE;
+	bFading		= true;
 	fadeType	= FADE_IN;
 	iFadeStatus	= FADE_OUT_SOLID;
 }
 
 void Screen::CancelFade()
 {
-	bFading		= FALSE;
+	bFading		= false;
 	iFadeStatus	= FADE_OUT_TRANS;
 }
 
@@ -470,7 +470,7 @@ void Screen::SetMode(eVideoMode mode)
 
 bool Screen::HasWindowedMode() const
 {
-	return TRUE;
+	return true;
 }
 
 bool Screen::IsFullscreen() const
@@ -480,7 +480,7 @@ bool Screen::IsFullscreen() const
 
 void Screen::ApplyFade()
 {
-	if (bFading == FALSE)
+	if (bFading == false)
 		return;
 
 	if (fadeType == FADE_IN)
@@ -489,7 +489,7 @@ void Screen::ApplyFade()
 
 		if (iFadeStatus <= FADE_OUT_TRANS)
 		{
-			bFading = FALSE;
+			bFading = false;
 			iFadeStatus = FADE_OUT_TRANS;
 		}
 	}
@@ -499,7 +499,7 @@ void Screen::ApplyFade()
 
 		if (iFadeStatus >= FADE_OUT_SOLID)
 		{
-			bFading = FALSE;
+			bFading = false;
 			iFadeStatus = FADE_OUT_SOLID;
 		}
 	}

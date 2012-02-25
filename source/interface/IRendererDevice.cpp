@@ -91,7 +91,7 @@ void IRendererDevice::BackbufferClear(const PIXEL color)
 
 bool IRendererDevice::IsRequired() const
 {
-	return TRUE;
+	return true;
 }
 
 void IRendererDevice::TextureRequestAbort(ITexture *texture)

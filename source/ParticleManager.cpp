@@ -43,8 +43,8 @@ SEED_SINGLETON_DEFINE(ParticleManager)
 
 ParticleManager::ParticleManager()
 	: vEmitter()
-	, bPaused(FALSE)
-	, bStopped(FALSE)
+	, bPaused(false)
+	, bStopped(false)
 {
 	vEmitter.Truncate();
 }
@@ -58,7 +58,7 @@ bool ParticleManager::Initialize()
 {
 	IModule::Initialize();
 
-	return TRUE;
+	return true;
 }
 
 bool ParticleManager::Reset()
@@ -66,7 +66,7 @@ bool ParticleManager::Reset()
 	this->Kill();
 	vEmitter.Truncate();
 
-	return TRUE; // abstract IModule::Reset();
+	return true; // abstract IModule::Reset();
 }
 
 bool ParticleManager::Shutdown()
@@ -98,7 +98,7 @@ bool ParticleManager::Update(f32 dt)
 		}
 	}
 	*/
-	return TRUE;
+	return true;
 }
 
 void ParticleManager::Kill()
@@ -122,8 +122,8 @@ void ParticleManager::Stop()
 		p->Stop();
 	}
 
-	bPaused = FALSE;
-	bStopped = TRUE;
+	bPaused = false;
+	bStopped = true;
 }
 
 bool ParticleManager::IsStopped() const
@@ -141,7 +141,7 @@ void ParticleManager::Pause()
 		p->Pause();
 	}
 
-	bPaused = TRUE;
+	bPaused = true;
 }
 
 bool ParticleManager::IsPaused() const
@@ -159,8 +159,8 @@ void ParticleManager::Play()
 		p->Play();
 	}
 
-	bPaused = FALSE;
-	bStopped = FALSE;
+	bPaused = false;
+	bStopped = false;
 }
 
 bool ParticleManager::IsPlaying() const
@@ -198,12 +198,12 @@ void ParticleManager::Add(ParticleEmitter *emitter)
 {
 	ASSERT_NULL(emitter);
 
-	bool found = FALSE;
+	bool found = false;
 	for (u32 i = 0; i < vEmitter.Size(); i++)
 	{
 		if (vEmitter[i] == emitter)
 		{
-			found = TRUE;
+			found = true;
 			break;
 		}
 	}

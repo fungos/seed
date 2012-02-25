@@ -206,7 +206,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 
 		pRendererDevice->TextureRequest(this);
 
-		bLoaded = TRUE;
+		bLoaded = true;
 	}
 	else
 	{
@@ -242,7 +242,7 @@ bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 atl
 
 		pRendererDevice->TextureRequest(this);
 
-		bLoaded = TRUE;
+		bLoaded = true;
 	}
 
 	return bLoaded;
@@ -266,9 +266,9 @@ bool Texture::Unload()
 	}
 
 	pSurface = NULL;
-	bLoaded = FALSE;
+	bLoaded = false;
 
-	return TRUE;
+	return true;
 }
 
 const void *Texture::GetData() const

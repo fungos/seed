@@ -14,7 +14,7 @@ Image::Image()
 	, iHalfHeight(0)
 	, iWidth(0)
 	, iHeight(0)
-	, bDynamic(FALSE)
+	, bDynamic(false)
 {
 }
 
@@ -28,7 +28,7 @@ bool Image::Unload()
 		sRelease(pTexture);
 	pTexture = NULL;
 
-	return TRUE;
+	return true;
 }
 
 bool Image::Load(const String &filename)
@@ -47,10 +47,10 @@ bool Image::Load(const String &filename, ResourceManager *res)
 
 		pTexture = static_cast<ITexture *>(res->Get(filename, Seed::ObjectTexture));
 		this->UpdateCoords();
-		bDynamic = FALSE;
+		bDynamic = false;
 	}
 
-	return TRUE;
+	return true;
 }
 
 void Image:: Update(f32 delta)
@@ -87,7 +87,7 @@ void Image:: Update(f32 delta)
 		transform.Transform(vert[2].cVertex);
 		transform.Transform(vert[3].cVertex);
 
-		bTransformationChanged = FALSE;
+		bTransformationChanged = false;
 	}
 }
 
@@ -119,9 +119,9 @@ bool Image::Load(ITexture *texture)
 	sFilename = "[dynamic texture]";
 	pTexture = texture;
 	this->UpdateCoords();
-	bDynamic = TRUE;
+	bDynamic = true;
 
-	return TRUE;
+	return true;
 }
 
 void Image::UpdateCoords()

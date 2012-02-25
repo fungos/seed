@@ -63,14 +63,14 @@ bool Timer::Initialize()
 	this->Reset();
 	Log(TAG "Initialization completed.");
 
-	return TRUE;
+	return true;
 }
 
 bool Timer::Reset()
 {
 	fStart = SDL_GetTicks();
 
-	return TRUE;
+	return true;
 }
 
 bool Timer::Shutdown()

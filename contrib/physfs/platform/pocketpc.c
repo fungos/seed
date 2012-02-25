@@ -568,7 +568,7 @@ int __PHYSFS_platformDelete(const char *path)
  */
 void *__PHYSFS_platformCreateMutex(void)
 {
-	return((void *) CreateMutex(NULL, FALSE, NULL));
+	return((void *) CreateMutex(NULL, false, NULL));
 } /* __PHYSFS_platformCreateMutex */
 
 

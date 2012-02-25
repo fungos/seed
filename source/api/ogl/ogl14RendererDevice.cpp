@@ -118,7 +118,7 @@ bool OGL14RendererDevice::Reset()
 {
 	arTexture.Truncate();
 
-	return TRUE; // abstract IRenderer::Reset();
+	return true; // abstract IRenderer::Reset();
 }
 
 bool OGL14RendererDevice::Shutdown()
@@ -172,13 +172,13 @@ bool OGL14RendererDevice::CheckExtension(const char *extName)
 		size_t n = strcspn(p, " ");
 		if ((extNameLen == n) && (strncmp(extName, p, n) == 0))
 		{
-			return TRUE;
+			return true;
 		}
 
 		p += (n + 1);
 	}
 
-	return FALSE;
+	return false;
 }
 
 void OGL14RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) const

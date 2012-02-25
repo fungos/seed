@@ -94,21 +94,21 @@ bool Input::Update(f32 delta)
 					curState[i].iTrig = 0;
 					curState[i].iHold = 0;
 					curState[i].iRelease = 0;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 				else if (curState[i].touch.bStatus == 1)
 				{
 					curState[i].iTrig = 1;//curState[i].touch.iTaps;
 					curState[i].iHold = 0;
 					curState[i].iRelease = 0;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 				else if (curState[i].touch.bStatus == 2) // nunca deve acontecer
 				{
 					curState[i].iTrig = 1;//curState[i].touch.iTaps;
 					curState[i].iHold = 1;//curState[i].touch.iTaps;
 					curState[i].iRelease = 0;
-					curState[i].bValid = FALSE;
+					curState[i].bValid = false;
 					Log(TAG "Invalid State: 0 -> 2");
 				}
 				else if (curState[i].touch.bStatus == 3) // nunca deve acontecer
@@ -116,7 +116,7 @@ bool Input::Update(f32 delta)
 					curState[i].iTrig = 1;//curState[i].touch.iTaps;
 					curState[i].iHold = 0;
 					curState[i].iRelease = 1;//curState[i].touch.iTaps;
-					curState[i].bValid = FALSE;
+					curState[i].bValid = false;
 					Log(TAG "Invalid State: 0 -> 3");
 				}
 			}
@@ -129,28 +129,28 @@ bool Input::Update(f32 delta)
 					curState[i].iTrig = 0;
 					curState[i].iHold = 0;
 					curState[i].iRelease = 1;//oldState[i].touch.iTaps;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 				else if (curState[i].touch.bStatus == 1) // clica e segura sem mover
 				{
 					curState[i].iTrig = 0;
 					curState[i].iHold = 1;//oldState[i].touch.iTaps;
 					curState[i].iRelease = 0;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 				else if (curState[i].touch.bStatus == 2)
 				{
 					curState[i].iTrig = 0;
 					curState[i].iHold = 1;//oldState[i].touch.iTaps;
 					curState[i].iRelease = 0;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 				else if (curState[i].touch.bStatus == 3)
 				{
 					curState[i].iTrig = 0;
 					curState[i].iHold = 0;
 					curState[i].iRelease = 1;//oldState[i].touch.iTaps;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 			}
 			break;
@@ -162,14 +162,14 @@ bool Input::Update(f32 delta)
 					curState[i].iTrig = 0;
 					curState[i].iHold = 0;
 					curState[i].iRelease = 1;//oldState[i].touch.iTaps;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 				else if (curState[i].touch.bStatus == 1) // nunca deve acontecer
 				{
 					curState[i].iTrig = 0;
 					curState[i].iHold = 1;//oldState[i].touch.iTaps;
 					curState[i].iRelease = 0;
-					curState[i].bValid = FALSE;
+					curState[i].bValid = false;
 					Log(TAG "Invalid State: 2 -> 1");
 				}
 				else if (curState[i].touch.bStatus == 2)
@@ -177,14 +177,14 @@ bool Input::Update(f32 delta)
 					curState[i].iTrig = 0;
 					curState[i].iHold = 1;//oldState[i].touch.iTaps;
 					curState[i].iRelease = 0;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 				else if (curState[i].touch.bStatus == 3)
 				{
 					curState[i].iTrig = 0;
 					curState[i].iHold = 0;
 					curState[i].iRelease = 1;//oldState[i].touch.iTaps;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 			}
 			break;
@@ -196,21 +196,21 @@ bool Input::Update(f32 delta)
 					curState[i].iTrig = 0;
 					curState[i].iHold = 0;
 					curState[i].iRelease = 0;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 				else if (curState[i].touch.bStatus == 1)
 				{
 					curState[i].iTrig = 1;//curState[i].touch.iTaps;
 					curState[i].iHold = 0;
 					curState[i].iRelease = 0;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 				else if (curState[i].touch.bStatus == 2) // nunca deve acontecer
 				{
 					curState[i].iTrig = 1;//curState[i].touch.iTaps;
 					curState[i].iHold = 1;//curState[i].touch.iTaps;
 					curState[i].iRelease = 0;
-					curState[i].bValid = FALSE;
+					curState[i].bValid = false;
 					Log(TAG "Invalid State: 3 -> 2");
 				}
 				else if (curState[i].touch.bStatus == 3) // nada mudou no frame
@@ -218,7 +218,7 @@ bool Input::Update(f32 delta)
 					curState[i].iTrig = 0;
 					curState[i].iHold = 0;
 					curState[i].iRelease = 0;
-					curState[i].bValid = TRUE;
+					curState[i].bValid = true;
 				}
 			}
 			break;
@@ -243,12 +243,12 @@ bool Input::Update(f32 delta)
 
 	this->SendEvents();
 
-	return TRUE;
+	return true;
 }
 
 bool Input::Reset()
 {
-	return TRUE;
+	return true;
 }
 
 bool Input::IsPressed(u32 button, u16 joystick) const

@@ -356,33 +356,33 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 		}
 	}
 
-	return TRUE;
+	return true;
 }
 
 bool Input::Reset()
 {
-	return TRUE;
+	return true;
 }
 
 bool Input::IsPressed(u32 button, u16 joystick) const
 {
 	UNUSED(button);
 	UNUSED(joystick);
-	return FALSE;
+	return false;
 }
 
 bool Input::IsHold(u32 button, u16 joystick) const
 {
 	UNUSED(button);
 	UNUSED(joystick);
-	return FALSE;
+	return false;
 }
 
 bool Input::IsReleased(u32 button, u16 joystick) const
 {
 	UNUSED(button);
 	UNUSED(joystick);
-	return FALSE;
+	return false;
 }
 
 bool Input::IsEnabled(u16 joystick) const
@@ -498,7 +498,7 @@ u32 Input::GetMaximumJoysticks() const
 
 bool Input::IsPointer() const
 {
-	return TRUE;
+	return true;
 }
 
 //bool Input::IsMotion() const;
@@ -509,7 +509,7 @@ bool Input::IsJoystick() const
 
 bool Input::IsKeyboard() const
 {
-	return TRUE;
+	return true;
 }
 
 }} // namespace

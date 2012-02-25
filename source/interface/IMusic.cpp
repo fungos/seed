@@ -41,7 +41,7 @@ namespace Seed {
 IMusic::IMusic()
 	: fVolume(1.0f)
 	, eState(Seed::MusicNone)
-	, bAutoUnload(FALSE)
+	, bAutoUnload(false)
 {
 }
 
@@ -52,7 +52,7 @@ IMusic::~IMusic()
 bool IMusic::Unload()
 {
 	SEED_ABSTRACT_METHOD;
-	return FALSE;
+	return false;
 }
 
 bool IMusic::Load(const String &filename, ResourceManager *res)
@@ -61,7 +61,7 @@ bool IMusic::Load(const String &filename, ResourceManager *res)
 	UNUSED(res);
 	SEED_ABSTRACT_METHOD;
 
-	return FALSE;
+	return false;
 }
 
 bool IMusic::Update(f32 dt)
@@ -69,7 +69,7 @@ bool IMusic::Update(f32 dt)
 	UNUSED(dt);
 	SEED_ABSTRACT_METHOD;
 
-	return FALSE;
+	return false;
 }
 
 const void *IMusic::GetData() const

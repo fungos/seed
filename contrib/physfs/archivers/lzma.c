@@ -247,7 +247,7 @@ static int lzma_files_init(LZMAarchive *archive)
     {
         if (!lzma_file_init(archive, fileIndex))
         {
-            return(0); /* FALSE on failure */
+            return(0); /* false on failure */
         }
     } /* for */
 

@@ -57,7 +57,7 @@ void IThread::Destroy()
 
 bool IThread::Run()
 {
-	return TRUE;
+	return true;
 }
 
 } // namespace

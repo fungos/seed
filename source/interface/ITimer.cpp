@@ -62,12 +62,12 @@ void ITimer::Sleep(u32 ms) const
 bool ITimer::Reset()
 {
 	SEED_ABSTRACT_METHOD;
-	return TRUE;
+	return true;
 }
 
 bool ITimer::IsRequired() const
 {
-	return TRUE;
+	return true;
 }
 
 const char *ITimer::GetObjectName() const

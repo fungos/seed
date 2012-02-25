@@ -60,13 +60,13 @@ bool FileSystem::Initialize()
 	FS_CHECK(PHYSFS_init(Seed::Private::pcArgv[0]));
 	FS_CHECK(PHYSFS_setSaneConfig(Seed::pConfiguration->GetPublisherName(), Seed::pConfiguration->GetApplicationTitle(), "zip", false, false));
 
-	return TRUE;
+	return true;
 }
 
 bool FileSystem::Shutdown()
 {
 	FS_CHECK(PHYSFS_deinit());
-	return TRUE;
+	return true;
 }
 
 const FilePath *FileSystem::GetWorkDirectory() const
@@ -81,7 +81,7 @@ const FilePath *FileSystem::GetWriteableDirectory() const
 
 bool FileSystem::IsRequired() const
 {
-	return TRUE;
+	return true;
 }
 
 const char *FileSystem::GetObjectName() const

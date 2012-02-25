@@ -61,7 +61,7 @@ ParticleEmitterObject::~ParticleEmitterObject()
 
 bool ParticleEmitterObject::Unload()
 {
-	return TRUE;
+	return true;
 }
 
 bool ParticleEmitterObject::Load(const String &filename, ResourceManager *res)
@@ -84,7 +84,7 @@ bool ParticleEmitterObject::Load(const String &filename, ResourceManager *res)
 		iMemory += f.GetSize() + sizeof(this);
 		stFile = f;
 
-		bLoaded = TRUE;
+		bLoaded = true;
 	}
 
 	return bLoaded;

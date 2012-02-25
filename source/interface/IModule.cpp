@@ -41,8 +41,8 @@
 namespace Seed {
 
 IModule::IModule()
-	: bInitialized(FALSE)
-	, bEnabled(TRUE)
+	: bInitialized(false)
+	, bEnabled(true)
 {
 }
 
@@ -53,30 +53,30 @@ IModule::~IModule()
 
 bool IModule::Initialize()
 {
-	this->bInitialized = TRUE;
-	return TRUE;
+	this->bInitialized = true;
+	return true;
 }
 
 bool IModule::Reset()
 {
 	SEED_ABSTRACT_METHOD;
-	return TRUE;
+	return true;
 }
 
 bool IModule::Shutdown()
 {
-	this->bInitialized = FALSE;
-	return TRUE;
+	this->bInitialized = false;
+	return true;
 }
 
 void IModule::Disable()
 {
-	this->bEnabled = FALSE;
+	this->bEnabled = false;
 }
 
 void IModule::Enable()
 {
-	this->bEnabled = TRUE;
+	this->bEnabled = true;
 }
 
 bool IModule::IsEnabled() const
@@ -91,7 +91,7 @@ bool IModule::IsInitialized() const
 
 bool IModule::IsRequired() const
 {
-	return FALSE;
+	return false;
 }
 
 int IModule::GetObjectType() const

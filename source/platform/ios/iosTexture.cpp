@@ -70,7 +70,7 @@ Texture::Texture()
 	, iAtlasWidth(0)
 	, iAtlasHeight(0)
 	, iReserved(0)
-	//, bCompressed(FALSE)
+	//, bCompressed(false)
 	, pixelFormat(kTexture2DPixelFormat_RGBA8888)
 {
 }
@@ -93,7 +93,7 @@ void Texture::Reset()
 	iAtlasWidth = 0;
 	iAtlasHeight = 0;
 
-	//bCompressed = FALSE;
+	//bCompressed = false;
 	pixelFormat = kTexture2DPixelFormat_RGBA8888;
 }
 
@@ -145,7 +145,7 @@ bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 atl
 
 		pRendererDevice->TextureRequest(this);
 
-		bLoaded = TRUE;
+		bLoaded = true;
 	}
 
 	return bLoaded;
@@ -161,9 +161,9 @@ bool Texture::Unload()
 {
 	this->UnloadTexture();
 
-	bLoaded = FALSE;
+	bLoaded = false;
 
-	return TRUE;
+	return true;
 }
 
 const void *Texture::GetData() const
@@ -295,7 +295,7 @@ void Texture::LoadPVRTC(const char *file)
 	iWidth = 1024;
 	pFileSystem->Open(file, &stFile);
 	pImage = stFile.GetData();
-	bCompressed = TRUE;
+	bCompressed = true;
 
 //#if defined(ENABLE_PRELOAD_TEXTURE)
 	this->LoadTexture();
@@ -448,7 +448,7 @@ void Texture::LoadPNG(const char *file)
 	}
 
 	pData = data;
-	//bCompressed = FALSE;
+	//bCompressed = false;
 	pixelFormat = pixelFormat;
 
 	// FIXME: Must divide by res_width , res_height - not by screen width/height

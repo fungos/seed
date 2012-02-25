@@ -92,7 +92,7 @@ inline const char *cpath(const FilePath *path)
 
 bool create_directory(const FilePath *path)
 {
-	bool ret = FALSE;
+	bool ret = false;
 	int err = mkdir(cpath(path), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
 	if (err == -1)
@@ -150,7 +150,7 @@ bool create_directory(const FilePath *path)
 	}
 	else
 	{
-		ret = TRUE;
+		ret = true;
 	}
 
 	return ret;
@@ -207,7 +207,7 @@ void get_current_directory(FilePath *buff, int size)
 
 bool change_directory(const FilePath *to)
 {
-	bool ret = FALSE;
+	bool ret = false;
 	const char *path = (const char *)to;
 	int err = chdir(path);
 
@@ -266,7 +266,7 @@ bool change_directory(const FilePath *to)
 	}
 	else
 	{
-		ret = TRUE;
+		ret = true;
 	}
 
 	return ret;
@@ -280,7 +280,7 @@ void print_system_info()
 bool system_check_multiple_instance()
 {
 	#warning "Must implement function system_check_multiple_instance"
-	return TRUE;
+	return true;
 }
 
 #endif

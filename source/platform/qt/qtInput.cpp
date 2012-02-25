@@ -87,34 +87,34 @@ bool Input::Initialize()
 bool Input::Update(f32 dt)
 {
 	UNUSED(dt);
-	return TRUE;
+	return true;
 }
 
 bool Input::Reset()
 {
 	IModule::Reset();
-	return TRUE;
+	return true;
 }
 
 bool Input::IsPressed(u32 button, u16 joystick) const
 {
 	UNUSED(button);
 	UNUSED(joystick);
-	return FALSE;
+	return false;
 }
 
 bool Input::IsHold(u32 button, u16 joystick) const
 {
 	UNUSED(button);
 	UNUSED(joystick);
-	return FALSE;
+	return false;
 }
 
 bool Input::IsReleased(u32 button, u16 joystick) const
 {
 	UNUSED(button);
 	UNUSED(joystick);
-	return FALSE;
+	return false;
 }
 
 bool Input::IsEnabled(u16 joystick) const
@@ -195,12 +195,12 @@ void Input::SetSensitivity(u32 sens, u16 joystick)
 
 bool Input::IsPointer() const
 {
-	return TRUE;
+	return true;
 }
 
 bool Input::IsKeyboard() const
 {
-	return TRUE;
+	return true;
 }
 
 void Input::PointerMove(f32 x, f32 y, u16 joystick)

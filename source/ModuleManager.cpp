@@ -69,7 +69,7 @@ bool ModuleManager::Add(IModule *obj)
 		else
 		{
 			Info(TAG "WARNING: Module '%s' failed to initalize.", obj->GetObjectName());
-			ret = TRUE; // we can continue as this module isn't critical.
+			ret = true; // we can continue as this module isn't critical.
 		}
 	}
 
@@ -95,12 +95,12 @@ void ModuleManager::Enable(const char *moduleName)
 bool ModuleManager::IsEnabled(const char *moduleName)
 {
 	UNUSED(moduleName);
-	return TRUE;
+	return true;
 }
 
 bool ModuleManager::Initialize()
 {
-	bool ret = TRUE;
+	bool ret = true;
 
 	u32 len = arModule.Size();
 	for (u32 i = 0; i < len; i++)
@@ -114,7 +114,7 @@ bool ModuleManager::Initialize()
 
 bool ModuleManager::Reset()
 {
-	bool ret = TRUE;
+	bool ret = true;
 
 	u32 len = arModule.Size();
 	for (u32 i = 0; i < len; i++)
@@ -128,7 +128,7 @@ bool ModuleManager::Reset()
 
 bool ModuleManager::Shutdown()
 {
-	bool ret = TRUE;
+	bool ret = true;
 
 	u32 len = arModule.Size() - 1;
 	for (s32 i = len; i >= 0; i--)

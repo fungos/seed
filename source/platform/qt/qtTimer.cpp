@@ -63,7 +63,7 @@ bool Timer::Initialize()
 	this->Reset();
 	Log(TAG "Initialization completed.");
 
-	return TRUE;
+	return true;
 }
 
 bool Timer::Reset()
@@ -71,7 +71,7 @@ bool Timer::Reset()
 	IModule::Reset();
 	t.start();
 
-	return TRUE;
+	return true;
 }
 
 bool Timer::Shutdown()
@@ -79,7 +79,7 @@ bool Timer::Shutdown()
 	this->Reset();
 	IModule::Shutdown();
 
-	return TRUE;
+	return true;
 }
 
 u64 Timer::GetMilliseconds() const

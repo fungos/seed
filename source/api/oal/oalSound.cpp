@@ -132,7 +132,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 			alBufferData(iBuffer, format, &buffer[0], static_cast<ALsizei>(buffer.size()), freq);
 		}
 
-		bLoaded = TRUE;
+		bLoaded = true;
 	}
 
 	return bLoaded;
@@ -141,9 +141,9 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 bool Sound::Unload()
 {
 	alDeleteBuffers(1, &iBuffer);
-	bLoaded = FALSE;
+	bLoaded = false;
 
-	return TRUE;
+	return true;
 }
 
 const void *Sound::GetData() const

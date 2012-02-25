@@ -56,7 +56,7 @@ ISystem::ISystem()
 	, pStrAppName(NULL)
 	, pStrAppDescription(NULL)
 	, nLanguage(Seed::en_US)
-	, bDefaultCursorEnabled(FALSE)
+	, bDefaultCursorEnabled(false)
 	, iRetraceIndex(0)
 {
 	MEMSET(arRetraceCount, '\0', sizeof(arRetraceCount));
@@ -238,7 +238,7 @@ void ISystem::SendEventLanguageChanged(const EventSystem *ev)
 
 bool ISystem::IsRequired() const
 {
-	return TRUE;
+	return true;
 }
 
 const char *ISystem::GetObjectName() const

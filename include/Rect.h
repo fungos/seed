@@ -117,13 +117,13 @@ template <class TYPE> class Rect
 			bottom1 = this->y + (TYPE)this->height;
 			bottom2 = rect.y + (TYPE)rect.height;
 
-			if (bottom1 < top2) return(FALSE);
-			if (top1 > bottom2) return(FALSE);
+			if (bottom1 < top2) return(false);
+			if (top1 > bottom2) return(false);
 
-			if (right1 < left2) return(FALSE);
-			if (left1 > right2) return(FALSE);
+			if (right1 < left2) return(false);
+			if (left1 > right2) return(false);
 
-			return TRUE;
+			return true;
 		}
 
 		bool GetOverlappedRect(const Rect<TYPE> &rect, Rect<TYPE> &rectDst) const
@@ -165,44 +165,44 @@ template <class TYPE> class Rect
 			rectDst.width  = (TYPE)(over_right - over_left);
 			rectDst.height = (TYPE)(over_bottom - over_top);
 
-			if (bottom1 < top2) return(FALSE);
-			if (top1 > bottom2) return(FALSE);
+			if (bottom1 < top2) return(false);
+			if (top1 > bottom2) return(false);
 
-			if (right1 < left2) return(FALSE);
-			if (left1 > right2) return(FALSE);
+			if (right1 < left2) return(false);
+			if (left1 > right2) return(false);
 
-			return TRUE;
+			return true;
 		}
 
 		bool Contains(TYPE pX, TYPE pY) const
 		{
 			if (pX > (TYPE)(x + width))
 			{
-				return FALSE;
+				return false;
 			}
 			else if	(pX < x)
 			{
-				return FALSE;
+				return false;
 			}
 			if (pY > (TYPE)(y + height))
 			{
-				return FALSE;
+				return false;
 			}
 			else if	(pY < y)
 			{
-				return FALSE;
+				return false;
 			}
 
-			return TRUE;
+			return true;
 		}
 
 		bool ContainsArea(const Rect<TYPE> &rect) const
 		{
 			if (this->Contains(rect.x, rect.y) &&
 				this->Contains(rect.x+rect.width, rect.y+rect.height))
-				return TRUE;
+				return true;
 
-			return FALSE;
+			return false;
 		}
 
 		void ScaleSize(f32 fScale)
