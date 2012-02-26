@@ -42,7 +42,6 @@
 #if defined(USE_API_OAL)
 
 #include "File.h"
-#include "SeedInit.h"
 #include "interface/IResource.h"
 #include "interface/ISound.h"
 #include "api/oal/vorbis_util.h"

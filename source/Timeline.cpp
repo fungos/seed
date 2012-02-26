@@ -36,7 +36,9 @@
 
 #include "Timeline.h"
 #include "EventMovie.h"
+#include "interface/IEventMovieListener.h"
 #include "Movie.h"
+#include "Keyframe.h"
 
 namespace Seed {
 

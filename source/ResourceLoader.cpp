@@ -39,7 +39,7 @@
 #include "ResourceGroup.h"
 #include "EventResourceLoader.h"
 #include "interface/IEventResourceLoaderListener.h"
-#include <algorithm>
+#include "Timer.h"
 
 #define TAG		"[ResourceLoader] "
 

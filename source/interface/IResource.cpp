@@ -35,7 +35,6 @@
 */
 
 #include "interface/IResource.h"
-#include "SeedInit.h"
 
 namespace Seed {
 

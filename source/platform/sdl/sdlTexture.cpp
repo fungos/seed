@@ -42,6 +42,7 @@
 #include "Log.h"
 #include "Screen.h"
 #include "RendererDevice.h"
+#include "SeedInit.h"
 
 #define TAG "[Texture] "
 

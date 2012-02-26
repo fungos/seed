@@ -31,25 +31,23 @@
 
 #include "Configuration.h"
 
-
 namespace Seed {
-
 
 Configuration::Configuration()
 	: bDebugSprite(false)
-	, nVideoMode(Video_AutoDetect)
-	, iResolutionWidth(800)
-	, iResolutionHeight(600)
 	, pcWorkingDirectory(NULL)
-	, bMultipleInstances(false)
-	, bWarningMultipleInstances(false)
-	, iFrameRate(Seed::FrameRateLockAt60)
 	, pcTitle(NULL)
 	, pcDescription(NULL)
 	, pcPublisherName(NULL)
+	, fInputRadius(0.0f)
 	, iRendererDeviceType(Seed::RendererDeviceOpenGL14)
 	, iReaderType(Seed::ReaderDefault)
-	, iInputRadius(0.0f)
+	, nVideoMode(Video_AutoDetect)
+	, iFrameRate(Seed::FrameRateLockAt60)
+	, iResolutionWidth(800)
+	, iResolutionHeight(600)
+	, bMultipleInstances(false)
+	, bWarningMultipleInstances(false)
 {
 }
 
@@ -66,13 +64,7 @@ eVideoMode Configuration::GetVideoMode() const
 {
 	return nVideoMode;
 }
-/*
-void Configuration::SetResolution(u32 width, u32 height)
-{
-	iResolutionWidth = width;
-	iResolutionHeight = height;
-}
-*/
+
 u32 Configuration::GetResolutionWidth() const
 {
 	return iResolutionWidth;
@@ -175,12 +167,12 @@ eReaderType Configuration::GetReaderType() const
 
 void Configuration::SetInputDistanceRadius(f32 dist)
 {
-	iInputRadius = dist;
+	fInputRadius = dist;
 }
 
 f32 Configuration::GetInputDistanceRadius() const
 {
-	return iInputRadius;
+	return fInputRadius;
 }
 
 const char *Configuration::GetObjectName() const
@@ -192,6 +184,5 @@ int Configuration::GetObjectType() const
 {
 	return Seed::ObjectConfiguration;
 }
-
 
 } // namespace

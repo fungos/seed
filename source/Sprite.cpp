@@ -36,10 +36,13 @@
 
 #include "Defines.h"
 #include "Sprite.h"
+#include "Animation.h"
+#include "Frame.h"
 #include "Screen.h"
 #include "Log.h"
 #include "Enum.h"
 #include "RendererDevice.h"
+#include "SeedInit.h"
 #include "interface/ITexture.h"
 
 #define TAG "[Sprite] "

@@ -38,8 +38,8 @@
 
 #include "Screen.h"
 #include "Log.h"
-#include "SeedInit.h"
 #include "RendererDevice.h"
+#include "SeedInit.h"
 
 #if defined(WIN32)
 #pragma push_macro("Delete")

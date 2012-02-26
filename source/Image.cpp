@@ -3,6 +3,7 @@
 #include "Texture.h"
 #include "Screen.h"
 #include "Matrix4x4.h"
+#include "SeedInit.h"
 
 namespace Seed {
 

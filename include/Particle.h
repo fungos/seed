@@ -55,7 +55,6 @@ class SEED_CORE_API Particle : public Sprite
 		virtual int GetObjectType() const;
 
 	protected:
-		bool	bActive;
 		Vector3f vVelocity;
 
 		f32		fGravity;
@@ -80,6 +79,8 @@ class SEED_CORE_API Particle : public Sprite
 		f32		fColorDeltaG;
 		f32		fColorDeltaB;
 		f32		fColorDeltaA;
+
+		bool	bActive;
 
 	private:
 		SEED_DISABLE_COPY(Particle);

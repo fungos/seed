@@ -38,12 +38,15 @@
 #define __PARTICLE_EMITTER_H__
 
 #include "interface/ITransformable.h"
-#include "ParticleEmitterObject.h"
+#include "interface/ISceneObject.h"
 
 namespace Seed {
 
 class ITexture;
 class ResourceManager;
+class ParticleEmitterObject;
+class Particle;
+struct ParticleEmitterInfo;
 
 class SEED_CORE_API ParticleEmitter : public ISceneObject
 {
@@ -60,7 +63,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		virtual void Unload();
 		virtual void Reset();
 
-		virtual ParticleEmitterInfo *GetEmitterInfo();
+		virtual const ParticleEmitterInfo *GetEmitterInfo() const;
 
 		// Metodos candidatos a uma interface para sistemas Animados
 		virtual void Play();
@@ -96,7 +99,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 
 	private:
 		ParticleEmitterObject		*pEmitterObject;
-		ParticleEmitterInfo			psInfo;
+		const ParticleEmitterInfo	*pInfo;
 		ResourceManager				*pRes;
 		String						sFilename;
 		String						sSpriteFilename;

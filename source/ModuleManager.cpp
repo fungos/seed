@@ -36,8 +36,6 @@
 
 #include "ModuleManager.h"
 #include "interface/IModule.h"
-#include <stdlib.h>
-#include <stdio.h>
 
 #define TAG "[ModuleManager] "
 
@@ -46,18 +44,18 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(ModuleManager)
 
 ModuleManager::ModuleManager()
-	: arModule()
+	: vModule()
 {
 }
 
 ModuleManager::~ModuleManager()
 {
-	arModule.Truncate();
+	IModuleVector().swap(vModule);
 }
 
 bool ModuleManager::Add(IModule *obj)
 {
-	arModule.Add(obj);
+	vModule += obj;
 	bool ret = obj->Initialize();
 
 	if (!ret)
@@ -78,7 +76,7 @@ bool ModuleManager::Add(IModule *obj)
 
 bool ModuleManager::Remove(IModule *obj)
 {
-	arModule.Remove(obj);
+	vModule -= obj;
 	return obj->Shutdown();
 }
 
@@ -102,12 +100,11 @@ bool ModuleManager::Initialize()
 {
 	bool ret = true;
 
-	u32 len = arModule.Size();
-	for (u32 i = 0; i < len; i++)
+	ForEach(IModuleVector, vModule,
 	{
-		IModule *obj = arModule[i];
+		IModule *obj = (*it);
 		ret = ret && (obj->Initialize() || !obj->IsRequired());
-	}
+	});
 
 	return ret;
 }
@@ -116,12 +113,11 @@ bool ModuleManager::Reset()
 {
 	bool ret = true;
 
-	u32 len = arModule.Size();
-	for (u32 i = 0; i < len; i++)
+	ForEach(IModuleVector, vModule,
 	{
-		IModule *obj = arModule[i];
+		IModule *obj = (*it);
 		ret = ret && (obj->Reset() || !obj->IsRequired());
-	}
+	});
 
 	return ret;
 }
@@ -130,10 +126,10 @@ bool ModuleManager::Shutdown()
 {
 	bool ret = true;
 
-	u32 len = arModule.Size() - 1;
+	u32 len = vModule.Size() - 1;
 	for (s32 i = len; i >= 0; i--)
 	{
-		IModule *obj = arModule[i];
+		IModule *obj = vModule[i];
 		ret = ret && (obj->Shutdown() || !obj->IsRequired());
 	}
 
@@ -143,12 +139,11 @@ bool ModuleManager::Shutdown()
 void ModuleManager::Print()
 {
 	Info(TAG "Listing current modules:");
-	u32 len = arModule.Size();
-	for (u32 i = 0; i < len; i++)
+	ForEach(IModuleVector, vModule,
 	{
-		IModule *obj = arModule[i];
+		IModule *obj = (*it);
 		Info(TAG "\tModule: %s.", obj->GetObjectName());
-	}
+	});
 }
 
 } // namespace

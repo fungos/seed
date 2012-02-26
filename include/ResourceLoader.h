@@ -43,8 +43,6 @@
 #include "Thread.h"
 #include "Singleton.h"
 
-#include <vector>
-
 namespace Seed {
 
 class ResourceGroup;

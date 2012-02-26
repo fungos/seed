@@ -91,7 +91,6 @@ Objects.in
 ../include/Point.h
 ../include/Profiler.h
 ../include/Project.h
-../include/Quaternion.h
 ../include/Rand.h
 ../include/Reader.h
 ../include/Rect.h
@@ -110,7 +109,6 @@ Objects.in
 ../include/SeedInit.h
 ../include/Sprite.h
 ../include/Updater.h
-../include/Vector.h
 ../include/Vector3.h
 ../include/Vertex.h
 ../include/ViewManager.h
@@ -159,7 +157,6 @@ Objects.in
 ../include/Sprite.h
 ../include/StateMachine.h
 ../include/System.h
-../include/Text.h
 ../include/Texture.h
 ../include/Thread.h
 ../include/Timeline.h

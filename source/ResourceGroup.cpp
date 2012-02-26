@@ -35,6 +35,9 @@
 */
 
 #include "ResourceGroup.h"
+#include "interface/IResource.h"
+#include "ResourceManager.h"
+#include "Timer.h"
 
 namespace Seed {
 

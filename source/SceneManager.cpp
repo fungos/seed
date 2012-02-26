@@ -47,54 +47,36 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(SceneManager)
 
 SceneManager::SceneManager()
-	: arObject()
+	: vObject()
 {
-	arObject.Truncate();
 }
 
 SceneManager::~SceneManager()
 {
-	arObject.Truncate();
+	ISceneObjectVector().swap(vObject);
 }
 
 void SceneManager::Reset()
 {
-	arObject.Truncate();
+	ISceneObjectVector().swap(vObject);
 }
 
 void SceneManager::Add(ISceneObject *obj)
 {
-	ASSERT_NULL(obj);
-
-	bool found = false;
-	for (u32 i = 0; i < arObject.Size(); i++)
-	{
-		if (arObject[i] == obj)
-		{
-			found = true;
-			break;
-		}
-	}
-
-	if (!found)
-	{
-		arObject.Add(obj);
-	}
+	vObject += obj;
 }
 
 void SceneManager::Remove(ISceneObject *obj)
 {
-	ASSERT_NULL(obj);
-	arObject.Remove(obj);
+	vObject -= obj;
 }
 
 bool SceneManager::Update(f32 delta)
 {
-	u32 len = arObject.Size();
-	for (u32 i = 0; i < len; i++)
+	ForEach(ISceneObjectVector, vObject,
 	{
-		arObject[i]->Update(delta);
-	}
+		(*it)->Update(delta);
+	});
 
 	return true;
 }

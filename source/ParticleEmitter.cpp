@@ -39,12 +39,16 @@
 #include "Rand.h"
 #include "Number.h"
 #include "Texture.h"
+#include "ParticleEmitterObject.h"
+#include "SeedInit.h"
+#include "Particle.h"
+#include "MathUtil.h"
 
 namespace Seed {
 
 ParticleEmitter::ParticleEmitter()
 	: pEmitterObject(NULL)
-	, psInfo()
+	, pInfo(NULL)
 	, pRes(NULL)
 	, sFilename()
 	, sSpriteFilename()
@@ -75,7 +79,7 @@ ParticleEmitter::~ParticleEmitter()
 	this->Unload();
 }
 
- void ParticleEmitter::Load(const String &filename, ResourceManager *res)
+void ParticleEmitter::Load(const String &filename, ResourceManager *res)
 {
 	this->Unload();
 
@@ -86,14 +90,13 @@ ParticleEmitter::~ParticleEmitter()
 		pRes = res;
 		sFilename = filename;
 		pEmitterObject = reinterpret_cast<ParticleEmitterObject *>(res->Get(filename, Seed::ObjectParticleEmitterObject));
-		psInfo = *(pEmitterObject->GetData());
-		iAnimation = psInfo.iTextureFrame;
-		fInterval = psInfo.fInterval;
+		pInfo = pEmitterObject->GetData();
+		iAnimation = pInfo->iTextureFrame;
+		fInterval = pInfo->fInterval;
 	}
-	//this->Stop();
 }
 
- void ParticleEmitter::Unload()
+void ParticleEmitter::Unload()
 {
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{
@@ -111,7 +114,7 @@ ParticleEmitter::~ParticleEmitter()
 	pRes		= NULL;
 }
 
- void ParticleEmitter::Reset()
+void ParticleEmitter::Reset()
 {
 	ITransformable::Reset();
 	vPrevLocation.x = 0.0f;
@@ -136,7 +139,7 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::SetParticlesBuffer(Particle *buffer, u32 amount)
+void ParticleEmitter::SetParticlesBuffer(Particle *buffer, u32 amount)
 {
 	if (buffer)
 	{
@@ -153,7 +156,7 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::Update(f32 deltaTime)
+void ParticleEmitter::Update(f32 deltaTime)
 {
 	if (!(bEnabled && pEmitterObject && !bPaused))
 		return;
@@ -167,7 +170,7 @@ ParticleEmitter::~ParticleEmitter()
 	Vector3f accel2(0.0f, 0.0f, 0.0f);
 	Vector3f location = this->GetPosition();
 
-	if (fAge == -2.0f && psInfo.fLifetime != -1.0f && fInterval > 0.0f)// && nParticlesAlive == 0)
+	if (fAge == -2.0f && pInfo->fLifetime != -1.0f && fInterval > 0.0f)// && nParticlesAlive == 0)
 	{
 		fRespawnAge += deltaTime;
 
@@ -182,7 +185,7 @@ ParticleEmitter::~ParticleEmitter()
 	if (fAge >= 0)
 	{
 		fAge += deltaTime;
-		if (fAge >= psInfo.fLifetime)
+		if (fAge >= pInfo->fLifetime)
 			fAge = -2.0f;
 	}
 
@@ -250,7 +253,7 @@ ParticleEmitter::~ParticleEmitter()
 	// generate new particles
 	if (fAge != -2.0f)
 	{
-		f32 fParticlesNeeded = psInfo.iEmission * deltaTime + fEmissionResidue;
+		f32 fParticlesNeeded = pInfo->iEmission * deltaTime + fEmissionResidue;
 		u32 iParticlesCreated = static_cast<u32>(Number::Ceil(fParticlesNeeded));
 		fEmissionResidue = fParticlesNeeded - iParticlesCreated;
 
@@ -276,59 +279,59 @@ ParticleEmitter::~ParticleEmitter()
 				break;
 
 			par->fAge = 0.0f;
-			par->fTerminalAge = pRand->Get(psInfo.fParticleLifeMin, psInfo.fParticleLifeMax) * 0.70f;
+			par->fTerminalAge = pRand->Get(pInfo->fParticleLifeMin, pInfo->fParticleLifeMax) * 0.70f;
 
 			Vector3f pos = vPrevLocation + (location - vPrevLocation) * pRand->Get(0.0f, 1.0f);
 
-			if (!psInfo.fWidth)
+			if (!pInfo->fWidth)
 			{
 				pos.x += pRand->Get(-0.0002f, 0.0002f);
 			}
 			else
 			{
-				pos.x += pRand->Get(psInfo.fWidth);
+				pos.x += pRand->Get(pInfo->fWidth);
 			}
 
-			if (!psInfo.fHeight)
+			if (!pInfo->fHeight)
 			{
 				pos.y += pRand->Get(-0.0002f, 0.0002f);
 			}
 			else
 			{
-				pos.y += pRand->Get(psInfo.fHeight);
+				pos.y += pRand->Get(pInfo->fHeight);
 			}
 
-			ang = psInfo.fDirection - kPiOver2 + pRand->Get(0, psInfo.fSpread) - psInfo.fSpread / 2.0f;
+			ang = pInfo->fDirection - kPiOver2 + pRand->Get(0, pInfo->fSpread) - pInfo->fSpread / 2.0f;
 
-			if (psInfo.bRelative)
+			if (pInfo->bRelative)
 				ang += (vPrevLocation - location).Angle() + kPiOver2;
 
 			par->vVelocity.x = cosf(ang);
 			par->vVelocity.y = sinf(ang) * 1.25f;
-			par->vVelocity *= pRand->Get(psInfo.fSpeedMin/300.0f, psInfo.fSpeedMax/300.0f) * 0.70f;
+			par->vVelocity *= pRand->Get(pInfo->fSpeedMin/300.0f, pInfo->fSpeedMax/300.0f) * 0.70f;
 
-			par->fGravity = pRand->Get(psInfo.fGravityMin/900.0f, psInfo.fGravityMax/900.0f) * 3.0f;
-			par->fRadialAccel = pRand->Get(psInfo.fRadialAccelMin/900.0f, psInfo.fRadialAccelMax/900.0f) * 4.0f;
-			par->fTangentialAccel = pRand->Get(psInfo.fTangentialAccelMin/900.0f, psInfo.fTangentialAccelMax/900.0f) * 3.0f;
+			par->fGravity = pRand->Get(pInfo->fGravityMin/900.0f, pInfo->fGravityMax/900.0f) * 3.0f;
+			par->fRadialAccel = pRand->Get(pInfo->fRadialAccelMin/900.0f, pInfo->fRadialAccelMax/900.0f) * 4.0f;
+			par->fTangentialAccel = pRand->Get(pInfo->fTangentialAccelMin/900.0f, pInfo->fTangentialAccelMax/900.0f) * 3.0f;
 
-			par->fSize = pRand->Get(psInfo.fSizeStart, psInfo.fSizeStart + (psInfo.fSizeEnd - psInfo.fSizeStart) * psInfo.fSizeVar);
-			par->fSizeDelta = (psInfo.fSizeEnd - par->fSize) / par->fTerminalAge;
+			par->fSize = pRand->Get(pInfo->fSizeStart, pInfo->fSizeStart + (pInfo->fSizeEnd - pInfo->fSizeStart) * pInfo->fSizeVar);
+			par->fSizeDelta = (pInfo->fSizeEnd - par->fSize) / par->fTerminalAge;
 
-			par->fSpin = pRand->Get(psInfo.fSpinStart, psInfo.fSpinStart + (psInfo.fSpinEnd - psInfo.fSpinStart) * psInfo.fSpinVar) / 15.0f;
-			par->fSpinDelta = (psInfo.fSpinEnd - par->fSpin) / par->fTerminalAge;
+			par->fSpin = pRand->Get(pInfo->fSpinStart, pInfo->fSpinStart + (pInfo->fSpinEnd - pInfo->fSpinStart) * pInfo->fSpinVar) / 15.0f;
+			par->fSpinDelta = (pInfo->fSpinEnd - par->fSpin) / par->fTerminalAge;
 
-			par->fColorR = pRand->Get(psInfo.fColorStartR, psInfo.fColorStartR + (psInfo.fColorEndR - psInfo.fColorStartR) * psInfo.fColorVar);
-			par->fColorG = pRand->Get(psInfo.fColorStartG, psInfo.fColorStartG + (psInfo.fColorEndG - psInfo.fColorStartG) * psInfo.fColorVar);
-			par->fColorB = pRand->Get(psInfo.fColorStartB, psInfo.fColorStartB + (psInfo.fColorEndB - psInfo.fColorStartB) * psInfo.fColorVar);
-			par->fColorA = pRand->Get(psInfo.fColorStartA, psInfo.fColorStartA + (psInfo.fColorEndA - psInfo.fColorStartA) * psInfo.fAlphaVar);
+			par->fColorR = pRand->Get(pInfo->fColorStartR, pInfo->fColorStartR + (pInfo->fColorEndR - pInfo->fColorStartR) * pInfo->fColorVar);
+			par->fColorG = pRand->Get(pInfo->fColorStartG, pInfo->fColorStartG + (pInfo->fColorEndG - pInfo->fColorStartG) * pInfo->fColorVar);
+			par->fColorB = pRand->Get(pInfo->fColorStartB, pInfo->fColorStartB + (pInfo->fColorEndB - pInfo->fColorStartB) * pInfo->fColorVar);
+			par->fColorA = pRand->Get(pInfo->fColorStartA, pInfo->fColorStartA + (pInfo->fColorEndA - pInfo->fColorStartA) * pInfo->fAlphaVar);
 
-			par->fColorDeltaR = (psInfo.fColorEndR - par->fColorR) / par->fTerminalAge;
-			par->fColorDeltaG = (psInfo.fColorEndG - par->fColorG) / par->fTerminalAge;
-			par->fColorDeltaB = (psInfo.fColorEndB - par->fColorB) / par->fTerminalAge;
-			par->fColorDeltaA = (psInfo.fColorEndA - par->fColorA) / par->fTerminalAge;
+			par->fColorDeltaR = (pInfo->fColorEndR - par->fColorR) / par->fTerminalAge;
+			par->fColorDeltaG = (pInfo->fColorEndG - par->fColorG) / par->fTerminalAge;
+			par->fColorDeltaB = (pInfo->fColorEndB - par->fColorB) / par->fTerminalAge;
+			par->fColorDeltaA = (pInfo->fColorEndA - par->fColorA) / par->fTerminalAge;
 
 			par->SetColor(par->fColorR, par->fColorG, par->fColorB, par->fColorA);
-			if (psInfo.iBlendMode == 6)
+			if (pInfo->iBlendMode == 6)
 				par->SetBlending(BlendModulate);
 			else
 				par->SetBlending(BlendAdditive);
@@ -377,7 +380,7 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::Render()
+void ParticleEmitter::Render()
 {
 	if (bEnabled && pEmitterObject)
 	{
@@ -391,7 +394,7 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::SetSprite(const String &filename)
+void ParticleEmitter::SetSprite(const String &filename)
 {
 	if (bEnabled && pEmitterObject)
 	{
@@ -409,7 +412,7 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::SetAnimation(u32 anim)
+void ParticleEmitter::SetAnimation(u32 anim)
 {
 	iAnimation = anim;
 	for (u32 i = 0; i < iParticlesAmount; i++)
@@ -421,16 +424,16 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::Play()
+void ParticleEmitter::Play()
 {
 	if (bEnabled && pEmitterObject)
 	{
-		fInterval = psInfo.fInterval;
+		fInterval = pInfo->fInterval;
 
 		if (!bPaused)
 		{
 			vPrevLocation = vPos;
-			if (psInfo.fLifetime == -1.0f)
+			if (pInfo->fLifetime == -1.0f)
 				fAge = -1.0f;
 			else
 				fAge = 0.0f;
@@ -444,12 +447,12 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- bool ParticleEmitter::IsPlaying() const
+bool ParticleEmitter::IsPlaying() const
 {
 	return !(this->IsStopped() || this->IsPaused());
 }
 
- void ParticleEmitter::Stop()
+void ParticleEmitter::Stop()
 {
 	fRespawnAge = 0.0f;
 	fAge = -2.0f;
@@ -457,22 +460,22 @@ ParticleEmitter::~ParticleEmitter()
 	bPaused = false;
 }
 
- bool ParticleEmitter::IsStopped() const
+bool ParticleEmitter::IsStopped() const
 {
 	return (fAge == -2.0f);
 }
 
- void ParticleEmitter::Pause()
+void ParticleEmitter::Pause()
 {
 	bPaused = true;
 }
 
- bool ParticleEmitter::IsPaused() const
+bool ParticleEmitter::IsPaused() const
 {
 	return bPaused;
 }
 
- void ParticleEmitter::Kill()
+void ParticleEmitter::Kill()
 {
 	fRespawnAge = 0.0f;
 	fAge = -2.0f;
@@ -489,22 +492,22 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::Enable()
+void ParticleEmitter::Enable()
 {
 	bEnabled = true;
 }
 
- void ParticleEmitter::Disable()
+void ParticleEmitter::Disable()
 {
 	bEnabled = false;
 }
 
- bool ParticleEmitter::IsEnabled() const
+bool ParticleEmitter::IsEnabled() const
 {
 	return bEnabled;
 }
 
- void ParticleEmitter::SetFilter(eTextureFilterType type, eTextureFilter filter)
+void ParticleEmitter::SetFilter(eTextureFilterType type, eTextureFilter filter)
 {
 	if (type == Seed::TextureFilterTypeMin)
 	{
@@ -516,7 +519,7 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::MoveEverything(const Vector3f &pos)
+void ParticleEmitter::MoveEverything(const Vector3f &pos)
 {
 	Vector3f dpos = pos - vPrevLocation;
 	vPrevLocation = pos;
@@ -530,22 +533,22 @@ ParticleEmitter::~ParticleEmitter()
 	}
 }
 
- void ParticleEmitter::SetParticlesFollowEmitter(bool bFollow)
+void ParticleEmitter::SetParticlesFollowEmitter(bool bFollow)
 {
 	this->bParticlesFollowEmitter = bFollow;
 }
 
- ParticleEmitterInfo *ParticleEmitter::GetEmitterInfo()
+const ParticleEmitterInfo *ParticleEmitter::GetEmitterInfo() const
 {
-	return &this->psInfo;
+	return pInfo;
 }
 
- const char *ParticleEmitter::GetObjectName() const
+const char *ParticleEmitter::GetObjectName() const
 {
 	return "ParticleEmitter";
 }
 
- int ParticleEmitter::GetObjectType() const
+int ParticleEmitter::GetObjectType() const
 {
 	return Seed::ObjectParticleEmitter;
 }

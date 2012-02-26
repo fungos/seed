@@ -42,7 +42,6 @@
 #include "Defines.h"
 #include "File.h"
 #include "interface/ITexture.h"
-#include "SeedInit.h"
 
 namespace Seed { namespace SDL {
 

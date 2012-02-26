@@ -49,6 +49,7 @@ class Renderer;
 class SEED_CORE_API RendererManager : public IModule, public IUpdatable
 {
 	SEED_SINGLETON_DECLARE(RendererManager)
+	DECLARE_CONTAINER_TYPE(Vector, Renderer)
 	public:
 		virtual void Add(Renderer *renderer);
 		virtual void Remove(Renderer *renderer);
@@ -71,7 +72,7 @@ class SEED_CORE_API RendererManager : public IModule, public IUpdatable
 	private:
 		SEED_DISABLE_COPY(RendererManager);
 
-		Array<Renderer *, SEED_RENDERER_MAX> arRenderer;
+		RendererVector vRenderer;
 		bool bEnabled;
 };
 

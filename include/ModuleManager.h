@@ -49,6 +49,8 @@ class IModule;
 class SEED_CORE_API ModuleManager
 {
 	SEED_SINGLETON_DECLARE(ModuleManager)
+	DECLARE_CONTAINER_TYPE(Vector, IModule)
+
 	public:
 		bool Add(IModule *obj);
 		bool Remove(IModule *obj);
@@ -67,7 +69,7 @@ class SEED_CORE_API ModuleManager
 		SEED_DISABLE_COPY(ModuleManager);
 
 	private:
-		Array<IModule *, MAX_MODULES> arModule;
+		IModuleVector vModule;
 };
 
 #define pModuleManager ModuleManager::GetInstance()

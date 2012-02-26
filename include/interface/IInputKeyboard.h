@@ -51,6 +51,7 @@ Platforms that support Keyboard (physical) input must implement this interface.
 */
 class SEED_CORE_API IInputKeyboard
 {
+	DECLARE_CONTAINER_TYPE(Vector, IEventInputKeyboardListener)
 	public:
 		IInputKeyboard();
 		virtual ~IInputKeyboard();
@@ -63,7 +64,7 @@ class SEED_CORE_API IInputKeyboard
 		void SendEventKeyboardRelease(const EventInputKeyboard *ev);
 
 	protected:
-		Array<IEventInputKeyboardListener *, 1000> arKeyboardListeners;
+		IEventInputKeyboardListenerVector vKeyboardListeners;
 
 	private:
 		SEED_DISABLE_COPY(IInputKeyboard);

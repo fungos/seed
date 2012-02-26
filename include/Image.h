@@ -38,7 +38,6 @@
 #define __IMAGE_H__
 
 #include "interface/ISceneObject.h"
-#include "SeedInit.h"
 #include "Vertex.h"
 
 namespace Seed {

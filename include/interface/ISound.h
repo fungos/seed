@@ -37,7 +37,6 @@
 #ifndef __ISOUND_H__
 #define __ISOUND_H__
 
-#include "SeedInit.h"
 #include "IResource.h"
 #include "ResourceManager.h"
 

@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -46,12 +46,13 @@
 namespace Seed {
 
 IInputMotion::IInputMotion()
-	: arMotionListeners()
+	: vMotionListeners()
 {
 }
 
 IInputMotion::~IInputMotion()
 {
+	IEventInputMotionListenerVector().swap(vMotionListeners);
 }
 
 Vector3f IInputMotion::GetAccelerationAxis(u16 joystick) const
@@ -77,32 +78,21 @@ f32 IInputMotion::GetAccelerationSpeed(u16 joystick) const
 
 void IInputMotion::AddMotionListener(IEventInputMotionListener *listener)
 {
-	ASSERT_NULL(listener);
-	arMotionListeners.Add(listener);
+	vMotionListeners += listener;
 }
 
 void IInputMotion::RemoveMotionListener(IEventInputMotionListener *listener)
 {
-	ASSERT_NULL(listener);
-	for (u32 i = 0; i < arMotionListeners.Size(); i++)
-	{
-		if (arMotionListeners[i] == listener)
-		{
-			arMotionListeners.Del(i);
-			break;
-		}
-	}
+	vMotionListeners -= listener;
 }
 
 void IInputMotion::SendEventAccelerationChanged(const EventInputMotion *ev)
 {
 	ASSERT_NULL(ev);
-
-	for (u32 i = 0; i < arMotionListeners.Size(); i++)
+	ForEach(IEventInputMotionListenerVector, vMotionListeners,
 	{
-		ASSERT_NULL(arMotionListeners[i]);
-		arMotionListeners[i]->OnAccelerationChanged(ev);
-	}
+		(*it)->OnAccelerationChanged(ev);
+	});
 }
 
 } // namespace

@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -131,7 +131,7 @@ template <typename T> class Matrix4x4
 			, tw(1.0f)
 		{
 		}
-		
+
 		~Matrix4x4()
 		{
 		}
@@ -149,18 +149,16 @@ template <typename T> class Matrix4x4
 		void InverseRotate(Vector3<T> &v) const;
 		void InverseTranslate(Vector3<T> &v) const;
 
-		void FromQuaternion(const Quaternion<T> &q);
-
 		// Matrix <-> Euler conversions; XYZ rotation order; angles in radians
 		void FromEulerAngles(T x, T y, T z);
 		void ToEulerAngles(T &x, T &y, T &z) const;
-		
+
 		// Return a base vector from the matrix
 		Vector3<T> RightVector() const;
 		Vector3<T> UpVector() const;
 		Vector3<T> ForwardVector() const;
 		Vector3<T> TranslationVector() const;
-		
+
 		// Accessor.  This allows to use the matrix object like an array of T. For example:
 		// Matrix4x4<float> mat;
 		// float f = mat[4]; // access to m21
@@ -168,7 +166,7 @@ template <typename T> class Matrix4x4
 		{
 			return m;
 		}
-		
+
 		// The values of the matrix.  Basically the upper 3x3 portion
 		// contains a linear transformation, and the last column is the
 		// translation portion. Here data is transposed, see the Mathlib.inl
@@ -182,7 +180,7 @@ template <typename T> class Matrix4x4
 				T m31, m32, m33, h34;
 				T tx,  ty,  tz,  tw;
 			};
-			
+
 			// Access to raw packed matrix data (usefull for glLoadMatrixf() and glMultMatrixf())
 			T m[16];
 		};
@@ -322,37 +320,6 @@ inline void Matrix4x4<T>::InverseTranslate(Vector3<T> &v) const
 }
 
 // --------------------------------------------------------------------------
-// Convert a quaternion to a matrix.
-// --------------------------------------------------------------------------
-template <typename T>
-inline void Matrix4x4<T>::FromQuaternion(const Quaternion<T> &q)
-{
-	// Compute a few values to optimize common subexpressions
-	T ww = 2.0 * q.w;
-	T xx = 2.0 * q.x;
-	T yy = 2.0 * q.y;
-	T zz = 2.0 * q.z;
-	
-	// Set the matrix elements.  There is still a little more
-	// opportunity for optimization due to the many common
-	// subexpressions.  We'll let the compiler handle that...
-	m11 = 1.0 - (yy * q.y) - (zz * q.z);
-	m12 = (xx * q.y) + (ww * q.z);
-	m13 = (xx * q.z) - (ww * q.y);
-	
-	m21 = (xx * q.y) - (ww * q.z);
-	m22 = 1.0 - (xx * q.x) - (zz * q.z);
-	m23 = (yy * q.z) + (ww * q.x);
-	
-	m31 = (xx * q.z) + (ww * q.y);
-	m32 = (yy * q.z) - (ww * q.x);
-	m33 = 1.0 - (xx * q.x) - (yy * q.y);
-	
-	// Reset the translation portion
-	tx = ty = tz = 0.0;
-}
-
-// --------------------------------------------------------------------------
 // Setup a rotation matrix, given three X-Y-Z rotation angles. The
 // rotations are performed first on x-axis, then y-axis and finaly z-axis.
 // --------------------------------------------------------------------------
@@ -366,23 +333,23 @@ inline void Matrix4x4<T>::FromEulerAngles(T x, T y, T z)
 	T sy = LIB_SIN(y);
 	T cz = LIB_COS(z);
 	T sz = LIB_SIN(z);
-	
+
 	T sxsy = sx * sy;
 	T cxsy = cx * sy;
-	
+
 	// Fill in the matrix elements
 	m11 =  (cy * cz);
 	m12 =  (sxsy * cz) + (cx * sz);
 	m13 = -(cxsy * cz) + (sx * sz);
-	
+
 	m21 = -(cy * sz);
 	m22 = -(sxsy * sz) + (cx * cz);
 	m23 =  (cxsy * sz) + (sx * cz);
-	
+
 	m31 =  (sy);
 	m32 = -(sx * cy);
 	m33 =  (cx * cy);
-	
+
 	// Reset the translation portion
 	tx = ty = tz = 0.0;
 }
@@ -399,11 +366,11 @@ inline void Matrix4x4<T>::ToEulerAngles(T &x, T &y, T &z) const
 {
 	// Compute Y-axis angle
 	y = LIB_ASIN(m31);
-	
+
 	// Compute cos and one over cos for optimization
 	T cy = LIB_COS(y);
 	T oneOverCosY = 1.0 / cy;
-	
+
 	if (LIB_FABS(cy) > 0.001)
 	{
 		// No gimball lock
@@ -457,25 +424,25 @@ template <typename T>
 inline Matrix4x4<T> operator*(const Matrix4x4<T> &a, const Matrix4x4<T> &b)
 {
 	Matrix4x4<T> res;
-	
+
 	// Compute the left 4x3 (linear transformation) portion
 	res.m11 = (a.m11 * b.m11) + (a.m21 * b.m12) + (a.m31 * b.m13);
 	res.m12 = (a.m12 * b.m11) + (a.m22 * b.m12) + (a.m32 * b.m13);
 	res.m13 = (a.m13 * b.m11) + (a.m23 * b.m12) + (a.m33 * b.m13);
-	
+
 	res.m21 = (a.m11 * b.m21) + (a.m21 * b.m22) + (a.m31 * b.m23);
 	res.m22 = (a.m12 * b.m21) + (a.m22 * b.m22) + (a.m32 * b.m23);
 	res.m23 = (a.m13 * b.m21) + (a.m23 * b.m22) + (a.m33 * b.m23);
-	
+
 	res.m31 = (a.m11 * b.m31) + (a.m21 * b.m32) + (a.m31 * b.m33);
 	res.m32 = (a.m12 * b.m31) + (a.m22 * b.m32) + (a.m32 * b.m33);
 	res.m33 = (a.m13 * b.m31) + (a.m23 * b.m32) + (a.m33 * b.m33);
-	
+
 	// Compute the translation portion
 	res.tx = (a.m11 * b.tx) + (a.m21 * b.ty) + (a.m31 * b.tz) + a.tx;
 	res.ty = (a.m12 * b.tx) + (a.m22 * b.ty) + (a.m32 * b.tz) + a.ty;
 	res.tz = (a.m13 * b.tx) + (a.m23 * b.ty) + (a.m33 * b.tz) + a.tz;
-	
+
 	return res;
 }
 
@@ -505,12 +472,12 @@ template <typename T>
 inline Matrix4x4<T> Transpose(const Matrix4x4<T> &m)
 {
 	Matrix4x4<T> res;
-	
+
 	res.m11 = m.m11; res.m21 = m.m12; res.m31 = m.m13; res.tx = m.h14;
 	res.m12 = m.m21; res.m22 = m.m22; res.m32 = m.m23; res.ty = m.h24;
 	res.m13 = m.m31; res.m23 = m.m32; res.m33 = m.m33; res.tz = m.h34;
 	res.h14 = m.tx;  res.h24 = m.ty;  res.h34 = m.tz;  res.tw = m.tw;
-	
+
 	return res;
 }
 
@@ -520,7 +487,7 @@ inline Matrix4x4<T> Transpose(const Matrix4x4<T> &m)
 template <typename T>
 inline static T Determinant3x3(const Matrix4x4<T> &m)
 {
-	return m.m11 * ((m.m22 * m.m33) - (m.m23 * m.m32)) 
+	return m.m11 * ((m.m22 * m.m33) - (m.m23 * m.m32))
 		 + m.m12 * ((m.m23 * m.m31) - (m.m21 * m.m33))
 		 + m.m13 * ((m.m21 * m.m32) - (m.m22 * m.m31));
 }
@@ -534,35 +501,35 @@ inline Matrix4x4<T> Invert(const Matrix4x4<T> &m)
 {
 	// Compute the determinant of the 3x3 portion
 	T det = Determinant3x3(m);
-	
+
 	// If we're singular, then the determinant is zero and there's no inverse
 	ASSERT(LIB_FABS(det) > 0.000001);
-	
+
 	// Compute one over the determinant, so we divide once and
 	// can *multiply* per element
 	T oneOverDet = 1.0 / det;
-	
+
 	// Compute the 3x3 portion of the inverse, by
 	// dividing the adjoint by the determinant
 	Matrix4x4<T> res;
-	
+
 	res.m11 = ((m.m22 * m.m33) - (m.m23 * m.m32)) * oneOverDet;
 	res.m12 = ((m.m13 * m.m32) - (m.m12 * m.m33)) * oneOverDet;
 	res.m13 = ((m.m12 * m.m23) - (m.m13 * m.m22)) * oneOverDet;
-	
+
 	res.m21 = ((m.m23 * m.m31) - (m.m21 * m.m33)) * oneOverDet;
 	res.m22 = ((m.m11 * m.m33) - (m.m13 * m.m31)) * oneOverDet;
 	res.m23 = ((m.m13 * m.m21) - (m.m11 * m.m23)) * oneOverDet;
-	
+
 	res.m31 = ((m.m21 * m.m32) - (m.m22 * m.m31)) * oneOverDet;
 	res.m32 = ((m.m12 * m.m31) - (m.m11 * m.m32)) * oneOverDet;
 	res.m33 = ((m.m11 * m.m22) - (m.m12 * m.m21)) * oneOverDet;
-	
+
 	// Compute the translation portion of the inverse
 	res.tx = -((m.tx * res.m11) + (m.ty * res.m21) + (m.tz * res.m31));
 	res.ty = -((m.tx * res.m12) + (m.ty * res.m22) + (m.tz * res.m32));
 	res.tz = -((m.tx * res.m13) + (m.ty * res.m23) + (m.tz * res.m33));
-	
+
 	// Return it.
 	return res;
 }
@@ -582,11 +549,11 @@ template <typename T>
 inline Matrix4x4<T> RotationMatrix(eAxis axis, T theta)
 {
 	Matrix4x4<T> res;
-	
+
 	// Get sin and cosine of rotation angle
 	T s = LIB_SIN(theta);
 	T c = LIB_COS(theta);
-	
+
 	// Check which axis they are rotating about
 	switch (axis)
 	{
@@ -595,27 +562,27 @@ inline Matrix4x4<T> RotationMatrix(eAxis axis, T theta)
 			res.m12 = 0.0; res.m22 = c;   res.m32 = -s;
 			res.m13 = 0.0; res.m23 = s;   res.m33 =  c;
 		break;
-		
+
 		case AxisY: // Rotate about the y-axis
 			res.m11 = c;   res.m21 = 0.0; res.m31 = s;
 			res.m12 = 0.0; res.m22 = 1.0; res.m32 = 0.0;
 			res.m13 = -s;  res.m23 = 0.0; res.m33 = c;
 		break;
-		
+
 		case AxisZ: // Rotate about the z-axis
 			res.m11 = c;   res.m21 = -s;  res.m31 = 0.0;
 			res.m12 = s;   res.m22 =  c;  res.m32 = 0.0;
 			res.m13 = 0.0; res.m23 = 0.0; res.m33 = 1.0;
 		break;
-		
+
 		default:
 			// bogus axis index
 			ASSERT(false);
 	}
-	
+
 	// Reset the translation portion
 	res.tx = res.ty = res.tz = 0.0;
-	
+
 	return res;
 }
 
@@ -634,38 +601,38 @@ template <typename T>
 inline Matrix4x4<T> RotationMatrix(const Vector3<T> &axis, T theta)
 {
 	Matrix4x4<T> res;
-	
+
 	// Quick sanity check to make sure they passed in a unit vector to specify the axis
 	ASSERT(LIB_FABS(DotProduct(axis, axis) - 1.0) < 0.001);
-	
+
 	// Get sin and cosine of rotation angle
 	T s = LIB_SIN(theta);
 	T c = LIB_COS(theta);
-	
+
 	// Compute 1 - cos(theta) and some common subexpressions
 	T a = 1.0 - c;
 	T ax = a * axis.x;
 	T ay = a * axis.y;
 	T az = a * axis.z;
-	
+
 	// Set the matrix elements.  There is still a little more
 	// opportunity for optimization due to the many common
 	// subexpressions.  We'll let the compiler handle that...
 	res.m11 = (ax * axis.x) + c;
 	res.m12 = (ax * axis.y) + (axis.z * s);
 	res.m13 = (ax * axis.z) - (axis.y * s);
-	
+
 	res.m21 = (ay * axis.x) - (axis.z * s);
 	res.m22 = (ay * axis.y) + c;
 	res.m23 = (ay * axis.z) + (axis.x * s);
-	
+
 	res.m31 = (az * axis.x) + (axis.y * s);
 	res.m32 = (az * axis.y) - (axis.x * s);
 	res.m33 = (az * axis.z) + c;
-	
+
 	// Reset the translation portion
 	res.tx = res.ty = res.tz = 0.0;
-	
+
 	return res;
 }
 
@@ -684,11 +651,11 @@ template <typename T>
 inline Matrix4x4<T> TranslationMatrix(const Vector3<T> &v)
 {
 	Matrix4x4<T> res;
-	
+
 	res.m11 = 1.0; res.m21 = 0.0; res.m31 = 0.0; res.tx = v.x;
 	res.m12 = 0.0; res.m22 = 1.0; res.m32 = 0.0; res.ty = v.y;
 	res.m13 = 0.0; res.m23 = 0.0; res.m33 = 1.0; res.tz = v.z;
-	
+
 	return res;
 }
 
@@ -702,15 +669,15 @@ template <typename T>
 inline Matrix4x4<T> ScaleMatrix(const Vector3<T> &s)
 {
 	Matrix4x4<T> res;
-	
+
 	// Set the matrix elements.  Pretty straightforward
 	res.m11 = s.x; res.m21 = 0.0; res.m31 = 0.0;
 	res.m12 = 0.0; res.m22 = s.y; res.m32 = 0.0;
 	res.m13 = 0.0; res.m23 = 0.0; res.m33 = s.z;
-	
+
 	// Reset the translation portion
 	res.tx = res.ty = res.tz = 0.0;
-	
+
 	return res;
 }
 
@@ -722,15 +689,15 @@ template <typename T>
 inline Matrix4x4<T> ScaleMatrix(T x, T y, T z)
 {
 	Matrix4x4<T> res;
-	
+
 	// Set the matrix elements.  Pretty straightforward
 	res.m11 = x;   res.m21 = 0.0; res.m31 = 0.0;
 	res.m12 = 0.0; res.m22 = y;   res.m32 = 0.0;
 	res.m13 = 0.0; res.m23 = 0.0; res.m33 = z;
-	
+
 	// Reset the translation portion
 	res.tx = res.ty = res.tz = 0.0;
-	
+
 	return res;
 }
 
@@ -746,30 +713,30 @@ template <typename T>
 inline Matrix4x4<T> ScaleAlongAxisMatrix(const Vector3<T> &axis, T k)
 {
 	Matrix4x4<T> res;
-	
+
 	// Quick sanity check to make sure they passed in a unit vector to specify the axis
 	ASSERT(LIB_FABS(DotProduct(axis, axis) - 1.0) < 0.001);
-	
+
 	// Compute k-1 and some common subexpressions
 	T a = k - 1.0;
 	T ax = a * axis.x;
 	T ay = a * axis.y;
 	T az = a * axis.z;
-	
+
 	// Fill in the matrix elements.  We'll do the common
 	// subexpression optimization ourselves here, since diagonally
 	// opposite matrix elements are equal
 	res.m11 = (ax * axis.x) + 1.0;
 	res.m22 = (ay * axis.y) + 1.0;
 	res.m32 = (az * axis.z) + 1.0;
-	
+
 	res.m12 = res.m21 = (ax * axis.y);
 	res.m13 = res.m31 = (ax * axis.z);
 	res.m23 = res.m32 = (ay * axis.z);
-	
+
 	// Reset the translation portion
 	res.tx = res.ty = res.tz = 0.0;
-	
+
 	return res;
 }
 
@@ -799,27 +766,27 @@ inline Matrix4x4<T> ShearMatrix(eAxis axis, T s, T t)
 			res.m12 = s;   res.m22 = 1.0; res.m32 = 0.0;
 			res.m13 = t;   res.m23 = 0.0; res.m33 = 1.0;
 		break;
-		
+
 		case AxisY: // Shear x and z using y
 			res.m11 = 1.0; res.m21 = s;   res.m31 = 0.0;
 			res.m12 = 0.0; res.m22 = 1.0; res.m32 = 0.0;
 			res.m13 = 0.0; res.m23 = t;   res.m33 = 1.0;
 		break;
-		
+
 		case AxisZ: // Shear x and y using z
 			res.m11 = 1.0; res.m21 = 0.0; res.m31 = s;
 			res.m12 = 0.0; res.m22 = 1.0; res.m32 = t;
 			res.m13 = 0.0; res.m23 = 0.0; res.m33 = 1.0;
 		break;
-		
+
 		default:
 			// bogus axis index
 			ASSERT(false);
 	}
-	
+
 	// Reset the translation portion
 	res.tx = res.ty = res.tz = 0.0;
-	
+
 	return res;
 }
 
@@ -832,25 +799,25 @@ template <typename T>
 inline Matrix4x4<T> ProjectionMatrix(const Vector3<T> &n)
 {
 	Matrix4x4<T> res;
-	
+
 	// Quick sanity check to make sure they passed in a unit vector
 	// to specify the axis
 	ASSERT(LIB_FABS(DotProduct(n, n) - 1.0) < 0.001);
-	
+
 	// Fill in the matrix elements.  We'll do the common
 	// subexpression optimization ourselves here, since diagonally
 	// opposite matrix elements are equal
 	res.m11 = 1.0 - (n.x * n.x);
 	res.m22 = 1.0 - (n.y * n.y);
 	res.m33 = 1.0 - (n.z * n.z);
-	
+
 	res.m12 = res.m21 = -(n.x * n.y);
 	res.m13 = res.m31 = -(n.x * n.z);
 	res.m23 = res.m32 = -(n.y * n.z);
-	
+
 	// Reset the translation portion
 	res.tx = res.ty = res.tz = 0.0;
-	
+
 	return res;
 }
 
@@ -871,7 +838,7 @@ template <typename T>
 inline Matrix4x4<T> ReflectionMatrix(eAxis axis, T k)
 {
 	Matrix4x4<T> res;
-	
+
 	// Check which plane they want to reflect about
 	switch (axis)
 	{
@@ -880,24 +847,24 @@ inline Matrix4x4<T> ReflectionMatrix(eAxis axis, T k)
 			res.m12 =  0.0; res.m22 =  1.0; res.m32 =  0.0; res.ty = 0.0;
 			res.m13 =  0.0; res.m23 =  0.0; res.m33 =  1.0; res.tz = 0.0;
 		break;
-		
+
 		case AxisY: // Reflect about the plane y=k
 			res.m11 =  1.0; res.m21 =  0.0; res.m31 =  0.0; res.tx = 0.0;
 			res.m12 =  0.0; res.m22 = -1.0; res.m32 =  0.0; res.ty = 2.0 * k;
 			res.m13 =  0.0; res.m23 =  0.0; res.m33 =  1.0; res.tz = 0.0;
 		break;
-		
+
 		case AxisZ: // Reflect about the plane z=k
 			res.m11 =  1.0; res.m21 =  0.0; res.m31 =  0.0; res.tx = 0.0;
 			res.m12 =  0.0; res.m22 =  1.0; res.m32 =  0.0; res.ty = 0.0;
 			res.m13 =  0.0; res.m23 =  0.0; res.m33 = -1.0; res.tz = 2.0 * k;
 		break;
-		
+
 		default:
 			// bogus axis index
 			ASSERT(false);
 	}
-	
+
 	return res;
 }
 
@@ -911,30 +878,30 @@ template <typename T>
 inline Matrix4x4<T> AxisReflectionMatrix(const Vector3<T> &n)
 {
 	Matrix4x4<T> res;
-	
+
 	// Quick sanity check to make sure they passed in a unit vector
 	// to specify the axis
 	ASSERT(LIB_FABS(DotProduct(n, n) - 1.0) < 0.001);
-	
+
 	// Compute common subexpressions
 	T ax = -2.0 * n.x;
 	T ay = -2.0 * n.y;
 	T az = -2.0 * n.z;
-	
+
 	// Fill in the matrix elements.  We'll do the common
 	// subexpression optimization ourselves here, since diagonally
 	// opposite matrix elements are equal
 	res.m11 = 1.0 + (ax * n.x);
 	res.m22 = 1.0 + (ay * n.y);
 	res.m32 = 1.0 + (az * n.z);
-	
+
 	res.m12 = res.m21 = (ax * n.y);
 	res.m13 = res.m31 = (ax * n.z);
 	res.m23 = res.m32 = (ay * n.z);
-	
+
 	// Reset the translation portion
 	res.tx = res.ty = res.tz = 0.00;
-	
+
 	return res;
 }
 
@@ -946,34 +913,34 @@ template <typename T>
 inline Matrix4x4<T> LookAtMatrix(const Vector3<T> &camPos, const Vector3<T> &target, const Vector3<T> &camUp)
 {
 	Matrix4x4<T> rot, trans;
-	
+
 	Vector3<T> forward(camPos - target);
 	forward.Normalize();
-	
+
 	Vector3<T> right(CrossProduct(camUp, forward));
 	Vector3<T> up(CrossProduct(forward, right));
-	
+
 	right.Normalize();
 	up.Normalize();
-	
+
 	rot.m11 = right.x;
 	rot.m21 = right.y;
 	rot.m31 = right.z;
-	
+
 	rot.m12 = up.x;
 	rot.m22 = up.y;
 	rot.m32 = up.z;
-	
+
 	rot.m13 = forward.x;
 	rot.m23 = forward.y;
 	rot.m33 = forward.z;
-	
+
 	rot.tx  = 0.0;
 	rot.ty  = 0.0;
 	rot.tz  = 0.0;
-	
+
 	trans = TranslationMatrix(-camPos);
-	
+
 	return (rot * trans);
 }
 
@@ -986,33 +953,33 @@ inline Matrix4x4<T> FrustumMatrix(T l, T r, T b, T t, T n, T f)
 {
 	ASSERT(n >= 0.0);
 	ASSERT(f >= 0.0);
-	
+
 	Matrix4x4<T> res;
-	
+
 	T width  = r - l;
 	T height = t - b;
 	T depth  = f - n;
-	
+
 	res.m[0] = (2 * n) / width;
 	res.m[1] = 0.0;
 	res.m[2] = 0.0;
 	res.m[3] = 0.0;
-	
+
 	res.m[4] = 0.0;
 	res.m[5] = (2 * n) / height;
 	res.m[6] = 0.0;
 	res.m[7] = 0.0;
-	
+
 	res.m[8] = (r + l) / width;
 	res.m[9] = (t + b) / height;
 	res.m[10]= -(f + n) / depth;
 	res.m[11]= -1.0;
-	
+
 	res.m[12]= 0.0;
 	res.m[13]= 0.0;
 	res.m[14]= -(2 * f * n) / depth;
 	res.m[15]= 0.0;
-	
+
 	return res;
 }
 
@@ -1024,35 +991,35 @@ template <typename T>
 inline Matrix4x4<T> PerspectiveMatrix(T fovY, T aspect, T n, T f)
 {
 	Matrix4x4<T> res;
-	
+
 	T angle;
 	T cot;
-	
+
 	angle = fovY / 2.0;
 	angle = degToRad(angle);
-	
+
 	cot = LIB_COS(angle) / LIB_SIN(angle);
-	
+
 	res.m[0] = cot / aspect;
 	res.m[1] = 0.0;
 	res.m[2] = 0.0;
 	res.m[3] = 0.0;
-	
+
 	res.m[4] = 0.0;
 	res.m[5] = cot;
 	res.m[6] = 0.0;
 	res.m[7] = 0.0;
-	
+
 	res.m[8] = 0.0;
 	res.m[9] = 0.0;
 	res.m[10]= -(f + n) / (f - n);
 	res.m[11]= -1.0;
-	
+
 	res.m[12]= 0.0;
 	res.m[13]= 0.0;
 	res.m[14]= -(2 * f * n) / (f - n);
 	res.m[15]= 0.0;
-	
+
 	return res;
 }
 
@@ -1064,31 +1031,31 @@ template <typename T>
 inline Matrix4x4<T> OrthoMatrix(T left, T right, T bottom, T top, T znear, T zfar)
 {
 	Matrix4x4<T> res;
-	
+
 	T width  = right - left;
 	T height = top - bottom;
 	T depth  = zfar - znear;
-	
+
 	res.m[0] =  2.0f / width;
 	res.m[1] =  0.0f;
 	res.m[2] =  0.0f;
 	res.m[3] =  0.0f;
-	
+
 	res.m[4] =  0.0f;
 	res.m[5] =  2.0f / height;
 	res.m[6] =  0.0f;
 	res.m[7] =  0.0f;
-	
+
 	res.m[8] =  0.0f;
 	res.m[9] =  0.0f;
 	res.m[10]= -2.0f / depth;
 	res.m[11]=  0.0f;
-	
+
 	res.m[12]= -(right + left) / width;
 	res.m[13]= -(top + bottom) / height;
 	res.m[14]= -(zfar + znear) / depth;
 	res.m[15]=  1.0f;
-	
+
 	return res;
 }
 
@@ -1099,12 +1066,12 @@ template <typename T>
 inline Matrix4x4<T> OrthoNormalMatrix(const Vector3<T> &xdir, const Vector3<T> &ydir, const Vector3<T> &zdir)
 {
 	Matrix4x4<T> res;
-	
+
 	res.m[0] = xdir.x; res.m[4] = ydir.x; res.m[8] = zdir.x; res.m[12] = 0.0;
 	res.m[1] = xdir.y; res.m[5] = ydir.y; res.m[9] = zdir.y; res.m[13] = 0.0;
 	res.m[2] = xdir.z; res.m[6] = ydir.z; res.m[10]= zdir.z; res.m[14] = 0.0;
 	res.m[3] = 0.0;    res.m[7] = 0.0;    res.m[11]= 0.0;    res.m[15] = 1.0;
-	
+
 	return res;
 }
 

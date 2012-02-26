@@ -43,8 +43,7 @@ namespace Seed {
 
 
 Particle::Particle()
-	: bActive(false)
-	, vVelocity(0.0f, 0.0f, 0.0f)
+	: vVelocity(0.0f, 0.0f, 0.0f)
 	, fGravity(0.0f)
 	, fRadialAccel(0.0f)
 	, fTangentialAccel(0.0f)
@@ -62,6 +61,7 @@ Particle::Particle()
 	, fColorDeltaG(0.0f)
 	, fColorDeltaB(0.0f)
 	, fColorDeltaA(0.0f)
+	, bActive(false)
 {
 }
 

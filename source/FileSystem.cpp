@@ -39,6 +39,9 @@
 #include "File.h"
 #include "System.h"
 #include "SeedInit.h"
+#include "physfs/physfs.h"
+
+#define FS_CHECK(x)	{ if (!x) { const char *_err = PHYSFS_getLastError(); Log(TAG "Error: %s", _err); }}
 
 #define TAG	"[FileSystem] "
 

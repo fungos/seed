@@ -39,7 +39,6 @@
 #if defined(SEED_ENABLE_D3D8)
 
 #include "Log.h"
-#include "SeedInit.h"
 #include "Screen.h"
 #include "Texture.h"
 #include "System.h"

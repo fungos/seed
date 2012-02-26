@@ -34,7 +34,6 @@
 	\brief Module updater
 */
 
-#include <math.h>
 #include "Updater.h"
 #include "interface/IUpdatable.h"
 #include "Profiler.h"
@@ -44,32 +43,33 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(Updater)
 
 Updater::Updater()
-	: fAccumulator(0.0f)
-	, arUpdatable()
+	: vUpdatable()
+	, fAccumulator(0.0f)
 {
 }
 
 Updater::~Updater()
 {
-	arUpdatable.Truncate();
+	IUpdatableVector().swap(vUpdatable);
 }
 
 void Updater::Add(IUpdatable *obj)
 {
-	arUpdatable.Add(obj);
+	vUpdatable += obj;
 }
 
 void Updater::Remove(IUpdatable *obj)
 {
-	arUpdatable.Remove(obj);
+	vUpdatable -= obj;
 }
 
 void Updater::Run(f32 dt)
 {
 	SEED_FUNCTION_PROFILER;
-	u32 len = arUpdatable.Size();
-	for (u32 i = 0; i < len; i++)
-		arUpdatable[i]->Update(dt);
+	ForEach(IUpdatableVector, vUpdatable,
+	{
+		(*it)->Update(dt);
+	});
 }
 
 } // namespace

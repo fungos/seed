@@ -143,11 +143,6 @@ namespace Seed {
 	{
 	} // namespace
 
-	/// Revolution platform related implementation using RVL_SDK
-	namespace WII
-	{
-	} // namespace
-
 	/// Qt platform related implementation
 	namespace QT
 	{

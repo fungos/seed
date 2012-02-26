@@ -51,6 +51,7 @@ Platforms that support Joystick must implement this interface.
 */
 class SEED_CORE_API IInputJoystick
 {
+	DECLARE_CONTAINER_TYPE(Vector, IEventInputJoystickListener)
 	public:
 		IInputJoystick();
 		virtual ~IInputJoystick();
@@ -67,7 +68,7 @@ class SEED_CORE_API IInputJoystick
 		void SendEventJoystickAxisMove(const EventInputJoystick *ev);
 
 	protected:
-		Array<IEventInputJoystickListener *, 1000> arJoystickListeners;
+		IEventInputJoystickListenerVector vJoystickListeners;
 
 	private:
 		SEED_DISABLE_COPY(IInputJoystick);

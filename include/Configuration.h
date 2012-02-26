@@ -42,7 +42,7 @@ class SEED_CORE_API Configuration : public IObject
 {
 	public:
 		Configuration();
-		~Configuration();
+		virtual ~Configuration();
 
 		void SetVideoMode(eVideoMode videoMode);
 		eVideoMode GetVideoMode() const;
@@ -147,27 +147,23 @@ class SEED_CORE_API Configuration : public IObject
 	private:
 		SEED_DISABLE_COPY(Configuration);
 
-		// Screen
-		eVideoMode nVideoMode;
-		u32 iResolutionWidth;
-		u32 iResolutionHeight;
-
-		// FileSystem
 		const char *pcWorkingDirectory;
-
-		// System
-		bool	bMultipleInstances;
-		bool	bWarningMultipleInstances;
-		eSystemFrameRate iFrameRate;
 		const char *pcTitle;
 		const char *pcDescription;
 		const char *pcPublisherName;
 
-		// General
+		f32 fInputRadius;
+
 		eRendererDeviceType iRendererDeviceType;
 		eReaderType iReaderType;
+		eVideoMode nVideoMode;
+		eSystemFrameRate iFrameRate;
 
-		f32 iInputRadius;
+		u32 iResolutionWidth;
+		u32 iResolutionHeight;
+
+		bool bMultipleInstances;
+		bool bWarningMultipleInstances;
 };
 
 } // namespace

@@ -32,6 +32,7 @@
 #include "interface/IBasicMesh.h"
 #include "ResourceManager.h"
 #include "Log.h"
+#include "Vertex.h"
 
 namespace Seed {
 

@@ -74,7 +74,7 @@ class SEED_CORE_API Viewport
 		virtual const char *GetObjectName() const;
 
 	protected:
-		Rect<f32> cArea;
+		Rect4f cArea;
 
 	private:
 		SEED_DISABLE_COPY(Viewport);

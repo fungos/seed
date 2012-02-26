@@ -40,8 +40,6 @@
 #include "Array.h"
 #include "Singleton.h"
 
-#define MAX_UPDATEABLES 32
-
 namespace Seed {
 
 class IUpdatable;
@@ -49,6 +47,7 @@ class IUpdatable;
 class SEED_CORE_API Updater
 {
 	SEED_SINGLETON_DECLARE(Updater)
+	DECLARE_CONTAINER_TYPE(Vector, IUpdatable)
 	public:
 		void Run(f32 dt);
 		void Add(IUpdatable *obj);
@@ -58,13 +57,10 @@ class SEED_CORE_API Updater
 		SEED_DISABLE_COPY(Updater);
 
 	private:
+		IUpdatableVector vUpdatable;
 		f32 fAccumulator;
-		Array<IUpdatable *, MAX_UPDATEABLES> arUpdatable;
 };
 
-//extern "C" {
-//SEED_CORE_API SEED_SINGLETON_EXTERNALIZE(Updater);
-//}
 #define pUpdater Updater::GetInstance()
 
 } // namespace

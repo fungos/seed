@@ -41,7 +41,6 @@
 #include "Viewport.h"
 #include "RendererDevice.h"
 #include "Renderer.h"
-#include "SeedInit.h"
 
 #define TAG		"[ViewManager] "
 
@@ -50,11 +49,10 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(ViewManager)
 
 ViewManager::ViewManager()
-	: arViewport()
+	: vViewport()
 	, pCurrentViewport(NULL)
 	, bEnabled(true)
 {
-	arViewport.Truncate();
 }
 
 ViewManager::~ViewManager()
@@ -66,26 +64,26 @@ bool ViewManager::Initialize()
 {
 	IModule::Initialize();
 
-	for (u32 i = 0; i < arViewport.Size(); i++)
+	ForEach(ViewportVector, vViewport,
 	{
-		arViewport[i]->GetRenderer()->Initialize();
-	}
+		(*it)->GetRenderer()->Initialize();
+	});
 
 	return true;
 }
 
 bool ViewManager::Reset()
 {
-	arViewport.Truncate();
+	ViewportVector().swap(vViewport);
 	return true;
 }
 
 bool ViewManager::Shutdown()
 {
-	for (u32 i = 0; i < arViewport.Size(); i++)
+	ForEach(ViewportVector, vViewport,
 	{
-		arViewport[i]->GetRenderer()->Shutdown();
-	}
+		(*it)->GetRenderer()->Shutdown();
+	});
 
 	this->Reset();
 
@@ -94,28 +92,12 @@ bool ViewManager::Shutdown()
 
 void ViewManager::Add(Viewport *view)
 {
-	ASSERT_NULL(view);
-
-	bool found = false;
-	for (u32 i = 0; i < arViewport.Size(); i++)
-	{
-		if (arViewport[i] == view)
-		{
-			found = true;
-			break;
-		}
-	}
-
-	if (!found)
-	{
-		arViewport.Add(view);
-	}
+	vViewport += view;
 }
 
 void ViewManager::Remove(Viewport *view)
 {
-	ASSERT_NULL(view);
-	arViewport.Remove(view);
+	vViewport -= view;
 }
 
 void ViewManager::Disable()
@@ -132,14 +114,12 @@ void ViewManager::Render()
 {
 	if (bEnabled)
 	{
-		u32 len = arViewport.Size();
-
 		pRendererDevice->BackbufferClear();
-		for (u32 i = 0; i < len; i++)
+		ForEach(ViewportVector, vViewport,
 		{
-			pCurrentViewport = arViewport[i];
+			pCurrentViewport = (*it);
 			pCurrentViewport->Render();
-		}
+		});
 	}
 
 	pCurrentViewport = NULL;
@@ -148,7 +128,6 @@ void ViewManager::Render()
 Renderer *ViewManager::GetCurrentRenderer() const
 {
 	ASSERT_MSG(pCurrentViewport, TAG "GetCurrentRenderer must be called within Render call.");
-
 	return pCurrentViewport->GetRenderer();
 }
 
@@ -156,24 +135,22 @@ Renderer *ViewManager::GetCurrentRenderer() const
 Viewport *ViewManager::GetCurrentViewport() const
 {
 	ASSERT_MSG(pCurrentViewport, TAG "GetCurrentViewport must be called within Render call.");
-
 	return pCurrentViewport;
 }
-
 
 Viewport *ViewManager::GetViewportAt(f32 x, f32 y)
 {
 	Viewport *ret = NULL;
 	if (bEnabled)
 	{
-		for (u32 i = 0; i < arViewport.Size(); i++)
+		ForEach(ViewportVector, vViewport,
 		{
-			if (arViewport[i]->Contains(x, y))
+			if ((*it)->Contains(x, y))
 			{
-				ret = arViewport[i];
+				ret = (*it);
 				break;
 			}
-		}
+		});
 	}
 
 	return ret;

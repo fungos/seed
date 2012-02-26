@@ -38,17 +38,11 @@
 #define __RESOURCEGROUP_H__
 
 #include "Log.h"
-#include "interface/IEvent.h"
-#include "interface/IEventListener.h"
-
-#include "ResourceManager.h"
-#include "Timer.h"
-#include "SeedInit.h"
-
-#include <vector>
-#include <algorithm>
+#include "Enum.h"
 
 namespace Seed {
+
+class IResource;
 
 class SEED_CORE_API ResourceGroup
 {

@@ -51,7 +51,6 @@
 #if defined(BUILD_IOS)
 #include "platform/ios/iosoneView.h"
 #elif defined(__APPLE_CC__)
-#include "SeedInit.h"
 static char pcBundle[2048];
 #endif
 

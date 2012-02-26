@@ -48,6 +48,7 @@ class ISceneObject;
 class SEED_CORE_API SceneManager : public IUpdatable
 {
 	SEED_SINGLETON_DECLARE(SceneManager)
+	DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
 	public:
 		virtual void Add(ISceneObject *obj);
 		virtual void Remove(ISceneObject *obj);
@@ -61,7 +62,7 @@ class SEED_CORE_API SceneManager : public IUpdatable
 		SEED_DISABLE_COPY(SceneManager);
 
 	private:
-		Array<ISceneObject *, 128> arObject;
+		ISceneObjectVector vObject;
 };
 
 #define pSceneManager SceneManager::GetInstance()

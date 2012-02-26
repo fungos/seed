@@ -43,7 +43,6 @@
 
 #include "File.h"
 #include "interface/IMusic.h"
-#include "SeedInit.h"
 
 namespace Seed { namespace iOS {
 

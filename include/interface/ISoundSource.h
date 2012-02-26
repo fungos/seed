@@ -38,10 +38,8 @@
 #define __ISOUND_SOURCE_H__
 
 #include "Defines.h"
-#include "Vector.h"
 #include "interface/IObject.h"
-#include "SeedInit.h"
-#include "ResourceManager.h"
+#include "Vector3.h"
 
 namespace Seed {
 

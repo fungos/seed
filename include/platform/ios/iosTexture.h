@@ -40,7 +40,6 @@
 #if defined(BUILD_IOS)
 
 #include "Defines.h"
-#include "SeedInit.h"
 #include "File.h"
 #include "interface/ITexture.h"
 

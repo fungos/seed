@@ -37,23 +37,27 @@
 #ifndef __ISCENE_OBJECT_H__
 #define __ISCENE_OBJECT_H__
 
-#include "Array.h"
 #include "interface/ITransformable.h"
 #include "interface/IRenderable.h"
+#include "interface/IObject.h"
 
 namespace Seed {
 
-class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable
+class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, public IObject
 {
 	public:
 		ISceneObject();
 		virtual ~ISceneObject();
 
+		virtual bool IsNode() const;
+
 		// IRenderable
 		virtual void Update(f32 delta);
 		virtual void Render();
 
-		virtual bool IsNode() const;
+		// IObject
+		virtual const char *GetObjectName() const;
+		virtual int GetObjectType() const;
 
 	private:
 		SEED_DISABLE_COPY(ISceneObject);

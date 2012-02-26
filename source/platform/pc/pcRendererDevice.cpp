@@ -35,10 +35,10 @@
 */
 
 #include "RendererDevice.h"
-#include "SeedInit.h"
 
 #if defined(BUILD_PC)
 
+#include "SeedInit.h"
 #define TAG "[RendererDevice] "
 
 namespace Seed { namespace PC {

@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -383,49 +383,23 @@ const char *keyName[] = {
 
 
 IInputKeyboard::IInputKeyboard()
-	: arKeyboardListeners()
+	: vKeyboardListeners()
 {
 }
 
 IInputKeyboard::~IInputKeyboard()
 {
+	IEventInputKeyboardListenerVector().swap(vKeyboardListeners);
 }
-
-/*
-bool IInputKeyboard::IsKeyHold(u32 key) const
-{
-	return false;
-}
-
-bool IInputKeyboard::IsKeyPressed(u32 key) const
-{
-	return false;
-}
-
-bool IInputKeyboard::IsKeyReleased(u32 key) const
-{
-	return false;
-}
-*/
 
 void IInputKeyboard::AddKeyboardListener(IEventInputKeyboardListener *listener)
 {
-	ASSERT_NULL(listener);
-	arKeyboardListeners.Add(listener);
+	vKeyboardListeners += listener;
 }
 
 void IInputKeyboard::RemoveKeyboardListener(IEventInputKeyboardListener *listener)
 {
-	ASSERT_NULL(listener);
-
-	for (u32 i = 0; i < arKeyboardListeners.Size(); i++)
-	{
-		if (arKeyboardListeners[i] == listener)
-		{
-			arKeyboardListeners.Del(i);
-			break;
-		}
-	}
+	vKeyboardListeners -= listener;
 }
 
 void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
@@ -436,14 +410,13 @@ void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
 #endif
 
-	for (u32 i = 0; i < arKeyboardListeners.Size(); i++)
+	ForEach(IEventInputKeyboardListenerVector, vKeyboardListeners,
 	{
-		ASSERT_NULL(arKeyboardListeners[i]);
-		arKeyboardListeners[i]->OnInputKeyboardPress(ev);
+		(*it)->OnInputKeyboardPress(ev);
 
 		if (ev->IsConsumed())
 			break;
-	}
+	});
 }
 
 void IInputKeyboard::SendEventKeyboardRelease(const EventInputKeyboard *ev)
@@ -454,14 +427,13 @@ void IInputKeyboard::SendEventKeyboardRelease(const EventInputKeyboard *ev)
 	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
 #endif
 
-	for (u32 i = 0; i < arKeyboardListeners.Size(); i++)
+	ForEach(IEventInputKeyboardListenerVector, vKeyboardListeners,
 	{
-		ASSERT_NULL(arKeyboardListeners[i]);
-		arKeyboardListeners[i]->OnInputKeyboardRelease(ev);
+		(*it)->OnInputKeyboardRelease(ev);
 
 		if (ev->IsConsumed())
 			break;
-	}
+	});
 }
 
 } // namespace

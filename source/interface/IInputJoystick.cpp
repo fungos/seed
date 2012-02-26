@@ -41,11 +41,13 @@
 namespace Seed {
 
 IInputJoystick::IInputJoystick()
+	: vJoystickListeners()
 {
 }
 
 IInputJoystick::~IInputJoystick()
 {
+	IEventInputJoystickListenerVector().swap(vJoystickListeners);
 }
 
 u32 IInputJoystick::GetMaximumJoysticks() const
@@ -56,66 +58,52 @@ u32 IInputJoystick::GetMaximumJoysticks() const
 
 void IInputJoystick::AddJoystickListener(IEventInputJoystickListener *listener)
 {
-	ASSERT_NULL(listener);
-	arJoystickListeners.Add(listener);
+	vJoystickListeners += listener;
 }
 
 void IInputJoystick::RemoveJoystickListener(IEventInputJoystickListener *listener)
 {
-	ASSERT_NULL(listener);
-
-	for (u32 i = 0; i < arJoystickListeners.Size(); i++)
-	{
-		if (arJoystickListeners[i] == listener)
-		{
-			arJoystickListeners.Del(i);
-			break;
-		}
-	}
+	vJoystickListeners -= listener;
 }
 
 void IInputJoystick::SendEventJoystickButtonPress(const EventInputJoystick *ev)
 {
 	ASSERT_NULL(ev);
 
-	for (u32 i = 0; i < arJoystickListeners.Size(); i++)
+	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
 	{
-		ASSERT_NULL(arJoystickListeners[i]);
-		arJoystickListeners[i]->OnInputJoystickButtonPress(ev);
-	}
+		(*it)->OnInputJoystickButtonPress(ev);
+	});
 }
 
 void IInputJoystick::SendEventJoystickButtonRelease(const EventInputJoystick *ev)
 {
 	ASSERT_NULL(ev);
 
-	for (u32 i = 0; i < arJoystickListeners.Size(); i++)
+	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
 	{
-		ASSERT_NULL(arJoystickListeners[i]);
-		arJoystickListeners[i]->OnInputJoystickButtonRelease(ev);
-	}
+		(*it)->OnInputJoystickButtonRelease(ev);
+	});
 }
 
 void IInputJoystick::SendEventJoystickDPadMove(const EventInputJoystick *ev)
 {
 	ASSERT_NULL(ev);
 
-	for (u32 i = 0; i < arJoystickListeners.Size(); i++)
+	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
 	{
-		ASSERT_NULL(arJoystickListeners[i]);
-		arJoystickListeners[i]->OnInputJoystickDPadMove(ev);
-	}
+		(*it)->OnInputJoystickDPadMove(ev);
+	});
 }
 
 void IInputJoystick::SendEventJoystickAxisMove(const EventInputJoystick *ev)
 {
 	ASSERT_NULL(ev);
 
-	for (u32 i = 0; i < arJoystickListeners.Size(); i++)
+	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
 	{
-		ASSERT_NULL(arJoystickListeners[i]);
-		arJoystickListeners[i]->OnInputJoystickAxisMove(ev);
-	}
+		(*it)->OnInputJoystickAxisMove(ev);
+	});
 }
 
 } // namespace

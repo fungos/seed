@@ -40,15 +40,13 @@
 #include "Defines.h"
 #include "interface/IBasicMesh.h"
 #include "Reader.h"
-#include "SeedInit.h"
-#include "Animation.h"
-#include "Frame.h"
-
-#define		SPRITE_GLOBAL_FRAME_TIME		60.0f
+#include "Vertex.h"
 
 namespace Seed {
 
 class ITexture;
+class Animation;
+class Frame;
 
 class SEED_CORE_API Sprite : public IBasicMesh
 {
@@ -65,8 +63,6 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual ITexture *GetTexture() const;
 		virtual const void *GetData() const;
 
-		//virtual void SetColor(u8 r, u8 g, u8 b, u8 a);
-		//virtual void SetColor(PIXEL px);
 		virtual PIXEL GetPixel(u32 x, u32 y) const;
 		virtual u8 GetPixelAlpha(u32 x, u32 y) const;
 
@@ -88,9 +84,6 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual u32  GetCurrentFrame() const;
 		virtual bool IsLoop() const;
 		virtual bool IsAnimated() const;
-
-		//virtual void SetCustomVertexDataArray(Vector3f *myVertexData, u32 qty, eMeshType type = Seed::TriangleStrip);
-		//virtual void SetCustomCoordsDataArray(f32 *myCoordsData, u32 qty);
 
 		virtual void Reset();
 		virtual void Initialize();

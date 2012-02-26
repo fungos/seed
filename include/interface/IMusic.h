@@ -37,8 +37,6 @@
 #ifndef __IMUSIC_H__
 #define __IMUSIC_H__
 
-
-#include "SeedInit.h"
 #include "IResource.h"
 #include "ResourceManager.h"
 

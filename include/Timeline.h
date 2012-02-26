@@ -37,20 +37,17 @@
 #ifndef __TIMELINE_H__
 #define __TIMELINE_H__
 
-#include "Sprite.h"
+#include "Defines.h"
 #include "Point.h"
-#include "Keyframe.h"
-#include "interface/IEventMovieListener.h"
-#undef GetObject
-#undef GetObjectW
-#undef GetObjectA
 
-#define MAX_KEYFRAMES 8192
+#define MAX_KEYFRAMES 1024
 
 namespace Seed {
 
 class Movie;
 class ISceneObject;
+class Keyframe;
+class IEventMovieListener;
 
 class SEED_CORE_API Timeline
 {

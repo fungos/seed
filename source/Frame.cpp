@@ -39,6 +39,7 @@
 #include "Log.h"
 #include "Enum.h"
 #include "Texture.h"
+#include "SeedInit.h"
 
 #define TAG		"[Frame] "
 

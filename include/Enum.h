@@ -37,7 +37,6 @@
 #ifndef __ENUM_H__
 #define __ENUM_H__
 
-
 namespace Seed {
 
 enum eObjectType
@@ -52,6 +51,7 @@ enum eObjectType
 	ObjectMusic,
 	ObjectEvent,
 	ObjectMovie,
+	ObjectScene,
 	ObjectSoundSource,
 	ObjectSoundListener,
 	ObjectParticle,
@@ -557,6 +557,5 @@ enum eWidgetState
 };
 
 } // namespace
-
 
 #endif // __ENUM_H__

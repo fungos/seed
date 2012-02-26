@@ -42,7 +42,6 @@
 #include "Timer.h"
 #include "EventSystem.h"
 #include "SeedInit.h"
-
 #include "physfs/physfs.h"
 #include "platform/pc/platform.h"
 

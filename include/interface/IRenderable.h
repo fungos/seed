@@ -39,12 +39,8 @@
 
 #include "Defines.h"
 #include "Enum.h"
-#include "interface/IObject.h"
 
 namespace Seed {
-
-class IRenderer;
-class ITexture;
 
 /// Drawable Interface
 /**

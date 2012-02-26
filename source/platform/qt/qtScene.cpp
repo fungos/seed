@@ -41,8 +41,6 @@
 #include "platform/qt/qtScreen.h"
 #include "Timer.h"
 
-#include "SeedInit.h"
-
 #define TAG "[Scene] "
 
 namespace Seed { namespace QT {

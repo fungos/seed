@@ -39,7 +39,6 @@
 
 #include "interface/IModule.h"
 #include "interface/IUpdatable.h"
-#include "Array.h"
 #include "Singleton.h"
 
 namespace Seed {
@@ -49,7 +48,6 @@ class ParticleEmitter;
 class SEED_CORE_API ParticleManager : public IModule, public IUpdatable
 {
 	SEED_SINGLETON_DECLARE(ParticleManager)
-
 	DECLARE_CONTAINER_TYPE(Vector, ParticleEmitter)
 
 	public:

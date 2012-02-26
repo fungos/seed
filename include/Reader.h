@@ -38,8 +38,8 @@
 #define __READER_H__
 
 #include "Defines.h"
-#include "File.h"
 #include "interface/IReader.h"
+#include "File.h"
 
 namespace Seed {
 

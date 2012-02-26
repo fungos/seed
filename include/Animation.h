@@ -39,8 +39,6 @@
 
 #include "Defines.h"
 #include "interface/IObject.h"
-#include "interface/IReader.h"
-#include "SeedInit.h"
 #include "Reader.h"
 
 namespace Seed {

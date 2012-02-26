@@ -38,7 +38,6 @@
 #define __MOVIE_H__
 
 #include "Timeline.h"
-#include "Array.h"
 #include "SceneNode.h"
 
 namespace Seed {

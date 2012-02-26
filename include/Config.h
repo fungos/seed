@@ -64,21 +64,6 @@ The size of the music buffer for streaming from hard disk on platforms that supp
 #define SEED_MUSIC_STREAMING_BUFFER_SIZE	(1024 * 40)
 
 /*
-Maximum amount of viewports.
-*/
-#define SEED_VIEWPORT_MAX	32
-
-/*
-Maximum amount of renderers.
-*/
-#define SEED_RENDERER_MAX	16
-
-/*
-Maximum amount of objects per scene node.
-*/
-#define SEED_SCENENODE_MAX	32
-
-/*
 Toggle between instancing Singleton classes in the (0) Stack or in the (1) Heap
 */
 #define SEED_SINGLETON_HEAP					0

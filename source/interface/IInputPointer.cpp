@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -45,12 +45,13 @@
 namespace Seed {
 
 IInputPointer::IInputPointer()
-	: arPointerListeners()
+	: vPointerListeners()
 {
 }
 
 IInputPointer::~IInputPointer()
 {
+	IEventInputPointerListenerVector().swap(vPointerListeners);
 }
 
 bool IInputPointer::IsHold(u32 button, u16 joystick) const
@@ -155,77 +156,62 @@ bool IInputPointer::IsEnabled(u16 joystick) const
 
 void IInputPointer::AddPointerListener(IEventInputPointerListener *listener)
 {
-	ASSERT_NULL(listener);
-	arPointerListeners.Add(listener);
+	vPointerListeners += listener;
 }
 
 void IInputPointer::RemovePointerListener(IEventInputPointerListener *listener)
 {
-	ASSERT_NULL(listener);
-
-	for (u32 i = 0; i < arPointerListeners.Size(); i++)
-	{
-		if (arPointerListeners[i] == listener)
-		{
-			arPointerListeners.Del(i);
-			break;
-		}
-	}
+	vPointerListeners -= listener;
 }
 
 void IInputPointer::SendEventPointerEnable(const EventInputPointer *ev)
 {
 	ASSERT_NULL(ev);
 
-	for (u32 i = 0; i < arPointerListeners.Size(); i++)
+	ForEach(IEventInputPointerListenerVector, vPointerListeners,
 	{
-		ASSERT_NULL(arPointerListeners[i]);
-		arPointerListeners[i]->OnInputPointerEnable(ev);
-	}
+		(*it)->OnInputPointerEnable(ev);
+	});
 }
 
 void IInputPointer::SendEventPointerDisable(const EventInputPointer *ev)
 {
 	ASSERT_NULL(ev);
 
-	for (u32 i = 0; i < arPointerListeners.Size(); i++)
+	ForEach(IEventInputPointerListenerVector, vPointerListeners,
 	{
-		ASSERT_NULL(arPointerListeners[i]);
-		arPointerListeners[i]->OnInputPointerDisable(ev);
-	}
+		(*it)->OnInputPointerDisable(ev);
+	});
 }
 
 void IInputPointer::SendEventPointerMove(const EventInputPointer *ev)
 {
 	ASSERT_NULL(ev);
 
-	for (u32 i = 0; i < arPointerListeners.Size(); i++)
+	ForEach(IEventInputPointerListenerVector, vPointerListeners,
 	{
-		ASSERT_NULL(arPointerListeners[i]);
-		arPointerListeners[i]->OnInputPointerMove(ev);
-	}
+		(*it)->OnInputPointerMove(ev);
+	});
 }
 
 void IInputPointer::SendEventPointerPress(const EventInputPointer *ev)
 {
 	ASSERT_NULL(ev);
 
-	for (u32 i = 0; i < arPointerListeners.Size(); i++)
+	ForEach(IEventInputPointerListenerVector, vPointerListeners,
 	{
-		ASSERT_NULL(arPointerListeners[i]);
-		arPointerListeners[i]->OnInputPointerPress(ev);
-	}
+		(*it)->OnInputPointerPress(ev);
+	});
 }
 
 void IInputPointer::SendEventPointerRelease(const EventInputPointer *ev)
 {
 	ASSERT_NULL(ev);
 
-	for (u32 i = 0; i < arPointerListeners.Size(); i++)
+	ForEach(IEventInputPointerListenerVector, vPointerListeners,
 	{
-		ASSERT_NULL(arPointerListeners[i]);
-		arPointerListeners[i]->OnInputPointerRelease(ev);
-	}
+		(*it)->OnInputPointerRelease(ev);
+	});
 }
 
 } // namespace

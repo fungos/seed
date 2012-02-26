@@ -39,7 +39,6 @@
 #include "Defines.h"
 #include "Screen.h"
 #include "Log.h"
-#include "SeedInit.h"
 #include "RendererDevice.h"
 #include "platform/ios/iosoneView.h"
 

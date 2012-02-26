@@ -31,15 +31,13 @@
 
 /*! \file ParticleEmitterObject.cpp
 	\author	Danny Angelo Carminati Grein
-	\brief A particle emitter configuration file
+	\brief Particle emitter configuration
 */
 
 #include "ParticleEmitterObject.h"
 #include "Enum.h"
 
-
 namespace Seed {
-
 
 IResource *ParticleEmitterObjectResourceLoader(const String &filename, ResourceManager *res)
 {
@@ -50,7 +48,8 @@ IResource *ParticleEmitterObjectResourceLoader(const String &filename, ResourceM
 }
 
 ParticleEmitterObject::ParticleEmitterObject()
-	: iMemory(0)
+	: IResource()
+	, sInfo()
 {
 }
 
@@ -70,20 +69,7 @@ bool ParticleEmitterObject::Load(const String &filename, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		sFilename = filename;
 		pRes 	= res;
-		iMemory = 0;
-
-		File f(filename);
-		SECURITY_CHECK(f.GetData(), "Particle Emitter couldn't be opened");
-		//u8 *ptr = const_cast<u8 *>(static_cast<const u8 *>(stFile.GetData()));
-		//ObjectHeader *block = NULL;
-		//READ_STRUCT(block, ObjectHeader, ptr);
-		//SECURITY_CHECK(seed_validate_block(&stFile, block, SPRITE_OBJECT_MAGIC, SPRITE_OBJECT_VERSION), "Invalid block header for sound.");
-
-		iMemory += f.GetSize() + sizeof(this);
-		stFile = f;
-
 		bLoaded = true;
 	}
 
@@ -92,12 +78,12 @@ bool ParticleEmitterObject::Load(const String &filename, ResourceManager *res)
 
 const ParticleEmitterInfo *ParticleEmitterObject::GetData() const
 {
-	return reinterpret_cast<const ParticleEmitterInfo *>(stFile.GetData());
+	return &sInfo;
 }
 
 u32 ParticleEmitterObject::GetUsedMemory() const
 {
-	return iMemory;
+	return sizeof(this);
 }
 
 const char *ParticleEmitterObject::GetObjectName() const

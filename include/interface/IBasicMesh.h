@@ -38,14 +38,13 @@
 #define __IBASICMESH_H__
 
 #include "Defines.h"
-#include "Enum.h"
-#include "MathUtil.h"
 #include "interface/ISceneObject.h"
-#include "Vertex.h"
+#include "Enum.h"
 
 namespace Seed {
 
 class ResourceManager;
+struct sVertex;
 
 class SEED_CORE_API IBasicMesh : public ISceneObject
 {

@@ -38,9 +38,8 @@
 #define __STATEMACHINE_H__
 
 #include "Defines.h"
-#include "Log.h"
 #include "interface/IEvent.h"
-#include <vector>
+#include "Log.h"
 
 namespace Seed {
 

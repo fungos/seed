@@ -41,6 +41,7 @@
 #include "SoundSystem.h"
 #include "Sound.h"
 #include "Log.h"
+#include "SeedInit.h"
 
 #define TAG		"[SoundSource] "
 

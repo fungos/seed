@@ -49,6 +49,7 @@ class Renderer;
 class SEED_CORE_API ViewManager : public IModule
 {
 	SEED_SINGLETON_DECLARE(ViewManager)
+	DECLARE_CONTAINER_TYPE(Vector, Viewport)
 	public:
 		virtual void Add(Viewport *view);
 		virtual void Remove(Viewport *view);
@@ -76,7 +77,7 @@ class SEED_CORE_API ViewManager : public IModule
 		SEED_DISABLE_COPY(ViewManager);
 
 	private:
-		Array<Viewport *, SEED_VIEWPORT_MAX> arViewport;
+		ViewportVector vViewport;
 		Viewport *pCurrentViewport;
 		bool bEnabled;
 };

@@ -42,7 +42,6 @@
 #if defined(BUILD_IOS)
 
 #include "File.h"
-#include "SeedInit.h"
 #include "interface/IResource.h"
 #include "interface/ISound.h"
 

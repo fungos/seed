@@ -47,10 +47,9 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(RendererManager)
 
 RendererManager::RendererManager()
-	: arRenderer()
+	: vRenderer()
 	, bEnabled(true)
 {
-	arRenderer.Truncate();
 }
 
 RendererManager::~RendererManager()
@@ -62,26 +61,26 @@ bool RendererManager::Initialize()
 {
 	IModule::Initialize();
 
-	for (u32 i = 0; i < arRenderer.Size(); i++)
+	ForEach(RendererVector, vRenderer,
 	{
-		arRenderer[i]->Initialize();
-	}
+		(*it)->Initialize();
+	});
 
 	return true;
 }
 
 bool RendererManager::Reset()
 {
-	arRenderer.Truncate();
+	RendererVector().swap(vRenderer);
 	return true;
 }
 
 bool RendererManager::Shutdown()
 {
-	for (u32 i = 0; i < arRenderer.Size(); i++)
+	ForEach(RendererVector, vRenderer,
 	{
-		arRenderer[i]->Shutdown();
-	}
+		(*it)->Shutdown();
+	});
 
 	return IModule::Shutdown();
 }
@@ -92,10 +91,10 @@ bool RendererManager::Update(f32 dt)
 
 	if (bEnabled)
 	{
-		for (u32 i = 0; i < arRenderer.Size(); i++)
+		ForEach(RendererVector, vRenderer,
 		{
-			ret &= arRenderer[i]->Update(dt);
-		}
+			ret &= (*it)->Update(dt);
+		});
 	}
 
 	return ret;
@@ -103,47 +102,30 @@ bool RendererManager::Update(f32 dt)
 
 void RendererManager::Add(Renderer *renderer)
 {
-	ASSERT_NULL(renderer);
-
-	bool found = false;
-	for (u32 i = 0; i < arRenderer.Size(); i++)
-	{
-		if (arRenderer[i] == renderer)
-		{
-			found = true;
-			break;
-		}
-	}
-
-	if (!found)
-	{
-		arRenderer.Add();
-		arRenderer[arRenderer.Size() - 1] = renderer;
-	}
+	vRenderer += renderer;
 }
 
 void RendererManager::Remove(Renderer *renderer)
 {
-	ASSERT_NULL(renderer);
-	arRenderer.Remove(renderer);
+	vRenderer -= renderer;
 }
 
 void RendererManager::Disable()
 {
 	bEnabled = false;
-	for (u32 i = 0; i < arRenderer.Size(); i++)
+	ForEach(RendererVector, vRenderer,
 	{
-		arRenderer[i]->Disable();
-	}
+		(*it)->Disable();
+	});
 }
 
 void RendererManager::Enable()
 {
 	bEnabled = true;
-	for (u32 i = 0; i < arRenderer.Size(); i++)
+	ForEach(RendererVector, vRenderer,
 	{
-		arRenderer[i]->Enable();
-	}
+		(*it)->Enable();
+	});
 }
 
 const char *RendererManager::GetObjectName() const

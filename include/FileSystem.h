@@ -37,12 +37,8 @@
 #ifndef __FILESYSTEM_H__
 #define __FILESYSTEM_H__
 
-#define FS_CHECK(x)	{ if (!x) { const char *_err = PHYSFS_getLastError(); Log(TAG "Error: %s", _err); }}
-
-#include "physfs/physfs.h"
-#include "Singleton.h"
-#include "Enum.h"
 #include "interface/IModule.h"
+#include "Singleton.h"
 
 namespace Seed {
 

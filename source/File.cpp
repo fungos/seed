@@ -38,6 +38,7 @@
 #include "File.h"
 #include "FileSystem.h"
 #include "Log.h"
+#include "Enum.h"
 
 #define TAG		"[File] "
 

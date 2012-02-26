@@ -34,8 +34,8 @@
 	\brief Scene Object Interface
 */
 
-#include "interface/ISceneObject.h"
 #include "Defines.h"
+#include "interface/ISceneObject.h"
 #include "Log.h"
 #include "Enum.h"
 
@@ -67,6 +67,16 @@ void ISceneObject::Render()
 bool ISceneObject::IsNode() const
 {
 	return false;
+}
+
+const char *ISceneObject::GetObjectName() const
+{
+	return "ISceneObject";
+}
+
+int ISceneObject::GetObjectType() const
+{
+	return Seed::ObjectScene;
 }
 
 } // namespace

@@ -38,7 +38,7 @@
 #define __ITransformable_H__
 
 #include "Defines.h"
-#include "Vector.h"
+#include "Vector3.h"
 
 namespace Seed {
 

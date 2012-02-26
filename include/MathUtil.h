@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -53,14 +53,11 @@ namespace Seed {
 
 template <typename T> class Vector3;
 template <typename T> class Matrix4x4;
-template <typename T> class Quaternion;
 
 }
 
 #include "Vector3.h"
-#include "Quaternion.h"
 #include "Matrix4x4.h"
-
 
 namespace Seed {
 
@@ -143,10 +140,10 @@ inline T SafeAcos(T x)
 	// Check limit conditions
 	if (x <= -1.0)
 		return kPi;
-	
+
 	if (x >= 1.0)
 		return 0.0;
-	
+
 	// value is in the domain - use standard C function
 	return LIB_ACOS(x);
 }
@@ -164,7 +161,7 @@ inline void CanonizeEulerAngles(T &roll, T &pitch, T &yaw)
 {
 	// First, wrap pitch in range -pi ... pi
 	pitch = WrapPi(pitch);
-	
+
 	// Now, check for "the back side" of the matrix, pitch outside
 	// the canonical range of -pi/2 ... pi/2
 	if (pitch < -kPiOver2)
@@ -179,7 +176,7 @@ inline void CanonizeEulerAngles(T &roll, T &pitch, T &yaw)
 		pitch = kPi - pitch;
 		yaw += kPi;
 	}
-	
+
 	// OK, now check for the Gimbal lock case (within a slight
 	// tolerance)
 	if (LIB_FABS(pitch) > kPiOver2 - 1e-4)
@@ -195,7 +192,7 @@ inline void CanonizeEulerAngles(T &roll, T &pitch, T &yaw)
 		// canonical range
 		roll = WrapPi(roll);
 	}
-	
+
 	// Wrap heading in canonical range
 	yaw = WrapPi(yaw);
 }
