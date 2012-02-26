@@ -71,8 +71,8 @@ class SEED_CORE_API ResourceGroup
 			bool				erased;
 		} QueueItem;
 
-		typedef std::vector<QueueItem *> QueueVector;
-		typedef QueueVector::iterator	QueueIterator;
+		typedef Vector<QueueItem *>		QueueVector;
+		typedef QueueVector::iterator	QueueVectorIterator;
 
 	protected:
 		bool Load();

@@ -42,7 +42,7 @@
 
 namespace Seed {
 
-DEFINE_VECTOR_TYPE(ISceneObject)
+DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
 
 class SEED_CORE_API SceneNode : public ISceneObject
 {

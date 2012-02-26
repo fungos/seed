@@ -60,11 +60,11 @@ class SEED_CORE_API ResourceLoader : public IModule, public IUpdatable, public T
 	SEED_SINGLETON_DECLARE(ResourceLoader)
 
 	public:
-		typedef std::vector<IEventResourceLoaderListener *> 	ListenerVector;
-		typedef ListenerVector::iterator						ListenerIterator;
+		typedef Vector<IEventResourceLoaderListener *> 	ListenerVector;
+		typedef ListenerVector::iterator				ListenerIterator;
 
-		typedef std::vector<ResourceGroup *> 					GroupVector;
-		typedef GroupVector::iterator							GroupIterator;
+		typedef Vector<ResourceGroup *> 				GroupVector;
+		typedef GroupVector::iterator					GroupIterator;
 
 	public:
 		//! Add a load request to the queue.

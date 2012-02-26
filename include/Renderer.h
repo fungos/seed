@@ -56,9 +56,9 @@ Rendering engine interface
 */
 class SEED_CORE_API Renderer : public IUpdatable, public IModule
 {
-	DEFINE_VECTOR_TYPE(SceneNode)
+	DECLARE_CONTAINER_TYPE(Vector, SceneNode)
 
-	typedef std::vector<ISceneObject *> RenderableVector;
+	typedef Vector<ISceneObject *> RenderableVector;
 	typedef RenderableVector::iterator RenderableVectorIterator;
 	typedef RenderableVector::const_iterator ConstRenderableVectorIterator;
 

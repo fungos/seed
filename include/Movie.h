@@ -45,7 +45,7 @@ namespace Seed {
 
 class SEED_CORE_API Movie : public SceneNode
 {
-	DEFINE_VECTOR_TYPE(Timeline)
+	DECLARE_CONTAINER_TYPE(Vector, Timeline)
 
 	public:
 		Movie();

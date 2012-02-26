@@ -101,7 +101,7 @@ bool ParticleManager::Update(f32 dt)
 
 void ParticleManager::Kill()
 {
-	ForEach(ParticleEmitter, vEmitter,
+	ForEach(ParticleEmitterVector, vEmitter,
 	{
 		(*it)->Kill();
 	});
@@ -111,7 +111,7 @@ void ParticleManager::Kill()
 
 void ParticleManager::Stop()
 {
-	ForEach(ParticleEmitter, vEmitter,
+	ForEach(ParticleEmitterVector, vEmitter,
 	{
 		(*it)->Stop();
 	});
@@ -127,7 +127,7 @@ bool ParticleManager::IsStopped() const
 
 void ParticleManager::Pause()
 {
-	ForEach(ParticleEmitter, vEmitter,
+	ForEach(ParticleEmitterVector, vEmitter,
 	{
 		(*it)->Pause();
 	});
@@ -142,7 +142,7 @@ bool ParticleManager::IsPaused() const
 
 void ParticleManager::Play()
 {
-	ForEach(ParticleEmitter, vEmitter,
+	ForEach(ParticleEmitterVector, vEmitter,
 	{
 		(*it)->Play();
 	});
@@ -159,7 +159,7 @@ bool ParticleManager::IsPlaying() const
 void ParticleManager::Disable()
 {
 	IModule::Disable();
-	ForEach(ParticleEmitter, vEmitter,
+	ForEach(ParticleEmitterVector, vEmitter,
 	{
 		(*it)->Disable();
 	});
@@ -168,7 +168,7 @@ void ParticleManager::Disable()
 void ParticleManager::Enable()
 {
 	IModule::Enable();
-	ForEach(ParticleEmitter, vEmitter,
+	ForEach(ParticleEmitterVector, vEmitter,
 	{
 		(*it)->Enable();
 	});
@@ -176,12 +176,12 @@ void ParticleManager::Enable()
 
 void ParticleManager::Add(ParticleEmitter *emitter)
 {
-	VectorAdd(vEmitter, emitter);
+	vEmitter +=  emitter;
 }
 
 void ParticleManager::Remove(ParticleEmitter *emitter)
 {
-	VectorRemove(vEmitter, emitter);
+	vEmitter -= emitter;
 }
 
 const char *ParticleManager::GetObjectName() const

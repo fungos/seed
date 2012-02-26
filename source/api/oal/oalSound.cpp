@@ -107,7 +107,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 			char arr[BUFFER_SIZE];
 
 			ALsizei freq;
-			std::vector<char> buffer;
+			Vector<char> buffer;
 
 			vorbis_info *info = ov_info(&oggStream, -1);
 

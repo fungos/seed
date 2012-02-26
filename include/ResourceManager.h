@@ -39,18 +39,17 @@
 
 #include "interface/IResource.h"
 #include "Enum.h"
-
-#include <map>
+#include "Container.h"
 
 namespace Seed {
 
 typedef IResource *(*pResourceLoaderFunc)(const String &filename, ResourceManager *res);
 
-typedef std::map<String, IResource *> ResourceMap;
-typedef ResourceMap::iterator ResourceIterator;
+typedef Map<String, IResource *> ResourceMap;
+typedef ResourceMap::iterator ResourceMapIterator;
 
-typedef std::map<Seed::eObjectType, pResourceLoaderFunc> LoaderMap;
-typedef LoaderMap::iterator LoaderIterator;
+typedef Map<Seed::eObjectType, pResourceLoaderFunc> LoaderMap;
+typedef LoaderMap::iterator LoaderMapIterator;
 
 class SEED_CORE_API ResourceManager
 {

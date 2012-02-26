@@ -36,9 +36,7 @@
 
 #include "ResourceGroup.h"
 
-
 namespace Seed {
-
 
 ResourceGroup::ResourceGroup()
 	: queue()
@@ -46,13 +44,10 @@ ResourceGroup::ResourceGroup()
 {
 }
 
-
 ResourceGroup::~ResourceGroup()
 {
-	queue.clear();
-	std::vector<QueueItem *>().swap( queue );
+	Vector<QueueItem *>().swap(queue);
 }
-
 
 void ResourceGroup::Add(const String &filename, Seed::eObjectType resourceType, ResourceManager *res)
 {
@@ -64,49 +59,33 @@ void ResourceGroup::Add(const String &filename, Seed::eObjectType resourceType, 
 	pNewItem->startTime		= (u32)pTimer->GetMilliseconds();
 	pNewItem->erased		= false;
 
-	queue.push_back(pNewItem);
+	queue += pNewItem;
 }
-
 
 bool ResourceGroup::Load()
 {
-	QueueIterator it 	= queue.begin();
-	QueueIterator end 	= queue.end();
-
-	for (; it != end; ++it)
+	ForEach(QueueVector, queue,
 	{
 		QueueItem *pQueueItem = (*it);
-
-		//already loaded
 		if (pQueueItem->resource)
 			continue;
 
-		ASSERT_NULL(pQueueItem);
-
 		IResource *res;
 		res = pQueueItem->resManager->Get(pQueueItem->filename, pQueueItem->resourceType);
-
 		pQueueItem->resource = res;
-	}
+	});
 
 	return true;
 }
 
-
 bool ResourceGroup::Unload()
 {
-	QueueIterator it 	= queue.begin();
-	QueueIterator end 	= queue.end();
-
-	for (; it != end; ++it)
+	ForEach(QueueVector, queue,
 	{
 		QueueItem *pQueueItem = (*it);
-
-		ASSERT_NULL(pQueueItem);
 		sRelease(pQueueItem->resource);
-
 		Delete(pQueueItem);
-	}
+	});
 
 	queue.clear();
 	QueueVector().swap(queue);
@@ -114,18 +93,15 @@ bool ResourceGroup::Unload()
 	return true;
 }
 
-
 void ResourceGroup::SetLoaded()
 {
-	this->bLoaded = true;
+	bLoaded = true;
 }
-
 
 bool ResourceGroup::IsLoaded() const
 {
-	return this->bLoaded;
+	return bLoaded;
 }
-
 
 } // namespace
 

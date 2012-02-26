@@ -115,14 +115,13 @@ bool ResourceLoader::Update(f32 dt)
 		group->Unload();
 
 		GroupIterator p = std::find(vGroups.begin(), vGroups.end(), group);
-
 		if (p != vGroups.end())
 			vGroups.erase(p);
 
 		if (vGroups.size() == 0)
 		{
 			vGroups.clear();
-			std::vector<ResourceGroup *>().swap(vGroups);
+			Vector<ResourceGroup *>().swap(vGroups);
 		}
 
 		//glResourceManager.Print();
@@ -176,8 +175,7 @@ void ResourceLoader::Add(ResourceGroup *group)
 
 void ResourceLoader::AddListener(IEventResourceLoaderListener *listener)
 {
-	ASSERT_NULL(listener);
-	vListeners.push_back(listener);
+	vListeners += listener;
 }
 
 void ResourceLoader::RemoveListener(IEventResourceLoaderListener *listener)

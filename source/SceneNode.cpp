@@ -64,7 +64,7 @@ bool SceneNode::IsNode() const
 
 void SceneNode::Update(f32 dt)
 {
-	ForEach(ISceneObject, vChild,
+	ForEach(ISceneObjectVector, vChild,
 	{
 		(*it)->Update(dt);
 	});
@@ -76,17 +76,17 @@ void SceneNode::Render()
 
 void SceneNode::Add(ISceneObject *obj)
 {
-	VectorAdd(vChild, obj);
+	vChild += obj;
 }
 
 void SceneNode::Remove(ISceneObject *obj)
 {
-	VectorRemove(vChild, obj);
+	vChild -= obj;
 }
 
 u32 SceneNode::Size() const
 {
-	return vChild.size();
+	return vChild.Size();
 }
 
 ISceneObject *SceneNode::GetChildAt(u32 i)

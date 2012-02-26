@@ -60,8 +60,8 @@ Platform system interface.
 */
 class SEED_CORE_API ISystem : public IModule, public IUpdatable
 {
-	typedef std::vector<IEventSystemListener *> 	ListenerVector;
-	typedef ListenerVector::iterator			  	ListenerIterator;
+	typedef Vector<IEventSystemListener *>	ListenerVector;
+	typedef ListenerVector::iterator		ListenerIterator;
 
 	public:
 		//! System event type

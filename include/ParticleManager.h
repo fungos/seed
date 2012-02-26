@@ -50,7 +50,7 @@ class SEED_CORE_API ParticleManager : public IModule, public IUpdatable
 {
 	SEED_SINGLETON_DECLARE(ParticleManager)
 
-	DEFINE_VECTOR_TYPE(ParticleEmitter)
+	DECLARE_CONTAINER_TYPE(Vector, ParticleEmitter)
 
 	public:
 		virtual void Play();

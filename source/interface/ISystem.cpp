@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -123,117 +123,90 @@ bool ISystem::IsDefaultCursorEnabled() const
 
 void ISystem::AddListener(IEventSystemListener *listener)
 {
-	ASSERT_NULL(listener);
-	vListeners.push_back(listener);
+	vListeners += listener;
 }
 
 void ISystem::RemoveListener(IEventSystemListener *listener)
 {
-	ASSERT_NULL(listener);
-	ListenerIterator p = std::find(vListeners.begin(), vListeners.end(), listener);
-
-	if (p != vListeners.end())
-		vListeners.erase(p);
-
-	ListenerVector(vListeners).swap(vListeners);
+	vListeners -= listener;
+	//ListenerVector(vListeners).swap(vListeners);
 }
 
 void ISystem::SendEventReset(const EventSystem *ev)
 {
 	ASSERT_NULL(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
+	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
 		ASSERT_NULL(target);
 		target->OnSystemReset(ev);
-	}
+	});
 }
 
 void ISystem::SendEventShutdown(const EventSystem *ev)
 {
 	ASSERT_NULL(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
+	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
 		ASSERT_NULL(target);
 		target->OnSystemShutdown(ev);
-	}
+	});
 }
 
 void ISystem::SendEventSystemMenu(const EventSystem *ev)
 {
 	ASSERT_NULL(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
+	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
 		ASSERT_NULL(target);
 		target->OnSystemMenuCalled(ev);
-	}
+	});
 }
 
 void ISystem::SendEventSystemDataManager(const EventSystem *ev)
 {
 	ASSERT_NULL(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
+	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
 		ASSERT_NULL(target);
 		target->OnSystemDataManagerCalled(ev);
-	}
+	});
 }
 
 void ISystem::SendEventHomeEnded(const EventSystem *ev)
 {
 	ASSERT_NULL(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
+	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
 		ASSERT_NULL(target);
 		target->OnSystemHomeEnded(ev);
-	}
+	});
 }
 
 void ISystem::SendEventSleep(const EventSystem *ev)
 {
 	ASSERT_NULL(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
+	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
 		ASSERT_NULL(target);
 		target->OnSystemSleep(ev);
-	}
+	});
 }
 
 void ISystem::SendEventLanguageChanged(const EventSystem *ev)
 {
 	ASSERT_NULL(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
+	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
 		ASSERT_NULL(target);
 		target->OnSystemLanguageChanged(ev);
-	}
+	});
 }
 
 bool ISystem::IsRequired() const

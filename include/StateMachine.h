@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -81,9 +81,9 @@ class SEED_CORE_API STMState
 {
 	public:
 		virtual ~STMState() {}
-		virtual void OnStart(IObject *) {};
-		virtual void OnUpdate(f32) {};
-		virtual void OnStop(IObject *) {};
+		virtual void OnStart(IObject *) {}
+		virtual void OnUpdate(f32) {}
+		virtual void OnStop(IObject *) {}
 };
 
 //Class to define a TRANSITION
@@ -100,22 +100,22 @@ class SEED_CORE_API STMTransition
 			this->from = from;
 			this->to = to;
 			this->event = event;
-		};
+		}
 
 		inline STMState *GetFromState()
 		{
 			return from;
-		};
+		}
 
 		inline STMState *GetToState()
 		{
 			return to;
-		};
+		}
 
 		inline STMEvent *GetEvent()
 		{
 			return event;
-		};
+		}
 };
 
 #if defined(ERROR)
@@ -136,7 +136,7 @@ class SEED_CORE_API StateMachine
 
 	private:
 		STMState *currentState;
-		std::vector<STMTransition *> transitions;
+		Vector<STMTransition *> transitions;
 
 		SEED_DISABLE_COPY(StateMachine);
 
@@ -160,7 +160,7 @@ class SEED_CORE_API StateMachine
 				if (transitions[i]->GetFromState() == state)
 					break;
 
-			if (i>=transitions.size())
+			if (i >= transitions.size())
 				return STATE_NOT_FOUND; //invalid state
 
 			currentState = state;
@@ -168,19 +168,18 @@ class SEED_CORE_API StateMachine
 			currentState->OnStart(pUserData);
 
 			return OK;
-		};
+		}
 
 		inline void RegisterTransition(STMTransition *transition)
 		{
 			//Check if the transition is has a valid configuration
 			ASSERT(transition->GetFromState() && transition->GetToState() && transition->GetEvent());
-			//transitions.Add(transition);
-			transitions.push_back(transition);
-		};
+			transitions += transition;
+		}
 
 		inline void ClearTransitions()
 		{
-			transitions.clear();
+			Vector<STMTransition *>().swap(transitions);
 		}
 
 		inline STMState *GetCurrentState()
@@ -218,7 +217,7 @@ class SEED_CORE_API StateMachine
 			}
 
 			return OK;
-		};
+		}
 
 		inline eReturnCode Update(f32 dt)
 		{

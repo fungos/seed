@@ -69,7 +69,7 @@ void Movie::Update(f32 delta)
 	{
 		fElapsedTime -= frame;
 
-		ForEach(Timeline, vTimelines,
+		ForEach(TimelineVector, vTimelines,
 		{
 			Timeline *obj = (*it);
 			if (bTransformationChanged)
@@ -101,7 +101,7 @@ void Movie::Stop()
 
 void Movie::Rewind()
 {
-	ForEach(Timeline, vTimelines,
+	ForEach(TimelineVector, vTimelines,
 	{
 		(*it)->Rewind();
 	});
@@ -109,7 +109,7 @@ void Movie::Rewind()
 
 void Movie::Reset()
 {
-	ForEach(Timeline, vTimelines,
+	ForEach(TimelineVector, vTimelines,
 	{
 		(*it)->Reset();
 	});

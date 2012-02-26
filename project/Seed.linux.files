@@ -17,6 +17,7 @@ Objects.in
 ../include/Checksum.h
 ../include/Config.h
 ../include/Configuration.h
+../include/Container.h
 ../include/Defines.h
 ../include/Enum.h
 ../include/EventFileSystem.h

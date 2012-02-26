@@ -76,16 +76,12 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::Reset()
 {
-	ResourceIterator it = mapResources.begin();
-	ResourceIterator itEnd = mapResources.end();
-
-	for (; it != itEnd; ++it)
+	ForEach(ResourceMap, mapResources,
 	{
 		LOG(TAG "Deallocating %s.", (*it).first.c_str());
 		Delete((*it).second);
-	}
+	});
 
-	mapResources.clear();
 	ResourceMap().swap(mapResources);
 }
 
@@ -96,7 +92,7 @@ IResource *ResourceManager::Get(const String &filename, Seed::eObjectType resour
 	if (mapResources.find(filename) == mapResources.end())
 	{
 		LOG(TAG "Resource %s not found in '%s'.", filename.c_str(), sName.c_str());
-		LoaderIterator it = mapLoaders.find(resourceType);
+		LoaderMapIterator it = mapLoaders.find(resourceType);
 		if (it == mapLoaders.end())
 		{
 			LOG(TAG "Resource loader for %s not found.", filename.c_str());
@@ -127,15 +123,13 @@ IResource *ResourceManager::Get(const String &filename, Seed::eObjectType resour
 
 void ResourceManager::GarbageCollect()
 {
-	ResourceIterator it = mapResources.begin();
-	ResourceIterator itEnd = mapResources.end();
 
 #if defined(DEBUG)
 	u64 begin = pTimer->GetMilliseconds();
 	u64 end = 0;
 #endif // DEBUG
 
-	for (; it != itEnd;)
+	ForEach(ResourceMap, mapResources,
 	{
 		IResource *res = (*it).second;
 
@@ -151,7 +145,7 @@ void ResourceManager::GarbageCollect()
 		{
 			++it;
 		}
-	}
+	});
 
 	if (bHasUnusedResource)
 	{
@@ -170,10 +164,7 @@ void ResourceManager::GarbageCollect()
 
 void ResourceManager::Unload(Seed::eObjectType resourceType)
 {
-	ResourceIterator it = mapResources.begin();
-	ResourceIterator itEnd = mapResources.end();
-
-	for (; it != itEnd; ++it)
+	ForEach(ResourceMap, mapResources,
 	{
 		IResource *res = (*it).second;
 
@@ -182,15 +173,12 @@ void ResourceManager::Unload(Seed::eObjectType resourceType)
 			LOG(TAG "Unloading %s %s.", res->GetObjectName(), (*it).first.c_str());
 			res->Unload();
 		}
-	}
+	});
 }
 
 void ResourceManager::Reload(Seed::eObjectType resourceType)
 {
-	ResourceIterator it = mapResources.begin();
-	ResourceIterator itEnd = mapResources.end();
-
-	for (; it != itEnd; ++it)
+	ForEach(ResourceMap, mapResources,
 	{
 		IResource *res = (*it).second;
 
@@ -199,7 +187,7 @@ void ResourceManager::Reload(Seed::eObjectType resourceType)
 			LOG(TAG "Reloading %s %s.", res->GetObjectName(), (*it).first.c_str());
 			res->Load(res->sFilename, res->pRes);
 		}
-	}
+	});
 }
 
 void ResourceManager::Register(Seed::eObjectType resourceType, pResourceLoaderFunc pfunc)
@@ -215,7 +203,7 @@ void ResourceManager::Register(Seed::eObjectType resourceType, pResourceLoaderFu
 
 void ResourceManager::Unregister(Seed::eObjectType resourceType)
 {
-	LoaderIterator it = mapLoaders.find(resourceType);
+	LoaderMapIterator it = mapLoaders.find(resourceType);
 
 	if (it == mapLoaders.end())
 	{
@@ -239,7 +227,7 @@ void ResourceManager::Add(const String &filename, IResource *res)
 
 void ResourceManager::Remove(const String &filename)
 {
-	ResourceIterator it = mapResources.find(filename);
+	ResourceMapIterator it = mapResources.find(filename);
 
 	if (it == mapResources.end())
 	{
@@ -252,33 +240,27 @@ void ResourceManager::Remove(const String &filename)
 
 void ResourceManager::PrintUsedMemoryByResource()
 {
-	ResourceIterator it = mapResources.begin();
-	ResourceIterator itEnd = mapResources.end();
-
 	u32 total = 0;
-	for (; it != itEnd; ++it)
+	ForEach(ResourceMap, mapResources,
 	{
 		IResource *res = (*it).second;
 
 		Dbg(TAG "Resource: %s Memory: %d References: %d Type: %s", res->sFilename.c_str(), res->GetUsedMemory(), res->GetReferenceCount(), res->GetObjectName());
 		total += res->GetUsedMemory();
-	}
+	});
 
 	Dbg(TAG "Total: %d", total);
 }
 
 u32 ResourceManager::GetTotalUsedMemory()
 {
-	ResourceIterator it = mapResources.begin();
-	ResourceIterator itEnd = mapResources.end();
-
 	u32 total = 0;
-	for (; it != itEnd; ++it)
+	ForEach(ResourceMap, mapResources,
 	{
 		IResource *res = (*it).second;
 
 		total += res->GetUsedMemory();
-	}
+	});
 
 	return total;
 }
@@ -286,19 +268,16 @@ u32 ResourceManager::GetTotalUsedMemory()
 void ResourceManager::Print()
 {
 #if defined(DEBUG) && defined(SEED_LOG_RESOURCEMANAGER)
-	ResourceIterator it = mapResources.begin();
-	ResourceIterator itEnd = mapResources.end();
-
 	u32 cnt = 0;
 	Log(TAG "Listing %d loaded resources in '%s':", mapResources.size(), sName.c_str());
-	for (; it != itEnd; ++it)
+	ForEach(ResourceMap, mapResources,
 	{
 		IResource *res = (*it).second;
 		const String name = (*it).first;
 
 		Log(TAG "\t%s [%s] [%d]", name.c_str(), res->GetObjectName(), res->GetReferenceCount());
 		cnt++;
-	}
+	});
 
 	Log(TAG "%s Total: %d resources.", sName.c_str(), cnt);
 #endif // DEBUG
