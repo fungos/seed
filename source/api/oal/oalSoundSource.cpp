@@ -58,25 +58,16 @@ SoundSource::~SoundSource()
 	this->Unload();
 }
 
-void SoundSource::Load(IReader *reader, ResourceManager *res)
+void SoundSource::Load(const String &fname, ResourceManager *res)
 {
-	ASSERT_NULL(reader);
+	ASSERT_NULL(res);
 
 	if (pSoundSystem->IsInitialized())
 	{
 		this->Unload();
 
-		u32 vol = reader->ReadU32("volume", 100);
-		fVolume = (vol / 100.0f);
-
-		u32 flg = reader->ReadU32("loop", 1);
-		bLoop = ((flg & 0x01) == 0x01); // FIXME
-
-		const char *fname = reader->ReadString("file", NULL);
-		ASSERT_NULL(fname);
-
 		/* Get the resource */
-		pSound = static_cast<Sound *>(res->Get(fname, Seed::ObjectSound));
+		pSound = static_cast<Sound *>(res->Get(fname.c_str(), Seed::ObjectSound));
 
 		if (iSource)
 			alDeleteSources(1, &iSource);

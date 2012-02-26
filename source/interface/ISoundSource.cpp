@@ -59,11 +59,6 @@ ISoundSource::~ISoundSource()
 {
 }
 
-void ISoundSource::Load(const String &filename)
-{
-	this->Load(filename, pResourceManager);
-}
-
 void ISoundSource::Load(const String &filename, ResourceManager *res)
 {
 	UNUSED(filename);

@@ -66,9 +66,6 @@ class SEED_CORE_API ISoundSource : public IObject
 		ISoundSource();
 		virtual ~ISoundSource();
 
-		//virtual void SetSound(ISound *sound);
-		//virtual ISound *GetSound() const;
-		virtual void Load(const String &filename);
 		virtual void Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual void Unload();
 

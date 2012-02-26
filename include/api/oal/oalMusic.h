@@ -43,7 +43,6 @@
 
 #include "File.h"
 #include "interface/IMusic.h"
-#include "interface/IReader.h"
 #include "Sound.h"
 #include "api/oal/vorbis_util.h"
 
@@ -80,7 +79,7 @@ class SEED_CORE_API Music : public IMusic
 
 		// IResouce
 		using IResource::Load;
-		virtual bool Load(const IReader &reader, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res);
 		virtual bool Unload();
 
 	protected:

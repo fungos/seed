@@ -37,3 +37,4 @@ Thumbs.db
 
 # Temp files
 tests/bin/tests
+*.ogg

@@ -74,7 +74,7 @@ Music::~Music()
 	this->Unload();
 }
 
-bool Music::Load(const IReader &reader, ResourceManager *res)
+bool Music::Load(const String &filename, ResourceManager *res)
 {
 	ASSERT_NULL(res);
 
@@ -83,17 +83,6 @@ bool Music::Load(const IReader &reader, ResourceManager *res)
 		pRes = res;
 
 		ALenum err = AL_NO_ERROR;
-
-		/* Open file .music */
-//		File f(pFilename);
-//		Reader r(filename);
-//		SECURITY_CHECK(f.GetData(), "Music data couldn't be opened");
-
-		u32 vol = reader.ReadU32("volume", 100);
-		fVolume = (vol / 100.0f);
-
-		const char *fname = reader.ReadString("file", NULL);
-		ASSERT_NULL(fname);
 
 		/* prepare openal */
 		err = alGetError();
@@ -118,14 +107,14 @@ bool Music::Load(const IReader &reader, ResourceManager *res)
 		}
 
 		// FIXME: FileSystem manipulation must be centralized, rewrite to use File/FileSystem
-		if (ov_fopen(const_cast<char *>(fname), &oggStream) < 0)
+		if (ov_fopen(const_cast<char *>(filename.c_str()), &oggStream) < 0)
 		{
 			alDeleteSources(1, &iSource);
 			alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers);
 			memset(iBuffers, '\0', sizeof(iBuffers));
 			bLoaded = false;
 
-			Info(TAG "Could not open '%s' ogg stream (file does not exist or is not a valid ogg file).", fname);
+			Info(TAG "Could not open '%s' ogg stream (file does not exist or is not a valid ogg file).", filename.c_str());
 			return bLoaded;
 		}
 

@@ -34,6 +34,18 @@ bool TestBase::Initialize()
 	sptLogo.Load(r);
 	cScene.Add(&sptLogo);
 	pScreen->FadeIn();
+
+	musTheme.Load("theme.ogg");
+	musTheme.SetVolume(.1f);
+	pSoundSystem->PlayMusic(&musTheme);
+
+	sfxSound.Load("helloworld.ogg");
+	sfxSound.SetLoop(true);
+	sfxSound.SetVolume(1.0f);
+	pSoundSystem->Add(&sfxSound);
+
+	sfxSound.Play();
+
 	return true;
 }
 

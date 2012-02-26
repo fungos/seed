@@ -65,8 +65,7 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		virtual ~SoundSource();
 
 		// ISoundSource
-		using ISoundSource::Load;
-		virtual void Load(IReader *reader, ResourceManager *res = pResourceManager);
+		virtual void Load(const String &fname, ResourceManager *res = pResourceManager);
 		virtual void Unload();
 
 		virtual void SetLoop(bool b);
