@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file SceneNode.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Scene Node object
-*/
-
 #include "SceneNode.h"
 #include "Defines.h"
 #include <algorithm>

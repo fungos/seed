@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ParticleEmitterObject.h
-	\author	Danny Angelo Carminati Grein
-	\brief Particle emitter configuration
-*/
-
 #ifndef __PARTICLE_EMITTER_OBJECT_H__
 #define __PARTICLE_EMITTER_OBJECT_H__
 
@@ -41,6 +36,7 @@
 
 namespace Seed {
 
+/// Particle Emitter Configuration
 struct SEED_CORE_API ParticleEmitterInfo
 {
 	u32		iDummy;
@@ -97,6 +93,7 @@ struct SEED_CORE_API ParticleEmitterInfo
 
 IResource *ParticleEmitterObjectResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
+/// Particle Emitter Instance Data
 class SEED_CORE_API ParticleEmitterObject : public IResource
 {
 	friend IResource *ParticleEmitterObjectResourceLoader(const String &filename, ResourceManager *res);
@@ -117,7 +114,6 @@ class SEED_CORE_API ParticleEmitterObject : public IResource
 
 	protected:
 		// IResource
-		using IResource::Load;
 		virtual bool Unload();
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 

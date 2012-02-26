@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file JsonReader.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Json Reader
-*/
-
 #include "Defines.h"
 
 #if SEED_USE_JSON == 1

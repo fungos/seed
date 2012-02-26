@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file LeakReport.h
-	\author	Danny Angelo Carminati Grein
-	\brief Leak Report
-*/
-
 #ifndef __LEAK_REPORT_H__
 #define __LEAK_REPORT_H__
 
@@ -56,6 +51,7 @@
 
 namespace Seed {
 
+/// Leak Reporter
 class SEED_CORE_API LeakReport
 {
 	SEED_SINGLETON_DECLARE(LeakReport)

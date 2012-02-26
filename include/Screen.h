@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Screen.h
-	\author	Danny Angelo Carminati Grein
-	\brief Include selector
-*/
-
 #ifndef __SCREEN_H__
 #define __SCREEN_H__
 

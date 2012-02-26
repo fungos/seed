@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosTexture.h
-	\author	Danny Angelo Carminati Grein
-	\brief Texture Iphone Implementation
-*/
-
 #ifndef __IOS_TEXTURE_H__
 #define __IOS_TEXTURE_H__
 
@@ -49,6 +44,7 @@ namespace Seed { namespace iOS {
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
+/// iOS Texture
 class Texture : public ITexture
 {
 	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);

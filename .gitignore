@@ -36,5 +36,6 @@ Thumbs.db
 *.creator.user
 
 # Temp files
+doc/
 tests/bin/tests
 *.ogg

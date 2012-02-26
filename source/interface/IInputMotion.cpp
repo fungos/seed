@@ -29,12 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IInputMotion.cpp
-	\author	Rafael Eduardo Gonchor
-			Danny Angelo Carminati Grein
-	\brief Defines Input Motion class interface
-*/
-
 #include "interface/IInputMotion.h"
 #include "interface/IEventInputMotionListener.h"
 #include "Log.h"

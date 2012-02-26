@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file D3D8RendererDevice.h
-	\author	Danny Angelo Carminati Grein
-	\brief DirectX 8.1 renderer device implementation
-*/
-
 #ifndef __D3D8_RENDERER_DEVICE_H__
 #define __D3D8_RENDERER_DEVICE_H__
 
@@ -73,6 +68,7 @@ class ITexture;
 
 namespace DirectX {
 
+/// DirectX 8 Rendering device
 class SEED_CORE_API D3D8RendererDevice : public IRendererDevice
 {
 	friend class IScreen;

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file File.h
-	\author	Danny Angelo Carminati Grein
-	\brief File
-*/
-
 #ifndef __FILE_H__
 #define __FILE_H__
 
@@ -43,6 +38,7 @@
 
 namespace Seed {
 
+/// File
 class SEED_CORE_API File : public IObject
 {
 	public:

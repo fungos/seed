@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtSystem.h
-	\author	Danny Angelo Carminati Grein
-	\brief System QT Implementation
-*/
-
 #ifndef __QT_SYSTEM_H__
 #define __QT_SYSTEM_H__
 
@@ -45,6 +40,7 @@
 
 namespace Seed { namespace QT {
 
+/// Qt System Module
 class System : public ISystem
 {
 	SEED_SINGLETON_DECLARE(System)

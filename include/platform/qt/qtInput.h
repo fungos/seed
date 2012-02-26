@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtInput.h
-	\author	Danny Angelo Carminati Grein
-	\brief Input Implementation
-*/
-
 #ifndef __QT_INPUT_H__
 #define __QT_INPUT_H__
 
@@ -48,6 +43,7 @@ namespace Seed { namespace QT {
 
 class Scene;
 
+/// Qt Input Module
 class Input : public IInput, public IInputPointer, public IInputKeyboard
 {
 	friend class Scene;

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Reader.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief File reader
-*/
-
 #include "Reader.h"
 #include "SeedInit.h"
 #include "api/yajl/JsonReader.h"

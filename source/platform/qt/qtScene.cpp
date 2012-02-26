@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtScene.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Qt Scene
-*/
-
 #if defined(BUILD_QT)
 
 #include "platform/qt/qtScene.h"

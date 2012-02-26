@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Texture.h
-	\author	Danny Angelo Carminati Grein
-	\brief Include selector
-*/
-
 #ifndef __TEXTURE_H__
 #define __TEXTURE_H__
 

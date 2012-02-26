@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IRenderable.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Renderable object interface
-*/
-
 #ifndef __IRENDERABLE_H__
 #define __IRENDERABLE_H__
 

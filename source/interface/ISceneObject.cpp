@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ISceneObject.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Scene Object Interface
-*/
-
 #include "Defines.h"
 #include "interface/ISceneObject.h"
 #include "Log.h"

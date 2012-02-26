@@ -29,18 +29,12 @@
  **
  *****************************************************************************/
 
-/*! \file EventInputJoystick.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief A event from an input joystick
-*/
-
 #include "EventInputJoystick.h"
 
 namespace Seed {
 
-
 EventInputJoystick::EventInputJoystick(u32 j, u32 pressed, u32 hold, u32 released, u32 axis, u32 value)
-	: IEventInput(EVENT_INPUT_POINTER)
+	: IEventInput(EventIdJoystickInput)
 	, iJoystick(j)
 	, iPressed(pressed)
 	, iHold(hold)
@@ -50,53 +44,44 @@ EventInputJoystick::EventInputJoystick(u32 j, u32 pressed, u32 hold, u32 release
 {
 }
 
-
 EventInputJoystick::~EventInputJoystick()
 {
 }
-
 
 u32 EventInputJoystick::GetJoystick() const
 {
 	return iJoystick;
 }
 
-
 u32 EventInputJoystick::GetPressed()  const
 {
 	return iPressed;
 }
-
 
 u32 EventInputJoystick::GetReleased() const
 {
 	return iReleased;
 }
 
-
 u32 EventInputJoystick::GetHold() const
 {
 	return iHold;
 }
-
 
 u32 EventInputJoystick::GetAxis() const
 {
 	return iAxis;
 }
 
-
 u32 EventInputJoystick::GetValue() const
 {
 	return iValue;
 }
 
-
 const char *EventInputJoystick::GetObjectName() const
 {
 	return "EventInputJoystick";
 }
-
 
 } // namespace
 

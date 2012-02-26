@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IObject.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Base Object class interface
-*/
-
 #ifndef __IOBJECT_H__
 #define __IOBJECT_H__
 

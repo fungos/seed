@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ViewManager.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Renderer Manager
-*/
-
 #include "ViewManager.h"
 #include "Defines.h"
 #include "Log.h"

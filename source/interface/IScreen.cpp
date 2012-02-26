@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IScreen.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Screen class interface
-*/
-
 #include "interface/IScreen.h"
 #include "Log.h"
 

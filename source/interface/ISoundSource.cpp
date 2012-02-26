@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ISoundSource.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief A sund source interface to play 2D and 3D sounds
-*/
-
 #include "interface/ISoundSource.h"
 #include "Sound.h"
 #include "SoundSystem.h"

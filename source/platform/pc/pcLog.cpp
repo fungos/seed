@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file PcLog.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Log PC Implementation
-*/
-
 #include "Log.h"
 
 #if defined(BUILD_PC)

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlInput.h
-	\author	Danny Angelo Carminati Grein
-	\brief Input Implementation
-*/
-
 #ifndef __SDL_INPUT_H__
 #define __SDL_INPUT_H__
 
@@ -50,6 +45,7 @@
 
 namespace Seed { namespace SDL {
 
+/// SDL Input Module
 class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKeyboard, public IInputJoystick
 {
 	SEED_SINGLETON_DECLARE(Input)

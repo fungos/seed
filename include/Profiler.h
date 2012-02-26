@@ -52,6 +52,7 @@
 
 class ProfileContext;
 
+/// Profile Entry Data
 struct SEED_CORE_API ProfilerEntry
 {
 	f32 time;
@@ -74,6 +75,7 @@ typedef std::pair<const char *, ProfilerEntry *> FuncTimePair;
 typedef FuncTimeMap::iterator FuncTimeMapIt;
 typedef std::stack<ProfileContext *> ContextStack;
 
+/// Profiler
 class SEED_CORE_API Profiler
 {
 	public:
@@ -97,6 +99,7 @@ class SEED_CORE_API Profiler
 		FuncTimeMap mapSubjectTotal;
 };
 
+/// Profiler Context
 class SEED_CORE_API ProfileContext
 {
 	public:

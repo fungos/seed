@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Rand.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Pseudo random number generator
-*/
-
 #include "Rand.h"
 #include <stdlib.h>
 #include <math.h>

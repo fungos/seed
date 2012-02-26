@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IInputPointer.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines Input Pointer class interface
-*/
-
 #include "interface/IInputPointer.h"
 #include "interface/IEventInputPointerListener.h"
 #include "Log.h"

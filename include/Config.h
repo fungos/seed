@@ -1,8 +1,3 @@
-/*! \file Config.h
-	\author	Danny Angelo Carminati Grein
-	\brief Engine configuration header
-*/
-
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 

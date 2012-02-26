@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IModule.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Framework Base Module class interface
-*/
-
 #include "interface/IModule.h"
 #include "Enum.h"
 #include "Log.h"

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Defines.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines
-*/
-
 #ifndef __SEED_DEFINES_H__
 #define __SEED_DEFINES_H__
 
@@ -121,13 +116,16 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define PIXEL_SET_G(px, g)		(((px) & (~LIB_PIXEL_G_MASK)) + (static_cast<u32>(g)<<PIXEL_G_SHIFT))
 #define PIXEL_SET_B(px, b)		(((px) & (~LIB_PIXEL_B_MASK)) + (static_cast<u32>(b)<<PIXEL_B_SHIFT))
 
+/// Pixel union
 union uPixel
 {
 	PIXEL pixel;
+	/// Pixel components in array
 	struct vec
 	{
 		u8 c[4];
 	} pComponent;
+	/// Pixel components ARGB
 	struct _argb
 	{
 		u8 a;
@@ -135,6 +133,7 @@ union uPixel
 		u8 g;
 		u8 b;
 	} argb;
+	/// Pixel components RGBA
 	struct _rgba
 	{
 		u8 r;

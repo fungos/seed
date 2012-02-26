@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtTexture.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Texture QT Implementation
-*/
-
 #if defined(BUILD_QT)
 
 #include "Texture.h"

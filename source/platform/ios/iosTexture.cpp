@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosTexture.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Texture Iphone Implementation
-*/
-
 #if defined(BUILD_IOS)
 
 #include "Texture.h"

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Viewport.h
-	\author	Everton Fernando Patitucci da Silva
-	\brief Viewport
-*/
-
 #ifndef __VIEWPORT_H__
 #define __VIEWPORT_H__
 

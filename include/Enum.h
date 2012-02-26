@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Enum.h
-	\author Danny Angelo Carminati Grein
-	\brief Enumerations
-*/
-
 #ifndef __ENUM_H__
 #define __ENUM_H__
 

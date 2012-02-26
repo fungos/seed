@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Singleton.h
-	\author	Danny Angelo Carminati Grein
-	\brief Singleton template
-*/
-
 #ifndef __SINGLETON_H__
 #define __SINGLETON_H__
 

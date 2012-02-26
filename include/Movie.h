@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Movie.h
-	\author	Rafael Eduardo Gonchor
-	\brief A collection of timelines that are part of the movie
-*/
-
 #ifndef __MOVIE_H__
 #define __MOVIE_H__
 
@@ -42,6 +37,7 @@
 
 namespace Seed {
 
+/// Movie
 class SEED_CORE_API Movie : public SceneNode
 {
 	DECLARE_CONTAINER_TYPE(Vector, Timeline)

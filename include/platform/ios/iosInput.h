@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosInput.h
-	\author	Danny Angelo Carminati Grein
-	\brief Input Iphone Implementation
-*/
-
 #ifndef __IOS_INPUT_H__
 #define __IOS_INPUT_H__
 
@@ -46,6 +41,7 @@
 
 namespace Seed { namespace iOS {
 
+/// iOS Input Module
 class Input : public IInput, public IInputPointer
 {
 	SEED_SINGLETON_DECLARE(Input)

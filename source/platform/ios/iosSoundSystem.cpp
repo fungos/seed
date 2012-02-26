@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosSoundSystem.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief SoundSystem Iphone Implementation
-*/
-
 #if defined(BUILD_IOS)
 
 #include "Defines.h"

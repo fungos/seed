@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosTimer.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Timer Iphone Implementation
-*/
-
 #if defined(BUILD_IOS)
 
 #include "Defines.h"

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file JsonReader.h
-	\author	Danny Angelo Carminati Grein
-	\brief Json Reader
-*/
-
 #ifndef __JSONREADER_H__
 #define __JSONREADER_H__
 
@@ -47,6 +42,7 @@
 
 namespace Seed {
 
+/// JSON Data reader
 class SEED_CORE_API JsonReader : public IReader
 {
 	public:

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file oalMusic.h
-	\author	Danny Angelo Carminati Grein
-	\brief Music Implementation for OpenAL + Ogg
-*/
-
 #ifndef __OAL_MUSIC_H__
 #define __OAL_MUSIC_H__
 
@@ -60,6 +55,7 @@ namespace Seed { namespace OAL {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
+/// OpenAL Ogg music resource
 class SEED_CORE_API Music : public IMusic
 {
 	friend IResource *MusicResourceLoader(const String &filename, ResourceManager *res);
@@ -78,8 +74,7 @@ class SEED_CORE_API Music : public IMusic
 		virtual void UpdateVolume();
 
 		// IResouce
-		using IResource::Load;
-		virtual bool Load(const String &filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual bool Unload();
 
 	protected:

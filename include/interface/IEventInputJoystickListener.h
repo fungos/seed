@@ -29,12 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IEventInputJoystickListener.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the event listener class interface
-*/
-
-
 #ifndef __IEVENT_INPUT_JOYSTICK_LISTENER_H__
 #define __IEVENT_INPUT_JOYSTICK_LISTENER_H__
 
@@ -43,6 +37,7 @@
 
 namespace Seed {
 
+/// Joystick input event listener
 class SEED_CORE_API IEventInputJoystickListener : public IEventListener
 {
 	public:

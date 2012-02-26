@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file D3D8RendererDevice.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief DirectX 8.1 renderer device implementation
-*/
-
 #include "RendererDevice.h"
 
 #if defined(SEED_ENABLE_D3D8)

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ResourceManager.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Resource Manager
-*/
-
 #include "Defines.h"
 #include "Log.h"
 #include "ResourceManager.h"

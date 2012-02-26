@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -29,27 +29,19 @@
  **
  *****************************************************************************/
 
-/*! \file EventSystem.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief A system event
-*/
-
-
 #include "EventSystem.h"
-
 
 namespace Seed {
 
-
 EventSystem::EventSystem()
-	: IEvent(SYSTEM, EVENT_SYSTEM)
+	: IEvent(TypeSystem, EventIdSystem)
 	, nCurrentLang(Seed::en_US)
 	, nNewLang(Seed::en_US)
 {
 }
 
 EventSystem::EventSystem(Seed::eLanguage curLang, Seed::eLanguage newLang)
-	: IEvent(SYSTEM, EVENT_SYSTEM)
+	: IEvent(TypeSystem, EventIdSystem)
 	, nCurrentLang(curLang)
 	, nNewLang(newLang)
 {
@@ -73,6 +65,5 @@ const char *EventSystem::GetObjectName() const
 {
 	return "EventSystem";
 }
-
 
 } // namespace

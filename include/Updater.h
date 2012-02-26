@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Updater.h
-	\author	Danny Angelo Carminati Grein
-	\brief Module updater
-*/
-
 #ifndef __UPDATER_H__
 #define __UPDATER_H__
 
@@ -44,6 +39,7 @@ namespace Seed {
 
 class IUpdatable;
 
+/// Updater Runner
 class SEED_CORE_API Updater
 {
 	SEED_SINGLETON_DECLARE(Updater)

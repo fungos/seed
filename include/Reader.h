@@ -29,22 +29,17 @@
  **
  *****************************************************************************/
 
-/*! \file Reader.h
-	\author	Danny Angelo Carminati Grein
-	\brief File reader
-*/
-
 #ifndef __READER_H__
 #define __READER_H__
 
 #include "Defines.h"
 #include "interface/IReader.h"
-#include "File.h"
 
 namespace Seed {
 
 extern SEED_CORE_API IReader cNullReader;
 
+/// Data Reader
 class SEED_CORE_API Reader : public IReader
 {
 	public:

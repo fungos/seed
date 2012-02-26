@@ -161,7 +161,6 @@ Objects.in
 ../include/Thread.h
 ../include/Timeline.h
 ../include/Timer.h
-../include/Trigonometry.h
 ../source/platform/ios/iosInput.cpp
 ../source/platform/ios/iosMusic.cpp
 ../source/platform/ios/iosMutex.cpp
@@ -285,7 +284,6 @@ Objects.in
 ../source/SeedInit.cpp
 ../source/Sprite.cpp
 ../source/Timeline.cpp
-../source/Trigonometry.cpp
 ../source/Updater.cpp
 ../source/ViewManager.cpp
 ../source/Viewport.cpp

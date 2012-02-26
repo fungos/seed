@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IMusic.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Music class interface
-*/
-
 #ifndef __IMUSIC_H__
 #define __IMUSIC_H__
 
@@ -42,6 +37,7 @@
 
 namespace Seed {
 
+/// Internal Music States
 enum eMusicState
 {
 	MusicNone,
@@ -59,6 +55,7 @@ enum eMusicState
 	MusicFading
 };
 
+/// Music resource interface
 class SEED_CORE_API IMusic : public IResource
 {
 	friend class ISoundSystem;
@@ -75,8 +72,7 @@ class SEED_CORE_API IMusic : public IResource
 		virtual bool IsPlaying() const;
 
 		// IResource
-		using IResource::Load;
-		virtual bool Load(const String &filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual bool Unload();
 
 		// IObject

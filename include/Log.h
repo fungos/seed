@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Log.h
-	\author	Danny Angelo Carminati Grein
-	\brief Debug out, assert and halt functionality
-*/
-
 #ifndef __LOG_H__
 #define __LOG_H__
 

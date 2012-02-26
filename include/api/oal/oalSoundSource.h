@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file OalOggSoundSource.h
-	\author	Danny Angelo Carminati Grein
-	\brief Sound source implementation using OpenAL API
-*/
-
 #ifndef __OAL_SOUND_SOURCE_H__
 #define __OAL_SOUND_SOURCE_H__
 
@@ -56,6 +51,7 @@
 
 namespace Seed { namespace OAL {
 
+/// OpenAL sound source
 class SEED_CORE_API SoundSource : public ISoundSource
 {
 	friend class SoundSystem;

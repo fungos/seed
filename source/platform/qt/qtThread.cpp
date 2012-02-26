@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtThread.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Thread implementation
-*/
-
 #if defined(BUILD_QT)
 
 #include "platform/qt/qtThread.h"

@@ -29,18 +29,12 @@
  **
  *****************************************************************************/
 
-/*! \file sdlInput.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Input Implementation
-*/
-
 #if defined(BUILD_SDL)
 
 #include "Defines.h"
 #include "Input.h"
 #include "Log.h"
 #include "Screen.h"
-#include "Trigonometry.h"
 #include "System.h"
 #include "Input.h"
 #include "EventInputPointer.h"
@@ -73,7 +67,7 @@
 
 namespace Seed { namespace SDL {
 
-SEED_SINGLETON_DEFINE(Input);
+SEED_SINGLETON_DEFINE(Input)
 
 Input::Input()
 	: iJoystickCount(0)

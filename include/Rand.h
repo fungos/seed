@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Rand.h
-	\author	Danny Angelo Carminati Grein
-	\brief Pseudo random number generator
-*/
-
 #ifndef __RAND_H__
 #define __RAND_H__
 
@@ -42,6 +37,7 @@
 
 namespace Seed {
 
+/// Randomizer
 class SEED_CORE_API Rand
 {
 	SEED_SINGLETON_DECLARE(Rand)

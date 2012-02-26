@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ParticleManager.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Particle emitter manager
-*/
-
 #include "ParticleManager.h"
 #include "ParticleEmitter.h"
 

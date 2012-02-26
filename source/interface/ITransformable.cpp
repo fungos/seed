@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ITransformable.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief An object that can be manipulated in space
-*/
-
 #include "interface/ITransformable.h"
 #include "Number.h"
 

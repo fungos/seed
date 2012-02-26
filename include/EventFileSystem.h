@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file EventFileSystem.h
-	\author	Rafael Eduardo Gonchor
-	\brief A file system event
-*/
-
 #ifndef __EVENT_FILESYSTEM_H__
 #define __EVENT_FILESYSTEM_H__
 
@@ -41,6 +36,7 @@
 
 namespace Seed {
 
+/// FileSystem Event
 class SEED_CORE_API EventFileSystem : public IEvent
 {
 	public:

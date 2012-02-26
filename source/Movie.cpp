@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Movie.cpp
-	\author	Rafael Eduardo Gonchor
-	\brief A collection of timelines that are part of the movie
-*/
-
 #include "Movie.h"
 
 namespace Seed {

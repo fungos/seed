@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file FileSystem.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Filesystem module
-*/
-
 #include "FileSystem.h"
 #include "Log.h"
 #include "File.h"

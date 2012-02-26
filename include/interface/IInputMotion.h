@@ -29,12 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IInputMotion.h
-	\author	Rafael Eduardo Gonchor
-			Danny Angelo Carminati Grein
-	\brief Defines Input Motion class interface
-*/
-
 #ifndef __IINPUT_MOTION_H__
 #define __IINPUT_MOTION_H__
 

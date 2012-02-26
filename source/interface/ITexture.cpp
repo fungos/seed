@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ITexture.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Texture class interface
-*/
-
 #include "interface/ITexture.h"
 #include "Enum.h"
 #include "Log.h"

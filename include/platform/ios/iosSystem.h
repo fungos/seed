@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosSystem.h
-	\author	Danny Angelo Carminati Grein
-	\brief System iOS Implementation
-*/
-
 #ifndef __IOS_SYSTEM_H__
 #define __IOS_SYSTEM_H__
 
@@ -44,6 +39,7 @@
 
 namespace Seed { namespace iOS {
 
+/// iOS System Module
 class System : public ISystem
 {
 	SEED_SINGLETON_DECLARE(System)

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosSound.h
-	\author	Danny Angelo Carminati Grein
-	\brief Sound Implementation for iPhone
-*/
-
 #ifndef __IOSONE_SOUND_H__
 #define __IOSONE_SOUND_H__
 
@@ -53,6 +48,7 @@ namespace Seed { namespace iOS {
 
 IResource *SoundResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
+/// iOS Sound resource
 class SEED_CORE_API Sound : public ISound
 {
 	friend IResource *SoundResourceLoader(const String &ilename, ResourceManager *res);

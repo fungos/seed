@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Frame.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Sprite frame
-*/
-
 #include "Defines.h"
 #include "Frame.h"
 #include "Log.h"

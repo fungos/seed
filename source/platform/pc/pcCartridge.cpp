@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file pcCartridge.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Cartridge PC Implementation
-*/
-
 #include "Cartridge.h"
 #include "LeakReport.h"
 

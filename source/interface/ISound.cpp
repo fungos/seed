@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ISound.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Sound class interface
-*/
-
 #include "interface/ISound.h"
 
 namespace Seed {

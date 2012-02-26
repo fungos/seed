@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Updater.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Module updater
-*/
-
 #include "Updater.h"
 #include "interface/IUpdatable.h"
 #include "Profiler.h"

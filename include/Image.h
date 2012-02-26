@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Image.h
-	\author	Danny Angelo Carminati Grein
-	\brief Image
-*/
-
 #ifndef __IMAGE_H__
 #define __IMAGE_H__
 
@@ -44,6 +39,7 @@ namespace Seed {
 
 class ITexture;
 
+/// Renderable Static Image
 class SEED_CORE_API Image : public ISceneObject
 {
 	public:

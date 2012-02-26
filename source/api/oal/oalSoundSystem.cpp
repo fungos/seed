@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file OalOggSoundSystem.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief SoundSystem OpenAL + Ogg Implementation
-*/
-
 #include "SoundSystem.h"
 
 #if defined(USE_API_OAL)

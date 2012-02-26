@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Timeline.cpp
-	\author	Rafael Eduardo Gonchor
-	\brief Timeline implementation to be used with ITransformable2D objects
-*/
-
 #include "Timeline.h"
 #include "EventMovie.h"
 #include "interface/IEventMovieListener.h"
@@ -260,20 +255,20 @@ void Timeline::Update()
 	{
 		switch (kfTo->iEvent)
 		{
-			case Keyframe::KEYFRAME_EVENT_NONE:
+			case Keyframe::KeyframeEventNone:
 			{
 				iKeyframeFrom 	= iKeyframeTo;
 				iKeyframeTo 	= FindNextKeyframe();
 			}
 			break;
 
-			case Keyframe::KEYFRAME_EVENT_STOP:
+			case Keyframe::KeyframeEventStop:
 			{
 				iKeyframeFrom = iKeyframeTo;
 			}
 			break;
 
-			case Keyframe::KEYFRAME_EVENT_RESTART:
+			case Keyframe::KeyframeEventRestart:
 			{
 				iKeyframeFrom = 0;
 				iKeyframeTo   = -1;
@@ -282,7 +277,7 @@ void Timeline::Update()
 			}
 			break;
 
-			case Keyframe::KEYFRAME_EVENT_JUMPTOFRAME:
+			case Keyframe::KeyframeEventJumpToFrame:
 			{
 				iCurrentFrame = kfTo->iFrameToJump;
 				iKeyframeFrom = FindPreviousKeyframe();
@@ -296,7 +291,7 @@ void Timeline::Update()
 	{
 		switch (kfFrom->iEvent)
 		{
-			case Keyframe::KEYFRAME_EVENT_STOP:
+			case Keyframe::KeyframeEventStop:
 			{
 				iKeyframeTo		= iKeyframeFrom;
 				iCurrentFrame	= iKeyframeFrom;

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IReader.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the file format reader interface
-*/
-
 #include "interface/IReader.h"
 #include "Log.h"
 

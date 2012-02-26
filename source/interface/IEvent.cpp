@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -29,12 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IEvent.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the event class interface
-*/
-
-
 #include "Defines.h"
 #include "interface/IEvent.h"
 #include "Enum.h"
@@ -49,17 +43,17 @@ IEvent::IEvent(eType myType, u32 myId)
 }
 
 IEvent::IEvent()
-	: iType(UNDEFINED)
-	, iId(EVENT_UNDEFINED)
+	: iType(TypeUndefined)
+	, iId(EventIdUndefined)
 	, bConsumed(false)
 {
 }
 
 IEvent::~IEvent()
 {
-	this->iType 	= UNDEFINED;
-	this->iId 		= EVENT_UNDEFINED;
-	this->bConsumed = false;
+	iType	 	= TypeUndefined;
+	iId			= EventIdUndefined;
+	bConsumed	= false;
 }
 
 u32 IEvent::GetId() const

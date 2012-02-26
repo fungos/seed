@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IEventInputJoystickListener.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the event listener class interface
-*/
-
 #include "interface/IEventInputJoystickListener.h"
 
 namespace Seed {

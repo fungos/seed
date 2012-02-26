@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Rect.h
-	\author Rafael Eduardo Gonchor
-	\brief Rectangle utils
-*/
-
 #ifndef __RECT_H__
 #define __RECT_H__
 
@@ -41,6 +36,7 @@
 
 namespace Seed {
 
+/// Rectangle Template
 template <class TYPE> class Rect
 {
 	public:

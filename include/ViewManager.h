@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ViewManager.h
-	\author	Danny Angelo Carminati Grein
-	\brief View Manager
-*/
-
 #ifndef __VIEW_MANAGER_H__
 #define __VIEW_MANAGER_H__
 
@@ -46,6 +41,7 @@ namespace Seed {
 class Viewport;
 class Renderer;
 
+/// Viewport Manager Module
 class SEED_CORE_API ViewManager : public IModule
 {
 	SEED_SINGLETON_DECLARE(ViewManager)

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Checksum.h
-	\author	Danny Angelo Carminati Grein
-	\brief Checksum calculation
-*/
-
 #ifndef __CHECKSUM_H__
 #define __CHECKSUM_H__
 

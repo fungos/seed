@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IInputPointer.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines Input Pointer class interface
-*/
-
 #ifndef __IINPUT_POINTER_H__
 #define __IINPUT_POINTER_H__
 

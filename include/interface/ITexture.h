@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ITexture.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Texture class interface
-*/
-
 #ifndef __ITEXTURE_H__
 #define __ITEXTURE_H__
 
@@ -44,7 +39,7 @@
 
 namespace Seed {
 
-/// ITexture
+/// Texture interface
 /**
 Base texture class. This IResource must not be instanciable. It has basic information about the texture.
 */
@@ -98,9 +93,8 @@ class SEED_CORE_API ITexture : public IResource
 		virtual void Reset();
 
 		// IResource
-		using IResource::Load;
 		virtual bool Unload();
-		virtual bool Load(const String &filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 
 		/// Create a texture using a pre-allocated buffer.
 		/**

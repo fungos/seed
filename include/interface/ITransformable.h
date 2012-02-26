@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ITransformable.h
-	\author	Danny Angelo Carminati Grein
-	\brief An object that can be manipulated in space
-*/
-
 #ifndef __ITransformable_H__
 #define __ITransformable_H__
 
@@ -42,6 +37,7 @@
 
 namespace Seed {
 
+/// Transformable interface
 class SEED_CORE_API ITransformable
 {
 	public:
@@ -136,6 +132,7 @@ class SEED_CORE_API ITransformable
 		SEED_DISABLE_COPY(ITransformable);
 };
 
+/// Transformable ascending predicate
 struct SEED_CORE_API ITransformableAscendingPrioritySort
 {
 	bool operator()(ITransformable * const &left, ITransformable * const &right)
@@ -144,6 +141,7 @@ struct SEED_CORE_API ITransformableAscendingPrioritySort
 	}
 };
 
+/// Transformable descending predicate
 struct SEED_CORE_API ITransformableDescendingPrioritySort
 {
 	bool operator()(ITransformable * const &left, ITransformable * const &right)

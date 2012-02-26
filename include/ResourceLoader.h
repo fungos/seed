@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ResourceLoader.h
-	\author	Rafael Eduardo Gonchor
-	\brief Defines the resource loader class interface
-*/
-
 #ifndef __RESOURCE_LOADER_H__
 #define __RESOURCE_LOADER_H__
 
@@ -50,8 +45,8 @@ class EventResourceLoader;
 class IEventResourceLoaderListener;
 
 /// Resource Loader
-/**
-Platform resource loader
+/*!
+Responsible for Loading resources
 */
 class SEED_CORE_API ResourceLoader : public IModule, public IUpdatable, public Thread
 {

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file FileSystem.h
-	\author	Danny Angelo Carminati Grein
-	\brief Filesystem module
-*/
-
 #ifndef __FILESYSTEM_H__
 #define __FILESYSTEM_H__
 
@@ -42,6 +37,7 @@
 
 namespace Seed {
 
+/// FileSystem Module
 class SEED_CORE_API FileSystem : public IModule
 {
 	SEED_SINGLETON_DECLARE(FileSystem)

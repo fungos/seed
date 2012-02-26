@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Particle.h
-	\author	Danny Angelo Carminati Grein
-	\brief A particle representation
-*/
-
 #ifndef __PARTICLE_H__
 #define __PARTICLE_H__
 
@@ -42,6 +37,7 @@
 
 namespace Seed {
 
+/// Particle
 class SEED_CORE_API Particle : public Sprite
 {
 	friend class ParticleEmitter;

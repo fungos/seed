@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosThread.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Thread implementation
-*/
-
 #if defined(BUILD_IOS)
 
 #include "platform/ios/iosThread.h"

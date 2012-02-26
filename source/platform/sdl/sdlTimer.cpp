@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlTimer.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Timer SDL Implementation
-*/
-
 #if defined(BUILD_SDL)
 
 #include "Defines.h"
@@ -46,7 +41,7 @@
 
 namespace Seed { namespace SDL {
 
-SEED_SINGLETON_DEFINE(Timer);
+SEED_SINGLETON_DEFINE(Timer)
 
 Timer::Timer()
 	: fStart(0)

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IVideo.h
-	\author	Danny Angelo Carminati Grein
-	\brief Video interface
-*/
-
 #ifndef __IVIDEO_H__
 #define __IVIDEO_H__
 
@@ -44,6 +39,7 @@
 
 namespace Seed {
 
+/// Video interface
 class IVideo : public ITransformable//, public IPlayable
 {
 	public:

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IResource.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Resource object interface
-*/
-
 #ifndef __IRESOURCE_H__
 #define __IRESOURCE_H__
 
@@ -47,6 +42,7 @@ namespace Seed {
 
 class ResourceManager;
 
+/// Resource interface
 class SEED_CORE_API IResource : public IObject
 {
 	friend class ResourceManager;
@@ -55,7 +51,6 @@ class SEED_CORE_API IResource : public IObject
 		IResource();
 		virtual ~IResource();
 
-		virtual bool Load(const String &filename);
 		virtual bool Load(const String &filename, ResourceManager *res) = 0;
 		virtual bool Unload() = 0;
 

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Seed.h
-	\author	Danny Angelo Carminati Grein
-	\brief Seed SDK
-*/
-
 #ifndef __SEED_H__
 #define __SEED_H__
 
@@ -108,7 +103,6 @@
 
 #include <Thread.h>
 #include <Timer.h>
-#include <Trigonometry.h>
 
 #include <Timeline.h>
 #include <Movie.h>

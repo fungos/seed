@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Cartridge.h
-	\author	Danny Angelo Carminati Grein
-	\brief Include selector
-*/
-
 #ifndef __CARTRIDGE_H__
 #define __CARTRIDGE_H__
 

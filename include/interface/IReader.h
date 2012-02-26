@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IReader.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the file format reader interface
-*/
-
 #ifndef __IREADER_H__
 #define __IREADER_H__
 
@@ -42,6 +37,7 @@
 
 namespace Seed {
 
+/// Data reader interface
 class SEED_CORE_API IReader
 {
 	public:

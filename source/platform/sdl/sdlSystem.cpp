@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlSystem.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief System SDL Implementation
-*/
-
 #if defined(BUILD_SDL)
 
 #include "Defines.h"
@@ -51,7 +46,7 @@
 
 namespace Seed { namespace SDL {
 
-SEED_SINGLETON_DEFINE(System);
+SEED_SINGLETON_DEFINE(System)
 
 System::System()
 	: iRetraceCount(0)

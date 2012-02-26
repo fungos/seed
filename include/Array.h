@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Array.h
-	\author	Korck
-	\brief Array common functions
-*/
-
 #ifndef __ARRAY_H__
 #define __ARRAY_H__
 
@@ -41,6 +36,7 @@
 
 namespace Seed {
 
+/// Static sized Array template
 template <class TYPE, int SIZE> class Array
 {
 	private:

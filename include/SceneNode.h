@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file SceneNode.h
-	\author	Danny Angelo Carminati Grein
-	\brief Scene Node object
-*/
-
 #ifndef __SCENE_NODE_H__
 #define __SCENE_NODE_H__
 
@@ -43,6 +38,7 @@ namespace Seed {
 
 DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
 
+/// Scene Node
 class SEED_CORE_API SceneNode : public ISceneObject
 {
 	friend class Renderer;

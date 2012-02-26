@@ -29,12 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file MathUtil.h
-	\author	Thiago C. Moraes
-			Danny Angelo Carminati Grein
-	\brief Math utils
-*/
-
 #ifndef __MATH_UTIL_H__
 #define __MATH_UTIL_H__
 

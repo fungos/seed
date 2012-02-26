@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosScreen.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Screen Iphone Implementation
-*/
-
 #if defined(BUILD_IOS)
 
 #include "Defines.h"

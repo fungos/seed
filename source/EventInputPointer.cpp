@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -29,18 +29,12 @@
  **
  *****************************************************************************/
 
-/*! \file EventInputPointer.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief A event from an input pointer
-*/
-
 #include "EventInputPointer.h"
 
 namespace Seed {
 
-
 EventInputPointer::EventInputPointer(u32 j, u32 pressed, u32 hold, u32 released, f32 x, f32 y)
-	: IEventInput(EVENT_INPUT_POINTER)
+	: IEventInput(EventIdPointerInput)
 	, iJoystick(j)
 	, iPressed(pressed)
 	, iHold(hold)
@@ -50,53 +44,44 @@ EventInputPointer::EventInputPointer(u32 j, u32 pressed, u32 hold, u32 released,
 {
 }
 
-
 EventInputPointer::~EventInputPointer()
 {
 }
-
 
 u32 EventInputPointer::GetJoystick() const
 {
 	return iJoystick;
 }
 
-
 u32 EventInputPointer::GetPressed()  const
 {
 	return iPressed;
 }
-
 
 u32 EventInputPointer::GetReleased() const
 {
 	return iReleased;
 }
 
-
 u32 EventInputPointer::GetHold() const
 {
 	return iHold;
 }
-
 
 f32 EventInputPointer::GetX() const
 {
 	return fX;
 }
 
-
 f32 EventInputPointer::GetY() const
 {
 	return fY;
 }
 
-
 const char *EventInputPointer::GetObjectName() const
 {
 	return "EventInputPointer";
 }
-
 
 } // namespace
 

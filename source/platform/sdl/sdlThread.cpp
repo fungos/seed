@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlThread.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Thread implementation
-*/
-
 #if defined(BUILD_SDL)
 
 #include "platform/sdl/sdlThread.h"

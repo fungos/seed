@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file RendererManager.cpp
-	\author	Everton Fernando Patitucci da Silva
-	\brief Renderer Manager
-*/
-
 #include "RendererManager.h"
 #include "Defines.h"
 #include "Log.h"

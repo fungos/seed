@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlScreen.h
-	\author	Danny Angelo Carminati Grein
-	\brief Screen SDL implementation
-*/
-
 #ifndef __SDL_SCREEN_H__
 #define __SDL_SCREEN_H__
 
@@ -55,6 +50,7 @@
 
 namespace Seed { namespace SDL {
 
+/// SDL Screen Module
 class SEED_CORE_API Screen : public IScreen
 {
 	SEED_SINGLETON_DECLARE(Screen)

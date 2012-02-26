@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ResourceLoader.cpp
-	\author	Rafael Eduardo Gonchor
-	\brief Defines the resource loader class
-*/
-
 #include "Log.h"
 #include "ResourceLoader.h"
 #include "ResourceGroup.h"

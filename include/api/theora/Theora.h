@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Theora.h
-	\author	Danny Angelo Carminati Grein
-	\brief Theora decoder
-*/
-
 #ifndef __THEORA_H__
 #define __THEORA_H__
 
@@ -132,6 +127,7 @@
 
 namespace Seed {
 
+/// Theora video player
 class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 {
 	public:

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosInput.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Input Iphone Implementation
-*/
-
 #if defined(BUILD_IOS)
 
 #include "Defines.h"

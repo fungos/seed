@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlTimer.h
-	\author	Danny Angelo Carminati Grein
-	\brief Timer SDL Implementation
-*/
-
 #ifndef __SDL_TIMER_H__
 #define __SDL_TIMER_H__
 
@@ -46,6 +41,7 @@
 
 namespace Seed { namespace SDL {
 
+/// SDL Timer
 class SEED_CORE_API Timer : public ITimer
 {
 	SEED_SINGLETON_DECLARE(Timer)

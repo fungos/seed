@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ogl14RendererDevice.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief OpenGL 1.4 renderer device implementation
-*/
-
 #include "RendererDevice.h"
 
 #if defined(USE_API_OGL) && !defined(BUILD_IOS)

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ICartridge.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Cartridge class interface
-*/
-
 #include "interface/ICartridge.h"
 #include "Log.h"
 

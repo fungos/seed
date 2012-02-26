@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file SceneManager.h
-	\author	Danny Angelo Carminati Grein
-	\brief Scene Manager
-*/
-
 #ifndef __SCENE_MANAGER_H__
 #define __SCENE_MANAGER_H__
 
@@ -45,6 +40,7 @@ namespace Seed {
 
 class ISceneObject;
 
+/// Scene Manager
 class SEED_CORE_API SceneManager : public IUpdatable
 {
 	SEED_SINGLETON_DECLARE(SceneManager)

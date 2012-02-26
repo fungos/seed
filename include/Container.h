@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Container.h
-	\author	Danny Angelo Carminati Grein
-	\brief Container utils
-*/
-
 #ifndef __CONTAINER_H__
 #define __CONTAINER_H__
 

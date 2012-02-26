@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file LeakReport.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Leak Report
-*/
-
 #if defined(DEBUG)
 
 #include "LeakReport.h"

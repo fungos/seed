@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IInputKeyboard.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines Input Keyboard class interface
-*/
-
 #ifndef __IINPUT_KEYBOARD_H__
 #define __IINPUT_KEYBOARD_H__
 

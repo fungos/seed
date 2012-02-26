@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file SeedInit.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Seed Initialization / Shutdown
-*/
-
 #include "Defines.h"
 #include "SeedInit.h"
 #include "ResourceManager.h"

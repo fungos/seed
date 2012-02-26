@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ICartridge.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Cartridge class interface
-*/
-
 #ifndef __ICARTRIDGE_H__
 #define __ICARTRIDGE_H__
 

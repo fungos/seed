@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosMusic.h
-	\author	Danny Angelo Carminati Grein
-	\brief Music Implementation for iPhone
-*/
-
 #ifndef __IOSONE_MUSIC_H__
 #define __IOSONE_MUSIC_H__
 
@@ -48,6 +43,7 @@ namespace Seed { namespace iOS {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
+/// iOS native music resource
 class SEED_CORE_API Music : public IMusic
 {
 	friend IResource *MusicResourceLoader(const String &filename, ResourceManager *res);

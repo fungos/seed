@@ -36,6 +36,7 @@
 
 namespace Seed {
 
+/// Key
 /*!
 Represents a key (or a character).
 */

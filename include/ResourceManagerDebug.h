@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ResourceManager.h
-	\author	Danny Angelo Carminati Grein
-	\brief Resource Manager
-*/
-
 #ifndef __RESOURCE_MANAGER_H__
 #define __RESOURCE_MANAGER_H__
 
@@ -46,6 +41,7 @@ namespace Seed {
 
 typedef IResource *(*pResourceLoaderFunc)(const String &filename, ResourceManager *res);
 
+/// Debugging util
 struct FakeMap
 {
 	String sKey;

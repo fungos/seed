@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IRendererDevice.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Renderer Device interfacve
-*/
-
 #include "interface/IRendererDevice.h"
 #include "Log.h"
 

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtInput.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Input Implementation
-*/
-
 #if defined(BUILD_QT)
 
 #include "Defines.h"

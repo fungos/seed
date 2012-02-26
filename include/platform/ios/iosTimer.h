@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosTimer.h
-	\author	Danny Angelo Carminati Grein
-	\brief Timer Iphone Implementation
-*/
-
 #ifndef __IOS_TIMER_H__
 #define __IOS_TIMER_H__
 
@@ -46,6 +41,7 @@
 
 namespace Seed { namespace iOS {
 
+/// iOS Timer Module
 class Timer : public ITimer
 {
 	SEED_SINGLETON_DECLARE(Timer)

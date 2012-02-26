@@ -29,18 +29,10 @@
  **
  *****************************************************************************/
 
-/*! \file Particle.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief A particle representation
-*/
-
-
 #include "Particle.h"
 #include "Enum.h"
 
-
 namespace Seed {
-
 
 Particle::Particle()
 	: vVelocity(0.0f, 0.0f, 0.0f)
@@ -78,6 +70,5 @@ int Particle::GetObjectType() const
 {
 	return Seed::ObjectParticle;
 }
-
 
 } // namespace

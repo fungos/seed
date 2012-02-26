@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ParticleManager.h
-	\author	Danny Angelo Carminati Grein
-	\brief PArticle emitter manager
-*/
-
 #ifndef __PARTICLE_MANAGER_H__
 #define __PARTICLE_MANAGER_H__
 
@@ -45,6 +40,7 @@ namespace Seed {
 
 class ParticleEmitter;
 
+/// Particle Manager
 class SEED_CORE_API ParticleManager : public IModule, public IUpdatable
 {
 	SEED_SINGLETON_DECLARE(ParticleManager)

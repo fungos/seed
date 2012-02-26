@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file SeedInit.h
-	\author	Danny Angelo Carminati Grein
-	\brief Initialization / Shutdown
-*/
-
 #ifndef __SEED_INIT_H__
 #define __SEED_INIT_H__
 

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ParticleEmitter.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief A particle representation
-*/
-
 #include "ParticleEmitter.h"
 #include "ParticleManager.h"
 #include "Rand.h"

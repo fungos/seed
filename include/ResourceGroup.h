@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ResourceGroup.h
-	\author	Rafael Eduardo Gonchor
-	\brief Defines the resource group class
-*/
-
 #ifndef __RESOURCEGROUP_H__
 #define __RESOURCEGROUP_H__
 
@@ -44,6 +39,7 @@ namespace Seed {
 
 class IResource;
 
+/// Group of Resources for Loading
 class SEED_CORE_API ResourceGroup
 {
 	friend class ResourceLoader;
@@ -55,6 +51,7 @@ class SEED_CORE_API ResourceGroup
 		void Add(const String &filename, Seed::eObjectType resourceType = Seed::ObjectSprite, ResourceManager *res = pResourceManager);
 
 	protected:
+		/// Item for loading with Resource Group
 		typedef struct SEED_CORE_API QueueItem
 		{
 			String				filename;

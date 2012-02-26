@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Thread.h
-	\author	Danny Angelo Carminati Grein
-	\brief Include selector
-*/
-
 #ifndef __THREAD_H__
 #define __THREAD_H__
 

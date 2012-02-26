@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file File.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief File
-*/
-
 #include "Defines.h"
 #include "File.h"
 #include "FileSystem.h"

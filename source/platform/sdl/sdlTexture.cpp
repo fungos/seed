@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlTexture.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Texture SDL Implementation
-*/
-
 #if defined(BUILD_SDL)
 
 #include "Texture.h"

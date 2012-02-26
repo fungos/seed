@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IRendererDevice.h
-	\author	Danny Angelo Carminati Grein
-	\brief Renderer Device interfacve
-*/
-
 #ifndef __IRENDERER_DEVICE_H__
 #define __IRENDERER_DEVICE_H__
 
@@ -47,11 +42,12 @@ namespace Seed {
 class IRenderer;
 class ITexture;
 
+/// Rendering device interface
 class SEED_CORE_API IRendererDevice : public IModule
 {
 	public:
 		IRendererDevice();
-		~IRendererDevice();
+		virtual ~IRendererDevice();
 
 		virtual void TextureRequest(ITexture *texture);
 		virtual void TextureRequestAbort(ITexture *texture);

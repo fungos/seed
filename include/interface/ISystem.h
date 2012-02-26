@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ISystem.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the System class interface
-*/
-
 #ifndef __ISYSTEM_H__
 #define __ISYSTEM_H__
 
@@ -54,7 +49,7 @@ namespace Seed {
 class EventSystem;
 class IEventSystemListener;
 
-/// System Interface
+/// System interface
 /**
 Platform system interface.
 */
@@ -62,17 +57,6 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 {
 	typedef Vector<IEventSystemListener *>	ListenerVector;
 	typedef ListenerVector::iterator		ListenerIterator;
-
-	public:
-		//! System event type
-		/*!
-			Events for horizontal blank interrupt and vertical blank interrupt.
-		 */
-		enum eEvent
-		{
-			EVENT_HBLANK = 0, /*!< Horizontal blank interrupt event ocurred */
-			EVENT_VBLANK = 1  /*!< Vertical blank interrupt event ocurred */
-		};
 
 	public:
 		ISystem();

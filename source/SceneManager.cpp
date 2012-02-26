@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file SceneManager.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Scene Manager
-*/
-
 #include "SceneManager.h"
 #include "Defines.h"
 #include "Log.h"

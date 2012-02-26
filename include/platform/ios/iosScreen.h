@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosScreen.h
-	\author	Danny Angelo Carminati Grein
-	\brief Screen Iphone Implementation
-*/
-
 #ifndef __IOS_SCREEN_H__
 #define __IOS_SCREEN_H__
 
@@ -46,6 +41,7 @@
 
 namespace Seed { namespace iOS {
 
+/// iOS Screen Module
 class Screen : public IScreen
 {
 	SEED_SINGLETON_DECLARE(Screen)

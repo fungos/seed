@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IMusic.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Music class interface
-*/
-
 #include "interface/IMusic.h"
 
 namespace Seed {

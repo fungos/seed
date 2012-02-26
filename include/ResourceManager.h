@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ResourceManager.h
-	\author	Danny Angelo Carminati Grein
-	\brief Resource Manager
-*/
-
 #ifndef __RESOURCE_MANAGER_H__
 #define __RESOURCE_MANAGER_H__
 
@@ -51,6 +46,10 @@ typedef ResourceMap::iterator ResourceMapIterator;
 typedef Map<Seed::eObjectType, pResourceLoaderFunc> LoaderMap;
 typedef LoaderMap::iterator LoaderMapIterator;
 
+/// Resource Manager
+/*!
+Resource Cache and Manager for loading resources
+*/
 class SEED_CORE_API ResourceManager
 {
 	public:

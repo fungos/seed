@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ParticleEmitterObject.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Particle emitter configuration
-*/
-
 #include "ParticleEmitterObject.h"
 #include "Enum.h"
 

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IBasicMesh.h
-	\author	Danny Angelo Carminati Grein
-	\brief A basic mesh interface
-*/
-
 #ifndef __IBASICMESH_H__
 #define __IBASICMESH_H__
 
@@ -46,6 +41,7 @@ namespace Seed {
 class ResourceManager;
 struct sVertex;
 
+/// Basic Mesh
 class SEED_CORE_API IBasicMesh : public ISceneObject
 {
 	public:

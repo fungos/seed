@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Animation.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Sequence of sprite frames
-*/
-
 #include "Defines.h"
 #include "Animation.h"
 #include "Log.h"

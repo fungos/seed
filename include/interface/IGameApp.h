@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IGameApp.h
-	\author	Danny Angelo Carminati Grein
-	\brief The real main for a game application
-*/
-
 #ifndef __GAME_APP_H__
 #define __GAME_APP_H__
 

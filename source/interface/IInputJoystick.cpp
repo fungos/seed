@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IInputJoystick.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Joystick Input class interface
-*/
-
 #include "interface/IInputJoystick.h"
 #include "interface/IEventInputJoystickListener.h"
 #include "Log.h"

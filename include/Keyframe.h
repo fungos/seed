@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Keyframe.h
-	\author	Rafael Eduardo Gonchor
-	\brief A collection of timelines that are part of the movie
-*/
-
 #ifndef __KEYFRAME_H__
 #define __KEYFRAME_H__
 
@@ -42,15 +37,16 @@
 
 namespace Seed {
 
+/// Movie Keyframe
 class SEED_CORE_API Keyframe
 {
 	public:
 		enum
 		{
-			KEYFRAME_EVENT_NONE = 0,
-			KEYFRAME_EVENT_STOP,
-			KEYFRAME_EVENT_RESTART,
-			KEYFRAME_EVENT_JUMPTOFRAME
+			KeyframeEventNone = 0,
+			KeyframeEventStop,
+			KeyframeEventRestart,
+			KeyframeEventJumpToFrame
 		};
 
 	public:

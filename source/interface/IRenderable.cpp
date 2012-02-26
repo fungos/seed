@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IRenderable.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Renderable object interface
-*/
-
 #include "interface/IRenderable.h"
 #include "Enum.h"
 #include "Log.h"

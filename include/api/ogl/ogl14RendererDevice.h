@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ogl14RendererDevice.h
-	\author	Danny Angelo Carminati Grein
-	\brief OpenGL 1.4 renderer device implementation
-*/
-
 #ifndef __OGL14_RENDERER_DEVICE_H__
 #define __OGL14_RENDERER_DEVICE_H__
 
@@ -77,6 +72,7 @@ class ITexture;
 
 namespace OpenGL {
 
+/// OpenGL 1.4 Rendering device
 class SEED_CORE_API OGL14RendererDevice : public IRendererDevice
 {
 	friend class IScreen;

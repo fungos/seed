@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Sprite.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Sprite is an animated 2D image composed with animations and frames.
-*/
-
 #include "Defines.h"
 #include "Sprite.h"
 #include "Animation.h"

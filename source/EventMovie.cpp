@@ -29,19 +29,13 @@
  **
  *****************************************************************************/
 
-/*! \file EventMovie.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief A movie event
-*/
-
-
 #include "EventMovie.h"
 #include "Timeline.h"
 
 namespace Seed {
 
 EventMovie::EventMovie(const Timeline *timeline, const Keyframe *keyframe, u32 frame)
-	: IEvent(MOVIE, EVENT_MOVIE)
+	: IEvent(TypeMovie, EventIdMovie)
 	, pTimeline(timeline)
 	, pKeyframe(keyframe)
 	, iFrame(frame)

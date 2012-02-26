@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file pcCartridge.h
-	\author	Danny Angelo Carminati Grein
-	\brief Cartridge PC Implementation
-*/
-
 #ifndef __PC_CARTRIDGE_H__
 #define __PC_CARTRIDGE_H__
 
@@ -62,6 +57,7 @@
 
 namespace Seed { namespace PC {
 
+/// PC Cartridge
 class SEED_CORE_API Cartridge : public ICartridge
 {
 	SEED_SINGLETON_DECLARE(Cartridge)

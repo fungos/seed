@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file EventInputJoystick.h
-	\author	Danny Angelo Carminati Grein
-	\brief A event from an input joystick
-*/
-
 #ifndef __EVENT_INPUT_JOYSTICK_H__
 #define __EVENT_INPUT_JOYSTICK_H__
 
@@ -41,6 +36,7 @@
 
 namespace Seed {
 
+/// Joystick Input Event
 class SEED_CORE_API EventInputJoystick : public IEventInput
 {
 	public:

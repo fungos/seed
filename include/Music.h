@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Music.h
-	\author	Danny Angelo Carminati Grein
-	\brief Include selector
-*/
-
 #ifndef __MUSIC_H__
 #define __MUSIC_H__
 

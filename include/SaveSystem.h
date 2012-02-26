@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file SaveSystem.h
-	\author	Danny Angelo Carminati Grein
-	\brief Save System
-*/
-
 #ifndef __SAVESYSTEM_H__
 #define __SAVESYSTEM_H__
 
@@ -44,11 +39,13 @@
 
 namespace Seed {
 
+/// Save System
 class SEED_CORE_API SaveSystem
 {
 	SEED_SINGLETON_DECLARE(SaveSystem)
 
 	public:
+		/// Save Header
 		struct SEED_CORE_API sSaveInfo
 		{
 			u32 iID;

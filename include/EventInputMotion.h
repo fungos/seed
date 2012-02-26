@@ -29,12 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file EventInputMotion.h
-	\author	Rafael Eduardo Gonchor
-			Danny Angelo Carminati Grein
-	\brief A event from an input pointer
-*/
-
 #ifndef __EVENT_INPUT_MOTION_H__
 #define __EVENT_INPUT_MOTION_H__
 
@@ -43,6 +37,7 @@
 
 namespace Seed {
 
+/// Motion Input Event
 class SEED_CORE_API EventInputMotion : public IEventInput
 {
 	public:

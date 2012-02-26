@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file oglES1RendererDevice.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief OpenGL ES1 renderer device implementation
-*/
-
 #include "RendererDevice.h"
 
 #if defined(USE_API_OGL) && defined(SEED_ENABLE_OGLES1)

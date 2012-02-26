@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ISoundSource.h
-	\author	Danny Angelo Carminati Grein
-	\brief A sound source interface to play 2D and 3D sounds
-*/
-
 #ifndef __ISOUND_SOURCE_H__
 #define __ISOUND_SOURCE_H__
 
@@ -43,6 +38,7 @@
 
 namespace Seed {
 
+/// Internal sound states
 enum eSoundSourceState
 {
 	SourceNone,
@@ -60,6 +56,7 @@ enum eSoundSourceState
 	SourceFading
 };
 
+/// Sound source interface
 class SEED_CORE_API ISoundSource : public IObject
 {
 	public:

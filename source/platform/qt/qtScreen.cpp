@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtScreen.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Screen QT implementation
-*/
-
 #if defined(BUILD_QT)
 
 #include "Defines.h"

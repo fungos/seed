@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ISoundSystem.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the SoundSystem class interface
-*/
-
 #ifndef __ISOUND_SYSTEM_H__
 #define __ISOUND_SYSTEM_H__
 
@@ -50,7 +45,7 @@ namespace Seed {
 class ISound;
 class IMusic;
 
-/// Sound Interface
+/// Sound interface
 /**
 Interface for sound implementations.
 */

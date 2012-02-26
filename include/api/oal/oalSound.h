@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file OalOggSound.h
-	\author	Danny Angelo Carminati Grein
-	\brief Sound Implementation for OpenAL + Ogg
-*/
-
 #ifndef __OAL_SOUND_H__
 #define __OAL_SOUND_H__
 
@@ -56,6 +51,7 @@ namespace Seed { namespace OAL {
 
 IResource *SoundResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
+/// OpenAL Ogg sound resource
 class SEED_CORE_API Sound : public ISound
 {
 	friend IResource *SoundResourceLoader(const String &filename, ResourceManager *res);
@@ -69,8 +65,7 @@ class SEED_CORE_API Sound : public ISound
 		void Reset();
 
 		// IResource
-		using IResource::Load;
-		virtual bool Load(const String &filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual bool Unload();
 		virtual u32 GetUsedMemory() const;
 

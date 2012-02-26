@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Number.h
-	\author Rafael Eduardo Gonchor
-	\brief Numeber util
-*/
-
 #ifndef __NUMBER_H__
 #define __NUMBER_H__
 
@@ -41,6 +36,7 @@
 
 namespace Seed {
 
+/// Number helper
 class SEED_CORE_API Number
 {
 	public:

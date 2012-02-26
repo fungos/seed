@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file RendererManager.h
-	\author	Everton Fernando Patitucci da Silva
-	\brief Renderer Manager
-*/
-
 #ifndef __RENDERER_MANAGER_H__
 #define __RENDERER_MANAGER_H__
 
@@ -46,6 +41,7 @@ namespace Seed {
 
 class Renderer;
 
+/// Renderer Manager
 class SEED_CORE_API RendererManager : public IModule, public IUpdatable
 {
 	SEED_SINGLETON_DECLARE(RendererManager)

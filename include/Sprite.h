@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Sprite.h
-	\author	Danny Angelo Carminati Grein
-	\brief Sprite is an animated 2D image composed with animations and frames.
-*/
-
 #ifndef __SPRITE_H__
 #define __SPRITE_H__
 
@@ -48,6 +43,10 @@ class ITexture;
 class Animation;
 class Frame;
 
+/// Sprite 2D
+/*!
+Animated Sprite
+*/
 class SEED_CORE_API Sprite : public IBasicMesh
 {
 	public:

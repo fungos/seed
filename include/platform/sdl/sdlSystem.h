@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlSystem.h
-	\author	Danny Angelo Carminati Grein
-	\brief System SDL Implementation
-*/
-
 #ifndef __SDL_SYSTEM_H__
 #define __SDL_SYSTEM_H__
 
@@ -44,6 +39,7 @@
 
 namespace Seed { namespace SDL {
 
+/// SDL System Module
 class SEED_CORE_API System : public ISystem
 {
 	SEED_SINGLETON_DECLARE(System)

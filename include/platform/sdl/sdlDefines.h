@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlDefines.h
-	\author	Danny Angelo Carminati Grein
-	\brief Global engine defines - all engine files must include this header
-*/
-
 #ifndef __SDL_DEFINES_H__
 #define __SDL_DEFINES_H__
 

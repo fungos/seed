@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file EventMovie.h
-	\author	Danny Angelo Carminati Grein
-	\brief A movie event
-*/
-
 #ifndef __EVENTMOVIE_H__
 #define __EVENTMOVIE_H__
 
@@ -44,6 +39,7 @@ namespace Seed {
 class Timeline;
 class Keyframe;
 
+/// Movie Event
 class SEED_CORE_API EventMovie : public IEvent
 {
 	public:

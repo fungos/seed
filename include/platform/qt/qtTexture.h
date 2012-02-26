@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtTexture.h
-	\author	Danny Angelo Carminati Grein
-	\brief Texture QT Implementation
-*/
-
 #ifndef __QT_TEXTURE_H__
 #define __QT_TEXTURE_H__
 
@@ -49,6 +44,7 @@ namespace Seed { namespace QT {
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
+/// Qt Texture
 class Texture : public ITexture
 {
 	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);
@@ -75,8 +71,7 @@ class Texture : public ITexture
 		virtual u32 GetAtlasHeight() const;
 
 		// IResource
-		using IResource::Load;
-		virtual bool Load(const String &filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual bool Unload();
 		virtual u32 GetUsedMemory() const;
 

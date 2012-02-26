@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosSystem.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief System Iphone Implementation
-*/
-
 #if defined(BUILD_IOS)
 
 #include "Defines.h"

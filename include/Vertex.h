@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Vertex.h
-	\author	Danny Angelo Carminati Grein
-	\brief Vertex format
-*/
-
 #ifndef __VERTEX_H__
 #define __VERTEX_H__
 
@@ -45,6 +40,7 @@ namespace Seed {
 
 class ITexture;
 
+/// Vertex Format
 struct sVertex
 {
 	// To be compatible with DX, we use FVF. So we must respect the DX FVF ordering in this struct.
@@ -68,6 +64,7 @@ struct sVertex
 	}
 };
 
+/// Renderer Packet
 struct RendererPacket
 {
 	eMeshType				nMeshType;

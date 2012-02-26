@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtTimer.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Timer QT Implementation
-*/
-
 #if defined(BUILD_QT)
 
 #include <QWaitCondition>

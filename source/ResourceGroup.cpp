@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ResourceGroup.cpp
-	\author	Rafael Eduardo Gonchor
-	\brief Resource group class
-*/
-
 #include "ResourceGroup.h"
 #include "interface/IResource.h"
 #include "ResourceManager.h"

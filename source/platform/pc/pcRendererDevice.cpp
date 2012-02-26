@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file PcRendererDevice.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Renderer device factory
-*/
-
 #include "RendererDevice.h"
 
 #if defined(BUILD_PC)

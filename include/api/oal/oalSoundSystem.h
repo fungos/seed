@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file OalOggSoundSystem.h
-	\author	Danny Angelo Carminati Grein
-	\brief SoundSystem OpenAL + Ogg Implementation
-*/
-
 #ifndef __OAL_SOUND_SYSTEM_H__
 #define __OAL_SOUND_SYSTEM_H__
 
@@ -59,6 +54,7 @@
 
 namespace Seed { namespace OAL {
 
+/// OpenAL Sound system
 class SEED_CORE_API SoundSystem : public ISoundSystem
 {
 	SEED_SINGLETON_DECLARE(SoundSystem)

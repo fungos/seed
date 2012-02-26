@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosSoundSystem.h
-	\author	Danny Angelo Carminati Grein
-	\brief SoundSystem Iphone Implementation
-*/
-
 #ifndef __IOS_SOUND_SYSTEM_H__
 #define __IOS_SOUND_SYSTEM_H__
 
@@ -54,6 +49,7 @@
 
 namespace Seed { namespace iOS {
 
+/// iOS Sound Module
 class SoundSystem : public ISoundSystem
 {
 	SEED_SINGLETON_DECLARE(SoundSystem)

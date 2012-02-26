@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file SaveSystem.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Save System
-*/
-
 #include "Defines.h"
 #include "SaveSystem.h"
 #include "Log.h"

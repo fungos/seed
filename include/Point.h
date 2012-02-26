@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Point.h
-	\author Rafael Eduardo Gonchor
-	\brief Point utils
-*/
-
 #ifndef __POINT_H__
 #define __POINT_H__
 
@@ -42,7 +37,7 @@
 
 namespace Seed {
 
-// was fixed32
+/// Point Template
 template <class TYPE> class Point
 {
 	public:

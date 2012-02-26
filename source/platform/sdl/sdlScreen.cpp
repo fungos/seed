@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlScreen.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Screen SDL implementation
-*/
-
 #if defined(BUILD_SDL)
 
 #include "Screen.h"
@@ -62,7 +57,7 @@
 
 namespace Seed { namespace SDL {
 
-SEED_SINGLETON_DEFINE(Screen);
+SEED_SINGLETON_DEFINE(Screen)
 
 Screen::Screen()
 	: iHandle(0)

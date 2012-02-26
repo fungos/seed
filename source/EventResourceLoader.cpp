@@ -3,14 +3,14 @@
  ** All rights reserved
  ** Contact: licensing@seedframework.org
  ** Website: http://www.seedframework.org
- 
+
  ** This file is part of the Seed Framework.
- 
+
  ** Commercial Usage
  ** Seed Framework is available under proprietary license for those who cannot,
  ** or choose not to, use LGPL and GPL code in their projects (eg. iPhone,
  ** Nintendo Wii and others).
- 
+
  ** GNU Lesser General Public License Usage
  ** Alternatively, this file may be used under the terms of the GNU Lesser
  ** General Public License version 2.1 as published by the Free Software
@@ -29,46 +29,33 @@
  **
  *****************************************************************************/
 
-/*! \file EventResourceLoader.cpp
-	\author	Rafael Eduardo Gonchor
-	\brief A event from resource loader
-*/
-
-
 #include "EventResourceLoader.h"
-
 
 namespace Seed {
 
-
 EventResourceLoader::EventResourceLoader()
-	: IEvent(RESOURCE, EVENT_RESOURCE_LOADER)
+	: IEvent(TypeResource, EventIdResourceLoader)
 	, pGroup(false)
 {
 }
 
-
 EventResourceLoader::~EventResourceLoader()
 {
 }
-
 
 void EventResourceLoader::SetGroup(ResourceGroup *group)
 {
 	this->pGroup = group;
 }
 
-
 ResourceGroup *EventResourceLoader::GetGroup() const
 {
 	return this->pGroup;
 }
 
-
 const char *EventResourceLoader::GetObjectName() const
 {
 	return "EventResourceLoader";
 }
-
 
 } // namespace

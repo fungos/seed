@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosMusic.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Music Implementation for iPhone
-*/
-
 #include "Music.h"
 
 #if defined(BUILD_IOS)

@@ -29,13 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Vector3.h
-	\author	Rafael Eduardo Gonchor
-			Thiago C. Moraes
-			Danny Angelo Carminati Grein
-	\brief Vector3
-*/
-
 #ifndef __VECTOR3_H__
 #define __VECTOR3_H__
 
@@ -45,6 +38,7 @@
 
 namespace Seed {
 
+/// Vector3
 template <typename T> class Vector3
 {
 	public:

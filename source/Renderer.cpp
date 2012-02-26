@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Renderer.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Renderer implementation
-*/
-
 #include "Renderer.h"
 #include "Log.h"
 #include "SceneNode.h"

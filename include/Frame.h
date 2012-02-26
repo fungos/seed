@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Frame.h
-	\author	Danny Angelo Carminati Grein
-	\brief Sprite frame
-*/
-
 #ifndef __FRAME_H__
 #define __FRAME_H__
 
@@ -45,6 +40,10 @@ namespace Seed {
 
 class ITexture;
 
+/// Sprite Frame
+/**
+Frame is a static region from a Texture
+*/
 class SEED_CORE_API Frame : public IObject
 {
 	public:

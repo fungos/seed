@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file pcRendererDevice.h
-	\author	Danny Angelo Carminati Grein
-	\brief Renderer device factory
-*/
-
 #ifndef __PC_RENDERER_DEVICE_H__
 #define __PC_RENDERER_DEVICE_H__
 
@@ -46,6 +41,7 @@
 
 namespace Seed { namespace PC {
 
+/// PC Rendering Device
 class SEED_CORE_API RendererDevice : public IRendererDevice
 {
 	SEED_SINGLETON_DECLARE(RendererDevice)

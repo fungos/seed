@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IResource.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Resource object interface
-*/
-
 #include "interface/IResource.h"
 
 namespace Seed {
@@ -78,11 +73,6 @@ void IResource::DecrementReference()
 u32 IResource::GetReferenceCount() const
 {
 	return iRefCount;
-}
-
-bool IResource::Load(const String &filename)
-{
-	return this->Load(filename, pResourceManager);
 }
 
 const String &IResource::GetFilename() const

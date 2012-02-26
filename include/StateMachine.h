@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file StateMachine.h
-	\author Rafael Eduardo Gonchor
-	\brief State Machine
-*/
-
 #ifndef __STATEMACHINE_H__
 #define __STATEMACHINE_H__
 
@@ -43,31 +38,32 @@
 
 namespace Seed {
 
-class SEED_CORE_API STMEvent : public IEvent
+/// State Machine Event
+class SEED_CORE_API StateMachineEvent : public IEvent
 {
 	public:
-		STMEvent()
-			: IEvent(IEvent::STM, 0)
+		StateMachineEvent()
+			: IEvent(IEvent::TypeStateMachine, 0)
 		{
 		}
 
-		STMEvent(u32 iId)
-			: IEvent(IEvent::STM, iId)
+		StateMachineEvent(u32 _id)
+			: IEvent(IEvent::TypeStateMachine, _id)
 		{
 		}
 
-		inline void Initialize(u32 iId)
+		inline void Initialize(u32 _id)
 		{
-			this->iId = iId;
+			iId = _id;
 		}
 
-		virtual ~STMEvent()
+		virtual ~StateMachineEvent()
 		{
 		}
 
 		virtual const char *GetObjectName() const
 		{
-			return "STMEvent";
+			return "StateMachineEvent";
 		}
 
 		virtual int GetObjectType() const
@@ -76,160 +72,158 @@ class SEED_CORE_API STMEvent : public IEvent
 		}
 };
 
-class SEED_CORE_API STMState
+/// State Machine State
+class SEED_CORE_API StateMachineState
 {
 	public:
-		virtual ~STMState() {}
+		virtual ~StateMachineState() {}
 		virtual void OnStart(IObject *) {}
 		virtual void OnUpdate(f32) {}
 		virtual void OnStop(IObject *) {}
 };
 
-//Class to define a TRANSITION
-class SEED_CORE_API STMTransition
+/// State Machine Transition
+class SEED_CORE_API StateMachineTransition
 {
 	private:
-		STMState *from;
-		STMState *to;
-		STMEvent *event;
+		StateMachineState *pFrom;
+		StateMachineState *pTo;
+		StateMachineEvent *pEvent;
 
 	public:
-		void Initialize(STMState *from, STMEvent *event, STMState *to)
+		void Initialize(StateMachineState *from, StateMachineEvent *event, StateMachineState *to)
 		{
-			this->from = from;
-			this->to = to;
-			this->event = event;
+			pFrom = from;
+			pTo = to;
+			pEvent = event;
 		}
 
-		inline STMState *GetFromState()
+		inline StateMachineState *GetFromState() const
 		{
-			return from;
+			return pFrom;
 		}
 
-		inline STMState *GetToState()
+		inline StateMachineState *GetToState() const
 		{
-			return to;
+			return pTo;
 		}
 
-		inline STMEvent *GetEvent()
+		inline StateMachineEvent *GetEvent() const
 		{
-			return event;
+			return pEvent;
 		}
 };
 
-#if defined(ERROR)
-#undef ERROR
-#endif // ERROR
-
-//template<unsigned int TRANSITIONNUMBER>
+/// State Machine
 class SEED_CORE_API StateMachine
 {
 	public:
 		enum eReturnCode
 		{
-			OK				= 0x00,
-			STATE_NOT_FOUND	= 0x01,
-			EVENT_NOT_FOUND	= 0x02,
-			ERROR			= 0xFF
+			ResultOk		= 0x00,
+			StateNotFound	= 0x01,
+			EventNotFound	= 0x02,
+			ResultError		= 0xFF
 		};
 
 	private:
-		STMState *currentState;
-		Vector<STMTransition *> transitions;
+		StateMachineState *pCurrentState;
+		Vector<StateMachineTransition *> vTransitions;
 
 		SEED_DISABLE_COPY(StateMachine);
 
 	public:
 		StateMachine()
-			: currentState(NULL)
-			, transitions()
+			: pCurrentState(NULL)
+			, vTransitions()
 		{}
 
-		~StateMachine() {}
-
-		eReturnCode Initialize(STMState *state, IObject *pUserData)
+		~StateMachine()
 		{
-			if (!state)
-				return STATE_NOT_FOUND; //invalid state
-
-			currentState = NULL;
-			unsigned int i=0;
-
-			for (; i<transitions.size(); i++)
-				if (transitions[i]->GetFromState() == state)
-					break;
-
-			if (i >= transitions.size())
-				return STATE_NOT_FOUND; //invalid state
-
-			currentState = state;
-
-			currentState->OnStart(pUserData);
-
-			return OK;
+			Vector<StateMachineTransition *>().swap(vTransitions);
 		}
 
-		inline void RegisterTransition(STMTransition *transition)
+		eReturnCode Initialize(StateMachineState *state, IObject *userData)
+		{
+			if (!state)
+				return StateNotFound; //invalid state
+
+			pCurrentState = NULL;
+			unsigned int i = 0;
+
+			for (; i < vTransitions.size(); i++)
+				if (vTransitions[i]->GetFromState() == state)
+					break;
+
+			if (i >= vTransitions.size())
+				return StateNotFound; //invalid state
+
+			pCurrentState = state;
+			pCurrentState->OnStart(userData);
+
+			return ResultOk;
+		}
+
+		inline void RegisterTransition(StateMachineTransition *transition)
 		{
 			//Check if the transition is has a valid configuration
 			ASSERT(transition->GetFromState() && transition->GetToState() && transition->GetEvent());
-			transitions += transition;
+			vTransitions += transition;
 		}
 
 		inline void ClearTransitions()
 		{
-			Vector<STMTransition *>().swap(transitions);
+			Vector<StateMachineTransition *>().swap(vTransitions);
 		}
 
-		inline STMState *GetCurrentState()
+		inline StateMachineState *GetCurrentState()
 		{
-			return currentState;
+			return pCurrentState;
 		}
 
-		inline eReturnCode OnSTMEvent(STMEvent *evt, IObject *pUserData)
+		inline eReturnCode OnEvent(StateMachineEvent *evt, IObject *pUserData)
 		{
 			unsigned int i = 0;
 
-			for (; i<transitions.size(); i++)
+			for (; i < vTransitions.size(); i++)
 			{
-				if (transitions[i]->GetEvent() == evt)
+				if (vTransitions[i]->GetEvent() == evt)
 				{
-					if (transitions[i]->GetFromState() == currentState)
+					if (vTransitions[i]->GetFromState() == pCurrentState)
 					{
 						//Old State Exit
-						transitions[i]->GetFromState()->OnStop(pUserData);
-
-						currentState = transitions[i]->GetToState();
+						vTransitions[i]->GetFromState()->OnStop(pUserData);
+						pCurrentState = vTransitions[i]->GetToState();
 
 						//New State Entry callback
-						currentState->OnStart(pUserData);
+						pCurrentState->OnStart(pUserData);
 
 						break;
 					}
 				}
 			}
 
-			if (i >= transitions.size()) //no registred transition helding this event
+			if (i >= vTransitions.size()) //no registred transition helding this event
 			{
 				Log("StateMachine: Event not found.");
-				return EVENT_NOT_FOUND; //invalid event
+				return EventNotFound; //invalid event
 			}
 
-			return OK;
+			return ResultOk;
 		}
 
 		inline eReturnCode Update(f32 dt)
 		{
-			if (!currentState) //not initialized
+			if (!pCurrentState) //not initialized
 			{
 				Log("StateMachine: State not found.");
-				return STATE_NOT_FOUND;
+				return StateNotFound;
 			}
 
 			//State Looping callback
-			currentState->OnUpdate(dt);
+			pCurrentState->OnUpdate(dt);
 
-			return OK;
+			return ResultOk;
 		}
 };
 

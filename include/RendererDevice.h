@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file RendererDevice.h
-	\author	Danny Angelo Carminati Grein
-	\brief Include selector
-*/
-
 #ifndef __RENDERER_DEVICE_H__
 #define __RENDERER_DEVICE_H__
 

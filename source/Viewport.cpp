@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Viewport.h
-	\author	Everton Fernando Patitucci da Silva
-	\brief Viewport implementation.
-*/
-
 #include "Viewport.h"
 #include "Log.h"
 #include "Renderer.h"

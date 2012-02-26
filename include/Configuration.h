@@ -38,6 +38,7 @@
 
 namespace Seed {
 
+/// Run-time Configuration
 class SEED_CORE_API Configuration : public IObject
 {
 	public:

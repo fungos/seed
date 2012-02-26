@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Timeline.h
-	\author	Rafael Eduardo Gonchor
-	\brief Timeline implementation to be used with ITransformable2D objects
-*/
-
 #ifndef __TIMELINE_H__
 #define __TIMELINE_H__
 
@@ -49,6 +44,7 @@ class ISceneObject;
 class Keyframe;
 class IEventMovieListener;
 
+/// Movie Timeline
 class SEED_CORE_API Timeline
 {
 	public:

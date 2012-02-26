@@ -29,18 +29,13 @@
  **
  *****************************************************************************/
 
-/*! \file EventFileSystem.cpp
-	\author	Rafael Eduardo Gonchor
-	\brief A file system event
-*/
-
 #include "EventFileSystem.h"
 
 namespace Seed {
 
 EventFileSystem::EventFileSystem()
-	: IEvent(SYSTEM, EVENT_FILE_SYSTEM)
-	, sFilename("")
+	: IEvent(TypeSystem, EventIdFileSystem)
+	, sFilename()
 {
 }
 

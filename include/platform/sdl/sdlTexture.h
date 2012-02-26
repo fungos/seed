@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file sdlTexture.h
-	\author	Danny Angelo Carminati Grein
-	\brief Texture SDL Implementation
-*/
-
 #ifndef __SDL_TEXTURE_H__
 #define __SDL_TEXTURE_H__
 
@@ -47,6 +42,7 @@ namespace Seed { namespace SDL {
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
+/// SDL Texture
 class SEED_CORE_API Texture : public ITexture
 {
 	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);
@@ -71,8 +67,7 @@ class SEED_CORE_API Texture : public ITexture
 		virtual u32 GetAtlasHeight() const;
 
 		// IResource
-		using IResource::Load;
-		virtual bool Load(const String &filename, ResourceManager *res);
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual bool Unload();
 		virtual u32 GetUsedMemory() const;
 

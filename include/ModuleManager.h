@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ModuleManager.h
-	\author	Danny Angelo Carminati Grein
-	\brief Module Manager
-*/
-
 #ifndef __MODULE_MANAGER_H__
 #define __MODULE_MANAGER_H__
 
@@ -46,6 +41,7 @@ namespace Seed {
 
 class IModule;
 
+/// Module Manager
 class SEED_CORE_API ModuleManager
 {
 	SEED_SINGLETON_DECLARE(ModuleManager)

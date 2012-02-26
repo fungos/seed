@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtScreen.h
-	\author	Danny Angelo Carminati Grein
-	\brief Screen QT implementation
-*/
-
 #ifndef __QT_SCREEN_H__
 #define __QT_SCREEN_H__
 
@@ -62,6 +57,7 @@ namespace Seed { namespace QT {
 
 class IRenderer;
 
+/// Qt Screen Module
 class Screen : public IScreen
 {
 	friend class Renderer;

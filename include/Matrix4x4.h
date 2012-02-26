@@ -29,12 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Matrix4x4.h
-	\author	Thiago C. Moraes
-			Danny Angelo Carminati Grein
-	\brief Matrix
-*/
-
 /////////////////////////////////////////////////////////////////////////////
 //
 // class Matrix4x4<T> implementation.
@@ -118,6 +112,7 @@ enum eAxis
 	AxisZ
 };
 
+/// Matrix 4x4
 template <typename T> class Matrix4x4
 {
 	public:

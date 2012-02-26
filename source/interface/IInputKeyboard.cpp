@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IInputKeyboard.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines Input Keyboard class interface
-*/
-
 #include "interface/IInputKeyboard.h"
 #include "interface/IEventInputKeyboardListener.h"
 #include "Log.h"

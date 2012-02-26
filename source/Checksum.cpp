@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Checksum.cpp
-\author	Danny Angelo Carminati Grein
-\brief Checksum calculation
-*/
-
 #include "Checksum.h"
 
 namespace Seed {

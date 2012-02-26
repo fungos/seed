@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ISceneObject.h
-	\author	Danny Angelo Carminati Grein
-	\brief Scene Object Interface
-*/
-
 #ifndef __ISCENE_OBJECT_H__
 #define __ISCENE_OBJECT_H__
 
@@ -43,6 +38,7 @@
 
 namespace Seed {
 
+/// Scene object interface
 class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, public IObject
 {
 	public:
@@ -63,6 +59,7 @@ class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, pu
 		SEED_DISABLE_COPY(ISceneObject);
 };
 
+/// Scene object ascending predicate
 struct SEED_CORE_API ISceneObjectAscendingPrioritySort
 {
 	bool operator()(ISceneObject * const &left, ISceneObject * const &right)
@@ -71,6 +68,7 @@ struct SEED_CORE_API ISceneObjectAscendingPrioritySort
 	}
 };
 
+/// Scene object descending predicate
 struct SEED_CORE_API ISceneObjectDescendingPrioritySort
 {
 	bool operator()(ISceneObject * const &left, ISceneObject * const &right)

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Theora.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Theora decoder
-*/
-
 #include "Defines.h"
 
 #if SEED_USE_THEORA == 1 && !defined(BUILD_IOS)

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file SoundSystem.h
-	\author	Danny Angelo Carminati Grein
-	\brief Include selector
-*/
-
 #ifndef __SOUND_SYSTEM_H__
 #define __SOUND_SYSTEM_H__
 

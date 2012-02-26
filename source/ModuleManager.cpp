@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ModuleManager.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Module manager
-*/
-
 #include "ModuleManager.h"
 #include "interface/IModule.h"
 

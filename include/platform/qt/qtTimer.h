@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtTimer.h
-	\author	Danny Angelo Carminati Grein
-	\brief Timer QT Implementation
-*/
-
 #ifndef __QT_TIMER_H__
 #define __QT_TIMER_H__
 
@@ -45,6 +40,7 @@
 
 namespace Seed { namespace QT {
 
+/// Qt Timer Module
 class Timer : public ITimer
 {
 	SEED_SINGLETON_DECLARE(Timer)

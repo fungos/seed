@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Renderer.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Renderer class interface
-*/
-
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
 
@@ -50,10 +45,7 @@ class ISceneObject;
 class ISceneNode;
 class ITexture;
 
-/// Renderer Interface
-/**
-Rendering engine interface
-*/
+/// Renderer
 class SEED_CORE_API Renderer : public IUpdatable, public IModule
 {
 	DECLARE_CONTAINER_TYPE(Vector, SceneNode)

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Sound.h
-	\author	Danny Angelo Carminati Grein
-	\brief Include selector
-*/
-
 #ifndef __SOUND_H__
 #define __SOUND_H__
 

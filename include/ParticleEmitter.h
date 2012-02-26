@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ParticleEmitter.h
-	\author	Danny Angelo Carminati Grein
-	\brief A particle representation
-*/
-
 #ifndef __PARTICLE_EMITTER_H__
 #define __PARTICLE_EMITTER_H__
 
@@ -48,6 +43,7 @@ class ParticleEmitterObject;
 class Particle;
 struct ParticleEmitterInfo;
 
+/// Particle Emitter
 class SEED_CORE_API ParticleEmitter : public ISceneObject
 {
 	public:

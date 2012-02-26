@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file oglES1RendererDevice.h
-	\author	Danny Angelo Carminati Grein
-	\brief OpenGL ES1 renderer device implementation
-*/
-
 #ifndef __OGLES1_RENDERER_DEVICE_H__
 #define __OGLES1_RENDERER_DEVICE_H__
 
@@ -54,6 +49,7 @@ class ITexture;
 
 namespace OpenGL {
 
+/// OpenGL ES 1.1 Rendering device
 class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 {
 	friend class IScreen;

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file Animation.h
-	\author	Danny Angelo Carminati Grein
-	\brief Sequence of sprite frames
-*/
-
 #ifndef __ANIMATION_H__
 #define __ANIMATION_H__
 
@@ -45,6 +40,10 @@ namespace Seed {
 
 class Frame;
 
+/// Animation
+/**
+Animation is a sequence of Frames used by Sprite
+*/
 class SEED_CORE_API Animation : public IObject
 {
 	public:

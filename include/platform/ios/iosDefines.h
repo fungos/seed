@@ -29,12 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file iosDefines.h
-	\author	Danny Angelo Carminati Grein
-	\brief Global engine defines - all engine files must include this header
-*/
-
-
 #ifndef __IOS_DEFINES_H__
 #define __IOS_DEFINES_H__
 

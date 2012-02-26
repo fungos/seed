@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ISound.h
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the Sound class interface
-*/
-
 #ifndef __ISOUND_H__
 #define __ISOUND_H__
 
@@ -42,6 +37,7 @@
 
 namespace Seed {
 
+/// Sound interface
 class SEED_CORE_API ISound : public IResource
 {
 	public:
@@ -51,8 +47,7 @@ class SEED_CORE_API ISound : public IResource
 		virtual const void *GetData() const = 0;
 
 		// IResource
-		using IResource::Load;
-		virtual bool Load(const String &filename, ResourceManager *res) = 0;
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager) = 0;
 		virtual bool Unload() = 0;
 
 		// IObject

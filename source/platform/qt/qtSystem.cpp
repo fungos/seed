@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file qtSystem.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief System QT Implementation
-*/
-
 #if defined(BUILD_QT)
 
 #include "Defines.h"

@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file ISystem.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief Defines the System class interface
-*/
-
 #include "interface/ISystem.h"
 #include "interface/IEventSystemListener.h"
 #include "EventSystem.h"

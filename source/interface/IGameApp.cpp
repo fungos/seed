@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file IGameApp.cpp
-	\author	Danny Angelo Carminati Grein
-	\brief The real main for a game application
-*/
-
 #include "interface/IGameApp.h"
 #include "Enum.h"
 #include <stdlib.h>

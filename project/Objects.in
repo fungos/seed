@@ -308,7 +308,6 @@ OBJECTS += \
 ../source/SeedInit.o \
 ../source/Sprite.o \
 ../source/Timeline.o \
-../source/Trigonometry.o \
 ../source/Updater.o \
 ../source/ViewManager.o \
 ../source/Viewport.o

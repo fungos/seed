@@ -29,11 +29,6 @@
  **
  *****************************************************************************/
 
-/*! \file System.h
-	\author	Danny Angelo Carminati Grein
-	\brief Include selector
-*/
-
 #ifndef __SYSTEM_H__
 #define __SYSTEM_H__
 
