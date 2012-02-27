@@ -44,6 +44,7 @@ IEventInputMotionListener::~IEventInputMotionListener()
 void IEventInputMotionListener::OnAccelerationChanged(const EventInputMotion *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 } // namespace

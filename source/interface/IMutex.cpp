@@ -45,12 +45,12 @@ IMutex::~IMutex()
 
 void IMutex::Lock()
 {
-	this->bLocked = true;
+	bLocked = true;
 }
 
 void IMutex::Unlock()
 {
-	this->bLocked = false;
+	bLocked = false;
 }
 
 bool IMutex::TryLock()

@@ -45,11 +45,13 @@ IEventResourceLoaderListener::~IEventResourceLoaderListener()
 void IEventResourceLoaderListener::OnGroupLoaded(const EventResourceLoader *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventResourceLoaderListener::OnQueueEmpty(const EventResourceLoader *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 } // namespace

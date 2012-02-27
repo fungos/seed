@@ -46,7 +46,7 @@ ICartridge::~ICartridge()
 
 eCartridgeError ICartridge::GetLastError() const
 {
-	return this->eLastError;
+	return eLastError;
 }
 
 bool ICartridge::Write(u32 dest, const void *src, u32 len)

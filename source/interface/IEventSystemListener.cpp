@@ -45,36 +45,43 @@ IEventSystemListener::~IEventSystemListener()
 void IEventSystemListener::OnSystemReset(const EventSystem *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventSystemListener::OnSystemShutdown(const EventSystem *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventSystemListener::OnSystemMenuCalled(const EventSystem *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventSystemListener::OnSystemDataManagerCalled(const EventSystem *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventSystemListener::OnSystemHomeEnded(const EventSystem *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventSystemListener::OnSystemSleep(const EventSystem *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventSystemListener::OnSystemLanguageChanged(const EventSystem *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 } // namespace

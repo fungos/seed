@@ -59,27 +59,28 @@ ISystem::ISystem()
 
 ISystem::~ISystem()
 {
+	ListenerVector(vListeners).swap(vListeners);
 }
 
 void ISystem::SetLanguage(Seed::eLanguage lang)
 {
-	if (this->nLanguage != lang)
+	if (nLanguage != lang)
 	{
-		EventSystem ev(this->nLanguage, lang);
+		EventSystem ev(nLanguage, lang);
 
-		this->nLanguage = lang;
+		nLanguage = lang;
 		this->SendEventLanguageChanged(&ev);
 	}
 }
 
 Seed::eLanguage ISystem::GetLanguage() const
 {
-	return this->nLanguage;
+	return nLanguage;
 }
 
 const char *ISystem::GetLanguageString() const
 {
-	return pcLanguageTable[this->nLanguage];
+	return pcLanguageTable[nLanguage];
 }
 
 const FilePath *ISystem::GetUsername() const
@@ -108,7 +109,7 @@ const FilePath *ISystem::GetSaveGameFolder() const
 
 void ISystem::EnableDefaultCursor(bool b)
 {
-	this->bDefaultCursorEnabled = b;
+	bDefaultCursorEnabled = b;
 }
 
 bool ISystem::IsDefaultCursorEnabled() const
@@ -124,7 +125,6 @@ void ISystem::AddListener(IEventSystemListener *listener)
 void ISystem::RemoveListener(IEventSystemListener *listener)
 {
 	vListeners -= listener;
-	//ListenerVector(vListeners).swap(vListeners);
 }
 
 void ISystem::SendEventReset(const EventSystem *ev)

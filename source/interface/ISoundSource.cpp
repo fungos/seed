@@ -69,60 +69,60 @@ void ISoundSource::Unload()
 void ISoundSource::SetPosition(f32 x, f32 y, f32 z)
 {
 	Vector3f v(x, y, z);
-	this->cPosition = v;
+	cPosition = v;
 }
 
 void ISoundSource::SetPosition(Vector3f vec)
 {
-	this->cPosition = vec;
+	cPosition = vec;
 }
 
 void ISoundSource::GetPosition(Vector3f *vec) const
 {
-	*vec = this->cPosition;
+	*vec = cPosition;
 }
 
 void ISoundSource::SetVelocity(f32 x, f32 y, f32 z)
 {
 	Vector3f v(x, y, z);
-	this->cVelocity = v;
+	cVelocity = v;
 }
 
 void ISoundSource::SetVelocity(Vector3f vec)
 {
-	this->cVelocity = vec;
+	cVelocity = vec;
 }
 
 void ISoundSource::GetVelocity(Vector3f *vec) const
 {
-	*vec = this->cVelocity;
+	*vec = cVelocity;
 }
 
 void ISoundSource::SetOrientation(f32 x, f32 y, f32 z)
 {
 	Vector3f v(x, y, z);
-	this->cOrientation = v;
+	cOrientation = v;
 }
 
 void ISoundSource::SetOrientation(Vector3f vec)
 {
-	this->cOrientation = vec;
+	cOrientation = vec;
 }
 
 void ISoundSource::GetOrientation(Vector3f *vec) const
 {
-	*vec = this->cOrientation;
+	*vec = cOrientation;
 }
 
 void ISoundSource::SetVolume(f32 vol)
 {
 	ASSERT_MSG((vol >= 0 || vol <= 1.0f), "Source volume must be between 0 and 1");
-	this->fVolume = vol;
+	fVolume = vol;
 }
 
 f32 ISoundSource::GetVolume() const
 {
-	return this->fVolume;
+	return fVolume;
 }
 
 void ISoundSource::UpdateVolume()
@@ -172,8 +172,8 @@ void ISoundSource::FadeOut(f32 ms)
 	if (eState != SourceFadingOut)
 		eState = SourceFadeOut;
 
-	this->fStartFadeTime = pTimer->GetMilliseconds();
-	this->fFadeTime = ms;
+	fStartFadeTime = pTimer->GetMilliseconds();
+	fFadeTime = ms;
 }
 
 void ISoundSource::FadeIn(f32 ms)
@@ -181,23 +181,23 @@ void ISoundSource::FadeIn(f32 ms)
 	if (eState != SourceFadingIn)
 		eState = SourceFadeIn;
 
-	this->fStartFadeTime = pTimer->GetMilliseconds();
-	this->fFadeTime = ms;
+	fStartFadeTime = pTimer->GetMilliseconds();
+	fFadeTime = ms;
 }
 
 void ISoundSource::SetLoop(bool b)
 {
-	this->bLoop = b;
+	bLoop = b;
 }
 
 bool ISoundSource::IsLoop() const
 {
-	return this->bLoop;
+	return bLoop;
 }
 
 eSoundSourceState ISoundSource::GetState() const
 {
-	return this->eState;
+	return eState;
 }
 
 const char *ISoundSource::GetObjectName() const

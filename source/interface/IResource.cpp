@@ -62,12 +62,12 @@ u32 IResource::GetUsedMemory() const
 
 void IResource::IncrementReference()
 {
-	this->iRefCount++;
+	iRefCount++;
 }
 
 void IResource::DecrementReference()
 {
-	this->iRefCount--;
+	iRefCount--;
 }
 
 u32 IResource::GetReferenceCount() const

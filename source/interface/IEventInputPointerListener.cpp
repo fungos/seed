@@ -44,31 +44,37 @@ IEventInputPointerListener::~IEventInputPointerListener()
 void IEventInputPointerListener::OnInputPointerPress(const EventInputPointer *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventInputPointerListener::OnInputPointerRelease(const EventInputPointer *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventInputPointerListener::OnInputPointerMove(const EventInputPointer *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventInputPointerListener::OnInputPointerEnable(const EventInputPointer *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventInputPointerListener::OnInputPointerDisable(const EventInputPointer *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventInputPointerListener::OnAccelerationChanged(const EventInputMotion *ev)
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 } // namespace

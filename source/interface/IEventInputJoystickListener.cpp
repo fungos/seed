@@ -44,21 +44,25 @@ IEventInputJoystickListener::~IEventInputJoystickListener()
 void IEventInputJoystickListener::OnInputJoystickButtonPress(const EventInputJoystick *ev) const
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventInputJoystickListener::OnInputJoystickButtonRelease(const EventInputJoystick *ev) const
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventInputJoystickListener::OnInputJoystickDPadMove(const EventInputJoystick *ev) const
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 void IEventInputJoystickListener::OnInputJoystickAxisMove(const EventInputJoystick *ev) const
 {
 	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
 }
 
 } // namespace

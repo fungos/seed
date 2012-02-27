@@ -38,6 +38,7 @@ namespace Seed {
 IRenderable::IRenderable()
 	: eBlendOperation(BlendNone)
 	, iColor(255, 255, 255, 255)
+	, bColorChanged(false)
 	, bVisible(true)
 {
 }
@@ -52,6 +53,7 @@ void IRenderable::Reset()
 	eBlendOperation = BlendNone;
 	iColor.pixel = 0;
 	bVisible = true;
+	bColorChanged = false;
 }
 
 void IRenderable::Render()
@@ -65,22 +67,10 @@ void IRenderable::Update(f32 delta)
 	SEED_ABSTRACT_METHOD;
 }
 
-/*
-void IRenderable::SetPriority(u32 prio)
-{
-	iPriority = prio;
-	fPriority = static_cast<f32>(prio);
-}
-
-u32 IRenderable::GetPriority() const
-{
-	return iPriority;
-}
-*/
-
 void IRenderable::SetBlending(eBlendMode op)
 {
 	eBlendOperation = op;
+	bColorChanged = true;
 }
 
 void IRenderable::SetVisible(bool b)
@@ -96,16 +86,19 @@ bool IRenderable::IsVisible() const
 void IRenderable::SetColor(u32 r, u32 g, u32 b, u32 a)
 {
 	iColor.pixel = PIXEL_COLOR(r, g, b, a);
+	bColorChanged = true;
 }
 
 void IRenderable::SetColor(f32 r, f32 g, f32 b, f32 a)
 {
 	iColor.pixel = PIXEL_COLOR(static_cast<u32>(r * 255), static_cast<u32>(g * 255), static_cast<u32>(b * 255), static_cast<u32>(a * 255));
+	bColorChanged = true;
 }
 
 void IRenderable::SetColor(PIXEL px)
 {
 	iColor.pixel = px;
+	bColorChanged = true;
 }
 
 PIXEL IRenderable::GetColor() const

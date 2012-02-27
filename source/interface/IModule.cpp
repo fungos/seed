@@ -48,7 +48,7 @@ IModule::~IModule()
 
 bool IModule::Initialize()
 {
-	this->bInitialized = true;
+	bInitialized = true;
 	return true;
 }
 
@@ -60,28 +60,28 @@ bool IModule::Reset()
 
 bool IModule::Shutdown()
 {
-	this->bInitialized = false;
+	bInitialized = false;
 	return true;
 }
 
 void IModule::Disable()
 {
-	this->bEnabled = false;
+	bEnabled = false;
 }
 
 void IModule::Enable()
 {
-	this->bEnabled = true;
+	bEnabled = true;
 }
 
 bool IModule::IsEnabled() const
 {
-	return this->bEnabled;
+	return bEnabled;
 }
 
 bool IModule::IsInitialized() const
 {
-	return this->bInitialized;
+	return bInitialized;
 }
 
 bool IModule::IsRequired() const

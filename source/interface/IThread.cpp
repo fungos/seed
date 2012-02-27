@@ -44,14 +44,17 @@ IThread::~IThread()
 void IThread::Create(s32 priority)
 {
 	UNUSED(priority)
+	SEED_ABSTRACT_METHOD;
 }
 
 void IThread::Destroy()
 {
+	SEED_ABSTRACT_METHOD;
 }
 
 bool IThread::Run()
 {
+	SEED_ABSTRACT_METHOD;
 	return true;
 }
 

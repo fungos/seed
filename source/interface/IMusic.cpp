@@ -75,17 +75,17 @@ const void *IMusic::GetData() const
 
 void IMusic::SetVolume(f32 volume)
 {
-	this->fVolume = volume;
+	fVolume = volume;
 }
 
 f32 IMusic::GetVolume() const
 {
-	return this->fVolume;
+	return fVolume;
 }
 
 void IMusic::SetAutoUnload(bool b)
 {
-	this->bAutoUnload = b;
+	bAutoUnload = b;
 }
 
 int IMusic::GetObjectType() const
