@@ -287,6 +287,10 @@ Objects.in
 ../source/Updater.cpp
 ../source/ViewManager.cpp
 ../source/Viewport.cpp
+../contrib/glew/glew.h
+../contrib/glew/glxew.h
+../contrib/glew/wglew.h
+../contrib/glew/glew.c
 ../contrib/vorbis/window.h
 ../contrib/vorbis/window.c
 ../contrib/vorbis/lpc.c

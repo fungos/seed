@@ -22,7 +22,7 @@ ifeq ($(license),commercial)
 	CDEFS += -DSEED_USE_COMMERCIAL
 	COMMERCIAL = YesPlease
 else
-	license = LGPL
+	license = Open Source
 endif
 
 CFLAGS += $(CDEFS) -I$(SEEDSDK)/seed/include -I.. -I$(SEEDSDK)/seed/contrib

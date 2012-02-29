@@ -37,6 +37,7 @@
 #include "Texture.h"
 
 #if defined(BUILD_SDL)
+#define NO_SDL_GLEXT	1
 #include <SDL/SDL_opengl.h>
 #endif
 
@@ -60,15 +61,16 @@ OGL14RendererDevice::OGL14RendererDevice()
 {
 	Log(TAG "Initializing...");
 
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+		Log(TAG " Error: %s\n", glewGetErrorString(err));
+
 	char *version = (char *)glGetString(GL_VERSION);
 	Info(TAG "OpenGL Version: %s", version);
 
-	if (this->CheckExtension("GL_EXT_bgra"))
-		Info(TAG "\tGL_EXT_bgra");
-
 	GLint maxSize;
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxSize);
-	Info(TAG "OpenGL Maximun Texture Size: %d", maxSize);
+	Info(TAG "OpenGL Maximum Texture Size: %d", maxSize);
 
 	this->Reset();
 
@@ -144,35 +146,6 @@ void OGL14RendererDevice::End() const
 {
 	glPopMatrix();
 	pScreen->ApplyFade();
-}
-
-bool OGL14RendererDevice::CheckExtension(const char *extName)
-{
-	/*
-	 ** Search for extName in the extensions string.  Use of strstr()
-	 ** is not sufficient because extension names can be prefixes of
-	 ** other extension names.  Could use strtok() but the constant
-	 ** string returned by glGetString can be in read-only memory.
-	 */
-	char *p = (char *)glGetString(GL_EXTENSIONS);
-	char *end;
-	size_t extNameLen;
-
-	extNameLen = strlen(extName);
-	end = p + strlen(p);
-
-	while (p < end)
-	{
-		size_t n = strcspn(p, " ");
-		if ((extNameLen == n) && (strncmp(extName, p, n) == 0))
-		{
-			return true;
-		}
-
-		p += (n + 1);
-	}
-
-	return false;
 }
 
 void OGL14RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) const

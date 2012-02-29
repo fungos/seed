@@ -30,7 +30,8 @@ bool TestBase::Initialize()
 	pScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
-	Reader r(File("logo.sprite"));
+	File f("logo.sprite");
+	Reader r(f);
 	sptLogo.Load(r);
 	cScene.Add(&sptLogo);
 	pScreen->FadeIn();

@@ -108,6 +108,7 @@ bool Sprite::Unload()
 	pFrame	= NULL;
 	ppAnimationFrames = NULL;
 	bInitialized = false;
+	bChanged = false;
 
 	return true;
 }
@@ -116,28 +117,39 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 {
 	ASSERT_NULL(res);
 
+	bool ret = false;
+
 	if (this->Unload())
 	{
 		sName = reader.ReadString("name", "sprite");
 		iAnimations = reader.SelectArray("animations");
 
-		ppAnimations = (Animation **)Alloc(iAnimations * sizeof(Animation *));
-		for (u32 i = 0; i < iAnimations; i++)
+		if (iAnimations)
 		{
-			Animation *a = New(Animation);
-			reader.SelectNext();
-			a->Load(reader, res);
-			ppAnimations[i] = a;
+			ppAnimations = (Animation **)Alloc(iAnimations * sizeof(Animation *));
+			for (u32 i = 0; i < iAnimations; i++)
+			{
+				Animation *a = New(Animation);
+				reader.SelectNext();
+				a->Load(reader, res);
+				ppAnimations[i] = a;
+			}
+
+			bChanged = true;
+			bInitialized = true;
+
+			this->SetRotation(0);
+			this->SetAnimation(0u);
+
+			ret = true;
 		}
-
-		bChanged = true;
-		bInitialized = true;
-
-		this->SetRotation(0);
-		this->SetAnimation(0u);
+		else
+		{
+			Log(TAG " WARNING: Animations not found in the sprite '%s'", sName.c_str());
+		}
 	}
 
-	return true;
+	return ret;
 }
 
 void Sprite::Initialize()
@@ -359,6 +371,9 @@ bool Sprite::IsAnimated() const
 
 void Sprite::Update(f32 delta)
 {
+	if (!bInitialized)
+		return;
+
 	//IBasicMesh::Update(delta);
 
 	if (bPlaying && bAnimation)

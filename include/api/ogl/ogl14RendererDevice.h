@@ -31,6 +31,8 @@
 #ifndef __OGL14_RENDERER_DEVICE_H__
 #define __OGL14_RENDERER_DEVICE_H__
 
+#include "glew/glew.h"
+
 #if defined(_MSC_VER)
 #pragma comment(lib, "opengl32.lib")
 #pragma comment(lib, "glu32.lib")
@@ -51,11 +53,13 @@
 #undef Delete
 #undef bool
 #undef SIZE_T
+#define NO_SDL_GLEXT	1
 #include <SDL/SDL_opengl.h>
 #pragma pop_macro("SIZE_T")
 #pragma pop_macro("bool")
 #pragma pop_macro("Delete")
 #elif defined(BUILD_SDL)
+#define NO_SDL_GLEXT	1
 #include <SDL/SDL_opengl.h>
 #endif
 
@@ -110,8 +114,6 @@ class SEED_CORE_API OGL14RendererDevice : public IRendererDevice
 
 	private:
 		SEED_DISABLE_COPY(OGL14RendererDevice);
-		bool CheckExtension(const char *extName);
-
 		int GetOpenGLMeshType(eMeshType type) const;
 };
 

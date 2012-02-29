@@ -1,5 +1,10 @@
 OBJECTS =
 
+ifdef USE_CONTRIB_GLEW
+OBJECTS += \
+../contrib/glew/glew.o
+endif
+
 ifdef USE_CONTRIB_BOX2D
 OBJECTS += \
 ../contrib/Box2D/Dynamics/b2Fixture.o \

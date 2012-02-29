@@ -31,6 +31,7 @@
 #ifndef __OGLES1_RENDERER_DEVICE_H__
 #define __OGLES1_RENDERER_DEVICE_H__
 
+#include "glew/glew.h"
 #include "Defines.h"
 #include "Enum.h"
 #include "Vertex.h"

@@ -427,7 +427,6 @@ void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 		switch (texture->GetBytesPerPixel())
 		{
 			case 4:
-				// OpenGL 1.2+ only GL_EXT_bgra
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 			break;
 

@@ -50,6 +50,10 @@ JsonReader::JsonReader()
 JsonReader::~JsonReader()
 {
 	yajl_tree_free(pRootNode);
+	pRootNode = NULL;
+	pCurNode = NULL;
+	pCurArray = NULL;
+	iPos = 0;
 }
 
 JsonReader::JsonReader(const JsonReader &other)
@@ -190,16 +194,18 @@ u32 JsonReader::SelectArray(const char *key)
 	const char *path[] = {key, (const char *)0};
 	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_array);
 
+	u32 len = 0;
 	if (YAJL_IS_ARRAY(v))
 	{
 		Log(TAG "Array %s found, len: %ld", key, YAJL_GET_ARRAY(v)->len);
 		pCurArray = v;
 		iPos = 0;
+		len = YAJL_GET_ARRAY(v)->len;
 	}
 	else
 		Log(TAG "Array %s not found", key);
 
-	return YAJL_GET_ARRAY(v)->len;
+	return len;
 }
 
 void JsonReader::SelectNext()

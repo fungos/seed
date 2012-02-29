@@ -47,6 +47,7 @@ uname_V := $(shell sh -c 'uname -v 2>/dev/null || echo not')
 #USE_SYSTEM_BOX2D = YesPlease
 #USE_SYSTEM_PHYSFS = YesPlease
 
+USE_CONTRIB_GLEW = YesPlease
 USE_CONTRIB_OGGVORBIS = YesPlease
 USE_CONTRIB_OGGZ = YesPlease
 USE_CONTRIB_OGGPLAY = YesPlease
