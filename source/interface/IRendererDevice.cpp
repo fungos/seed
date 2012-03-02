@@ -53,7 +53,13 @@ void IRendererDevice::TextureDataUpdate(ITexture *tex)
 	SEED_ABSTRACT_METHOD;
 }
 
-void IRendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) const
+void IRendererDevice::SetTextureParameters(ITexture *texture) const
+{
+	UNUSED(texture);
+	SEED_ABSTRACT_METHOD;
+}
+
+void IRendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) const
 {
 	UNUSED(mode);
 	UNUSED(color);
@@ -77,7 +83,7 @@ void IRendererDevice::End() const
 	SEED_ABSTRACT_METHOD;
 }
 
-void IRendererDevice::BackbufferClear(const PIXEL color)
+void IRendererDevice::BackbufferClear(const uPixel color)
 {
 	UNUSED(color);
 	SEED_ABSTRACT_METHOD;
@@ -105,19 +111,19 @@ void IRendererDevice::TextureRequestProcess() const
 	SEED_ABSTRACT_METHOD;
 }
 
-void IRendererDevice::BackbufferFill(const PIXEL color)
+void IRendererDevice::BackbufferFill(const uPixel color)
 {
 	UNUSED(color);
 	SEED_ABSTRACT_METHOD;
 }
 
-void IRendererDevice::SetViewport(const Rect<f32> &area) const
+void IRendererDevice::SetViewport(const Rect4f &area) const
 {
 	UNUSED(area);
 	SEED_ABSTRACT_METHOD;
 }
 
-void IRendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill) const
+void IRendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const
 {
 	UNUSED(x);
 	UNUSED(y);

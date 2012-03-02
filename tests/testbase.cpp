@@ -36,6 +36,9 @@ bool TestBase::Initialize()
 	cScene.Add(&sptLogo);
 	pScreen->FadeIn();
 
+	//cScene.SetPosition(100, 100);
+	//sptLogo.SetParent(&cScene);
+
 	musTheme.Load("theme.ogg");
 	musTheme.SetVolume(.1f);
 	pSoundSystem->PlayMusic(&musTheme);

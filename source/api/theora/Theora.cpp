@@ -432,7 +432,7 @@ void Theora::ProcessVideoData(OggPlayVideoData *data)
 	}*/
 
 	oggplay_yuv2bgra(&yuv, &rgb);
-	cTexture.Update(static_cast<PIXEL *>((void *)pTexData));
+	cTexture.Update(static_cast<uPixel *>((void *)pTexData));
 }
 
 bool Theora::WaitFrameRate()
@@ -482,7 +482,7 @@ void Theora::ConfigureRendering()
 		iTexHeight = po2_height;
 	}
 
-	cTexture.Load(ROUND_UP(iWidth, 32), iHeight, static_cast<PIXEL *>((void *)pTexData), iTexWidth, iTexHeight);
+	cTexture.Load(ROUND_UP(iWidth, 32), iHeight, static_cast<uPixel *>((void *)pTexData), iTexWidth, iTexHeight);
 	Image::Load(&cTexture);
 
 	bTerminateThread = false;

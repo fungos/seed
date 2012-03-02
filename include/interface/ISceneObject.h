@@ -47,8 +47,8 @@ class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, pu
 		virtual bool IsNode() const;
 
 		// IRenderable
-		virtual void Update(f32 delta);
-		virtual void Render();
+		virtual void Update(f32 delta) = 0;
+		virtual void Render() = 0;
 
 		// IObject
 		virtual const char *GetObjectName() const;

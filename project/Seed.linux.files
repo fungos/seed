@@ -7,7 +7,6 @@ Objects.in
 ../include/api/oal/oalSoundSource.h
 ../include/api/oal/oalSoundSystem.h
 ../include/api/oal/vorbis_util.h
-../include/api/ogl/ogl14RendererDevice.h
 ../include/api/ogl/oglES1RendererDevice.h
 ../include/api/theora/Theora.h
 ../include/api/yajl/JsonReader.h
@@ -200,7 +199,6 @@ Objects.in
 ../source/api/oal/oalSoundSource.cpp
 ../source/api/oal/oalSoundSystem.cpp
 ../source/api/oal/vorbis_util.cpp
-../source/api/ogl/ogl14RendererDevice.cpp
 ../source/api/ogl/oglES1RendererDevice.cpp
 ../source/api/theora/Theora.cpp
 ../source/api/yajl/JsonReader.cpp

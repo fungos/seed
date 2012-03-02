@@ -84,23 +84,35 @@ bool IRenderable::IsVisible() const
 
 void IRenderable::SetColor(u32 r, u32 g, u32 b, u32 a)
 {
-	iColor.pixel = PIXEL_COLOR(r, g, b, a);
+	iColor.argb.r = r;
+	iColor.argb.g = g;
+	iColor.argb.b = b;
+	iColor.argb.a = a;
 	bColorChanged = true;
 }
 
 void IRenderable::SetColor(f32 r, f32 g, f32 b, f32 a)
 {
-	iColor.pixel = PIXEL_COLOR(static_cast<u32>(r * 255), static_cast<u32>(g * 255), static_cast<u32>(b * 255), static_cast<u32>(a * 255));
+	iColor.argb.r = static_cast<u32>(r * 255);
+	iColor.argb.g = static_cast<u32>(g * 255);
+	iColor.argb.b = static_cast<u32>(b * 255);
+	iColor.argb.a = static_cast<u32>(a * 255);
 	bColorChanged = true;
 }
 
-void IRenderable::SetColor(PIXEL px)
+void IRenderable::SetColor(uPixel px)
+{
+	iColor = px;
+	bColorChanged = true;
+}
+
+void IRenderable::SetColor(u32 px)
 {
 	iColor.pixel = px;
 	bColorChanged = true;
 }
 
-PIXEL IRenderable::GetColor() const
+u32 IRenderable::GetColor() const
 {
 	return iColor.pixel;
 }

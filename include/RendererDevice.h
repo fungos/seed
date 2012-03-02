@@ -32,13 +32,11 @@
 #define __RENDERER_DEVICE_H__
 
 #if defined(BUILD_IOS)
-	#include "platform/pc/PcRendererDevice.h"
-	#include "api/ogl/OglES1RendererDevice.h"
-
-	using namespace Seed::PC;
+	#include "platform/pc/pcRendererDevice.h"
+	#include "api/ogl/oglES1RendererDevice.h"
 #elif defined(BUILD_SDL)
 	#include "platform/pc/pcRendererDevice.h"
-	#include "api/ogl/ogl14RendererDevice.h"
+	#include "api/ogl/oglES1RendererDevice.h"
 
 	#if defined(SEED_ENABLE_OGL20)
 	#include "api/ogl/ogl20RendererDevice.h"
@@ -72,9 +70,7 @@
 #elif defined(BUILD_QT)
 //	#include "platform/qt/qtRendererDevice.h"
 	#include "platform/pc/pcRendererDevice.h"
-	#include "api/ogl/ogl14RendererDevice.h"
-	using namespace Seed::PC;
-	//using namespace Seed::QT;
+	#include "api/ogl/oglES1RendererDevice.h"
 #endif
 
 #endif // __RENDERER_DEVICE_H__

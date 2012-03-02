@@ -52,15 +52,15 @@ class SEED_CORE_API Texture : public ITexture
 
 		// ITexture
 		virtual const void *GetData() const;
-		virtual void PutPixel(u32 x, u32 y, PIXEL px);
-		virtual PIXEL GetPixel(u32 x, u32 y) const;
+		virtual void PutPixel(u32 x, u32 y, uPixel px);
+		virtual uPixel GetPixel(u32 x, u32 y) const;
 		virtual u8 GetPixelAlpha(u32 x, u32 y) const;
 
 		virtual u32 GetBytesPerPixel() const;
 
-		virtual void Update(PIXEL *buffer);
+		virtual void Update(uPixel *buffer);
 		virtual void Reset();
-		virtual bool Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth = 0, u32 atlasHeight = 0); // O que acontece no Reload?
+		virtual bool Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth = 0, u32 atlasHeight = 0); // O que acontece no Reload?
 
 		virtual u32 GetAtlasWidth() const;
 		virtual u32 GetAtlasHeight() const;

@@ -131,13 +131,8 @@ bool RendererDevice::Initialize()
 		case RendererDeviceOpenGL14:
 		default:
 		{
-#if defined(BUILD_IOS)
-			Info(TAG "Creating renderer device OpenGL ES 1");
+			Info(TAG "Creating renderer device OpenGL 1.5/ES 1");
 			pApiDevice = New(Seed::OpenGL::OGLES1RendererDevice());
-#else
-			Info(TAG "Creating renderer device OpenGL 1.4");
-			pApiDevice = New(Seed::OpenGL::OGL14RendererDevice());
-#endif
 		}
 		break;
 	}
@@ -186,7 +181,7 @@ void RendererDevice::TextureDataUpdate(ITexture *texture)
 	pApiDevice->TextureDataUpdate(texture);
 }
 
-void RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) const
+void RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) const
 {
 	pApiDevice->SetBlendingOperation(mode, color);
 }
@@ -196,12 +191,12 @@ void RendererDevice::UploadData(void *userData)
 	pApiDevice->UploadData(userData);
 }
 
-void RendererDevice::BackbufferClear(const PIXEL color)
+void RendererDevice::BackbufferClear(const uPixel color)
 {
 	pApiDevice->BackbufferClear(color);
 }
 
-void RendererDevice::BackbufferFill(const PIXEL color)
+void RendererDevice::BackbufferFill(const uPixel color)
 {
 	pApiDevice->BackbufferFill(color);
 }
@@ -216,12 +211,12 @@ void RendererDevice::End() const
 	pApiDevice->End();
 }
 
-void RendererDevice::SetViewport(const Rect<f32> &area) const
+void RendererDevice::SetViewport(const Rect4f &area) const
 {
 	pApiDevice->SetViewport(area);
 }
 
-void RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill) const
+void RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const
 {
 	pApiDevice->DrawRect(x, y, w, h, color, fill);
 }

@@ -92,46 +92,15 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 // Filesystem
 #define FOPEN(a, b)						LIB_FOPEN(a, b)
 
-// Display Object
-#define PIXEL_A_MASK					LIB_PIXEL_A_MASK
-#define PIXEL_A_SHIFT					LIB_PIXEL_A_SHIFT
-#define PIXEL_R_MASK					LIB_PIXEL_R_MASK
-#define PIXEL_R_SHIFT					LIB_PIXEL_R_SHIFT
-#define PIXEL_G_MASK					LIB_PIXEL_G_MASK
-#define PIXEL_G_SHIFT					LIB_PIXEL_G_SHIFT
-#define PIXEL_B_MASK					LIB_PIXEL_B_MASK
-#define PIXEL_B_SHIFT					LIB_PIXEL_B_SHIFT
-#define PIXEL_DEFAULT_KEYCOLOR			LIB_PIXEL_DEFAULT_KEYCOLOR
-#define	PIXEL_COMPONENT					LIB_PIXEL_COMPONENT
-#define	PIXEL_COLOR						(PIXEL)LIB_PIXEL_COLOR
-#define PIXEL_ALPHA_MAX_VALUE			LIB_PIXEL_ALPHA_MAX_VALUE
-
-#define PIXEL_GET_A(px)			(static_cast<u8>(((px & PIXEL_A_MASK) >> PIXEL_A_SHIFT)))
-#define PIXEL_GET_R(px)			(static_cast<u8>(((px & PIXEL_R_MASK) >> PIXEL_R_SHIFT)))
-#define PIXEL_GET_G(px)			(static_cast<u8>(((px & PIXEL_G_MASK) >> PIXEL_G_SHIFT)))
-#define PIXEL_GET_B(px)			(static_cast<u8>(((px & PIXEL_B_MASK) >> PIXEL_B_SHIFT)))
-#define PIXEL_SET_A(px, a)		(((px) & (~LIB_PIXEL_A_MASK)) + (static_cast<u32>(a)<<PIXEL_A_SHIFT))
-#define PIXEL_SET_R(px, r)		(((px) & (~LIB_PIXEL_R_MASK)) + (static_cast<u32>(r)<<PIXEL_R_SHIFT))
-#define PIXEL_SET_G(px, g)		(((px) & (~LIB_PIXEL_G_MASK)) + (static_cast<u32>(g)<<PIXEL_G_SHIFT))
-#define PIXEL_SET_B(px, b)		(((px) & (~LIB_PIXEL_B_MASK)) + (static_cast<u32>(b)<<PIXEL_B_SHIFT))
-
 /// Pixel union
 union uPixel
 {
-	PIXEL pixel;
+	u32 pixel;
 	/// Pixel components in array
 	struct vec
 	{
 		u8 c[4];
 	} pComponent;
-	/// Pixel components ARGB
-	struct _argb
-	{
-		u8 a;
-		u8 r;
-		u8 g;
-		u8 b;
-	} argb;
 	/// Pixel components RGBA
 	struct _rgba
 	{
@@ -140,10 +109,21 @@ union uPixel
 		u8 b;
 		u8 a;
 	} rgba;
+	/// Pixel components ARGB
+	struct _argb
+	{
+		u8 a;
+		u8 r;
+		u8 g;
+		u8 b;
+	} argb;
 
 	uPixel(u8 R, u8 G, u8 B, u8 A)
-		: pixel(PIXEL_COLOR(R,G,B,A))
 	{
+		rgba.r = R;
+		rgba.g = G;
+		rgba.b = B;
+		rgba.a = A;
 	}
 
 	uPixel()

@@ -32,16 +32,46 @@
 #define __OGLES1_RENDERER_DEVICE_H__
 
 #include "glew/glew.h"
+
+#if defined(_MSC_VER)
+#pragma comment(lib, "opengl32.lib")
+#pragma comment(lib, "glu32.lib")
+#endif
+
 #include "Defines.h"
 #include "Enum.h"
 #include "Vertex.h"
 
-#if defined(USE_API_OGL) && defined(SEED_ENABLE_OGLES1)
+#if defined(USE_API_OGL)
 
 #include "interface/IRendererDevice.h"
 
-// iOS
+#if defined(BUILD_IOS)
 #include <OpenGLES/ES1/gl.h>
+#endif
+
+#if defined(BUILD_SDL) && defined(_MSC_VER)
+#pragma push_macro("Delete")
+#pragma push_macro("bool")
+#pragma push_macro("SIZE_T")
+#undef Delete
+#undef bool
+#undef SIZE_T
+#define NO_SDL_GLEXT	1
+#include <SDL/SDL_opengl.h>
+#pragma pop_macro("SIZE_T")
+#pragma pop_macro("bool")
+#pragma pop_macro("Delete")
+#elif defined(BUILD_SDL)
+#define NO_SDL_GLEXT	1
+#include <SDL/SDL_opengl.h>
+#endif
+
+#if defined(__APPLE_CC__)
+#include <OpenGL/glext.h>
+#else
+#include <GL/glext.h>
+#endif
 
 namespace Seed {
 
@@ -49,7 +79,7 @@ class ITexture;
 
 namespace OpenGL {
 
-/// OpenGL ES 1.1 Rendering device
+/// OpenGL ES 1.1 and OpenGL 1.5+ Rendering device
 class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
@@ -67,14 +97,15 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void TextureRequestAbort(ITexture *texture);
 		virtual void TextureRequestProcess() const;
 		virtual void TextureDataUpdate(ITexture *texture);
+		virtual void SetTextureParameters(ITexture *texture) const;
 
-		virtual void SetBlendingOperation(eBlendMode mode, PIXEL color) const;
+		virtual void SetBlendingOperation(eBlendMode mode, uPixel color) const;
 		virtual void UploadData(void *userData);
-		virtual void BackbufferClear(const PIXEL color = 0);
-		virtual void BackbufferFill(const PIXEL color = 0);
+		virtual void BackbufferClear(const uPixel color = uPixel());
+		virtual void BackbufferFill(const uPixel color = uPixel());
 
-		virtual void SetViewport(const Rect<f32> &area) const;
-		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill = false) const;
+		virtual void SetViewport(const Rect4f &area) const;
+		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill = false) const;
 		virtual void Enable2D() const;
 		virtual void Disable2D() const;
 
@@ -90,8 +121,6 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 
 	private:
 		SEED_DISABLE_COPY(OGLES1RendererDevice);
-		bool CheckExtension(const char *extName);
-
 		int GetOpenGLMeshType(eMeshType type) const;
 };
 

@@ -232,7 +232,6 @@ OBJECTS += \
 ../source/api/oal/oalSoundSource.o \
 ../source/api/oal/oalSoundSystem.o \
 ../source/api/oal/vorbis_util.o \
-../source/api/ogl/ogl14RendererDevice.o \
 ../source/api/ogl/oglES1RendererDevice.o \
 ../source/api/theora/Theora.o \
 ../source/Animation.o \

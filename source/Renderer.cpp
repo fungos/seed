@@ -117,7 +117,7 @@ bool Renderer::Update(f32 dt)
 	return true;
 }
 
-void Renderer::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill) const
+void Renderer::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const
 {
 	UNUSED(x);
 	UNUSED(y);

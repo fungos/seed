@@ -393,20 +393,34 @@ f32 ITransformable::GetRotation() const
 
 f32 ITransformable::GetScaleX() const
 {
-	f32 s = 1.0f;
+	f32 s = vScale.x;
 	if (pParent)
-		s = pParent->GetScaleX();
+		s *= pParent->GetScaleX();
 
-	return s * vScale.x;
+	return s;
 }
 
 f32 ITransformable::GetScaleY() const
 {
-	f32 s = 1.0f;
+	f32 s = vScale.y;
 	if (pParent)
-		s = pParent->GetScaleY();
+		s *= pParent->GetScaleY();
 
-	return s * vScale.y;
+	return s;
+}
+
+Vector3f ITransformable::GetScale() const
+{
+	Vector3f s = vScale;
+	if (pParent)
+	{
+		Vector3f p = pParent->GetScale();
+		s.x *= p.x;
+		s.y *= p.y;
+		s.z *= p.z;
+	}
+
+	return s;
 }
 
 f32 ITransformable::GetWidth() const
@@ -477,7 +491,7 @@ Vector3f ITransformable::GetPivot() const
 {
 	Vector3f p = vPivot;
 	if (pParent)
-		p = pParent->GetPivot();
+		p += pParent->GetPivot();
 
 	return p;
 }

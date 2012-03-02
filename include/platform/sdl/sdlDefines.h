@@ -238,20 +238,6 @@ typedef u32 					PIXEL;
 #define LIB_FAST_ASIN(a)			asin(a)
 #define LIB_ABS(a)			    	fabs(a)
 
-// Display Object
-#define LIB_PIXEL_R_MASK			0xff000000
-#define LIB_PIXEL_R_SHIFT			24
-#define LIB_PIXEL_G_MASK			0x00ff0000
-#define LIB_PIXEL_G_SHIFT			16
-#define LIB_PIXEL_B_MASK			0x0000ff00
-#define LIB_PIXEL_B_SHIFT			8
-#define LIB_PIXEL_A_MASK			0x000000ff
-#define LIB_PIXEL_A_SHIFT			0
-#define LIB_PIXEL_DEFAULT_KEYCOLOR 	0x00ff00ff
-#define	LIB_PIXEL_COMPONENT(x)		(x&0xff)
-#define	LIB_PIXEL_COLOR(r, g, b, a)	((LIB_PIXEL_COMPONENT(b)<<LIB_PIXEL_B_SHIFT) | (LIB_PIXEL_COMPONENT(g)<<LIB_PIXEL_G_SHIFT) | (LIB_PIXEL_COMPONENT(r)<<LIB_PIXEL_R_SHIFT) | (LIB_PIXEL_COMPONENT(a)<<LIB_PIXEL_A_SHIFT))
-#define LIB_PIXEL_ALPHA_MAX_VALUE	255
-
 #if defined(_MSC_VER)
 #define HALT	do { __asm { int 3 }; exit(-1); } while (1);
 #else

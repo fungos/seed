@@ -37,6 +37,7 @@ namespace Seed {
 ITexture::ITexture()
 	: pTextureId(NULL)
 	, iTextureId(0)
+	, nTextureCompression(TextureCompressionNone)
 	, stFile()
 	, nMinFilter(Seed::TextureFilterLinear)
 	, nMagFilter(Seed::TextureFilterNearest)
@@ -72,7 +73,7 @@ const void *ITexture::GetData() const
 	return NULL;
 }
 
-void ITexture::PutPixel(u32 x, u32 y, PIXEL px)
+void ITexture::PutPixel(u32 x, u32 y, uPixel px)
 {
 	UNUSED(x)
 	UNUSED(y)
@@ -81,13 +82,15 @@ void ITexture::PutPixel(u32 x, u32 y, PIXEL px)
 	SEED_ABSTRACT_METHOD;
 }
 
-PIXEL ITexture::GetPixel(u32 x, u32 y) const
+uPixel ITexture::GetPixel(u32 x, u32 y) const
 {
+	uPixel px;
+
 	UNUSED(x)
 	UNUSED(y)
 
 	SEED_ABSTRACT_METHOD
-	return 0;
+	return px;
 }
 
 u8 ITexture::GetPixelAlpha(u32 x, u32 y) const
@@ -119,6 +122,11 @@ u32 ITexture::GetHeight() const
 	return iHeight;
 }
 
+eTextureCompression ITexture::GetCompressionType() const
+{
+	return nTextureCompression;
+}
+
 void ITexture::Close()
 {
 	stFile.Close();
@@ -148,7 +156,7 @@ bool ITexture::Load(const String &filename, ResourceManager *res)
 	return ret;
 }
 
-bool ITexture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 atlasHeight)
+bool ITexture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 atlasHeight)
 {
 	UNUSED(width)
 	UNUSED(height)
@@ -183,7 +191,7 @@ u32 ITexture::GetBytesPerPixel() const
 	return 0;
 }
 
-void ITexture::Update(PIXEL *buffer)
+void ITexture::Update(uPixel *buffer)
 {
 	UNUSED(buffer);
 	SEED_ABSTRACT_METHOD;

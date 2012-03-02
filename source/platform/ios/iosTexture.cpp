@@ -110,7 +110,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 	return bLoaded;
 }
 
-bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 atlasHeight)
+bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 atlasHeight)
 {
 	ASSERT_NULL(buffer);
 
@@ -145,7 +145,7 @@ bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 atl
 	return bLoaded;
 }
 
-void Texture::Update(PIXEL *data)
+void Texture::Update(uPixel *data)
 {
 	pData = data;
 	pRendererDevice->TextureDataUpdate(this);
@@ -175,13 +175,13 @@ u32 Texture::GetAtlasHeight() const
 	return iAtlasHeight;
 }
 
-void Texture::PutPixel(u32 x, u32 y, PIXEL px)
+void Texture::PutPixel(u32 x, u32 y, uPixel px)
 {
 #if !defined(ENABLE_NATIVE_PVRTC_FORMAT)
 	if (pData || pixelFormat != kTexture2DPixelFormat_RGB565 || pixelFormat != kTexture2DPixelFormat_A8)
 	{
-		const PIXEL *data1 = static_cast<const PIXEL *>(pData);
-		PIXEL *data = const_cast<PIXEL *>(data1);
+		const uPixel *data1 = static_cast<const uPixel *>(pData);
+		uPixel *data = const_cast<uPixel *>(data1);
 		data[(y * iWidth) + x] = px; // ja deve ser arrumado em relacao ao atlas
 	}
 	else
@@ -193,7 +193,7 @@ void Texture::PutPixel(u32 x, u32 y, PIXEL px)
 #endif // ENABLE_NATIVE_PVRTC_FORMAT
 }
 
-PIXEL Texture::GetPixel(u32 x, u32 y) const
+uPixel Texture::GetPixel(u32 x, u32 y) const
 {
 #if !defined(ENABLE_NATIVE_PVRTC_FORMAT)
 	if (!pData)
@@ -205,8 +205,8 @@ PIXEL Texture::GetPixel(u32 x, u32 y) const
 		return 0;
 	}
 
-	const PIXEL *data = static_cast<const PIXEL *>(pData);
-	PIXEL px = data[(y * iWidth) + x]; // ja deve ser arrumado em relacao ao atlas
+	const uPixel *data = static_cast<const uPixel *>(pData);
+	uPixel px = data[(y * iWidth) + x]; // ja deve ser arrumado em relacao ao atlas
 
 	return px;
 #else
@@ -237,9 +237,9 @@ u8 Texture::GetPixelAlpha(u32 x, u32 y) const
 		return this->GetPixelAlpha(x, y);
 	}
 
-	PIXEL px = this->GetPixel(x, y);
+	uPixel px = this->GetPixel(x, y);
 
-	return ((PIXEL_A_MASK & px) >> PIXEL_A_SHIFT);
+	return uPixel.rgba.a;
 #else
 	return 255;
 #endif // ENABLE_NATIVE_PVRTC_FORMAT

@@ -211,7 +211,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 	return bLoaded;
 }
 
-bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 atlasHeight)
+bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 atlasHeight)
 {
 	ASSERT_NULL(buffer);
 
@@ -243,7 +243,7 @@ bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 atlasWidth, u32 atl
 	return bLoaded;
 }
 
-void Texture::Update(PIXEL *data)
+void Texture::Update(uPixel *data)
 {
 	//this->UnloadTexture();
 	//pRendererDevice->TextureRequest(this, &iTextureId);
@@ -281,7 +281,8 @@ u32 Texture::GetAtlasHeight() const
 	return iAtlasHeight;
 }
 
-void Texture::PutPixel(u32 x, u32 y, PIXEL px)
+// NEED TEST
+void Texture::PutPixel(u32 x, u32 y, uPixel px)
 {
 	if (!pSurface)
 		return;
@@ -293,10 +294,9 @@ void Texture::PutPixel(u32 x, u32 y, PIXEL px)
 	{
 		case 3:
 		{
-			//u8 a = (px & LIB_PIXEL_A_MASK) >> LIB_PIXEL_A_SHIFT;
-			u8 r = static_cast<u8>((px & LIB_PIXEL_R_MASK) >> LIB_PIXEL_R_SHIFT);
-			u8 g = static_cast<u8>((px & LIB_PIXEL_G_MASK) >> LIB_PIXEL_G_SHIFT);
-			u8 b = static_cast<u8>((px & LIB_PIXEL_B_MASK) >> LIB_PIXEL_B_SHIFT);
+			u8 r = static_cast<u8>(px.argb.r);
+			u8 g = static_cast<u8>(px.argb.g);
+			u8 b = static_cast<u8>(px.argb.b);
 
 			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
 			{
@@ -315,7 +315,7 @@ void Texture::PutPixel(u32 x, u32 y, PIXEL px)
 
 		case 4:
 		{
-			*(u32 *)p = px;
+			*(u32 *)p = px.pixel;
 		}
 		break;
 
@@ -324,10 +324,12 @@ void Texture::PutPixel(u32 x, u32 y, PIXEL px)
 	}
 }
 
-PIXEL Texture::GetPixel(u32 x, u32 y) const
+// NEED TEST
+uPixel Texture::GetPixel(u32 x, u32 y) const
 {
+	uPixel px;
 	if (!pSurface)
-		return 0;
+		return px;
 
 	/* Here p is the address to the pixel we want to retrieve */
 	u8 *p = (u8 *)pData + y * iPitch + x * iBytesPerPixel;
@@ -335,25 +337,50 @@ PIXEL Texture::GetPixel(u32 x, u32 y) const
 	switch (iBytesPerPixel)
 	{
 		case 1:
-			return *p;
+		{
+			px.pixel = (u32)*p;
+		}
+		break;
 
-		case 2: /* This will cause some problems ... */
-			return *(u16 *)p;
+		case 2:
+		{
+			px.pixel = (u32)*(u16 *)p;
+		}
+		break;
 
 		case 3:
+		{
 			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-				return p[0] << 16 | p[1] << 8 | p[2];
+			{
+				px.argb.r = p[0] << 16;
+				px.argb.g = p[1] << 8;
+				px.argb.b = p[2];
+				px.argb.a = 255;
+			}
 			else
-				return p[0] | p[1] << 8 | p[2] << 16;
+			{
+				px.argb.r = p[0];
+				px.argb.g = p[1] << 8;
+				px.argb.b = p[2] << 16;
+				px.argb.a = 255;
+			}
+		}
+		break;
 
 		case 4:
-			return *(u32 *)p;
+		{
+			px.pixel = *(u32 *)p;
+		}
+		break;
 
 		default:
-			return 0; /* shouldn't happen, but avoids warnings */
+		break;
 	}
+
+	return px;
 }
 
+// NEED TEST
 u8 Texture::GetPixelAlpha(u32 x, u32 y) const
 {
 	if (!pSurface)
@@ -374,10 +401,10 @@ u8 Texture::GetPixelAlpha(u32 x, u32 y) const
 	u8 r, g, b;
 	if (iBytesPerPixel == 4)
 	{
-		PIXEL px = this->GetPixel(x, y);
+		uPixel px = this->GetPixel(x, y);
 
 		if (pSurface)
-			SDL_GetRGBA(px, pSurface->format, &r, &g, &b, &a);
+			SDL_GetRGBA(px.pixel, pSurface->format, &r, &g, &b, &a);
 	}
 
 	return a;

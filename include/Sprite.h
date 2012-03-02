@@ -61,7 +61,7 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual ITexture *GetTexture() const;
 		virtual const void *GetData() const;
 
-		virtual PIXEL GetPixel(u32 x, u32 y) const;
+		virtual uPixel GetPixel(u32 x, u32 y) const;
 		virtual u8 GetPixelAlpha(u32 x, u32 y) const;
 
 		virtual void SetLoop(bool loop);
@@ -111,6 +111,7 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		u32 iFrames;
 		f32 fFrameTime;
 
+		Matrix4x4f	mTransform;
 		sVertex vert[4];
 		String sName;
 

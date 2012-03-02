@@ -62,11 +62,6 @@ bool Image::Unload()
 	return true;
 }
 
-bool Image::Load(const String &filename)
-{
-	return this->Load(filename, pResourceManager);
-}
-
 bool Image::Load(const String &filename, ResourceManager *res)
 {
 	ASSERT_NULL(res);

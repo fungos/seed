@@ -45,7 +45,6 @@ class SEED_CORE_API Image : public ISceneObject
 		Image();
 		virtual ~Image();
 
-		virtual bool Load(const String &filename);
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual bool Load(ITexture *texture);
 		virtual bool Unload();

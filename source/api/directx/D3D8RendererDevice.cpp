@@ -261,10 +261,8 @@ bool D3D8RendererDevice::Shutdown()
 	return ret;
 }
 
-void D3D8RendererDevice::BackbufferClear(const PIXEL color)
+void D3D8RendererDevice::BackbufferClear(const uPixel p)
 {
-	uPixel p(0, 0, 0, 0);
-	p.pixel = color;
 	mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(p.argb.a, p.argb.r, p.argb.g, p.argb.b), 0.0f, 0);
 }
 
@@ -283,7 +281,7 @@ void D3D8RendererDevice::End() const
 	mDevice->Present(NULL, NULL, NULL, NULL);
 }
 
-void D3D8RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) const
+void D3D8RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) const
 {
 	UNUSED(color);
 	switch (mode)
@@ -433,7 +431,7 @@ void D3D8RendererDevice::UploadData(void *userData)
 	RendererPacket *packet = static_cast<RendererPacket *>(userData);
 	ASSERT_MSG(packet->pVertexData != NULL, "VERTEX DATA CANNOT BE NULL!");
 
-	this->SetBlendingOperation(packet->nBlendMode, packet->iColor.pixel);
+	this->SetBlendingOperation(packet->nBlendMode, packet->iColor);
 
 	ITexture *texture = packet->pTexture;
 	IDirect3DTexture8 *t = static_cast<IDirect3DTexture8 *>(texture->pTextureId);
@@ -458,15 +456,13 @@ void D3D8RendererDevice::UploadData(void *userData)
 	mDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, packet->iSize - 2, packet->pVertexData, sizeof(sVertex));
 }
 
-void D3D8RendererDevice::BackbufferFill(PIXEL color)
+void D3D8RendererDevice::BackbufferFill(uPixel color)
 {
-	uPixel argb;
-	argb.pixel = color;
-	uPixel rgba = argb;
-	rgba.rgba.r = argb.argb.r;
-	rgba.rgba.g = argb.argb.g;
-	rgba.rgba.b = argb.argb.b;
-	rgba.rgba.a = argb.argb.a;
+	uPixel rgba = color;
+	rgba.rgba.r = color.argb.r;
+	rgba.rgba.g = color.argb.g;
+	rgba.rgba.b = color.argb.b;
+	rgba.rgba.a = color.argb.a;
 
 	sVertex quad[4];
 
@@ -496,7 +492,7 @@ void D3D8RendererDevice::BackbufferFill(PIXEL color)
 	mDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, &quad, sizeof(sVertex));
 }
 
-void D3D8RendererDevice::SetViewport(const Rect<f32> &area) const
+void D3D8RendererDevice::SetViewport(const Rect4f &area) const
 {
 	u32 x = static_cast<u32>(area.x * pScreen->GetWidth());
 	u32 y = static_cast<u32>(area.y * pScreen->GetHeight());
@@ -513,17 +509,15 @@ void D3D8RendererDevice::SetViewport(const Rect<f32> &area) const
 	mDevice->SetViewport(&vp);
 }
 
-void D3D8RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill) const
+void D3D8RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const
 {
 	UNUSED(fill);
 
-	uPixel argb;
-	argb.pixel = color;
-	uPixel rgba = argb;
-	rgba.rgba.r = argb.argb.r;
-	rgba.rgba.g = argb.argb.g;
-	rgba.rgba.b = argb.argb.b;
-	rgba.rgba.a = argb.argb.a;
+	uPixel rgba = color;
+	rgba.rgba.r = color.argb.r;
+	rgba.rgba.g = color.argb.g;
+	rgba.rgba.b = color.argb.b;
+	rgba.rgba.a = color.argb.a;
 
 	f32 ratio = pScreen->GetAspectRatio();
 

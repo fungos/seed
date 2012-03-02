@@ -128,6 +128,12 @@ enum eVideoMode
 	Video_iPad = Video_1024x768
 };
 
+enum eTextureCompression
+{
+	TextureCompressionNone,
+	TextureCompression_RGB_PVRTC_2BPPV1
+};
+
 enum eModifier
 {
 	ModifierNone			= 0x00,

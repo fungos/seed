@@ -58,7 +58,7 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 		virtual ~Renderer();
 
 		virtual void Render();
-		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill = false) const;
+		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill = false) const;
 
 		virtual void Begin() const;
 		virtual void End() const;

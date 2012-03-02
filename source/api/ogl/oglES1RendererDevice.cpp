@@ -30,15 +30,34 @@
 
 #include "RendererDevice.h"
 
-#if defined(USE_API_OGL) && defined(SEED_ENABLE_OGLES1)
+#if defined(USE_API_OGL)
 
 #include "Log.h"
 #include "Screen.h"
 #include "Texture.h"
 
+#if defined(BUILD_SDL)
+#define NO_SDL_GLEXT	1
+#include <SDL/SDL_opengl.h>
+#endif
+
 #if defined(BUILD_IOS)
-#include "platform/ios/iosoneView.h"
-#include <OpenGLES/ES1/gl.h>
+	#include "platform/ios/iosoneView.h"
+	#include <OpenGLES/ES1/gl.h>
+	#define _OPENGL_ES1		1
+#else
+	#define _OPENGL_15		1
+	#if defined(__APPLE_CC__)
+		#include <OpenGL/gl.h>
+		#include <OpenGL/glext.h>
+	#else
+		#include <GL/gl.h>
+		#include <GL/glext.h>
+	#endif
+
+	#if defined(BUILD_SDL)
+		#include "platform/sdl/sdlDefines.h"
+	#endif
 #endif
 
 #define TAG "[OGLES1RendererDevice] "
@@ -49,12 +68,19 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 {
 	Log(TAG "Initializing...");
 
+#if !defined(_OPENGL_ES1)
+	GLenum err = glewInit();
+	if (GLEW_OK != err)
+		Log(TAG "Error: %s\n", glewGetErrorString(err));
+#endif
+
+
 	char *version = (char *)glGetString(GL_VERSION);
 	Info(TAG "OpenGL Version: %s", version);
 
 	GLint maxSize;
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxSize);
-	Info(TAG "OpenGL Maximun Texture Size: %d", maxSize);
+	Info(TAG "OpenGL Maximum Texture Size: %d", maxSize);
 
 	this->Reset();
 
@@ -70,6 +96,7 @@ bool OGLES1RendererDevice::Initialize()
 {
 	bool ret = IRendererDevice::Initialize();
 
+#if !defined(BUILD_QT)
 	u32 w = pScreen->GetWidth();
 	u32 h = pScreen->GetHeight();
 
@@ -86,6 +113,7 @@ bool OGLES1RendererDevice::Initialize()
 
 	glClearStencil(0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
+#endif
 
 	this->Enable2D();
 
@@ -105,15 +133,9 @@ bool OGLES1RendererDevice::Shutdown()
 	return IRendererDevice::Shutdown();
 }
 
-void OGLES1RendererDevice::BackbufferClear(const PIXEL color)
+void OGLES1RendererDevice::BackbufferClear(const uPixel color)
 {
-	if (color)
-	{
-		uPixel p;
-		p.pixel = color;
-
-		glClearColor(p.rgba.r / 255.0f, p.rgba.g / 255.0f, p.rgba.b / 255.0f, p.rgba.a / 255.0f);
-	}
+	glClearColor(color.rgba.r / 255.0f, color.rgba.g / 255.0f, color.rgba.b / 255.0f, color.rgba.a / 255.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -121,13 +143,10 @@ void OGLES1RendererDevice::Begin() const
 {
 	this->TextureRequestProcess();
 
-#if !defined(BUILD_IOS)
+#if defined(_OPENGL_ES1)
 	glBindFramebuffer(GL_FRAMEBUFFER, pScreen->frameBuffer);
 	glBindRenderbuffer(GL_RENDERBUFFER, pScreen->renderBuffer);
 #endif
-
-	//glClearColor(255.0f, 0.0f, 255.0f, 255.0f);
-	//glClear(GL_COLOR_BUFFER_BIT);
 
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -140,7 +159,6 @@ void OGLES1RendererDevice::Begin() const
 void OGLES1RendererDevice::End() const
 {
 	glPopMatrix();
-
 	pScreen->ApplyFade();
 
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -148,36 +166,7 @@ void OGLES1RendererDevice::End() const
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-bool OGLES1RendererDevice::CheckExtension(const char *extName)
-{
-	/*
-	 ** Search for extName in the extensions string.  Use of strstr()
-	 ** is not sufficient because extension names can be prefixes of
-	 ** other extension names.  Could use strtok() but the constant
-	 ** string returned by glGetString can be in read-only memory.
-	 */
-	char *p = (char *)glGetString(GL_EXTENSIONS);
-	char *end;
-	size_t extNameLen;
-
-	extNameLen = strlen(extName);
-	end = p + strlen(p);
-
-	while (p < end)
-	{
-		size_t n = strcspn(p, " ");
-		if ((extNameLen == n) && (strncmp(extName, p, n) == 0))
-		{
-			return true;
-		}
-
-		p += (n + 1);
-	}
-
-	return false;
-}
-
-void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) const
+void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) const
 {
 	switch (mode)
 	{
@@ -218,13 +207,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) co
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 			glBlendFunc(GL_DST_COLOR, GL_ONE);
-
-			u8 mR = PIXEL_GET_R(color);
-			u8 mG = PIXEL_GET_G(color);
-			u8 mB = PIXEL_GET_B(color);
-			u8 mA = PIXEL_GET_A(color);
-
-			glColor4ub(mR, mG, mB, mA);
+			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
 		}
 		break;
 
@@ -233,13 +216,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) co
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-
-			u8 mR = PIXEL_GET_R(color);
-			u8 mG = PIXEL_GET_G(color);
-			u8 mB = PIXEL_GET_B(color);
-			u8 mA = PIXEL_GET_A(color);
-
-			glColor4ub(mR, mG, mB, mA);
+			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
 		}
 		break;
 
@@ -247,13 +224,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) co
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_DST_COLOR, GL_ONE);
-
-			u8 mR = PIXEL_GET_R(color);
-			u8 mG = PIXEL_GET_G(color);
-			u8 mB = PIXEL_GET_B(color);
-			u8 mA = PIXEL_GET_A(color);
-
-			glColor4ub(mR, mG, mB, mA);
+			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
 		}
 		break;
 
@@ -261,13 +232,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) co
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-			u8 mR = PIXEL_GET_R(color);
-			u8 mG = PIXEL_GET_G(color);
-			u8 mB = PIXEL_GET_B(color);
-			u8 mA = PIXEL_GET_A(color);
-
-			glColor4ub(mR, mG, mB, mA);
+			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
 		}
 		break;
 
@@ -275,24 +240,17 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) co
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_ONE, GL_ONE);
-
-			u8 mR = PIXEL_GET_R(color);
-			u8 mG = PIXEL_GET_G(color);
-			u8 mB = PIXEL_GET_B(color);
-			u8 mA = PIXEL_GET_A(color);
-
-			glColor4ub(mR, mG, mB, mA);
+			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
 		}
 		break;
 
 		case BlendModulateAlpha:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
-			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+			glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-			u8 mA = PIXEL_GET_A(color);
-
-			glColor4ub(255, 255, 255, mA);
+			glColor4ub(255, 255, 255, color.rgba.a);
 		}
 		break;
 
@@ -300,16 +258,31 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, PIXEL color) co
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-			u8 mR = PIXEL_GET_R(color);
-			u8 mG = PIXEL_GET_G(color);
-			u8 mB = PIXEL_GET_B(color);
-			u8 mA = PIXEL_GET_A(color);
-
-			glColor4ub(mR, mG, mB, mA);
+			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
 		}
 		break;
 	}
+}
+
+void OGLES1RendererDevice::SetTextureParameters(ITexture *texture) const
+{
+	ASSERT_NULL(texture);
+
+	eTextureFilter min = texture->GetFilter(Seed::TextureFilterTypeMin);
+	eTextureFilter mag = texture->GetFilter(Seed::TextureFilterTypeMag);
+
+	if (min == Seed::TextureFilterLinear)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	else if (min == Seed::TextureFilterNearest)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+
+	if (mag == Seed::TextureFilterLinear)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	else if (mag == Seed::TextureFilterNearest)
+		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 }
 
 void OGLES1RendererDevice::TextureRequestAbort(ITexture *texture)
@@ -333,72 +306,69 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			glGenTextures(1, (GLuint *)&tex);
 			glBindTexture(GL_TEXTURE_2D, (GLuint)tex);
 
-			eTextureFilter min = texture->GetFilter(Seed::TextureFilterTypeMin);
-			eTextureFilter mag = texture->GetFilter(Seed::TextureFilterTypeMag);
+			this->SetTextureParameters(texture);
 
-			if (min == Seed::TextureFilterLinear)
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-			else if (min == Seed::TextureFilterNearest)
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-			if (mag == Seed::TextureFilterLinear)
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-			else if (mag == Seed::TextureFilterNearest)
-				glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-			glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
+			GLuint w = texture->GetAtlasWidth();
+			GLuint h = texture->GetAtlasHeight();
 			const void *data = texture->GetData();
 
 			// if data == NULL then this can be a dynamic texture. we need just the texture id.
 			if (data)
 			{
-				GLuint w = texture->GetAtlasWidth();
-				GLuint h = texture->GetAtlasHeight();
-				//bool compressed = texture->IsCompressed();
 				u32 bpp = texture->GetBytesPerPixel();
 
-				/*if (compressed)
+				switch (texture->GetCompressionType())
 				{
-					GLuint bpp = 2;
-					GLsizei size = w * h * bpp / 8;
-
-					if (size < 32)
+#if defined(BUILD_IOS)
+					case TextureCompression_RGB_PVRTC_2BPPV1:
 					{
-						size = 32;
+						//GLuint bpp = 2;
+						GLsizei size = w * h * bpp / 8;
+
+						if (size < 32)
+							size = 32;
+
+						glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG, w, h, 0, size, data);
 					}
-					glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG, w, h, 0, size, data);
-				}
-				else*/
-				{
-					switch (bpp)
+					break;
+#endif
+
+					default:
 					{
-						case 4:
-							glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-						break;
+						switch (bpp)
+						{
+							case 4:
+							{
+								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+							}
+							break;
 
-						case 3:
-							glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-						break;
+							case 3:
+							{
+								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+							}
+							break;
 
-						case 2:
-							glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
-						break;
+							case 2:
+							{
+								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, w, h, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
+							}
+							break;
 
-						case 1:
-							glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, w, h, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
-						break;
+							case 1:
+							{
+								glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, w, h, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+							}
+							break;
 
-						default:
-						break;
+							default:
+							break;
+						}
 					}
 				}
 			}
-			//glBindTexture(GL_TEXTURE_2D, 0);
-
 			texture->iTextureId = tex;
-			texture->Close(); // free ram
+			texture->Close();
 		}
 	}
 
@@ -407,17 +377,17 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 
 void OGLES1RendererDevice::TextureUnload(ITexture *texture)
 {
-	GLuint texId = texture->iTextureId;
-	if (texId)
-		glDeleteTextures(1, &texId);
+	ASSERT_NULL(texture);
+	if (texture->iTextureId)
+		glDeleteTextures(1, &texture->iTextureId);
 }
 
 void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 {
-	u32 texId = texture->iTextureId;
-	if (texId)
+	ASSERT_NULL(texture);
+	if (texture->iTextureId)
 	{
-		glBindTexture(GL_TEXTURE_2D, texId);
+		glBindTexture(GL_TEXTURE_2D, texture->iTextureId);
 
 		GLuint w = texture->GetAtlasWidth();
 		GLuint h = texture->GetAtlasHeight();
@@ -427,7 +397,9 @@ void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 		switch (texture->GetBytesPerPixel())
 		{
 			case 4:
+			{
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+			}
 			break;
 
 			case 3:
@@ -453,38 +425,23 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	RendererPacket *packet = static_cast<RendererPacket *>(userData);
 
 	ITexture *texture = packet->pTexture;
-	GLuint tex = texture->iTextureId;
-
 	sVertex *data = static_cast<sVertex *>(packet->pVertexData);
 
-	this->SetBlendingOperation(packet->nBlendMode, packet->iColor.pixel);
+	this->SetBlendingOperation(packet->nBlendMode, packet->iColor);
+	this->SetTextureParameters(texture);
 
-	sVertex v1 = data[0];
-	sVertex v2 = data[1];
-	sVertex v3 = data[2];
-	sVertex v4 = data[3];
+	glBindTexture(GL_TEXTURE_2D, texture->iTextureId);
 
-	glBindTexture(GL_TEXTURE_2D, tex);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+	glPushMatrix();
+	glLoadIdentity();
 
-	eTextureFilter min = texture->GetFilter(Seed::TextureFilterTypeMin);
-	eTextureFilter mag = texture->GetFilter(Seed::TextureFilterTypeMag);
-
-	if (min == Seed::TextureFilterLinear)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	else if (min == Seed::TextureFilterNearest)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
-
-	if (mag == Seed::TextureFilterLinear)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	else if (mag == Seed::TextureFilterNearest)
-		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &data[0].cVertex);
 	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &data[0].iColor);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &data[0].cCoords);
-	glDrawArrays(GL_TRIANGLE_STRIP, 0, packet->iSize);
+	glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, packet->iSize);
+
+	glPopMatrix();
 }
 
 int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const
@@ -493,98 +450,86 @@ int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const
 	return GL_TRIANGLE_STRIP;
 }
 
-void OGLES1RendererDevice::BackbufferFill(PIXEL color)
+void OGLES1RendererDevice::BackbufferFill(uPixel color)
 {
-	const GLfloat vertices[] =
-	{
-		0.0f, 0.0f,
-		0.0f, 1.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-	};
+	glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_CURRENT_BIT | GL_COLOR_BUFFER_BIT);
+	const GLfloat vertices[] = {0.0f, 0.0f, 0.0f, pScreen->GetHeight(), pScreen->GetWidth(), 0.0f, pScreen->GetWidth(), pScreen->GetHeight()};
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
 
+	glDisable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
+
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glColor4ub(PIXEL_GET_R(color), PIXEL_GET_G(color), PIXEL_GET_B(color), PIXEL_GET_A(color));
+	glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
+	glPushMatrix();
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
+	glPopMatrix();
 
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
+
+	glPopAttrib();
 }
 
-void OGLES1RendererDevice::SetViewport(const Rect<f32> &area) const
+void OGLES1RendererDevice::SetViewport(const Rect4f &area) const
 {
 	GLint x, y;
 	GLsizei width, height;
-	GLint w, h;
 
-	w = pScreen->GetWidth();
-	h = pScreen->GetHeight();
+	x = static_cast<GLint>(area.x);
+	y = static_cast<GLint>(area.y);
+	width = static_cast<GLsizei>(area.width);
+	height = static_cast<GLsizei>(area.height);
 
-	x = static_cast<GLint>(area.x * w);
-	y = static_cast<GLint>(area.y * h);
-	width = static_cast<GLsizei>(area.width * w);
-	height = static_cast<GLsizei>(area.height * h);
-
-	GLint ny = h - y - height;
-	glViewport(x, ny, width, height);
+	glViewport(x, y, width, height);
 }
 
-void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, bool fill) const
+void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const
 {
 	GLfloat vertices[8];
 
-	f32 ratio = pScreen->GetAspectRatio();
-	f32 fAspectHalfWidth = w / 2.0f;
-	f32 fAspectHalfHeight = (h * ratio) / 2.0f;
-
 	// A
-	vertices[0] = - fAspectHalfWidth;
-	vertices[1] = - fAspectHalfHeight;
+	vertices[0] = x;
+	vertices[1] = y;
 
 	// B
-	vertices[2] = + fAspectHalfWidth;
-	vertices[3] = - fAspectHalfHeight;
+	vertices[2] = w;
+	vertices[3] = y;
 
 	if (!fill)
 	{
-		// C
-		vertices[4] = + fAspectHalfWidth;
-		vertices[5] = + fAspectHalfHeight;
-
 		// D
-		vertices[6] = - fAspectHalfWidth;
-		vertices[7] = + fAspectHalfHeight;
+		vertices[4] = w;
+		vertices[5] = h;
+
+		// C
+		vertices[6] = x;
+		vertices[7] = h;
 	}
 	else
 	{
 		// C
-		vertices[4] = - fAspectHalfWidth;
-		vertices[5] = + fAspectHalfHeight;
+		vertices[4] = x;
+		vertices[5] = h;
 
 		// D
-		vertices[6] = + fAspectHalfWidth;
-		vertices[7] = + fAspectHalfHeight;
+		vertices[6] = w;
+		vertices[7] = h;
 	}
 
-	glColor4ub(PIXEL_GET_R(color), PIXEL_GET_G(color), PIXEL_GET_B(color), PIXEL_GET_A(color));
-
+	glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glEnableClientState(GL_VERTEX_ARRAY);
-
-	f32 nx = fAspectHalfWidth + x;
-	f32 ny = fAspectHalfHeight + y * ratio;
 
 	glDisable(GL_TEXTURE_2D);
 	glDisable(GL_BLEND);
 	glPushMatrix();
 		glLoadIdentity();
-		glTranslatef(nx, ny, 0.0f);
 		if (fill)
 			glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 		else
@@ -594,39 +539,51 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, PIXEL color, boo
 	glEnable(GL_BLEND);
 }
 
-// FIXME: Viewport aspect ratio...
 void OGLES1RendererDevice::Enable2D() const
 {
+#if !defined(BUILD_QT)
 	glMatrixMode(GL_PROJECTION);
 	glPushMatrix();
 	glLoadIdentity();
 
+#if defined(_OPENGL_ES1)
 	glOrthof(0.0f, pScreen->GetWidth(), pScreen->GetHeight(), 0.0f, -SEED_MAX_PRIORITY, 0);
+#else
+	glOrtho(0.0f, pScreen->GetWidth(), pScreen->GetHeight(), 0.0f, -SEED_MAX_PRIORITY, 0);
+#endif
+
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
 	glScalef(1.0f, 1.0f, -1.0f);
 
+	// Save previous Renderer state
+	glPushAttrib(GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
-	glAlphaFunc(GL_GREATER, 0.1f);
+	//glAlphaFunc(GL_GREATER, 0.1f); /* Blending alpha png fudido, arrumar per-texture */
 	glEnable(GL_ALPHA_TEST);
 
 	glFrontFace(GL_CW);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
+#endif
 }
 
 bool OGLES1RendererDevice::NeedPowerOfTwoTextures() const
 {
+#if defined(BUILD_IOS)
 	return true;
+#else
+	return false;
+#endif
 }
 
 void OGLES1RendererDevice::Disable2D() const
 {
 #if !defined(BUILD_QT)
 	// Restore previous Renderer state
-	//glPopAttrib();
+	glPopAttrib();
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();

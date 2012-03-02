@@ -83,7 +83,6 @@ class SEED_CORE_API ITransformable
 		virtual void AddScale(f32 scaleX, f32 scaleY);
 		virtual void AddScale(const Vector3f &scale);
 
-		// Normalized Width and Height
 		virtual f32 GetWidth() const;
 		virtual f32 GetHeight() const;
 
@@ -100,6 +99,7 @@ class SEED_CORE_API ITransformable
 
 		virtual f32 GetScaleX() const;
 		virtual f32 GetScaleY() const;
+		virtual Vector3f GetScale() const;
 
 		virtual bool ContainsPoint(f32 x, f32 y) const;
 		virtual bool ContainsPoint(const Vector3f &pos) const;

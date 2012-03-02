@@ -195,7 +195,7 @@ void Screen::ApplyFade()
 	}
 
 	u8 c = static_cast<u8>(iFadeStatus & 0xff);
-	pRendererDevice->BackbufferFill(PIXEL_COLOR(0u, 0u, 0u, c));
+	pRendererDevice->BackbufferFill(uPixel(0u, 0u, 0u, c));
 }
 
 }} // namespace

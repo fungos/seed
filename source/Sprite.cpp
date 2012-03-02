@@ -427,15 +427,18 @@ void Sprite::Update(f32 delta)
 		vert[2].cVertex = Vector3f(x, h, z);
 		vert[3].cVertex = Vector3f(w, h, z);
 
-		Matrix4x4f t1, t2, r, s;
-		t1 = TranslationMatrix(vPos + vPivot);
-		r = RotationMatrix(AxisZ, DegToRad(Sprite::GetRotation()));
-		s = ScaleMatrix(vScale);
-		t2 = TranslationMatrix(-vPivot);
-		Matrix4x4f transform = ((t1 * r) * s) * t2;
+		Vector3f pos = this->GetPosition();
+		Vector3f pivot = this->GetPivot();
 
-		for (u32 i = 0; i < iNumVertices; i++)
-			transform.Transform(arCurrentVertexData[i].cVertex);
+		Matrix4x4f t1, t2, r, s;
+		t1 = TranslationMatrix(pos + pivot);
+		r = RotationMatrix(AxisZ, DegToRad(this->GetRotation()));
+		s = ScaleMatrix(this->GetScale());
+		t2 = TranslationMatrix(-pivot);
+		mTransform = ((t1 * r) * s) * t2;
+
+		//for (u32 i = 0; i < iNumVertices; i++)
+		//	transform.Transform(arCurrentVertexData[i].cVertex);
 	}
 
 	if (bColorChanged)
@@ -455,9 +458,9 @@ void Sprite::Update(f32 delta)
 	}
 }
 
-PIXEL Sprite::GetPixel(u32 x, u32 y) const
+uPixel Sprite::GetPixel(u32 x, u32 y) const
 {
-	PIXEL ret = 0;
+	uPixel ret;
 
 	if (pFrame && pFrameTexture)
 		ret = pFrameTexture->GetPixel(x + pFrame->iX, y + pFrame->iY);
@@ -501,7 +504,7 @@ void Sprite::Render()
 	pRendererDevice->UploadData(&packet);
 
 	if (pConfiguration->bDebugSprite)
-		pRendererDevice->DrawRect(this->GetX(), this->GetY(), this->GetWidth(), this->GetHeight(), PIXEL_COLOR(255, 255, 255, 255));
+		pRendererDevice->DrawRect(this->GetX(), this->GetY(), this->GetWidth(), this->GetHeight(), uPixel(255, 255, 255, 255));
 }
 
 const char *Sprite::GetObjectName() const

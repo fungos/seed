@@ -110,7 +110,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 	return true;
 }
 
-bool Texture::Load(u32 width, u32 height, PIXEL *buffer, u32 texWidth, u32 texHeight)
+bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 texWidth, u32 texHeight)
 {
 	UNUSED(texWidth);
 	UNUSED(texHeight);
@@ -147,20 +147,20 @@ const void *Texture::GetData() const
 	return image.bits();
 }
 
-void Texture::PutPixel(u32 x, u32 y, PIXEL px)
+void Texture::PutPixel(u32 x, u32 y, uPixel px)
 {
-	u8 mR = PIXEL_GET_R(px);
-	u8 mG = PIXEL_GET_G(px);
-	u8 mB = PIXEL_GET_B(px);
-	u8 mA = PIXEL_GET_A(px);
+	u8 mR = uPixel.argb.r;
+	u8 mG = uPixel.argb.g;
+	u8 mB = uPixel.argb.b;
+	u8 mA = uPixel.argb.a;
 
 	image.setPixel(x, y, qRgba(mR, mG, mB, mA));
 }
 
-PIXEL Texture::GetPixel(u32 x, u32 y) const
+uPixel Texture::GetPixel(u32 x, u32 y) const
 {
 	QRgb px = image.pixel(x, y);
-	return PIXEL_COLOR(qRed(px), qGreen(px), qBlue(px), qAlpha(px));
+	return uPixel(qRed(px), qGreen(px), qBlue(px), qAlpha(px));
 }
 
 u8 Texture::GetPixelAlpha(u32 x, u32 y) const
@@ -228,7 +228,7 @@ u32 Texture::GetBytesPerPixel() const
 	return 4;
 }
 
-void Texture::Update(PIXEL *buffer)
+void Texture::Update(uPixel *buffer)
 {
 	UNUSED(buffer);
 }

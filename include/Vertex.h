@@ -38,6 +38,7 @@
 namespace Seed {
 
 class ITexture;
+class ITransformable;
 
 /// Vertex Format
 struct sVertex
@@ -66,20 +67,22 @@ struct sVertex
 /// Renderer Packet
 struct RendererPacket
 {
-	eMeshType				nMeshType;
-	eBlendMode				nBlendMode;
-	uPixel					iColor;
+	ITransformable			*pTransform;
 	ITexture				*pTexture;
 	void					*pVertexData;
 	u32						iSize;
+	uPixel					iColor;
+	eMeshType				nMeshType;
+	eBlendMode				nBlendMode;
 
 	RendererPacket()
-		: nMeshType(Seed::TriangleStrip)
-		, nBlendMode(Seed::BlendNone)
-		, iColor(0, 0, 0, 255)
+		: pTransform(NULL)
 		, pTexture(NULL)
 		, pVertexData(NULL)
 		, iSize(0)
+		, iColor(0, 0, 0, 255)
+		, nMeshType(Seed::TriangleStrip)
+		, nBlendMode(Seed::BlendNone)
 	{
 	}
 };
