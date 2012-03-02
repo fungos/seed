@@ -39,8 +39,7 @@
 namespace Seed {
 
 Animation::Animation()
-	: IObject()
-	, ppFrames(NULL)
+	: ppFrames(NULL)
 	, sName()
 	, iIndex(0)
 	, iFrames(0)
@@ -108,16 +107,6 @@ Frame **Animation::GetFrames() const
 u32 Animation::GetFrameCount() const
 {
 	return iFrames;
-}
-
-const char *Animation::GetObjectName() const
-{
-	return "Animation";
-}
-
-int Animation::GetObjectType() const
-{
-	return Seed::ObjectAnimation;
 }
 
 } // namespace

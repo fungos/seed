@@ -43,20 +43,8 @@ class ITexture;
 /**
 Frame is a static region from a Texture
 */
-class SEED_CORE_API Frame : public IObject
+struct SEED_CORE_API Frame
 {
-	public:
-		Frame();
-		virtual ~Frame();
-
-		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		bool Unload();
-
-		// IObject
-		virtual const char *GetObjectName() const;
-		virtual int GetObjectType() const;
-
-		ResourceManager *pRes;
 		ITexture	*pTexture;
 		String		sName;
 		u32			iIndex;
@@ -71,6 +59,12 @@ class SEED_CORE_API Frame : public IObject
 		f32			fTexS1;
 		f32			fTexT0;
 		f32			fTexT1;
+
+		Frame();
+		~Frame();
+
+		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		bool Unload();
 };
 
 } // namespace

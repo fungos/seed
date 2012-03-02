@@ -40,9 +40,7 @@
 namespace Seed {
 
 Frame::Frame()
-	: IObject()
-	, pRes(NULL)
-	, pTexture(NULL)
+	: pTexture(NULL)
 	, sName()
 	, iIndex(0)
 	, iX(0)
@@ -68,11 +66,10 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		pRes = res;
 		sName = reader.ReadString("name", "frame");
 
 		String tex = reader.ReadString("texture", "default");
-		pTexture = (ITexture *)pRes->Get(tex, Seed::ObjectTexture);
+		pTexture = (ITexture *)res->Get(tex, Seed::ObjectTexture);
 
 		iX = reader.ReadU32("y", 0);
 		iY = reader.ReadU32("x", 0);
@@ -99,24 +96,10 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 
 bool Frame::Unload()
 {
-	if (pRes)
-	{
-		if (pTexture)
-			sRelease(pTexture);
+	if (pTexture)
+		sRelease(pTexture);
 
-		pRes = NULL;
-	}
 	return true;
-}
-
-const char *Frame::GetObjectName() const
-{
-	return "Frame";
-}
-
-int Frame::GetObjectType() const
-{
-	return Seed::ObjectFrame;
 }
 
 } // namespace

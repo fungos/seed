@@ -43,23 +43,8 @@ class Frame;
 /**
 Animation is a sequence of Frames used by Sprite
 */
-class SEED_CORE_API Animation : public IObject
+struct SEED_CORE_API Animation
 {
-	public:
-		Animation();
-		virtual ~Animation();
-
-		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		bool Unload();
-
-		Frame **GetFrames() const;
-		u32 GetFrameCount() const;
-
-		// IObject
-		virtual const char *GetObjectName() const;
-		virtual int GetObjectType() const;
-
-//	private:
 		Frame		**ppFrames;
 		String		sName;
 		u32			iIndex;
@@ -68,6 +53,15 @@ class SEED_CORE_API Animation : public IObject
 		u32			iFps;
 		bool		bAnimated;
 		bool		bLoop;
+
+		Animation();
+		~Animation();
+
+		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		bool Unload();
+
+		Frame **GetFrames() const;
+		u32 GetFrameCount() const;
 };
 
 } // namespace
