@@ -243,7 +243,7 @@ void Timeline::Update()
 		if (pObject)
 		{
 			pObject->SetPosition(fCurrPosX, fCurrPosY);
-			pObject->SetLocalPosition(fCurrLocalPosX, fCurrLocalPosY);
+			pObject->SetPivot(fCurrLocalPosX, fCurrLocalPosY);
 			pObject->SetRotation(fCurrRot);
 			pObject->SetScale(fCurrScaleX, fCurrScaleY);
 			pObject->SetColor((u32)fCurrR, (u32)fCurrG, (u32)fCurrB, (u32)fCurrA);

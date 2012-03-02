@@ -68,7 +68,7 @@ void Movie::Update(f32 delta)
 			Timeline *obj = (*it);
 			if (bTransformationChanged)
 			{
-				obj->SetLocalPosition(this->GetLocalX(), this->GetLocalY());
+				obj->SetLocalPosition(this->GetPivotX(), this->GetPivotY());
 				obj->SetPosition(this->GetX(), this->GetY());
 				obj->SetScale(this->GetScaleX(), this->GetScaleY());
 				obj->SetRotation(this->GetRotation());

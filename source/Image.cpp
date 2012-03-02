@@ -103,8 +103,8 @@ void Image:: Update(f32 delta)
 
 		f32 x = iHalfWidth + this->GetX();
 		f32 y = iHalfHeight + this->GetY() * pScreen->GetAspectRatio();
-		f32 lx = this->GetLocalX();
-		f32 ly = this->GetLocalY();
+		f32 lx = this->GetPivotX();
+		f32 ly = this->GetPivotY();
 
 		Matrix4x4f t1, t2, r, s;
 		t1 = TranslationMatrix(lx + x, ly + y, 0.0f);

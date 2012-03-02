@@ -135,7 +135,6 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 				ppAnimations[i] = a;
 			}
 
-			bChanged = true;
 			bInitialized = true;
 
 			this->SetRotation(0);
@@ -170,7 +169,7 @@ void Sprite::ReconfigureAnimation()
 
 	this->ReconfigureFrame();
 
-	if (this->bAnimation)
+	if (bAnimation)
 		this->Play();
 }
 
@@ -180,8 +179,19 @@ void Sprite::ReconfigureFrame()
 
 	ITransformable::SetWidth(pFrame->iWidth);
 	ITransformable::SetHeight(pFrame->iHeight);
-	ITransformable::SetLocalX(pFrame->iHalfWidth);
-	ITransformable::SetLocalY(pFrame->iHalfHeight);
+	ITransformable::SetPivot(pFrame->iHalfWidth, pFrame->iHalfHeight);
+
+	f32 u0, u1, v0, v1;
+
+	u0 = pFrame->fTexS0;
+	v0 = pFrame->fTexT0;
+	u1 = pFrame->fTexS1;
+	v1 = pFrame->fTexT1;
+
+	vert[0].cCoords = Point2f(u0, v0);
+	vert[1].cCoords = Point2f(u1, v0);
+	vert[2].cCoords = Point2f(u0, v1);
+	vert[3].cCoords = Point2f(u1, v1);
 
 	bChanged = true;
 }
@@ -273,9 +283,6 @@ void Sprite::GotoAndStop(u32 frame)
 	iCurrentFrame = frame;
 	bPlaying = false;
 	this->ReconfigureAnimation();
-
-	if (this->bVisible)
-		bChanged = true;
 }
 
 void Sprite::GotoAndPlay(u32 frame)
@@ -286,9 +293,6 @@ void Sprite::GotoAndPlay(u32 frame)
 	iCurrentFrame = frame;
 	bPlaying = true;
 	this->ReconfigureAnimation();
-
-	if (this->bVisible)
-		bChanged = true;
 }
 
 void Sprite::Stop()
@@ -299,7 +303,6 @@ void Sprite::Stop()
 void Sprite::Play()
 {
 	bPlaying = true;
-	bChanged = true;
 }
 
 bool Sprite::IsFinished() const
@@ -315,9 +318,6 @@ void Sprite::NextFrame()
 		iCurrentFrame = 0;
 
 	this->ReconfigureAnimation();
-
-	if (this->bVisible)
-		bChanged = true;
 }
 
 void Sprite::PreviousFrame()
@@ -328,9 +328,6 @@ void Sprite::PreviousFrame()
 		iCurrentFrame = iFrames - 1;
 
 	this->ReconfigureAnimation();
-
-	if (this->bVisible)
-		bChanged = true;
 }
 
 void Sprite::SetCurrentFrame(u32 frame)
@@ -340,8 +337,6 @@ void Sprite::SetCurrentFrame(u32 frame)
 
 	iCurrentFrame = frame;
 	this->ReconfigureAnimation();
-
-	bChanged = true;
 }
 
 u32 Sprite::GetCurrentFrame() const
@@ -356,7 +351,7 @@ u32 Sprite::GetFrameCount() const
 
 void Sprite::SetLoop(bool loop)
 {
-	this->bLoop = loop;
+	bLoop = loop;
 }
 
 bool Sprite::IsLoop() const
@@ -373,8 +368,6 @@ void Sprite::Update(f32 delta)
 {
 	if (!bInitialized)
 		return;
-
-	//IBasicMesh::Update(delta);
 
 	if (bPlaying && bAnimation)
 	{
@@ -405,63 +398,61 @@ void Sprite::Update(f32 delta)
 		}
 	}
 
-	if (!bChanged && !this->IsChanged())
+	bTransformationChanged = this->IsChanged();
+	bChanged |= bTransformationChanged;
+	if (!bChanged)
 		return;
 
+	bChanged = false;
 	if (arCustomVertexData)
 	{
 		arCurrentVertexData = arCustomVertexData;
+		return;
 	}
-	else if (bTransformationChanged)
+
+	if (bTransformationChanged)
 	{
+		bTransformationChanged = false;
 		arCurrentVertexData = &vert[0];
 
-		f32 u0, u1, v0, v1, x, y, w, h, z;
-		uPixel p = iColor;
-		p.rgba.r = iColor.argb.r;
-		p.rgba.g = iColor.argb.g;
-		p.rgba.b = iColor.argb.b;
-		p.rgba.a = iColor.argb.a;
-
+		f32  x, y, w, h, z;
 		x = vPos.x;
 		y = vPos.y;
 		z = vPos.z;
 		w = vBoundingBox.x;
 		h = vBoundingBox.y;
-		u0 = pFrame->fTexS0;
-		v0 = pFrame->fTexT0;
-		u1 = pFrame->fTexS1;
-		v1 = pFrame->fTexT1;
 
 		vert[0].cVertex = Vector3f(x, y, z);
-		vert[0].iColor = p;
-		vert[0].cCoords = Point2f(u0, v0);
-
 		vert[1].cVertex = Vector3f(w, y, z);
-		vert[1].iColor = p;
-		vert[1].cCoords = Point2f(u1, v0);
-
 		vert[2].cVertex = Vector3f(x, h, z);
-		vert[2].iColor = p;
-		vert[2].cCoords = Point2f(u0, v1);
-
 		vert[3].cVertex = Vector3f(w, h, z);
-		vert[3].iColor = p;
-		vert[3].cCoords = Point2f(u1, v1);
 
 		Matrix4x4f t1, t2, r, s;
-		t1 = TranslationMatrix(vPos + vLocalPos);
+		t1 = TranslationMatrix(vPos + vPivot);
 		r = RotationMatrix(AxisZ, DegToRad(Sprite::GetRotation()));
 		s = ScaleMatrix(vScale);
-		t2 = TranslationMatrix(-vLocalPos);
+		t2 = TranslationMatrix(-vPivot);
 		Matrix4x4f transform = ((t1 * r) * s) * t2;
 
 		for (u32 i = 0; i < iNumVertices; i++)
 			transform.Transform(arCurrentVertexData[i].cVertex);
 	}
 
-	bChanged = false;
-	bTransformationChanged = false;
+	if (bColorChanged)
+	{
+		bColorChanged = false;
+
+		uPixel p = iColor;
+		p.rgba.r = iColor.argb.r;
+		p.rgba.g = iColor.argb.g;
+		p.rgba.b = iColor.argb.b;
+		p.rgba.a = iColor.argb.a;
+
+		vert[0].iColor = p;
+		vert[1].iColor = p;
+		vert[2].iColor = p;
+		vert[3].iColor = p;
+	}
 }
 
 PIXEL Sprite::GetPixel(u32 x, u32 y) const
@@ -495,7 +486,7 @@ ITexture *Sprite::GetTexture() const
 
 void Sprite::Render()
 {
-	if (!this->bInitialized)
+	if (!bInitialized)
 		return;
 
 	ASSERT(pFrameTexture);
@@ -505,8 +496,8 @@ void Sprite::Render()
 	packet.nMeshType = nMeshType;
 	packet.pVertexData = arCurrentVertexData;
 	packet.pTexture = pFrameTexture;
-	packet.nBlendMode = this->eBlendOperation;
-	packet.iColor = this->iColor;
+	packet.nBlendMode = eBlendOperation;
+	packet.iColor = iColor;
 	pRendererDevice->UploadData(&packet);
 
 	if (pConfiguration->bDebugSprite)

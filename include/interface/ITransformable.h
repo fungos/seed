@@ -56,15 +56,17 @@ class SEED_CORE_API ITransformable
 		virtual void SetPosition(const Vector3f &pos);
 		virtual void AddPosition(const Vector3f &pos);
 
-		virtual void SetLocalX(f32 x);
-		virtual void SetLocalY(f32 y);
-		virtual void AddLocalX(f32 value);
-		virtual void AddLocalY(f32 value);
+		virtual void SetPivotX(f32 x);
+		virtual void SetPivotY(f32 y);
+		virtual void SetPivotZ(f32 z);
+		virtual void AddPivotX(f32 value);
+		virtual void AddPivotY(f32 value);
+		virtual void AddPivotZ(f32 value);
 
-		virtual void SetLocalPosition(f32 x, f32 y);
-		virtual void AddLocalPosition(f32 x, f32 y);
-		virtual void SetLocalPosition(const Vector3f &pos);
-		virtual void AddLocalPosition(const Vector3f &pos);
+		virtual void SetPivot(f32 x, f32 y);
+		virtual void AddPivot(f32 x, f32 y);
+		virtual void SetPivot(const Vector3f &pos);
+		virtual void AddPivot(const Vector3f &pos);
 
 		virtual void SetRotation(f32 rot);
 		virtual void AddRotation(f32 rot);
@@ -89,9 +91,10 @@ class SEED_CORE_API ITransformable
 		virtual f32 GetY() const;
 		virtual Vector3f GetPosition() const;
 
-		virtual f32 GetLocalX() const;
-		virtual f32 GetLocalY() const;
-		virtual Vector3f GetLocal() const;
+		virtual f32 GetPivotX() const;
+		virtual f32 GetPivotY() const;
+		virtual f32 GetPivotZ() const;
+		virtual Vector3f GetPivot() const;
 
 		virtual f32 GetRotation() const;
 
@@ -121,7 +124,7 @@ class SEED_CORE_API ITransformable
 	protected:
 		ITransformable *pParent;
 		Vector3f vPos;
-		Vector3f vLocalPos;
+		Vector3f vPivot;
 		Vector3f vScale;
 		Vector3f vBoundingBox;
 		f32 fRotation;

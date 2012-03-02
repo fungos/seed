@@ -36,7 +36,7 @@ namespace Seed {
 ITransformable::ITransformable()
 	: pParent(NULL)
 	, vPos(0.0f, 0.0f, 0.0f)
-	, vLocalPos(0.0f, 0.0f, 0.0f)
+	, vPivot(0.0f, 0.0f, 0.0f)
 	, vScale(1.0f, 1.0f, 1.0f)
 	, vBoundingBox(0.0f, 0.0f, 0.0f)
 	, fRotation(0.0f)
@@ -54,9 +54,9 @@ void ITransformable::Reset()
 	vPos.x			= 0.0f;
 	vPos.y			= 0.0f;
 	vPos.z			= 0.0f;
-	vLocalPos.x		= 0.0f;
-	vLocalPos.y		= 0.0f;
-	vLocalPos.z		= 0.0f;
+	vPivot.x		= 0.0f;
+	vPivot.y		= 0.0f;
+	vPivot.z		= 0.0f;
 	vScale.x		= 1.0f;
 	vScale.y		= 1.0f;
 	vScale.z		= 1.0f;
@@ -164,77 +164,95 @@ void ITransformable::AddPosition(const Vector3f &pos)
 	bTransformationChanged = true;
 }
 
-void ITransformable::SetLocalX(f32 x)
+void ITransformable::SetPivotX(f32 x)
 {
-	if (x == vLocalPos.x)
+	if (x == vPivot.x)
 		return;
 
-	vLocalPos.x = x;
+	vPivot.x = x;
 	bTransformationChanged = true;
 }
 
-void ITransformable::SetLocalY(f32 y)
+void ITransformable::SetPivotY(f32 y)
 {
-	if (y == vLocalPos.y)
+	if (y == vPivot.y)
 		return;
 
-	vLocalPos.y = y;
+	vPivot.y = y;
 	bTransformationChanged = true;
 }
 
-void ITransformable::AddLocalX(f32 value)
+void ITransformable::SetPivotZ(f32 z)
+{
+	if (z == vPivot.z)
+		return;
+
+	vPivot.z = z;
+	bTransformationChanged = true;
+}
+
+void ITransformable::AddPivotX(f32 value)
 {
 	if (value == 0)
 		return;
 
-	vLocalPos.x += value;
+	vPivot.x += value;
 	bTransformationChanged = true;
 }
 
-void ITransformable::AddLocalY(f32 value)
+void ITransformable::AddPivotY(f32 value)
 {
 	if (value == 0)
 		return;
 
-	vLocalPos.y += value;
+	vPivot.y += value;
 	bTransformationChanged = true;
 }
 
-void ITransformable::SetLocalPosition(f32 x, f32 y)
+void ITransformable::AddPivotZ(f32 value)
 {
-	if (vLocalPos.x == x && vLocalPos.y == y)
+	if (value == 0)
 		return;
 
-	vLocalPos.x = x;
-	vLocalPos.y = y;
+	vPivot.z += value;
 	bTransformationChanged = true;
 }
 
-void ITransformable::SetLocalPosition(const Vector3f &pos)
+void ITransformable::SetPivot(f32 x, f32 y)
 {
-	if (vLocalPos == pos)
+	if (vPivot.x == x && vPivot.y == y)
 		return;
 
-	vLocalPos = pos;
+	vPivot.x = x;
+	vPivot.y = y;
 	bTransformationChanged = true;
 }
 
-void ITransformable::AddLocalPosition(f32 x, f32 y)
+void ITransformable::SetPivot(const Vector3f &pos)
+{
+	if (vPivot == pos)
+		return;
+
+	vPivot = pos;
+	bTransformationChanged = true;
+}
+
+void ITransformable::AddPivot(f32 x, f32 y)
 {
 	if (0.0f == x && 0.0f == y)
 		return;
 
-	vLocalPos.x += x;
-	vLocalPos.y += y;
+	vPivot.x += x;
+	vPivot.y += y;
 	bTransformationChanged = true;
 }
 
-void ITransformable::AddLocalPosition(const Vector3f &pos)
+void ITransformable::AddPivot(const Vector3f &pos)
 {
 	if (0.0f == pos.x && 0.0f == pos.y && 0.0f == pos.z)
 		return;
 
-	vLocalPos += pos;
+	vPivot += pos;
 	bTransformationChanged = true;
 }
 
@@ -366,11 +384,11 @@ void ITransformable::AddScale(const Vector3f &scale)
 
 f32 ITransformable::GetRotation() const
 {
-	f32 r = 0;
+	f32 r = fRotation;
 	if (pParent)
-		r = pParent->GetRotation();
+		r += pParent->GetRotation();
 
-	return r + fRotation;
+	return r;
 }
 
 f32 ITransformable::GetScaleX() const
@@ -403,20 +421,20 @@ f32 ITransformable::GetHeight() const
 
 f32 ITransformable::GetX() const
 {
-	f32 x = 0;
+	f32 x = vPos.x;
 	if (pParent)
-		x = pParent->GetX();
+		x += pParent->GetX();
 
-	return x + vPos.x;
+	return x;
 }
 
 f32 ITransformable::GetY() const
 {
-	f32 y = 0;
+	f32 y = vPos.y;
 	if (pParent)
-		y = pParent->GetY();
+		y += pParent->GetY();
 
-	return y + vPos.y;
+	return y;
 }
 
 Vector3f ITransformable::GetPosition() const
@@ -428,29 +446,38 @@ Vector3f ITransformable::GetPosition() const
 	return p;
 }
 
-f32 ITransformable::GetLocalX() const
+f32 ITransformable::GetPivotX() const
 {
-	f32 x = 0;
+	f32 x = vPivot.x;
 	if (pParent)
-		x = pParent->GetLocalX();
+		x += pParent->GetPivotX();
 
-	return x + vLocalPos.x;
+	return x;
 }
 
-f32 ITransformable::GetLocalY() const
+f32 ITransformable::GetPivotY() const
 {
-	f32 y = 0;
+	f32 y = vPivot.y;
 	if (pParent)
-		y = pParent->GetLocalY();
+		y += pParent->GetPivotY();
 
-	return y + vLocalPos.y;
+	return y;
 }
 
-Vector3f ITransformable::GetLocal() const
+f32 ITransformable::GetPivotZ() const
 {
-	Vector3f p = vLocalPos;
+	f32 z = vPivot.z;
 	if (pParent)
-		p = pParent->GetLocal();
+		z += pParent->GetPivotZ();
+
+	return z;
+}
+
+Vector3f ITransformable::GetPivot() const
+{
+	Vector3f p = vPivot;
+	if (pParent)
+		p = pParent->GetPivot();
 
 	return p;
 }
