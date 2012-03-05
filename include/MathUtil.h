@@ -32,25 +32,20 @@
 #define __MATH_UTIL_H__
 
 #include <math.h>
+#include <vectormath/cpp/vectormath_aos.h>
+
+using namespace Vectormath::Aos;
+typedef Vector4 Vector4f;
+typedef Vector3 Vector3f;
+typedef Matrix4 Matrix4f;
+typedef Quat Quaternion;
+
+#define VectorEquals(a, b)		(a.getX() == b.getX() && a.getY() == b.getY() && a.getZ() == b.getZ())
+#define VectorAgg(a, b)			a.setX(a.getX() * b.getX()); a.setY(a.getY() * b.getY()); a.setZ(a.getZ() * b.getZ())
 
 #if defined(_MSC_VER)
 #pragma warning(disable:4201) // nonstandard extension used : nameless struct/union
 #endif
-
-#define LIB_SQRT sqrt
-#define LIB_SIN	sin
-#define LIB_COS	cos
-
-// Forward declarations
-namespace Seed {
-
-template <typename T> class Vector3;
-template <typename T> class Matrix4x4;
-
-}
-
-#include "Vector3.h"
-#include "Matrix4x4.h"
 
 namespace Seed {
 
@@ -103,6 +98,22 @@ template <typename T> inline T ZoomToFov(T zoom)
 	return 2.0f * LIB_ATAN(1.0f / zoom);
 }
 
+
+inline f32 VectorAngle(const Vector3f &a, const Vector3f *b = NULL)
+{
+		if (b)
+		{
+				Vector3f s = a, t = *b;
+
+				s = normalize(s);
+				t = normalize(t);
+				return acosf(dot(s, t));
+		}
+		else
+		{
+				return atan2f(a.getY(), a.getX());
+		}
+}
 
 // --------------------------------------------------------------------------
 // WrapPi

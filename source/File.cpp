@@ -128,7 +128,8 @@ u8 *File::GetData() const
 
 	if (this->Check())
 	{
-		pData = (u8 *)Alloc(iSize);
+		pData = (u8 *)Alloc(iSize + 1);
+		pData[iSize] = 0;
 		if (PHYSFS_read(pHandle, pData, iSize, 1) != -1)
 			return pData;
 	}

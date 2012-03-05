@@ -1,12 +1,18 @@
 OBJECTS =
 
+ifdef USE_CONTRIB_VECTORMATH
+COBJECTS += \
+../contrib/vectormath/vfpmath/matrix_impl.o \
+../contrib/vectormath/vfpmath/vsinf.o
+endif
+
 ifdef USE_CONTRIB_GLEW
-OBJECTS += \
+COBJECTS += \
 ../contrib/glew/glew.o
 endif
 
 ifdef USE_CONTRIB_BOX2D
-OBJECTS += \
+COBJECTS += \
 ../contrib/Box2D/Dynamics/b2Fixture.o \
 ../contrib/Box2D/Dynamics/Contacts/b2ContactSolver.o \
 ../contrib/Box2D/Dynamics/Contacts/b2PolygonAndCircleContact.o \
@@ -45,7 +51,7 @@ OBJECTS += \
 endif
 
 ifdef USE_CONTRIB_OGGVORBIS
-OBJECTS += \
+COBJECTS += \
 ../contrib/ogg/bitwise.o \
 ../contrib/ogg/framing.o \
 ../contrib/vorbis/window.o \
@@ -74,7 +80,7 @@ OBJECTS += \
 endif
 
 ifdef USE_CONTRIB_OGGPLAY
-OBJECTS += \
+COBJECTS += \
 ../contrib/oggplay/oggplay.o \
 ../contrib/oggplay/oggplay_buffer.o \
 ../contrib/oggplay/oggplay_callback.o \
@@ -90,7 +96,7 @@ OBJECTS += \
 endif
 
 ifdef USE_CONTRIB_OGGZ
-OBJECTS += \
+COBJECTS += \
 ../contrib/oggz/oggz.o \
 ../contrib/oggz/dirac.o \
 ../contrib/oggz/oggz_auto.o \
@@ -108,7 +114,7 @@ OBJECTS += \
 endif
 
 ifdef USE_CONTRIB_THEORA
-OBJECTS += \
+COBJECTS += \
 ../contrib/theora/decode.o \
 ../contrib/theora/encinfo.o \
 ../contrib/theora/analyze.o \
@@ -138,7 +144,7 @@ OBJECTS += \
 endif
 
 ifdef USE_CONTRIB_PHYSFS
-OBJECTS += \
+COBJECTS += \
 ../contrib/physfs/platform/unix.o \
 ../contrib/physfs/platform/posix.o \
 ../contrib/physfs/platform/macosx.o \
@@ -170,7 +176,7 @@ endif
 endif
 
 ifdef USE_CONTRIB_YAJL
-OBJECTS += \
+COBJECTS += \
 ../contrib/yajl/yajl_encode.o \
 ../contrib/yajl/yajl_lex.o \
 ../contrib/yajl/yajl_buf.o \
@@ -184,7 +190,7 @@ OBJECTS += \
 endif
 
 ifdef BUILD_IOS
-OBJECTS += \
+COBJECTS += \
 ../source/platform/ios/iosInput.o \
 ../source/platform/ios/iosMusic.o \
 ../source/platform/ios/iosMutex.o \
@@ -199,6 +205,7 @@ OBJECTS += \
 endif
 
 ifdef BUILD_QT
+COBJECTS += \
 ../source/platform/qt/qtInput.o \
 ../source/platform/qt/qtMutex.o \
 ../source/platform/qt/qtScene.o \
@@ -308,7 +315,6 @@ OBJECTS += \
 ../source/ParticleEmitter.o \
 ../source/ParticleEmitterObject.o \
 ../source/ParticleManager.o \
-../source/Project.o \
 ../source/SeedInit.o \
 ../source/Sprite.o \
 ../source/Timeline.o \

@@ -87,9 +87,11 @@ JsonReader &JsonReader::operator=(const JsonReader &other)
 
 bool JsonReader::Load(const void *data)
 {
+	ASSERT_NULL(data);
 	bool ret = false;
 	char err[1024];
 
+	//fprintf(stdout, "\n\nJSON: %s\n\n", (char *)data);
 	yajl_tree_free(pRootNode);
 	pCurNode = pRootNode = yajl_tree_parse((const char *)data, err, sizeof(err));
 

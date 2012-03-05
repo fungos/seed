@@ -33,7 +33,7 @@
 
 #include "interface/IInput.h"
 #include "Array.h"
-#include "Vector3.h"
+#include "MathUtil.h"
 
 namespace Seed {
 

@@ -51,18 +51,10 @@ ITransformable::~ITransformable()
 
 void ITransformable::Reset()
 {
-	vPos.x			= 0.0f;
-	vPos.y			= 0.0f;
-	vPos.z			= 0.0f;
-	vPivot.x		= 0.0f;
-	vPivot.y		= 0.0f;
-	vPivot.z		= 0.0f;
-	vScale.x		= 1.0f;
-	vScale.y		= 1.0f;
-	vScale.z		= 1.0f;
-	vBoundingBox.x  = 0.0f;
-	vBoundingBox.y  = 0.0f;
-	vBoundingBox.z  = 0.0f;
+	vPos = Vector3f();
+	vPivot = Vector3f();
+	vScale = Vector3f();
+	vBoundingBox = Vector3f();
 	fRotation		= 0.0f;
 
 	pParent			= NULL;
@@ -74,37 +66,37 @@ void ITransformable::Reset()
 
 void ITransformable::SetWidth(f32 w)
 {
-	if (w == vBoundingBox.x)
+	if (w == vBoundingBox.getX())
 		return;
 
-	vBoundingBox.x = w;
+	vBoundingBox.setX(w);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetHeight(f32 h)
 {
-	if (h == vBoundingBox.y)
+	if (h == vBoundingBox.getY())
 		return;
 
-	vBoundingBox.y = h;
+	vBoundingBox.setY(h);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetX(f32 x)
 {
-	if (x == vPos.x)
+	if (x == vPos.getX())
 		return;
 
-	vPos.x = x;
+	vPos.setX(x);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetY(f32 y)
 {
-	if (y == vPos.y)
+	if (y == vPos.getY())
 		return;
 
-	vPos.y = y;
+	vPos.setY(y);
 	bTransformationChanged = true;
 }
 
@@ -113,7 +105,7 @@ void ITransformable::AddX(f32 value)
 	if (value == 0)
 		return;
 
-	vPos.x += value;
+	vPos.setX(vPos.getX() + value);
 	bTransformationChanged = true;
 }
 
@@ -122,23 +114,23 @@ void ITransformable::AddY(f32 value)
 	if (value == 0)
 		return;
 
-	vPos.y += value;
+	vPos.setY(vPos.getY() + value);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetPosition(f32 x, f32 y)
 {
-	if (vPos.x == x && vPos.y == y)
+	if (vPos.getX() == x && vPos.getY() == y)
 		return;
 
-	vPos.x = x;
-	vPos.y = y;
+	vPos.setX(x);
+	vPos.setY(y);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetPosition(const Vector3f &pos)
 {
-	if (vPos == pos)
+	if (VectorEquals(vPos, pos))
 		return;
 
 	vPos = pos;
@@ -150,14 +142,14 @@ void ITransformable::AddPosition(f32 x, f32 y)
 	if (0.0f == x && 0.0f == y)
 		return;
 
-	vPos.x += x;
-	vPos.y += y;
+	vPos.setX(vPos.getX() + x);
+	vPos.setY(vPos.getY() + y);
 	bTransformationChanged = true;
 }
 
 void ITransformable::AddPosition(const Vector3f &pos)
 {
-	if (0.0f == pos.x && 0.0f == pos.y && 0.0f == pos.z)
+	if (0.0f == pos.getX() && 0.0f == pos.getY() && 0.0f == pos.getZ())
 		return;
 
 	vPos += pos;
@@ -166,28 +158,28 @@ void ITransformable::AddPosition(const Vector3f &pos)
 
 void ITransformable::SetPivotX(f32 x)
 {
-	if (x == vPivot.x)
+	if (x == vPivot.getX())
 		return;
 
-	vPivot.x = x;
+	vPivot.setX(x);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetPivotY(f32 y)
 {
-	if (y == vPivot.y)
+	if (y == vPivot.getY())
 		return;
 
-	vPivot.y = y;
+	vPivot.setY(y);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetPivotZ(f32 z)
 {
-	if (z == vPivot.z)
+	if (z == vPivot.getZ())
 		return;
 
-	vPivot.z = z;
+	vPivot.setZ(z);
 	bTransformationChanged = true;
 }
 
@@ -196,7 +188,7 @@ void ITransformable::AddPivotX(f32 value)
 	if (value == 0)
 		return;
 
-	vPivot.x += value;
+	vPivot.setX(vPivot.getX() + value);
 	bTransformationChanged = true;
 }
 
@@ -205,7 +197,7 @@ void ITransformable::AddPivotY(f32 value)
 	if (value == 0)
 		return;
 
-	vPivot.y += value;
+	vPivot.setY(vPivot.getY() + value);
 	bTransformationChanged = true;
 }
 
@@ -214,23 +206,23 @@ void ITransformable::AddPivotZ(f32 value)
 	if (value == 0)
 		return;
 
-	vPivot.z += value;
+	vPivot.setZ(vPivot.getZ() + value);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetPivot(f32 x, f32 y)
 {
-	if (vPivot.x == x && vPivot.y == y)
+	if (vPivot.getX() == x && vPivot.getY() == y)
 		return;
 
-	vPivot.x = x;
-	vPivot.y = y;
+	vPivot.setX(x);
+	vPivot.setY(y);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetPivot(const Vector3f &pos)
 {
-	if (vPivot == pos)
+	if (VectorEquals(vPivot, pos))
 		return;
 
 	vPivot = pos;
@@ -242,14 +234,14 @@ void ITransformable::AddPivot(f32 x, f32 y)
 	if (0.0f == x && 0.0f == y)
 		return;
 
-	vPivot.x += x;
-	vPivot.y += y;
+	vPivot.setX(vPivot.getX() + x);
+	vPivot.setY(vPivot.getY() + y);
 	bTransformationChanged = true;
 }
 
 void ITransformable::AddPivot(const Vector3f &pos)
 {
-	if (0.0f == pos.x && 0.0f == pos.y && 0.0f == pos.z)
+	if (0.0f == pos.getX() && 0.0f == pos.getY() && 0.0f == pos.getZ())
 		return;
 
 	vPivot += pos;
@@ -290,35 +282,35 @@ void ITransformable::AddRotation(f32 rot)
 
 void ITransformable::SetScaleX(f32 scaleX)
 {
-	if (vScale.x == scaleX)
+	if (vScale.getX() == scaleX)
 		return;
 
-	vScale.x = scaleX;
+	vScale.setX(scaleX);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetScaleY(f32 scaleY)
 {
-	if (vScale.y == scaleY)
+	if (vScale.getY() == scaleY)
 		return;
 
-	vScale.y = scaleY;
+	vScale.setY(scaleY);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetScale(f32 scale)
 {
-	if (vScale.x == scale && vScale.y == scale)
+	if (vScale.getX() == scale && vScale.getY() == scale)
 		return;
 
-	vScale.x = scale;
-	vScale.y = scale;
+	vScale.setX(scale);
+	vScale.setY(scale);
 	bTransformationChanged = true;
 }
 
 void ITransformable::SetScale(const Vector3f &scale)
 {
-	if (vScale == scale)
+	if (VectorEquals(vScale, scale))
 		return;
 
 	vScale = scale;
@@ -327,11 +319,11 @@ void ITransformable::SetScale(const Vector3f &scale)
 
 void ITransformable::SetScale(f32 scaleX, f32 scaleY)
 {
-	if (vScale.x == scaleX && vScale.y == scaleY)
+	if (vScale.getX() == scaleX && vScale.getY() == scaleY)
 		return;
 
-	vScale.x = scaleX;
-	vScale.y = scaleY;
+	vScale.setX(scaleX);
+	vScale.setY(scaleY);
 	bTransformationChanged = true;
 }
 
@@ -340,7 +332,7 @@ void ITransformable::AddScaleX(f32 scaleX)
 	if (0.0f == scaleX)
 		return;
 
-	vScale.x += scaleX;
+	vScale.setX(vScale.getX() + scaleX);
 	bTransformationChanged = true;
 }
 
@@ -349,7 +341,7 @@ void ITransformable::AddScaleY(f32 scaleY)
 	if (0.0f == scaleY)
 		return;
 
-	vScale.y += scaleY;
+	vScale.setY(vScale.getY() + scaleY);
 	bTransformationChanged = true;
 }
 
@@ -358,8 +350,8 @@ void ITransformable::AddScale(f32 scaleX, f32 scaleY)
 	if (0.0f == scaleX && 0.0f == scaleY)
 		return;
 
-	vScale.x += scaleX;
-	vScale.y += scaleY;
+	vScale.setX(vScale.getX() + scaleX);
+	vScale.setY(vScale.getY() + scaleY);
 	bTransformationChanged = true;
 }
 
@@ -368,14 +360,14 @@ void ITransformable::AddScale(f32 scale)
 	if (0.0f == scale)
 		return;
 
-	vScale.x += scale;
-	vScale.y += scale;
+	vScale.setX(vScale.getX() + scale);
+	vScale.setY(vScale.getY() + scale);
 	bTransformationChanged = true;
 }
 
 void ITransformable::AddScale(const Vector3f &scale)
 {
-	if (0.0f == scale.x && 0.0f == scale.y && 0.0f == scale.z)
+	if (0.0f == scale.getX() && 0.0f == scale.getY() && 0.0f == scale.getZ())
 		return;
 
 	vScale += scale;
@@ -393,7 +385,7 @@ f32 ITransformable::GetRotation() const
 
 f32 ITransformable::GetScaleX() const
 {
-	f32 s = vScale.x;
+	f32 s = vScale.getX();
 	if (pParent)
 		s *= pParent->GetScaleX();
 
@@ -402,7 +394,7 @@ f32 ITransformable::GetScaleX() const
 
 f32 ITransformable::GetScaleY() const
 {
-	f32 s = vScale.y;
+	f32 s = vScale.getY();
 	if (pParent)
 		s *= pParent->GetScaleY();
 
@@ -415,9 +407,9 @@ Vector3f ITransformable::GetScale() const
 	if (pParent)
 	{
 		Vector3f p = pParent->GetScale();
-		s.x *= p.x;
-		s.y *= p.y;
-		s.z *= p.z;
+		s.setX(s.getX() * p.getX());
+		s.setY(s.getY() * p.getY());
+		s.setZ(s.getZ() * p.getZ());
 	}
 
 	return s;
@@ -425,17 +417,17 @@ Vector3f ITransformable::GetScale() const
 
 f32 ITransformable::GetWidth() const
 {
-	return vBoundingBox.x * Number::Abs(this->GetScaleX());
+	return vBoundingBox.getX() * Number::Abs(this->GetScaleX());
 }
 
 f32 ITransformable::GetHeight() const
 {
-	return vBoundingBox.y * Number::Abs(this->GetScaleY());
+	return vBoundingBox.getY() * Number::Abs(this->GetScaleY());
 }
 
 f32 ITransformable::GetX() const
 {
-	f32 x = vPos.x;
+	f32 x = vPos.getX();
 	if (pParent)
 		x += pParent->GetX();
 
@@ -444,7 +436,7 @@ f32 ITransformable::GetX() const
 
 f32 ITransformable::GetY() const
 {
-	f32 y = vPos.y;
+	f32 y = vPos.getY();
 	if (pParent)
 		y += pParent->GetY();
 
@@ -462,7 +454,7 @@ Vector3f ITransformable::GetPosition() const
 
 f32 ITransformable::GetPivotX() const
 {
-	f32 x = vPivot.x;
+	f32 x = vPivot.getX();
 	if (pParent)
 		x += pParent->GetPivotX();
 
@@ -471,7 +463,7 @@ f32 ITransformable::GetPivotX() const
 
 f32 ITransformable::GetPivotY() const
 {
-	f32 y = vPivot.y;
+	f32 y = vPivot.getY();
 	if (pParent)
 		y += pParent->GetPivotY();
 
@@ -480,7 +472,7 @@ f32 ITransformable::GetPivotY() const
 
 f32 ITransformable::GetPivotZ() const
 {
-	f32 z = vPivot.z;
+	f32 z = vPivot.getZ();
 	if (pParent)
 		z += pParent->GetPivotZ();
 
@@ -520,17 +512,17 @@ bool ITransformable::ContainsPoint(f32 x, f32 y) const
 
 bool ITransformable::ContainsPoint(const Vector3f &pos) const
 {
-	return this->ContainsPoint(pos.x, pos.y);
+	return this->ContainsPoint(pos.getX(), pos.getY());
 }
 
 void ITransformable::SetPriority(f32 prio)
 {
-	vPos.z = prio;
+	vPos.setZ(prio);
 }
 
 f32 ITransformable::GetPriority() const
 {
-	u32 prio = vPos.z;
+	u32 prio = vPos.getZ();
 
 	if (pParent)
 		prio += pParent->GetPriority();
@@ -555,6 +547,32 @@ bool ITransformable::IsChanged() const
 		ret = pParent->IsChanged();
 
 	return ret;
+}
+
+void ITransformable::UpdateTransform()
+{
+	Vector3f pos = this->GetPosition();
+	Vector3f pivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+
+	VectorAgg(pivot, vBoundingBox);
+
+#if SEED_USE_ROTATION_PIVOT == 0
+	Matrix4f r = Matrix4f::rotationZ(DegToRad(this->GetRotation()));
+	r = appendScale(r, this->GetScale());
+	Matrix4f p = Matrix4f::identity();
+	p.setTranslation(-pivot);
+	Matrix4f self = Matrix4f::identity();
+	self.setTranslation(pos);
+	mTransform = self * (r * p);
+#else
+	Matrix4f r = Matrix4f(Quaternion::rotationZ(DegToRad(this->GetRotation())), -pivot);
+	r = appendScale(r, this->GetScale());
+	self = Matrix4f::identity();
+	self.setTranslation(pos);
+	mTransform = self * r;
+#endif
+
+	bTransformationChanged = false;
 }
 
 } // namespace

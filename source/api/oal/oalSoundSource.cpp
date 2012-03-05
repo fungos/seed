@@ -75,8 +75,8 @@ void SoundSource::Load(const String &fname, ResourceManager *res)
 		const ALint *buffer = static_cast<const ALint *>(pSound->GetData());
 
 		alSourcef(iSource, AL_PITCH, 1.0f);
-		alSource3f(iSource, AL_POSITION, cPosition.x, cPosition.y, cPosition.z);
-		alSource3f(iSource, AL_VELOCITY, cVelocity.x, cVelocity.y, cVelocity.z);
+		alSource3f(iSource, AL_POSITION, cPosition.getX(), cPosition.getY(), cPosition.getZ());
+		alSource3f(iSource, AL_VELOCITY, cVelocity.getX(), cVelocity.getY(), cVelocity.getZ());
 		alSourcei(iSource, AL_LOOPING, bLoop);
 		alSourcei(iSource, AL_BUFFER, *buffer);
 		this->SetVolume(fVolume);

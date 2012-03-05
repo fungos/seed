@@ -38,6 +38,7 @@
 #include "RendererDevice.h"
 #include "SeedInit.h"
 #include "interface/ITexture.h"
+#include "Profiler.h"
 
 #define TAG "[Sprite] "
 
@@ -179,7 +180,7 @@ void Sprite::ReconfigureFrame()
 
 	ITransformable::SetWidth(pFrame->iWidth);
 	ITransformable::SetHeight(pFrame->iHeight);
-	ITransformable::SetPivot(pFrame->iHalfWidth, pFrame->iHalfHeight);
+	//ITransformable::SetPivot(pFrame->iHalfWidth, pFrame->iHalfHeight);
 
 	f32 u0, u1, v0, v1;
 
@@ -412,33 +413,21 @@ void Sprite::Update(f32 delta)
 
 	if (bTransformationChanged)
 	{
-		bTransformationChanged = false;
 		arCurrentVertexData = &vert[0];
 
-		f32  x, y, w, h, z;
-		x = vPos.x;
-		y = vPos.y;
-		z = vPos.z;
-		w = vBoundingBox.x;
-		h = vBoundingBox.y;
+		f32  x1, y1, x2, y2, z;
+		x2 = vBoundingBox.getX() * 0.5f;
+		y2 = vBoundingBox.getY() * 0.5f;
+		x1 = -x2;
+		y1 = -y2;
+		z = vPos.getZ();
 
-		vert[0].cVertex = Vector3f(x, y, z);
-		vert[1].cVertex = Vector3f(w, y, z);
-		vert[2].cVertex = Vector3f(x, h, z);
-		vert[3].cVertex = Vector3f(w, h, z);
+		vert[0].cVertex = Vector3f(x1, y1, z);
+		vert[1].cVertex = Vector3f(x2, y1, z);
+		vert[2].cVertex = Vector3f(x1, y2, z);
+		vert[3].cVertex = Vector3f(x2, y2, z);
 
-		Vector3f pos = this->GetPosition();
-		Vector3f pivot = this->GetPivot();
-
-		Matrix4x4f t1, t2, r, s;
-		t1 = TranslationMatrix(pos + pivot);
-		r = RotationMatrix(AxisZ, DegToRad(this->GetRotation()));
-		s = ScaleMatrix(this->GetScale());
-		t2 = TranslationMatrix(-pivot);
-		mTransform = ((t1 * r) * s) * t2;
-
-		//for (u32 i = 0; i < iNumVertices; i++)
-		//	transform.Transform(arCurrentVertexData[i].cVertex);
+		this->UpdateTransform();
 	}
 
 	if (bColorChanged)
@@ -456,6 +445,28 @@ void Sprite::Update(f32 delta)
 		vert[2].iColor = p;
 		vert[3].iColor = p;
 	}
+}
+
+void Sprite::Render()
+{
+	if (!bInitialized)
+		return;
+
+	ASSERT(pFrameTexture);
+
+	RendererPacket packet;
+	packet.iSize = iNumVertices;
+	packet.nMeshType = nMeshType;
+	packet.pVertexData = arCurrentVertexData;
+	packet.pTexture = pFrameTexture;
+	packet.nBlendMode = eBlendOperation;
+	packet.pTransform = &mTransform;
+	packet.iColor = iColor;
+
+	pRendererDevice->UploadData(&packet);
+
+	if (pConfiguration->bDebugSprite)
+		pRendererDevice->DrawRect(this->GetX(), this->GetY(), this->GetWidth(), this->GetHeight(), uPixel(255, 255, 255, 255));
 }
 
 uPixel Sprite::GetPixel(u32 x, u32 y) const
@@ -485,26 +496,6 @@ const void *Sprite::GetData() const
 ITexture *Sprite::GetTexture() const
 {
 	return pFrameTexture;
-}
-
-void Sprite::Render()
-{
-	if (!bInitialized)
-		return;
-
-	ASSERT(pFrameTexture);
-
-	RendererPacket packet;
-	packet.iSize = iNumVertices;
-	packet.nMeshType = nMeshType;
-	packet.pVertexData = arCurrentVertexData;
-	packet.pTexture = pFrameTexture;
-	packet.nBlendMode = eBlendOperation;
-	packet.iColor = iColor;
-	pRendererDevice->UploadData(&packet);
-
-	if (pConfiguration->bDebugSprite)
-		pRendererDevice->DrawRect(this->GetX(), this->GetY(), this->GetWidth(), this->GetHeight(), uPixel(255, 255, 255, 255));
 }
 
 const char *Sprite::GetObjectName() const

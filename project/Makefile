@@ -55,6 +55,7 @@ USE_CONTRIB_THEORA = YesPlease
 USE_CONTRIB_BOX2D = YesPlease
 USE_CONTRIB_PHYSFS = YesPlease
 USE_CONTRIB_YAJL = YesPlease
+USE_CONTRIB_VECTORMATH = YesPlease
 SEED_BUILD = Yes
 
 ifeq ($(uname_S),Linux)
@@ -123,7 +124,7 @@ else
 	$(GCC) -o $(TARGET) $(OBJECTS) $(CPPFLAGS) $(LFLAGS) $(LIBS)
 endif
 else
-	$(AR) $(AR_PARAM) $(TARGET) $(OBJECTS)
+	$(AR) $(AR_PARAM) $(TARGET) $(OBJECTS) $(COBJECTS)
 endif
 
 clean:

@@ -34,7 +34,7 @@
 #include <Defines.h>
 #include <Enum.h>
 
-#include <Vector3.h>
+#include <MathUtil.h>
 #include <Log.h>
 #include <Profiler.h>
 

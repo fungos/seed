@@ -423,6 +423,9 @@ void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 void OGLES1RendererDevice::UploadData(void *userData)
 {
 	RendererPacket *packet = static_cast<RendererPacket *>(userData);
+	ASSERT_NULL(packet->pTransform);
+	ASSERT_NULL(packet->pTexture);
+	ASSERT_NULL(packet->pVertexData);
 
 	ITexture *texture = packet->pTexture;
 	sVertex *data = static_cast<sVertex *>(packet->pVertexData);
@@ -433,7 +436,8 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	glBindTexture(GL_TEXTURE_2D, texture->iTextureId);
 
 	glPushMatrix();
-	glLoadIdentity();
+	GLfloat *pfm = (GLfloat *)packet->pTransform;
+	glLoadMatrixf(pfm);
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &data[0].cVertex);

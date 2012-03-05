@@ -32,7 +32,7 @@
 #define __VERTEX_H__
 
 #include "Defines.h"
-#include "Vector3.h"
+#include "MathUtil.h"
 #include "Point.h"
 
 namespace Seed {
@@ -67,7 +67,7 @@ struct sVertex
 /// Renderer Packet
 struct RendererPacket
 {
-	ITransformable			*pTransform;
+	Matrix4f				*pTransform;
 	ITexture				*pTexture;
 	void					*pVertexData;
 	u32						iSize;

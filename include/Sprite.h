@@ -111,7 +111,6 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		u32 iFrames;
 		f32 fFrameTime;
 
-		Matrix4x4f	mTransform;
 		sVertex vert[4];
 		String sName;
 

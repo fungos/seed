@@ -32,7 +32,7 @@
 #define __ITransformable_H__
 
 #include "Defines.h"
-#include "Vector3.h"
+#include "MathUtil.h"
 
 namespace Seed {
 
@@ -107,6 +107,8 @@ class SEED_CORE_API ITransformable
 		virtual void SetPriority(f32 prio);
 		virtual f32 GetPriority() const;
 
+		virtual void UpdateTransform();
+
 		/// Set a parent for this transformable
 		/**
 		When a Transformable has a parent it will inherit all it's properies.
@@ -123,6 +125,7 @@ class SEED_CORE_API ITransformable
 
 	protected:
 		ITransformable *pParent;
+		Matrix4f mTransform;
 		Vector3f vPos;
 		Vector3f vPivot;
 		Vector3f vScale;

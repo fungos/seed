@@ -111,9 +111,7 @@ void ParticleEmitter::Unload()
 void ParticleEmitter::Reset()
 {
 	ITransformable::Reset();
-	vPrevLocation.x = 0.0f;
-	vPrevLocation.y = 0.0f;
-	vPrevLocation.z = 0.0f;
+	vPrevLocation = Vector3f();
 	fTx = 0.0f;
 	fTy = 0.0f;
 	fScale = 1.0f;
@@ -205,19 +203,19 @@ void ParticleEmitter::Update(f32 deltaTime)
 		}
 
 		accel = par->vPos - location;
-		accel.Normalize();
+		accel = normalize(accel);
 		accel2 = accel;
 		accel *= par->fRadialAccel;
 
 		// vecAccel2.Rotate(M_PI_2);
 		// the following is faster
-		ang = accel2.x;
-		accel2.x = -accel2.y;
-		accel2.y = ang * 1.25f;
+		ang = accel2.getX();
+		accel2.setX(-accel2.getY());
+		accel2.setY(ang * 1.25f);
 
 		accel2 *= par->fTangentialAccel;
 		par->vVelocity += (accel + accel2) * deltaTime;
-		par->vVelocity.y += par->fGravity * deltaTime * 1.25f;
+		par->vVelocity.setY(par->vVelocity.getY() + par->fGravity * deltaTime * 1.25f);
 
 		par->fSpin += par->fSpinDelta * deltaTime;
 		par->fSize += par->fSizeDelta * deltaTime;
@@ -229,8 +227,8 @@ void ParticleEmitter::Update(f32 deltaTime)
 		par->SetColor(par->fColorR, par->fColorG, par->fColorB, par->fColorA);
 		//par->SetScale(par->fSize);
 		//par->AddPosition(par->vVelocity * deltaTime);
-		par->vScale.x = par->fSize;
-		par->vScale.y = par->fSize;
+		par->vScale.setX(par->fSize);
+		par->vScale.setY(par->fSize);
 		par->fRotation += par->fSpin;
 		//if (par->fRotation >= 360.0f)
 		//	par->fRotation -= 360.0f;
@@ -279,29 +277,29 @@ void ParticleEmitter::Update(f32 deltaTime)
 
 			if (!pInfo->fWidth)
 			{
-				pos.x += pRand->Get(-0.0002f, 0.0002f);
+				pos.setX(pos.getX() + pRand->Get(-0.0002f, 0.0002f));
 			}
 			else
 			{
-				pos.x += pRand->Get(pInfo->fWidth);
+				pos.setX(pos.getX() + pRand->Get(pInfo->fWidth));
 			}
 
 			if (!pInfo->fHeight)
 			{
-				pos.y += pRand->Get(-0.0002f, 0.0002f);
+				pos.setY(pos.getY() + pRand->Get(-0.0002f, 0.0002f));
 			}
 			else
 			{
-				pos.y += pRand->Get(pInfo->fHeight);
+				pos.setY(pos.getY() + pRand->Get(pInfo->fHeight));
 			}
 
 			ang = pInfo->fDirection - kPiOver2 + pRand->Get(0, pInfo->fSpread) - pInfo->fSpread / 2.0f;
 
 			if (pInfo->bRelative)
-				ang += (vPrevLocation - location).Angle() + kPiOver2;
+				ang += VectorAngle(vPrevLocation - location) + kPiOver2;
 
-			par->vVelocity.x = cosf(ang);
-			par->vVelocity.y = sinf(ang) * 1.25f;
+			par->vVelocity.setX(cosf(ang));
+			par->vVelocity.setY(sinf(ang) * 1.25f);
 			par->vVelocity *= pRand->Get(pInfo->fSpeedMin/300.0f, pInfo->fSpeedMax/300.0f) * 0.70f;
 
 			par->fGravity = pRand->Get(pInfo->fGravityMin/900.0f, pInfo->fGravityMax/900.0f) * 3.0f;
@@ -330,8 +328,8 @@ void ParticleEmitter::Update(f32 deltaTime)
 			else
 				par->SetBlending(BlendAdditive);
 			//par->SetScale(par->fSize);
-			par->vScale.x = par->fSize;
-			par->vScale.y = par->fSize;
+			par->vScale.setX(par->fSize);
+			par->vScale.setY(par->fSize);
 			//par->SetPosition(pos);
 			par->vPos = pos;
 			//par->fRotation = par->fSpin;

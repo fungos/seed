@@ -33,7 +33,7 @@
 
 #include "Defines.h"
 #include "interface/IObject.h"
-#include "Vector3.h"
+#include "MathUtil.h"
 
 namespace Seed {
 

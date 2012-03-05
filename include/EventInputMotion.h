@@ -32,7 +32,7 @@
 #define __EVENT_INPUT_MOTION_H__
 
 #include "interface/IEventInput.h"
-#include "Vector3.h"
+#include "MathUtil.h"
 
 namespace Seed {
 

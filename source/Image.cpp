@@ -32,7 +32,7 @@
 #include "RendererDevice.h"
 #include "Texture.h"
 #include "Screen.h"
-#include "Matrix4x4.h"
+#include "MathUtil.h"
 #include "SeedInit.h"
 
 namespace Seed {
@@ -84,36 +84,26 @@ void Image:: Update(f32 delta)
 	UNUSED(delta);
 	if (this->IsChanged())
 	{
-		vert[0].cVertex = Vector3f(-iHalfWidth, -iHeight, vPos.z);
-		vert[0].iColor = iColor;
+		f32  x1, y1, x2, y2, z;
+		x2 = vBoundingBox.getX() * 0.5f;
+		y2 = vBoundingBox.getY() * 0.5f;
+		x1 = -x2;
+		y1 = -y2;
+		z = vPos.getZ();
 
-		vert[1].cVertex = Vector3f(+iHalfWidth, -iHalfHeight, vPos.z);
-		vert[1].iColor = iColor;
+		vert[0].cVertex = Vector3f(x1, y1, z);
+		vert[1].cVertex = Vector3f(x2, y1, z);
+		vert[2].cVertex = Vector3f(x1, y2, z);
+		vert[3].cVertex = Vector3f(x2, y2, z);
 
-		vert[2].cVertex = Vector3f(-iHalfWidth, +iHalfHeight, vPos.z);
-		vert[2].iColor = iColor;
+		this->UpdateTransform();
 
-		vert[3].cVertex = Vector3f(+iHalfWidth, +iHalfHeight, vPos.z);
-		vert[3].iColor = iColor;
-
-		f32 x = iHalfWidth + this->GetX();
-		f32 y = iHalfHeight + this->GetY() * pScreen->GetAspectRatio();
-		f32 lx = this->GetPivotX();
-		f32 ly = this->GetPivotY();
-
-		Matrix4x4f t1, t2, r, s;
-		t1 = TranslationMatrix(lx + x, ly + y, 0.0f);
-		r = RotationMatrix(AxisZ, DegToRad(this->GetRotation()));
-		s = ScaleMatrix(this->GetScaleX(), this->GetScaleY(), 1.0f);
-		t2 = TranslationMatrix(-lx, -ly, 0.0f);
-		Matrix4x4f transform = ((t1 * r) * s) * t2;
-
-		transform.Transform(vert[0].cVertex);
-		transform.Transform(vert[1].cVertex);
-		transform.Transform(vert[2].cVertex);
-		transform.Transform(vert[3].cVertex);
-
-		bTransformationChanged = false;
+		Vector4f tmp;
+		for (u32 i = 0; i < 4; i++)
+		{
+			tmp = mTransform * Vector4f(vert[i].cVertex, 1.0f);
+			vert[i].cVertex = tmp.getXYZ();
+		}
 	}
 }
 
@@ -122,6 +112,7 @@ void Image::Render()
 	if (pTexture && pTexture->GetData())
 	{
 		RendererPacket packet;
+		packet.pTransform = &mTransform;
 		packet.iSize = 4;
 		packet.nMeshType = Seed::TriangleStrip;
 		packet.pVertexData = &vert;
