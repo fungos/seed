@@ -1,0 +1,14 @@
+{
+	"name": "head",
+	"pivot": {"x": 0.5, "y": 0.5}
+	"animations": [
+		{
+			"frames": [
+				{
+					"name": "head",
+					"texture": "head.png",
+				}
+			]
+		}
+	]
+}

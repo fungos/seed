@@ -1,5 +1,3 @@
-OBJECTS =
-
 ifdef USE_CONTRIB_VECTORMATH
 COBJECTS += \
 ../contrib/vectormath/vfpmath/matrix_impl.o \

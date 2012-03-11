@@ -33,8 +33,7 @@
 
 #include "Defines.h"
 #include "Point.h"
-
-#define MAX_KEYFRAMES 1024
+#include "Reader.h"
 
 namespace Seed {
 
@@ -46,15 +45,21 @@ class IEventMovieListener;
 /// Movie Timeline
 class SEED_CORE_API Timeline
 {
+	typedef Map<u32, Keyframe *> KeyframeMap;
+	typedef KeyframeMap::iterator KeyframeMapIterator;
+
 	public:
 		Timeline();
 		~Timeline();
+
+		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		bool Unload();
 
 		void Reset();
 		void Update();
 		void Rewind();
 
-		void AddKeyframe(u32 frame, Keyframe *keyframe);
+		void AddKeyframe(Keyframe *keyframe);
 
 		void GotoAndPlay(u32 frame);
 		void GotoAndPlay(const char *strKeyframeName);
@@ -64,9 +69,10 @@ class SEED_CORE_API Timeline
 		void SetPriority(u32 p);
 		f32 GetWidth() const;
 		f32 GetHeight() const;
+		const String &GetName() const;
 
 		u32 GetCurrentFrame() const;
-		const Keyframe *GetCurrentKeyframe() const;
+		Keyframe *GetCurrentKeyframe();
 
 		void SetLocalPosition(f32 posX, f32 posY);
 		void SetPosition(f32 posX, f32 posY);
@@ -92,6 +98,8 @@ class SEED_CORE_API Timeline
 		ISceneObject		*pObject;
 		IEventMovieListener *pListener;
 
+		String		sName;
+
 		f32			fElapsedTime;
 		f32			fElapsedKeyframeTime;
 		s32			iCurrentFrame;
@@ -103,7 +111,7 @@ class SEED_CORE_API Timeline
 		Point2f		ptParentScale;
 		f32			fParentRotation;
 
-		Keyframe *arKeyframes[MAX_KEYFRAMES];
+		KeyframeMap	mapKeyframes;
 };
 
 } // namespace

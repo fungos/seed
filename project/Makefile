@@ -21,9 +21,9 @@ ifneq ($(mode),release)
 	mode = debug
 endif
 
-ifeq ($(license),commercial)
-	CDEFS += -DSEED_USE_COMMERCIAL
-	COMMERCIAL = YesPlease
+ifeq ($(license),static)
+	CDEFS += -DSEED_USE_STATIC
+	STATIC = YesPlease
 else
 	license = LGPL
 endif
@@ -98,7 +98,7 @@ ifneq (,$(findstring MINGW,$(uname_S)))
 	CFLAGS += -I$(DEPENDENCY)/include
 endif
 
-ifndef COMMERCIAL
+ifndef STATIC
 ifdef WINDOWS
 	TARGET = ../bin/lib$(NAME).dll
 	LIBS += -lgdi32 -lkernel32 -lmingw32
@@ -116,19 +116,19 @@ include Objects.in
 
 all: $(TARGET)
 
-$(TARGET): info $(OBJECTS)
-ifdef WINDOWS
+$(TARGET): info $(OBJECTS) $(COBJECTS)
+ifdef STATIC
 ifdef COMMERCIAL
-	$(AR) $(AR_PARAM) $(TARGET) $(OBJECTS)
+	$(AR) $(AR_PARAM) $(TARGET) $(OBJECTS) $(COBJECTS)
 else
-	$(GCC) -o $(TARGET) $(OBJECTS) $(CPPFLAGS) $(LFLAGS) $(LIBS)
+	$(GCC) -o $(TARGET) $(OBJECTS)  $(COBJECTS) $(CPPFLAGS) $(LFLAGS) $(LIBS)
 endif
 else
 	$(AR) $(AR_PARAM) $(TARGET) $(OBJECTS) $(COBJECTS)
 endif
 
 clean:
-ifdef WINDOWS
+ifdef STATIC
 	$(SEEDSDK)/seedtools/rmw -f $(OBJECTS) $(TARGET) *~
 else
 	rm -rf $(OBJECTS) $(TARGET) *~

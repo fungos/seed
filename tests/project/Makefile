@@ -19,7 +19,7 @@ ifneq ($(mode),release)
 endif
 
 ifeq ($(license),commercial)
-	CDEFS += -DSEED_USE_COMMERCIAL
+	CDEFS += -DSEED_USE_STATIC
 	COMMERCIAL = YesPlease
 else
 	license = Open Source

@@ -98,7 +98,7 @@ void IReader::SelectNext()
 {
 }
 
-void IReader::SelectNode(const char *key)
+bool IReader::SelectNode(const char *key)
 {
 }
 

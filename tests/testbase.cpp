@@ -30,11 +30,21 @@ bool TestBase::Initialize()
 	pScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
-	File f("logo.sprite");
-	Reader r(f);
-	sptLogo.Load(r);
-	cScene.Add(&sptLogo);
-	pScreen->FadeIn();
+	{
+		File f("logo.sprite");
+		Reader r(f);
+		sptLogo.Load(r);
+		sptLogo.SetPivot(0.5f, 0.5f);
+		sptLogo.SetPosition(400, 300);
+		cScene.Add(&sptLogo);
+	}
+
+	{
+		File f("sample.movie");
+		Reader r(f);
+		mvSample.Load(r);
+		cScene.Add(&mvSample);
+	}
 
 	//cScene.SetPosition(100, 100);
 	//sptLogo.SetParent(&cScene);
@@ -49,6 +59,7 @@ bool TestBase::Initialize()
 	pSoundSystem->Add(&sfxSound);
 
 	sfxSound.Play();
+	pScreen->FadeIn();
 
 	return true;
 }

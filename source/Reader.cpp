@@ -141,9 +141,9 @@ void Reader::SelectNext()
 	pOpaque->SelectNext();
 }
 
-void Reader::SelectNode(const char *key)
+bool Reader::SelectNode(const char *key)
 {
-	pOpaque->SelectNode(key);
+	return pOpaque->SelectNode(key);
 }
 
 void Reader::Unselect()

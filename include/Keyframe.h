@@ -33,6 +33,7 @@
 
 #include "Defines.h"
 #include "Point.h"
+#include "Reader.h"
 
 namespace Seed {
 
@@ -49,10 +50,15 @@ class SEED_CORE_API Keyframe
 		};
 
 	public:
+		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		bool Unload();
+
+	public:
 		String		sName;
+		s32			iFrame;
 		f32 		fRotation;
 		Point2f 	ptPos;
-		Point2f 	ptLocalPos;
+		Point2f 	ptPivot;
 		Point2f 	ptScale;
 
 		u32 		iEvent;

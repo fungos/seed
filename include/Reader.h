@@ -57,7 +57,7 @@ class SEED_CORE_API Reader : public IReader
 
 		virtual u32 SelectArray(const char *key);
 		virtual void SelectNext();
-		virtual void SelectNode(const char *key);
+		virtual bool SelectNode(const char *key);
 		virtual void Unselect();
 
 	private:

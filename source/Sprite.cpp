@@ -138,10 +138,56 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 
 			bInitialized = true;
 
-			this->SetRotation(0);
-			this->SetAnimation(0u);
+			if (reader.SelectNode("position"))
+			{
+				vPos.setX(reader.ReadF32("x", 0.0f));
+				vPos.setY(reader.ReadF32("y", 0.0f));
+				reader.Unselect();
+			}
+
+			if (reader.SelectNode("pivot"))
+			{
+				vPivot.setX(reader.ReadF32("x", 0.0f));
+				vPivot.setY(reader.ReadF32("y", 0.0f));
+				reader.Unselect();
+			}
+
+			if (reader.SelectNode("scale"))
+			{
+				vScale.setX(reader.ReadF32("x", 1.0f));
+				vScale.setY(reader.ReadF32("y", 1.0f));
+				vScale.setZ(reader.ReadF32("z", 1.0f));
+				reader.Unselect();
+			}
+
+			if (reader.SelectNode("color"))
+			{
+				iColor.rgba.r = reader.ReadS32("r", 255);
+				iColor.rgba.g = reader.ReadS32("g", 255);
+				iColor.rgba.b = reader.ReadS32("b", 255);
+				iColor.rgba.a = reader.ReadS32("a", 255);
+				reader.Unselect();
+			}
+
+			vPos.setZ(reader.ReadF32("priority", 0.0f));
+
+			this->SetRotation(reader.ReadF32("rotation", 0.0f));
+
+			s32 anim = reader.ReadS32("animation", -1);
+			if (anim == -1)
+			{
+				String sanim = reader.ReadString("animation", "");
+				if (sanim == "")
+					this->SetAnimation(0u);
+				else
+					this->SetAnimation(sanim);
+			}
+			else
+				this->SetAnimation(anim);
 
 			ret = true;
+
+			reader.Unselect();
 		}
 		else
 		{

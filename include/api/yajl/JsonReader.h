@@ -39,6 +39,7 @@
 #include "interface/IReader.h"
 #include "Array.h"
 
+
 namespace Seed {
 
 /// JSON Data reader
@@ -62,7 +63,7 @@ class SEED_CORE_API JsonReader : public IReader
 
 		virtual u32 SelectArray(const char *key);
 		virtual void SelectNext();
-		virtual void SelectNode(const char *key);
+		virtual bool SelectNode(const char *key);
 		virtual void Unselect();
 
 	private:
@@ -72,6 +73,7 @@ class SEED_CORE_API JsonReader : public IReader
 		yajl_val	pRootNode;
 		yajl_val	pCurNode;
 		yajl_val	pCurArray;
+		Stack<yajl_val>	qStack;
 		u32			iPos;
 };
 

@@ -69,7 +69,7 @@ using namespace Seed::OGL;
 #endif // __MWERKS__
 
 #if defined(__MINGW32__)
-	#if defined(SEED_BUILD_LGPL)
+	#if defined(SEED_BUILD_SHARED)
 		#define SEED_CORE_API __declspec(dllexport)
 	#elif defined(SEED_EXTRA_BUILD)
 		#define SEED_PLATFORM_API __declspec(dllexport)
@@ -81,7 +81,7 @@ using namespace Seed::OGL;
 		#define SEED_PLATFORM_API _declspec(dllimport)
 	#endif // __MINGW32__
 #elif defined(_MSC_VER)
-	#if defined(SEED_BUILD_LGPL)
+	#if defined(SEED_BUILD_SHARED)
 		#define SEED_CORE_API _declspec(dllexport)
 	#elif defined(SEED_EXTRA_BUILD)
 		#define SEED_CORE_API _declspec(dllimport)

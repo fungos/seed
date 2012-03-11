@@ -200,6 +200,7 @@ u32 JsonReader::SelectArray(const char *key)
 	if (YAJL_IS_ARRAY(v))
 	{
 		Log(TAG "Array %s found, len: %ld", key, YAJL_GET_ARRAY(v)->len);
+		qStack.push(pCurNode);
 		pCurArray = v;
 		iPos = 0;
 		len = YAJL_GET_ARRAY(v)->len;
@@ -219,11 +220,11 @@ void JsonReader::SelectNext()
 	}
 }
 
-void JsonReader::SelectNode(const char *key)
+bool JsonReader::SelectNode(const char *key)
 {
 	const char *path[] = {key, (const char *)0};
 	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_object);
-
+	bool ret = false;
 	if (!YAJL_IS_OBJECT(v))
 	{
 		Log(TAG "Node %s not found", key);
@@ -231,13 +232,22 @@ void JsonReader::SelectNode(const char *key)
 	else
 	{
 		Log(TAG "Node %s found", key);
+		qStack.push(pCurNode);
 		pCurNode = v;
+		ret = true;
 	}
+
+	return ret;
 }
 
 void JsonReader::Unselect()
 {
-	pCurNode = pRootNode;
+	if (!qStack.empty())
+	{
+		pCurNode = qStack.top();
+		qStack.pop();
+	}
+	pCurArray = NULL;
 }
 
 }

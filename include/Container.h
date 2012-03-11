@@ -35,6 +35,7 @@
 #include <algorithm>
 #include <string>
 #include <map>
+#include <stack>
 
 #ifdef USE_BOOST_ALLOCATOR
 	#include <boost/pool/pool_alloc.hpp>
@@ -72,6 +73,7 @@ namespace Seed {
 	DECLARE_CONTAINER_HELPER(Vector, std::vector)
 }
 
+#define Stack std::stack
 #define Map std::map
 #define DECLARE_CONTAINER_TYPE(cont, type)	typedef cont<type *> type##cont; \
 											typedef type##cont::iterator type##cont##Iterator; \
@@ -81,6 +83,13 @@ namespace Seed {
 												type##Iterator it = v.begin();\
 												type##Iterator end = v.end();\
 												for (; it != end; ++it)\
+													block\
+											}
+
+#define ReverseForEach(type, v, block)		{\
+												type##Iterator it = v.end();\
+												type##Iterator end = v.begin();\
+												for (; it != end; --it)\
 													block\
 											}
 

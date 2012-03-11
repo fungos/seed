@@ -1,0 +1,13 @@
+{
+	"name": "upper body",
+	"animations": [
+		{
+			"frames": [
+				{
+					"name": "upper body",
+					"texture": "upperbody.png",
+				}
+			]
+		}
+	]
+}

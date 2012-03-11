@@ -30,23 +30,105 @@
 
 #include "Movie.h"
 
+#define TAG "[Movie] "
+
 namespace Seed {
 
 Movie::Movie()
-	: bPlaying(true)
-	, fElapsedTime(0.0f)
+	: fElapsedTime(0.0f)
 	, vTimelines()
+	, sName("")
+	, bPlaying(true)
 {
 }
 
 Movie::~Movie()
 {
-	this->Reset();
+	this->Unload();
+}
+
+bool Movie::Unload()
+{
+	ForEach(TimelineVector, vTimelines,
+	{
+		Timeline *obj = (*it);
+		Delete(obj);
+	});
+	TimelineVector().swap(vTimelines);
+
+	return true;
+}
+
+bool Movie::Load(Reader &reader, ResourceManager *res)
+{
+	ASSERT_NULL(res);
+
+	bool ret = false;
+
+	if (this->Unload())
+	{
+		sName = reader.ReadString("name", "movie");
+
+		if (reader.SelectNode("position"))
+		{
+			vPos.setX(reader.ReadF32("x", 0.0f));
+			vPos.setY(reader.ReadF32("y", 0.0f));
+			reader.Unselect();
+		}
+
+		if (reader.SelectNode("pivot"))
+		{
+			vPivot.setX(reader.ReadF32("x", 0.0f));
+			vPivot.setY(reader.ReadF32("y", 0.0f));
+			reader.Unselect();
+		}
+
+		if (reader.SelectNode("scale"))
+		{
+			vScale.setX(reader.ReadF32("x", 1.0f));
+			vScale.setY(reader.ReadF32("y", 1.0f));
+			vScale.setZ(reader.ReadF32("z", 1.0f));
+			reader.Unselect();
+		}
+
+		if (reader.SelectNode("color"))
+		{
+			iColor.rgba.r = reader.ReadS32("r", 255);
+			iColor.rgba.g = reader.ReadS32("g", 255);
+			iColor.rgba.b = reader.ReadS32("b", 255);
+			iColor.rgba.a = reader.ReadS32("a", 255);
+			reader.Unselect();
+		}
+
+		vPos.setZ(reader.ReadF32("priority", 0.0f));
+		this->SetRotation(reader.ReadF32("rotation", 0.0f));
+
+		u32 timelines = reader.SelectArray("timelines");
+		if (timelines)
+		{
+			for (u32 i = 0; i < timelines; i++)
+			{
+				Timeline *obj = New(Timeline);
+				reader.SelectNext();
+				obj->Load(reader, res);
+				vTimelines += obj;
+			}
+			reader.Unselect();
+
+			ret = true;
+		}
+		else
+		{
+			Log(TAG " WARNING: No timeline found in the movie '%s'", sName.c_str());
+		}
+	}
+
+	return ret;
 }
 
 void Movie::AddTimeline(Timeline *timeline)
 {
-	vTimelines.push_back(timeline);
+	vTimelines += timeline;
 	timeline->SetParent(this);
 	this->Add(timeline->GetObject());
 }
@@ -107,8 +189,6 @@ void Movie::Reset()
 	{
 		(*it)->Reset();
 	});
-
-	TimelineVector().swap(vTimelines);
 }
 
 const char *Movie::GetObjectName() const

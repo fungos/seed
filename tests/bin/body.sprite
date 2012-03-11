@@ -1,0 +1,13 @@
+{
+	"name": "body",
+	"animations": [
+		{
+			"frames": [
+				{
+					"name": "body",
+					"texture": "body.png",
+				}
+			]
+		}
+	]
+}
