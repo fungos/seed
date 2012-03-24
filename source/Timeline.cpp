@@ -59,11 +59,15 @@ Timeline::~Timeline()
 
 bool Timeline::Unload()
 {
-	ForEach(KeyframeMap, mapKeyframes,
+	KeyframeMapIterator it = mapKeyframes.begin();
+	KeyframeMapIterator end = mapKeyframes.end();
+	for (; it != end; ++it)
 	{
 		Keyframe *obj = (*it).second;
 		Delete(obj);
-	});
+	}
+
+	Delete(pObject);
 	KeyframeMap().swap(mapKeyframes);
 
 	sName = "";
@@ -85,17 +89,25 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 		String object = reader.ReadString("object", ""); // it can be another any json
 		ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
 		u32 keyframes = reader.SelectArray("keyframes");
-
 		if (keyframes)
 		{
 			for (u32 i = 0; i < keyframes; i++)
 			{
-				Keyframe *obj = New(Keyframe);
 				reader.SelectNext();
+
+				Keyframe *obj = New(Keyframe);
 				obj->Load(reader, res);
-				mapKeyframes[obj->iFrame] = obj;
+
+				u32 frame = 0;
+				if (obj->iFrame)
+					frame = obj->iFrame;
+				else
+					frame = i;
+
+				ASSERT_MSG(mapKeyframes[frame] == NULL, "Dupicated frame in the timeline");
+				mapKeyframes[frame] = obj;
 			}
-			reader.Unselect();
+			reader.UnselectArray();
 
 			File f(object);
 			Reader r(f);
@@ -103,7 +115,6 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 			spt->Load(r, res);
 			spt->SetPriority(prio);
 			pObject = spt;
-
 			ret = true;
 		}
 		else
@@ -135,6 +146,9 @@ void Timeline::Rewind()
 
 void Timeline::AddKeyframe(Keyframe *keyframe)
 {
+	if (mapKeyframes[keyframe->iFrame])
+		Delete(mapKeyframes[keyframe->iFrame]);
+
 	mapKeyframes[keyframe->iFrame] = keyframe;
 }
 
@@ -297,14 +311,11 @@ void Timeline::Update()
 			fCurrA			= kfFrom->iColorA;
 		}
 
-		if (pObject)
-		{
-			pObject->SetPosition(fCurrPosX, fCurrPosY);
-			pObject->SetPivot(fCurrPivotX, fCurrPivotY);
-			pObject->SetRotation(fCurrRot);
-			pObject->SetScale(fCurrScaleX, fCurrScaleY);
-			pObject->SetColor((u32)fCurrR, (u32)fCurrG, (u32)fCurrB, (u32)fCurrA);
-		}
+		pObject->SetPosition(fCurrPosX, fCurrPosY);
+		pObject->SetPivot(fCurrPivotX, fCurrPivotY);
+		pObject->SetRotation(fCurrRot);
+		pObject->SetScale(fCurrScaleX, fCurrScaleY);
+		pObject->SetColor((u32)fCurrR, (u32)fCurrG, (u32)fCurrB, (u32)fCurrA);
 	}
 
 	if ((fBegin / fDuration) >= 1.0f)

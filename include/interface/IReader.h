@@ -56,9 +56,10 @@ class SEED_CORE_API IReader
 		virtual bool ReadBool(const char *key, bool value) const;
 
 		virtual u32 SelectArray(const char *key);
+		virtual void UnselectArray();
 		virtual void SelectNext();
 		virtual bool SelectNode(const char *key);
-		virtual void Unselect();
+		virtual void UnselectNode();
 };
 
 } // namespace

@@ -141,14 +141,19 @@ void Reader::SelectNext()
 	pOpaque->SelectNext();
 }
 
+void Reader::UnselectArray()
+{
+	pOpaque->UnselectArray();
+}
+
 bool Reader::SelectNode(const char *key)
 {
 	return pOpaque->SelectNode(key);
 }
 
-void Reader::Unselect()
+void Reader::UnselectNode()
 {
-	pOpaque->Unselect();
+	pOpaque->UnselectNode();
 }
 
 } // namespace

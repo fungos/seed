@@ -103,21 +103,21 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 		{
 			ptPos.x = reader.ReadF32("x", 0.0f);
 			ptPos.y = reader.ReadF32("y", 0.0f);
-			reader.Unselect();
+			reader.UnselectNode();
 		}
 
 		if (reader.SelectNode("pivot"))
 		{
 			ptPivot.x = reader.ReadF32("x", 0.0f);
 			ptPivot.y = reader.ReadF32("y", 0.0f);
-			reader.Unselect();
+			reader.UnselectNode();
 		}
 
 		if (reader.SelectNode("scale"))
 		{
 			ptScale.x = reader.ReadF32("x", 1.0f);
 			ptScale.y = reader.ReadF32("y", 1.0f);
-			reader.Unselect();
+			reader.UnselectNode();
 		}
 
 		if (reader.SelectNode("color"))
@@ -126,7 +126,7 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 			iColorG = reader.ReadS32("g", 255);
 			iColorB = reader.ReadS32("b", 255);
 			iColorA = reader.ReadS32("a", 255);
-			reader.Unselect();
+			reader.UnselectNode();
 		}
 
 		ret = true;

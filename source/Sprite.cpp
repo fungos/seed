@@ -142,14 +142,14 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 			{
 				vPos.setX(reader.ReadF32("x", 0.0f));
 				vPos.setY(reader.ReadF32("y", 0.0f));
-				reader.Unselect();
+				reader.UnselectNode();
 			}
 
 			if (reader.SelectNode("pivot"))
 			{
 				vPivot.setX(reader.ReadF32("x", 0.0f));
 				vPivot.setY(reader.ReadF32("y", 0.0f));
-				reader.Unselect();
+				reader.UnselectNode();
 			}
 
 			if (reader.SelectNode("scale"))
@@ -157,7 +157,7 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 				vScale.setX(reader.ReadF32("x", 1.0f));
 				vScale.setY(reader.ReadF32("y", 1.0f));
 				vScale.setZ(reader.ReadF32("z", 1.0f));
-				reader.Unselect();
+				reader.UnselectNode();
 			}
 
 			if (reader.SelectNode("color"))
@@ -166,7 +166,7 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 				iColor.rgba.g = reader.ReadS32("g", 255);
 				iColor.rgba.b = reader.ReadS32("b", 255);
 				iColor.rgba.a = reader.ReadS32("a", 255);
-				reader.Unselect();
+				reader.UnselectNode();
 			}
 
 			vPos.setZ(reader.ReadF32("priority", 0.0f));
@@ -187,7 +187,7 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 
 			ret = true;
 
-			reader.Unselect();
+			reader.UnselectArray();
 		}
 		else
 		{

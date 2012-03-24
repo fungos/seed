@@ -339,7 +339,11 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 						{
 							case 4:
 							{
+#if defined(BUILD_IOS)
 								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+#else
+								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+#endif
 							}
 							break;
 

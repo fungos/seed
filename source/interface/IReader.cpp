@@ -98,11 +98,17 @@ void IReader::SelectNext()
 {
 }
 
-bool IReader::SelectNode(const char *key)
+void IReader::UnselectArray()
 {
 }
 
-void IReader::Unselect()
+bool IReader::SelectNode(const char *key)
+{
+	UNUSED(key);
+	return false;
+}
+
+void IReader::UnselectNode()
 {
 }
 

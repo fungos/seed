@@ -200,7 +200,9 @@ u32 JsonReader::SelectArray(const char *key)
 	if (YAJL_IS_ARRAY(v))
 	{
 		Log(TAG "Array %s found, len: %ld", key, YAJL_GET_ARRAY(v)->len);
-		qStack.push(pCurNode);
+		qStackNode.push(pCurNode);
+		qStackArray.push(pCurArray);
+		qStackArrayPos.push(iPos);
 		pCurArray = v;
 		iPos = 0;
 		len = YAJL_GET_ARRAY(v)->len;
@@ -220,6 +222,24 @@ void JsonReader::SelectNext()
 	}
 }
 
+void JsonReader::UnselectArray()
+{
+	if (!qStackArray.empty())
+	{
+		pCurArray = qStackArray.top();
+		qStackArray.pop();
+
+		iPos = qStackArrayPos.top();
+		qStackArrayPos.pop();
+
+		if (!qStackNode.empty())
+		{
+			pCurNode = qStackNode.top();
+			qStackNode.pop();
+		}
+	}
+}
+
 bool JsonReader::SelectNode(const char *key)
 {
 	const char *path[] = {key, (const char *)0};
@@ -232,7 +252,7 @@ bool JsonReader::SelectNode(const char *key)
 	else
 	{
 		Log(TAG "Node %s found", key);
-		qStack.push(pCurNode);
+		qStackNode.push(pCurNode);
 		pCurNode = v;
 		ret = true;
 	}
@@ -240,14 +260,13 @@ bool JsonReader::SelectNode(const char *key)
 	return ret;
 }
 
-void JsonReader::Unselect()
+void JsonReader::UnselectNode()
 {
-	if (!qStack.empty())
+	if (!qStackNode.empty())
 	{
-		pCurNode = qStack.top();
-		qStack.pop();
+		pCurNode = qStackNode.top();
+		qStackNode.pop();
 	}
-	pCurArray = NULL;
 }
 
 }

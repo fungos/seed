@@ -49,11 +49,11 @@ Movie::~Movie()
 
 bool Movie::Unload()
 {
-	ForEach(TimelineVector, vTimelines,
+	for (u32 i = 0; i < vTimelines.Size(); i++)
 	{
-		Timeline *obj = (*it);
-		Delete(obj);
-	});
+		Delete(vTimelines[i]);
+	}
+
 	TimelineVector().swap(vTimelines);
 
 	return true;
@@ -73,14 +73,14 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 		{
 			vPos.setX(reader.ReadF32("x", 0.0f));
 			vPos.setY(reader.ReadF32("y", 0.0f));
-			reader.Unselect();
+			reader.UnselectNode();
 		}
 
 		if (reader.SelectNode("pivot"))
 		{
 			vPivot.setX(reader.ReadF32("x", 0.0f));
 			vPivot.setY(reader.ReadF32("y", 0.0f));
-			reader.Unselect();
+			reader.UnselectNode();
 		}
 
 		if (reader.SelectNode("scale"))
@@ -88,7 +88,7 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 			vScale.setX(reader.ReadF32("x", 1.0f));
 			vScale.setY(reader.ReadF32("y", 1.0f));
 			vScale.setZ(reader.ReadF32("z", 1.0f));
-			reader.Unselect();
+			reader.UnselectNode();
 		}
 
 		if (reader.SelectNode("color"))
@@ -97,7 +97,7 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 			iColor.rgba.g = reader.ReadS32("g", 255);
 			iColor.rgba.b = reader.ReadS32("b", 255);
 			iColor.rgba.a = reader.ReadS32("a", 255);
-			reader.Unselect();
+			reader.UnselectNode();
 		}
 
 		vPos.setZ(reader.ReadF32("priority", 0.0f));
@@ -108,12 +108,17 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 		{
 			for (u32 i = 0; i < timelines; i++)
 			{
-				Timeline *obj = New(Timeline);
 				reader.SelectNext();
+
+				Timeline *obj = New(Timeline);
 				obj->Load(reader, res);
 				vTimelines += obj;
+
+				ISceneObject *o = obj->GetObject();
+				o->SetParent(this);
+				this->Add(o);
 			}
-			reader.Unselect();
+			reader.UnselectArray();
 
 			ret = true;
 		}
@@ -145,9 +150,14 @@ void Movie::Update(f32 delta)
 	{
 		fElapsedTime -= frame;
 
-		ForEach(TimelineVector, vTimelines,
+		//ForEach(TimelineVector, vTimelines,
+		TimelineVectorIterator it = vTimelines.begin();
+		TimelineVectorIterator end = vTimelines.end();
+		for (; it != end; ++it)
+		//for (int i = 0; i < vTimelines.Size(); i++)
 		{
 			Timeline *obj = (*it);
+			//Timeline *obj = vTimelines[i];
 			if (bTransformationChanged)
 			{
 				obj->SetLocalPosition(this->GetPivotX(), this->GetPivotY());
@@ -157,7 +167,7 @@ void Movie::Update(f32 delta)
 			}
 
 			obj->Update();
-		});
+		}//);
 	}
 
 	SceneNode::Update(delta);

@@ -5,7 +5,7 @@
 			"frames": [
 				{
 					"name": "upper body",
-					"texture": "upperbody.png",
+					"texture": "upperbody.png"
 				}
 			]
 		}

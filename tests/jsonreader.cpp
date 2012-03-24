@@ -33,12 +33,12 @@ bool TestJsonReader::Update(f32 dt)
 	if (iCol == 0)
 		bDir = true;
 
-	if (iCount == 200)
-		pScreen->FadeOut();
+//	if (iCount == 200)
+//		pScreen->FadeOut();
 
 	if (iCount == 400)
 	{
-		pScreen->FadeIn();
+//		pScreen->FadeIn();
 		iCount = 0;
 	}
 	iCount++;
