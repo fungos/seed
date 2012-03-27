@@ -39,7 +39,8 @@
 namespace Seed {
 
 File::File()
-	: sName()
+	: IObject()
+	, sName()
 	, pHandle(NULL)
 	, pData(NULL)
 	, iSize(0)
@@ -47,7 +48,8 @@ File::File()
 }
 
 File::File(const String &filename)
-	: sName(filename)
+	: IObject()
+	, sName(filename)
 	, pHandle(NULL)
 	, pData(NULL)
 	, iSize(0)
@@ -61,6 +63,7 @@ File::~File()
 }
 
 File::File(const File &other)
+	: IObject()
 {
 	sName = other.sName;
 	pHandle = other.pHandle;

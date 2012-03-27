@@ -57,6 +57,7 @@ JsonReader::~JsonReader()
 }
 
 JsonReader::JsonReader(const JsonReader &other)
+	: IReader(other)
 {
 	pRootNode = NULL;
 	pCurNode = other.pCurNode;

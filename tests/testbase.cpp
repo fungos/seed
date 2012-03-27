@@ -66,6 +66,7 @@ bool TestBase::Initialize()
 
 bool TestBase::Update(f32 dt)
 {
+	UNUSED(dt)
 	return true;
 }
 
@@ -92,6 +93,7 @@ bool TestBase::Reset()
 
 void TestBase::OnSystemShutdown(const EventSystem *ev)
 {
+	UNUSED(ev)
 	pSystem->Shutdown();
 }
 

@@ -32,6 +32,7 @@
 #define __VERTEX_H__
 
 #include "Defines.h"
+#include "Enum.h"
 #include "MathUtil.h"
 #include "Point.h"
 

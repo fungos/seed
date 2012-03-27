@@ -31,6 +31,7 @@
 #define __STATEMACHINE_H__
 
 #include "Defines.h"
+#include "Enum.h"
 #include "interface/IEvent.h"
 #include "Log.h"
 

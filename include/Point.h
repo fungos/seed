@@ -33,6 +33,7 @@
 
 #include <math.h>
 #include <stdlib.h>
+#include "Defines.h"
 
 namespace Seed {
 

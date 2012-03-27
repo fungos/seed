@@ -227,6 +227,7 @@ SEED_COMPILE_TIME_ASSERT(enum, sizeof(SEED_ENUM_ASSERT) == sizeof(u32));
 
 #include "LeakReport.h"
 #include "Container.h"
+#include "Log.h"
 
 extern "C" { namespace Seed {
 	class ResourceManager;
