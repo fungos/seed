@@ -86,8 +86,27 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 	{
 		sName = reader.ReadString("name", "timeline");
 		f32 prio = reader.ReadF32("priority", 0.0f);
-		String object = reader.ReadString("object", ""); // it can be another any json
-		ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
+		if (reader.SelectNode("object"))
+		{
+			Reader r(reader);
+			Sprite *spt = New(Sprite);
+			spt->Load(r, res);
+			spt->SetPriority(prio);
+			pObject = spt;
+		}
+		else
+		{
+			String object = reader.ReadString("object", ""); // it can be another any json
+			ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
+
+			File f(object);
+			Reader r(f);
+			Sprite *spt = New(Sprite);
+			spt->Load(r, res);
+			spt->SetPriority(prio);
+			pObject = spt;
+		}
+
 		u32 keyframes = reader.SelectArray("keyframes");
 		if (keyframes)
 		{
@@ -109,12 +128,6 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 			}
 			reader.UnselectArray();
 
-			File f(object);
-			Reader r(f);
-			Sprite *spt = New(Sprite);
-			spt->Load(r, res);
-			spt->SetPriority(prio);
-			pObject = spt;
 			ret = true;
 		}
 		else

@@ -111,7 +111,7 @@ bool JsonReader::Load(const void *data)
 	return ret;
 }
 
-bool JsonReader::Load(const IReader &reader)
+bool JsonReader::Load(IReader &reader)
 {
 	bool ret = false;
 

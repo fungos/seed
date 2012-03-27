@@ -54,7 +54,7 @@ class SEED_CORE_API JsonReader : public IReader
 
 		// IReader
 		virtual bool Load(const void *data);
-		virtual bool Load(const IReader &reader);
+		virtual bool Load(IReader &reader);
 		virtual const char *ReadString(const char *key, const char *value) const;
 		virtual u32 ReadU32(const char *key, u32 value) const;
 		virtual s32 ReadS32(const char *key, s32 value) const;

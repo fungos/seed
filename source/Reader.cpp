@@ -66,7 +66,9 @@ Reader::Reader(Reader &reader)
 	, pOpaque(&cNullReader)
 {
 	this->Init();
-	pOpaque->Load(reader.pOpaque);
+
+	IReader *r = reader.pOpaque;
+	pOpaque->Load(*r);
 }
 
 Reader::~Reader()
