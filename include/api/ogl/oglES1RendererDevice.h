@@ -51,17 +51,8 @@
 #endif
 
 #if defined(BUILD_SDL) && defined(_MSC_VER)
-#pragma push_macro("Delete")
-#pragma push_macro("bool")
-#pragma push_macro("SIZE_T")
-#undef Delete
-#undef bool
-#undef SIZE_T
 #define NO_SDL_GLEXT	1
 #include <SDL/SDL_opengl.h>
-#pragma pop_macro("SIZE_T")
-#pragma pop_macro("bool")
-#pragma pop_macro("Delete")
 #elif defined(BUILD_SDL)
 #define NO_SDL_GLEXT	1
 #include <SDL/SDL_opengl.h>

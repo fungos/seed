@@ -39,8 +39,8 @@
 namespace Seed {
 
 class ITexture;
-class Animation;
-class Frame;
+struct Animation;
+struct Frame;
 
 /// Sprite 2D
 /*!

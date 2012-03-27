@@ -48,7 +48,7 @@ Rand::~Rand()
 void Rand::Initialize(u32 seed)
 {
 	if (!seed)
-		iSeed = RAND;
+		iSeed = rand();
 	else
 		iSeed = seed;
 }

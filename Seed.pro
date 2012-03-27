@@ -6,10 +6,10 @@ DEFINES += SEED_BUILD BUILD_SDL
 unix:DEFINES += LINUX
 
 CONFIG(debug, debug|release) {
-	DESTDIR = $(SEEDSDK)/seed/lib/debug
+	DESTDIR = $$(SEEDSDK)/seed/lib/debug
 	DEFINES += DEBUG
 } else {
-	DESTDIR = $(SEEDSDK)/seed/lib/release
+	DESTDIR = $$(SEEDSDK)/seed/lib/release
 	DEFINES += RELEASE
 }
 
@@ -32,7 +32,6 @@ SOURCES += source/Viewport.cpp \
 	source/Renderer.cpp \
 	source/Reader.cpp \
 	source/Rand.cpp \
-	source/Project.cpp \
 	source/Profiler.cpp \
 	source/ParticleManager.cpp \
 	source/ParticleEmitterObject.cpp \
@@ -176,7 +175,6 @@ HEADERS += \
 	include/Rect.h \
 	include/Reader.h \
 	include/Rand.h \
-	include/Project.h \
 	include/Profiler.h \
 	include/Point.h \
 	include/ParticleManager.h \

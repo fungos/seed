@@ -21,21 +21,21 @@ OTHER_FILES += \
 	bin/upperbody.sprite
 
 CONFIG(debug, debug|release) {
-	DESTDIR = $(SEEDSDK)/seed/tests/bin
+	DESTDIR = $$(SEEDSDK)/seed/tests/bin
 	DEFINES += DEBUG
-	LIBS += -L$(SEEDSDK)/seed/lib/debug -lseed -lseedcontrib
+	LIBS += -L$$(SEEDSDK)/seed/lib/debug
 } else {
-	DESTDIR = $(SEEDSDK)/seed/tests/bin
+	DESTDIR = $$(SEEDSDK)/seed/tests/bin
 	DEFINES += RELEASE
-	LIBS += -L$(SEEDSDK)/seed/lib/release -lseed -lseedcontrib
+	LIBS += -L$$(SEEDSDK)/seed/lib/release
 }
 
 unix {
 	DEFINES += LINUX
-	LIBS += -lGL -lopenal -lSDL -lSDL_image
+	LIBS += -lseed -lseedcontrib -lGL -lopenal -lSDL -lSDL_image
 }
 
 win32 {
-	DEFINES += WIN32
-	LIBS += -lopengl32 -lopenal32 -lSDL -lSDL_image
+	DEFINES += WIN32 main=SDL_main
+	LIBS += -lseed -lseedcontrib -mwindows -lmingw32 -lSDLmain -lSDL -lopengl32 -lopenal32 -lSDL_image -lgdi32
 }

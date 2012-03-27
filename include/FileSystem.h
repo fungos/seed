@@ -41,8 +41,8 @@ class SEED_CORE_API FileSystem : public IModule
 {
 	SEED_SINGLETON_DECLARE(FileSystem)
 	public:
-		const FilePath *GetWorkDirectory() const;
-		const FilePath *GetWriteableDirectory() const;
+		const char *GetWorkDirectory() const;
+		const char *GetWriteableDirectory() const;
 
 		// IModule
 		virtual bool Initialize();

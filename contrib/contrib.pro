@@ -4,10 +4,10 @@ TARGET = seedcontrib
 TEMPLATE = lib
 
 CONFIG(debug, debug|release) {
-	DESTDIR = $(SEEDSDK)/seed/lib/debug
+	DESTDIR = $$(SEEDSDK)/seed/lib/debug
 	DEFINES += DEBUG
 } else {
-	DESTDIR = $(SEEDSDK)/seed/lib/release
+	DESTDIR = $$(SEEDSDK)/seed/lib/release
 	DEFINES += RELEASE
 }
 
@@ -43,7 +43,6 @@ SOURCES += yajl/yajl_buf.c \
 	vorbis/codebook.c \
 	vorbis/block.c \
 	vorbis/bitrate.c \
-	vorbis/barkmel.c \
 	vorbis/analysis.c \
 	theora/tokenize.c \
 	theora/thinfo.c \

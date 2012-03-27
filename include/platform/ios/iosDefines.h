@@ -81,43 +81,7 @@ typedef float 					f32;
 typedef float 					fixed32;
 typedef int 					PIXEL;
 
-#if SEED_PATH_WIDE == 1
-typedef wchar_t					FilePath;
-#define PATHCOPY				wcsncpy
-#define PATHCAT					wcsncat
-#define PATHLEN					wcslen
-#else
 typedef char					FilePath;
-#define PATHCOPY				strncpy
-#define PATHCAT					strncat
-#define PATHLEN					strlen
-#endif
-
-#define LIB_SIZE_T				size_t
-
-// Memory amd Stings
-#define LIB_MEMSET(ptr, v, len)		memset(ptr, v, len)
-#define LIB_MEMSET4(ptr, v, len)	do { int *p = static_cast<int *>(ptr); for (u32 x=0; x<len; x++) p[x]=v; } while (0)
-#define LIB_MEMCOPY(dst, src, len)  memcpy(dst, src, len)
-#define LIB_STRLEN(ptr)				strlen(ptr)
-#define LIB_STRCMP					strcmp
-#define LIB_STRLCPY					strlcpy
-#define LIB_STRLCAT					strlcat
-#define LIB_STRCASECMP				strcasecmp
-#define LIB_STRDUP					strdup
-#define LIB_RAND					rand()
-
-#define LIB_FOPEN(a, b)				fopen(a, b)
-
-// Math
-#define LIB_FAST_DIV(a, b)			(a/b)
-#define LIB_FAST_MOD(a, b)			(a%b)
-#define LIB_FAST_SQRT(a)			(float)sqrt(a) // FIXME: Double...
-#define LIB_FAST_COS(a)				cos(a)
-#define LIB_FAST_SIN(a)				sin(a)
-#define LIB_FAST_ACOS(a)			acos(a)
-#define LIB_FAST_ASIN(a)			asin(a)
-#define LIB_ABS(a)			    	fabs(a)
 
 #define _Halt(x)	Log("%s", x); while (1);
 #define HALT		do { Log("HALT!"); exit(-1); } while (1);

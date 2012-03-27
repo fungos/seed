@@ -36,20 +36,8 @@
 #include "SeedInit.h"
 
 #if defined(WIN32)
-#pragma push_macro("Delete")
-#pragma push_macro("bool")
-#pragma push_macro("SIZE_T")
-#undef Delete
-#if defined(_MSC_VER)
-#undef bool
-#else
 #define USER_DEFAULT_SCREEN_DPI	96
-#endif
-#undef SIZE_T
 #include <SDL/SDL_syswm.h>
-#pragma pop_macro("SIZE_T")
-#pragma pop_macro("bool")
-#pragma pop_macro("Delete")
 #endif
 
 #define TAG "[Screen] "
@@ -301,14 +289,14 @@ bool Screen::InitializeVideo()
 			HWND hWnd = info.window;
 			iHandle = (u32)hWnd;
 
-			const HANDLE bigIcon = ::LoadImage(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
+			const HANDLE bigIcon = ::LoadImageA(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
 			if (bigIcon)
 			{
 				icon = true;
 				::SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)bigIcon);
 			}
 
-			const HANDLE lilIcon = ::LoadImage(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
+			const HANDLE lilIcon = ::LoadImageA(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
 			if (bigIcon)
 			{
 				icon = true;

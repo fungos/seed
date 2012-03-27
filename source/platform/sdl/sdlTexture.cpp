@@ -96,14 +96,14 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 	{
 		SDL_RWops *rwops = SDL_RWFromConstMem(stFile.GetData(), stFile.GetSize());
 
-		SIZE_T extpos = STRLEN(stFile.GetName().c_str());
+		size_t extpos = SDL_strlen(stFile.GetName().c_str());
 		char *ext = const_cast<char *>(stFile.GetName().c_str()) - 3;
 		ext = &ext[extpos];
 
 		u32 format = PNG;
-		if (!STRCASECMP(pImageFormatTable[TGA], ext))
+		if (!SDL_strcasecmp(pImageFormatTable[TGA], ext))
 			format = TGA;
-		else if (!STRCASECMP(pImageFormatTable[JPG], ext))
+		else if (!SDL_strcasecmp(pImageFormatTable[JPG], ext))
 			format = JPG;
 
 		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, const_cast<char *>(pImageFormatTable[format]));

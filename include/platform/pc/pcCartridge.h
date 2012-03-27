@@ -44,14 +44,8 @@
 
 #define CARTRIDGE_SECTOR_ROUND(n, a)     (((u32) (n) + (a) - 1) & ~((a) - 1))
 
-#if SEED_PATH_WIDE == 1
-#define CARTRIDGE_FILENAME	L"savedata"
-#define PATH_SEPARATOR		L"/"
-#else
 #define CARTRIDGE_FILENAME	"savedata"
 #define PATH_SEPARATOR		"/"
-#endif
-
 #define PC_MAX_PATH		2048
 
 namespace Seed { namespace PC {
@@ -79,11 +73,11 @@ class SEED_CORE_API Cartridge : public ICartridge
 
 		u32 GetCardType(eCartridgeSize size);
 		bool CreateSaveFile();
-		bool Verify(const FilePath *filename, u32 filesize);
-		bool GetFileSize(const FilePath *filename, u32 *length);
+		bool Verify(const char *filename, u32 filesize);
+		bool GetFileSize(const char *filename, u32 *length);
 
 	private:
-		FilePath strPath[PC_MAX_PATH];
+		char strPath[PC_MAX_PATH];
 		u32 iType;
 		s32 iCurrentSlot;
 		u8 *pData;

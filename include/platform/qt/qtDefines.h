@@ -75,25 +75,11 @@ typedef float 					f32;
 typedef float 					fixed32;
 typedef int 					PIXEL;
 typedef int						bool;
-
-#if SEED_PATH_WIDE == 1
-typedef wchar_t					FilePath;
-#define PATHCOPY				wcsncpy
-#define PATHCAT					wcsncat
-#define PATHLEN					wcslen
-#define SNPRINTF				swprintf
-#else
 typedef char					FilePath;
-#define PATHCOPY				strncpy
-#define PATHCAT					strncat
-#define PATHLEN					strlen
-#define SNPRINTF				snprintf
-#endif
 
 #if defined(WIN32)
 	#undef OUT
 	#define ATTRIBUTE_ALIGN(x)
-	#define LIB_FOPEN(a, b)					_wfopen((wchar_t *)a, L##b)
 	#define PLATFORM_PATH_SEPARATOR			'\\'
 	#if defined(_MSC_VER)
 		#include <direct.h>
@@ -104,28 +90,8 @@ typedef char					FilePath;
 		#define chdir _chdir
 	#endif // _MSC_VER
 #else
-	#define LIB_FOPEN(a, b)					fopen((const char *)a, b)
 	#define PLATFORM_PATH_SEPARATOR			'/'
 #endif // WIN32
-
-#define LIB_SIZE_T					size_t
-#define LIB_RAND					rand() //(u32)(srand((unsigned int)(time(NULL))))
-
-// Memory amd Stings
-#define LIB_MEMSET					memset
-#define LIB_MEMSET4(ptr, v, len)	do { int *p = static_cast<int *>(ptr); for (u32 x=0; x<len; x++) p[x]=v; } while (0)
-#define LIB_MEMCOPY					memcpy
-#define LIB_STRLEN					strlen
-#define LIB_STRCMP					strcmp
-#define LIB_STRLCPY(a, b, c)		strncpy(a, b, c); a[c] = '\0';
-#define LIB_STRLCAT					strncat
-#define LIB_STRCASECMP				strcasecmp
-#define CHDIR						chdir
-
-// Math
-#define LIB_FAST_DIV(a, b)			(a/b)
-#define LIB_FAST_MOD(a, b)			(a%b)
-#define LIB_FAST_SQRT(a)			sqrt(a)
 
 #define HALT	do { exit(-1); } while (1);
 

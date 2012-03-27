@@ -53,7 +53,7 @@ ISystem::ISystem()
 	, bDefaultCursorEnabled(false)
 	, iRetraceIndex(0)
 {
-	MEMSET(arRetraceCount, '\0', sizeof(arRetraceCount));
+	memset(arRetraceCount, '\0', sizeof(arRetraceCount));
 }
 
 ISystem::~ISystem()
@@ -82,25 +82,25 @@ const char *ISystem::GetLanguageString() const
 	return pcLanguageTable[nLanguage];
 }
 
-const FilePath *ISystem::GetUsername() const
+const char *ISystem::GetUsername() const
 {
 	SEED_ABSTRACT_METHOD;
 	return NULL;
 }
 
-const FilePath *ISystem::GetHomeFolder() const
+const char *ISystem::GetHomeFolder() const
 {
 	SEED_ABSTRACT_METHOD;
 	return NULL;
 }
 
-const FilePath *ISystem::GetApplicationDataFolder() const
+const char *ISystem::GetApplicationDataFolder() const
 {
 	SEED_ABSTRACT_METHOD;
 	return NULL;
 }
 
-const FilePath *ISystem::GetSaveGameFolder() const
+const char *ISystem::GetSaveGameFolder() const
 {
 	SEED_ABSTRACT_METHOD;
 	return NULL;

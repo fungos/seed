@@ -75,7 +75,7 @@ Configuration *pConfiguration = NULL;
 
 void CommandLineParameter(const char *param)
 {
-	if (!STRCASECMP(param, "--nosound"))
+	if (!strcasecmp(param, "--nosound"))
 	{
 		Private::bDisableSound = true;
 	}

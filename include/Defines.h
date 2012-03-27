@@ -67,30 +67,7 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define SEED_EXTRA_API
 #endif
 
-#define STRING_LENGTH					LIB_STRLEN
-#define SIZE_T							LIB_SIZE_T
 #define UNUSED(var)						(void)var;
-#define RAND							LIB_RAND
-
-#undef MEMSET4
-// Memory and Strings
-#define MEMSET							LIB_MEMSET
-#define MEMSET4							LIB_MEMSET4
-#define MEMCOPY							LIB_MEMCOPY
-#define STRLEN							LIB_STRLEN
-#define STRCMP							LIB_STRCMP
-#define STRLCPY							LIB_STRLCPY
-#define STRLCAT							LIB_STRLCAT
-#define STRCASECMP						LIB_STRCASECMP
-#define STRDUP							LIB_STRDUP
-
-// Math
-#define FAST_DIV						LIB_FAST_DIV
-#define FAST_MOD						LIB_FAST_MOD
-#define FAST_SQRT						LIB_FAST_SQRT
-
-// Filesystem
-#define FOPEN(a, b)						LIB_FOPEN(a, b)
 
 /// Pixel union
 union uPixel

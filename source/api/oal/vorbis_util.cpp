@@ -49,7 +49,7 @@ size_t vorbis_read(void *ptr, size_t byteSize, size_t sizeToRead, void *datasour
 
 	if (actualSizeToRead)
 	{
-		MEMCOPY(ptr, (char*)vorbisData->dataPtr + vorbisData->dataRead, actualSizeToRead);
+		memcpy(ptr, (char*)vorbisData->dataPtr + vorbisData->dataRead, actualSizeToRead);
 		vorbisData->dataRead += (actualSizeToRead);
 	}
 

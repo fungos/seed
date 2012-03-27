@@ -33,13 +33,13 @@
 
 #include "Defines.h"
 
-bool create_directory(const FilePath *path);
-const FilePath *get_user_name();
-const FilePath *get_user_appdata_folder();
-const FilePath *get_user_savegame_folder();
-const FilePath *get_user_home_folder();
-void get_current_directory(FilePath *buff, int size);
-bool change_directory(const FilePath *to);
+bool create_directory(const char *path);
+const char *get_user_name();
+const char *get_user_appdata_folder();
+const char *get_user_savegame_folder();
+const char *get_user_home_folder();
+void get_current_directory(char *buff, int size);
+bool change_directory(const char *to);
 void print_system_info();
 bool system_check_multiple_instance();
 
