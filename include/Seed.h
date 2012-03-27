@@ -117,6 +117,10 @@
 #include <api/theora/Theora.h>
 #endif
 
+#if defined(BUILD_SDL) && defined(WIN32)
+#undef main
+#endif
+
 namespace Seed {}
 
 #endif // __SEED_H__
