@@ -148,6 +148,11 @@ void Reader::UnselectArray()
 	pOpaque->UnselectArray();
 }
 
+bool Reader::IsNode() const
+{
+	return pOpaque->IsNode();
+}
+
 bool Reader::SelectNode(const char *key)
 {
 	return pOpaque->SelectNode(key);

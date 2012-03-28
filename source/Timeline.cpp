@@ -86,6 +86,12 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 	{
 		sName = reader.ReadString("name", "timeline");
 		f32 prio = reader.ReadF32("priority", 0.0f);
+
+		/*
+		FIXME: The object here can be any ISceneObject, so we need a way to
+		identify the kind of object and a kind of factory that will construct
+		the object and return to us (Project)
+		*/
 		if (reader.SelectNode("object"))
 		{
 			Reader r(reader);
@@ -93,10 +99,11 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 			spt->Load(r, res);
 			spt->SetPriority(prio);
 			pObject = spt;
+			reader.UnselectNode();
 		}
 		else
 		{
-			String object = reader.ReadString("object", ""); // it can be another any json
+			String object = reader.ReadString("object", "");
 			ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
 
 			File f(object);
@@ -108,6 +115,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 		}
 
 		u32 keyframes = reader.SelectArray("keyframes");
+		ASSERT_MSG(keyframes != 0, "Timeline does not have keyframes.");
 		if (keyframes)
 		{
 			for (u32 i = 0; i < keyframes; i++)
@@ -221,9 +229,8 @@ void Timeline::Update()
 	f32 fBegin 		= static_cast<f32>(iCurrentFrame - iKeyframeFrom);
 	f32 fDuration 	= static_cast<f32>(iKeyframeTo - iKeyframeFrom);
 
-	//Raptor note: Timeline should only change the position and orientation of the object NEVER
-	//its visibility or rendering state
-	//pObject->SetVisible(!kfFrom->bBlank);
+	// Raptor note: Timeline should only change the position and orientation of the object NEVER its visibility or rendering state
+	// pObject->SetVisible(!kfFrom->bBlank);
 	if (!kfFrom->bBlank)
 	{
 		//calculate the interpolated values

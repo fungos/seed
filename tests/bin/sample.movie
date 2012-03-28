@@ -1,4 +1,5 @@
 {
+	"type": "movie",
 	"name": "sample",
 	"position": {"x": 50, "y": 300},
 	"timelines": [

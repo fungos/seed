@@ -241,6 +241,14 @@ void JsonReader::UnselectArray()
 	}
 }
 
+bool JsonReader::IsNode(const char *key) const
+{
+	const char *path[] = {key, (const char *)0};
+	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_object);
+
+	return YAJL_IS_OBJECT(v);
+}
+
 bool JsonReader::SelectNode(const char *key)
 {
 	const char *path[] = {key, (const char *)0};
