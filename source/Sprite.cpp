@@ -180,7 +180,6 @@ void Sprite::ReconfigureFrame()
 
 	ITransformable::SetWidth(pFrame->iWidth);
 	ITransformable::SetHeight(pFrame->iHeight);
-	//ITransformable::SetPivot(pFrame->iHalfWidth, pFrame->iHalfHeight);
 
 	f32 u0, u1, v0, v1;
 

@@ -54,6 +54,21 @@
 #define SEED_ENABLE_DEPTH_TEST				0
 
 /*
+Transformable objects have only one pivot for calculating the object position, scale and rotation.
+By enabling this, the rotation and scale will be separated from the position pivot but not configurable (defaults to the center of the frame).
+*/
+#define SEED_USE_ROTATION_PIVOT				0
+
+/*
+Transformables objects give you the freedom to change the pivot used for calculating the object position, scale and rotation.
+This option, if enabled, will force the pivot to the center of the object (default, but you are free to change)
+If this option is disabled, you'll have the default pivot in the upper-left corner of the image, causing objects to rotate in a unexpected way.
+Disabling this and enabling SEED_USE_ROTATION_PIVOT will let you use the upper-left corner as position pivot while using the object center as
+scale and rotation pivot.
+*/
+#define SEED_DEFAULT_PIVOT_CENTERED			1
+
+/*
 The size of the music buffer for streaming from hard disk on platforms that support it (SDL).
 */
 #define SEED_MUSIC_STREAMING_BUFFER_SIZE	(1024 * 40)
