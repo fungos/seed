@@ -72,7 +72,7 @@ bool SoundSystem::Initialize()
 	if (!pDevice)
 	{
 		Info(TAG "WARNING: Could not open OpenAL device - running wihtout sound!");
-		//ASSERT_NULL(pDevice);
+		//SEED_ASSERT(pDevice);
 		r = false;
 	}
 	else
@@ -81,7 +81,7 @@ bool SoundSystem::Initialize()
 		if (!pContext)
 		{
 			Info(TAG "WARNING: Could not create OpenAL context - running without sound!");
-			//ASSERT_NULL(pContext);
+			//SEED_ASSERT(pContext);
 			r = false;
 		}
 		else

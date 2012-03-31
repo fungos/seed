@@ -88,7 +88,7 @@ JsonReader &JsonReader::operator=(const JsonReader &other)
 
 bool JsonReader::Load(const void *data)
 {
-	ASSERT_NULL(data);
+	SEED_ASSERT(data);
 	bool ret = false;
 	char err[1024];
 

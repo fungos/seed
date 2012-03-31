@@ -128,77 +128,77 @@ void ISystem::RemoveListener(IEventSystemListener *listener)
 
 void ISystem::SendEventReset(const EventSystem *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
-		ASSERT_NULL(target);
+		SEED_ASSERT(target);
 		target->OnSystemReset(ev);
 	});
 }
 
 void ISystem::SendEventShutdown(const EventSystem *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
-		ASSERT_NULL(target);
+		SEED_ASSERT(target);
 		target->OnSystemShutdown(ev);
 	});
 }
 
 void ISystem::SendEventSystemMenu(const EventSystem *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
-		ASSERT_NULL(target);
+		SEED_ASSERT(target);
 		target->OnSystemMenuCalled(ev);
 	});
 }
 
 void ISystem::SendEventSystemDataManager(const EventSystem *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
-		ASSERT_NULL(target);
+		SEED_ASSERT(target);
 		target->OnSystemDataManagerCalled(ev);
 	});
 }
 
 void ISystem::SendEventHomeEnded(const EventSystem *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
-		ASSERT_NULL(target);
+		SEED_ASSERT(target);
 		target->OnSystemHomeEnded(ev);
 	});
 }
 
 void ISystem::SendEventSleep(const EventSystem *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
-		ASSERT_NULL(target);
+		SEED_ASSERT(target);
 		target->OnSystemSleep(ev);
 	});
 }
 
 void ISystem::SendEventLanguageChanged(const EventSystem *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 	ForEach(Listener, vListeners,
 	{
 		IEventSystemListener *target = (*it);
-		ASSERT_NULL(target);
+		SEED_ASSERT(target);
 		target->OnSystemLanguageChanged(ev);
 	});
 }

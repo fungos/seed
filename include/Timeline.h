@@ -34,6 +34,7 @@
 #include "Defines.h"
 #include "Point.h"
 #include "Reader.h"
+#include "Container.h"
 
 namespace Seed {
 

@@ -70,7 +70,7 @@ Music::~Music()
 
 bool Music::Load(const String &filename, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	if (pSoundSystem->IsInitialized() && this->Unload())
 	{

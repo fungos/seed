@@ -31,12 +31,9 @@
 #ifndef __RENDERER_H__
 #define __RENDERER_H__
 
-#include "Array.h"
 #include "interface/IUpdatable.h"
 #include "interface/IModule.h"
 #include "SceneNode.h"
-
-#include <vector>
 
 namespace Seed {
 

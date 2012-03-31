@@ -160,7 +160,7 @@ void IInputPointer::RemovePointerListener(IEventInputPointerListener *listener)
 
 void IInputPointer::SendEventPointerEnable(const EventInputPointer *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 	ForEach(IEventInputPointerListenerVector, vPointerListeners,
 	{
@@ -170,7 +170,7 @@ void IInputPointer::SendEventPointerEnable(const EventInputPointer *ev)
 
 void IInputPointer::SendEventPointerDisable(const EventInputPointer *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 	ForEach(IEventInputPointerListenerVector, vPointerListeners,
 	{
@@ -180,7 +180,7 @@ void IInputPointer::SendEventPointerDisable(const EventInputPointer *ev)
 
 void IInputPointer::SendEventPointerMove(const EventInputPointer *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 	ForEach(IEventInputPointerListenerVector, vPointerListeners,
 	{
@@ -190,7 +190,7 @@ void IInputPointer::SendEventPointerMove(const EventInputPointer *ev)
 
 void IInputPointer::SendEventPointerPress(const EventInputPointer *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 	ForEach(IEventInputPointerListenerVector, vPointerListeners,
 	{
@@ -200,7 +200,7 @@ void IInputPointer::SendEventPointerPress(const EventInputPointer *ev)
 
 void IInputPointer::SendEventPointerRelease(const EventInputPointer *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 	ForEach(IEventInputPointerListenerVector, vPointerListeners,
 	{

@@ -32,7 +32,7 @@
 #define __IINPUT_JOYSTICK_H__
 
 #include "interface/IInput.h"
-#include "Array.h"
+#include "Container.h"
 
 namespace Seed {
 

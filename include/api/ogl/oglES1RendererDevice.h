@@ -41,6 +41,7 @@
 #include "Defines.h"
 #include "Enum.h"
 #include "Vertex.h"
+#include "Container.h"
 
 #if defined(USE_API_OGL)
 
@@ -75,6 +76,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
 
+	DECLARE_CONTAINER_TYPE(Vector, ITexture)
 	public:
 		OGLES1RendererDevice();
 		virtual ~OGLES1RendererDevice();
@@ -108,7 +110,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual bool Shutdown();
 
 	protected:
-		mutable Array<ITexture *, 128> arTexture;
+		mutable ITextureVector vTexture;
 
 	private:
 		SEED_DISABLE_COPY(OGLES1RendererDevice);

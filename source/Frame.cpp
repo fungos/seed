@@ -62,7 +62,7 @@ Frame::~Frame()
 
 bool Frame::Load(Reader &reader, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	if (this->Unload())
 	{

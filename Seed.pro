@@ -34,7 +34,6 @@ SOURCES += source/Viewport.cpp \
 	source/Rand.cpp \
 	source/Profiler.cpp \
 	source/ParticleManager.cpp \
-	source/ParticleEmitterObject.cpp \
 	source/ParticleEmitter.cpp \
 	source/Particle.cpp \
 	source/Movie.cpp \
@@ -75,7 +74,6 @@ SOURCES += source/Viewport.cpp \
 	source/interface/IRendererDevice.cpp \
 	source/interface/IRenderable.cpp \
 	source/interface/IReader.cpp \
-	source/interface/IPlayable.cpp \
 	source/interface/IObject.cpp \
 	source/interface/IMutex.cpp \
 	source/interface/IMusic.cpp \
@@ -178,7 +176,6 @@ HEADERS += \
 	include/Profiler.h \
 	include/Point.h \
 	include/ParticleManager.h \
-	include/ParticleEmitterObject.h \
 	include/ParticleEmitter.h \
 	include/Particle.h \
 	include/Number.h \
@@ -265,7 +262,6 @@ HEADERS += \
 	include/interface/IRendererDevice.h \
 	include/interface/IRenderable.h \
 	include/interface/IReader.h \
-	include/interface/IPlayable.h \
 	include/interface/IObject.h \
 	include/interface/IMutex.h \
 	include/interface/IMusic.h \

@@ -75,7 +75,6 @@ typedef float 					f32;
 typedef float 					fixed32;
 typedef int 					PIXEL;
 typedef int						bool;
-typedef char					FilePath;
 
 #if defined(WIN32)
 	#undef OUT
@@ -94,11 +93,6 @@ typedef char					FilePath;
 #endif // WIN32
 
 #define HALT	do { exit(-1); } while (1);
-
-// Debugging
-#define LIB_ASSERT(x)				if (!(x)) { fprintf(stderr, "Failed assertion " #x); HALT; }
-#define LIB_ASSERT_MSG(x, msg)		if (!(x)) { fprintf(stderr, msg #x); HALT; }
-#define LIB_ASSERT_NULL(x)			if (!((void *)x)) { fprintf(stderr, "Failed assertion " #x); HALT; }
 
 #else // BUILD_QT
 	#error "Include 'Defines.h' instead 'platform/qt/qtDefines.h' directly."

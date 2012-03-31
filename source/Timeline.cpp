@@ -78,7 +78,7 @@ bool Timeline::Unload()
 
 bool Timeline::Load(Reader &reader, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	bool ret = false;
 
@@ -104,7 +104,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 		else
 		{
 			String object = reader.ReadString("object", "");
-			ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
+			SEED_ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
 
 			File f(object);
 			Reader r(f);
@@ -115,7 +115,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 		}
 
 		u32 keyframes = reader.SelectArray("keyframes");
-		ASSERT_MSG(keyframes != 0, "Timeline does not have keyframes.");
+		SEED_ASSERT_MSG(keyframes != 0, "Timeline does not have keyframes.");
 		if (keyframes)
 		{
 			for (u32 i = 0; i < keyframes; i++)
@@ -131,7 +131,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 				else
 					frame = i;
 
-				ASSERT_MSG(mapKeyframes[frame] == NULL, "Dupicated frame in the timeline");
+				SEED_ASSERT_MSG(mapKeyframes[frame] == NULL, "Dupicated frame in the timeline");
 				mapKeyframes[frame] = obj;
 			}
 			reader.UnselectArray();
@@ -217,8 +217,8 @@ void Timeline::Update()
 	Keyframe *kfFrom	= mapKeyframes[iKeyframeFrom];
 	Keyframe *kfTo 		= mapKeyframes[iKeyframeTo];
 
-	ASSERT_MSG(kfFrom, 	"A keyframe is required at frame 0.");
-	ASSERT_MSG(kfTo, 	"At least two keyframes must be set.");
+	SEED_ASSERT_MSG(kfFrom, 	"A keyframe is required at frame 0.");
+	SEED_ASSERT_MSG(kfTo, 	"At least two keyframes must be set.");
 
 	if (pListener)
 	{

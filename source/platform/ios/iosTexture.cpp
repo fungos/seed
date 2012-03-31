@@ -112,10 +112,9 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 
 bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 atlasHeight)
 {
-	ASSERT_NULL(buffer);
-
-	ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
-	ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
+	SEED_ASSERT(buffer);
+	SEED_ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
+	SEED_ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
 
 	if (this->Unload())
 	{
@@ -344,7 +343,7 @@ void Texture::LoadPNG(const char *file)
 	srcColorSpace = CGImageGetColorSpace(image);
 
 	// FIXME: Enable support to grayscale pngs.
-	ASSERT_MSG(srcColorSpace != CGColorSpaceCreateDeviceGray(), "WARNING: Grayscale PNG are not supported.\n");
+	SEED_ASSERT_MSG(srcColorSpace != CGColorSpaceCreateDeviceGray(), "WARNING: Grayscale PNG are not supported.\n");
 
 	if (srcColorSpace)
 	{
@@ -397,7 +396,7 @@ void Texture::LoadPNG(const char *file)
 	u32 bpp = CGImageGetBitsPerPixel(image);
 	iBytesPerPixel = bpp / 8;
 	data = Alloc(height * width * iBytesPerPixel);
-	ASSERT_MSG(data != NULL, "ERROR: not enought memory - trying to allocate texture buffer.");
+	SEED_ASSERT_MSG(data != NULL, "ERROR: not enought memory - trying to allocate texture buffer.");
 
 	switch (pixelFormat)
 	{

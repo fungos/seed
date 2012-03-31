@@ -121,14 +121,14 @@ void ViewManager::Render()
 
 Renderer *ViewManager::GetCurrentRenderer() const
 {
-	ASSERT_MSG(pCurrentViewport, TAG "GetCurrentRenderer must be called within Render call.");
+	SEED_ASSERT_MSG(pCurrentViewport, TAG "GetCurrentRenderer must be called within Render call.");
 	return pCurrentViewport->GetRenderer();
 }
 
 
 Viewport *ViewManager::GetCurrentViewport() const
 {
-	ASSERT_MSG(pCurrentViewport, TAG "GetCurrentViewport must be called within Render call.");
+	SEED_ASSERT_MSG(pCurrentViewport, TAG "GetCurrentViewport must be called within Render call.");
 	return pCurrentViewport;
 }
 

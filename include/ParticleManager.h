@@ -34,6 +34,7 @@
 #include "interface/IModule.h"
 #include "interface/IUpdatable.h"
 #include "Singleton.h"
+#include "Container.h"
 
 namespace Seed {
 

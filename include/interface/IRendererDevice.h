@@ -33,7 +33,6 @@
 
 #include "interface/IModule.h"
 #include "Enum.h"
-#include "Array.h"
 #include "Rect.h"
 
 namespace Seed {

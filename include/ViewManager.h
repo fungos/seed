@@ -31,9 +31,9 @@
 #ifndef __VIEW_MANAGER_H__
 #define __VIEW_MANAGER_H__
 
-#include "Array.h"
 #include "interface/IModule.h"
 #include "Singleton.h"
+#include "Container.h"
 
 namespace Seed {
 

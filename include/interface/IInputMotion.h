@@ -32,7 +32,7 @@
 #define __IINPUT_MOTION_H__
 
 #include "interface/IInput.h"
-#include "Array.h"
+#include "Container.h"
 #include "MathUtil.h"
 
 namespace Seed {

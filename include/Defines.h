@@ -31,6 +31,7 @@
 #ifndef __SEED_DEFINES_H__
 #define __SEED_DEFINES_H__
 
+#include <string>
 #include "Config.h"
 
 /*
@@ -68,6 +69,8 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #endif
 
 #define UNUSED(var)						(void)var;
+
+typedef std::string String;
 
 /// Pixel union
 union uPixel
@@ -111,21 +114,8 @@ union uPixel
 
 // Debugging
 #if defined(DEBUG)
-	#ifndef ASSERT
-	#define ASSERT							LIB_ASSERT
-	#endif // ASSERT
-
-	#ifndef ASSERT_MSG
-	#define ASSERT_MSG						LIB_ASSERT_MSG
-	#endif // ASSERT_MSG
-
-	#ifndef ASSERT_NULL
-	#define ASSERT_NULL						LIB_ASSERT_NULL
-	#endif // ASSERT_NULL
-
-	#ifndef SECURITY_CHECK
-	#define SECURITY_CHECK					LIB_ASSERT_MSG
-	#endif // SECURITY_CHECK
+	#define SEED_ASSERT(x)				if (!(x)) { Log("%s:%d - " #x, __FILE__, __LINE__); HALT}
+	#define SEED_ASSERT_MSG(x, msg)		if (!(x)) { Log("%s:%d - " #msg, __FILE__, __LINE__); HALT}
 
 	#if defined(__GNUC__)
 		#define __FUNC__					__PRETTY_FUNCTION__
@@ -140,34 +130,12 @@ union uPixel
 	#define SEED_DEPRECATED_METHOD
 
 	#if defined(__GNUC__)
-		#ifndef ASSERT
-		#define ASSERT(...)
-		#endif // ASSERT
-
-		#ifndef ASSERT_MSG
-		#define ASSERT_MSG(...)
-		#endif // ASSERT_MSG
-
-		#ifndef ASSERT_NULL
-		#define ASSERT_NULL(...)
-		#endif // ASSERT_NULL
+		#define SEED_ASSERT(...)
+		#define SEED_ASSERT_MSG(...)
 	#else
-		#ifndef ASSERT
-		#define ASSERT
-		#endif // ASSERT
-
-		#ifndef ASSERT_MSG
-		#define ASSERT_MSG
-		#endif // ASSERT_MSG
-
-		#ifndef ASSERT_NULL
-		#define ASSERT_NULL
-		#endif // ASSERT_NULL
+		#define SEED_ASSERT
+		#define SEED_ASSERT_MSG
 	#endif // __GNUC__
-
-	#ifndef SECURITY_CHECK
-	#define SECURITY_CHECK(func, msg)		func
-	#endif // SECURITY_CHECK
 
 #endif // DEBUG
 
@@ -203,8 +171,6 @@ typedef enum { SEED_ENUM_ASSERT_VALUE } SEED_ENUM_ASSERT;
 SEED_COMPILE_TIME_ASSERT(enum, sizeof(SEED_ENUM_ASSERT) == sizeof(u32));
 
 #include "LeakReport.h"
-#include "Container.h"
-#include "Log.h"
 
 extern "C" { namespace Seed {
 	class ResourceManager;

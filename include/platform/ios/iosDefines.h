@@ -50,11 +50,12 @@
 #define USE_API_OGL		1
 #define BUILD_PC		1
 
-namespace Seed {
+namespace Seed
+{
 	namespace iOS {}
 	namespace PC {}
 	namespace OGL {}
-};
+}
 
 using namespace Seed::iOS;
 using namespace Seed::PC;
@@ -78,18 +79,7 @@ typedef signed short int 		s16;
 typedef signed char 			s8;
 typedef float 					f32;
 
-typedef float 					fixed32;
-typedef int 					PIXEL;
-
-typedef char					FilePath;
-
-#define _Halt(x)	Log("%s", x); while (1);
-#define HALT		do { Log("HALT!"); exit(-1); } while (1);
-
-// Debugging
-#define LIB_ASSERT(x)				if (!(x)) { Log("%s:%d", __FILE__, __LINE__); _Halt("Failed assertion " #x); }
-#define LIB_ASSERT_MSG(x, msg)		if (!(x)) { Log("%s:%d", __FILE__, __LINE__); _Halt(msg); }
-#define LIB_ASSERT_NULL(x)			if ((x) == NULL) { Log("%s:%d", __FILE__, __LINE__); _Halt("Failed NULL assertion on " #x); }
+#define HALT(x)		do { Log("%s", x); exit(-1); } while (1);
 
 //#define ENABLE_NATIVE_PVRTC_FORMAT		// MUST HAVE SEED_ENABLE_PRELOAD_TEXTURE enabled!
 

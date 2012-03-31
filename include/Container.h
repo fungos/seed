@@ -37,12 +37,7 @@
 #include <map>
 #include <stack>
 
-#ifdef USE_BOOST_ALLOCATOR
-	#include <boost/pool/pool_alloc.hpp>
-	typedef std::basic_string<char, std::char_traits<char>, boost::fast_pool_allocator<char> > String;
-#else
-	typedef std::string String;
-#endif
+extern "C" { extern void Log(const char *pMessage, ...); }
 
 #define DECLARE_CONTAINER_HELPER(N, C) \
 											\
@@ -52,13 +47,13 @@
 												public: \
 													void operator+=(const T& element) \
 													{ \
-														ASSERT_NULL(element); \
+														SEED_ASSERT(element); \
 														push_back(element); \
 													} \
 													\
 													void operator-=(const T& element) \
 													{ \
-														ASSERT_NULL(element); \
+														SEED_ASSERT(element); \
 														this->erase(std::remove(this->begin(), this->end(), element), this->end()); \
 													} \
 													\
@@ -69,7 +64,8 @@
 													\
 											};
 
-namespace Seed {
+namespace Seed
+{
 	DECLARE_CONTAINER_HELPER(Vector, std::vector)
 }
 

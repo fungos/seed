@@ -29,6 +29,7 @@
 */
 
 #include "Keyframe.h"
+#include <algorithm>
 
 namespace Seed {
 
@@ -62,7 +63,7 @@ bool Keyframe::Unload()
 
 bool Keyframe::Load(Reader &reader, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	bool ret = false;
 
@@ -73,7 +74,7 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 		fEasing = reader.ReadF32("easing", 0.0f);
 
 		iFrame = reader.ReadS32("frame", -1);
-		ASSERT_MSG(iFrame != -1, "Keyframe without a frame number");
+		SEED_ASSERT_MSG(iFrame != -1, "Keyframe without a frame number");
 
 		iFrameToJump = reader.ReadS32("goto", -1);
 

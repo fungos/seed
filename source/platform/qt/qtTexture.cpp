@@ -82,7 +82,7 @@ void Texture::Reset()
 bool Texture::Load(const String &filename, ResourceManager *res)
 {
 	UNUSED(res);
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	if (this->Unload())
 	{
@@ -115,8 +115,8 @@ bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 texWidth, u32 texH
 	UNUSED(texWidth);
 	UNUSED(texHeight);
 
-	ASSERT_MSG((void *)ROUND_UP(buffer, 32) == (void *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
-	ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
+	SEED_ASSERT_MSG((void *)ROUND_UP(buffer, 32) == (void *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
+	SEED_ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
 
 	if (this->Unload())
 	{

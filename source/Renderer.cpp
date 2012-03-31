@@ -149,7 +149,7 @@ void Renderer::RenderObjects(const RenderableVector &vec) const
 	for (; it != end; ++it)
 	{
 		ISceneObject *obj = const_cast<ISceneObject *>(*it);
-		ASSERT_NULL(obj);
+		SEED_ASSERT(obj);
 
 		obj->Render();
 	}
@@ -169,7 +169,7 @@ void Renderer::Culler()
 	for (; it != end; ++it)
 	{
 		ISceneObject *obj = const_cast<ISceneObject *>(*it);
-		ASSERT_NULL(obj);
+		SEED_ASSERT(obj);
 
 		if (obj->IsVisible())
 			vVisibleRenderables.push_back(obj);

@@ -60,25 +60,25 @@ template <class TYPE, int SIZE> class Array
 
 		inline TYPE& operator[](u32 index)
 		{
-			ASSERT(index < used);
+			SEED_ASSERT(index < used);
 			return array[index];
 		}
 
 		inline const TYPE& At(u32 index) const
 		{
-			ASSERT(index < used);
+			SEED_ASSERT(index < used);
 			return array[index];
 		}
 
 		inline void Add(TYPE element)
 		{
-			ASSERT(used < SIZE);
+			SEED_ASSERT(used < SIZE);
 			array[used++] = element;
 		}
 
 		inline void Add(TYPE element, u32 pos)
 		{
-			ASSERT((used + 1) < SIZE);
+			SEED_ASSERT((used + 1) < SIZE);
 
 			for (s32 i = (s32)used-1; i >= (s32)pos; i--)
 			{
@@ -92,7 +92,7 @@ template <class TYPE, int SIZE> class Array
 
 		inline void Add()
 		{
-			ASSERT(used < SIZE);
+			SEED_ASSERT(used < SIZE);
 			used++;
 		}
 
@@ -101,13 +101,13 @@ template <class TYPE, int SIZE> class Array
 			if (pos == 0 && used == 0)
 				return;
 
-			ASSERT(pos < used);
+			SEED_ASSERT(pos < used);
 			used = pos;
 		}
 
 		inline void Del(u32 pos, u32 qtt = 1)
 		{
-			ASSERT(qtt >= 1 && (pos + qtt) <= used);
+			SEED_ASSERT(qtt >= 1 && (pos + qtt) <= used);
 			for (u32 i = 0; i < (used - (pos + qtt)); i++)
 				array[pos + i] = array[pos + qtt + i];
 
@@ -116,7 +116,7 @@ template <class TYPE, int SIZE> class Array
 
 		inline void Remove(TYPE element)
 		{
-			ASSERT(element != NULL);
+			SEED_ASSERT(element != NULL);
 
 			u32 removed = 0;
 			for (u32 i = 0; i < used; i++)
@@ -172,7 +172,7 @@ template <class TYPE, int SIZE> class Array
 
 		inline void Replace(TYPE element, u32 pos, u32 qtt = 1)
 		{
-			ASSERT(qtt > 0 && (pos + qtt) < used);
+			SEED_ASSERT(qtt > 0 && (pos + qtt) < used);
 			for (u32 i = pos; i < (pos + qtt); i++)
 				array[i] = element;
 		}

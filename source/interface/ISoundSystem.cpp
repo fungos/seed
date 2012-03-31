@@ -35,18 +35,18 @@
 namespace Seed {
 
 ISoundSystem::ISoundSystem()
-	: fMusicVolume(1.0f)
+	: pCurrentMusic(NULL)
+	, pNewMusic(NULL)
+	, vSource()
+	, fMusicVolume(1.0f)
 	, fSfxVolume(1.0f)
 	, fMusicVolumeOrig(1.0f)
 	, fSfxVolumeOrig(1.0f)
+	, fMusicStartFadeTime(0.0f)
+	, fMusicFadeTime(0.0f)
 	, bMuted(false)
 	, bChanged(false)
 	, bPaused(false)
-	, arSource()
-	, pCurrentMusic(NULL)
-	, pNewMusic(NULL)
-	, fMusicStartFadeTime(0.0f)
-	, fMusicFadeTime(0.0f)
 {
 }
 
@@ -56,17 +56,17 @@ ISoundSystem::~ISoundSystem()
 
 void ISoundSystem::Add(ISoundSource *src)
 {
-	arSource.Add(static_cast<ISoundSource *>(src));
+	vSource += src;
 }
 
 void ISoundSystem::Remove(ISoundSource *src)
 {
-	arSource.Remove(static_cast<ISoundSource *>(src));
+	vSource -= src;
 }
 
 void ISoundSystem::SetMusicVolume(f32 volume)
 {
-	ASSERT_MSG((volume >= 0 || volume <= 1.0f), "Music volume must be between 0 and 1");
+	SEED_ASSERT_MSG((volume >= 0 || volume <= 1.0f), "Music volume must be between 0 and 1");
 	fMusicVolume = volume;
 	bChanged = true;
 }
@@ -78,7 +78,7 @@ f32 ISoundSystem::GetMusicVolume() const
 
 void ISoundSystem::SetSfxVolume(f32 volume)
 {
-	ASSERT_MSG((volume >= 0 || volume <= 1.0f), "Sfx volume must be between 0 and 1");
+	SEED_ASSERT_MSG((volume >= 0 || volume <= 1.0f), "Sfx volume must be between 0 and 1");
 	fSfxVolume = volume;
 	bChanged = true;
 }
@@ -177,10 +177,11 @@ void ISoundSystem::StopMusic(f32 ms, IMusic *mus)
 
 void ISoundSystem::StopSounds()
 {
-	for (u32 i = 0; i < arSource.Size(); i++)
+	ForEach(ISoundSourceVector, vSource,
 	{
-		arSource[i]->Stop();
-	}
+		ISoundSource *obj = (*it);
+		obj->Stop();
+	});
 }
 
 void ISoundSystem::Pause()

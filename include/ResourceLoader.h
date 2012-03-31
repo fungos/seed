@@ -36,6 +36,7 @@
 #include "Mutex.h"
 #include "Thread.h"
 #include "Singleton.h"
+#include "Container.h"
 
 namespace Seed {
 

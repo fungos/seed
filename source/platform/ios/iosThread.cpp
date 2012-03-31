@@ -75,7 +75,7 @@ void Thread::Create()
 	{
 		int err = pthread_create(&thread, 0, __seed_thread_loop_callback, (void *)this);
 		UNUSED(err);
-		ASSERT_MSG(err == 0, TAG "Failed to create thread.");
+		SEED_ASSERT_MSG(err == 0, TAG "Failed to create thread.");
 		bCreated = true;
 	}
 }

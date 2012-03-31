@@ -37,12 +37,13 @@
 #define USE_API_OGL		1
 #define USE_API_OAL		1
 
-namespace Seed {
+namespace Seed
+{
 	namespace SDL {}
 	namespace PC {}
 	namespace OAL {}
 	namespace OGL {}
-};
+}
 
 using namespace Seed::SDL;
 using namespace Seed::PC;
@@ -193,14 +194,7 @@ typedef u32 					PIXEL;
 #define HALT	do { asm("int $3"); exit(-1); } while (1);
 #endif // WIN32
 
-// Debugging
-#define LIB_ASSERT(x)				if (!(x)) { fprintf(stderr, "Failed assertion " #x); HALT; }
-#define LIB_ASSERT_MSG(x, msg)		if (!(x)) { fprintf(stderr, msg #x); fflush(stderr); HALT; }
-#define LIB_ASSERT_NULL(x)			if (!(x)) { fprintf(stderr, "Failed assertion " #x); HALT; }
-
 #else // BUILD_SDL
-
 	#error "Include 'Defines.h' instead 'platform/sdl/sdlDefines.h' directly."
-
 #endif // BUILD_SDL
 #endif // __SDL_DEFINES_H__

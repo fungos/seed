@@ -166,7 +166,7 @@ class SEED_CORE_API StateMachine
 		inline void RegisterTransition(StateMachineTransition *transition)
 		{
 			//Check if the transition is has a valid configuration
-			ASSERT(transition->GetFromState() && transition->GetToState() && transition->GetEvent());
+			SEED_ASSERT(transition->GetFromState() && transition->GetToState() && transition->GetEvent());
 			vTransitions += transition;
 		}
 

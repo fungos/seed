@@ -115,7 +115,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			if (format == PNG)
 				Info(TAG "Make sure that libpng12-0.dll and zlib1.dll are in the exact same folder than this application binary.");
 
-			ASSERT(false);
+			SEED_ASSERT(false);
 		}
 
 		if (tmp->format->BitsPerPixel != 32)
@@ -124,7 +124,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		}
 
 		pSurface = SDL_DisplayFormatAlpha(tmp);
-		ASSERT_NULL(pSurface);
+		SEED_ASSERT(pSurface);
 		SDL_FreeSurface(tmp);
 
 		iWidth = pSurface->w;
@@ -213,10 +213,9 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 
 bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 atlasHeight)
 {
-	ASSERT_NULL(buffer);
-
-	ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
-	ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
+	SEED_ASSERT(buffer);
+	SEED_ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
+	SEED_ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
 
 	if (this->Unload())
 	{
@@ -253,12 +252,11 @@ void Texture::Update(uPixel *data)
 
 bool Texture::Unload()
 {
-	this->UnloadTexture();
+	if (bLoaded)
+		this->UnloadTexture();
 
 	if (pSurface)
-	{
 		SDL_FreeSurface(pSurface);
-	}
 
 	pSurface = NULL;
 	bLoaded = false;

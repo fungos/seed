@@ -89,7 +89,7 @@ bool Cartridge::Prepare(eCartridgeSize size)
 	iSize = this->GetCardType(size);
 
 	const char *p = pFileSystem->GetWriteableDirectory();
-	ASSERT_MSG(p!=NULL, "You must set a WriteableDirectory!");
+	SEED_ASSERT_MSG(p!=NULL, "You must set a WriteableDirectory!");
 
 	memset(strPath, '\0', sizeof(strPath));
 

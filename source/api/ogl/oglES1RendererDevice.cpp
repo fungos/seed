@@ -122,9 +122,9 @@ bool OGLES1RendererDevice::Initialize()
 
 bool OGLES1RendererDevice::Reset()
 {
-	arTexture.Truncate();
+	ITextureVector().swap(vTexture);
 
-	return true; // abstract IRenderer::Reset();
+	return true;
 }
 
 bool OGLES1RendererDevice::Shutdown()
@@ -266,7 +266,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) c
 
 void OGLES1RendererDevice::SetTextureParameters(ITexture *texture) const
 {
-	ASSERT_NULL(texture);
+	SEED_ASSERT(texture);
 
 	eTextureFilter min = texture->GetFilter(Seed::TextureFilterTypeMin);
 	eTextureFilter mag = texture->GetFilter(Seed::TextureFilterTypeMag);
@@ -287,19 +287,21 @@ void OGLES1RendererDevice::SetTextureParameters(ITexture *texture) const
 
 void OGLES1RendererDevice::TextureRequestAbort(ITexture *texture)
 {
-	arTexture.Remove(texture);
+	vTexture -= texture;
 }
 
 void OGLES1RendererDevice::TextureRequest(ITexture *texture)
 {
-	arTexture.Add(texture);
+	vTexture += texture;
 }
 
 void OGLES1RendererDevice::TextureRequestProcess() const
 {
-	for (u32 i = 0; i < arTexture.Size(); i++)
+	ITextureVector::iterator it = vTexture.begin();
+	ITextureVector::iterator end = vTexture.end();
+	for (; it != end; ++it)
 	{
-		ITexture *texture = arTexture[i];
+		ITexture *texture = (*it);
 		if (texture)
 		{
 			GLint tex = 0;
@@ -376,19 +378,19 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 		}
 	}
 
-	arTexture.Truncate();
+	ITextureVector().swap(vTexture);
 }
 
 void OGLES1RendererDevice::TextureUnload(ITexture *texture)
 {
-	ASSERT_NULL(texture);
+	SEED_ASSERT(texture);
 	if (texture->iTextureId)
 		glDeleteTextures(1, &texture->iTextureId);
 }
 
 void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 {
-	ASSERT_NULL(texture);
+	SEED_ASSERT(texture);
 	if (texture->iTextureId)
 	{
 		glBindTexture(GL_TEXTURE_2D, texture->iTextureId);
@@ -396,7 +398,7 @@ void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 		GLuint w = texture->GetAtlasWidth();
 		GLuint h = texture->GetAtlasHeight();
 		const void *data = texture->GetData();
-		ASSERT_NULL(data);
+		SEED_ASSERT(data);
 
 		switch (texture->GetBytesPerPixel())
 		{
@@ -427,9 +429,9 @@ void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 void OGLES1RendererDevice::UploadData(void *userData)
 {
 	RendererPacket *packet = static_cast<RendererPacket *>(userData);
-	ASSERT_NULL(packet->pTransform);
-	ASSERT_NULL(packet->pTexture);
-	ASSERT_NULL(packet->pVertexData);
+	SEED_ASSERT(packet->pTransform);
+	SEED_ASSERT(packet->pTexture);
+	SEED_ASSERT(packet->pVertexData);
 
 	ITexture *texture = packet->pTexture;
 	sVertex *data = static_cast<sVertex *>(packet->pVertexData);

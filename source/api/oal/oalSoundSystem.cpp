@@ -85,7 +85,7 @@ bool SoundSystem::Initialize()
 	if (!pDevice)
 	{
 		Info(TAG "WARNING: Could not open OpenAL device - running wihtout sound!");
-		//ASSERT_NULL(pDevice);
+		//SEED_ASSERT(pDevice);
 		r = false;
 	}
 	else
@@ -94,7 +94,7 @@ bool SoundSystem::Initialize()
 		if (!pContext)
 		{
 			Info(TAG "WARNING: Could not create OpenAL context - running without sound!");
-			//ASSERT_NULL(pContext);
+			//SEED_ASSERT(pContext);
 			r = false;
 		}
 		else
@@ -123,18 +123,21 @@ bool SoundSystem::Reset()
 		fMusicStartFadeTime = 0.0f;
 		fMusicFadeTime = 0.0f;
 
-		for (u32 i = arSource.Size(); i > 0; i--)
+		ForEach(ISoundSourceVector, vSource,
 		{
-			arSource[i-1]->Stop();
-			arSource[i-1]->Unload();
-		}
+			(*it)->Stop();
+		});
+
+		ForEach(ISoundSourceVector, vSource,
+		{
+			(*it)->Unload();
+		});
+
+		ISoundSourceVector().swap(vSource);
 
 		this->StopMusic();
 		pCurrentMusic = NULL;
 		pNewMusic = NULL;
-
-		arSource.Truncate();
-		// abstract IModule::Reset();
 	}
 	return true;
 }
@@ -180,15 +183,17 @@ void SoundSystem::UpdateSounds(f32 dt)
 
 	if (bChanged)
 	{
-		for (u32 i = 0; i < arSource.Size(); i++)
+		ForEach(ISoundSourceVector, vSource,
 		{
-			arSource[i]->UpdateVolume();
-		}
+			(*it)->UpdateVolume();
+		});
 	}
 
-	for (u32 i = 0; i < arSource.Size(); i++)
+	ISoundSourceVector::iterator it = vSource.begin();
+	ISoundSourceVector::iterator end = vSource.begin();
+	for (; it != end; ++it)
 	{
-		SoundSource *src = static_cast<SoundSource *>(arSource[i]);
+		SoundSource *src = static_cast<SoundSource *>(*it);
 
 		eSoundSourceState state = src->GetState();
 		if (state == SourceNone)
@@ -454,9 +459,11 @@ void SoundSystem::Pause()
 {
 	ISoundSystem::Pause();
 
-	for (u32 i = 0; i < arSource.Size(); i++)
+	ISoundSourceVector::iterator it = vSource.begin();
+	ISoundSourceVector::iterator end = vSource.begin();
+	for (; it != end; ++it)
 	{
-		SoundSource *src = static_cast<SoundSource *>(arSource[i]);
+		SoundSource *src = static_cast<SoundSource *>(*it);
 		src->Pause();
 		alSourcePause(src->iSource);
 	}
@@ -470,10 +477,10 @@ void SoundSystem::Pause()
 
 void SoundSystem::Resume()
 {
-	for (u32 i = 0; i < arSource.Size(); i++)
+	ForEach(ISoundSourceVector, vSource,
 	{
-		arSource[i]->Resume();
-	}
+		(*it)->Resume();
+	});
 
 	if (pCurrentMusic)
 		static_cast<Music *>(pCurrentMusic)->eState = Seed::MusicPlay;

@@ -174,7 +174,7 @@ void ResourceLoader::AddListener(IEventResourceLoaderListener *listener)
 
 void ResourceLoader::RemoveListener(IEventResourceLoaderListener *listener)
 {
-	ASSERT_NULL(listener);
+	SEED_ASSERT(listener);
 	ListenerIterator p = std::find(vListeners.begin(), vListeners.end(), listener);
 
 	if (p != vListeners.end())
@@ -189,28 +189,28 @@ void ResourceLoader::RemoveListener(IEventResourceLoaderListener *listener)
 
 void ResourceLoader::SendEventGroupLoaded(const EventResourceLoader *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 	ListenerIterator it = vListeners.begin();
 	ListenerIterator end = vListeners.end();
 
 	for (; it != end; ++it)
 	{
 		IEventResourceLoaderListener *target = (*it);
-		ASSERT_NULL(target);
+		SEED_ASSERT(target);
 		target->OnGroupLoaded(ev);
 	}
 }
 
 void ResourceLoader::SendEventQueueEmpty(const EventResourceLoader *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 	ListenerIterator it = vListeners.begin();
 	ListenerIterator end = vListeners.end();
 
 	for (; it != end; ++it)
 	{
 		IEventResourceLoaderListener *target = (*it);
-		ASSERT_NULL(target);
+		SEED_ASSERT(target);
 		target->OnQueueEmpty(ev);
 	}
 }

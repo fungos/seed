@@ -68,8 +68,8 @@ Music::~Music()
 
 bool Music::Load(const String &filename, ResourceManager *res)
 {
-	ASSERT_NULL(filename);
-	ASSERT_NULL(res);
+	SEED_ASSERT(filename);
+	SEED_ASSERT(res);
 
 	if (pSoundSystem->IsInitialized() && this->Unload())
 	{
@@ -78,12 +78,12 @@ bool Music::Load(const String &filename, ResourceManager *res)
 
 		/* Open file .music */
 		/* FIXME: This should be from a file resource acquired using a Get() from resource manager cache. */
-		SECURITY_CHECK(pFileSystem->Open(filename, &stFile), "Music object couldn't be opened");
+		pFileSystem->Open(filename, &stFile);
 
 		const u8 *ptr = static_cast<const u8 *>(stFile.GetData());
 		ObjectHeader *block = NULL;
 		READ_STRUCT(block, ObjectHeader, ptr);
-		SECURITY_CHECK(seed_validate_block(&stFile, block, MUSIC_OBJECT_MAGIC, MUSIC_OBJECT_VERSION), "Invalid block header for music.");
+		seed_validate_block(&stFile, block, MUSIC_OBJECT_MAGIC, MUSIC_OBJECT_VERSION);
 
 		u32 volume = 0;
 		READ_U32(volume, ptr);
@@ -91,7 +91,7 @@ bool Music::Load(const String &filename, ResourceManager *res)
 
 		const char *fname = NULL;
 		READ_STR(fname, ptr);
-		ASSERT_NULL(fname);
+		SEED_ASSERT(fname);
 
 		this->Reset();
 

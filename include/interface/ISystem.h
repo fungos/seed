@@ -37,9 +37,7 @@
 #include "Enum.h"
 #include "IEvent.h"
 #include "IEventListener.h"
-
-#include <vector>
-#include <algorithm>
+#include "Container.h"
 
 #define SYSTEM_RETRACE_HISTORY_MAX	64
 

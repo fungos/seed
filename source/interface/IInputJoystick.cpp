@@ -62,7 +62,7 @@ void IInputJoystick::RemoveJoystickListener(IEventInputJoystickListener *listene
 
 void IInputJoystick::SendEventJoystickButtonPress(const EventInputJoystick *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
 	{
@@ -72,7 +72,7 @@ void IInputJoystick::SendEventJoystickButtonPress(const EventInputJoystick *ev)
 
 void IInputJoystick::SendEventJoystickButtonRelease(const EventInputJoystick *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
 	{
@@ -82,7 +82,7 @@ void IInputJoystick::SendEventJoystickButtonRelease(const EventInputJoystick *ev
 
 void IInputJoystick::SendEventJoystickDPadMove(const EventInputJoystick *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
 	{
@@ -92,7 +92,7 @@ void IInputJoystick::SendEventJoystickDPadMove(const EventInputJoystick *ev)
 
 void IInputJoystick::SendEventJoystickAxisMove(const EventInputJoystick *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
 	{

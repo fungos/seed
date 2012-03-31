@@ -37,8 +37,7 @@
 
 #include "yajl/api/yajl_tree.h"
 #include "interface/IReader.h"
-#include "Array.h"
-
+#include "Container.h"
 
 namespace Seed {
 
@@ -61,7 +60,7 @@ class SEED_CORE_API JsonReader : public IReader
 		virtual f32 ReadF32(const char *key, f32 value) const;
 		virtual bool ReadBool(const char *key, bool value) const;
 
-		virtual bool IsNode() const;
+		virtual bool IsNode(const char *key) const;
 		virtual u32 SelectArray(const char *key);
 		virtual void UnselectArray();
 		virtual void SelectNext();

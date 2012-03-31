@@ -54,7 +54,7 @@ SoundSource::~SoundSource()
 
 void SoundSource::Load(const String &fname, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	if (pSoundSystem->IsInitialized())
 	{

@@ -83,7 +83,7 @@ bool ParticleManager::Update(f32 dt)
 		for (u32 i = 0; i < vEmitter.Size(); i++)
 		{
 			ParticleEmitter *p = vEmitter[i];
-			ASSERT_NULL(p);
+			SEED_ASSERT(p);
 
 			if (!p->IsPaused())
 				p->Update(dt);

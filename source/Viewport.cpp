@@ -47,7 +47,7 @@ Viewport::~Viewport()
 
 void Viewport::SetRenderer(Renderer *renderer)
 {
-	ASSERT_NULL(renderer);
+	SEED_ASSERT(renderer);
 	pRenderer = renderer;
 }
 

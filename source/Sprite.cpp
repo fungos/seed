@@ -116,7 +116,7 @@ bool Sprite::Unload()
 
 bool Sprite::Load(Reader &reader, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	bool ret = false;
 
@@ -222,7 +222,7 @@ void Sprite::ReconfigureAnimation()
 
 void Sprite::ReconfigureFrame()
 {
-	ASSERT_NULL(pFrameTexture);
+	SEED_ASSERT(pFrameTexture);
 
 	ITransformable::SetWidth(pFrame->iWidth);
 	ITransformable::SetHeight(pFrame->iHeight);
@@ -498,7 +498,7 @@ void Sprite::Render()
 	if (!bInitialized)
 		return;
 
-	ASSERT(pFrameTexture);
+	SEED_ASSERT(pFrameTexture);
 
 	RendererPacket packet;
 	packet.iSize = iNumVertices;

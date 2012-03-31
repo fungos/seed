@@ -81,7 +81,7 @@ void IInputMotion::RemoveMotionListener(IEventInputMotionListener *listener)
 
 void IInputMotion::SendEventAccelerationChanged(const EventInputMotion *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 	ForEach(IEventInputMotionListenerVector, vMotionListeners,
 	{
 		(*it)->OnAccelerationChanged(ev);

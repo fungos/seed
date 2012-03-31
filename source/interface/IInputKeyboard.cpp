@@ -398,7 +398,7 @@ void IInputKeyboard::RemoveKeyboardListener(IEventInputKeyboardListener *listene
 
 void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 #if defined(DEBUG)
 	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
@@ -415,7 +415,7 @@ void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 
 void IInputKeyboard::SendEventKeyboardRelease(const EventInputKeyboard *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 #if defined(DEBUG)
 	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());

@@ -33,6 +33,7 @@
 
 #include "Log.h"
 #include "Enum.h"
+#include "Container.h"
 
 namespace Seed {
 

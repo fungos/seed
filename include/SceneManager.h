@@ -31,9 +31,9 @@
 #ifndef __SCENE_MANAGER_H__
 #define __SCENE_MANAGER_H__
 
-#include "Array.h"
 #include "interface/IUpdatable.h"
 #include "Singleton.h"
+#include "Container.h"
 
 namespace Seed {
 

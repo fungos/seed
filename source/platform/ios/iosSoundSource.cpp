@@ -55,19 +55,19 @@ SoundSource::~SoundSource()
 
 void SoundSource::Load(const String &filename, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	if (pSoundSystem->IsInitialized())
 	{
 		this->Unload();
 
 		/* Open file .sound */
-		SECURITY_CHECK(pFileSystem->Open(filename, &stFile), "Sound object couldn't be opened");
+		pFileSystem->Open(filename, &stFile);
 
 		const u8 *ptr = static_cast<const u8 *>(stFile.GetData());
 		ObjectHeader *block = NULL;
 		READ_STRUCT(block, ObjectHeader, ptr);
-		SECURITY_CHECK(seed_validate_block(&stFile, block, SOUND_OBJECT_MAGIC, SOUND_OBJECT_VERSION), "Invalid block header for sound.");
+		seed_validate_block(&stFile, block, SOUND_OBJECT_MAGIC, SOUND_OBJECT_VERSION);
 
 		u32 volume = 0;
 		READ_U32(volume, ptr);
@@ -79,7 +79,7 @@ void SoundSource::Load(const String &filename, ResourceManager *res)
 
 		const char *fname = NULL;
 		READ_STR(fname, ptr);
-		ASSERT_NULL(fname);
+		SEED_ASSERT(fname);
 
 		/* Get the resource */
 		pSound = static_cast<Sound *>(res->Get(fname, Seed::ObjectSound, pool));

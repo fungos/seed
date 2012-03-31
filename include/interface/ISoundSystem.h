@@ -34,10 +34,9 @@
 #include "IModule.h"
 #include "IUpdatable.h"
 #include "ISoundSource.h"
-#include "../Array.h"
+#include "Container.h"
 
 #define DEFAULT_FADE_OUT		15
-#define SOUND_MAX_SOURCES		128
 
 namespace Seed {
 
@@ -50,6 +49,9 @@ Interface for sound implementations.
 */
 class SEED_CORE_API ISoundSystem : public IModule, public IUpdatable
 {
+	protected:
+		DECLARE_CONTAINER_TYPE(Vector, ISoundSource)
+
 	public:
 		ISoundSystem();
 		virtual ~ISoundSystem();
@@ -76,20 +78,21 @@ class SEED_CORE_API ISoundSystem : public IModule, public IUpdatable
 		virtual const char *GetObjectName() const;
 
 	protected:
+		IMusic	*pCurrentMusic;
+		IMusic	*pNewMusic;
+
+		ISoundSourceVector	vSource;
+
 		f32 	fMusicVolume;
 		f32		fSfxVolume;
 		f32 	fMusicVolumeOrig;
 		f32		fSfxVolumeOrig;
+		f32		fMusicStartFadeTime;
+		f32		fMusicFadeTime;
+
 		bool	bMuted;
 		bool	bChanged;
 		bool	bPaused;
-
-		Array<ISoundSource *, SOUND_MAX_SOURCES> arSource;
-		IMusic				*pCurrentMusic;
-		IMusic				*pNewMusic;
-
-		f32					fMusicStartFadeTime;
-		f32					fMusicFadeTime;
 
 	private:
 		SEED_DISABLE_COPY(ISoundSystem);

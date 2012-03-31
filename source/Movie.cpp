@@ -61,7 +61,7 @@ bool Movie::Unload()
 
 bool Movie::Load(Reader &reader, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	bool ret = false;
 

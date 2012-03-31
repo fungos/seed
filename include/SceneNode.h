@@ -32,6 +32,7 @@
 #define __SCENE_NODE_H__
 
 #include "interface/ISceneObject.h"
+#include "Container.h"
 
 namespace Seed {
 
