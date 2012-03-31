@@ -33,10 +33,12 @@
 ehthumbs.db
 Icon?
 Thumbs.db
-*.creator.user
-*.pro.user
+*.creator.user*
+*.pro.user*
 
 # Temp files
 doc/
 tests/bin/tests
 *.ogg
+*__Debug/
+*__Release/
