@@ -38,8 +38,6 @@
 #include <Log.h>
 #include <Profiler.h>
 
-#include <Array.h>
-
 #include <Cartridge.h>
 #include <Checksum.h>
 

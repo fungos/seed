@@ -208,7 +208,6 @@ HEADERS += \
 	include/Config.h \
 	include/Checksum.h \
 	include/Cartridge.h \
-	include/Array.h \
 	include/Animation.h \
 	include/platform/sdl/sdlTimer.h \
 	include/platform/sdl/sdlThread.h \

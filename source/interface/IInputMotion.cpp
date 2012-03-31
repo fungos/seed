@@ -31,10 +31,6 @@
 #include "interface/IInputMotion.h"
 #include "interface/IEventInputMotionListener.h"
 #include "Log.h"
-#include "Array.h"
-
-#include <vector>
-#include <algorithm>
 
 namespace Seed {
 

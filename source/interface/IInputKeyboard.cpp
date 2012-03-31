@@ -31,10 +31,6 @@
 #include "interface/IInputKeyboard.h"
 #include "interface/IEventInputKeyboardListener.h"
 #include "Log.h"
-#include "Array.h"
-
-#include <vector>
-#include <algorithm>
 
 namespace Seed {
 

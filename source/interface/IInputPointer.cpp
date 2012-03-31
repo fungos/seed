@@ -31,10 +31,6 @@
 #include "interface/IInputPointer.h"
 #include "interface/IEventInputPointerListener.h"
 #include "Log.h"
-#include "Array.h"
-
-#include <vector>
-#include <algorithm>
 
 namespace Seed {
 

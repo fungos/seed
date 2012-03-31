@@ -74,7 +74,6 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 		Log(TAG "Error: %s\n", glewGetErrorString(err));
 #endif
 
-
 	char *version = (char *)glGetString(GL_VERSION);
 	Info(TAG "OpenGL Version: %s", version);
 
@@ -123,7 +122,6 @@ bool OGLES1RendererDevice::Initialize()
 bool OGLES1RendererDevice::Reset()
 {
 	ITextureVector().swap(vTexture);
-
 	return true;
 }
 

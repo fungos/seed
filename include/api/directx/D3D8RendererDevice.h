@@ -40,6 +40,7 @@
 #include "Defines.h"
 #include "Enum.h"
 #include "Vertex.h"
+#include "Container.h"
 
 #if defined(SEED_ENABLE_D3D8)
 
@@ -61,6 +62,7 @@ class SEED_CORE_API D3D8RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
 
+	DECLARE_CONTAINER_TYPE(Vector, ITexture)
 	public:
 		D3D8RendererDevice();
 		virtual ~D3D8RendererDevice();
@@ -96,7 +98,7 @@ class SEED_CORE_API D3D8RendererDevice : public IRendererDevice
 		virtual const char *GetObjectName() const;
 
 	protected:
-		mutable Array<ITexture *, 128> arTexture;
+		mutable ITextureVector vTexture;
 
 	private:
 		SEED_DISABLE_COPY(D3D8RendererDevice);
