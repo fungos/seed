@@ -3,6 +3,7 @@ CONFIG += console
 CONFIG -= qt
 
 INCLUDEPATH += ../include ../contrib
+
 DEFINES += BUILD_SDL
 
 SOURCES += main.cpp \
@@ -38,4 +39,5 @@ unix {
 win32 {
 	DEFINES += WIN32 main=SDL_main
 	LIBS += -lseed -lseedcontrib -mwindows -lmingw32 -lSDLmain -lSDL -lopengl32 -lopenal32 -lSDL_image -lgdi32
+	INCLUDEPATH += ../contrib/windows/
 }

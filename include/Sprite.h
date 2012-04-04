@@ -35,6 +35,7 @@
 #include "interface/IBasicMesh.h"
 #include "Reader.h"
 #include "Vertex.h"
+#include "Container.h"
 
 namespace Seed {
 
@@ -49,6 +50,8 @@ Animated Sprite
 class SEED_CORE_API Sprite : public IBasicMesh
 {
 	public:
+		DECLARE_CONTAINER_TYPE(Vector, Animation)
+		DECLARE_CONTAINER_TYPE(Vector, Frame)
 		friend class ResourceLoader;
 
 	public:
@@ -83,6 +86,9 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual bool IsLoop() const;
 		virtual bool IsAnimated() const;
 
+		void operator+=(Animation *anim);
+		void operator-=(Animation *anim);
+
 		virtual void Reset();
 		virtual void Initialize();
 
@@ -99,15 +105,15 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual void ReconfigureFrame();
 
 	protected:
-		Animation	**ppAnimations;
+		FrameVector *pvFrames;
 		Animation	*pAnimation;
-		Frame		**ppAnimationFrames;
 		Frame		*pFrame;
 		ITexture	*pFrameTexture;
 
+		AnimationVector vAnimations;
+
 		u32 iCurrentAnimation;
 		u32 iCurrentFrame;
-		u32 iAnimations;
 		u32 iFrames;
 		f32 fFrameTime;
 

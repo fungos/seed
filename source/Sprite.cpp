@@ -46,13 +46,13 @@ namespace Seed {
 
 Sprite::Sprite()
 	: IBasicMesh()
-	, ppAnimations(NULL)
-	, ppAnimationFrames(NULL)
+	, pvFrames(NULL)
+	, pAnimation(NULL)
 	, pFrame(NULL)
 	, pFrameTexture(NULL)
+	, vAnimations()
 	, iCurrentAnimation(0)
 	, iCurrentFrame(0)
-	, iAnimations(0)
 	, iFrames(0)
 	, vert()
 	, sName()
@@ -72,10 +72,17 @@ Sprite::~Sprite()
 
 void Sprite::Reset()
 {
+	AnimationVectorIterator it = vAnimations.begin();
+	AnimationVectorIterator end = vAnimations.end();
+	for (; it != end; ++it)
+		Delete(*it);
+
+	AnimationVector().swap(vAnimations);
+
 	pFrameTexture	= NULL;
-	ppAnimations	= NULL;
+	pAnimation		= NULL;
 	pFrame			= NULL;
-	ppAnimationFrames = NULL;
+	pvFrames		= NULL;
 	bInitialized	= false;
 	bChanged 		= false;
 	bAnimation		= false;
@@ -92,24 +99,19 @@ void Sprite::Reset()
 
 bool Sprite::Unload()
 {
-	if (ppAnimations)
-	{
-		for (u32 i = 0; i < iAnimations; i++)
-		{
-			Animation *a = ppAnimations[i];
-			ppAnimations[i] = NULL;
-			Delete(a);
-		}
+	AnimationVectorIterator it = vAnimations.begin();
+	AnimationVectorIterator end = vAnimations.end();
+	for (; it != end; ++it)
+		Delete(*it);
 
-		Free(ppAnimations);
-	}
+	AnimationVector().swap(vAnimations);
 
-	pFrameTexture = NULL;
-	ppAnimations = NULL;
-	pFrame	= NULL;
-	ppAnimationFrames = NULL;
-	bInitialized = false;
-	bChanged = false;
+	pFrameTexture	= NULL;
+	pAnimation		= NULL;
+	pFrame			= NULL;
+	pvFrames		= NULL;
+	bInitialized	= false;
+	bChanged		= false;
 
 	return true;
 }
@@ -123,17 +125,16 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 	if (this->Unload())
 	{
 		sName = reader.ReadString("name", "sprite");
-		iAnimations = reader.SelectArray("animations");
+		u32 anims = reader.SelectArray("animations");
 
-		if (iAnimations)
+		if (anims)
 		{
-			ppAnimations = (Animation **)Alloc(iAnimations * sizeof(Animation *));
-			for (u32 i = 0; i < iAnimations; i++)
+			for (u32 i = 0; i < anims; i++)
 			{
 				Animation *a = New(Animation);
 				reader.SelectNext();
 				a->Load(reader, res);
-				ppAnimations[i] = a;
+				vAnimations += a;
 			}
 
 			bInitialized = true;
@@ -198,6 +199,18 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 	return ret;
 }
 
+void Sprite::operator+=(Animation *anim)
+{
+	SEED_ASSERT(anim);
+	vAnimations += anim;
+}
+
+void Sprite::operator-=(Animation *anim)
+{
+	SEED_ASSERT(anim);
+	vAnimations -= anim;
+}
+
 void Sprite::Initialize()
 {
 	this->ReconfigureAnimation();
@@ -211,7 +224,7 @@ void Sprite::ReconfigureAnimation()
 	fFrameTime = 0.0f;
 
 	iFrames = pAnimation->iFrames;
-	pFrame = ppAnimationFrames[iCurrentFrame];
+	pFrame = pvFrames->at(iCurrentFrame);
 	pFrameTexture = pFrame->pTexture;
 
 	this->ReconfigureFrame();
@@ -246,13 +259,13 @@ void Sprite::ReconfigureFrame()
 bool Sprite::SetAnimation(u32 index)
 {
 	bool ret = false;
-	if (bInitialized && index < iAnimations)
+	if (bInitialized && index < vAnimations.Size())
 	{
-		Animation *pNewAnimation = ppAnimations[index];
+		Animation *pNewAnimation = vAnimations[index];
 		if (pNewAnimation)
 		{
 			pAnimation = pNewAnimation;
-			ppAnimationFrames = pAnimation->GetFrames();
+			pvFrames = pAnimation->GetFrames();
 			iCurrentAnimation = index;
 			iCurrentFrame = 0;
 
@@ -275,9 +288,11 @@ bool Sprite::SetAnimation(String name)
 	{
 		Animation *pNewAnimation = NULL;
 		u32 i = 0;
-		for (; i < iAnimations; i++)
+
+		u32 anims = vAnimations.Size();
+		for (u32 i = 0; i < anims; i++)
 		{
-			Animation *p = ppAnimations[i];
+			Animation *p = vAnimations[i];
 			if (p->sName == name)
 			{
 				pNewAnimation = p;
@@ -288,7 +303,7 @@ bool Sprite::SetAnimation(String name)
 		if (pNewAnimation)
 		{
 			pAnimation = pNewAnimation;
-			ppAnimationFrames = pAnimation->GetFrames();
+			pvFrames = pAnimation->GetFrames();
 			iCurrentAnimation = i;
 			iCurrentFrame = 0;
 			this->ReconfigureAnimation();
@@ -305,7 +320,7 @@ bool Sprite::SetAnimation(String name)
 
 u32 Sprite::GetAnimationCount() const
 {
-	return iAnimations;
+	return vAnimations.Size();
 }
 
 u32 Sprite::GetAnimation() const
@@ -438,7 +453,7 @@ void Sprite::Update(f32 delta)
 			else
 				iCurrentFrame++;
 
-			pFrame = ppAnimationFrames[iCurrentFrame];
+			pFrame = pvFrames->at(iCurrentFrame);
 			pFrameTexture = pFrame->pTexture;
 
 			this->ReconfigureFrame();

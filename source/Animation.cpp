@@ -39,7 +39,7 @@
 namespace Seed {
 
 Animation::Animation()
-	: ppFrames(NULL)
+	: vFrames()
 	, sName()
 	, iIndex(0)
 	, iFrames(0)
@@ -67,14 +67,13 @@ bool Animation::Load(Reader &reader, ResourceManager *res)
 		iFps = reader.ReadU32("fps", 60);
 		iFrames = reader.SelectArray("frames");
 
-		ppFrames = (Frame **)Alloc(iFrames * sizeof(Frame *));
 		for (u32 i = 0; i < iFrames; i++)
 		{
 			Frame *f = New(Frame);
 			reader.SelectNext();
 			f->Load(reader, res);
 			f->iIndex = i;
-			ppFrames[i] = f;
+			vFrames += f;
 		}
 	}
 
@@ -83,30 +82,19 @@ bool Animation::Load(Reader &reader, ResourceManager *res)
 
 bool Animation::Unload()
 {
-	if (ppFrames)
-	{
-		for (u32 i = 0; i < iFrames; i++)
-		{
-			Frame *f = ppFrames[i];
-			ppFrames[i] = NULL;
-			Delete(f);
-		}
+	FrameVectorIterator it = vFrames.begin();
+	FrameVectorIterator end = vFrames.end();
+	for (; it != end; ++it)
+		Delete(*it);
 
-		Free(ppFrames);
-	}
+	FrameVector().swap(vFrames);
 
-	ppFrames = NULL;
 	return true;
 }
 
-Frame **Animation::GetFrames() const
+FrameVector *Animation::GetFrames()
 {
-	return ppFrames;
-}
-
-u32 Animation::GetFrameCount() const
-{
-	return iFrames;
+	return &vFrames;
 }
 
 } // namespace

@@ -34,6 +34,7 @@
 #include "Defines.h"
 #include "interface/IObject.h"
 #include "Reader.h"
+#include "Container.h"
 
 namespace Seed {
 
@@ -43,9 +44,11 @@ struct Frame;
 /**
 Animation is a sequence of Frames used by Sprite
 */
+DECLARE_CONTAINER_TYPE(Vector, Frame)
+
 struct SEED_CORE_API Animation
 {
-		Frame		**ppFrames;
+		FrameVector	vFrames;
 		String		sName;
 		u32			iIndex;
 		u32			iFrames;
@@ -60,8 +63,7 @@ struct SEED_CORE_API Animation
 		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 		bool Unload();
 
-		Frame **GetFrames() const;
-		u32 GetFrameCount() const;
+		FrameVector *GetFrames();
 };
 
 } // namespace

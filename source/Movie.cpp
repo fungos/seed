@@ -49,10 +49,8 @@ Movie::~Movie()
 
 bool Movie::Unload()
 {
-	for (u32 i = 0; i < vTimelines.Size(); i++)
-	{
+	for (s32 i = vTimelines.Size(); i > 0; i--)
 		Delete(vTimelines[i]);
-	}
 
 	TimelineVector().swap(vTimelines);
 
