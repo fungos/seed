@@ -1,25 +1,10 @@
 {
 	"type": "sprite",
-	"name": "test",
+	"name": "logo",
 	"animations": [
 		{
-			"name": "anim1",
-			"animated": true,
-			"loop": true,
-			"fps": 60,
 			"frames": [
 				{
-					"name": "frame1",
-					"texture": "logo.tga",
-					"repeat": 5
-				},
-				{
-					"name": "frame2",
-					"texture": "logo.tga",
-					"repeat": 10
-				},
-				{
-					"name": "frame3",
 					"texture": "logo.tga"
 				}
 			]

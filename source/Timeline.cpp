@@ -49,6 +49,7 @@ Timeline::Timeline()
 	, iCurrentFrame(0)
 	, iKeyframeFrom(0)
 	, iKeyframeTo(0)
+	, mapKeyframes()
 {
 }
 
@@ -59,9 +60,9 @@ Timeline::~Timeline()
 
 bool Timeline::Unload()
 {
-	KeyframeMapIterator it = mapKeyframes.begin();
-	KeyframeMapIterator end = mapKeyframes.end();
-	for (; it != end; ++it)
+	KeyframeMapIterator beg = mapKeyframes.begin();
+	KeyframeMapIterator it = mapKeyframes.end();
+	for (; it != beg; --it)
 	{
 		Keyframe *obj = (*it).second;
 		Delete(obj);

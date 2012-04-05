@@ -31,7 +31,7 @@
 #ifndef __LEAK_REPORT_H__
 #define __LEAK_REPORT_H__
 
-#if defined(DEBUG)
+#if defined(DEBUGx)
 
 #include "Defines.h"
 #include "Log.h"

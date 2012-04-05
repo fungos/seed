@@ -114,6 +114,7 @@ union uPixel
 
 // Debugging
 #if defined(DEBUG)
+	#include "Log.h"
 	#define SEED_ASSERT(x)				if (!(x)) { Log("%s:%d - " #x, __FILE__, __LINE__); HALT}
 	#define SEED_ASSERT_MSG(x, msg)		if (!(x)) { Log("%s:%d - " #msg, __FILE__, __LINE__); HALT}
 

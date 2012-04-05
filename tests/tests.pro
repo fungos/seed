@@ -15,11 +15,9 @@ HEADERS += \
 	jsonreader.h
 
 OTHER_FILES += \
-	bin/body.sprite \
+	bin/anim.sprite \
 	bin/sample.movie \
-	bin/logo.sprite \
-	bin/head.sprite \
-	bin/upperbody.sprite
+	bin/logo.sprite
 
 CONFIG(debug, debug|release) {
 	DESTDIR = $$(SEEDSDK)/seed/tests/bin

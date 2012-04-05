@@ -40,6 +40,7 @@ Movie::Movie()
 	, sName("")
 	, bPlaying(true)
 {
+	TimelineVector().swap(vTimelines);
 }
 
 Movie::~Movie()
@@ -49,8 +50,13 @@ Movie::~Movie()
 
 bool Movie::Unload()
 {
-	for (s32 i = vTimelines.Size(); i > 0; i--)
-		Delete(vTimelines[i]);
+	TimelineVectorIterator beg = vTimelines.begin();
+	TimelineVectorIterator it = vTimelines.end();
+	for (; it != beg; --it)
+	{
+		Timeline *obj = (*it);
+		delete obj;
+	}
 
 	TimelineVector().swap(vTimelines);
 
@@ -108,7 +114,7 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 			{
 				reader.SelectNext();
 
-				Timeline *obj = New(Timeline);
+				Timeline *obj = new Timeline();
 				obj->Load(reader, res);
 				vTimelines += obj;
 
@@ -148,14 +154,11 @@ void Movie::Update(f32 delta)
 	{
 		fElapsedTime -= frame;
 
-		//ForEach(TimelineVector, vTimelines,
 		TimelineVectorIterator it = vTimelines.begin();
 		TimelineVectorIterator end = vTimelines.end();
 		for (; it != end; ++it)
-		//for (int i = 0; i < vTimelines.Size(); i++)
 		{
 			Timeline *obj = (*it);
-			//Timeline *obj = vTimelines[i];
 			if (bTransformationChanged)
 			{
 				obj->SetLocalPosition(this->GetPivotX(), this->GetPivotY());

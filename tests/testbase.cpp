@@ -46,11 +46,13 @@ bool TestBase::Initialize()
 		cScene.Add(&mvSample);
 	}
 
+	mvSample.Unload();
+
 	//cScene.SetPosition(100, 100);
 	//sptLogo.SetParent(&cScene);
 
 	musTheme.Load("theme.ogg");
-	musTheme.SetVolume(.1f);
+	musTheme.SetVolume(.2f);
 	pSoundSystem->PlayMusic(&musTheme);
 
 	sfxSound.Load("helloworld.ogg");
@@ -73,6 +75,7 @@ bool TestBase::Update(f32 dt)
 bool TestBase::Shutdown()
 {
 	sptLogo.Unload();
+	mvSample.Unload();
 
 	pSceneManager->Reset();
 	pRendererManager->Reset();
