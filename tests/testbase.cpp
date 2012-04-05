@@ -42,11 +42,12 @@ bool TestBase::Initialize()
 	{
 		File f("sample.movie");
 		Reader r(f);
+
 		mvSample.Load(r);
+		//mvSample.Unload();
+
 		cScene.Add(&mvSample);
 	}
-
-	mvSample.Unload();
 
 	//cScene.SetPosition(100, 100);
 	//sptLogo.SetParent(&cScene);

@@ -50,12 +50,11 @@ Movie::~Movie()
 
 bool Movie::Unload()
 {
-	TimelineVectorIterator beg = vTimelines.begin();
-	TimelineVectorIterator it = vTimelines.end();
-	for (; it != beg; --it)
+	while (!vTimelines.empty())
 	{
-		Timeline *obj = (*it);
-		delete obj;
+		Timeline *obj = *vTimelines.begin();
+		vTimelines.erase(vTimelines.begin());
+		Delete(obj);
 	}
 
 	TimelineVector().swap(vTimelines);
@@ -114,7 +113,7 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 			{
 				reader.SelectNext();
 
-				Timeline *obj = new Timeline();
+				Timeline *obj = New(Timeline);
 				obj->Load(reader, res);
 				vTimelines += obj;
 

@@ -60,11 +60,10 @@ Timeline::~Timeline()
 
 bool Timeline::Unload()
 {
-	KeyframeMapIterator beg = mapKeyframes.begin();
-	KeyframeMapIterator it = mapKeyframes.end();
-	for (; it != beg; --it)
+	while (!mapKeyframes.empty())
 	{
-		Keyframe *obj = (*it).second;
+		Keyframe *obj = (*mapKeyframes.begin()).second;
+		mapKeyframes.erase(mapKeyframes.begin());
 		Delete(obj);
 	}
 

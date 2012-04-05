@@ -28,7 +28,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(DEBUGx)
+#if defined(DEBUG)
 
 #include "LeakReport.h"
 #include "Defines.h"
