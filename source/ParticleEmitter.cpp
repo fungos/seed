@@ -40,9 +40,8 @@
 namespace Seed {
 
 ParticleEmitter::ParticleEmitter()
-	: cEmitter()
-	, pRes(NULL)
-	, sFilename()
+	: pRes(NULL)
+	, cEmitter()
 	, sSpriteFilename()
 	, bParticlesFollowEmitter(false)
 	, fAge(0.0f)
@@ -71,25 +70,29 @@ ParticleEmitter::~ParticleEmitter()
 	this->Unload();
 }
 
-void ParticleEmitter::Load(const String &filename, ResourceManager *res)
+bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 {
+	bool ret = false;
+
 	this->Unload();
 
 	if (bEnabled)
 	{
 		SEED_ASSERT(res);
-
 		pRes = res;
-		sFilename = filename;
 
 		// Json Load into cEmitter
 
 		iAnimation = cEmitter.iTextureFrame;
 		fInterval = cEmitter.fInterval;
+
+		ret = true;
 	}
+
+	return ret;
 }
 
-void ParticleEmitter::Unload()
+bool ParticleEmitter::Unload()
 {
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{
@@ -105,8 +108,7 @@ void ParticleEmitter::Unload()
 
 	memset(&cEmitter,'\0', sizeof(cEmitter));
 
-	sFilename	= "";
-	pRes		= NULL;
+	return true;
 }
 
 void ParticleEmitter::Reset()
@@ -533,7 +535,7 @@ const EmitterConfiguration &ParticleEmitter::GetConfig() const
 	return cEmitter;
 }
 
-const char *ParticleEmitter::GetObjectName() const
+const String ParticleEmitter::GetObjectName() const
 {
 	return "ParticleEmitter";
 }

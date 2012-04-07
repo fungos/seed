@@ -56,6 +56,8 @@ class SEED_CORE_API IRenderable
 		virtual u32 GetColor() const;
 
 		virtual void SetBlending(eBlendMode op);
+		virtual String GetBlendingName() const;
+		virtual void SetBlendingByName(const String &blending);
 		virtual void SetVisible(bool b);
 		bool IsVisible() const;
 

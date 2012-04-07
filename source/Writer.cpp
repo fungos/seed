@@ -28,72 +28,108 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __PARTICLE_MANAGER_H__
-#define __PARTICLE_MANAGER_H__
+#include "Writer.h"
+#include "SeedInit.h"
+#include "api/yajl/JsonWriter.h"
 
-#include "interface/IModule.h"
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
-#include "Container.h"
+#define TAG "[Writer] "
 
 namespace Seed {
 
-class ParticleEmitter;
+SEED_CORE_API IWriter cNullWriter;
 
-/// Particle Manager
-class SEED_CORE_API ParticleManager : public IModule, public IUpdatable
+Writer::Writer()
+	: IWriter()
+	, pOpaque(&cNullWriter)
 {
-	SEED_SINGLETON_DECLARE(ParticleManager)
-	DECLARE_CONTAINER_TYPE(Vector, ParticleEmitter)
+	this->Init();
+}
 
-	public:
-		virtual void Play();
-		virtual bool IsPlaying() const;
+Writer::~Writer()
+{
+	if (pOpaque != &cNullWriter)
+		Delete(pOpaque);
 
-		virtual void Stop();
-		virtual bool IsStopped() const;
+	pOpaque = NULL;
+}
 
-		virtual void Pause();
-		virtual bool IsPaused() const;
+void Writer::Init()
+{
+	if (pOpaque == &cNullWriter || pOpaque == NULL)
+	{
+		switch (pConfiguration->GetReaderType())
+		{
+#if defined(SEED_USE_JSON)
+			case ReaderJson:
+			{
+				Info(TAG "Creating Writer json");
+				pOpaque = New(JsonWriter());
+			}
+			break;
+#endif
 
-		virtual void Kill();
+			default:
+			{
+#if defined(SEED_USE_JSON)
+				Info(TAG "Creating Writer json");
+				pOpaque = New(JsonWriter());
+#else
+				Info(TAG "Failed creating Writer, using null");
+#endif
+			}
+			break;
+		}
+	}
+}
 
-		virtual void Add(ParticleEmitter *emitter);
-		virtual void Remove(ParticleEmitter *emitter);
+bool Writer::Save(const String &file)
+{
+	return pOpaque->Save(file);
+}
 
-		virtual void Simulate(u32 iNumLoops);
+void Writer::WriteString(const char *key, const char *value) const
+{
+	pOpaque->WriteString(key, value);
+}
 
-		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+void Writer::WriteS32(const char *key, s32 value) const
+{
+	pOpaque->WriteS32(key, value);
+}
 
-		virtual void Disable();
-		virtual void Enable();
+void Writer::WriteU32(const char *key, u32 value) const
+{
+	pOpaque->WriteS32(key, value);
+}
 
-		// IUpdatable
-		virtual bool Update(f32 dt);
+void Writer::WriteF32(const char *key, f32 value) const
+{
+	pOpaque->WriteF32(key, value);
+}
 
-		// IObject
-		virtual const String GetObjectName() const;
-		virtual int GetObjectType() const;
+void Writer::WriteBool(const char *key, bool value) const
+{
+	pOpaque->WriteBool(key, value);
+}
 
-	private:
-		SEED_DISABLE_COPY(ParticleManager);
+void Writer::OpenArray(const char *key)
+{
+	pOpaque->OpenArray(key);
+}
 
-	private:
-		ParticleEmitterVector vEmitter;
+void Writer::CloseArray()
+{
+	pOpaque->CloseArray();
+}
 
-		bool	bPaused;
-		bool	bStopped;
-};
+void Writer::OpenNode(const char *key)
+{
+	pOpaque->OpenNode(key);
+}
 
-//extern "C" {
-//SEED_CORE_API SEED_SINGLETON_EXTERNALIZE(ParticleManager);
-//}
-
-#define pParticleManager ParticleManager::GetInstance()
+void Writer::CloseNode()
+{
+	pOpaque->CloseNode();
+}
 
 } // namespace
-
-#endif // __PARTICLE_MANAGER_H__

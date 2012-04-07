@@ -106,7 +106,7 @@ bool Viewport::Contains(f32 x, f32 y)
 	return cArea.Contains(x, y);
 }
 
-const char *Viewport::GetObjectName() const
+const String Viewport::GetObjectName() const
 {
 	return "Viewport";
 }

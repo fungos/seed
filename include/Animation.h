@@ -32,8 +32,7 @@
 #define __ANIMATION_H__
 
 #include "Defines.h"
-#include "interface/IObject.h"
-#include "Reader.h"
+#include "interface/IDataObject.h"
 #include "Container.h"
 
 namespace Seed {
@@ -46,24 +45,31 @@ Animation is a sequence of Frames used by Sprite
 */
 DECLARE_CONTAINER_TYPE(Vector, Frame)
 
-struct SEED_CORE_API Animation
+class SEED_CORE_API Animation : public IDataObject
 {
+	public:
 		FrameVector	vFrames;
 		String		sName;
+		u32			iFps;
 		u32			iIndex;
 		u32			iFrames;
 		u32			iAnimationId;
-		u32			iFps;
 		bool		bAnimated;
 		bool		bLoop;
 
 		Animation();
-		~Animation();
-
-		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		bool Unload();
+		virtual ~Animation();
 
 		FrameVector *GetFrames();
+
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
+
+		// IObject
+		virtual const String GetObjectName() const;
+		virtual int GetObjectType() const;
 };
 
 } // namespace

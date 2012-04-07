@@ -174,7 +174,7 @@ f32 Configuration::GetInputDistanceRadius() const
 	return fInputRadius;
 }
 
-const char *Configuration::GetObjectName() const
+const String Configuration::GetObjectName() const
 {
 	return "Configuration";
 }

@@ -150,7 +150,7 @@ const String &File::GetName() const
 	return sName;
 }
 
-const char *File::GetObjectName() const
+const String File::GetObjectName() const
 {
 	return "File";
 }

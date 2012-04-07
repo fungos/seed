@@ -60,7 +60,7 @@ class SEED_CORE_API StateMachineEvent : public IEvent
 		{
 		}
 
-		virtual const char *GetObjectName() const
+		virtual const String GetObjectName() const
 		{
 			return "StateMachineEvent";
 		}

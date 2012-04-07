@@ -75,7 +75,7 @@ class SEED_CORE_API ISoundSystem : public IModule, public IUpdatable
 		virtual void Remove(ISoundSource *src);
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	protected:
 		IMusic	*pCurrentMusic;

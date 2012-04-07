@@ -65,7 +65,7 @@ bool IInput::IsRequired() const
 	return true;
 }
 
-const char *IInput::GetObjectName() const
+const String IInput::GetObjectName() const
 {
 	return "Input";
 }

@@ -1,20 +1,28 @@
 {
-	"name": "sample",
-	"position": {"x": 100, "y": 150},
+	"name": "pong",
+	"position": {"x": 400, "y": 150},
 	"timelines": [
 		{
 			"name": "anim",
 			"object": "anim.sprite",
 			"keyframes": [
 				{
+					"tween": true,
 					"frame": 0,
-					"easing": -1,
-					"position": {"x": 100, "y": 150}
+					"easing": 0,
+					"rotation": -180
 				},
 				{
-					"frame": 10,
-					"easing": -1,
-					"position": {"x": 100, "y": 150}
+					"tween": true,
+					"frame": 600,
+					"easing": 0,
+					"position": {"y": 300}
+				},
+				{
+					"tween": true,
+					"frame": 1200,
+					"easing": 0,
+					"rotation": 180
 				}
 			]
 		}

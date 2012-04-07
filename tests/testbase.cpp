@@ -7,6 +7,7 @@ TestBase::TestBase()
 	cConfig.SetApplicationTitle("tests");
 	cConfig.SetPublisherName("seed");
 	cConfig.SetVideoMode(Seed::Video_800x600);
+//	cConfig.bDebugSprite = true;
 }
 
 TestBase::~TestBase()
@@ -31,23 +32,25 @@ bool TestBase::Initialize()
 	/* ------- Rendering Initialization ------- */
 
 	{
-		File f("logo.sprite");
+		File f("anim.sprite");
 		Reader r(f);
 		sptLogo.Load(r);
-		sptLogo.SetPivot(0.5f, 0.5f);
 		sptLogo.SetPosition(400, 300);
 		cScene.Add(&sptLogo);
 	}
 
-	{
-		File f("sample.movie");
-		Reader r(f);
+//	{
+//		Writer w;
+//		sptLogo.Write(w);
+//		w.Save("out.sprite");
+//	}
 
-		mvSample.Load(r);
-		//mvSample.Unload();
-
-		cScene.Add(&mvSample);
-	}
+//	{
+//		File f("sample.movie");
+//		Reader r(f);
+//		mvSample.Load(r);
+//		cScene.Add(&mvSample);
+//	}
 
 	//cScene.SetPosition(100, 100);
 	//sptLogo.SetParent(&cScene);
@@ -56,10 +59,10 @@ bool TestBase::Initialize()
 	musTheme.SetVolume(.2f);
 	pSoundSystem->PlayMusic(&musTheme);
 
-	sfxSound.Load("helloworld.ogg");
-	sfxSound.SetLoop(true);
-	sfxSound.SetVolume(1.0f);
-	pSoundSystem->Add(&sfxSound);
+//	sfxSound.Load("helloworld.ogg");
+//	sfxSound.SetLoop(true);
+//	sfxSound.SetVolume(1.0f);
+//	pSoundSystem->Add(&sfxSound);
 
 	sfxSound.Play();
 	pScreen->FadeIn();

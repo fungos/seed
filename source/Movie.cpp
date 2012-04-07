@@ -187,21 +187,21 @@ void Movie::Stop()
 
 void Movie::Rewind()
 {
-	ForEach(TimelineVector, vTimelines,
-	{
+	TimelineVectorIterator it = vTimelines.begin();
+	TimelineVectorIterator end = vTimelines.end();
+	for (; it != end; ++it)
 		(*it)->Rewind();
-	});
 }
 
 void Movie::Reset()
 {
-	ForEach(TimelineVector, vTimelines,
-	{
+	TimelineVectorIterator it = vTimelines.begin();
+	TimelineVectorIterator end = vTimelines.end();
+	for (; it != end; ++it)
 		(*it)->Reset();
-	});
 }
 
-const char *Movie::GetObjectName() const
+const String Movie::GetObjectName() const
 {
 	return "Movie";
 }

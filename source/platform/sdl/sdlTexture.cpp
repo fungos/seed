@@ -292,9 +292,9 @@ void Texture::PutPixel(u32 x, u32 y, uPixel px)
 	{
 		case 3:
 		{
-			u8 r = static_cast<u8>(px.argb.r);
-			u8 g = static_cast<u8>(px.argb.g);
-			u8 b = static_cast<u8>(px.argb.b);
+			u8 r = static_cast<u8>(px.rgba.r);
+			u8 g = static_cast<u8>(px.rgba.g);
+			u8 b = static_cast<u8>(px.rgba.b);
 
 			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
 			{
@@ -350,17 +350,17 @@ uPixel Texture::GetPixel(u32 x, u32 y) const
 		{
 			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
 			{
-				px.argb.r = p[0] << 16;
-				px.argb.g = p[1] << 8;
-				px.argb.b = p[2];
-				px.argb.a = 255;
+				px.rgba.r = p[0] << 16;
+				px.rgba.g = p[1] << 8;
+				px.rgba.b = p[2];
+				px.rgba.a = 255;
 			}
 			else
 			{
-				px.argb.r = p[0];
-				px.argb.g = p[1] << 8;
-				px.argb.b = p[2] << 16;
-				px.argb.a = 255;
+				px.rgba.r = p[0];
+				px.rgba.g = p[1] << 8;
+				px.rgba.b = p[2] << 16;
+				px.rgba.a = 255;
 			}
 		}
 		break;

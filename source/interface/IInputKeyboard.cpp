@@ -400,13 +400,15 @@ void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
 #endif
 
-	ForEach(IEventInputKeyboardListenerVector, vKeyboardListeners,
+	IEventInputKeyboardListenerVectorIterator it = vKeyboardListeners.begin();
+	IEventInputKeyboardListenerVectorIterator end = vKeyboardListeners.end();
+	for (; it != end; ++it)
 	{
 		(*it)->OnInputKeyboardPress(ev);
 
 		if (ev->IsConsumed())
 			break;
-	});
+	}
 }
 
 void IInputKeyboard::SendEventKeyboardRelease(const EventInputKeyboard *ev)
@@ -417,13 +419,15 @@ void IInputKeyboard::SendEventKeyboardRelease(const EventInputKeyboard *ev)
 	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
 #endif
 
-	ForEach(IEventInputKeyboardListenerVector, vKeyboardListeners,
+	IEventInputKeyboardListenerVectorIterator it = vKeyboardListeners.begin();
+	IEventInputKeyboardListenerVectorIterator end = vKeyboardListeners.end();
+	for (; it != end; ++it)
 	{
 		(*it)->OnInputKeyboardRelease(ev);
 
 		if (ev->IsConsumed())
 			break;
-	});
+	}
 }
 
 } // namespace

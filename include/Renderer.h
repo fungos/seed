@@ -71,7 +71,7 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 		virtual bool Update(f32 delta);
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	protected:
 		SceneNodeVector vScenes;

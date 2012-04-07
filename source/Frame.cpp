@@ -68,16 +68,28 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 	{
 		sName = reader.ReadString("name", "frame");
 
-		String tex = reader.ReadString("texture", "default");
-		pTexture = (ITexture *)res->Get(tex, Seed::ObjectTexture);
+		sTexture = reader.ReadString("texture", "default");
+		pTexture = (ITexture *)res->Get(sTexture.c_str(), Seed::ObjectTexture);
 
-		iX = reader.ReadU32("y", 0);
-		iY = reader.ReadU32("x", 0);
-		iWidth = reader.ReadU32("width", pTexture->GetWidth());
-		iHeight = reader.ReadU32("height", pTexture->GetHeight());
+		if (reader.SelectNode("boundary"))
+		{
+			iX = reader.ReadU32("y", 0);
+			iY = reader.ReadU32("x", 0);
+			iWidth = reader.ReadU32("width", pTexture->GetWidth());
+			iHeight = reader.ReadU32("height", pTexture->GetHeight());
+			reader.UnselectNode();
+		}
+		else
+		{
+			iX = 0;
+			iY = 0;
+			iWidth = pTexture->GetWidth();
+			iHeight = pTexture->GetHeight();
+		}
 
-		u32 time = reader.ReadU32("repeat", 1);
-		fFrameRate = 1.0f / static_cast<f32>(time);
+		iFps = reader.ReadU32("fps", 0);
+		if (iFps)
+			fFrameRate = 1.0f / static_cast<f32>(iFps);
 
 		f32 rInvWidth = 1.0f / pTexture->GetAtlasWidth(); // full width from image, not only frame area
 		f32 rInvHeight = 1.0f / pTexture->GetAtlasHeight(); // full height from image, not only frame area
@@ -94,12 +106,62 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 	return true;
 }
 
+bool Frame::Write(Writer &writer)
+{
+	bool ret = false;
+
+	writer.OpenNode();
+		writer.WriteString("type", this->GetObjectName().c_str());
+		writer.WriteString("name", sName.c_str());
+		writer.WriteString("texture", sTexture.c_str());
+		if (iFps)
+			writer.WriteU32("fps", iFps);
+
+		if (iX != 0 && iY != 0 && iWidth != pTexture->GetWidth() && iHeight != pTexture->GetHeight())
+		{
+			writer.OpenNode("boundary");
+				writer.WriteU32("x", iX);
+				writer.WriteU32("y", iY);
+				writer.WriteU32("width", iWidth);
+				writer.WriteU32("height", iHeight);
+			writer.CloseNode();
+		}
+	writer.CloseNode();
+
+	return ret;
+}
+
 bool Frame::Unload()
 {
 	if (pTexture)
 		sRelease(pTexture);
 
+	pTexture = NULL;
+	sName = "";
+	sTexture = "";
+	iFps = 0;
+	iIndex = 0;
+	iX = 0;
+	iY = 0;
+	iWidth = 0;
+	iHeight = 0;
+	fFrameRate = 0.0f;
+	fTexS0 = 0.0f;
+	fTexS1 = 0.0f;
+	fTexT0 = 0.0f;
+	fTexT1 = 0.0f;
+
 	return true;
+}
+
+const String Frame::GetObjectName() const
+{
+	return "Frame";
+}
+
+int Frame::GetObjectType() const
+{
+	return Seed::ObjectFrame;
 }
 
 } // namespace

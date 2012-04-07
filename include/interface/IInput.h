@@ -60,7 +60,7 @@ class SEED_CORE_API IInput : public IModule, public IUpdatable
 		virtual bool IsRequired() const;
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	protected:
 		virtual eInputButton GetButtonCode(u32 button) const = 0;

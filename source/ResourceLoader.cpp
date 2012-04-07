@@ -215,7 +215,7 @@ void ResourceLoader::SendEventQueueEmpty(const EventResourceLoader *ev)
 	}
 }
 
-const char *ResourceLoader::GetObjectName() const
+const String ResourceLoader::GetObjectName() const
 {
 	return "ResourceLoader";
 }

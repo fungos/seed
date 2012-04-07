@@ -50,7 +50,7 @@ class SEED_CORE_API FileSystem : public IModule
 		virtual bool IsRequired() const;
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	private:
 		SEED_DISABLE_COPY(FileSystem);

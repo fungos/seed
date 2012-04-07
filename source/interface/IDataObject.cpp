@@ -28,72 +28,17 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __PARTICLE_MANAGER_H__
-#define __PARTICLE_MANAGER_H__
-
-#include "interface/IModule.h"
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
-#include "Container.h"
+#include "interface/IDataObject.h"
 
 namespace Seed {
 
-class ParticleEmitter;
-
-/// Particle Manager
-class SEED_CORE_API ParticleManager : public IModule, public IUpdatable
+IDataObject::IDataObject()
 {
-	SEED_SINGLETON_DECLARE(ParticleManager)
-	DECLARE_CONTAINER_TYPE(Vector, ParticleEmitter)
+}
 
-	public:
-		virtual void Play();
-		virtual bool IsPlaying() const;
-
-		virtual void Stop();
-		virtual bool IsStopped() const;
-
-		virtual void Pause();
-		virtual bool IsPaused() const;
-
-		virtual void Kill();
-
-		virtual void Add(ParticleEmitter *emitter);
-		virtual void Remove(ParticleEmitter *emitter);
-
-		virtual void Simulate(u32 iNumLoops);
-
-		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
-
-		virtual void Disable();
-		virtual void Enable();
-
-		// IUpdatable
-		virtual bool Update(f32 dt);
-
-		// IObject
-		virtual const String GetObjectName() const;
-		virtual int GetObjectType() const;
-
-	private:
-		SEED_DISABLE_COPY(ParticleManager);
-
-	private:
-		ParticleEmitterVector vEmitter;
-
-		bool	bPaused;
-		bool	bStopped;
-};
-
-//extern "C" {
-//SEED_CORE_API SEED_SINGLETON_EXTERNALIZE(ParticleManager);
-//}
-
-#define pParticleManager ParticleManager::GetInstance()
+IDataObject::~IDataObject()
+{
+}
 
 } // namespace
 
-#endif // __PARTICLE_MANAGER_H__

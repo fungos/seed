@@ -60,7 +60,7 @@ Particle::~Particle()
 {
 }
 
-const char *Particle::GetObjectName() const
+const String Particle::GetObjectName() const
 {
 	return "Particle";
 }

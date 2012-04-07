@@ -443,11 +443,23 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &data[0].cVertex);
 	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &data[0].iColor);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &data[0].cCoords);
 	glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, packet->iSize);
+
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+
+	if (packet->iFlags & FlagWireframe)
+	{
+		glPointSize(5.0);
+		glDrawArrays(GL_POINTS, 0, packet->iSize);
+		glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
+	}
+
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
 
 	glPopMatrix();
 }
@@ -543,8 +555,9 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bo
 		else
 			glDrawArrays(GL_LINE_LOOP, 0, 4);
 	glPopMatrix();
-	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void OGLES1RendererDevice::Enable2D() const

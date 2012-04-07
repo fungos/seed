@@ -75,25 +75,4 @@ namespace Seed
 											typedef type##cont::iterator type##cont##Iterator; \
 											typedef type##cont::const_iterator Const##type##cont##Iterator;
 
-#define ForEach(type, v, block)				{\
-												type##Iterator it = v.begin();\
-												type##Iterator end = v.end();\
-												for (; it != end; ++it)\
-													block\
-											}
-
-#define ReverseForEach(type, v, block)		{\
-												type##Iterator it = v.end();\
-												type##Iterator end = v.begin();\
-												for (; it != end; --it)\
-													block\
-											}
-
-#define ForEachConst(type, v, block)		{\
-												Const##type##Iterator it = v.begin();\
-												Const##type##Iterator end = v.end();\
-												for (; it != end; ++it)\
-													block\
-											}
-
 #endif // __CONTAINER_H__

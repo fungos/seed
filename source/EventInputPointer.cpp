@@ -77,7 +77,7 @@ f32 EventInputPointer::GetY() const
 	return fY;
 }
 
-const char *EventInputPointer::GetObjectName() const
+const String EventInputPointer::GetObjectName() const
 {
 	return "EventInputPointer";
 }

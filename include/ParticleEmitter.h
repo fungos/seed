@@ -105,11 +105,6 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		virtual void SetAnimation(u32 anim);
 
 		virtual void SetFilter(eTextureFilterType type, eTextureFilter filter);
-
-		virtual void Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual void Unload();
-		virtual void Reset();
-
 		virtual const EmitterConfiguration &GetConfig() const;
 
 		virtual void Play();
@@ -134,8 +129,14 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		virtual void Update(f32 delta);
 		virtual void Render();
 
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
+		virtual void Reset();
+
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	private:
@@ -144,9 +145,8 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		void MoveEverything(const Vector3f &pos);
 
 	private:
-		EmitterConfiguration		cEmitter;
 		ResourceManager				*pRes;
-		String						sFilename;
+		EmitterConfiguration		cEmitter;
 		String						sSpriteFilename;
 		bool						bParticlesFollowEmitter;
 

@@ -39,6 +39,8 @@ enum eObjectType
 	ObjectTexture = 0,
 	ObjectImage,
 	ObjectSprite,
+	ObjectAnimation,
+	ObjectFrame,
 	ObjectSound,
 	ObjectMusic,
 	ObjectEvent,

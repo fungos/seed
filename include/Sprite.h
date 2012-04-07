@@ -58,9 +58,6 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		Sprite();
 		virtual ~Sprite();
 
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Unload();
-
 		virtual ITexture *GetTexture() const;
 		virtual const void *GetData() const;
 
@@ -96,8 +93,13 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual void Update(f32 delta);
 		virtual void Render();
 
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
+
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	protected:

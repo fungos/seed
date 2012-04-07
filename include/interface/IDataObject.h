@@ -1,3 +1,6 @@
+#ifndef __IDATAOBJECT_H__
+#define __IDATAOBJECT_H__
+
 /*
 * Copyright (c) 2012, Seed Developers
 * All rights reserved.
@@ -28,72 +31,32 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __PARTICLE_MANAGER_H__
-#define __PARTICLE_MANAGER_H__
 
-#include "interface/IModule.h"
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
-#include "Container.h"
+#include "Defines.h"
+#include "IObject.h"
+#include "Writer.h"
+#include "Reader.h"
 
 namespace Seed {
 
-class ParticleEmitter;
-
-/// Particle Manager
-class SEED_CORE_API ParticleManager : public IModule, public IUpdatable
+/// Object Interface
+/**
+Interface for basic object
+*/
+class SEED_CORE_API IDataObject : public IObject
 {
-	SEED_SINGLETON_DECLARE(ParticleManager)
-	DECLARE_CONTAINER_TYPE(Vector, ParticleEmitter)
-
 	public:
-		virtual void Play();
-		virtual bool IsPlaying() const;
+		IDataObject();
+		virtual ~IDataObject();
 
-		virtual void Stop();
-		virtual bool IsStopped() const;
-
-		virtual void Pause();
-		virtual bool IsPaused() const;
-
-		virtual void Kill();
-
-		virtual void Add(ParticleEmitter *emitter);
-		virtual void Remove(ParticleEmitter *emitter);
-
-		virtual void Simulate(u32 iNumLoops);
-
-		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
-
-		virtual void Disable();
-		virtual void Enable();
-
-		// IUpdatable
-		virtual bool Update(f32 dt);
-
-		// IObject
-		virtual const String GetObjectName() const;
-		virtual int GetObjectType() const;
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) = 0;
+		virtual bool Write(Writer &writer) = 0;
+		virtual bool Unload() = 0;
 
 	private:
-		SEED_DISABLE_COPY(ParticleManager);
-
-	private:
-		ParticleEmitterVector vEmitter;
-
-		bool	bPaused;
-		bool	bStopped;
+		SEED_DISABLE_COPY(IDataObject);
 };
-
-//extern "C" {
-//SEED_CORE_API SEED_SINGLETON_EXTERNALIZE(ParticleManager);
-//}
-
-#define pParticleManager ParticleManager::GetInstance()
 
 } // namespace
 
-#endif // __PARTICLE_MANAGER_H__
+#endif // __IDATAOBJECT_H__

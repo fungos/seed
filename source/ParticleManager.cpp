@@ -95,20 +95,20 @@ bool ParticleManager::Update(f32 dt)
 
 void ParticleManager::Kill()
 {
-	ForEach(ParticleEmitterVector, vEmitter,
-	{
+	ParticleEmitterVectorIterator it = vEmitter.begin();
+	ParticleEmitterVectorIterator end = vEmitter.end();
+	for (; it != end; ++it)
 		(*it)->Kill();
-	});
 
 	ParticleEmitterVector().swap(vEmitter);
 }
 
 void ParticleManager::Stop()
 {
-	ForEach(ParticleEmitterVector, vEmitter,
-	{
+	ParticleEmitterVectorIterator it = vEmitter.begin();
+	ParticleEmitterVectorIterator end = vEmitter.end();
+	for (; it != end; ++it)
 		(*it)->Stop();
-	});
 
 	bPaused = false;
 	bStopped = true;
@@ -121,10 +121,10 @@ bool ParticleManager::IsStopped() const
 
 void ParticleManager::Pause()
 {
-	ForEach(ParticleEmitterVector, vEmitter,
-	{
+	ParticleEmitterVectorIterator it = vEmitter.begin();
+	ParticleEmitterVectorIterator end = vEmitter.end();
+	for (; it != end; ++it)
 		(*it)->Pause();
-	});
 
 	bPaused = true;
 }
@@ -136,10 +136,10 @@ bool ParticleManager::IsPaused() const
 
 void ParticleManager::Play()
 {
-	ForEach(ParticleEmitterVector, vEmitter,
-	{
+	ParticleEmitterVectorIterator it = vEmitter.begin();
+	ParticleEmitterVectorIterator end = vEmitter.end();
+	for (; it != end; ++it)
 		(*it)->Play();
-	});
 
 	bPaused = false;
 	bStopped = false;
@@ -153,19 +153,21 @@ bool ParticleManager::IsPlaying() const
 void ParticleManager::Disable()
 {
 	IModule::Disable();
-	ForEach(ParticleEmitterVector, vEmitter,
-	{
+
+	ParticleEmitterVectorIterator it = vEmitter.begin();
+	ParticleEmitterVectorIterator end = vEmitter.end();
+	for (; it != end; ++it)
 		(*it)->Disable();
-	});
 }
 
 void ParticleManager::Enable()
 {
 	IModule::Enable();
-	ForEach(ParticleEmitterVector, vEmitter,
-	{
+
+	ParticleEmitterVectorIterator it = vEmitter.begin();
+	ParticleEmitterVectorIterator end = vEmitter.end();
+	for (; it != end; ++it)
 		(*it)->Enable();
-	});
 }
 
 void ParticleManager::Add(ParticleEmitter *emitter)
@@ -178,7 +180,7 @@ void ParticleManager::Remove(ParticleEmitter *emitter)
 	vEmitter -= emitter;
 }
 
-const char *ParticleManager::GetObjectName() const
+const String ParticleManager::GetObjectName() const
 {
 	return "ParticleEmitter";
 }

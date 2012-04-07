@@ -202,7 +202,7 @@ int ITexture::GetObjectType() const
 	return Seed::ObjectTexture;
 }
 
-const char *ITexture::GetObjectName() const
+const String ITexture::GetObjectName() const
 {
 	return "ITexture";
 }

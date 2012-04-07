@@ -123,15 +123,15 @@ bool SoundSystem::Reset()
 		fMusicStartFadeTime = 0.0f;
 		fMusicFadeTime = 0.0f;
 
-		ForEach(ISoundSourceVector, vSource,
-		{
-			(*it)->Stop();
-		});
+		ISoundSourceVectorIterator it = vSource.begin();
+		ISoundSourceVectorIterator end = vSource.end();
+		for (; it != end; ++it)
+				(*it)->Stop();
 
-		ForEach(ISoundSourceVector, vSource,
-		{
+		it = vSource.begin();
+		end = vSource.end();
+		for (; it != end; ++it)
 			(*it)->Unload();
-		});
 
 		ISoundSourceVector().swap(vSource);
 
@@ -183,10 +183,10 @@ void SoundSystem::UpdateSounds(f32 dt)
 
 	if (bChanged)
 	{
-		ForEach(ISoundSourceVector, vSource,
-		{
+		ISoundSourceVectorIterator it = vSource.begin();
+		ISoundSourceVectorIterator end = vSource.end();
+		for (; it != end; ++it)
 			(*it)->UpdateVolume();
-		});
 	}
 
 	ISoundSourceVector::iterator it = vSource.begin();
@@ -477,10 +477,10 @@ void SoundSystem::Pause()
 
 void SoundSystem::Resume()
 {
-	ForEach(ISoundSourceVector, vSource,
-	{
+	ISoundSourceVectorIterator it = vSource.begin();
+	ISoundSourceVectorIterator end = vSource.end();
+	for (; it != end; ++it)
 		(*it)->Resume();
-	});
 
 	if (pCurrentMusic)
 		static_cast<Music *>(pCurrentMusic)->eState = Seed::MusicPlay;

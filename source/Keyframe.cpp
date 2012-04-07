@@ -78,7 +78,7 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 
 		iFrameToJump = reader.ReadS32("goto", -1);
 
-		bTween = reader.ReadBool("tweeb", false);
+		bTween = reader.ReadBool("tween", false);
 		bBlank = reader.ReadBool("blank", false);
 
 		String event(reader.ReadString("event", "none"));

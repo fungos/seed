@@ -78,10 +78,11 @@ void IInputMotion::RemoveMotionListener(IEventInputMotionListener *listener)
 void IInputMotion::SendEventAccelerationChanged(const EventInputMotion *ev)
 {
 	SEED_ASSERT(ev);
-	ForEach(IEventInputMotionListenerVector, vMotionListeners,
-	{
+
+	IEventInputMotionListenerVectorIterator it = vMotionListeners.begin();
+	IEventInputMotionListenerVectorIterator end = vMotionListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnAccelerationChanged(ev);
-	});
 }
 
 } // namespace

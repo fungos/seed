@@ -17,6 +17,8 @@ bool TestJsonReader::Update(f32 dt)
 {
 	TestBase::Update(dt);
 
+	return true;
+
 	sptLogo.SetColor(iCol, 0u, 255u, 128u);
 	sptLogo.SetBlending(Seed::BlendModulate);
 	sptLogo.SetRotation(fRot);

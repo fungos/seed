@@ -199,7 +199,7 @@ eSoundSourceState ISoundSource::GetState() const
 	return eState;
 }
 
-const char *ISoundSource::GetObjectName() const
+const String ISoundSource::GetObjectName() const
 {
 	return "ISoundSource";
 }

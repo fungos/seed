@@ -139,7 +139,7 @@ class SEED_CORE_API Configuration : public IObject
 		eReaderType GetReaderType() const;
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 		bool bDebugSprite;

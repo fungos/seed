@@ -95,7 +95,7 @@ class SEED_CORE_API D3D8RendererDevice : public IRendererDevice
 		virtual bool Shutdown();
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	protected:
 		mutable ITextureVector vTexture;

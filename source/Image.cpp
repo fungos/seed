@@ -128,9 +128,8 @@ bool Image::Load(ITexture *texture)
 	SEED_ASSERT(texture);
 
 	if (!bDynamic)
-	{
 		sRelease(pTexture);
-	}
+
 	pTexture = NULL;
 
 	sFilename = "[dynamic texture]";
@@ -170,7 +169,7 @@ int Image::GetObjectType() const
 	return Seed::ObjectImage;
 }
 
-const char *Image::GetObjectName() const
+const String Image::GetObjectName() const
 {
 	return "Image";
 }

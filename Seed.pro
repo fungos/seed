@@ -137,7 +137,11 @@ SOURCES += source/Viewport.cpp \
 	source/platform/sdl/sdlSystem.cpp \
 	source/platform/sdl/sdlScreen.cpp \
 	source/platform/sdl/sdlMutex.cpp \
-	source/platform/sdl/sdlInput.cpp
+	source/platform/sdl/sdlInput.cpp \
+    source/api/yajl/JsonWriter.cpp \
+    source/Writer.cpp \
+    source/interface/IWriter.cpp \
+    source/interface/IDataObject.cpp
 
 OTHER_FILES += \
 	source/platform/ios/IphoneView.mm
@@ -152,4 +156,8 @@ HEADERS += include/*.h \
 	include/api/oal/*.h \
 	include/api/ogl/*.h \
 	include/api/theora/*.h \
-	include/api/yajl/*.h
+	include/api/yajl/*.h \
+    include/Writer.h \
+    include/interface/IWriter.h \
+    include/api/yajl/JsonWriter.h \
+    include/interface/IDataObject.h

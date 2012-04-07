@@ -177,11 +177,13 @@ void ISoundSystem::StopMusic(f32 ms, IMusic *mus)
 
 void ISoundSystem::StopSounds()
 {
-	ForEach(ISoundSourceVector, vSource,
+	ISoundSourceVectorIterator it = vSource.begin();
+	ISoundSourceVectorIterator end = vSource.end();
+	for (; it != end; ++it)
 	{
 		ISoundSource *obj = (*it);
 		obj->Stop();
-	});
+	}
 }
 
 void ISoundSystem::Pause()
@@ -194,7 +196,7 @@ void ISoundSystem::Resume()
 	bPaused = false;
 }
 
-const char *ISoundSystem::GetObjectName() const
+const String ISoundSystem::GetObjectName() const
 {
 	return "SoundSystem";
 }

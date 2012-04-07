@@ -126,7 +126,7 @@ class SEED_CORE_API ITexture : public IResource
 
 		// IObject
 		virtual int GetObjectType() const;
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	public:
 		void	*pTextureId;

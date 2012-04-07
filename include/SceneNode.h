@@ -51,12 +51,17 @@ class SEED_CORE_API SceneNode : public ISceneObject
 		// IRenderable
 		virtual void Update(f32 dt);
 		virtual void Render();
-		virtual void Reset();
 
 		virtual void Add(ISceneObject *obj);
 		virtual void Remove(ISceneObject *obj);
 		virtual u32 Size() const;
 		virtual ISceneObject *GetChildAt(u32 i);
+
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
+		virtual void Reset();
 
 	private:
 		SEED_DISABLE_COPY(SceneNode);

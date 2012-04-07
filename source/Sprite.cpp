@@ -97,108 +97,6 @@ void Sprite::Reset()
 	this->SetPriority(0);
 }
 
-bool Sprite::Unload()
-{
-	AnimationVectorIterator it = vAnimations.begin();
-	AnimationVectorIterator end = vAnimations.end();
-	for (; it != end; ++it)
-		Delete(*it);
-
-	AnimationVector().swap(vAnimations);
-
-	pFrameTexture	= NULL;
-	pAnimation		= NULL;
-	pFrame			= NULL;
-	pvFrames		= NULL;
-	bInitialized	= false;
-	bChanged		= false;
-
-	return true;
-}
-
-bool Sprite::Load(Reader &reader, ResourceManager *res)
-{
-	SEED_ASSERT(res);
-
-	bool ret = false;
-
-	if (this->Unload())
-	{
-		sName = reader.ReadString("name", "sprite");
-		u32 anims = reader.SelectArray("animations");
-
-		if (anims)
-		{
-			for (u32 i = 0; i < anims; i++)
-			{
-				Animation *a = New(Animation);
-				reader.SelectNext();
-				a->Load(reader, res);
-				vAnimations += a;
-			}
-
-			bInitialized = true;
-
-			if (reader.SelectNode("position"))
-			{
-				vPos.setX(reader.ReadF32("x", 0.0f));
-				vPos.setY(reader.ReadF32("y", 0.0f));
-				reader.UnselectNode();
-			}
-
-			if (reader.SelectNode("pivot"))
-			{
-				vPivot.setX(reader.ReadF32("x", 0.0f));
-				vPivot.setY(reader.ReadF32("y", 0.0f));
-				reader.UnselectNode();
-			}
-
-			if (reader.SelectNode("scale"))
-			{
-				vScale.setX(reader.ReadF32("x", 1.0f));
-				vScale.setY(reader.ReadF32("y", 1.0f));
-				vScale.setZ(reader.ReadF32("z", 1.0f));
-				reader.UnselectNode();
-			}
-
-			if (reader.SelectNode("color"))
-			{
-				iColor.rgba.r = reader.ReadS32("r", 255);
-				iColor.rgba.g = reader.ReadS32("g", 255);
-				iColor.rgba.b = reader.ReadS32("b", 255);
-				iColor.rgba.a = reader.ReadS32("a", 255);
-				reader.UnselectNode();
-			}
-
-			vPos.setZ(reader.ReadF32("priority", 0.0f));
-
-			this->SetRotation(reader.ReadF32("rotation", 0.0f));
-
-			s32 anim = reader.ReadS32("animation", -1);
-			if (anim == -1)
-			{
-				String sanim = reader.ReadString("animation", "");
-				if (sanim == "")
-					this->SetAnimation(0u);
-				else
-					this->SetAnimation(sanim);
-			}
-			else
-				this->SetAnimation(anim);
-
-			ret = true;
-
-			reader.UnselectArray();
-		}
-		else
-		{
-			Log(TAG " WARNING: Animations not found in the sprite '%s'", sName.c_str());
-		}
-	}
-
-	return ret;
-}
-
 void Sprite::operator+=(Animation *anim)
 {
 	SEED_ASSERT(anim);
@@ -275,7 +173,7 @@ bool Sprite::SetAnimation(u32 index)
 		}
 		else
 		{
-			//Log(TAG "Warning animation %d not found.", index);
+			Log(TAG "Warning animation %d not found.", index);
 		}
 	}
 	return ret;
@@ -312,7 +210,7 @@ bool Sprite::SetAnimation(String name)
 		}
 		else
 		{
-			//Log(TAG "Warning animation '%s' not found.", name);
+			Log(TAG "Warning animation '%s' not found.", name.c_str());
 		}
 	}
 	return ret;
@@ -442,13 +340,9 @@ void Sprite::Update(f32 delta)
 			if (iCurrentFrame + 1 == iFrames)
 			{
 				if (bLoop)
-				{
 					iCurrentFrame = 0;
-				}
 				else
-				{
 					bChanged = false;
-				}
 			}
 			else
 				iCurrentFrame++;
@@ -496,10 +390,10 @@ void Sprite::Update(f32 delta)
 		bColorChanged = false;
 
 		uPixel p = iColor;
-		p.rgba.r = iColor.argb.r;
-		p.rgba.g = iColor.argb.g;
-		p.rgba.b = iColor.argb.b;
-		p.rgba.a = iColor.argb.a;
+//		p.rgba.r = iColor.argb.r;
+//		p.rgba.g = iColor.argb.g;
+//		p.rgba.b = iColor.argb.b;
+//		p.rgba.a = iColor.argb.a;
 
 		vert[0].iColor = p;
 		vert[1].iColor = p;
@@ -513,6 +407,8 @@ void Sprite::Render()
 	if (!bInitialized)
 		return;
 
+	ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+
 	SEED_ASSERT(pFrameTexture);
 
 	RendererPacket packet;
@@ -523,11 +419,9 @@ void Sprite::Render()
 	packet.nBlendMode = eBlendOperation;
 	packet.pTransform = &mTransform;
 	packet.iColor = iColor;
+	packet.iFlags = flags;
 
 	pRendererDevice->UploadData(&packet);
-
-	if (pConfiguration->bDebugSprite)
-		pRendererDevice->DrawRect(this->GetX(), this->GetY(), this->GetWidth(), this->GetHeight(), uPixel(255, 255, 255, 255));
 }
 
 uPixel Sprite::GetPixel(u32 x, u32 y) const
@@ -559,7 +453,7 @@ ITexture *Sprite::GetTexture() const
 	return pFrameTexture;
 }
 
-const char *Sprite::GetObjectName() const
+const String Sprite::GetObjectName() const
 {
 	return "Sprite";
 }
@@ -567,6 +461,162 @@ const char *Sprite::GetObjectName() const
 int Sprite::GetObjectType() const
 {
 	return Seed::ObjectSprite;
+}
+
+bool Sprite::Unload()
+{
+	AnimationVectorIterator it = vAnimations.begin();
+	AnimationVectorIterator end = vAnimations.end();
+	for (; it != end; ++it)
+		Delete(*it);
+
+	AnimationVector().swap(vAnimations);
+
+	pFrameTexture	= NULL;
+	pAnimation		= NULL;
+	pFrame			= NULL;
+	pvFrames		= NULL;
+	bInitialized	= false;
+	bChanged		= false;
+
+	return true;
+}
+
+bool Sprite::Load(Reader &reader, ResourceManager *res)
+{
+	SEED_ASSERT(res);
+
+	bool ret = false;
+
+	if (this->Unload())
+	{
+		sName = reader.ReadString("name", "sprite");
+		u32 anims = reader.SelectArray("animations");
+		if (anims)
+		{
+			for (u32 i = 0; i < anims; i++)
+			{
+				Animation *a = New(Animation);
+				reader.SelectNext();
+				a->Load(reader, res);
+				vAnimations += a;
+			}
+			reader.UnselectArray();
+
+			bInitialized = true;
+
+			if (reader.SelectNode("position"))
+			{
+				vPos.setX(reader.ReadF32("x", 0.0f));
+				vPos.setY(reader.ReadF32("y", 0.0f));
+				reader.UnselectNode();
+			}
+
+			if (reader.SelectNode("pivot"))
+			{
+				vPivot.setX(reader.ReadF32("x", 0.0f));
+				vPivot.setY(reader.ReadF32("y", 0.0f));
+				reader.UnselectNode();
+			}
+
+			if (reader.SelectNode("scale"))
+			{
+				vScale.setX(reader.ReadF32("x", 1.0f));
+				vScale.setY(reader.ReadF32("y", 1.0f));
+				vScale.setZ(reader.ReadF32("z", 1.0f));
+				reader.UnselectNode();
+			}
+
+			if (reader.SelectNode("color"))
+			{
+				iColor.rgba.r = reader.ReadS32("r", 255);
+				iColor.rgba.g = reader.ReadS32("g", 255);
+				iColor.rgba.b = reader.ReadS32("b", 255);
+				iColor.rgba.a = reader.ReadS32("a", 255);
+				reader.UnselectNode();
+			}
+
+			String blending = reader.ReadString("blending", "None");
+			this->SetBlendingByName(blending);
+
+			vPos.setZ(reader.ReadF32("priority", 0.0f));
+
+			this->SetRotation(reader.ReadF32("rotation", 0.0f));
+
+			s32 anim = reader.ReadS32("animation", -1);
+			if (anim == -1)
+			{
+				String sanim = reader.ReadString("animation", "");
+				if (sanim == "")
+					this->SetAnimation(0u);
+				else
+					this->SetAnimation(sanim);
+			}
+			else
+				this->SetAnimation(anim);
+
+			ret = true;
+		}
+		else
+		{
+			Log(TAG " WARNING: Animations not found in the sprite '%s'", sName.c_str());
+		}
+	}
+
+	return ret;
+}
+
+bool Sprite::Write(Writer &writer)
+{
+	bool ret = false;
+
+	writer.OpenNode();
+		writer.WriteString("type", this->GetObjectName().c_str());
+		writer.WriteString("name", sName.c_str());
+		writer.WriteS32("priority", (s32)vPos.getZ());
+		writer.WriteS32("animation", this->GetAnimation());
+
+		writer.OpenNode("position");
+			writer.WriteF32("x", vPos.getX());
+			writer.WriteF32("y", vPos.getY());
+		writer.CloseNode();
+
+		writer.OpenNode("pivot");
+			writer.WriteF32("x", vPivot.getX());
+			writer.WriteF32("y", vPivot.getY());
+		writer.CloseNode();
+
+		writer.OpenNode("scale");
+			writer.WriteF32("x", vScale.getX());
+			writer.WriteF32("y", vScale.getY());
+		writer.CloseNode();
+
+		if (iColor.pixel != 0xffffffff)
+		{
+			writer.OpenNode("color");
+				writer.WriteU32("r", iColor.rgba.r);
+				writer.WriteU32("g", iColor.rgba.g);
+				writer.WriteU32("b", iColor.rgba.b);
+				writer.WriteU32("a", iColor.rgba.a);
+			writer.CloseNode();
+		}
+
+		if (eBlendOperation != BlendDefault && eBlendOperation != BlendNone)
+		{
+			writer.WriteString("blending", this->GetBlendingName().c_str());
+		}
+
+		writer.OpenArray("animations");
+		u32 anims  = vAnimations.Size();
+		for (u32 i = 0; i < anims; i++)
+		{
+			Animation *anim = vAnimations[i];
+			anim->Write(writer);
+		}
+		writer.CloseArray();
+	writer.CloseNode();
+
+	return ret;
 }
 
 } // namespace

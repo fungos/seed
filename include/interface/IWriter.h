@@ -28,72 +28,33 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __PARTICLE_MANAGER_H__
-#define __PARTICLE_MANAGER_H__
+#ifndef __IWRITER_H__
+#define __IWRITER_H__
 
-#include "interface/IModule.h"
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
-#include "Container.h"
+#include "Defines.h"
+#include "File.h"
 
 namespace Seed {
 
-class ParticleEmitter;
-
-/// Particle Manager
-class SEED_CORE_API ParticleManager : public IModule, public IUpdatable
+/// Data writer interface
+class SEED_CORE_API IWriter
 {
-	SEED_SINGLETON_DECLARE(ParticleManager)
-	DECLARE_CONTAINER_TYPE(Vector, ParticleEmitter)
-
 	public:
-		virtual void Play();
-		virtual bool IsPlaying() const;
+		IWriter();
+		virtual ~IWriter();
 
-		virtual void Stop();
-		virtual bool IsStopped() const;
-
-		virtual void Pause();
-		virtual bool IsPaused() const;
-
-		virtual void Kill();
-
-		virtual void Add(ParticleEmitter *emitter);
-		virtual void Remove(ParticleEmitter *emitter);
-
-		virtual void Simulate(u32 iNumLoops);
-
-		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
-
-		virtual void Disable();
-		virtual void Enable();
-
-		// IUpdatable
-		virtual bool Update(f32 dt);
-
-		// IObject
-		virtual const String GetObjectName() const;
-		virtual int GetObjectType() const;
-
-	private:
-		SEED_DISABLE_COPY(ParticleManager);
-
-	private:
-		ParticleEmitterVector vEmitter;
-
-		bool	bPaused;
-		bool	bStopped;
+		virtual bool Save(const String &file);
+		virtual void WriteString(const char *key, const char *value) const;
+		virtual void WriteU32(const char *key, u32 value) const;
+		virtual void WriteS32(const char *key, s32 value) const;
+		virtual void WriteF32(const char *key, f32 value) const;
+		virtual void WriteBool(const char *key, bool value) const;
+		virtual void OpenArray(const char *key);
+		virtual void CloseArray();
+		virtual void OpenNode(const char *key);
+		virtual void CloseNode();
 };
-
-//extern "C" {
-//SEED_CORE_API SEED_SINGLETON_EXTERNALIZE(ParticleManager);
-//}
-
-#define pParticleManager ParticleManager::GetInstance()
 
 } // namespace
 
-#endif // __PARTICLE_MANAGER_H__
+#endif // __IWRITER_H__

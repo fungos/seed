@@ -89,14 +89,6 @@ union uPixel
 		u8 b;
 		u8 a;
 	} rgba;
-	/// Pixel components ARGB
-	struct _argb
-	{
-		u8 a;
-		u8 r;
-		u8 g;
-		u8 b;
-	} argb;
 
 	uPixel(u8 R, u8 G, u8 B, u8 A)
 	{

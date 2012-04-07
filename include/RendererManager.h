@@ -61,7 +61,7 @@ class SEED_CORE_API RendererManager : public IModule, public IUpdatable
 		virtual bool Update(f32 dt);
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	private:

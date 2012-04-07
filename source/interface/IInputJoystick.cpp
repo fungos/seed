@@ -64,40 +64,40 @@ void IInputJoystick::SendEventJoystickButtonPress(const EventInputJoystick *ev)
 {
 	SEED_ASSERT(ev);
 
-	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
-	{
+	IEventInputJoystickListenerVectorIterator it = vJoystickListeners.begin();
+	IEventInputJoystickListenerVectorIterator end = vJoystickListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnInputJoystickButtonPress(ev);
-	});
 }
 
 void IInputJoystick::SendEventJoystickButtonRelease(const EventInputJoystick *ev)
 {
 	SEED_ASSERT(ev);
 
-	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
-	{
+	IEventInputJoystickListenerVectorIterator it = vJoystickListeners.begin();
+	IEventInputJoystickListenerVectorIterator end = vJoystickListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnInputJoystickButtonRelease(ev);
-	});
 }
 
 void IInputJoystick::SendEventJoystickDPadMove(const EventInputJoystick *ev)
 {
 	SEED_ASSERT(ev);
 
-	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
-	{
+	IEventInputJoystickListenerVectorIterator it = vJoystickListeners.begin();
+	IEventInputJoystickListenerVectorIterator end = vJoystickListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnInputJoystickDPadMove(ev);
-	});
 }
 
 void IInputJoystick::SendEventJoystickAxisMove(const EventInputJoystick *ev)
 {
 	SEED_ASSERT(ev);
 
-	ForEach(IEventInputJoystickListenerVector, vJoystickListeners,
-	{
+	IEventInputJoystickListenerVectorIterator it = vJoystickListeners.begin();
+	IEventInputJoystickListenerVectorIterator end = vJoystickListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnInputJoystickAxisMove(ev);
-	});
 }
 
 } // namespace

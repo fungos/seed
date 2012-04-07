@@ -42,7 +42,7 @@ class SEED_CORE_API EventFileSystem : public IEvent
 		EventFileSystem();
 		virtual ~EventFileSystem();
 
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 		void SetFile(const String &filename);
 		const String &GetFile();

@@ -63,7 +63,7 @@ bool ISceneObject::IsNode() const
 	return false;
 }
 
-const char *ISceneObject::GetObjectName() const
+const String ISceneObject::GetObjectName() const
 {
 	return "ISceneObject";
 }

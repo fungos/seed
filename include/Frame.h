@@ -32,8 +32,7 @@
 #define __FRAME_H__
 
 #include "Defines.h"
-#include "interface/IObject.h"
-#include "Reader.h"
+#include "interface/IDataObject.h"
 
 namespace Seed {
 
@@ -43,10 +42,13 @@ class ITexture;
 /**
 Frame is a static region from a Texture
 */
-struct SEED_CORE_API Frame
+class SEED_CORE_API Frame : public IDataObject
 {
+	public:
 		ITexture	*pTexture;
 		String		sName;
+		String		sTexture;
+		u32			iFps;
 		u32			iIndex;
 		u32			iX;
 		u32			iY;
@@ -61,10 +63,16 @@ struct SEED_CORE_API Frame
 		f32			fTexT1;
 
 		Frame();
-		~Frame();
+		virtual ~Frame();
 
-		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		bool Unload();
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
+
+		// IObject
+		virtual const String GetObjectName() const;
+		virtual int GetObjectType() const;
 };
 
 } // namespace

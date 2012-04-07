@@ -111,7 +111,7 @@ bool IScreen::IsRequired() const
 	return true;
 }
 
-const char *IScreen::GetObjectName() const
+const String IScreen::GetObjectName() const
 {
 	return "Screen";
 }

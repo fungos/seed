@@ -92,10 +92,13 @@ bool Renderer::Update(f32 dt)
 	vRenderables.clear();
 
 	SceneNodeVector v(vScenes);
-	ForEach(SceneNodeVector, v,
+
+	SceneNodeVectorIterator sit = v.begin();
+	SceneNodeVectorIterator send = v.end();
+	for (; sit != send; ++sit)
 	{
-		this->PushChildNodes((*it), v);
-	});
+		this->PushChildNodes((*sit), v);
+	}
 
 	SceneNodeVectorIterator it = v.begin();
 	SceneNodeVectorIterator end = v.end();
@@ -104,14 +107,16 @@ bool Renderer::Update(f32 dt)
 		SceneNode *node = (*it);
 		ISceneObjectVector nv = node->vChild;
 
-		ForEach(ISceneObjectVector, nv,
+		ISceneObjectVectorIterator it = nv.begin();
+		ISceneObjectVectorIterator end = nv.end();
+		for (; it != end; ++it)
 		{
 			ISceneObject *obj = (*it);
 			if (obj->IsVisible())
 			{
 				vRenderables += obj;
 			}
-		});
+		}
 	}
 
 	return true;
@@ -208,7 +213,7 @@ void Renderer::Remove(SceneNode *node)
 	vScenes -= node;
 }
 
-const char *Renderer::GetObjectName() const
+const String Renderer::GetObjectName() const
 {
 	return "Renderer";
 }

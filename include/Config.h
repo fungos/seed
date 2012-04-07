@@ -52,7 +52,8 @@
 #define SEED_USE_JSON						1
 #define SEED_USE_THEORA						0
 #define SEED_ENABLE_DEPTH_TEST				0
-
+#define SEED_USE_ROTATION_PIVOT				0
+#define SEED_USE_CENTERED_PIVOT				1
 /*
 The size of the music buffer for streaming from hard disk on platforms that support it (SDL).
 */

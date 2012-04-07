@@ -448,13 +448,15 @@ void Timeline::SetRotation(f32 rotation)
 
 s32 Timeline::FindKeyframeByName(const String &name)
 {
-	ForEach(KeyframeMap, mapKeyframes,
+	KeyframeMapIterator it = mapKeyframes.begin();
+	KeyframeMapIterator end = mapKeyframes.end();
+	for (; it != end; ++it)
 	{
 		Keyframe *obj = (*it).second;
 
 		if (obj->sName == name)
 			return obj->iFrame;
-	});
+	}
 
 	return 0;
 }
@@ -465,25 +467,23 @@ s32 Timeline::FindNextKeyframe()
 	KeyframeMap::iterator end = mapKeyframes.end();
 	for (; it != end; ++it)
 	{
-
-//	ForEach(KeyframeMap, mapKeyframes,
-	//{
 		s32 pos = (*it).first;
 		if (pos > iKeyframeFrom)
 			return pos;
-	//});
 	}
 	return -1;
 }
 
 s32 Timeline::FindPreviousKeyframe()
 {
-	ReverseForEach(KeyframeMap, mapKeyframes,
+	KeyframeMapIterator it = mapKeyframes.end();
+	KeyframeMapIterator beg = mapKeyframes.begin();
+	for (; it != beg; --it)
 	{
 		s32 pos = (*it).first;
 		if (pos < iCurrentFrame)
 			return pos;
-	});
+	}
 
 	return -1;
 }

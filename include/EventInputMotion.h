@@ -49,7 +49,7 @@ class SEED_CORE_API EventInputMotion : public IEventInput
 		f32 GetAccelerationSpeed() const;
 
 		// IObject
-		const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	protected:
 		Vector3f ptAcceleration;

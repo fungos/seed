@@ -95,7 +95,7 @@ class SEED_CORE_API ISoundSource : public IObject
 		virtual bool IsLoop() const;
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	protected:

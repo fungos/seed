@@ -44,7 +44,6 @@ Animation::Animation()
 	, iIndex(0)
 	, iFrames(0)
 	, iAnimationId(0)
-	, iFps(60)
 	, bAnimated(true)
 	, bLoop(true)
 {
@@ -67,17 +66,47 @@ bool Animation::Load(Reader &reader, ResourceManager *res)
 		iFps = reader.ReadU32("fps", 60);
 		iFrames = reader.SelectArray("frames");
 
-		for (u32 i = 0; i < iFrames; i++)
+		if (iFrames)
 		{
-			Frame *f = New(Frame);
-			reader.SelectNext();
-			f->Load(reader, res);
-			f->iIndex = i;
-			vFrames += f;
+			for (u32 i = 0; i < iFrames; i++)
+			{
+				Frame *f = New(Frame);
+				reader.SelectNext();
+				f->Load(reader, res);
+				f->iIndex = i;
+
+				if (!f->fFrameRate)
+					f->fFrameRate = 1.0f / static_cast<f32>(iFps);
+
+				vFrames += f;
+			}
+			reader.UnselectArray();
 		}
 	}
 
 	return true;
+}
+
+bool Animation::Write(Writer &writer)
+{
+	bool ret = false;
+
+	writer.OpenNode();
+		writer.WriteString("type", this->GetObjectName().c_str());
+		writer.WriteString("name", sName.c_str());
+		writer.WriteBool("animated", bAnimated);
+		writer.WriteU32("fps", iFps);
+
+		writer.OpenArray("frames");
+		for (u32 i = 0; i < iFrames; i++)
+		{
+			Frame *f = vFrames[i];
+			f->Write(writer);
+		}
+		writer.CloseArray();
+	writer.CloseNode();
+
+	return ret;
 }
 
 bool Animation::Unload()
@@ -95,6 +124,16 @@ bool Animation::Unload()
 FrameVector *Animation::GetFrames()
 {
 	return &vFrames;
+}
+
+const String Animation::GetObjectName() const
+{
+	return "Animation";
+}
+
+int Animation::GetObjectType() const
+{
+	return Seed::ObjectAnimation;
 }
 
 } // namespace

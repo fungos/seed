@@ -65,7 +65,7 @@ f32 EventInputMotion::GetAccelerationSpeed() const
 	return fSpeed;
 }
 
-const char *EventInputMotion::GetObjectName() const
+const String EventInputMotion::GetObjectName() const
 {
 	return "EventInputMotion";
 }

@@ -81,7 +81,7 @@ bool FileSystem::IsRequired() const
 	return true;
 }
 
-const char *FileSystem::GetObjectName() const
+const String FileSystem::GetObjectName() const
 {
 	return "FileSystem";
 }

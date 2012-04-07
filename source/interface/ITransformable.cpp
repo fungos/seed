@@ -36,7 +36,11 @@ namespace Seed {
 ITransformable::ITransformable()
 	: pParent(NULL)
 	, vPos(0.0f, 0.0f, 0.0f)
+#if SEED_USE_CENTERED_PIVOT == 1
+	, vPivot(0.5f, 0.5f, 0.5f)
+#else
 	, vPivot(0.0f, 0.0f, 0.0f)
+#endif
 	, vScale(1.0f, 1.0f, 1.0f)
 	, vBoundingBox(0.0f, 0.0f, 0.0f)
 	, fRotation(0.0f)
@@ -567,7 +571,7 @@ void ITransformable::UpdateTransform()
 #else
 	Matrix4f r = Matrix4f(Quaternion::rotationZ(DegToRad(this->GetRotation())), -pivot);
 	r = appendScale(r, this->GetScale());
-	self = Matrix4f::identity();
+	Matrix4f self = Matrix4f::identity();
 	self.setTranslation(pos);
 	mTransform = self * r;
 #endif

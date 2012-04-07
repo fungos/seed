@@ -33,12 +33,12 @@
 
 #include "interface/ITransformable.h"
 #include "interface/IRenderable.h"
-#include "interface/IObject.h"
+#include "interface/IDataObject.h"
 
 namespace Seed {
 
 /// Scene object interface
-class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, public IObject
+class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, public IDataObject
 {
 	public:
 		ISceneObject();
@@ -51,7 +51,7 @@ class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, pu
 		virtual void Render() = 0;
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	private:

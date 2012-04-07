@@ -45,7 +45,7 @@ class SEED_CORE_API IObject
 		IObject();
 		virtual ~IObject();
 
-		virtual const char *GetObjectName() const = 0;
+		virtual const String GetObjectName() const = 0;
 		virtual int GetObjectType() const = 0;
 
 	private:

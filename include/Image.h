@@ -55,7 +55,7 @@ class SEED_CORE_API Image : public ISceneObject
 
 		// IObject
 		virtual int GetObjectType() const;
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	private:
 		void UpdateCoords();

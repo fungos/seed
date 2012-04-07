@@ -156,7 +156,7 @@ bool EventInputKeyboard::IsLetter() const
 	return cKey.IsLetter();
 }
 
-const char *EventInputKeyboard::GetObjectName() const
+const String EventInputKeyboard::GetObjectName() const
 {
 	return "EventInputKeyboard";
 }

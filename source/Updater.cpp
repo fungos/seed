@@ -60,10 +60,13 @@ void Updater::Remove(IUpdatable *obj)
 void Updater::Run(f32 dt)
 {
 	SEED_FUNCTION_PROFILER;
-	ForEach(IUpdatableVector, vUpdatable,
+
+	IUpdatableVectorIterator it = vUpdatable.begin();
+	IUpdatableVectorIterator end = vUpdatable.end();
+	for (; it != end; ++it)
 	{
 		(*it)->Update(dt);
-	});
+	}
 }
 
 } // namespace

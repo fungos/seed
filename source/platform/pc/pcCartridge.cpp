@@ -350,7 +350,7 @@ bool Cartridge::CreateSaveFile()
 	return true;
 }
 
-const char *Cartridge::GetObjectName() const
+const String Cartridge::GetObjectName() const
 {
 	return "Cartridge";
 }

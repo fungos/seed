@@ -46,11 +46,6 @@ SceneNode::~SceneNode()
 	ISceneObjectVector().swap(vChild);
 }
 
-void SceneNode::Reset()
-{
-	ISceneObjectVector().swap(vChild);
-}
-
 bool SceneNode::IsNode() const
 {
 	return true;
@@ -58,10 +53,12 @@ bool SceneNode::IsNode() const
 
 void SceneNode::Update(f32 dt)
 {
-	ForEach(ISceneObjectVector, vChild,
+	ISceneObjectVectorIterator it = vChild.begin();
+	ISceneObjectVectorIterator end = vChild.end();
+	for (; it != end; ++it)
 	{
 		(*it)->Update(dt);
-	});
+	}
 }
 
 void SceneNode::Render()
@@ -86,6 +83,32 @@ u32 SceneNode::Size() const
 ISceneObject *SceneNode::GetChildAt(u32 i)
 {
 	return vChild.at(i);
+}
+
+bool SceneNode::Load(Reader &reader, ResourceManager *res)
+{
+	bool ret = false;
+	#warning "Implement Scene loader"
+	return ret;
+}
+
+bool SceneNode::Write(Writer &writer)
+{
+	bool ret = false;
+	#warning "Implement Scene writer"
+	return ret;
+}
+
+bool SceneNode::Unload()
+{
+	bool ret = false;
+	#warning "Implement Scene unload"
+	return ret;
+}
+
+void SceneNode::Reset()
+{
+	ISceneObjectVector().swap(vChild);
 }
 
 } // namespace
