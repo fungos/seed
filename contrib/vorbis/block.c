@@ -23,13 +23,13 @@
 #include <string.h>
 #include <ogg/ogg.h>
 #include "vorbis/codec.h"
-#include "vorbis/codec_internal.h"
+#include "codec_internal.h"
 
-#include "vorbis/window.h"
-#include "vorbis/mdct.h"
-#include "vorbis/lpc.h"
-#include "vorbis/registry.h"
-#include "vorbis/misc.h"
+#include "window.h"
+#include "mdct.h"
+#include "lpc.h"
+#include "registry.h"
+#include "misc.h"
 
 static int ilog2(unsigned int v){
   int ret=0;

@@ -20,11 +20,11 @@
 #include <math.h>
 #include <ogg/ogg.h>
 #include "vorbis/codec.h"
-#include "vorbis/codec_internal.h"
-#include "vorbis/registry.h"
-#include "vorbis/scales.h"
-#include "vorbis/os.h"
-#include "vorbis/misc.h"
+#include "codec_internal.h"
+#include "registry.h"
+#include "scales.h"
+#include "os.h"
+#include "misc.h"
 
 /* decides between modes, dispatches to the appropriate mapping. */
 int vorbis_analysis(vorbis_block *vb, ogg_packet *op){

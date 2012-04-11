@@ -104,7 +104,9 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 
 			vorbis_info *info = ov_info(&oggStream, -1);
 
-			if (info->channels > 1)
+			if (info->channels == 1)
+				format = AL_FORMAT_MONO16;
+			else if (info->channels == 2)
 				format = AL_FORMAT_STEREO16;
 
 			freq = info->rate;

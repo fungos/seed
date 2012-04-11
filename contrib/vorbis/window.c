@@ -17,8 +17,8 @@
 
 #include <stdlib.h>
 #include <math.h>
-#include "vorbis/os.h"
-#include "vorbis/misc.h"
+#include "os.h"
+#include "misc.h"
 
 static const float vwin64[32] = {
   0.0009460463F, 0.0085006468F, 0.0235352254F, 0.0458950567F,

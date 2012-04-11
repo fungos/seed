@@ -22,10 +22,10 @@
 #include "vorbis/codec.h"
 #include "vorbis/vorbisenc.h"
 
-#include "vorbis/codec_internal.h"
+#include "codec_internal.h"
 
-#include "vorbis/os.h"
-#include "vorbis/misc.h"
+#include "os.h"
+#include "misc.h"
 
 /* careful with this; it's using static array sizing to make managing
    all the modes a little less annoying.  If we use a residue backend
@@ -152,15 +152,15 @@ static const vorbis_info_mapping0 _map_nominal[2]={
   {1, {0,0}, {1}, {1}, 1,{0},{1}}
 };
 
-#include "vorbis/modes/setup_44.h"
-#include "vorbis/modes/setup_44u.h"
-#include "vorbis/modes/setup_44p51.h"
-#include "vorbis/modes/setup_32.h"
-#include "vorbis/modes/setup_8.h"
-#include "vorbis/modes/setup_11.h"
-#include "vorbis/modes/setup_16.h"
-#include "vorbis/modes/setup_22.h"
-#include "vorbis/modes/setup_X.h"
+#include "modes/setup_44.h"
+#include "modes/setup_44u.h"
+#include "modes/setup_44p51.h"
+#include "modes/setup_32.h"
+#include "modes/setup_8.h"
+#include "modes/setup_11.h"
+#include "modes/setup_16.h"
+#include "modes/setup_22.h"
+#include "modes/setup_X.h"
 
 static const ve_setup_data_template *const setup_list[]={
   &ve_setup_44_stereo,

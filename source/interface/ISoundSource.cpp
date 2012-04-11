@@ -38,9 +38,9 @@
 namespace Seed {
 
 ISoundSource::ISoundSource()
-	: cPosition()
-	, cVelocity()
-	, cOrientation()
+	: cPosition(0.0f, 0.0f, 0.0f)
+	, cVelocity(0.0f, 0.0f, 0.0f)
+	, cOrientation(0.0f, 0.0f, 0.0f)
 	, fVolume(1.0f)
 	, fFadeTime(0.0f)
 	, fStartFadeTime(0)

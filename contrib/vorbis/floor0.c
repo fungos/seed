@@ -11,7 +11,7 @@
  ********************************************************************
 
  function: floor backend 0 implementation
- last mod: $Id: floor0.c 17558 2010-10-22 00:24:41Z tterribe $
+ last mod: $Id: floor0.c 18184 2012-02-03 20:55:12Z xiphmont $
 
  ********************************************************************/
 
@@ -20,16 +20,16 @@
 #include <math.h>
 #include <ogg/ogg.h>
 #include "vorbis/codec.h"
-#include "vorbis/codec_internal.h"
-#include "vorbis/registry.h"
-#include "vorbis/lpc.h"
-#include "vorbis/lsp.h"
-#include "vorbis/codebook.h"
-#include "vorbis/scales.h"
-#include "vorbis/misc.h"
-#include "vorbis/os.h"
+#include "codec_internal.h"
+#include "registry.h"
+#include "lpc.h"
+#include "lsp.h"
+#include "codebook.h"
+#include "scales.h"
+#include "misc.h"
+#include "os.h"
 
-#include "vorbis/misc.h"
+#include "misc.h"
 #include <stdio.h>
 
 typedef struct {
@@ -177,10 +177,9 @@ static void *floor0_inverse1(vorbis_block *vb,vorbis_look_floor *i){
          vector */
       float *lsp=_vorbis_block_alloc(vb,sizeof(*lsp)*(look->m+b->dim+1));
 
-      for(j=0;j<look->m;j+=b->dim)
-        if(vorbis_book_decodev_set(b,lsp+j,&vb->opb,b->dim)==-1)goto eop;
+      if(vorbis_book_decodev_set(b,lsp,&vb->opb,look->m)==-1)goto eop;
       for(j=0;j<look->m;){
-        for(k=0;k<b->dim;k++,j++)lsp[j]+=last;
+        for(k=0;j<look->m && k<b->dim;k++,j++)lsp[j]+=last;
         last=lsp[j-1];
       }
 

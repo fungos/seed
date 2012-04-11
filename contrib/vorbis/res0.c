@@ -25,11 +25,11 @@
 #include <math.h>
 #include <ogg/ogg.h>
 #include "vorbis/codec.h"
-#include "vorbis/codec_internal.h"
-#include "vorbis/registry.h"
-#include "vorbis/codebook.h"
-#include "vorbis/misc.h"
-#include "vorbis/os.h"
+#include "codec_internal.h"
+#include "registry.h"
+#include "codebook.h"
+#include "misc.h"
+#include "os.h"
 
 //#define TRAIN_RES 1
 //#define TRAIN_RESAUX 1

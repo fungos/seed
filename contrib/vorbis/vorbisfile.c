@@ -27,8 +27,8 @@
 #define OV_EXCLUDE_STATIC_CALLBACKS
 #include "vorbis/vorbisfile.h"
 
-#include "vorbis/os.h"
-#include "vorbis/misc.h"
+#include "os.h"
+#include "misc.h"
 
 /* A 'chained bitstream' is a Vorbis bitstream that contains more than
    one logical bitstream arranged end to end (the only form of Ogg

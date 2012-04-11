@@ -55,14 +55,14 @@ bool TestBase::Initialize()
 	//cScene.SetPosition(100, 100);
 	//sptLogo.SetParent(&cScene);
 
-	musTheme.Load("theme.ogg");
-	musTheme.SetVolume(.2f);
-	pSoundSystem->PlayMusic(&musTheme);
+//	musTheme.Load("theme.ogg");
+//	musTheme.SetVolume(.2f);
+//	pSoundSystem->PlayMusic(&musTheme);
 
-//	sfxSound.Load("helloworld.ogg");
-//	sfxSound.SetLoop(true);
-//	sfxSound.SetVolume(1.0f);
-//	pSoundSystem->Add(&sfxSound);
+	sfxSound.Load("helloworld.ogg");
+	sfxSound.SetLoop(true);
+	sfxSound.SetVolume(1.0f);
+	pSoundSystem->Add(&sfxSound);
 
 	sfxSound.Play();
 	pScreen->FadeIn();

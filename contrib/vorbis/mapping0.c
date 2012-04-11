@@ -21,12 +21,12 @@
 #include <math.h>
 #include <ogg/ogg.h>
 #include "vorbis/codec.h"
-#include "vorbis/codec_internal.h"
-#include "vorbis/codebook.h"
-#include "vorbis/window.h"
-#include "vorbis/registry.h"
-#include "vorbis/psy.h"
-#include "vorbis/misc.h"
+#include "codec_internal.h"
+#include "codebook.h"
+#include "window.h"
+#include "registry.h"
+#include "psy.h"
+#include "misc.h"
 
 /* simplistic, wasteful way of doing this (unique lookup for each
    mode/submapping); there should be a central repository for
@@ -154,13 +154,13 @@ static vorbis_info_mapping *mapping0_unpack(vorbis_info *vi,oggpack_buffer *opb)
   return(NULL);
 }
 
-#include "vorbis/os.h"
-#include "vorbis/lpc.h"
-#include "vorbis/lsp.h"
-#include "vorbis/envelope.h"
-#include "vorbis/mdct.h"
-#include "vorbis/psy.h"
-#include "vorbis/scales.h"
+#include "os.h"
+#include "lpc.h"
+#include "lsp.h"
+#include "envelope.h"
+#include "mdct.h"
+#include "psy.h"
+#include "scales.h"
 
 #if 0
 static long seq=0;

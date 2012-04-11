@@ -42,9 +42,9 @@
 #include <string.h>
 #include <math.h>
 #include "vorbis/codec.h"
-#include "vorbis/mdct.h"
-#include "vorbis/os.h"
-#include "vorbis/misc.h"
+#include "mdct.h"
+#include "os.h"
+#include "misc.h"
 
 /* build lookups for trig functions; also pre-figure scaling and
    some window function algebra. */
