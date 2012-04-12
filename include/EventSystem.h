@@ -49,7 +49,7 @@ class SEED_CORE_API EventSystem : public IEvent
 		virtual Seed::eLanguage GetLanguageNew() const;
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	private:
 		Seed::eLanguage nCurrentLang;

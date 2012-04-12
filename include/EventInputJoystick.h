@@ -50,7 +50,7 @@ class SEED_CORE_API EventInputJoystick : public IEventInput
 		u32 GetValue()	 const;
 
 		// IObject
-		const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	protected:
 		u32 iJoystick;

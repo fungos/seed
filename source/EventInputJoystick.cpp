@@ -77,7 +77,7 @@ u32 EventInputJoystick::GetValue() const
 	return iValue;
 }
 
-const char *EventInputJoystick::GetObjectName() const
+const String EventInputJoystick::GetObjectName() const
 {
 	return "EventInputJoystick";
 }

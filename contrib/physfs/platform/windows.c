@@ -24,7 +24,7 @@
 #include <ctype.h>
 #include <time.h>
 
-#include "physfs_internal.h"
+#include "physfs/physfs_internal.h"
 
 #define LOWORDER_UINT64(pos) ((PHYSFS_uint32) (pos & 0xFFFFFFFF))
 #define HIGHORDER_UINT64(pos) ((PHYSFS_uint32) ((pos >> 32) & 0xFFFFFFFF))
@@ -1249,7 +1249,7 @@ int __PHYSFS_platformDelete(const char *path)
  */
 void *__PHYSFS_platformCreateMutex(void)
 {
-	return((void *) CreateMutex(NULL, false, NULL));
+	return((void *) CreateMutex(NULL, FALSE, NULL));
 } /* __PHYSFS_platformCreateMutex */
 
 

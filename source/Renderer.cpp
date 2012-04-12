@@ -92,10 +92,13 @@ bool Renderer::Update(f32 dt)
 	vRenderables.clear();
 
 	SceneNodeVector v(vScenes);
-	ForEach(SceneNodeVector, v,
+
+	SceneNodeVectorIterator sit = v.begin();
+	SceneNodeVectorIterator send = v.end();
+	for (; sit != send; ++sit)
 	{
-		this->PushChildNodes((*it), v);
-	});
+		this->PushChildNodes((*sit), v);
+	}
 
 	SceneNodeVectorIterator it = v.begin();
 	SceneNodeVectorIterator end = v.end();
@@ -104,14 +107,16 @@ bool Renderer::Update(f32 dt)
 		SceneNode *node = (*it);
 		ISceneObjectVector nv = node->vChild;
 
-		ForEach(ISceneObjectVector, nv,
+		ISceneObjectVectorIterator it = nv.begin();
+		ISceneObjectVectorIterator end = nv.end();
+		for (; it != end; ++it)
 		{
 			ISceneObject *obj = (*it);
 			if (obj->IsVisible())
 			{
 				vRenderables += obj;
 			}
-		});
+		}
 	}
 
 	return true;
@@ -149,7 +154,7 @@ void Renderer::RenderObjects(const RenderableVector &vec) const
 	for (; it != end; ++it)
 	{
 		ISceneObject *obj = const_cast<ISceneObject *>(*it);
-		ASSERT_NULL(obj);
+		SEED_ASSERT(obj);
 
 		obj->Render();
 	}
@@ -169,7 +174,7 @@ void Renderer::Culler()
 	for (; it != end; ++it)
 	{
 		ISceneObject *obj = const_cast<ISceneObject *>(*it);
-		ASSERT_NULL(obj);
+		SEED_ASSERT(obj);
 
 		if (obj->IsVisible())
 			vVisibleRenderables.push_back(obj);
@@ -208,7 +213,7 @@ void Renderer::Remove(SceneNode *node)
 	vScenes -= node;
 }
 
-const char *Renderer::GetObjectName() const
+const String Renderer::GetObjectName() const
 {
 	return "Renderer";
 }

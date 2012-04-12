@@ -36,6 +36,7 @@
 #include "Mutex.h"
 #include "Thread.h"
 #include "Singleton.h"
+#include "Container.h"
 
 namespace Seed {
 
@@ -84,7 +85,7 @@ class SEED_CORE_API ResourceLoader : public IModule, public IUpdatable, public T
 		virtual bool Reset();
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	protected:
 		void SendEventGroupLoaded(const EventResourceLoader *ev);

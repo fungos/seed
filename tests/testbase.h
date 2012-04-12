@@ -35,6 +35,7 @@ class TestBase : public IGameApp, public IEventSystemListener, public IEventInpu
 		Sprite		sptLogo;
 		Music		musTheme;
 		SoundSource sfxSound;
+		Movie		mvSample;
 };
 
 #endif // _TESTBASE_H_

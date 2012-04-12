@@ -50,7 +50,7 @@ class SEED_CORE_API EventMovie : public IEvent
 		virtual u32 GetFrame() const;
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	private:
 		const Timeline	*pTimeline;

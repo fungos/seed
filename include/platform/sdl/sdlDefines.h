@@ -37,12 +37,13 @@
 #define USE_API_OGL		1
 #define USE_API_OAL		1
 
-namespace Seed {
+namespace Seed
+{
 	namespace SDL {}
 	namespace PC {}
 	namespace OAL {}
 	namespace OGL {}
-};
+}
 
 using namespace Seed::SDL;
 using namespace Seed::PC;
@@ -69,7 +70,7 @@ using namespace Seed::OGL;
 #endif // __MWERKS__
 
 #if defined(__MINGW32__)
-	#if defined(SEED_BUILD_LGPL)
+	#if defined(SEED_BUILD_SHARED)
 		#define SEED_CORE_API __declspec(dllexport)
 	#elif defined(SEED_EXTRA_BUILD)
 		#define SEED_PLATFORM_API __declspec(dllexport)
@@ -81,7 +82,7 @@ using namespace Seed::OGL;
 		#define SEED_PLATFORM_API _declspec(dllimport)
 	#endif // __MINGW32__
 #elif defined(_MSC_VER)
-	#if defined(SEED_BUILD_LGPL)
+	#if defined(SEED_BUILD_SHARED)
 		#define SEED_CORE_API _declspec(dllexport)
 	#elif defined(SEED_EXTRA_BUILD)
 		#define SEED_CORE_API _declspec(dllimport)
@@ -160,42 +161,17 @@ using namespace Seed::OGL;
 	typedef __int16				s16;
 	typedef unsigned __int16	u16;
 #endif
-/*
-typedef unsigned long int	 	u64;
-typedef unsigned int 			u32;
-typedef unsigned short int 		u16;
-typedef signed long int 		s64;
-typedef signed int 				s32;
-typedef signed short int 		s16;
-*/
+
 typedef unsigned char 			u8;
 typedef signed char 			s8;
 typedef float 					f32;
-
-#if SEED_PATH_WIDE == 1
-typedef wchar_t					FilePath;
-#define PATHCOPY				wcsncpy
-#define PATHCAT					wcsncat
-#define PATHLEN					wcslen
-#else
-typedef char					FilePath;
-#define PATHCOPY				strncpy
-#define PATHCAT					strncat
-#define PATHLEN					strlen
-#endif
-
 typedef float 					fixed32;
 typedef u32 					PIXEL;
 
-
 #if defined(WIN32)
 	#undef GetObject
-	#if defined(_MSC_VER)
-	#undef bool
-	#endif
 	#undef OUT
 	#define ATTRIBUTE_ALIGN(x)
-	#define LIB_FOPEN(a, b)					_wfopen((wchar_t *)a, L##b)
 	#define PLATFORM_PATH_SEPARATOR			'\\'
 	#if defined(_MSC_VER)
 		#include <direct.h>
@@ -209,34 +185,8 @@ typedef u32 					PIXEL;
 		#define vswprintf _vsnwprintf
 	#endif // _MSC_VER
 #else
-	#define LIB_FOPEN(a, b)					fopen((const char *)a, b)
 	#define PLATFORM_PATH_SEPARATOR			'/'
 #endif // WIN32
-
-#define LIB_SIZE_T				size_t
-#define LIB_RAND				rand() //(u32)(srand((unsigned int)(time(NULL))))
-
-// Memory and Strings
-#define LIB_MEMSET					SDL_memset
-#define LIB_MEMSET4(ptr, v, len)	do { int *p = static_cast<int *>(ptr); for (u32 x=0; x<len; x++) p[x]=v; } while (0)
-#define LIB_MEMCOPY					SDL_memcpy
-#define LIB_STRLEN					SDL_strlen
-#define LIB_STRCMP					SDL_strcmp
-#define LIB_STRLCPY(a, b, c)		SDL_strlcpy(a, b, c); a[c] = '\0';
-#define LIB_STRLCAT					SDL_strlcat
-#define LIB_STRCASECMP				SDL_strcasecmp
-#define CHDIR						chdir
-#define LIB_STRDUP					strdup
-
-// Math
-#define LIB_FAST_DIV(a, b)			(a/b)
-#define LIB_FAST_MOD(a, b)			(a%b)
-#define LIB_FAST_SQRT(a)			sqrt(a)
-#define LIB_FAST_COS(a)				cos(a)
-#define LIB_FAST_SIN(a)				sin(a)
-#define LIB_FAST_ACOS(a)			acos(a)
-#define LIB_FAST_ASIN(a)			asin(a)
-#define LIB_ABS(a)			    	fabs(a)
 
 #if defined(_MSC_VER)
 #define HALT	do { __asm { int 3 }; exit(-1); } while (1);
@@ -244,14 +194,7 @@ typedef u32 					PIXEL;
 #define HALT	do { asm("int $3"); exit(-1); } while (1);
 #endif // WIN32
 
-// Debugging
-#define LIB_ASSERT(x)				if (!(x)) { fprintf(stderr, "Failed assertion " #x); HALT; }
-#define LIB_ASSERT_MSG(x, msg)		if (!(x)) { fprintf(stderr, msg #x); fflush(stderr); HALT; }
-#define LIB_ASSERT_NULL(x)			if (!(x)) { fprintf(stderr, "Failed assertion " #x); HALT; }
-
 #else // BUILD_SDL
-
 	#error "Include 'Defines.h' instead 'platform/sdl/sdlDefines.h' directly."
-
 #endif // BUILD_SDL
 #endif // __SDL_DEFINES_H__

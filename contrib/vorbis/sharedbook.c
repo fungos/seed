@@ -19,11 +19,11 @@
 #include <math.h>
 #include <string.h>
 #include <ogg/ogg.h>
-#include "vorbis/os.h"
-#include "vorbis/misc.h"
+#include "os.h"
+#include "misc.h"
 #include "vorbis/codec.h"
-#include "vorbis/codebook.h"
-#include "vorbis/scales.h"
+#include "codebook.h"
+#include "scales.h"
 
 /**** pack/unpack helpers ******************************************/
 int _ilog(unsigned int v){

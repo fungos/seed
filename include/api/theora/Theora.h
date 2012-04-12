@@ -83,18 +83,7 @@
 */
 #endif // BUILD_SDL
 #elif defined(WIN32)
-#pragma push_macro("Delete")
-#pragma push_macro("bool")
-#pragma push_macro("SIZE_T")
-#undef Delete
-#if defined(_MSC_VER)
-#undef bool
-#endif
-#undef SIZE_T
 #include <windows.h>
-#pragma pop_macro("SIZE_T")
-#pragma pop_macro("bool")
-#pragma pop_macro("Delete")
 	#define SEM_CREATE(p,s) ((p = CreateSemaphore(NULL, (long)(s), (long)(s), NULL)) == 0)
 	#define SEM_SIGNAL(p)   (!ReleaseSemaphore(p, 1, NULL))
 	#define SEM_WAIT(p)     WaitForSingleObject(p, INFINITE)

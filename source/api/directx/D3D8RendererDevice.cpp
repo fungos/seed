@@ -52,9 +52,7 @@ D3D8RendererDevice::D3D8RendererDevice()
 	: bLost(false)
 {
 	Log(TAG "Initializing...");
-
-	arTexture.Truncate();
-
+	ITextureVector().swap(vTexture);
 	Log(TAG "Initialization completed.");
 }
 
@@ -205,7 +203,7 @@ bool D3D8RendererDevice::Initialize()
 
 bool D3D8RendererDevice::Reset()
 {
-	arTexture.Truncate();
+	ITextureVector().swap(vTexture);
 
 	HWND hWnd = (HWND)pScreen->iHandle;
 	ZeroMemory(&mParams, sizeof(mParams));
@@ -241,7 +239,7 @@ bool D3D8RendererDevice::Shutdown()
 {
 	bool ret = IRendererDevice::Shutdown();
 
-	arTexture.Truncate();
+	ITextureVector().swap(vTexture);
 
 	int objects = 0;
 	if (mDevice)
@@ -348,19 +346,21 @@ void D3D8RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) con
 
 void D3D8RendererDevice::TextureRequestAbort(ITexture *texture)
 {
-	arTexture.Remove(texture);
+	vTexture -= texture;
 }
 
 void D3D8RendererDevice::TextureRequest(ITexture *texture)
 {
-	arTexture.Add(texture);
+	vTexture += texture;
 }
 
 void D3D8RendererDevice::TextureRequestProcess() const
 {
-	for (u32 i = 0; i < arTexture.Size(); i++)
+	ITextureVector::iterator it = vTexture.begin();
+	ITextureVector::iterator end = vTexture.end();
+	for (; it != end; ++it)
 	{
-		ITexture *texture = arTexture[i];
+		ITexture *texture = (*it);
 		File *file = texture->GetFile();
 		if (file->GetData())
 		{
@@ -394,7 +394,7 @@ void D3D8RendererDevice::TextureRequestProcess() const
 		texture->Close();
 	}
 
-	arTexture.Truncate();
+	ITextureVector().swap(vTexture);
 }
 
 void D3D8RendererDevice::TextureUnload(ITexture *texture)
@@ -429,7 +429,7 @@ void D3D8RendererDevice::TextureDataUpdate(ITexture *texture)
 void D3D8RendererDevice::UploadData(void *userData)
 {
 	RendererPacket *packet = static_cast<RendererPacket *>(userData);
-	ASSERT_MSG(packet->pVertexData != NULL, "VERTEX DATA CANNOT BE NULL!");
+	SEED_ASSERT_MSG(packet->pVertexData != NULL, "VERTEX DATA CANNOT BE NULL!");
 
 	this->SetBlendingOperation(packet->nBlendMode, packet->iColor);
 
@@ -634,7 +634,7 @@ void D3D8RendererDevice::Update()
 	}
 }
 
-const char *D3D8RendererDevice::GetObjectName() const
+const String D3D8RendererDevice::GetObjectName() const
 {
 	return "D3D8RendererDevice";
 }

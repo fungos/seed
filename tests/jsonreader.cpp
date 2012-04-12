@@ -17,6 +17,8 @@ bool TestJsonReader::Update(f32 dt)
 {
 	TestBase::Update(dt);
 
+	return true;
+
 	sptLogo.SetColor(iCol, 0u, 255u, 128u);
 	sptLogo.SetBlending(Seed::BlendModulate);
 	sptLogo.SetRotation(fRot);
@@ -33,12 +35,12 @@ bool TestJsonReader::Update(f32 dt)
 	if (iCol == 0)
 		bDir = true;
 
-	if (iCount == 200)
-		pScreen->FadeOut();
+//	if (iCount == 200)
+//		pScreen->FadeOut();
 
 	if (iCount == 400)
 	{
-		pScreen->FadeIn();
+//		pScreen->FadeIn();
 		iCount = 0;
 	}
 	iCount++;

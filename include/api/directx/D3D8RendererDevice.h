@@ -40,24 +40,14 @@
 #include "Defines.h"
 #include "Enum.h"
 #include "Vertex.h"
+#include "Container.h"
 
 #if defined(SEED_ENABLE_D3D8)
 
 #include "interface/IRendererDevice.h"
 
-#pragma push_macro("Delete")
-#pragma push_macro("bool")
-#pragma push_macro("SIZE_T")
-#undef Delete
-#if defined(_MSC_VER)
-#undef bool
-#endif
-#undef SIZE_T
 #include <dx8/d3d8.h>
 #include <dx8/d3dx8.h>
-#pragma pop_macro("SIZE_T")
-#pragma pop_macro("bool")
-#pragma pop_macro("Delete")
 
 #define D3DFVF_VERTEXFORMAT (D3DFVF_XYZ | D3DFVF_DIFFUSE | D3DFVF_TEX1)
 
@@ -72,6 +62,7 @@ class SEED_CORE_API D3D8RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
 
+	DECLARE_CONTAINER_TYPE(Vector, ITexture)
 	public:
 		D3D8RendererDevice();
 		virtual ~D3D8RendererDevice();
@@ -104,10 +95,10 @@ class SEED_CORE_API D3D8RendererDevice : public IRendererDevice
 		virtual bool Shutdown();
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	protected:
-		mutable Array<ITexture *, 128> arTexture;
+		mutable ITextureVector vTexture;
 
 	private:
 		SEED_DISABLE_COPY(D3D8RendererDevice);

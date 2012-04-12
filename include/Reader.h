@@ -55,10 +55,12 @@ class SEED_CORE_API Reader : public IReader
 		virtual f32 ReadF32(const char *key, f32 value) const;
 		virtual bool ReadBool(const char *key, bool value = false) const;
 
+		virtual bool IsNode() const;
 		virtual u32 SelectArray(const char *key);
 		virtual void SelectNext();
-		virtual void SelectNode(const char *key);
-		virtual void Unselect();
+		virtual void UnselectArray();
+		virtual bool SelectNode(const char *key);
+		virtual void UnselectNode();
 
 	private:
 		void Init();

@@ -66,7 +66,9 @@ Reader::Reader(Reader &reader)
 	, pOpaque(&cNullReader)
 {
 	this->Init();
-	pOpaque->Load(reader.pOpaque);
+
+	IReader *r = reader.pOpaque;
+	pOpaque->Load(*r);
 }
 
 Reader::~Reader()
@@ -141,14 +143,24 @@ void Reader::SelectNext()
 	pOpaque->SelectNext();
 }
 
-void Reader::SelectNode(const char *key)
+void Reader::UnselectArray()
 {
-	pOpaque->SelectNode(key);
+	pOpaque->UnselectArray();
 }
 
-void Reader::Unselect()
+bool Reader::IsNode() const
 {
-	pOpaque->Unselect();
+	return pOpaque->IsNode();
+}
+
+bool Reader::SelectNode(const char *key)
+{
+	return pOpaque->SelectNode(key);
+}
+
+void Reader::UnselectNode()
+{
+	pOpaque->UnselectNode();
 }
 
 } // namespace

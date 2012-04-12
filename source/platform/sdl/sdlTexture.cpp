@@ -96,14 +96,14 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 	{
 		SDL_RWops *rwops = SDL_RWFromConstMem(stFile.GetData(), stFile.GetSize());
 
-		SIZE_T extpos = STRLEN(stFile.GetName().c_str());
+		size_t extpos = SDL_strlen(stFile.GetName().c_str());
 		char *ext = const_cast<char *>(stFile.GetName().c_str()) - 3;
 		ext = &ext[extpos];
 
 		u32 format = PNG;
-		if (!STRCASECMP(pImageFormatTable[TGA], ext))
+		if (!SDL_strcasecmp(pImageFormatTable[TGA], ext))
 			format = TGA;
-		else if (!STRCASECMP(pImageFormatTable[JPG], ext))
+		else if (!SDL_strcasecmp(pImageFormatTable[JPG], ext))
 			format = JPG;
 
 		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, const_cast<char *>(pImageFormatTable[format]));
@@ -115,7 +115,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			if (format == PNG)
 				Info(TAG "Make sure that libpng12-0.dll and zlib1.dll are in the exact same folder than this application binary.");
 
-			ASSERT(false);
+			SEED_ASSERT(false);
 		}
 
 		if (tmp->format->BitsPerPixel != 32)
@@ -124,7 +124,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		}
 
 		pSurface = SDL_DisplayFormatAlpha(tmp);
-		ASSERT_NULL(pSurface);
+		SEED_ASSERT(pSurface);
 		SDL_FreeSurface(tmp);
 
 		iWidth = pSurface->w;
@@ -213,10 +213,9 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 
 bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 atlasHeight)
 {
-	ASSERT_NULL(buffer);
-
-	ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
-	ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
+	SEED_ASSERT(buffer);
+	SEED_ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
+	SEED_ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
 
 	if (this->Unload())
 	{
@@ -253,12 +252,11 @@ void Texture::Update(uPixel *data)
 
 bool Texture::Unload()
 {
-	this->UnloadTexture();
+	if (bLoaded)
+		this->UnloadTexture();
 
 	if (pSurface)
-	{
 		SDL_FreeSurface(pSurface);
-	}
 
 	pSurface = NULL;
 	bLoaded = false;
@@ -294,9 +292,9 @@ void Texture::PutPixel(u32 x, u32 y, uPixel px)
 	{
 		case 3:
 		{
-			u8 r = static_cast<u8>(px.argb.r);
-			u8 g = static_cast<u8>(px.argb.g);
-			u8 b = static_cast<u8>(px.argb.b);
+			u8 r = static_cast<u8>(px.rgba.r);
+			u8 g = static_cast<u8>(px.rgba.g);
+			u8 b = static_cast<u8>(px.rgba.b);
 
 			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
 			{
@@ -352,17 +350,17 @@ uPixel Texture::GetPixel(u32 x, u32 y) const
 		{
 			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
 			{
-				px.argb.r = p[0] << 16;
-				px.argb.g = p[1] << 8;
-				px.argb.b = p[2];
-				px.argb.a = 255;
+				px.rgba.r = p[0] << 16;
+				px.rgba.g = p[1] << 8;
+				px.rgba.b = p[2];
+				px.rgba.a = 255;
 			}
 			else
 			{
-				px.argb.r = p[0];
-				px.argb.g = p[1] << 8;
-				px.argb.b = p[2] << 16;
-				px.argb.a = 255;
+				px.rgba.r = p[0];
+				px.rgba.g = p[1] << 8;
+				px.rgba.b = p[2] << 16;
+				px.rgba.a = 255;
 			}
 		}
 		break;

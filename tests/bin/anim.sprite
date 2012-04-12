@@ -1,0 +1,33 @@
+{
+	"type": "sprite",
+	"name": "anim",
+	"scale": {"x": 2, "y": 2},
+	"blending": "modulate",
+	"color": {
+		"r": 255,
+		"g": 0,
+		"b": 0,
+		"a": 255
+	},
+	"animations": [
+		{
+			"animated": true,
+			"loop": true,
+			"fps": 25,
+			"frames": [
+				{
+					"name": "frame 1",
+					"texture": "frame01.png"
+				},
+				{
+					"name": "frame 2",
+					"texture": "frame02.png"
+				},
+				{
+					"name": "frame 3",
+					"texture": "frame03.png"
+				}
+			]
+		}
+	]
+}

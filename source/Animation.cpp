@@ -39,12 +39,11 @@
 namespace Seed {
 
 Animation::Animation()
-	: ppFrames(NULL)
+	: vFrames()
 	, sName()
 	, iIndex(0)
 	, iFrames(0)
 	, iAnimationId(0)
-	, iFps(60)
 	, bAnimated(true)
 	, bLoop(true)
 {
@@ -57,7 +56,7 @@ Animation::~Animation()
 
 bool Animation::Load(Reader &reader, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	if (this->Unload())
 	{
@@ -67,46 +66,74 @@ bool Animation::Load(Reader &reader, ResourceManager *res)
 		iFps = reader.ReadU32("fps", 60);
 		iFrames = reader.SelectArray("frames");
 
-		ppFrames = (Frame **)Alloc(iFrames * sizeof(Frame *));
-		for (u32 i = 0; i < iFrames; i++)
+		if (iFrames)
 		{
-			Frame *f = New(Frame);
-			reader.SelectNext();
-			f->Load(reader, res);
-			f->iIndex = i;
-			ppFrames[i] = f;
+			for (u32 i = 0; i < iFrames; i++)
+			{
+				Frame *f = New(Frame);
+				reader.SelectNext();
+				f->Load(reader, res);
+				f->iIndex = i;
+
+				if (!f->fFrameRate)
+					f->fFrameRate = 1.0f / static_cast<f32>(iFps);
+
+				vFrames += f;
+			}
+			reader.UnselectArray();
 		}
 	}
 
 	return true;
+}
+
+bool Animation::Write(Writer &writer)
+{
+	bool ret = false;
+
+	writer.OpenNode();
+		writer.WriteString("type", this->GetObjectName().c_str());
+		writer.WriteString("name", sName.c_str());
+		writer.WriteBool("animated", bAnimated);
+		writer.WriteU32("fps", iFps);
+
+		writer.OpenArray("frames");
+		for (u32 i = 0; i < iFrames; i++)
+		{
+			Frame *f = vFrames[i];
+			f->Write(writer);
+		}
+		writer.CloseArray();
+	writer.CloseNode();
+
+	return ret;
 }
 
 bool Animation::Unload()
 {
-	if (ppFrames)
-	{
-		for (u32 i = 0; i < iFrames; i++)
-		{
-			Frame *f = ppFrames[i];
-			ppFrames[i] = NULL;
-			Delete(f);
-		}
+	FrameVectorIterator it = vFrames.begin();
+	FrameVectorIterator end = vFrames.end();
+	for (; it != end; ++it)
+		Delete(*it);
 
-		Free(ppFrames);
-	}
+	FrameVector().swap(vFrames);
 
-	ppFrames = NULL;
 	return true;
 }
 
-Frame **Animation::GetFrames() const
+FrameVector *Animation::GetFrames()
 {
-	return ppFrames;
+	return &vFrames;
 }
 
-u32 Animation::GetFrameCount() const
+const String Animation::GetObjectName() const
 {
-	return iFrames;
+	return "Animation";
+}
+
+int Animation::GetObjectType() const
+{
+	return Seed::ObjectAnimation;
 }
 
 } // namespace

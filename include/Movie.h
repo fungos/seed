@@ -33,6 +33,7 @@
 
 #include "Timeline.h"
 #include "SceneNode.h"
+#include "Reader.h"
 
 namespace Seed {
 
@@ -45,6 +46,9 @@ class SEED_CORE_API Movie : public SceneNode
 		Movie();
 		virtual ~Movie();
 
+		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		bool Unload();
+
 		void AddTimeline(Timeline *timeline);
 		void Play();
 		void Stop();
@@ -55,16 +59,17 @@ class SEED_CORE_API Movie : public SceneNode
 		virtual void Update(f32 delta);
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	private:
 		SEED_DISABLE_COPY(Movie);
 
 	private:
-		bool	bPlaying;
-		f32		fElapsedTime;
-		TimelineVector vTimelines;
+		f32				fElapsedTime;
+		TimelineVector	vTimelines;
+		String			sName;
+		bool			bPlaying;
 };
 
 } // namespace

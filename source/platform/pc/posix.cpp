@@ -79,19 +79,10 @@ std::string narrow(const std::wstring &str)
 }
 #endif
 
-inline const char *cpath(const FilePath *path)
-{
-#if SEED_PATH_WIDE == 1
-	return narrow(path).c_str();
-#else
-	return path;
-#endif
-}
-
-bool create_directory(const FilePath *path)
+bool create_directory(const char *path)
 {
 	bool ret = false;
-	int err = mkdir(cpath(path), S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
+	int err = mkdir(path, S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH);
 
 	if (err == -1)
 	{
@@ -154,35 +145,35 @@ bool create_directory(const FilePath *path)
 	return ret;
 }
 
-const FilePath *get_user_name()
+const char *get_user_name()
 {
-	const FilePath *name = (FilePath *)getenv("LOGNAME");
+	const char *name = (char *)getenv("LOGNAME");
 	if (!name)
-		name = (const FilePath *)"Noname";
+		name = (const char *)"Noname";
 	return name;
 }
 
-const FilePath *get_user_savegame_folder()
+const char *get_user_savegame_folder()
 {
 	return get_user_home_folder();
 }
 
-const FilePath *get_user_appdata_folder()
+const char *get_user_appdata_folder()
 {
 	return get_user_home_folder();
 }
 
-const FilePath *get_user_home_folder()
+const char *get_user_home_folder()
 {
 	const char *chome = getenv("HOME");
-	const FilePath *home = (FilePath *)chome;
+	const char *home = (char *)chome;
 	if (!home)
-		home = (const FilePath *)"./";
+		home = (const char *)"./";
 
 	return home;
 }
 
-void get_current_directory(FilePath *buff, int size)
+void get_current_directory(char *buff, int size)
 {
 #if defined(BUILD_IOS)
 	memset(buff, '\0', size);
@@ -203,7 +194,7 @@ void get_current_directory(FilePath *buff, int size)
 #endif
 }
 
-bool change_directory(const FilePath *to)
+bool change_directory(const char *to)
 {
 	bool ret = false;
 	const char *path = (const char *)to;

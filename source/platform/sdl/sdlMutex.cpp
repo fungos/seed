@@ -39,7 +39,7 @@ Mutex::Mutex()
 	: pMutex(NULL)
 {
 	pMutex = SDL_CreateMutex();
-	ASSERT_NULL(pMutex);
+	SEED_ASSERT(pMutex);
 }
 
 Mutex::~Mutex()

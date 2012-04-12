@@ -38,8 +38,6 @@
 #include <Log.h>
 #include <Profiler.h>
 
-#include <Array.h>
-
 #include <Cartridge.h>
 #include <Checksum.h>
 
@@ -115,6 +113,10 @@
 
 #if SEED_USE_THEORA == 1
 #include <api/theora/Theora.h>
+#endif
+
+#if defined(BUILD_SDL) && defined(WIN32)
+#undef main
 #endif
 
 namespace Seed {}

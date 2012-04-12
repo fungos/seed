@@ -57,6 +57,7 @@ JsonReader::~JsonReader()
 }
 
 JsonReader::JsonReader(const JsonReader &other)
+	: IReader(other)
 {
 	pRootNode = NULL;
 	pCurNode = other.pCurNode;
@@ -87,7 +88,7 @@ JsonReader &JsonReader::operator=(const JsonReader &other)
 
 bool JsonReader::Load(const void *data)
 {
-	ASSERT_NULL(data);
+	SEED_ASSERT(data);
 	bool ret = false;
 	char err[1024];
 
@@ -110,7 +111,7 @@ bool JsonReader::Load(const void *data)
 	return ret;
 }
 
-bool JsonReader::Load(const IReader &reader)
+bool JsonReader::Load(IReader &reader)
 {
 	bool ret = false;
 
@@ -200,6 +201,9 @@ u32 JsonReader::SelectArray(const char *key)
 	if (YAJL_IS_ARRAY(v))
 	{
 		Log(TAG "Array %s found, len: %ld", key, YAJL_GET_ARRAY(v)->len);
+		qStackNode.push(pCurNode);
+		qStackArray.push(pCurArray);
+		qStackArrayPos.push(iPos);
 		pCurArray = v;
 		iPos = 0;
 		len = YAJL_GET_ARRAY(v)->len;
@@ -219,11 +223,37 @@ void JsonReader::SelectNext()
 	}
 }
 
-void JsonReader::SelectNode(const char *key)
+void JsonReader::UnselectArray()
+{
+	if (!qStackArray.empty())
+	{
+		pCurArray = qStackArray.top();
+		qStackArray.pop();
+
+		iPos = qStackArrayPos.top();
+		qStackArrayPos.pop();
+
+		if (!qStackNode.empty())
+		{
+			pCurNode = qStackNode.top();
+			qStackNode.pop();
+		}
+	}
+}
+
+bool JsonReader::IsNode(const char *key) const
 {
 	const char *path[] = {key, (const char *)0};
 	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_object);
 
+	return YAJL_IS_OBJECT(v);
+}
+
+bool JsonReader::SelectNode(const char *key)
+{
+	const char *path[] = {key, (const char *)0};
+	yajl_val v = yajl_tree_get(pCurNode, path, yajl_t_object);
+	bool ret = false;
 	if (!YAJL_IS_OBJECT(v))
 	{
 		Log(TAG "Node %s not found", key);
@@ -231,13 +261,21 @@ void JsonReader::SelectNode(const char *key)
 	else
 	{
 		Log(TAG "Node %s found", key);
+		qStackNode.push(pCurNode);
 		pCurNode = v;
+		ret = true;
 	}
+
+	return ret;
 }
 
-void JsonReader::Unselect()
+void JsonReader::UnselectNode()
 {
-	pCurNode = pRootNode;
+	if (!qStackNode.empty())
+	{
+		pCurNode = qStackNode.top();
+		qStackNode.pop();
+	}
 }
 
 }

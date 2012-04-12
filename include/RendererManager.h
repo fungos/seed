@@ -31,10 +31,10 @@
 #ifndef __RENDERER_MANAGER_H__
 #define __RENDERER_MANAGER_H__
 
-#include "Array.h"
 #include "interface/IModule.h"
 #include "interface/IUpdatable.h"
 #include "Singleton.h"
+#include "Container.h"
 
 namespace Seed {
 
@@ -61,7 +61,7 @@ class SEED_CORE_API RendererManager : public IModule, public IUpdatable
 		virtual bool Update(f32 dt);
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	private:

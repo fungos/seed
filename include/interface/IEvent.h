@@ -76,7 +76,7 @@ class SEED_CORE_API IEvent : public IObject
 
 		// IObject
 		virtual int GetObjectType() const;
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	protected:
 		eType 	iType;

@@ -31,9 +31,9 @@
 #ifndef __VIEW_MANAGER_H__
 #define __VIEW_MANAGER_H__
 
-#include "Array.h"
 #include "interface/IModule.h"
 #include "Singleton.h"
+#include "Container.h"
 
 namespace Seed {
 
@@ -65,7 +65,7 @@ class SEED_CORE_API ViewManager : public IModule
 		virtual void Enable();
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	private:

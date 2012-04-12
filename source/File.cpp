@@ -39,7 +39,8 @@
 namespace Seed {
 
 File::File()
-	: sName()
+	: IObject()
+	, sName()
 	, pHandle(NULL)
 	, pData(NULL)
 	, iSize(0)
@@ -47,7 +48,8 @@ File::File()
 }
 
 File::File(const String &filename)
-	: sName(filename)
+	: IObject()
+	, sName(filename)
 	, pHandle(NULL)
 	, pData(NULL)
 	, iSize(0)
@@ -61,6 +63,7 @@ File::~File()
 }
 
 File::File(const File &other)
+	: IObject()
 {
 	sName = other.sName;
 	pHandle = other.pHandle;
@@ -90,12 +93,12 @@ void File::Load(const String &filename)
 
 void File::Open()
 {
-	ASSERT_MSG(sName.length(), TAG "Error: No filename was given to open file!");
+	SEED_ASSERT_MSG(sName.length(), TAG "Error: No filename was given to open file!");
 	pHandle = PHYSFS_openRead(sName.c_str());
 	if (!pHandle)
 	{
 		Log(TAG "Error: file: %s - %s", sName.c_str(), PHYSFS_getLastError());
-		ASSERT_MSG(false, "Aborted, file not found.");
+		SEED_ASSERT_MSG(false, "Aborted, file not found.");
 	}
 
 	iSize = static_cast<u32>(PHYSFS_fileLength(pHandle));
@@ -147,7 +150,7 @@ const String &File::GetName() const
 	return sName;
 }
 
-const char *File::GetObjectName() const
+const String File::GetObjectName() const
 {
 	return "File";
 }

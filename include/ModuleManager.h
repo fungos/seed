@@ -31,10 +31,9 @@
 #ifndef __MODULE_MANAGER_H__
 #define __MODULE_MANAGER_H__
 
-#include "Array.h"
+#include "Defines.h"
 #include "Singleton.h"
-
-#define MAX_MODULES 32
+#include "Container.h"
 
 namespace Seed {
 

@@ -67,7 +67,7 @@ class SEED_CORE_API IGameApp : public IUpdatable, public IModule
 		ResourceManager *GetResourceManager();
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	protected:

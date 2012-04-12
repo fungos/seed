@@ -41,6 +41,7 @@
 #include "Defines.h"
 #include "Enum.h"
 #include "Vertex.h"
+#include "Container.h"
 
 #if defined(USE_API_OGL)
 
@@ -51,17 +52,8 @@
 #endif
 
 #if defined(BUILD_SDL) && defined(_MSC_VER)
-#pragma push_macro("Delete")
-#pragma push_macro("bool")
-#pragma push_macro("SIZE_T")
-#undef Delete
-#undef bool
-#undef SIZE_T
 #define NO_SDL_GLEXT	1
 #include <SDL/SDL_opengl.h>
-#pragma pop_macro("SIZE_T")
-#pragma pop_macro("bool")
-#pragma pop_macro("Delete")
 #elif defined(BUILD_SDL)
 #define NO_SDL_GLEXT	1
 #include <SDL/SDL_opengl.h>
@@ -84,6 +76,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
 
+	DECLARE_CONTAINER_TYPE(Vector, ITexture)
 	public:
 		OGLES1RendererDevice();
 		virtual ~OGLES1RendererDevice();
@@ -117,7 +110,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual bool Shutdown();
 
 	protected:
-		mutable Array<ITexture *, 128> arTexture;
+		mutable ITextureVector vTexture;
 
 	private:
 		SEED_DISABLE_COPY(OGLES1RendererDevice);

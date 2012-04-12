@@ -31,10 +31,6 @@
 #include "interface/IInputKeyboard.h"
 #include "interface/IEventInputKeyboardListener.h"
 #include "Log.h"
-#include "Array.h"
-
-#include <vector>
-#include <algorithm>
 
 namespace Seed {
 
@@ -398,36 +394,40 @@ void IInputKeyboard::RemoveKeyboardListener(IEventInputKeyboardListener *listene
 
 void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 #if defined(DEBUG)
 	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
 #endif
 
-	ForEach(IEventInputKeyboardListenerVector, vKeyboardListeners,
+	IEventInputKeyboardListenerVectorIterator it = vKeyboardListeners.begin();
+	IEventInputKeyboardListenerVectorIterator end = vKeyboardListeners.end();
+	for (; it != end; ++it)
 	{
 		(*it)->OnInputKeyboardPress(ev);
 
 		if (ev->IsConsumed())
 			break;
-	});
+	}
 }
 
 void IInputKeyboard::SendEventKeyboardRelease(const EventInputKeyboard *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
 #if defined(DEBUG)
 	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
 #endif
 
-	ForEach(IEventInputKeyboardListenerVector, vKeyboardListeners,
+	IEventInputKeyboardListenerVectorIterator it = vKeyboardListeners.begin();
+	IEventInputKeyboardListenerVectorIterator end = vKeyboardListeners.end();
+	for (; it != end; ++it)
 	{
 		(*it)->OnInputKeyboardRelease(ev);
 
 		if (ev->IsConsumed())
 			break;
-	});
+	}
 }
 
 } // namespace

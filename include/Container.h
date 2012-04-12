@@ -35,13 +35,9 @@
 #include <algorithm>
 #include <string>
 #include <map>
+#include <stack>
 
-#ifdef USE_BOOST_ALLOCATOR
-	#include <boost/pool/pool_alloc.hpp>
-	typedef std::basic_string<char, std::char_traits<char>, boost::fast_pool_allocator<char> > String;
-#else
-	typedef std::string String;
-#endif
+extern "C" { extern void Log(const char *pMessage, ...); }
 
 #define DECLARE_CONTAINER_HELPER(N, C) \
 											\
@@ -51,13 +47,13 @@
 												public: \
 													void operator+=(const T& element) \
 													{ \
-														ASSERT_NULL(element); \
+														SEED_ASSERT(element); \
 														push_back(element); \
 													} \
 													\
 													void operator-=(const T& element) \
 													{ \
-														ASSERT_NULL(element); \
+														SEED_ASSERT(element); \
 														this->erase(std::remove(this->begin(), this->end(), element), this->end()); \
 													} \
 													\
@@ -68,27 +64,15 @@
 													\
 											};
 
-namespace Seed {
+namespace Seed
+{
 	DECLARE_CONTAINER_HELPER(Vector, std::vector)
 }
 
+#define Stack std::stack
 #define Map std::map
 #define DECLARE_CONTAINER_TYPE(cont, type)	typedef cont<type *> type##cont; \
 											typedef type##cont::iterator type##cont##Iterator; \
 											typedef type##cont::const_iterator Const##type##cont##Iterator;
-
-#define ForEach(type, v, block)				{\
-												type##Iterator it = v.begin();\
-												type##Iterator end = v.end();\
-												for (; it != end; ++it)\
-													block\
-											}
-
-#define ForEachConst(type, v, block)		{\
-												Const##type##Iterator it = v.begin();\
-												Const##type##Iterator end = v.end();\
-												for (; it != end; ++it)\
-													block\
-											}
 
 #endif // __CONTAINER_H__

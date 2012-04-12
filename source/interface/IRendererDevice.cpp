@@ -153,7 +153,7 @@ void IRendererDevice::Update()
 {
 }
 
-const char *IRendererDevice::GetObjectName() const
+const String IRendererDevice::GetObjectName() const
 {
 	return "IRendererDevice";
 }

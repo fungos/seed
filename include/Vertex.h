@@ -32,6 +32,7 @@
 #define __VERTEX_H__
 
 #include "Defines.h"
+#include "Enum.h"
 #include "MathUtil.h"
 #include "Point.h"
 
@@ -64,6 +65,12 @@ struct sVertex
 	}
 };
 
+enum ePacketFlags
+{
+	FlagNone		= 0x00,
+	FlagWireframe	= 0x01
+};
+
 /// Renderer Packet
 struct RendererPacket
 {
@@ -74,6 +81,7 @@ struct RendererPacket
 	uPixel					iColor;
 	eMeshType				nMeshType;
 	eBlendMode				nBlendMode;
+	ePacketFlags			iFlags;
 
 	RendererPacket()
 		: pTransform(NULL)
@@ -83,6 +91,7 @@ struct RendererPacket
 		, iColor(0, 0, 0, 255)
 		, nMeshType(Seed::TriangleStrip)
 		, nBlendMode(Seed::BlendNone)
+		, iFlags(FlagNone)
 	{
 	}
 };

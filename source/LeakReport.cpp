@@ -40,7 +40,7 @@
 
 namespace Seed {
 
-SEED_SINGLETON_DEFINE(LeakReport);
+SEED_SINGLETON_DEFINE(LeakReport)
 
 LeakReport::LeakReport()
 {

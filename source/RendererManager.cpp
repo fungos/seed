@@ -55,10 +55,12 @@ bool RendererManager::Initialize()
 {
 	IModule::Initialize();
 
-	ForEach(RendererVector, vRenderer,
+	RendererVectorIterator it = vRenderer.begin();
+	RendererVectorIterator end = vRenderer.end();
+	for (; it != end; ++it)
 	{
 		(*it)->Initialize();
-	});
+	}
 
 	return true;
 }
@@ -71,10 +73,12 @@ bool RendererManager::Reset()
 
 bool RendererManager::Shutdown()
 {
-	ForEach(RendererVector, vRenderer,
+	RendererVectorIterator it = vRenderer.begin();
+	RendererVectorIterator end = vRenderer.end();
+	for (; it != end; ++it)
 	{
 		(*it)->Shutdown();
-	});
+	}
 
 	return IModule::Shutdown();
 }
@@ -85,10 +89,12 @@ bool RendererManager::Update(f32 dt)
 
 	if (bEnabled)
 	{
-		ForEach(RendererVector, vRenderer,
+		RendererVectorIterator it = vRenderer.begin();
+		RendererVectorIterator end = vRenderer.end();
+		for (; it != end; ++it)
 		{
 			ret &= (*it)->Update(dt);
-		});
+		}
 	}
 
 	return ret;
@@ -107,22 +113,28 @@ void RendererManager::Remove(Renderer *renderer)
 void RendererManager::Disable()
 {
 	bEnabled = false;
-	ForEach(RendererVector, vRenderer,
+
+	RendererVectorIterator it = vRenderer.begin();
+	RendererVectorIterator end = vRenderer.end();
+	for (; it != end; ++it)
 	{
 		(*it)->Disable();
-	});
+	}
 }
 
 void RendererManager::Enable()
 {
 	bEnabled = true;
-	ForEach(RendererVector, vRenderer,
+
+	RendererVectorIterator it = vRenderer.begin();
+	RendererVectorIterator end = vRenderer.end();
+	for (; it != end; ++it)
 	{
 		(*it)->Enable();
-	});
+	}
 }
 
-const char *RendererManager::GetObjectName() const
+const String RendererManager::GetObjectName() const
 {
 	return "RendererManager";
 }

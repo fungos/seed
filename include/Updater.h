@@ -31,8 +31,9 @@
 #ifndef __UPDATER_H__
 #define __UPDATER_H__
 
-#include "Array.h"
+#include "Defines.h"
 #include "Singleton.h"
+#include "Container.h"
 
 namespace Seed {
 

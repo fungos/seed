@@ -64,7 +64,7 @@ bool ITimer::IsRequired() const
 	return true;
 }
 
-const char *ITimer::GetObjectName() const
+const String ITimer::GetObjectName() const
 {
 	return "Timer";
 }

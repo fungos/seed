@@ -46,7 +46,7 @@ class SEED_CORE_API Particle : public Sprite
 		virtual ~Particle();
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	protected:

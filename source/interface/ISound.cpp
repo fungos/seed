@@ -45,7 +45,7 @@ int ISound::GetObjectType() const
 	return Seed::ObjectSound;
 }
 
-const char *ISound::GetObjectName() const
+const String ISound::GetObjectName() const
 {
 	return "ISound";
 }

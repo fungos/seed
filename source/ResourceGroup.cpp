@@ -61,7 +61,9 @@ void ResourceGroup::Add(const String &filename, Seed::eObjectType resourceType, 
 
 bool ResourceGroup::Load()
 {
-	ForEach(QueueVector, queue,
+	QueueVectorIterator it = queue.begin();
+	QueueVectorIterator end = queue.end();
+	for (; it != end; ++it)
 	{
 		QueueItem *pQueueItem = (*it);
 		if (pQueueItem->resource)
@@ -70,19 +72,21 @@ bool ResourceGroup::Load()
 		IResource *res;
 		res = pQueueItem->resManager->Get(pQueueItem->filename, pQueueItem->resourceType);
 		pQueueItem->resource = res;
-	});
+	}
 
 	return true;
 }
 
 bool ResourceGroup::Unload()
 {
-	ForEach(QueueVector, queue,
+	QueueVectorIterator it = queue.begin();
+	QueueVectorIterator end = queue.end();
+	for (; it != end; ++it)
 	{
 		QueueItem *pQueueItem = (*it);
 		sRelease(pQueueItem->resource);
 		Delete(pQueueItem);
-	});
+	}
 
 	queue.clear();
 	QueueVector().swap(queue);

@@ -33,6 +33,9 @@
 #include "interface/IEventMovieListener.h"
 #include "Movie.h"
 #include "Keyframe.h"
+#include "Sprite.h"
+
+#define TAG "[Timeline] "
 
 namespace Seed {
 
@@ -40,25 +43,112 @@ Timeline::Timeline()
 	: pParent(NULL)
 	, pObject(NULL)
 	, pListener(NULL)
+	, sName()
 	, fElapsedTime(0.0f)
 	, fElapsedKeyframeTime(0.0f)
 	, iCurrentFrame(0)
 	, iKeyframeFrom(0)
 	, iKeyframeTo(0)
-	, arKeyframes()
+	, mapKeyframes()
 {
-	MEMSET(arKeyframes, '\0', sizeof(Keyframe *) * MAX_KEYFRAMES);
 }
 
 Timeline::~Timeline()
 {
+	this->Unload();
+}
+
+bool Timeline::Unload()
+{
+	while (!mapKeyframes.empty())
+	{
+		Keyframe *obj = (*mapKeyframes.begin()).second;
+		mapKeyframes.erase(mapKeyframes.begin());
+		Delete(obj);
+	}
+
+	Delete(pObject);
+	KeyframeMap().swap(mapKeyframes);
+
+	sName = "";
 	this->Reset();
+
+	return true;
+}
+
+bool Timeline::Load(Reader &reader, ResourceManager *res)
+{
+	SEED_ASSERT(res);
+
+	bool ret = false;
+
+	if (this->Unload())
+	{
+		sName = reader.ReadString("name", "timeline");
+		f32 prio = reader.ReadF32("priority", 0.0f);
+
+		/*
+		FIXME: The object here can be any ISceneObject, so we need a way to
+		identify the kind of object and a kind of factory that will construct
+		the object and return to us (Project)
+		*/
+		if (reader.SelectNode("object"))
+		{
+			Reader r(reader);
+			Sprite *spt = New(Sprite);
+			spt->Load(r, res);
+			spt->SetPriority(prio);
+			pObject = spt;
+			reader.UnselectNode();
+		}
+		else
+		{
+			String object = reader.ReadString("object", "");
+			SEED_ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
+
+			File f(object);
+			Reader r(f);
+			Sprite *spt = New(Sprite);
+			spt->Load(r, res);
+			spt->SetPriority(prio);
+			pObject = spt;
+		}
+
+		u32 keyframes = reader.SelectArray("keyframes");
+		SEED_ASSERT_MSG(keyframes != 0, "Timeline does not have keyframes.");
+		if (keyframes)
+		{
+			for (u32 i = 0; i < keyframes; i++)
+			{
+				reader.SelectNext();
+
+				Keyframe *obj = New(Keyframe);
+				obj->Load(reader, res);
+
+				u32 frame = 0;
+				if (obj->iFrame)
+					frame = obj->iFrame;
+				else
+					frame = i;
+
+				SEED_ASSERT_MSG(mapKeyframes[frame] == NULL, "Dupicated frame in the timeline");
+				mapKeyframes[frame] = obj;
+			}
+			reader.UnselectArray();
+
+			ret = true;
+		}
+		else
+		{
+			Log(TAG " WARNING: No keyframe found in the timeline '%s'", sName.c_str());
+		}
+	}
+
+	return ret;
 }
 
 void Timeline::Reset()
 {
-	MEMSET(arKeyframes, '\0', sizeof(Keyframe *) * MAX_KEYFRAMES);
-
 	fElapsedTime 			= 0.0f;
 	fElapsedKeyframeTime 	= 0.0f;
 	iCurrentFrame 			= 0;
@@ -75,10 +165,12 @@ void Timeline::Rewind()
 	fElapsedKeyframeTime 	= 0.0f;
 }
 
-void Timeline::AddKeyframe(u32 frame, Keyframe *keyframe)
+void Timeline::AddKeyframe(Keyframe *keyframe)
 {
-	ASSERT_MSG(frame < MAX_KEYFRAMES, "Keyframe out of range.");
-	arKeyframes[frame] = keyframe;
+	if (mapKeyframes[keyframe->iFrame])
+		Delete(mapKeyframes[keyframe->iFrame]);
+
+	mapKeyframes[keyframe->iFrame] = keyframe;
 }
 
 void Timeline::GotoAndPlay(u32 frame)
@@ -109,7 +201,7 @@ void Timeline::Update()
 		{
 			if (pListener)
 			{
-				EventMovie ev(this, arKeyframes[iCurrentFrame], static_cast<u32>(iCurrentFrame));
+				EventMovie ev(this, mapKeyframes[iCurrentFrame], static_cast<u32>(iCurrentFrame));
 				pListener->OnTimelineFrame(&ev);
 				pListener->OnTimelineRestart(&ev);
 			}
@@ -122,11 +214,11 @@ void Timeline::Update()
 	}
 
 	//start interpolating keyframes
-	Keyframe *kfFrom	= arKeyframes[iKeyframeFrom];
-	Keyframe *kfTo 		= arKeyframes[iKeyframeTo];
+	Keyframe *kfFrom	= mapKeyframes[iKeyframeFrom];
+	Keyframe *kfTo 		= mapKeyframes[iKeyframeTo];
 
-	ASSERT_MSG(kfFrom, 	"A keyframe is required at frame 0.");
-	ASSERT_MSG(kfTo, 	"At least two keyframes must be set.");
+	SEED_ASSERT_MSG(kfFrom, 	"A keyframe is required at frame 0.");
+	SEED_ASSERT_MSG(kfTo, 	"At least two keyframes must be set.");
 
 	if (pListener)
 	{
@@ -137,17 +229,16 @@ void Timeline::Update()
 	f32 fBegin 		= static_cast<f32>(iCurrentFrame - iKeyframeFrom);
 	f32 fDuration 	= static_cast<f32>(iKeyframeTo - iKeyframeFrom);
 
-	//Raptor note: Timeline should only change the position and orientation of the object NEVER
-	//its visibility or rendering state
-	//pObject->SetVisible(!kfFrom->bBlank);
+	// Raptor note: Timeline should only change the position and orientation of the object NEVER its visibility or rendering state
+	// pObject->SetVisible(!kfFrom->bBlank);
 	if (!kfFrom->bBlank)
 	{
 		//calculate the interpolated values
 		f32 fCurrRot,
 			fCurrPosX,
 			fCurrPosY,
-			fCurrLocalPosX,
-			fCurrLocalPosY,
+			fCurrPivotX,
+			fCurrPivotY,
 			fCurrScaleX,
 			fCurrScaleY,
 			fCurrR,
@@ -176,16 +267,16 @@ void Timeline::Update()
 												fDuration,
 												kfFrom->fEasing);
 
-			fCurrLocalPosX	= EaseQuadPercent(	fBegin,
-												kfFrom->ptLocalPos.x,
-												(kfTo->ptLocalPos.x - kfFrom->ptLocalPos.x),
+			fCurrPivotX		= EaseQuadPercent(	fBegin,
+												kfFrom->ptPivot.x,
+												(kfTo->ptPivot.x - kfFrom->ptPivot.x),
 												fDuration,
 												kfFrom->fEasing);
 
 
-			fCurrLocalPosY	= EaseQuadPercent(	fBegin,
-												kfFrom->ptLocalPos.y,
-												(kfTo->ptLocalPos.y - kfFrom->ptLocalPos.y),
+			fCurrPivotY		= EaseQuadPercent(	fBegin,
+												kfFrom->ptPivot.y,
+												(kfTo->ptPivot.y - kfFrom->ptPivot.y),
 												fDuration,
 												kfFrom->fEasing);
 
@@ -230,8 +321,8 @@ void Timeline::Update()
 			fCurrRot 		= kfFrom->fRotation;
 			fCurrPosX		= kfFrom->ptPos.x;
 			fCurrPosY		= kfFrom->ptPos.y;
-			fCurrLocalPosX	= kfFrom->ptLocalPos.x;
-			fCurrLocalPosY	= kfFrom->ptLocalPos.y;
+			fCurrPivotX		= kfFrom->ptPivot.x;
+			fCurrPivotY		= kfFrom->ptPivot.y;
 			fCurrScaleX		= kfFrom->ptScale.x;
 			fCurrScaleY		= kfFrom->ptScale.y;
 			fCurrR			= kfFrom->iColorR;
@@ -240,14 +331,11 @@ void Timeline::Update()
 			fCurrA			= kfFrom->iColorA;
 		}
 
-		if (pObject)
-		{
-			pObject->SetPosition(fCurrPosX, fCurrPosY);
-			pObject->SetPivot(fCurrLocalPosX, fCurrLocalPosY);
-			pObject->SetRotation(fCurrRot);
-			pObject->SetScale(fCurrScaleX, fCurrScaleY);
-			pObject->SetColor((u32)fCurrR, (u32)fCurrG, (u32)fCurrB, (u32)fCurrA);
-		}
+		pObject->SetPosition(fCurrPosX, fCurrPosY);
+		pObject->SetPivot(fCurrPivotX, fCurrPivotY);
+		pObject->SetRotation(fCurrRot);
+		pObject->SetScale(fCurrScaleX, fCurrScaleY);
+		pObject->SetColor((u32)fCurrR, (u32)fCurrG, (u32)fCurrB, (u32)fCurrA);
 	}
 
 	if ((fBegin / fDuration) >= 1.0f)
@@ -360,12 +448,14 @@ void Timeline::SetRotation(f32 rotation)
 
 s32 Timeline::FindKeyframeByName(const String &name)
 {
-	for (s32 i = 0; i < MAX_KEYFRAMES; i++)
+	KeyframeMapIterator it = mapKeyframes.begin();
+	KeyframeMapIterator end = mapKeyframes.end();
+	for (; it != end; ++it)
 	{
-		if (!arKeyframes[i])
-			continue;
-		else if (arKeyframes[i]->sName == name)
-			return i;
+		Keyframe *obj = (*it).second;
+
+		if (obj->sName == name)
+			return obj->iFrame;
 	}
 
 	return 0;
@@ -373,25 +463,26 @@ s32 Timeline::FindKeyframeByName(const String &name)
 
 s32 Timeline::FindNextKeyframe()
 {
-	for (s32 i = iKeyframeFrom+1; i < MAX_KEYFRAMES; i++)
+	KeyframeMap::iterator it = mapKeyframes.begin();
+	KeyframeMap::iterator end = mapKeyframes.end();
+	for (; it != end; ++it)
 	{
-		if (!arKeyframes[i])
-			continue;
-		else
-			return i;
+		s32 pos = (*it).first;
+		if (pos > iKeyframeFrom)
+			return pos;
 	}
-
 	return -1;
 }
 
 s32 Timeline::FindPreviousKeyframe()
 {
-	for (s32 i = iCurrentFrame; i >= 0; i--)
+	KeyframeMapIterator it = mapKeyframes.end();
+	KeyframeMapIterator beg = mapKeyframes.begin();
+	for (; it != beg; --it)
 	{
-		if (!arKeyframes[i])
-			continue;
-		else
-			return i;
+		s32 pos = (*it).first;
+		if (pos < iCurrentFrame)
+			return pos;
 	}
 
 	return -1;
@@ -399,12 +490,12 @@ s32 Timeline::FindPreviousKeyframe()
 
 void Timeline::SetListener(IEventMovieListener *listener)
 {
-	this->pListener = listener;
+	pListener = listener;
 }
 
-const Keyframe *Timeline::GetCurrentKeyframe() const
+Keyframe *Timeline::GetCurrentKeyframe()
 {
-	return arKeyframes[iKeyframeFrom];
+	return mapKeyframes[iKeyframeFrom];
 }
 
 f32 Timeline::EaseQuadPercent(f32 time, f32 begin, f32 change, f32 duration, f32 easing)

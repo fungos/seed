@@ -58,10 +58,12 @@ bool ViewManager::Initialize()
 {
 	IModule::Initialize();
 
-	ForEach(ViewportVector, vViewport,
+	ViewportVectorIterator it = vViewport.begin();
+	ViewportVectorIterator end = vViewport.end();
+	for (; it != end; ++it)
 	{
 		(*it)->GetRenderer()->Initialize();
-	});
+	}
 
 	return true;
 }
@@ -74,10 +76,12 @@ bool ViewManager::Reset()
 
 bool ViewManager::Shutdown()
 {
-	ForEach(ViewportVector, vViewport,
+	ViewportVectorIterator it = vViewport.begin();
+	ViewportVectorIterator end = vViewport.end();
+	for (; it != end; ++it)
 	{
 		(*it)->GetRenderer()->Shutdown();
-	});
+	}
 
 	this->Reset();
 
@@ -109,11 +113,14 @@ void ViewManager::Render()
 	if (bEnabled)
 	{
 		pRendererDevice->BackbufferClear();
-		ForEach(ViewportVector, vViewport,
+
+		ViewportVectorIterator it = vViewport.begin();
+		ViewportVectorIterator end = vViewport.end();
+		for (; it != end; ++it)
 		{
 			pCurrentViewport = (*it);
 			pCurrentViewport->Render();
-		});
+		}
 	}
 
 	pCurrentViewport = NULL;
@@ -121,14 +128,14 @@ void ViewManager::Render()
 
 Renderer *ViewManager::GetCurrentRenderer() const
 {
-	ASSERT_MSG(pCurrentViewport, TAG "GetCurrentRenderer must be called within Render call.");
+	SEED_ASSERT_MSG(pCurrentViewport, TAG "GetCurrentRenderer must be called within Render call.");
 	return pCurrentViewport->GetRenderer();
 }
 
 
 Viewport *ViewManager::GetCurrentViewport() const
 {
-	ASSERT_MSG(pCurrentViewport, TAG "GetCurrentViewport must be called within Render call.");
+	SEED_ASSERT_MSG(pCurrentViewport, TAG "GetCurrentViewport must be called within Render call.");
 	return pCurrentViewport;
 }
 
@@ -137,21 +144,22 @@ Viewport *ViewManager::GetViewportAt(f32 x, f32 y)
 	Viewport *ret = NULL;
 	if (bEnabled)
 	{
-		ForEach(ViewportVector, vViewport,
+		ViewportVectorIterator it = vViewport.begin();
+		ViewportVectorIterator end = vViewport.end();
+		for (; it != end; ++it)
 		{
 			if ((*it)->Contains(x, y))
 			{
 				ret = (*it);
 				break;
 			}
-		});
+		}
 	}
 
 	return ret;
 }
 
-
-const char *ViewManager::GetObjectName() const
+const String ViewManager::GetObjectName() const
 {
 	return "ViewManager";
 }

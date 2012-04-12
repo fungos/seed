@@ -95,7 +95,7 @@ class SEED_CORE_API SaveSystem
 		static bool bIsSaving;
 		bool bInitialized;
 
-		FilePath pcSaveGameFolder[SEED_MAX_FOLDER_SIZE];
+		char *pcSaveGameFolder[SEED_MAX_FOLDER_SIZE];
 };
 
 #define pSaveSystem SaveSystem::GetInstance()

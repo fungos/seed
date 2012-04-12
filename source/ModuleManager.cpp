@@ -56,11 +56,11 @@ bool ModuleManager::Add(IModule *obj)
 	{
 		if (obj->IsRequired())
 		{
-			Info(TAG "CRITICAL: Module '%s' failed to initialize.", obj->GetObjectName());
+			Info(TAG "CRITICAL: Module '%s' failed to initialize.", obj->GetObjectName().c_str());
 		}
 		else
 		{
-			Info(TAG "WARNING: Module '%s' failed to initalize.", obj->GetObjectName());
+			Info(TAG "WARNING: Module '%s' failed to initalize.", obj->GetObjectName().c_str());
 			ret = true; // we can continue as this module isn't critical.
 		}
 	}
@@ -94,11 +94,13 @@ bool ModuleManager::Initialize()
 {
 	bool ret = true;
 
-	ForEach(IModuleVector, vModule,
+	IModuleVectorIterator it = vModule.begin();
+	IModuleVectorIterator end = vModule.end();
+	for (; it != end; ++it)
 	{
 		IModule *obj = (*it);
 		ret = ret && (obj->Initialize() || !obj->IsRequired());
-	});
+	}
 
 	return ret;
 }
@@ -107,11 +109,13 @@ bool ModuleManager::Reset()
 {
 	bool ret = true;
 
-	ForEach(IModuleVector, vModule,
+	IModuleVectorIterator it = vModule.begin();
+	IModuleVectorIterator end = vModule.end();
+	for (; it != end; ++it)
 	{
 		IModule *obj = (*it);
 		ret = ret && (obj->Reset() || !obj->IsRequired());
-	});
+	}
 
 	return ret;
 }
@@ -133,11 +137,14 @@ bool ModuleManager::Shutdown()
 void ModuleManager::Print()
 {
 	Info(TAG "Listing current modules:");
-	ForEach(IModuleVector, vModule,
+
+	IModuleVectorIterator it = vModule.begin();
+	IModuleVectorIterator end = vModule.end();
+	for (; it != end; ++it)
 	{
 		IModule *obj = (*it);
-		Info(TAG "\tModule: %s.", obj->GetObjectName());
-	});
+		Info(TAG "\tModule: %s.", obj->GetObjectName().c_str());
+	}
 }
 
 } // namespace

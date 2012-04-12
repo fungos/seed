@@ -38,9 +38,61 @@ namespace Seed {
 
 class ITexture;
 class ResourceManager;
-class ParticleEmitterObject;
 class Particle;
-struct ParticleEmitterInfo;
+
+/// Particle Emitter Configuration
+struct SEED_CORE_API EmitterConfiguration
+{
+	u32		iTextureFrame;
+	u32		iBlendMode;
+	u32		iEmission; // particles per sec
+	f32		fLifetime;
+
+	f32		fParticleLifeMin;
+	f32		fParticleLifeMax;
+
+	f32		fDirection;
+	f32		fSpread;
+	bool	bRelative; // bool
+
+	f32		fSpeedMin;
+	f32		fSpeedMax;
+
+	f32		fGravityMin;
+	f32		fGravityMax;
+
+	f32		fRadialAccelMin;
+	f32		fRadialAccelMax;
+
+	f32		fTangentialAccelMin;
+	f32		fTangentialAccelMax;
+
+	f32		fSizeStart;
+	f32		fSizeEnd;
+	f32		fSizeVar;
+
+	f32		fSpinStart;
+	f32		fSpinEnd;
+	f32		fSpinVar;
+
+	f32		fColorStartR;
+	f32		fColorStartG;
+	f32		fColorStartB;
+	f32		fColorStartA;
+
+	f32		fColorEndR;
+	f32		fColorEndG;
+	f32		fColorEndB;
+	f32		fColorEndA;
+
+	f32		fColorVar;
+	f32		fAlphaVar;
+
+	f32		fWidth;
+	f32		fHeight;
+
+	f32		fInterval;
+};
 
 /// Particle Emitter
 class SEED_CORE_API ParticleEmitter : public ISceneObject
@@ -53,14 +105,8 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		virtual void SetAnimation(u32 anim);
 
 		virtual void SetFilter(eTextureFilterType type, eTextureFilter filter);
+		virtual const EmitterConfiguration &GetConfig() const;
 
-		virtual void Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual void Unload();
-		virtual void Reset();
-
-		virtual const ParticleEmitterInfo *GetEmitterInfo() const;
-
-		// Metodos candidatos a uma interface para sistemas Animados
 		virtual void Play();
 		virtual bool IsPlaying() const;
 
@@ -83,8 +129,14 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		virtual void Update(f32 delta);
 		virtual void Render();
 
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
+		virtual void Reset();
+
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	private:
@@ -93,10 +145,8 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		void MoveEverything(const Vector3f &pos);
 
 	private:
-		ParticleEmitterObject		*pEmitterObject;
-		const ParticleEmitterInfo	*pInfo;
 		ResourceManager				*pRes;
-		String						sFilename;
+		EmitterConfiguration		cEmitter;
 		String						sSpriteFilename;
 		bool						bParticlesFollowEmitter;
 
@@ -118,7 +168,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		eTextureFilter				nMagFilter;
 
 		u32							iParticlesAmount;
-		Particle					*arParticles; //arParticles[SEED_PARTICLES_MAX];
+		Particle					*arParticles;
 };
 
 } // namespace

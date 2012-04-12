@@ -47,20 +47,20 @@ EventMovie::~EventMovie()
 
 const Timeline *EventMovie::GetTimeline() const
 {
-	return this->pTimeline;
+	return pTimeline;
 }
 
 const Keyframe *EventMovie::GetKeyframe() const
 {
-	return this->pKeyframe;
+	return pKeyframe;
 }
 
 u32 EventMovie::GetFrame() const
 {
-	return this->iFrame;
+	return iFrame;
 }
 
-const char *EventMovie::GetObjectName() const
+const String EventMovie::GetObjectName() const
 {
 	return "EventMovie";
 }

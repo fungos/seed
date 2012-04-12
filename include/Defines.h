@@ -31,6 +31,7 @@
 #ifndef __SEED_DEFINES_H__
 #define __SEED_DEFINES_H__
 
+#include <string>
 #include "Config.h"
 
 /*
@@ -67,30 +68,9 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define SEED_EXTRA_API
 #endif
 
-#define STRING_LENGTH					LIB_STRLEN
-#define SIZE_T							LIB_SIZE_T
 #define UNUSED(var)						(void)var;
-#define RAND							LIB_RAND
 
-#undef MEMSET4
-// Memory and Strings
-#define MEMSET							LIB_MEMSET
-#define MEMSET4							LIB_MEMSET4
-#define MEMCOPY							LIB_MEMCOPY
-#define STRLEN							LIB_STRLEN
-#define STRCMP							LIB_STRCMP
-#define STRLCPY							LIB_STRLCPY
-#define STRLCAT							LIB_STRLCAT
-#define STRCASECMP						LIB_STRCASECMP
-#define STRDUP							LIB_STRDUP
-
-// Math
-#define FAST_DIV						LIB_FAST_DIV
-#define FAST_MOD						LIB_FAST_MOD
-#define FAST_SQRT						LIB_FAST_SQRT
-
-// Filesystem
-#define FOPEN(a, b)						LIB_FOPEN(a, b)
+typedef std::string String;
 
 /// Pixel union
 union uPixel
@@ -109,14 +89,6 @@ union uPixel
 		u8 b;
 		u8 a;
 	} rgba;
-	/// Pixel components ARGB
-	struct _argb
-	{
-		u8 a;
-		u8 r;
-		u8 g;
-		u8 b;
-	} argb;
 
 	uPixel(u8 R, u8 G, u8 B, u8 A)
 	{
@@ -134,21 +106,9 @@ union uPixel
 
 // Debugging
 #if defined(DEBUG)
-	#ifndef ASSERT
-	#define ASSERT							LIB_ASSERT
-	#endif // ASSERT
-
-	#ifndef ASSERT_MSG
-	#define ASSERT_MSG						LIB_ASSERT_MSG
-	#endif // ASSERT_MSG
-
-	#ifndef ASSERT_NULL
-	#define ASSERT_NULL						LIB_ASSERT_NULL
-	#endif // ASSERT_NULL
-
-	#ifndef SECURITY_CHECK
-	#define SECURITY_CHECK					LIB_ASSERT_MSG
-	#endif // SECURITY_CHECK
+	#include "Log.h"
+	#define SEED_ASSERT(x)				if (!(x)) { Log("%s:%d - " #x, __FILE__, __LINE__); HALT}
+	#define SEED_ASSERT_MSG(x, msg)		if (!(x)) { Log("%s:%d - " #msg, __FILE__, __LINE__); HALT}
 
 	#if defined(__GNUC__)
 		#define __FUNC__					__PRETTY_FUNCTION__
@@ -163,34 +123,12 @@ union uPixel
 	#define SEED_DEPRECATED_METHOD
 
 	#if defined(__GNUC__)
-		#ifndef ASSERT
-		#define ASSERT(...)
-		#endif // ASSERT
-
-		#ifndef ASSERT_MSG
-		#define ASSERT_MSG(...)
-		#endif // ASSERT_MSG
-
-		#ifndef ASSERT_NULL
-		#define ASSERT_NULL(...)
-		#endif // ASSERT_NULL
+		#define SEED_ASSERT(...)
+		#define SEED_ASSERT_MSG(...)
 	#else
-		#ifndef ASSERT
-		#define ASSERT
-		#endif // ASSERT
-
-		#ifndef ASSERT_MSG
-		#define ASSERT_MSG
-		#endif // ASSERT_MSG
-
-		#ifndef ASSERT_NULL
-		#define ASSERT_NULL
-		#endif // ASSERT_NULL
+		#define SEED_ASSERT
+		#define SEED_ASSERT_MSG
 	#endif // __GNUC__
-
-	#ifndef SECURITY_CHECK
-	#define SECURITY_CHECK(func, msg)		func
-	#endif // SECURITY_CHECK
 
 #endif // DEBUG
 
@@ -226,7 +164,6 @@ typedef enum { SEED_ENUM_ASSERT_VALUE } SEED_ENUM_ASSERT;
 SEED_COMPILE_TIME_ASSERT(enum, sizeof(SEED_ENUM_ASSERT) == sizeof(u32));
 
 #include "LeakReport.h"
-#include "Container.h"
 
 extern "C" { namespace Seed {
 	class ResourceManager;

@@ -38,9 +38,9 @@
 namespace Seed {
 
 ISoundSource::ISoundSource()
-	: cPosition()
-	, cVelocity()
-	, cOrientation()
+	: cPosition(0.0f, 0.0f, 0.0f)
+	, cVelocity(0.0f, 0.0f, 0.0f)
+	, cOrientation(0.0f, 0.0f, 0.0f)
 	, fVolume(1.0f)
 	, fFadeTime(0.0f)
 	, fStartFadeTime(0)
@@ -115,7 +115,7 @@ void ISoundSource::GetOrientation(Vector3f *vec) const
 
 void ISoundSource::SetVolume(f32 vol)
 {
-	ASSERT_MSG((vol >= 0 || vol <= 1.0f), "Source volume must be between 0 and 1");
+	SEED_ASSERT_MSG((vol >= 0 || vol <= 1.0f), "Source volume must be between 0 and 1");
 	fVolume = vol;
 }
 
@@ -199,7 +199,7 @@ eSoundSourceState ISoundSource::GetState() const
 	return eState;
 }
 
-const char *ISoundSource::GetObjectName() const
+const String ISoundSource::GetObjectName() const
 {
 	return "ISoundSource";
 }

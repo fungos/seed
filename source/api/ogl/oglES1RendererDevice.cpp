@@ -74,7 +74,6 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 		Log(TAG "Error: %s\n", glewGetErrorString(err));
 #endif
 
-
 	char *version = (char *)glGetString(GL_VERSION);
 	Info(TAG "OpenGL Version: %s", version);
 
@@ -122,9 +121,8 @@ bool OGLES1RendererDevice::Initialize()
 
 bool OGLES1RendererDevice::Reset()
 {
-	arTexture.Truncate();
-
-	return true; // abstract IRenderer::Reset();
+	ITextureVector().swap(vTexture);
+	return true;
 }
 
 bool OGLES1RendererDevice::Shutdown()
@@ -266,7 +264,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) c
 
 void OGLES1RendererDevice::SetTextureParameters(ITexture *texture) const
 {
-	ASSERT_NULL(texture);
+	SEED_ASSERT(texture);
 
 	eTextureFilter min = texture->GetFilter(Seed::TextureFilterTypeMin);
 	eTextureFilter mag = texture->GetFilter(Seed::TextureFilterTypeMag);
@@ -287,19 +285,21 @@ void OGLES1RendererDevice::SetTextureParameters(ITexture *texture) const
 
 void OGLES1RendererDevice::TextureRequestAbort(ITexture *texture)
 {
-	arTexture.Remove(texture);
+	vTexture -= texture;
 }
 
 void OGLES1RendererDevice::TextureRequest(ITexture *texture)
 {
-	arTexture.Add(texture);
+	vTexture += texture;
 }
 
 void OGLES1RendererDevice::TextureRequestProcess() const
 {
-	for (u32 i = 0; i < arTexture.Size(); i++)
+	ITextureVector::iterator it = vTexture.begin();
+	ITextureVector::iterator end = vTexture.end();
+	for (; it != end; ++it)
 	{
-		ITexture *texture = arTexture[i];
+		ITexture *texture = (*it);
 		if (texture)
 		{
 			GLint tex = 0;
@@ -339,7 +339,11 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 						{
 							case 4:
 							{
+#if defined(BUILD_IOS)
 								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+#else
+								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
+#endif
 							}
 							break;
 
@@ -372,19 +376,19 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 		}
 	}
 
-	arTexture.Truncate();
+	ITextureVector().swap(vTexture);
 }
 
 void OGLES1RendererDevice::TextureUnload(ITexture *texture)
 {
-	ASSERT_NULL(texture);
+	SEED_ASSERT(texture);
 	if (texture->iTextureId)
 		glDeleteTextures(1, &texture->iTextureId);
 }
 
 void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 {
-	ASSERT_NULL(texture);
+	SEED_ASSERT(texture);
 	if (texture->iTextureId)
 	{
 		glBindTexture(GL_TEXTURE_2D, texture->iTextureId);
@@ -392,7 +396,7 @@ void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 		GLuint w = texture->GetAtlasWidth();
 		GLuint h = texture->GetAtlasHeight();
 		const void *data = texture->GetData();
-		ASSERT_NULL(data);
+		SEED_ASSERT(data);
 
 		switch (texture->GetBytesPerPixel())
 		{
@@ -423,9 +427,9 @@ void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 void OGLES1RendererDevice::UploadData(void *userData)
 {
 	RendererPacket *packet = static_cast<RendererPacket *>(userData);
-	ASSERT_NULL(packet->pTransform);
-	ASSERT_NULL(packet->pTexture);
-	ASSERT_NULL(packet->pVertexData);
+	SEED_ASSERT(packet->pTransform);
+	SEED_ASSERT(packet->pTexture);
+	SEED_ASSERT(packet->pVertexData);
 
 	ITexture *texture = packet->pTexture;
 	sVertex *data = static_cast<sVertex *>(packet->pVertexData);
@@ -439,11 +443,23 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &data[0].cVertex);
 	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &data[0].iColor);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &data[0].cCoords);
 	glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, packet->iSize);
+
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+
+	if (packet->iFlags & FlagWireframe)
+	{
+		glPointSize(5.0);
+		glDrawArrays(GL_POINTS, 0, packet->iSize);
+		glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
+	}
+
+	glEnable(GL_TEXTURE_2D);
+	glEnable(GL_BLEND);
 
 	glPopMatrix();
 }
@@ -539,8 +555,9 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bo
 		else
 			glDrawArrays(GL_LINE_LOOP, 0, 4);
 	glPopMatrix();
-	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
+	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
 void OGLES1RendererDevice::Enable2D() const

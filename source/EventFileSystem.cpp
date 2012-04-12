@@ -52,7 +52,7 @@ const String &EventFileSystem::GetFile()
 	return sFilename;
 }
 
-const char *EventFileSystem::GetObjectName() const
+const String EventFileSystem::GetObjectName() const
 {
 	return "EventFileSystem";
 }

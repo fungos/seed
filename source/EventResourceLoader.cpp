@@ -44,15 +44,15 @@ EventResourceLoader::~EventResourceLoader()
 
 void EventResourceLoader::SetGroup(ResourceGroup *group)
 {
-	this->pGroup = group;
+	pGroup = group;
 }
 
 ResourceGroup *EventResourceLoader::GetGroup() const
 {
-	return this->pGroup;
+	return pGroup;
 }
 
-const char *EventResourceLoader::GetObjectName() const
+const String EventResourceLoader::GetObjectName() const
 {
 	return "EventResourceLoader";
 }

@@ -70,11 +70,13 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::Reset()
 {
-	ForEach(ResourceMap, mapResources,
+	ResourceMapIterator it = mapResources.begin();
+	ResourceMapIterator end = mapResources.end();
+	for (; it != end; ++it)
 	{
 		LOG(TAG "Deallocating %s.", (*it).first.c_str());
 		Delete((*it).second);
-	});
+	}
 
 	ResourceMap().swap(mapResources);
 }
@@ -119,14 +121,15 @@ void ResourceManager::GarbageCollect()
 {
 
 #if defined(DEBUG)
-	u64 begin = pTimer->GetMilliseconds();
-	u64 end = 0;
+	u64 tbegin = pTimer->GetMilliseconds();
+	u64 tend = 0;
 #endif // DEBUG
 
-	ForEach(ResourceMap, mapResources,
+	ResourceMapIterator it = mapResources.begin();
+	ResourceMapIterator end = mapResources.end();
+	for (; it != end; ++it)
 	{
 		IResource *res = (*it).second;
-
 		u32 r = res->GetReferenceCount();
 		if (!r)
 		{
@@ -139,7 +142,7 @@ void ResourceManager::GarbageCollect()
 		{
 			++it;
 		}
-	});
+	}
 
 	if (bHasUnusedResource)
 	{
@@ -148,8 +151,8 @@ void ResourceManager::GarbageCollect()
 	}
 
 #if defined(DEBUG)
-	end = pTimer->GetMilliseconds();
-	LOG(TAG "Garbage collection done in %d milliseconds.",  (u32)(end - begin));
+	tend = pTimer->GetMilliseconds();
+	LOG(TAG "Garbage collection done in %d milliseconds.",  (u32)(tend - tbegin));
 	LOG(TAG "Resources inside '%s': ", sName.c_str());
 	this->Print();
 #endif // DEBUG
@@ -158,30 +161,34 @@ void ResourceManager::GarbageCollect()
 
 void ResourceManager::Unload(Seed::eObjectType resourceType)
 {
-	ForEach(ResourceMap, mapResources,
+	ResourceMapIterator it = mapResources.begin();
+	ResourceMapIterator end = mapResources.end();
+	for (; it != end; ++it)
 	{
 		IResource *res = (*it).second;
 
 		if (res->GetObjectType() == resourceType)
 		{
-			LOG(TAG "Unloading %s %s.", res->GetObjectName(), (*it).first.c_str());
+			LOG(TAG "Unloading %s %s.", res->GetObjectName().c_str(), (*it).first.c_str());
 			res->Unload();
 		}
-	});
+	}
 }
 
 void ResourceManager::Reload(Seed::eObjectType resourceType)
 {
-	ForEach(ResourceMap, mapResources,
+	ResourceMapIterator it = mapResources.begin();
+	ResourceMapIterator end = mapResources.end();
+	for (; it != end; ++it)
 	{
 		IResource *res = (*it).second;
 
 		if (res->GetObjectType() == resourceType)
 		{
-			LOG(TAG "Reloading %s %s.", res->GetObjectName(), (*it).first.c_str());
+			LOG(TAG "Reloading %s %s.", res->GetObjectName().c_str(), (*it).first.c_str());
 			res->Load(res->sFilename, res->pRes);
 		}
-	});
+	}
 }
 
 void ResourceManager::Register(Seed::eObjectType resourceType, pResourceLoaderFunc pfunc)
@@ -235,13 +242,16 @@ void ResourceManager::Remove(const String &filename)
 void ResourceManager::PrintUsedMemoryByResource()
 {
 	u32 total = 0;
-	ForEach(ResourceMap, mapResources,
+
+	ResourceMapIterator it = mapResources.begin();
+	ResourceMapIterator end = mapResources.end();
+	for (; it != end; ++it)
 	{
 		IResource *res = (*it).second;
 
-		Dbg(TAG "Resource: %s Memory: %d References: %d Type: %s", res->sFilename.c_str(), res->GetUsedMemory(), res->GetReferenceCount(), res->GetObjectName());
+		Dbg(TAG "Resource: %s Memory: %d References: %d Type: %s", res->sFilename.c_str(), res->GetUsedMemory(), res->GetReferenceCount(), res->GetObjectName().c_str());
 		total += res->GetUsedMemory();
-	});
+	}
 
 	Dbg(TAG "Total: %d", total);
 }
@@ -249,12 +259,14 @@ void ResourceManager::PrintUsedMemoryByResource()
 u32 ResourceManager::GetTotalUsedMemory()
 {
 	u32 total = 0;
-	ForEach(ResourceMap, mapResources,
+
+	ResourceMapIterator it = mapResources.begin();
+	ResourceMapIterator end = mapResources.end();
+	for (; it != end; ++it)
 	{
 		IResource *res = (*it).second;
-
 		total += res->GetUsedMemory();
-	});
+	}
 
 	return total;
 }
@@ -264,14 +276,17 @@ void ResourceManager::Print()
 #if defined(DEBUG) && defined(SEED_LOG_RESOURCEMANAGER)
 	u32 cnt = 0;
 	Log(TAG "Listing %d loaded resources in '%s':", mapResources.size(), sName.c_str());
-	ForEach(ResourceMap, mapResources,
+
+	ResourceMapIterator it = mapResources.begin();
+	ResourceMapIterator end = mapResources.end();
+	for (; it != end; ++it)
 	{
 		IResource *res = (*it).second;
 		const String name = (*it).first;
 
-		Log(TAG "\t%s [%s] [%d]", name.c_str(), res->GetObjectName(), res->GetReferenceCount());
+		Log(TAG "\t%s [%s] [%d]", name.c_str(), res->GetObjectName().c_str(), res->GetReferenceCount());
 		cnt++;
-	});
+	}
 
 	Log(TAG "%s Total: %d resources.", sName.c_str(), cnt);
 #endif // DEBUG

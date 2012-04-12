@@ -7,6 +7,7 @@ TestBase::TestBase()
 	cConfig.SetApplicationTitle("tests");
 	cConfig.SetPublisherName("seed");
 	cConfig.SetVideoMode(Seed::Video_800x600);
+//	cConfig.bDebugSprite = true;
 }
 
 TestBase::~TestBase()
@@ -30,18 +31,33 @@ bool TestBase::Initialize()
 	pScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
-	File f("logo.sprite");
-	Reader r(f);
-	sptLogo.Load(r);
-	cScene.Add(&sptLogo);
-	pScreen->FadeIn();
+	{
+		File f("anim.sprite");
+		Reader r(f);
+		sptLogo.Load(r);
+		sptLogo.SetPosition(400, 300);
+		cScene.Add(&sptLogo);
+	}
+
+//	{
+//		Writer w;
+//		sptLogo.Write(w);
+//		w.Save("out.sprite");
+//	}
+
+//	{
+//		File f("sample.movie");
+//		Reader r(f);
+//		mvSample.Load(r);
+//		cScene.Add(&mvSample);
+//	}
 
 	//cScene.SetPosition(100, 100);
 	//sptLogo.SetParent(&cScene);
 
-	musTheme.Load("theme.ogg");
-	musTheme.SetVolume(.1f);
-	pSoundSystem->PlayMusic(&musTheme);
+//	musTheme.Load("theme.ogg");
+//	musTheme.SetVolume(.2f);
+//	pSoundSystem->PlayMusic(&musTheme);
 
 	sfxSound.Load("helloworld.ogg");
 	sfxSound.SetLoop(true);
@@ -49,18 +65,21 @@ bool TestBase::Initialize()
 	pSoundSystem->Add(&sfxSound);
 
 	sfxSound.Play();
+	pScreen->FadeIn();
 
 	return true;
 }
 
 bool TestBase::Update(f32 dt)
 {
+	UNUSED(dt)
 	return true;
 }
 
 bool TestBase::Shutdown()
 {
 	sptLogo.Unload();
+	mvSample.Unload();
 
 	pSceneManager->Reset();
 	pRendererManager->Reset();
@@ -81,6 +100,7 @@ bool TestBase::Reset()
 
 void TestBase::OnSystemShutdown(const EventSystem *ev)
 {
+	UNUSED(ev)
 	pSystem->Shutdown();
 }
 

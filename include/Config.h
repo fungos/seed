@@ -2,18 +2,18 @@
 #define __CONFIG_H__
 
 #if defined(SEED_BUILD)
-	#if !defined(SEED_USE_COMMERCIAL)
-		#define SEED_BUILD_LGPL
-		#define SEED_LICENSE "LGPL"
+	#if !defined(SEED_USE_STATIC)
+		#define SEED_BUILD_SHARED	1
+		#define SEED_LICENSE		"Seed license"
 	#else
-		#define SEED_LICENSE "Commercial"
+		#define SEED_LICENSE		"Static"
 	#endif // SEED_BUILD
 #else
-	#if !defined(SEED_USE_COMMERCIAL)
-		#define SEED_USE_LGPL 1
-		#define SEED_LICENSE "LGPL"
+	#if !defined(SEED_USE_STATIC)
+		#define SEED_BUILD_SHARED	1
+		#define SEED_LICENSE		"Seed license"
 	#else
-		#define SEED_LICENSE "Commercial"
+		#define SEED_LICENSE		"Static"
 	#endif
 #endif
 
@@ -22,10 +22,10 @@
 #define RAPTOR	"Rafael Eduardo Gonchor"
 
 #define SEED_TAG					"[Seed] "
-#define SEED_VERSION_MINOR			1			// Developer version (features, fixes)
-#define SEED_VERSION_MIDDLE			1			// Client version
-#define SEED_VERSION_MAJOR			0			// Release version (final trunk)
-#define SEED_VERSION_STRING			"%d.%d.%d"	//"0.1.1"
+#define SEED_VERSION_MINOR			0			// Developer version (features, fixes)
+#define SEED_VERSION_MIDDLE			0			// Client version
+#define SEED_VERSION_MAJOR			1			// Release version (final trunk)
+#define SEED_VERSION_STRING			"%d.%d.%d"	//"1.1.1"
 #define SEED_NAME					"Seed SDK"
 #define SEED_COPYRIGHT				"Copyright (c) 2008-2009 Danny Angelo Carminati Grein\nCopyright (c) 2009 TechFront Studios"
 #define SEED_AUTHORS				"Authors:\n\t" DANNY "\n\t" PATUTI "\n\t" RAPTOR
@@ -39,7 +39,7 @@
 #endif // DEBUG
 
 #if defined(BUILD_IOS)
-	#define SEED_PLATFORM_NAME "iPhone"
+	#define SEED_PLATFORM_NAME "iOS"
 #elif defined(BUILD_SDL)
 	#define SEED_PLATFORM_NAME "SDL"
 #elif defined(BUILD_QT)
@@ -52,7 +52,8 @@
 #define SEED_USE_JSON						1
 #define SEED_USE_THEORA						0
 #define SEED_ENABLE_DEPTH_TEST				0
-
+#define SEED_USE_ROTATION_PIVOT				0
+#define SEED_USE_CENTERED_PIVOT				1
 /*
 Transformable objects have only one pivot for calculating the object position, scale and rotation.
 By enabling this, the rotation and scale will be separated from the position pivot but not configurable (defaults to the center of the frame).

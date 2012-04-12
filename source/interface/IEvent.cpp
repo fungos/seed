@@ -80,7 +80,7 @@ int IEvent::GetObjectType() const
 	return Seed::ObjectEvent;
 }
 
-const char *IEvent::GetObjectName() const
+const String IEvent::GetObjectName() const
 {
 	return "IEvent";
 }

@@ -40,7 +40,6 @@
 #include "SoundSource.h"
 #include "Music.h"
 #include "File.h"
-#include "Array.h"
 #include "Singleton.h"
 
 #if defined(__APPLE_CC__)
@@ -58,15 +57,8 @@ class SEED_CORE_API SoundSystem : public ISoundSystem
 {
 	SEED_SINGLETON_DECLARE(SoundSystem)
 	public:
-		// ISoundSystem
-		//virtual void PlayMusic(IMusic *mus, f32 ms = 0);
-		//virtual void StopMusic(f32 ms = 0, IMusic *mus = NULL);
-		//virtual void StopSounds();
 		virtual void Pause();
 		virtual void Resume();
-
-		//virtual void Add(ISoundSource *src);
-		//virtual void Remove(ISoundSource *src);
 
 		// IUpdatable
 		virtual bool Update(f32 dt);

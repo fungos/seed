@@ -35,12 +35,13 @@
 #include "interface/IBasicMesh.h"
 #include "Reader.h"
 #include "Vertex.h"
+#include "Container.h"
 
 namespace Seed {
 
 class ITexture;
-class Animation;
-class Frame;
+struct Animation;
+struct Frame;
 
 /// Sprite 2D
 /*!
@@ -49,14 +50,13 @@ Animated Sprite
 class SEED_CORE_API Sprite : public IBasicMesh
 {
 	public:
+		DECLARE_CONTAINER_TYPE(Vector, Animation)
+		DECLARE_CONTAINER_TYPE(Vector, Frame)
 		friend class ResourceLoader;
 
 	public:
 		Sprite();
 		virtual ~Sprite();
-
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Unload();
 
 		virtual ITexture *GetTexture() const;
 		virtual const void *GetData() const;
@@ -83,6 +83,9 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual bool IsLoop() const;
 		virtual bool IsAnimated() const;
 
+		void operator+=(Animation *anim);
+		void operator-=(Animation *anim);
+
 		virtual void Reset();
 		virtual void Initialize();
 
@@ -90,8 +93,13 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual void Update(f32 delta);
 		virtual void Render();
 
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
+
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	protected:
@@ -99,15 +107,15 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		virtual void ReconfigureFrame();
 
 	protected:
-		Animation	**ppAnimations;
+		FrameVector *pvFrames;
 		Animation	*pAnimation;
-		Frame		**ppAnimationFrames;
 		Frame		*pFrame;
 		ITexture	*pFrameTexture;
 
+		AnimationVector vAnimations;
+
 		u32 iCurrentAnimation;
 		u32 iCurrentFrame;
-		u32 iAnimations;
 		u32 iFrames;
 		f32 fFrameTime;
 

@@ -64,7 +64,7 @@ bool Image::Unload()
 
 bool Image::Load(const String &filename, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	if (this->Unload())
 	{
@@ -125,12 +125,11 @@ void Image::Render()
 
 bool Image::Load(ITexture *texture)
 {
-	ASSERT_NULL(texture);
+	SEED_ASSERT(texture);
 
 	if (!bDynamic)
-	{
 		sRelease(pTexture);
-	}
+
 	pTexture = NULL;
 
 	sFilename = "[dynamic texture]";
@@ -170,7 +169,7 @@ int Image::GetObjectType() const
 	return Seed::ObjectImage;
 }
 
-const char *Image::GetObjectName() const
+const String Image::GetObjectName() const
 {
 	return "Image";
 }

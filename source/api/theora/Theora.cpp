@@ -301,7 +301,7 @@ void Theora::Update(f32 delta)
 
 bool Theora::GoToFrame(u32 frame)
 {
-	ASSERT(frame < iTotalFrames);
+	SEED_ASSERT(frame < iTotalFrames);
 
 	bool ret = false;
 	iFrameCount = frame;
@@ -463,8 +463,8 @@ void Theora::ConfigureRendering()
 	oggplay_get_video_y_size(pPlayer, iTrack, reinterpret_cast<int *>(&iWidth), reinterpret_cast<int *>(&iHeight));
 	oggplay_get_video_uv_size(pPlayer, iTrack, reinterpret_cast<int *>(&iUVWidth), reinterpret_cast<int *>(&iUVHeight));
 
-	ASSERT_MSG((iUVWidth == (iWidth / 2)), "Invalid width ");
-	ASSERT_MSG((iUVHeight == (iHeight / 2)), "Invalid height ");
+	SEED_ASSERT_MSG((iUVWidth == (iWidth / 2)), "Invalid width ");
+	SEED_ASSERT_MSG((iUVHeight == (iHeight / 2)), "Invalid height ");
 
 	for (po2_width = 1; po2_width < iWidth; po2_width <<= 1);
 	for (po2_height = 1; po2_height < iHeight; po2_height <<= 1);

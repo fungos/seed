@@ -39,6 +39,8 @@ enum eObjectType
 	ObjectTexture = 0,
 	ObjectImage,
 	ObjectSprite,
+	ObjectAnimation,
+	ObjectFrame,
 	ObjectSound,
 	ObjectMusic,
 	ObjectEvent,
@@ -48,11 +50,12 @@ enum eObjectType
 	ObjectSoundListener,
 	ObjectParticle,
 	ObjectParticleEmitter,
-	ObjectParticleEmitterObject,
+	ObjectMap,
+
+	// Managers
 	ObjectParticleManager,
 	ObjectViewManager,
 	ObjectRendererManager,
-	ObjectMap,
 
 	// System
 	ObjectFile,

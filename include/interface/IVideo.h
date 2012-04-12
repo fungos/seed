@@ -32,14 +32,12 @@
 #define __IVIDEO_H__
 
 #include "Defines.h"
-
 #include "interface/ITransformable.h"
-#include "interface/IPlayable.h"
 
 namespace Seed {
 
 /// Video interface
-class IVideo : public ITransformable//, public IPlayable
+class IVideo : public ITransformable
 {
 	public:
 		IVideo();

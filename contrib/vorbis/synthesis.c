@@ -18,10 +18,10 @@
 #include <stdio.h>
 #include <ogg/ogg.h>
 #include "vorbis/codec.h"
-#include "vorbis/codec_internal.h"
-#include "vorbis/registry.h"
-#include "vorbis/misc.h"
-#include "vorbis/os.h"
+#include "codec_internal.h"
+#include "registry.h"
+#include "misc.h"
+#include "os.h"
 
 int vorbis_synthesis(vorbis_block *vb,ogg_packet *op){
   vorbis_dsp_state     *vd= vb ? vb->vd : 0;

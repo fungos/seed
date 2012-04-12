@@ -83,7 +83,7 @@ ResourceManager *IGameApp::GetResourceManager()
 	return &cResourceManager;
 }
 
-const char *IGameApp::GetObjectName() const
+const String IGameApp::GetObjectName() const
 {
 	return "IGameApp";
 }

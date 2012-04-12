@@ -32,23 +32,22 @@
 
 #if defined(WIN32)
 
+
 #include "Defines.h"
 #include "Log.h"
+#include "SeedInit.h"
 
 #pragma push_macro("Delete")
-#pragma push_macro("bool")
-#pragma push_macro("SIZE_T")
+#pragma push_macro("Free")
+#undef Free
 #undef Delete
-#if defined(_MSC_VER)
-#undef bool
-#endif
-#undef SIZE_T
 #include <io.h>
 #include <windows.h>
+#include <winuser.h>
 #include <tchar.h>
-#pragma pop_macro("SIZE_T")
-#pragma pop_macro("bool")
+#pragma pop_macro("Free")
 #pragma pop_macro("Delete")
+
 
 #define TAG	"[Platform] "
 
@@ -56,19 +55,17 @@
 #define SYSTEM_USERHOME_MAXLEN		1024
 #define SYSTEM_USERAPPDATA_MAXLEN	1024
 #define SYSTEM_USERSAVEGAME_MAXLEN	1024
-
-#define SYSTEM_SAVEGAME_FOLDER_VISTA_SEVEN	L"Saved Games"
-#define SYSTEM_SAVEGAME_FOLDER_XP			L""
-
-#define SYSTEM_APPDATA_FOLDER_VISTA_SEVEN	L"%LOCALAPPDATA%"
-#define SYSTEM_APPDATA_FOLDER_XP			L"%APPDATA%"
+#define SYSTEM_SAVEGAME_FOLDER_VISTA_SEVEN	"Saved Games"
+#define SYSTEM_SAVEGAME_FOLDER_XP			""
+#define SYSTEM_APPDATA_FOLDER_VISTA_SEVEN	"%LOCALAPPDATA%"
+#define SYSTEM_APPDATA_FOLDER_XP			"%APPDATA%"
 
 #define CREATE_MUTEX_INITIAL_OWNER 0x00000001
 
-static wchar_t strUserName[SYSTEM_USERNAME_MAXLEN];
-static wchar_t strUserHomePath[SYSTEM_USERHOME_MAXLEN];
-static wchar_t strUserAppDataPath[SYSTEM_USERAPPDATA_MAXLEN];
-static wchar_t strUserSaveGamePath[SYSTEM_USERSAVEGAME_MAXLEN];
+static char strUserName[SYSTEM_USERNAME_MAXLEN];
+static char strUserHomePath[SYSTEM_USERHOME_MAXLEN];
+static char strUserAppDataPath[SYSTEM_USERAPPDATA_MAXLEN];
+static char strUserSaveGamePath[SYSTEM_USERSAVEGAME_MAXLEN];
 static bool bIsVistaOrSeven = false;
 
 void system_version()
@@ -91,61 +88,62 @@ bool create_directory(const wchar_t *path)
 	return (err == 0);
 }
 
-const wchar_t *get_user_name()
+const char *get_user_name()
 {
 	u32 len = SYSTEM_USERNAME_MAXLEN;
 	memset((void *)strUserName, '\0', sizeof(strUserName));
 
 	if (!GetUserNameA((LPSTR)&strUserName[0], (LPDWORD)&len))
 	{
-		return L"Noname";
+		return "Noname";
 	}
+
 	return strUserName;
 }
 
-const wchar_t *get_user_home_folder()
+const char *get_user_home_folder()
 {
 	memset((void *)strUserHomePath, '\0', sizeof(strUserHomePath));
-	u32 count = ExpandEnvironmentStringsW(L"%USERPROFILE%\\", (LPWSTR)&strUserHomePath[0], SYSTEM_USERHOME_MAXLEN);
+	u32 count = ExpandEnvironmentStringsA("%USERPROFILE%\\", (LPSTR)&strUserHomePath[0], SYSTEM_USERHOME_MAXLEN);
 	if (count > SYSTEM_USERHOME_MAXLEN)
 	{
 		Log(TAG "WARNING: Could not get user home folder (too big!)");
-		return L"./";
+		return "./";
 	}
 
 	return strUserHomePath;
 }
 
-const wchar_t *get_user_savegame_folder()
+const char *get_user_savegame_folder()
 {
-	const wchar_t *s = get_user_home_folder();
+	const char *s = get_user_home_folder();
 
 	memset((void *)strUserSaveGamePath, '\0', sizeof(strUserSaveGamePath));
 
 	system_version();
 	if (bIsVistaOrSeven)
-		_snwprintf(strUserSaveGamePath, SYSTEM_USERSAVEGAME_MAXLEN, L"%s/%s/", s, SYSTEM_SAVEGAME_FOLDER_VISTA_SEVEN);
+		_snprintf(strUserSaveGamePath, SYSTEM_USERSAVEGAME_MAXLEN, "%s/%s/", s, SYSTEM_SAVEGAME_FOLDER_VISTA_SEVEN);
 	else
-		_snwprintf(strUserSaveGamePath, SYSTEM_USERSAVEGAME_MAXLEN, L"%s/", s);
+		_snprintf(strUserSaveGamePath, SYSTEM_USERSAVEGAME_MAXLEN, "%s/", s);
 
 	return strUserSaveGamePath;
 }
 
-const wchar_t *get_user_appdata_folder()
+const char *get_user_appdata_folder()
 {
 	memset((void *)strUserAppDataPath, '\0', sizeof(strUserAppDataPath));
 	u32 count = 0;
 
 	system_version();
 	if (bIsVistaOrSeven)
-		ExpandEnvironmentStringsW(SYSTEM_APPDATA_FOLDER_VISTA_SEVEN L"\\", (LPWSTR)&strUserAppDataPath[0], SYSTEM_USERAPPDATA_MAXLEN);
+		ExpandEnvironmentStringsA(SYSTEM_APPDATA_FOLDER_VISTA_SEVEN "\\", (LPSTR)&strUserAppDataPath[0], SYSTEM_USERAPPDATA_MAXLEN);
 	else
-		ExpandEnvironmentStringsW(SYSTEM_APPDATA_FOLDER_XP L"\\", (LPWSTR)&strUserAppDataPath[0], SYSTEM_USERAPPDATA_MAXLEN);
+		ExpandEnvironmentStringsA(SYSTEM_APPDATA_FOLDER_XP "\\", (LPSTR)&strUserAppDataPath[0], SYSTEM_USERAPPDATA_MAXLEN);
 
 	if (count > SYSTEM_USERAPPDATA_MAXLEN)
 	{
 		Log(TAG "WARNING: Could not get user appdata folder (too big!)");
-		return L"./";
+		return "./";
 	}
 
 	return strUserAppDataPath;
@@ -191,14 +189,16 @@ bool system_check_multiple_instance()
 	}
 	else if (error == ERROR_ALREADY_EXISTS)
 	{
-		HWND hWnd = FindWindow(NULL, Seed::pConfiguration->GetApplicationTitle());
+		HWND hWnd = FindWindowA(NULL, Seed::pConfiguration->GetApplicationTitle());
 		if (hWnd)
 		{
 			if (Seed::pConfiguration->GetWarningMultipleInstances())
 			{
-				MessageBox(NULL, "There is already an instance of this application running!", Seed::pConfiguration->GetApplicationTitle(), MB_ICONWARNING);
+				MessageBoxA(NULL, "There is already an instance of this application running!", Seed::pConfiguration->GetApplicationTitle(), MB_ICONWARNING);
 			}
+#if (_WIN32_WINNT >= 0x0500)
 			SwitchToThisWindow(hWnd, false);
+#endif
 			ShowWindow(hWnd, SW_RESTORE);
 			return false;
 		}

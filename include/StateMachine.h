@@ -31,6 +31,7 @@
 #define __STATEMACHINE_H__
 
 #include "Defines.h"
+#include "Enum.h"
 #include "interface/IEvent.h"
 #include "Log.h"
 
@@ -59,7 +60,7 @@ class SEED_CORE_API StateMachineEvent : public IEvent
 		{
 		}
 
-		virtual const char *GetObjectName() const
+		virtual const String GetObjectName() const
 		{
 			return "StateMachineEvent";
 		}
@@ -165,7 +166,7 @@ class SEED_CORE_API StateMachine
 		inline void RegisterTransition(StateMachineTransition *transition)
 		{
 			//Check if the transition is has a valid configuration
-			ASSERT(transition->GetFromState() && transition->GetToState() && transition->GetEvent());
+			SEED_ASSERT(transition->GetFromState() && transition->GetToState() && transition->GetEvent());
 			vTransitions += transition;
 		}
 

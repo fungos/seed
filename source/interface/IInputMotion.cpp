@@ -31,10 +31,6 @@
 #include "interface/IInputMotion.h"
 #include "interface/IEventInputMotionListener.h"
 #include "Log.h"
-#include "Array.h"
-
-#include <vector>
-#include <algorithm>
 
 namespace Seed {
 
@@ -81,11 +77,12 @@ void IInputMotion::RemoveMotionListener(IEventInputMotionListener *listener)
 
 void IInputMotion::SendEventAccelerationChanged(const EventInputMotion *ev)
 {
-	ASSERT_NULL(ev);
-	ForEach(IEventInputMotionListenerVector, vMotionListeners,
-	{
+	SEED_ASSERT(ev);
+
+	IEventInputMotionListenerVectorIterator it = vMotionListeners.begin();
+	IEventInputMotionListenerVectorIterator end = vMotionListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnAccelerationChanged(ev);
-	});
 }
 
 } // namespace

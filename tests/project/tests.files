@@ -6,3 +6,7 @@
 Makefile
 Objects.in
 ../bin/logo.sprite
+../bin/sample.movie
+../bin/head.sprite
+../bin/body.sprite
+../bin/upperbody.sprite

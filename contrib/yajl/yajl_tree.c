@@ -25,9 +25,11 @@
 
 #include "yajl_parser.h"
 
-#if defined(_WIN32) || defined(WIN32)
-#define snprintf sprintf_s
-#endif
+//#if defined(_WIN32) || defined(WIN32)
+//#if !defined(snprintf)
+//#define snprintf sprintf_s
+//#endif
+//#endif
 
 #define STATUS_CONTINUE 1
 #define STATUS_ABORT    0

@@ -91,8 +91,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 		if (ov_open_callbacks(&oggFile, &oggStream, NULL, 0, vorbisCb) != 0)
 		{
 			Log(TAG "Could not read ogg file from memory");
-
-			MEMSET(&oggFile, '\0', sizeof(oggFile));
+			memset(&oggFile, '\0', sizeof(oggFile));
 		}
 		else
 		{
@@ -105,7 +104,9 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 
 			vorbis_info *info = ov_info(&oggStream, -1);
 
-			if (info->channels > 1)
+			if (info->channels == 1)
+				format = AL_FORMAT_MONO16;
+			else if (info->channels == 2)
 				format = AL_FORMAT_STEREO16;
 
 			freq = info->rate;

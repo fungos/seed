@@ -31,10 +31,6 @@
 #include "interface/IInputPointer.h"
 #include "interface/IEventInputPointerListener.h"
 #include "Log.h"
-#include "Array.h"
-
-#include <vector>
-#include <algorithm>
 
 namespace Seed {
 
@@ -160,52 +156,52 @@ void IInputPointer::RemovePointerListener(IEventInputPointerListener *listener)
 
 void IInputPointer::SendEventPointerEnable(const EventInputPointer *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
-	ForEach(IEventInputPointerListenerVector, vPointerListeners,
-	{
+	IEventInputPointerListenerVectorIterator it = vPointerListeners.begin();
+	IEventInputPointerListenerVectorIterator end = vPointerListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnInputPointerEnable(ev);
-	});
 }
 
 void IInputPointer::SendEventPointerDisable(const EventInputPointer *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
-	ForEach(IEventInputPointerListenerVector, vPointerListeners,
-	{
+	IEventInputPointerListenerVectorIterator it = vPointerListeners.begin();
+	IEventInputPointerListenerVectorIterator end = vPointerListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnInputPointerDisable(ev);
-	});
 }
 
 void IInputPointer::SendEventPointerMove(const EventInputPointer *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
-	ForEach(IEventInputPointerListenerVector, vPointerListeners,
-	{
+	IEventInputPointerListenerVectorIterator it = vPointerListeners.begin();
+	IEventInputPointerListenerVectorIterator end = vPointerListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnInputPointerMove(ev);
-	});
 }
 
 void IInputPointer::SendEventPointerPress(const EventInputPointer *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
-	ForEach(IEventInputPointerListenerVector, vPointerListeners,
-	{
+	IEventInputPointerListenerVectorIterator it = vPointerListeners.begin();
+	IEventInputPointerListenerVectorIterator end = vPointerListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnInputPointerPress(ev);
-	});
 }
 
 void IInputPointer::SendEventPointerRelease(const EventInputPointer *ev)
 {
-	ASSERT_NULL(ev);
+	SEED_ASSERT(ev);
 
-	ForEach(IEventInputPointerListenerVector, vPointerListeners,
-	{
+	IEventInputPointerListenerVectorIterator it = vPointerListeners.begin();
+	IEventInputPointerListenerVectorIterator end = vPointerListeners.end();
+	for (; it != end; ++it)
 		(*it)->OnInputPointerRelease(ev);
-	});
 }
 
 } // namespace

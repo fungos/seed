@@ -42,7 +42,6 @@
 #include "Screen.h"
 #include "Log.h"
 #include "Input.h"
-#include "ParticleEmitterObject.h"
 #include "ParticleManager.h"
 #include "Updater.h"
 #include "ModuleManager.h"
@@ -75,7 +74,7 @@ Configuration *pConfiguration = NULL;
 
 void CommandLineParameter(const char *param)
 {
-	if (!STRCASECMP(param, "--nosound"))
+	if (!strcasecmp(param, "--nosound"))
 	{
 		Private::bDisableSound = true;
 	}
@@ -182,15 +181,10 @@ bool Initialize()
 	ResourceManager::Register(Seed::ObjectTexture,			TextureResourceLoader);
 	ResourceManager::Register(Seed::ObjectSound,			SoundResourceLoader);
 	ResourceManager::Register(Seed::ObjectMusic,			MusicResourceLoader);
-	ResourceManager::Register(Seed::ObjectParticleEmitterObject, ParticleEmitterObjectResourceLoader);
 
-	//pSystem->InitializeHome(); FIXME home can only be initialized after the ROM package with the
-	//default error font was called and this is done at app->Initialize since the memory manager is not
-	//ready during Setup
 	Private::bInitialized = true;
 
 	ret = ret && pModuleManager->Add(Private::pApplication);
-
 	pModuleManager->Print();
 
 	return ret;

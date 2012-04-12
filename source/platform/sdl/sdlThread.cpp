@@ -64,7 +64,7 @@ void Thread::Create(s32 priority)
 	if (!pThread)
 	{
 		pThread = SDL_CreateThread(__seed_thread_loop_callback, this);
-		ASSERT_MSG(pThread != NULL, TAG "Failed to create thread.");
+		SEED_ASSERT_MSG(pThread != NULL, TAG "Failed to create thread.");
 	}
 }
 

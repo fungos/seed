@@ -65,7 +65,7 @@ class SEED_CORE_API Viewport
 		virtual bool Contains(f32 x, f32 y);
 
 		// IObject
-		virtual const char *GetObjectName() const;
+		virtual const String GetObjectName() const;
 
 	protected:
 		Rect4f cArea;

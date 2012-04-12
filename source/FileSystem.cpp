@@ -66,12 +66,12 @@ bool FileSystem::Shutdown()
 	return true;
 }
 
-const FilePath *FileSystem::GetWorkDirectory() const
+const char *FileSystem::GetWorkDirectory() const
 {
 	return PHYSFS_getUserDir();
 }
 
-const FilePath *FileSystem::GetWriteableDirectory() const
+const char *FileSystem::GetWriteableDirectory() const
 {
 	return PHYSFS_getWriteDir();
 }
@@ -81,7 +81,7 @@ bool FileSystem::IsRequired() const
 	return true;
 }
 
-const char *FileSystem::GetObjectName() const
+const String FileSystem::GetObjectName() const
 {
 	return "FileSystem";
 }

@@ -192,22 +192,22 @@ void System::WaitForRetrace(eSystemFrameRate rate)
 	}
 }
 
-const FilePath *System::GetUsername() const
+const char *System::GetUsername() const
 {
 	return get_user_name();
 }
 
-const FilePath *System::GetHomeFolder() const
+const char *System::GetHomeFolder() const
 {
 	return PHYSFS_getUserDir();
 }
 
-const FilePath *System::GetApplicationDataFolder() const
+const char *System::GetApplicationDataFolder() const
 {
 	return PHYSFS_getBaseDir();
 }
 
-const FilePath *System::GetSaveGameFolder() const
+const char *System::GetSaveGameFolder() const
 {
 	return PHYSFS_getUserDir();
 }

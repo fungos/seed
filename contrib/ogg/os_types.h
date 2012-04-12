@@ -24,7 +24,7 @@
 #define _ogg_realloc realloc
 #define _ogg_free    free
 
-#if defined(_WIN32)
+#if defined(_WIN32) 
 
 #  if defined(__CYGWIN__)
 #    include <stdint.h>
@@ -140,7 +140,7 @@
 
 #else
 
-#  include <ogg/config_types.h.in>
+#  include <ogg/config_types.h>
 
 #endif
 

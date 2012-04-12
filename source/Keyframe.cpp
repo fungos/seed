@@ -29,6 +29,7 @@
 */
 
 #include "Keyframe.h"
+#include <algorithm>
 
 namespace Seed {
 
@@ -36,7 +37,7 @@ Keyframe::Keyframe()
 	: sName("")
 	, fRotation(0.0f)
 	, ptPos(0.0f, 0.0f)
-	, ptLocalPos(0.0f, 0.0f)
+	, ptPivot(0.0f, 0.0f)
 	, ptScale(1.0f, 1.0f)
 	, iEvent(KeyframeEventNone)
 	, iFrameToJump(-1)
@@ -52,6 +53,87 @@ Keyframe::Keyframe()
 
 Keyframe::~Keyframe()
 {
+	this->Unload();
+}
+
+bool Keyframe::Unload()
+{
+	return true;
+}
+
+bool Keyframe::Load(Reader &reader, ResourceManager *res)
+{
+	SEED_ASSERT(res);
+
+	bool ret = false;
+
+	if (this->Unload())
+	{
+		sName = reader.ReadString("name", "keyframe");
+		fRotation = reader.ReadF32("rotation", 0.0f);
+		fEasing = reader.ReadF32("easing", 0.0f);
+
+		iFrame = reader.ReadS32("frame", -1);
+		SEED_ASSERT_MSG(iFrame != -1, "Keyframe without a frame number");
+
+		iFrameToJump = reader.ReadS32("goto", -1);
+
+		bTween = reader.ReadBool("tween", false);
+		bBlank = reader.ReadBool("blank", false);
+
+		String event(reader.ReadString("event", "none"));
+		std::transform(event.begin(), event.end(), event.begin(), tolower);
+		if (event == "stop")
+		{
+			iEvent = KeyframeEventStop;
+		}
+		else if (event == "restart")
+		{
+			iEvent = KeyframeEventRestart;
+		}
+		else if (event == "goto")
+		{
+			iEvent = KeyframeEventJumpToFrame;
+		}
+		else
+		{
+			iEvent = KeyframeEventNone;
+		}
+
+		if (reader.SelectNode("position"))
+		{
+			ptPos.x = reader.ReadF32("x", 0.0f);
+			ptPos.y = reader.ReadF32("y", 0.0f);
+			reader.UnselectNode();
+		}
+
+		if (reader.SelectNode("pivot"))
+		{
+			ptPivot.x = reader.ReadF32("x", 0.0f);
+			ptPivot.y = reader.ReadF32("y", 0.0f);
+			reader.UnselectNode();
+		}
+
+		if (reader.SelectNode("scale"))
+		{
+			ptScale.x = reader.ReadF32("x", 1.0f);
+			ptScale.y = reader.ReadF32("y", 1.0f);
+			reader.UnselectNode();
+		}
+
+		if (reader.SelectNode("color"))
+		{
+			iColorR = reader.ReadS32("r", 255);
+			iColorG = reader.ReadS32("g", 255);
+			iColorB = reader.ReadS32("b", 255);
+			iColorA = reader.ReadS32("a", 255);
+			reader.UnselectNode();
+		}
+
+		ret = true;
+	}
+
+	return ret;
 }
 
 } // namespace

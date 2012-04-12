@@ -141,7 +141,7 @@ bool ITexture::Unload()
 
 bool ITexture::Load(const String &filename, ResourceManager *res)
 {
-	ASSERT_NULL(res);
+	SEED_ASSERT(res);
 
 	bool ret = false;
 	if (this->Unload())
@@ -202,7 +202,7 @@ int ITexture::GetObjectType() const
 	return Seed::ObjectTexture;
 }
 
-const char *ITexture::GetObjectName() const
+const String ITexture::GetObjectName() const
 {
 	return "ITexture";
 }
