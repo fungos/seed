@@ -1,4 +1,0 @@
-OBJECTS = \
-../main.o \
-../jsonreader.o \
-../testbase.o
