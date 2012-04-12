@@ -70,28 +70,6 @@ ParticleEmitter::~ParticleEmitter()
 	this->Unload();
 }
 
-bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
-{
-	bool ret = false;
-
-	this->Unload();
-
-	if (bEnabled)
-	{
-		SEED_ASSERT(res);
-		pRes = res;
-
-		// Json Load into cEmitter
-
-		iAnimation = cEmitter.iTextureFrame;
-		fInterval = cEmitter.fInterval;
-
-		ret = true;
-	}
-
-	return ret;
-}
-
 bool ParticleEmitter::Unload()
 {
 	for (u32 i = 0; i < iParticlesAmount; i++)
@@ -533,6 +511,36 @@ void ParticleEmitter::SetParticlesFollowEmitter(bool bFollow)
 const EmitterConfiguration &ParticleEmitter::GetConfig() const
 {
 	return cEmitter;
+}
+
+bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
+{
+	bool ret = false;
+
+	this->Unload();
+
+	if (bEnabled)
+	{
+		SEED_ASSERT(res);
+		pRes = res;
+
+		// Json Load into cEmitter
+		#warning "Implement ParticleEmitter reader"
+
+		iAnimation = cEmitter.iTextureFrame;
+		fInterval = cEmitter.fInterval;
+
+		ret = true;
+	}
+
+	return ret;
+}
+
+bool ParticleEmitter::Write(Writer &writer)
+{
+	bool ret = false;
+	#warning "Implement ParticleEmitter writer"
+	return ret;
 }
 
 const String ParticleEmitter::GetObjectName() const

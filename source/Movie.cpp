@@ -62,78 +62,6 @@ bool Movie::Unload()
 	return true;
 }
 
-bool Movie::Load(Reader &reader, ResourceManager *res)
-{
-	SEED_ASSERT(res);
-
-	bool ret = false;
-
-	if (this->Unload())
-	{
-		sName = reader.ReadString("name", "movie");
-
-		if (reader.SelectNode("position"))
-		{
-			vPos.setX(reader.ReadF32("x", 0.0f));
-			vPos.setY(reader.ReadF32("y", 0.0f));
-			reader.UnselectNode();
-		}
-
-		if (reader.SelectNode("pivot"))
-		{
-			vPivot.setX(reader.ReadF32("x", 0.0f));
-			vPivot.setY(reader.ReadF32("y", 0.0f));
-			reader.UnselectNode();
-		}
-
-		if (reader.SelectNode("scale"))
-		{
-			vScale.setX(reader.ReadF32("x", 1.0f));
-			vScale.setY(reader.ReadF32("y", 1.0f));
-			vScale.setZ(reader.ReadF32("z", 1.0f));
-			reader.UnselectNode();
-		}
-
-		if (reader.SelectNode("color"))
-		{
-			iColor.rgba.r = reader.ReadS32("r", 255);
-			iColor.rgba.g = reader.ReadS32("g", 255);
-			iColor.rgba.b = reader.ReadS32("b", 255);
-			iColor.rgba.a = reader.ReadS32("a", 255);
-			reader.UnselectNode();
-		}
-
-		vPos.setZ(reader.ReadF32("priority", 0.0f));
-		this->SetRotation(reader.ReadF32("rotation", 0.0f));
-
-		u32 timelines = reader.SelectArray("timelines");
-		if (timelines)
-		{
-			for (u32 i = 0; i < timelines; i++)
-			{
-				reader.SelectNext();
-
-				Timeline *obj = New(Timeline);
-				obj->Load(reader, res);
-				vTimelines += obj;
-
-				ISceneObject *o = obj->GetObject();
-				o->SetParent(this);
-				this->Add(o);
-			}
-			reader.UnselectArray();
-
-			ret = true;
-		}
-		else
-		{
-			Log(TAG " WARNING: No timeline found in the movie '%s'", sName.c_str());
-		}
-	}
-
-	return ret;
-}
-
 void Movie::AddTimeline(Timeline *timeline)
 {
 	vTimelines += timeline;
@@ -199,6 +127,69 @@ void Movie::Reset()
 	TimelineVectorIterator end = vTimelines.end();
 	for (; it != end; ++it)
 		(*it)->Reset();
+}
+
+bool Movie::Load(Reader &reader, ResourceManager *res)
+{
+	SEED_ASSERT(res);
+
+	bool ret = false;
+
+	if (this->Unload())
+	{
+		sName = reader.ReadString("name", "movie");
+
+		ITransformable::Unserialize(reader);
+		IRenderable::Unserialize(reader);
+
+		u32 timelines = reader.SelectArray("timelines");
+		if (timelines)
+		{
+			for (u32 i = 0; i < timelines; i++)
+			{
+				reader.SelectNext();
+
+				Timeline *obj = New(Timeline);
+				obj->Load(reader, res);
+				vTimelines += obj;
+
+				ISceneObject *o = obj->GetObject();
+				o->SetParent(this);
+				this->Add(o);
+			}
+			reader.UnselectArray();
+
+			ret = true;
+		}
+		else
+		{
+			Log(TAG " WARNING: No timeline found in the movie '%s'", sName.c_str());
+		}
+	}
+
+	return ret;
+}
+
+bool Movie::Write(Writer &writer)
+{
+	writer.OpenNode();
+		writer.WriteString("type", this->GetObjectName().c_str());
+		writer.WriteString("name", sName.c_str());
+
+		ITransformable::Serialize(writer);
+		IRenderable::Serialize(writer);
+
+		writer.OpenArray("timelines");
+		u32 lines  = vTimelines.Size();
+		for (u32 i = 0; i < lines; i++)
+		{
+			Timeline *line = vTimelines[i];
+			line->Write(writer);
+		}
+		writer.CloseArray();
+	writer.CloseNode();
+
+	return true;
 }
 
 const String Movie::GetObjectName() const

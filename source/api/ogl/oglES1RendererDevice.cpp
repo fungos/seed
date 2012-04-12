@@ -433,6 +433,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 
 	ITexture *texture = packet->pTexture;
 	sVertex *data = static_cast<sVertex *>(packet->pVertexData);
+	Vector3f pivot = packet->vPivot;
 
 	this->SetBlendingOperation(packet->nBlendMode, packet->iColor);
 	this->SetTextureParameters(texture);
@@ -453,15 +454,30 @@ void OGLES1RendererDevice::UploadData(void *userData)
 
 	if (packet->iFlags & FlagWireframe)
 	{
+		#if !defined(BUILD_IOS)
+			glPushAttrib(GL_POLYGON_BIT);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, packet->iSize);
+			glPopAttrib();
+		#else
+			glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
+		#endif
+
 		glPointSize(5.0);
 		glDrawArrays(GL_POINTS, 0, packet->iSize);
-		glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
+
+		glPointSize(7.0);
+		glBegin(GL_POINTS);
+			glColor3f(1.0f, 0.0f, 1.0f);
+			glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
+		glEnd();
 	}
 
 	glEnable(GL_TEXTURE_2D);
 	glEnable(GL_BLEND);
 
 	glPopMatrix();
+
 }
 
 int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const

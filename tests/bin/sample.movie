@@ -1,6 +1,7 @@
 {
 	"name": "pong",
 	"position": {"x": 400, "y": 150},
+	"pivot": {"x": 0, "y": 0},
 	"timelines": [
 		{
 			"name": "anim",

@@ -33,8 +33,8 @@
 
 #include "Defines.h"
 #include "Point.h"
-#include "Reader.h"
 #include "Container.h"
+#include "interface/IDataObject.h"
 
 namespace Seed {
 
@@ -44,17 +44,14 @@ class Keyframe;
 class IEventMovieListener;
 
 /// Movie Timeline
-class SEED_CORE_API Timeline
+class SEED_CORE_API Timeline : public IDataObject
 {
 	typedef Map<u32, Keyframe *> KeyframeMap;
 	typedef KeyframeMap::iterator KeyframeMapIterator;
 
 	public:
 		Timeline();
-		~Timeline();
-
-		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		bool Unload();
+		virtual ~Timeline();
 
 		void Reset();
 		void Update();
@@ -68,6 +65,7 @@ class SEED_CORE_API Timeline
 		void SetObject(ISceneObject *object);
 		ISceneObject *GetObject() const;
 		void SetPriority(u32 p);
+		u32 GetPriority() const;
 		f32 GetWidth() const;
 		f32 GetHeight() const;
 		const String &GetName() const;
@@ -84,6 +82,15 @@ class SEED_CORE_API Timeline
 		Movie *GetParent() const;
 
 		void SetListener(IEventMovieListener *listener);
+
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
+
+		// IObject
+		virtual const String GetObjectName() const;
+		virtual int GetObjectType() const;
 
 	private:
 		SEED_DISABLE_COPY(Timeline);
@@ -106,6 +113,7 @@ class SEED_CORE_API Timeline
 		s32			iCurrentFrame;
 		s32			iKeyframeFrom;
 		s32			iKeyframeTo;
+		s32			iPriority;
 
 		Point2f		ptParentPosition;
 		Point2f		ptParentLocalPosition;

@@ -169,4 +169,35 @@ String IRenderable::GetBlendingName() const
 	return ret;
 }
 
+void IRenderable::Unserialize(Reader &reader)
+{
+	if (reader.SelectNode("color"))
+	{
+		iColor.rgba.r = reader.ReadU32("r", 255);
+		iColor.rgba.g = reader.ReadU32("g", 255);
+		iColor.rgba.b = reader.ReadU32("b", 255);
+		iColor.rgba.a = reader.ReadU32("a", 255);
+		reader.UnselectNode();
+	}
+
+	String blending = reader.ReadString("blending", "None");
+	this->SetBlendingByName(blending);
+}
+
+void IRenderable::Serialize(Writer &writer)
+{
+	if (eBlendOperation != BlendDefault && eBlendOperation != BlendNone)
+		writer.WriteString("blending", this->GetBlendingName().c_str());
+
+	if (iColor.pixel != 0xffffffff)
+	{
+		writer.OpenNode("color");
+			writer.WriteU32("r", iColor.rgba.r);
+			writer.WriteU32("g", iColor.rgba.g);
+			writer.WriteU32("b", iColor.rgba.b);
+			writer.WriteU32("a", iColor.rgba.a);
+		writer.CloseNode();
+	}
+}
+
 } // namespace

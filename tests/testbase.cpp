@@ -7,7 +7,7 @@ TestBase::TestBase()
 	cConfig.SetApplicationTitle("tests");
 	cConfig.SetPublisherName("seed");
 	cConfig.SetVideoMode(Seed::Video_800x600);
-//	cConfig.bDebugSprite = true;
+	cConfig.bDebugSprite = true;
 }
 
 TestBase::~TestBase()
@@ -39,18 +39,25 @@ bool TestBase::Initialize()
 		cScene.Add(&sptLogo);
 	}
 
-//	{
-//		Writer w;
-//		sptLogo.Write(w);
-//		w.Save("out.sprite");
-//	}
+	{
+		Writer w;
+		sptLogo.Write(w);
+		w.Save("out.sprite");
+	}
 
-//	{
-//		File f("sample.movie");
-//		Reader r(f);
-//		mvSample.Load(r);
-//		cScene.Add(&mvSample);
-//	}
+	{
+		File f("sample.movie");
+		Reader r(f);
+		mvSample.Load(r);
+		cScene.Add(&mvSample);
+	}
+
+	{
+		Writer w;
+		mvSample.Write(w);
+		w.Save("out.movie");
+	}
+
 
 	//cScene.SetPosition(100, 100);
 	//sptLogo.SetParent(&cScene);

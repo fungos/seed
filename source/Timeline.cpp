@@ -49,6 +49,7 @@ Timeline::Timeline()
 	, iCurrentFrame(0)
 	, iKeyframeFrom(0)
 	, iKeyframeTo(0)
+	, iPriority(0)
 	, mapKeyframes()
 {
 }
@@ -56,95 +57,6 @@ Timeline::Timeline()
 Timeline::~Timeline()
 {
 	this->Unload();
-}
-
-bool Timeline::Unload()
-{
-	while (!mapKeyframes.empty())
-	{
-		Keyframe *obj = (*mapKeyframes.begin()).second;
-		mapKeyframes.erase(mapKeyframes.begin());
-		Delete(obj);
-	}
-
-	Delete(pObject);
-	KeyframeMap().swap(mapKeyframes);
-
-	sName = "";
-	this->Reset();
-
-	return true;
-}
-
-bool Timeline::Load(Reader &reader, ResourceManager *res)
-{
-	SEED_ASSERT(res);
-
-	bool ret = false;
-
-	if (this->Unload())
-	{
-		sName = reader.ReadString("name", "timeline");
-		f32 prio = reader.ReadF32("priority", 0.0f);
-
-		/*
-		FIXME: The object here can be any ISceneObject, so we need a way to
-		identify the kind of object and a kind of factory that will construct
-		the object and return to us (Project)
-		*/
-		if (reader.SelectNode("object"))
-		{
-			Reader r(reader);
-			Sprite *spt = New(Sprite);
-			spt->Load(r, res);
-			spt->SetPriority(prio);
-			pObject = spt;
-			reader.UnselectNode();
-		}
-		else
-		{
-			String object = reader.ReadString("object", "");
-			SEED_ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
-
-			File f(object);
-			Reader r(f);
-			Sprite *spt = New(Sprite);
-			spt->Load(r, res);
-			spt->SetPriority(prio);
-			pObject = spt;
-		}
-
-		u32 keyframes = reader.SelectArray("keyframes");
-		SEED_ASSERT_MSG(keyframes != 0, "Timeline does not have keyframes.");
-		if (keyframes)
-		{
-			for (u32 i = 0; i < keyframes; i++)
-			{
-				reader.SelectNext();
-
-				Keyframe *obj = New(Keyframe);
-				obj->Load(reader, res);
-
-				u32 frame = 0;
-				if (obj->iFrame)
-					frame = obj->iFrame;
-				else
-					frame = i;
-
-				SEED_ASSERT_MSG(mapKeyframes[frame] == NULL, "Dupicated frame in the timeline");
-				mapKeyframes[frame] = obj;
-			}
-			reader.UnselectArray();
-
-			ret = true;
-		}
-		else
-		{
-			Log(TAG " WARNING: No keyframe found in the timeline '%s'", sName.c_str());
-		}
-	}
-
-	return ret;
 }
 
 void Timeline::Reset()
@@ -526,6 +438,18 @@ f32 Timeline::EaseQuadPercent(f32 time, f32 begin, f32 change, f32 duration, f32
 	return change * time * ((2.0f - time) * easing + (1.0f - easing)) + begin;
 }
 
+void Timeline::SetPriority(u32 p)
+{
+	iPriority = p;
+	if (pObject)
+		pObject->SetPriority(p);
+}
+
+u32 Timeline::GetPriority() const
+{
+	return iPriority;
+}
+
 void Timeline::SetObject(ISceneObject *object)
 {
 	if (pParent)
@@ -551,6 +475,134 @@ void Timeline::SetParent(Movie *parent)
 Movie *Timeline::GetParent() const
 {
 	return pParent;
+}
+
+bool Timeline::Unload()
+{
+	while (!mapKeyframes.empty())
+	{
+		Keyframe *obj = (*mapKeyframes.begin()).second;
+		mapKeyframes.erase(mapKeyframes.begin());
+		Delete(obj);
+	}
+
+	Delete(pObject);
+	KeyframeMap().swap(mapKeyframes);
+
+	sName = "";
+	this->Reset();
+
+	return true;
+}
+
+bool Timeline::Load(Reader &reader, ResourceManager *res)
+{
+	SEED_ASSERT(res);
+
+	bool ret = false;
+
+	if (this->Unload())
+	{
+		sName = reader.ReadString("name", "timeline");
+		f32 prio = reader.ReadF32("priority", 0.0f);
+
+		/*
+		FIXME: The object here can be any ISceneObject, so we need a way to
+		identify the kind of object and a kind of factory that will construct
+		the object and return to us (Project)
+		*/
+		if (reader.SelectNode("object"))
+		{
+			Reader r(reader);
+			Sprite *spt = New(Sprite);
+			spt->Load(r, res);
+			spt->SetPriority(prio);
+			pObject = spt;
+			reader.UnselectNode();
+		}
+		else
+		{
+			String object = reader.ReadString("object", "");
+			SEED_ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
+
+			File f(object);
+			Reader r(f);
+			Sprite *spt = New(Sprite);
+			spt->Load(r, res);
+			spt->SetPriority(prio);
+			pObject = spt;
+		}
+
+		u32 keyframes = reader.SelectArray("keyframes");
+		SEED_ASSERT_MSG(keyframes != 0, "Timeline does not have keyframes.");
+		if (keyframes)
+		{
+			for (u32 i = 0; i < keyframes; i++)
+			{
+				reader.SelectNext();
+
+				Keyframe *obj = New(Keyframe);
+				obj->Load(reader, res);
+
+				u32 frame = 0;
+				if (obj->iFrame)
+					frame = obj->iFrame;
+				else
+					frame = i;
+
+				SEED_ASSERT_MSG(mapKeyframes[frame] == NULL, "Dupicated frame in the timeline");
+				mapKeyframes[frame] = obj;
+			}
+			reader.UnselectArray();
+
+			ret = true;
+		}
+		else
+		{
+			Log(TAG " WARNING: No keyframe found in the timeline '%s'", sName.c_str());
+		}
+	}
+
+	return ret;
+}
+
+bool Timeline::Write(Writer &writer)
+{
+	writer.OpenNode();
+		writer.WriteString("type", this->GetObjectName().c_str());
+		writer.WriteString("name", sName.c_str());
+
+		writer.WriteS32("priority", iPriority);
+
+		if (pObject)
+		{
+			writer.OpenNode("object");
+				pObject->Write(writer);
+			writer.CloseNode();
+		}
+
+		writer.OpenArray("keyframes");
+			KeyframeMapIterator it = mapKeyframes.begin();
+			KeyframeMapIterator end = mapKeyframes.end();
+			for (; it != end; ++it)
+			{
+				Keyframe *key = (*it).second;
+				key->Write(writer);
+			}
+		writer.CloseArray();
+	writer.CloseNode();
+
+	return true;
+}
+
+const String Timeline::GetObjectName() const
+{
+	return "Timeline";
+}
+
+int Timeline::GetObjectType() const
+{
+	return Seed::ObjectTimeline;
 }
 
 } // namespace

@@ -29,25 +29,27 @@
 */
 
 #include "Keyframe.h"
+#include "Enum.h"
 #include <algorithm>
 
 namespace Seed {
 
 Keyframe::Keyframe()
-	: sName("")
-	, fRotation(0.0f)
-	, ptPos(0.0f, 0.0f)
+	: ptPos(0.0f, 0.0f)
 	, ptPivot(0.0f, 0.0f)
 	, ptScale(1.0f, 1.0f)
-	, iEvent(KeyframeEventNone)
-	, iFrameToJump(-1)
+	, fRotation(0.0f)
 	, fEasing(0.0f)
+	, iFrame(0)
+	, iFrameToJump(-1)
+	, iEvent(KeyframeEventNone)
+	, sName("")
+	, bTween(false)
+	, bBlank(false)
 	, iColorR(255)
 	, iColorG(255)
 	, iColorB(255)
 	, iColorA(255)
-	, bTween(false)
-	, bBlank(false)
 {
 }
 
@@ -134,6 +136,70 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 	}
 
 	return ret;
+}
+
+bool Keyframe::Write(Writer &writer)
+{
+	writer.OpenNode();
+		writer.WriteString("type", this->GetObjectName().c_str());
+		writer.WriteString("name", sName.c_str());
+		writer.WriteS32("frame", iFrame);
+		writer.WriteS32("goto", iFrameToJump);
+		writer.WriteF32("rotation", fRotation);
+		writer.WriteBool("tween", bTween);
+		writer.WriteBool("blank", bBlank);
+
+		if (iEvent == KeyframeEventStop)
+		{
+			writer.WriteString("event", "stop");
+		}
+		else if (iEvent == KeyframeEventRestart)
+		{
+			writer.WriteString("event", "restart");
+		}
+		else if (iEvent == KeyframeEventJumpToFrame)
+		{
+			writer.WriteString("event", "goto");
+		}
+		else
+		{
+			writer.WriteString("event", "none");
+		}
+
+		writer.OpenNode("position");
+			writer.WriteF32("x", ptPos.x);
+			writer.WriteF32("y", ptPos.y);
+		writer.CloseNode();
+
+		writer.OpenNode("pivot");
+			writer.WriteF32("x", ptPivot.x);
+			writer.WriteF32("y", ptPivot.y);
+		writer.CloseNode();
+
+		writer.OpenNode("scale");
+			writer.WriteF32("x", ptScale.x);
+			writer.WriteF32("y", ptScale.y);
+		writer.CloseNode();
+
+		writer.OpenNode("color");
+			if (iColorR != 255) writer.WriteU32("r", iColorR);
+			if (iColorG != 255) writer.WriteU32("g", iColorG);
+			if (iColorB != 255) writer.WriteU32("b", iColorB);
+			if (iColorA != 255) writer.WriteU32("a", iColorA);
+		writer.CloseNode();
+	writer.CloseNode();
+
+	return true;
+}
+
+const String Keyframe::GetObjectName() const
+{
+	return "Keyframe";
+}
+
+int Keyframe::GetObjectType() const
+{
+	return Seed::ObjectKeyframe;
 }
 
 } // namespace

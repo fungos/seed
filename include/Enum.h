@@ -45,6 +45,8 @@ enum eObjectType
 	ObjectMusic,
 	ObjectEvent,
 	ObjectMovie,
+	ObjectTimeline,
+	ObjectKeyframe,
 	ObjectScene,
 	ObjectSoundSource,
 	ObjectSoundListener,

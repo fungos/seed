@@ -37,7 +37,7 @@
 #include <map>
 #include <stack>
 
-extern "C" { extern void Log(const char *pMessage, ...); }
+//extern "C" { extern void Log(const char *pMessage, ...); }
 
 #define DECLARE_CONTAINER_HELPER(N, C) \
 											\

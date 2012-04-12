@@ -17,7 +17,9 @@ HEADERS += \
 OTHER_FILES += \
 	bin/anim.sprite \
 	bin/sample.movie \
-	bin/logo.sprite
+	bin/logo.sprite \
+	bin/out.movie \
+	bin/out.sprite
 
 CONFIG(debug, debug|release) {
 	DESTDIR = $$(SEEDSDK)/seed/tests/bin

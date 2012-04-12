@@ -420,6 +420,10 @@ void Sprite::Render()
 	packet.iColor = iColor;
 	packet.iFlags = flags;
 
+	//Vector3f t = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
+	//Vector3f p = Vector3f(t.getX() * vBoundingBox.getX(), t.getY() * vBoundingBox.getY(), t.getZ() * vBoundingBox.getZ());
+	packet.vPivot = vTransformedPivot;
+
 	pRendererDevice->UploadData(&packet);
 }
 
@@ -504,43 +508,8 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 
 			bInitialized = true;
 
-			if (reader.SelectNode("position"))
-			{
-				vPos.setX(reader.ReadF32("x", 0.0f));
-				vPos.setY(reader.ReadF32("y", 0.0f));
-				reader.UnselectNode();
-			}
-
-			if (reader.SelectNode("pivot"))
-			{
-				vPivot.setX(reader.ReadF32("x", 0.0f));
-				vPivot.setY(reader.ReadF32("y", 0.0f));
-				reader.UnselectNode();
-			}
-
-			if (reader.SelectNode("scale"))
-			{
-				vScale.setX(reader.ReadF32("x", 1.0f));
-				vScale.setY(reader.ReadF32("y", 1.0f));
-				vScale.setZ(reader.ReadF32("z", 1.0f));
-				reader.UnselectNode();
-			}
-
-			if (reader.SelectNode("color"))
-			{
-				iColor.rgba.r = reader.ReadS32("r", 255);
-				iColor.rgba.g = reader.ReadS32("g", 255);
-				iColor.rgba.b = reader.ReadS32("b", 255);
-				iColor.rgba.a = reader.ReadS32("a", 255);
-				reader.UnselectNode();
-			}
-
-			String blending = reader.ReadString("blending", "None");
-			this->SetBlendingByName(blending);
-
-			vPos.setZ(reader.ReadF32("priority", 0.0f));
-
-			this->SetRotation(reader.ReadF32("rotation", 0.0f));
+			ITransformable::Unserialize(reader);
+			IRenderable::Unserialize(reader);
 
 			s32 anim = reader.ReadS32("animation", -1);
 			if (anim == -1)
@@ -567,43 +536,13 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 
 bool Sprite::Write(Writer &writer)
 {
-	bool ret = false;
-
 	writer.OpenNode();
 		writer.WriteString("type", this->GetObjectName().c_str());
 		writer.WriteString("name", sName.c_str());
-		writer.WriteS32("priority", (s32)vPos.getZ());
 		writer.WriteS32("animation", this->GetAnimation());
 
-		writer.OpenNode("position");
-			writer.WriteF32("x", vPos.getX());
-			writer.WriteF32("y", vPos.getY());
-		writer.CloseNode();
-
-		writer.OpenNode("pivot");
-			writer.WriteF32("x", vPivot.getX());
-			writer.WriteF32("y", vPivot.getY());
-		writer.CloseNode();
-
-		writer.OpenNode("scale");
-			writer.WriteF32("x", vScale.getX());
-			writer.WriteF32("y", vScale.getY());
-		writer.CloseNode();
-
-		if (iColor.pixel != 0xffffffff)
-		{
-			writer.OpenNode("color");
-				writer.WriteU32("r", iColor.rgba.r);
-				writer.WriteU32("g", iColor.rgba.g);
-				writer.WriteU32("b", iColor.rgba.b);
-				writer.WriteU32("a", iColor.rgba.a);
-			writer.CloseNode();
-		}
-
-		if (eBlendOperation != BlendDefault && eBlendOperation != BlendNone)
-		{
-			writer.WriteString("blending", this->GetBlendingName().c_str());
-		}
+		ITransformable::Serialize(writer);
+		IRenderable::Serialize(writer);
 
 		writer.OpenArray("animations");
 		u32 anims  = vAnimations.Size();
@@ -615,7 +554,7 @@ bool Sprite::Write(Writer &writer)
 		writer.CloseArray();
 	writer.CloseNode();
 
-	return ret;
+	return true;
 }
 
 } // namespace

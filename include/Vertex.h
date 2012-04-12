@@ -82,6 +82,7 @@ struct RendererPacket
 	eMeshType				nMeshType;
 	eBlendMode				nBlendMode;
 	ePacketFlags			iFlags;
+	Vector3f				vPivot;
 
 	RendererPacket()
 		: pTransform(NULL)
@@ -92,6 +93,7 @@ struct RendererPacket
 		, nMeshType(Seed::TriangleStrip)
 		, nBlendMode(Seed::BlendNone)
 		, iFlags(FlagNone)
+		, vPivot(0.5f, 0.5f, 0.5f)
 	{
 	}
 };

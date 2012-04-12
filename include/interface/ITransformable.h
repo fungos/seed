@@ -28,11 +28,13 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __ITransformable_H__
-#define __ITransformable_H__
+#ifndef __ITRANSFORMABLE_H__
+#define __ITRANSFORMABLE_H__
 
 #include "Defines.h"
 #include "MathUtil.h"
+#include "Reader.h"
+#include "Writer.h"
 
 namespace Seed {
 
@@ -120,6 +122,8 @@ class SEED_CORE_API ITransformable
 		virtual ITransformable *GetParent() const;
 
 		virtual void Reset();
+		virtual void Unserialize(Reader &reader);
+		virtual void Serialize(Writer &writer);
 
 		virtual bool IsChanged() const;
 
@@ -128,12 +132,14 @@ class SEED_CORE_API ITransformable
 		Matrix4f mTransform;
 		Vector3f vPos;
 		Vector3f vPivot;
+		Vector3f vTransformedPivot;
 		Vector3f vScale;
 		Vector3f vBoundingBox;
 		f32 fRotation;
 		bool bTransformationChanged;
 
 	private:
+
 		SEED_DISABLE_COPY(ITransformable);
 };
 
@@ -157,4 +163,4 @@ struct SEED_CORE_API ITransformableDescendingPrioritySort
 
 } // namespace
 
-#endif // __ITransformable_H__
+#endif // __ITRANSFORMABLE_H__

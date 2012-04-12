@@ -167,6 +167,9 @@ void ITransformable::SetPivotX(f32 x)
 
 	vPivot.setX(x);
 	bTransformationChanged = true;
+
+	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
 void ITransformable::SetPivotY(f32 y)
@@ -176,6 +179,9 @@ void ITransformable::SetPivotY(f32 y)
 
 	vPivot.setY(y);
 	bTransformationChanged = true;
+
+	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
 void ITransformable::SetPivotZ(f32 z)
@@ -185,6 +191,9 @@ void ITransformable::SetPivotZ(f32 z)
 
 	vPivot.setZ(z);
 	bTransformationChanged = true;
+
+	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
 void ITransformable::AddPivotX(f32 value)
@@ -194,6 +203,9 @@ void ITransformable::AddPivotX(f32 value)
 
 	vPivot.setX(vPivot.getX() + value);
 	bTransformationChanged = true;
+
+	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
 void ITransformable::AddPivotY(f32 value)
@@ -203,6 +215,9 @@ void ITransformable::AddPivotY(f32 value)
 
 	vPivot.setY(vPivot.getY() + value);
 	bTransformationChanged = true;
+
+	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
 void ITransformable::AddPivotZ(f32 value)
@@ -212,6 +227,9 @@ void ITransformable::AddPivotZ(f32 value)
 
 	vPivot.setZ(vPivot.getZ() + value);
 	bTransformationChanged = true;
+
+	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
 void ITransformable::SetPivot(f32 x, f32 y)
@@ -222,6 +240,9 @@ void ITransformable::SetPivot(f32 x, f32 y)
 	vPivot.setX(x);
 	vPivot.setY(y);
 	bTransformationChanged = true;
+
+	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
 void ITransformable::SetPivot(const Vector3f &pos)
@@ -231,6 +252,9 @@ void ITransformable::SetPivot(const Vector3f &pos)
 
 	vPivot = pos;
 	bTransformationChanged = true;
+
+	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
 void ITransformable::AddPivot(f32 x, f32 y)
@@ -241,6 +265,9 @@ void ITransformable::AddPivot(f32 x, f32 y)
 	vPivot.setX(vPivot.getX() + x);
 	vPivot.setY(vPivot.getY() + y);
 	bTransformationChanged = true;
+
+	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
 void ITransformable::AddPivot(const Vector3f &pos)
@@ -250,6 +277,9 @@ void ITransformable::AddPivot(const Vector3f &pos)
 
 	vPivot += pos;
 	bTransformationChanged = true;
+
+	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
 void ITransformable::SetRotation(f32 rot)
@@ -556,20 +586,17 @@ bool ITransformable::IsChanged() const
 void ITransformable::UpdateTransform()
 {
 	Vector3f pos = this->GetPosition();
-	Vector3f pivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
-
-	VectorAgg(pivot, vBoundingBox);
 
 #if SEED_USE_ROTATION_PIVOT == 0
 	Matrix4f r = Matrix4f::rotationZ(DegToRad(this->GetRotation()));
 	r = appendScale(r, this->GetScale());
 	Matrix4f p = Matrix4f::identity();
-	p.setTranslation(-pivot);
+	p.setTranslation(-vTransformedPivot);
 	Matrix4f self = Matrix4f::identity();
 	self.setTranslation(pos);
 	mTransform = self * (r * p);
 #else
-	Matrix4f r = Matrix4f(Quaternion::rotationZ(DegToRad(this->GetRotation())), -pivot);
+	Matrix4f r = Matrix4f(Quaternion::rotationZ(DegToRad(this->GetRotation())), -vTransformedPivot);
 	r = appendScale(r, this->GetScale());
 	Matrix4f self = Matrix4f::identity();
 	self.setTranslation(pos);
@@ -577,6 +604,55 @@ void ITransformable::UpdateTransform()
 #endif
 
 	bTransformationChanged = false;
+}
+
+void ITransformable::Unserialize(Reader &reader)
+{
+	vPos.setZ(reader.ReadF32("priority", 0.0f));
+	this->SetRotation(reader.ReadF32("rotation", 0.0f));
+
+	if (reader.SelectNode("position"))
+	{
+		vPos.setX(reader.ReadF32("x", 0.0f));
+		vPos.setY(reader.ReadF32("y", 0.0f));
+		reader.UnselectNode();
+	}
+
+	if (reader.SelectNode("pivot"))
+	{
+		vPivot.setX(reader.ReadF32("x", 0.0f));
+		vPivot.setY(reader.ReadF32("y", 0.0f));
+		reader.UnselectNode();
+	}
+
+	if (reader.SelectNode("scale"))
+	{
+		vScale.setX(reader.ReadF32("x", 1.0f));
+		vScale.setY(reader.ReadF32("y", 1.0f));
+		vScale.setZ(reader.ReadF32("z", 1.0f));
+		reader.UnselectNode();
+	}
+}
+
+void ITransformable::Serialize(Writer &writer)
+{
+	writer.WriteF32("priority", (s32)vPos.getZ());
+	writer.WriteF32("rotation", fRotation);
+
+	writer.OpenNode("position");
+		writer.WriteF32("x", vPos.getX());
+		writer.WriteF32("y", vPos.getY());
+	writer.CloseNode();
+
+	writer.OpenNode("pivot");
+		writer.WriteF32("x", vPivot.getX());
+		writer.WriteF32("y", vPivot.getY());
+	writer.CloseNode();
+
+	writer.OpenNode("scale");
+		writer.WriteF32("x", vScale.getX());
+		writer.WriteF32("y", vScale.getY());
+	writer.CloseNode();
 }
 
 } // namespace

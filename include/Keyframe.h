@@ -33,12 +33,12 @@
 
 #include "Defines.h"
 #include "Point.h"
-#include "Reader.h"
+#include "interface/IDataObject.h"
 
 namespace Seed {
 
 /// Movie Keyframe
-class SEED_CORE_API Keyframe
+class SEED_CORE_API Keyframe : public IDataObject
 {
 	public:
 		enum
@@ -50,33 +50,39 @@ class SEED_CORE_API Keyframe
 		};
 
 	public:
-		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		bool Unload();
-
-	public:
-		String		sName;
-		s32			iFrame;
-		f32 		fRotation;
-		Point2f 	ptPos;
-		Point2f 	ptPivot;
-		Point2f 	ptScale;
-
-		u32 		iEvent;
-		s32 		iFrameToJump;
-
-		f32 		fEasing;
-
-		u8 			iColorR;
-		u8 			iColorG;
-		u8 			iColorB;
-		u8 			iColorA;
-
-		bool 		bTween;
-		bool 		bBlank;
-
-	public:
 		Keyframe();
-		~Keyframe();
+		virtual ~Keyframe();
+
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
+
+		// IObject
+		virtual const String GetObjectName() const;
+		virtual int GetObjectType() const;
+
+	public:
+		Point2f		ptPos;
+		Point2f		ptPivot;
+		Point2f		ptScale;
+
+		f32			fRotation;
+		f32			fEasing;
+
+		s32			iFrame;
+		s32			iFrameToJump;
+		u32			iEvent;
+
+		String		sName;
+
+		bool		bTween;
+		bool		bBlank;
+
+		u8			iColorR;
+		u8			iColorG;
+		u8			iColorB;
+		u8			iColorA;
 
 	private:
 		SEED_DISABLE_COPY(Keyframe);

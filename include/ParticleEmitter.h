@@ -101,6 +101,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		ParticleEmitter();
 		virtual ~ParticleEmitter();
 
+		virtual void Reset();
 		virtual void SetSprite(const String &filename);
 		virtual void SetAnimation(u32 anim);
 
@@ -133,7 +134,6 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 		virtual bool Write(Writer &writer);
 		virtual bool Unload();
-		virtual void Reset();
 
 		// IObject
 		virtual const String GetObjectName() const;

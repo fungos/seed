@@ -46,9 +46,6 @@ class SEED_CORE_API Movie : public SceneNode
 		Movie();
 		virtual ~Movie();
 
-		bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		bool Unload();
-
 		void AddTimeline(Timeline *timeline);
 		void Play();
 		void Stop();
@@ -57,6 +54,11 @@ class SEED_CORE_API Movie : public SceneNode
 
 		// IRenderable
 		virtual void Update(f32 delta);
+
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
 
 		// IObject
 		virtual const String GetObjectName() const;

@@ -33,6 +33,8 @@
 
 #include "Defines.h"
 #include "Enum.h"
+#include "Reader.h"
+#include "Writer.h"
 
 namespace Seed {
 
@@ -60,6 +62,9 @@ class SEED_CORE_API IRenderable
 		virtual void SetBlendingByName(const String &blending);
 		virtual void SetVisible(bool b);
 		bool IsVisible() const;
+
+		virtual void Unserialize(Reader &reader);
+		virtual void Serialize(Writer &writer);
 
 	protected:
 		eBlendMode	eBlendOperation;
