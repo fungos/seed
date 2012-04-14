@@ -51,6 +51,7 @@ IResource *SoundResourceLoader(const String &filename, ResourceManager *res)
 
 Sound::Sound()
 	: iBuffer(0)
+    , iSize(0)
 {
 }
 
@@ -109,7 +110,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 			else if (info->channels == 2)
 				format = AL_FORMAT_STEREO16;
 
-			freq = info->rate;
+			freq = (ALsizei)info->rate;
 			do
 			{
 				bytes = ov_read(&oggStream, arr, BUFFER_SIZE, 0, 2, 1, &bitstream);
@@ -148,7 +149,7 @@ const void *Sound::GetData() const
 
 u32 Sound::GetUsedMemory() const
 {
-	return ISound::GetUsedMemory() + sizeof(this) + iSize;
+	return ISound::GetUsedMemory() + (u32)sizeof(this) + iSize;
 }
 
 }} // namespace

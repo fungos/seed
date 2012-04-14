@@ -159,36 +159,36 @@ void System::WaitForRetrace(eSystemFrameRate rate)
 	if (!this->iLastFrameTime)
 		this->iLastFrameTime = pTimer->GetMilliseconds();
 
-	f32 fFrameMaxTime			= 1000.0f / (f32)rate;
+	f32 frameMaxTime			= 1000.0f / (f32)rate;
 
 	do
 	{
 		//hold fps
-		u64 iTime				= pTimer->GetMilliseconds();
-		u64 iFrameTime			= iTime - iLastFrameTime;
-		this->iFpsTime			+= iFrameTime;
-		this->fElapsedTime		+= iFrameTime;
-		this->iLastFrameTime	= iTime;
-	} while (this->fElapsedTime < fFrameMaxTime);
+		u64 time			= pTimer->GetMilliseconds();
+		u64 frameTime		= time - iLastFrameTime;
+		iFpsTime			+= frameTime;
+		fElapsedTime		+= (f32)frameTime;
+		iLastFrameTime	= time;
+	} while (fElapsedTime < frameMaxTime);
 
-	this->fElapsedTime -= fFrameMaxTime;
+	fElapsedTime -= frameMaxTime;
 
 	//Raptor: test fix for when WM_PAINT stops comming for a long time due to the
 	//user moving the window, for instance. Tries to avoid the retrace trying to
 	//catch up with the lost frame time
-	if ((this->fElapsedTime / fFrameMaxTime) > MAX_FRAMESKIP_THRESHOLD)
-		this->fElapsedTime = 0;
+	if ((fElapsedTime / frameMaxTime) > MAX_FRAMESKIP_THRESHOLD)
+		fElapsedTime = 0;
 
-	if (this->iFpsTime > 1000)
+	if (iFpsTime > 1000)
 	{
-		Dbg("FPS: %d", this->iRetraceCount);
+		Dbg("FPS: %d", iRetraceCount);
 
-		arRetraceCount[iRetraceIndex++] = this->iRetraceCount;
+		arRetraceCount[iRetraceIndex++] = iRetraceCount;
 		if (iRetraceIndex >= SYSTEM_RETRACE_HISTORY_MAX)
 			iRetraceIndex = 0;
 
-		this->iFpsTime -= 1000;
-		this->iRetraceCount = 0;
+		iFpsTime -= 1000;
+		iRetraceCount = 0;
 	}
 }
 

@@ -215,9 +215,9 @@ void SoundSystem::UpdateSounds(f32 dt)
 
 			case Seed::SourcePlaying:
 			{
-				ALint state = 0;
-				alGetSourcei(src->iSource, AL_SOURCE_STATE, &state); // Quando volta do fadein essa porra ta ficando STOPPED!
-				if (state == AL_STOPPED)
+				ALint alstate = 0;
+				alGetSourcei(src->iSource, AL_SOURCE_STATE, &alstate); // Quando volta do fadein essa porra ta ficando STOPPED!
+				if (alstate == AL_STOPPED)
 				{
 					if (src->bLoop)
 					{
@@ -407,7 +407,7 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 
 		case Seed::MusicFadingIn:
 		{
-			f32 elapsed = static_cast<f32>(pTimer->GetMilliseconds() - fMusicStartFadeTime);
+			f32 elapsed = static_cast<f32>(pTimer->GetMilliseconds()) - fMusicStartFadeTime;
 			f32 volume = ((elapsed * mus->fVolume) / fMusicFadeTime);
 			//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
@@ -433,7 +433,7 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 		/* FIXME: 2009-15-06 | BUG | SDL | Fadeout / Fadein nao estao funcionando (alSourcef AL_GAIN) */
 		case Seed::MusicFadingOut:
 		{
-			f32 elapsed = fMusicFadeTime - static_cast<f32>(pTimer->GetMilliseconds() - fMusicStartFadeTime);
+			f32 elapsed = fMusicFadeTime - static_cast<f32>(pTimer->GetMilliseconds()) - fMusicStartFadeTime;
 			f32 volume = ((elapsed * mus->fVolume) / fMusicFadeTime);
 			//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 

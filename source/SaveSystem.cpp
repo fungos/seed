@@ -251,7 +251,7 @@ eCartridgeError SaveSystem::FormatShared(void *sharedBlankData)
 
 	u32 sharedBlankDataCRC	= (u32)pChecksum->Calculate((const char *)sharedBlankData, iSharedDataSize);
 	u32 offset 				= sizeof(sSaveInfo);
-	u32 offsetCrc 			= sizeof(sSaveInfo) + iSharedDataSize;
+	u32 offsetCrc 			= (u32)sizeof(sSaveInfo) + iSharedDataSize;
 	if (!pCartridge->Write(offset, sharedBlankData, iSharedDataSize))
 	{
 		bIsSaving = false;
@@ -456,7 +456,7 @@ eCartridgeError SaveSystem::ReadSharedData(void *sharedBlankData)
 		return pCartridge->GetLastError();
 
 	u32 crc = 0;
-	if (!pCartridge->Read(sizeof(sSaveInfo) + iSharedDataSize, &crc, sizeof(u32)))
+	if (!pCartridge->Read((u32)sizeof(sSaveInfo) + iSharedDataSize, &crc, sizeof(u32)))
 		return pCartridge->GetLastError();
 
 	if (crc == (u32)pChecksum->Calculate((const char *)sharedBlankData, iSharedDataSize))
@@ -478,7 +478,7 @@ eCartridgeError SaveSystem::WriteSharedData(void *sharedBlankData)
 	if (!pCartridge->Write(sizeof(sSaveInfo), sharedBlankData, iSharedDataSize))
 		return pCartridge->GetLastError();
 
-	if (!pCartridge->Write(sizeof(sSaveInfo) + iSharedDataSize, &crc, sizeof(u32)))
+	if (!pCartridge->Write((u32)sizeof(sSaveInfo) + iSharedDataSize, &crc, sizeof(u32)))
 		return pCartridge->GetLastError();
 
 	return Seed::ErrorNone;

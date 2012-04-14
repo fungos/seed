@@ -195,7 +195,7 @@ void Update()
 	if (!Private::bInitialized)
 		return;
 
-	f32 newTime				= pTimer->GetMilliseconds() / 1000.0f;
+	f32 newTime				= (f32)pTimer->GetMilliseconds() / 1000.0f;
 	f32 dt					= newTime - Private::fCurrentTime;
 	Private::fCurrentTime	= newTime;
 	f32 frameDelta			= (1.0f / pConfiguration->GetFrameRate()) * 5.0f;

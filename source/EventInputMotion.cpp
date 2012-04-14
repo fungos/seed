@@ -34,6 +34,7 @@ namespace Seed {
 
 EventInputMotion::EventInputMotion(u32 j, Vector3f ptAcc, f32 fMag, f32 fVel)
 	: IEventInput(EventIdMotionInput)
+    , ptAcceleration()
 	, iJoystick(j)
 	, fMagnitude(fMag)
 	, fSpeed(fVel)

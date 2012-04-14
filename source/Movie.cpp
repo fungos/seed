@@ -180,7 +180,7 @@ bool Movie::Write(Writer &writer)
 		IRenderable::Serialize(writer);
 
 		writer.OpenArray("timelines");
-		u32 lines  = vTimelines.Size();
+		u32 lines  = (u32)vTimelines.Size();
 		for (u32 i = 0; i < lines; i++)
 		{
 			Timeline *line = vTimelines[i];

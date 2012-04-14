@@ -113,8 +113,9 @@ void IReader::UnselectArray()
 {
 }
 
-bool IReader::IsNode() const
+bool IReader::IsNode(const char *key) const
 {
+    UNUSED(key)
 	return false;
 }
 

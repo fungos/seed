@@ -41,6 +41,7 @@ namespace Seed {
 Animation::Animation()
 	: vFrames()
 	, sName()
+    , iFps(0)
 	, iIndex(0)
 	, iFrames(0)
 	, iAnimationId(0)

@@ -47,31 +47,31 @@ namespace Vectormath {
 namespace Aos {
 
 inline Vector3::Vector3( const Vector3 & vec )
+    : mX(vec.mX)
+    , mY(vec.mY)
+    , mZ(vec.mZ)
 {
-    mX = vec.mX;
-    mY = vec.mY;
-    mZ = vec.mZ;
 }
 
 inline Vector3::Vector3( float _x, float _y, float _z )
+    : mX(_x)
+    , mY(_y)
+    , mZ(_z)
 {
-    mX = _x;
-    mY = _y;
-    mZ = _z;
 }
 
 inline Vector3::Vector3( const Point3 & pnt )
+    : mX(pnt.getX())
+    , mY(pnt.getY())
+    , mZ(pnt.getZ())
 {
-    mX = pnt.getX();
-    mY = pnt.getY();
-    mZ = pnt.getZ();
 }
 
 inline Vector3::Vector3( float scalar )
+    : mX(scalar)
+    , mY(scalar)
+    , mZ(scalar)
 {
-    mX = scalar;
-    mY = scalar;
-    mZ = scalar;
 }
 
 inline const Vector3 Vector3::xAxis( )
@@ -516,57 +516,61 @@ inline void print( const Vector3 & vec, const char * name )
 #endif
 
 inline Vector4::Vector4( const Vector4 & vec )
+    : mX(vec.mX)
+    , mY(vec.mY)
+    , mZ(vec.mZ)
+    , mW(vec.mW)
 {
-    mX = vec.mX;
-    mY = vec.mY;
-    mZ = vec.mZ;
-    mW = vec.mW;
 }
 
 inline Vector4::Vector4( float _x, float _y, float _z, float _w )
+    : mX(_x)
+    , mY(_y)
+    , mZ(_z)
+    , mW(_w)
 {
-    mX = _x;
-    mY = _y;
-    mZ = _z;
-    mW = _w;
 }
 
 inline Vector4::Vector4( const Vector3 & xyz, float _w )
+    : mX(xyz.getX())
+    , mY(xyz.getY())
+    , mZ(xyz.getZ())
+    , mW(_w)
 {
-    this->setXYZ( xyz );
-    this->setW( _w );
+    //this->setXYZ( xyz );
+    //this->setW( _w );
 }
 
 inline Vector4::Vector4( const Vector3 & vec )
+    : mX(vec.getX())
+    , mY(vec.getY())
+    , mZ(vec.getZ())
+    , mW(0.0f)
 {
-    mX = vec.getX();
-    mY = vec.getY();
-    mZ = vec.getZ();
-    mW = 0.0f;
 }
 
 inline Vector4::Vector4( const Point3 & pnt )
+    : mX(pnt.getX())
+    , mY(pnt.getY())
+    , mZ(pnt.getZ())
+    , mW(1.0f)
 {
-    mX = pnt.getX();
-    mY = pnt.getY();
-    mZ = pnt.getZ();
-    mW = 1.0f;
 }
 
 inline Vector4::Vector4( const Quat & quat )
+    : mX(quat.getX())
+    , mY(quat.getY())
+    , mZ(quat.getZ())
+    , mW(quat.getW())
 {
-    mX = quat.getX();
-    mY = quat.getY();
-    mZ = quat.getZ();
-    mW = quat.getW();
 }
 
 inline Vector4::Vector4( float scalar )
+    : mX(scalar)
+    , mY(scalar)
+    , mZ(scalar)
+    , mW(scalar)
 {
-    mX = scalar;
-    mY = scalar;
-    mZ = scalar;
-    mW = scalar;
 }
 
 inline const Vector4 Vector4::xAxis( )
@@ -1045,31 +1049,31 @@ inline void print( const Vector4 & vec, const char * name )
 #endif
 
 inline Point3::Point3( const Point3 & pnt )
+    : mX(pnt.mX)
+    , mY(pnt.mY)
+    , mZ(pnt.mZ)
 {
-    mX = pnt.mX;
-    mY = pnt.mY;
-    mZ = pnt.mZ;
 }
 
 inline Point3::Point3( float _x, float _y, float _z )
+    : mX(_x)
+    , mY(_y)
+    , mZ(_z)
 {
-    mX = _x;
-    mY = _y;
-    mZ = _z;
 }
 
 inline Point3::Point3( const Vector3 & vec )
+    : mX(vec.getX())
+    , mY(vec.getY())
+    , mZ(vec.getZ())
 {
-    mX = vec.getX();
-    mY = vec.getY();
-    mZ = vec.getZ();
 }
 
 inline Point3::Point3( float scalar )
+    : mX(scalar)
+    , mY(scalar)
+    , mZ(scalar)
 {
-    mX = scalar;
-    mY = scalar;
-    mZ = scalar;
 }
 
 inline const Point3 lerp( float t, const Point3 & pnt0, const Point3 & pnt1 )

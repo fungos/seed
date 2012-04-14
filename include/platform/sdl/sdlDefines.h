@@ -138,16 +138,16 @@ using namespace Seed::OGL;
 	typedef short				s16;
 	typedef unsigned short		u16;
 #elif defined(__APPLE_CC__)
-	typedef signed long long 		s64;
-	typedef unsigned long long		u64;
+	typedef int64_t 		s64;
+	typedef uint64_t		u64;
 	typedef signed int 			s32;
 	typedef unsigned int 			u32;
 	typedef signed short int 		s16;
 	typedef unsigned short int 		u16;
 #elif defined(__GNUC__)
 	#include <inttypes.h>
-	typedef uint64_t  			s64;
-	typedef int64_t 			u64;
+	typedef int64_t  			s64;
+	typedef uint64_t 			u64;
 	typedef signed int 			s32;
 	typedef unsigned int 			u32;
 	typedef signed short int 		s16;

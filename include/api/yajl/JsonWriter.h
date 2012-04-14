@@ -61,6 +61,8 @@ class SEED_CORE_API JsonWriter: public IWriter
 		virtual void CloseNode();
 
 	private:
+        SEED_DISABLE_COPY(JsonWriter);
+    
 		yajl_gen gen;
 };
 

@@ -50,6 +50,10 @@ Timeline::Timeline()
 	, iKeyframeFrom(0)
 	, iKeyframeTo(0)
 	, iPriority(0)
+    , ptParentPosition()
+    , ptParentLocalPosition()
+    , ptParentScale()
+    , fParentRotation(0.0f)
 	, mapKeyframes()
 {
 }

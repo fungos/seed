@@ -76,7 +76,8 @@ struct yajl_val_s
 	{
 		char * string;
 		struct {
-			long long i; /*< integer value, if representable. */
+//			long long i; /*< integer value, if representable. */
+            int64_t i; /*< integer value, if representable. */
 			double  d;   /*< double value, if representable. */
 			/** Signals whether the \em i and \em d members are
 			 * valid. See \c YAJL_NUMBER_INT_VALID and

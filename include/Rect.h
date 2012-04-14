@@ -38,26 +38,18 @@ namespace Seed {
 /// Rectangle Template
 template <class TYPE> class Rect
 {
-	public:
-		union
-		{
-			struct
-			{
-				TYPE x;
-				TYPE y;
-				TYPE width;
-				TYPE height;
-			};
-
-			TYPE v[4];
-		};
+    public:
+            TYPE x;
+            TYPE y;
+            TYPE width;
+            TYPE height;
 
 	public:
-		Rect(TYPE x = 0, TYPE y = 0, TYPE width = 0, TYPE height = 0)
-			: x(x)
-			, y(y)
-			, width(width)
-			, height(height)
+		Rect(TYPE mx = 0, TYPE my = 0, TYPE mwidth = 0, TYPE mheight = 0)
+			: x(mx)
+			, y(my)
+			, width(mwidth)
+			, height(mheight)
 		{
 		}
 

@@ -42,13 +42,16 @@ namespace Aos {
 // Definitions
 
 inline Matrix3::Matrix3( const Matrix3 & mat )
+    : mCol0(mat.mCol0)
+    , mCol1(mat.mCol1)
+    , mCol2(mat.mCol2)
 {
-    mCol0 = mat.mCol0;
-    mCol1 = mat.mCol1;
-    mCol2 = mat.mCol2;
 }
 
 inline Matrix3::Matrix3( float scalar )
+    : mCol0()
+    , mCol1()
+    , mCol2()
 {
     mCol0 = Vector3( scalar );
     mCol1 = Vector3( scalar );
@@ -56,6 +59,9 @@ inline Matrix3::Matrix3( float scalar )
 }
 
 inline Matrix3::Matrix3( const Quat & unitQuat )
+    : mCol0()
+    , mCol1()
+    , mCol2()
 {
     float qx, qy, qz, qw, qx2, qy2, qz2, qxqx2, qyqy2, qzqz2, qxqy2, qyqz2, qzqw2, qxqz2, qyqw2, qxqw2;
     qx = unitQuat.getX();
@@ -80,10 +86,13 @@ inline Matrix3::Matrix3( const Quat & unitQuat )
 }
 
 inline Matrix3::Matrix3( const Vector3 & _col0, const Vector3 & _col1, const Vector3 & _col2 )
+    : mCol0(_col0)
+    , mCol1(_col1)
+    , mCol2(_col2)
 {
-    mCol0 = _col0;
-    mCol1 = _col1;
-    mCol2 = _col2;
+//    mCol0 = _col0;
+//    mCol1 = _col1;
+//    mCol2 = _col2;
 }
 
 inline Matrix3 & Matrix3::setCol0( const Vector3 & _col0 )
@@ -446,14 +455,22 @@ inline void print( const Matrix3 & mat, const char * name )
 #endif
 
 inline Matrix4::Matrix4( const Matrix4 & mat )
+    : mCol0(mat.mCol0)
+    , mCol1(mat.mCol1)
+    , mCol2(mat.mCol2)
+    , mCol3(mat.mCol3)
 {
-    mCol0 = mat.mCol0;
-    mCol1 = mat.mCol1;
-    mCol2 = mat.mCol2;
-    mCol3 = mat.mCol3;
+//    mCol0 = mat.mCol0;
+//    mCol1 = mat.mCol1;
+//    mCol2 = mat.mCol2;
+//    mCol3 = mat.mCol3;
 }
 
 inline Matrix4::Matrix4( float scalar )
+    : mCol0()
+    , mCol1()
+    , mCol2()
+    , mCol3()
 {
     mCol0 = Vector4( scalar );
     mCol1 = Vector4( scalar );
@@ -462,6 +479,10 @@ inline Matrix4::Matrix4( float scalar )
 }
 
 inline Matrix4::Matrix4( const Transform3 & mat )
+    : mCol0()
+    , mCol1()
+    , mCol2()
+    , mCol3()
 {
     mCol0 = Vector4( mat.getCol0(), 0.0f );
     mCol1 = Vector4( mat.getCol1(), 0.0f );
@@ -470,14 +491,22 @@ inline Matrix4::Matrix4( const Transform3 & mat )
 }
 
 inline Matrix4::Matrix4( const Vector4 & _col0, const Vector4 & _col1, const Vector4 & _col2, const Vector4 & _col3 )
+    : mCol0(_col0)
+    , mCol1(_col1)
+    , mCol2(_col2)
+    , mCol3(_col3)
 {
-    mCol0 = _col0;
-    mCol1 = _col1;
-    mCol2 = _col2;
-    mCol3 = _col3;
+//    mCol0 = _col0;
+//    mCol1 = _col1;
+//    mCol2 = _col2;
+//    mCol3 = _col3;
 }
 
 inline Matrix4::Matrix4( const Matrix3 & mat, const Vector3 & translateVec )
+    : mCol0()
+    , mCol1()
+    , mCol2()
+    , mCol3()
 {
     mCol0 = Vector4( mat.getCol0(), 0.0f );
     mCol1 = Vector4( mat.getCol1(), 0.0f );
@@ -486,6 +515,10 @@ inline Matrix4::Matrix4( const Matrix3 & mat, const Vector3 & translateVec )
 }
 
 inline Matrix4::Matrix4( const Quat & unitQuat, const Vector3 & translateVec )
+    : mCol0()
+    , mCol1()
+    , mCol2()
+    , mCol3()
 {
     Matrix3 mat;
     mat = Matrix3( unitQuat );
@@ -1125,14 +1158,22 @@ inline void print( const Matrix4 & mat, const char * name )
 #endif
 
 inline Transform3::Transform3( const Transform3 & tfrm )
+    : mCol0(tfrm.mCol0)
+    , mCol1(tfrm.mCol1)
+    , mCol2(tfrm.mCol2)
+    , mCol3(tfrm.mCol3)
 {
-    mCol0 = tfrm.mCol0;
-    mCol1 = tfrm.mCol1;
-    mCol2 = tfrm.mCol2;
-    mCol3 = tfrm.mCol3;
+//    mCol0 = tfrm.mCol0;
+//    mCol1 = tfrm.mCol1;
+//    mCol2 = tfrm.mCol2;
+//    mCol3 = tfrm.mCol3;
 }
 
 inline Transform3::Transform3( float scalar )
+    : mCol0()
+    , mCol1()
+    , mCol2()
+    , mCol3()
 {
     mCol0 = Vector3( scalar );
     mCol1 = Vector3( scalar );
@@ -1141,6 +1182,10 @@ inline Transform3::Transform3( float scalar )
 }
 
 inline Transform3::Transform3( const Vector3 & _col0, const Vector3 & _col1, const Vector3 & _col2, const Vector3 & _col3 )
+    : mCol0(_col0)
+    , mCol1(_col1)
+    , mCol2(_col2)
+    , mCol3(_col3)
 {
     mCol0 = _col0;
     mCol1 = _col1;
@@ -1149,12 +1194,20 @@ inline Transform3::Transform3( const Vector3 & _col0, const Vector3 & _col1, con
 }
 
 inline Transform3::Transform3( const Matrix3 & tfrm, const Vector3 & translateVec )
+    : mCol0()
+    , mCol1()
+    , mCol2()
+    , mCol3()
 {
     this->setUpper3x3( tfrm );
     this->setTranslation( translateVec );
 }
 
 inline Transform3::Transform3( const Quat & unitQuat, const Vector3 & translateVec )
+    : mCol0()
+    , mCol1()
+    , mCol2()
+    , mCol3()
 {
     this->setUpper3x3( Matrix3( unitQuat ) );
     this->setTranslation( translateVec );
@@ -1519,6 +1572,10 @@ inline void print( const Transform3 & tfrm, const char * name )
 #endif
 
 inline Quat::Quat( const Matrix3 & tfrm )
+    : mX()
+    , mY()
+    , mZ()
+    , mW()
 {
     float trace, radicand, scale, xx, yx, zx, xy, yy, zy, xz, yz, zz, tmpx, tmpy, tmpz, tmpw, qx, qy, qz, qw;
     int negTrace, ZgtX, ZgtY, YgtX;

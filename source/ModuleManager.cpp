@@ -124,7 +124,7 @@ bool ModuleManager::Shutdown()
 {
 	bool ret = true;
 
-	u32 len = vModule.Size() - 1;
+	u32 len = (u32)vModule.Size() - 1;
 	for (s32 i = len; i >= 0; i--)
 	{
 		IModule *obj = vModule[i];

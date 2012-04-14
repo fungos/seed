@@ -148,9 +148,9 @@ void Reader::UnselectArray()
 	pOpaque->UnselectArray();
 }
 
-bool Reader::IsNode() const
+bool Reader::IsNode(const char *key) const
 {
-	return pOpaque->IsNode();
+	return pOpaque->IsNode(key);
 }
 
 bool Reader::SelectNode(const char *key)

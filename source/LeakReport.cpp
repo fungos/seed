@@ -62,6 +62,6 @@ void LeakReport::Print()
 	}
 }
 
-}; // namespace
+} // namespace
 
 #endif // DEBUG

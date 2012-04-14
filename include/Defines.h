@@ -91,6 +91,7 @@ union uPixel
 	} rgba;
 
 	uPixel(u8 R, u8 G, u8 B, u8 A)
+        : rgba()
 	{
 		rgba.r = R;
 		rgba.g = G;

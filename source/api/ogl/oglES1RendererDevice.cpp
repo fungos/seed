@@ -65,6 +65,7 @@
 namespace Seed { namespace OpenGL {
 
 OGLES1RendererDevice::OGLES1RendererDevice()
+    : vTexture()
 {
 	Log(TAG "Initializing...");
 
@@ -463,10 +464,10 @@ void OGLES1RendererDevice::UploadData(void *userData)
 			glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
 		#endif
 
-		glPointSize(5.0);
+		glPointSize(5.0f);
 		glDrawArrays(GL_POINTS, 0, packet->iSize);
 
-		glPointSize(7.0);
+		glPointSize(7.0f);
 		glBegin(GL_POINTS);
 			glColor3f(1.0f, 0.0f, 1.0f);
 			glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());

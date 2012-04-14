@@ -64,11 +64,11 @@ File::~File()
 
 File::File(const File &other)
 	: IObject()
+	, sName(other.sName)
+	, pHandle(other.pHandle)
+	, pData(other.pData)
+	, iSize(other.iSize)
 {
-	sName = other.sName;
-	pHandle = other.pHandle;
-	pData = other.pData;
-	iSize = other.iSize;
 }
 
 File &File::operator=(const File &other)

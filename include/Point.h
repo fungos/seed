@@ -41,16 +41,8 @@ namespace Seed {
 template <class TYPE> class Point
 {
 	public:
-		union
-		{
-			struct
-			{
-				TYPE x;
-				TYPE y;
-			};
-
-			TYPE v[2];
-		};
+        TYPE x;
+        TYPE y;
 
 		Point(TYPE fX = 0, TYPE fY = 0)
 			: x(fX)

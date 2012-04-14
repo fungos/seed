@@ -288,8 +288,11 @@ typedef PHYSFS_sint32         PHYSFS_sint64;
 typedef signed __int64        PHYSFS_sint64;
 typedef unsigned __int64      PHYSFS_uint64;
 #else
-typedef unsigned long long    PHYSFS_uint64;
-typedef signed long long      PHYSFS_sint64;
+typedef uint64_t    PHYSFS_uint64;
+typedef int64_t      PHYSFS_sint64;
+//#else
+//typedef unsigned long long    PHYSFS_uint64;
+//typedef signed long long      PHYSFS_sint64;
 #endif
 
 

@@ -42,41 +42,45 @@ namespace Vectormath {
 namespace Aos {
 
 inline Quat::Quat( const Quat & quat )
+    : mX(quat.mX)
+    , mY(quat.mY)
+    , mZ(quat.mZ)
+    , mW(quat.mW)
 {
-    mX = quat.mX;
-    mY = quat.mY;
-    mZ = quat.mZ;
-    mW = quat.mW;
 }
 
 inline Quat::Quat( float _x, float _y, float _z, float _w )
+    : mX(_x)
+    , mY(_y)
+    , mZ(_z)
+    , mW(_w)
 {
-    mX = _x;
-    mY = _y;
-    mZ = _z;
-    mW = _w;
 }
 
 inline Quat::Quat( const Vector3 & xyz, float _w )
+    : mX(xyz.getX())
+    , mY(xyz.getY())
+    , mZ(xyz.getZ())
+    , mW(_w)
 {
-    this->setXYZ( xyz );
-    this->setW( _w );
+//    this->setXYZ( xyz );
+//    this->setW( _w );
 }
 
 inline Quat::Quat( const Vector4 & vec )
+    : mX(vec.getX())
+    , mY(vec.getY())
+    , mZ(vec.getZ())
+    , mW(vec.getW())
 {
-    mX = vec.getX();
-    mY = vec.getY();
-    mZ = vec.getZ();
-    mW = vec.getW();
 }
 
 inline Quat::Quat( float scalar )
+    : mX(scalar)
+    , mY(scalar)
+    , mZ(scalar)
+    , mW(scalar)
 {
-    mX = scalar;
-    mY = scalar;
-    mZ = scalar;
-    mW = scalar;
 }
 
 inline const Quat Quat::identity( )

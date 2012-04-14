@@ -121,7 +121,7 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		alSource3f(iSource, AL_POSITION, 0.0f, 0.0f, 0.0f);
 		alSource3f(iSource, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
 		alSource3f(iSource, AL_DIRECTION, 0.0f, 0.0f, 0.0f);
-		alSourcef(iSource, AL_ROLLOFF_FACTOR, 0.0);
+		alSourcef(iSource, AL_ROLLOFF_FACTOR, 0.0f);
 		alSourcei(iSource, AL_SOURCE_RELATIVE, AL_TRUE);
 
 		this->Reset();

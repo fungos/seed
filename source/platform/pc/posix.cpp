@@ -45,6 +45,8 @@
 #include <iostream>
 #include <sstream>
 
+#include "SeedInit.h"
+
 #define TAG	"[Platform] "
 
 #if defined(BUILD_IOS)
@@ -180,10 +182,10 @@ void get_current_directory(char *buff, int size)
 	memcpy(buff, iphGetRootPath(), size);
 #elif defined(__APPLE_CC__)
 	Seed::Private::iArgc = 1;
-	int len = strlen(Seed::Private::pcArgv[0]);
+	int len = (int)strlen(Seed::Private::pcArgv[0]);
 	memcpy(pcBundle, Seed::Private::pcArgv[0], len);
 	while (pcBundle[len] != '/') len--;
-	len -= strlen("MacOS");
+	len -= (u32)strlen("MacOS");
 	memset(&pcBundle[len], '\0', sizeof(pcBundle) - len);
 	strcpy(&pcBundle[len], "Resources");
 

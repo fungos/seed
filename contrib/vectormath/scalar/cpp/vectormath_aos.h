@@ -66,7 +66,7 @@ class Vector3
 public:
     // Default constructor; does no initialization
     // 
-    inline Vector3( ) { };
+    inline Vector3( ) : mX(0), mY(0), mZ(0) { };
 
     // Copy a 3-D vector
     // 
@@ -353,7 +353,7 @@ class Vector4
 public:
     // Default constructor; does no initialization
     // 
-    inline Vector4( ) { };
+    inline Vector4( ) : mX(0), mY(0), mZ(0), mW(0) { };
 
     // Copy a 4-D vector
     // 
@@ -654,7 +654,7 @@ class Point3
 public:
     // Default constructor; does no initialization
     // 
-    inline Point3( ) { };
+    inline Point3( ) : mX(0), mY(0), mZ(0) { };
 
     // Copy a 3-D point
     // 
@@ -886,7 +886,7 @@ class Quat
 public:
     // Default constructor; does no initialization
     // 
-    inline Quat( ) { };
+    inline Quat( ) : mX(0), mY(0), mZ(0), mW(0) { };
 
     // Copy a quaternion
     // 
@@ -1138,7 +1138,7 @@ class Matrix3
 public:
     // Default constructor; does no initialization
     // 
-    inline Matrix3( ) { };
+    inline Matrix3( ) : mCol0(), mCol1(), mCol2() { };
 
     // Copy a 3x3 matrix
     // 
@@ -1359,7 +1359,7 @@ class Matrix4
 public:
     // Default constructor; does no initialization
     // 
-    inline Matrix4( ) { };
+    inline Matrix4( ) : mCol0(), mCol1(), mCol2(), mCol3() { };
 
     // Copy a 4x4 matrix
     // 
@@ -1664,7 +1664,7 @@ class Transform3
 public:
     // Default constructor; does no initialization
     // 
-    inline Transform3( ) { };
+    inline Transform3( ) : mCol0(), mCol1(), mCol2(), mCol3() { };
 
     // Copy a 3x4 transformation matrix
     // 

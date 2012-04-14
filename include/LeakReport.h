@@ -126,7 +126,7 @@ class SEED_CORE_API LeakReport
 
 #define pLeakReport LeakReport::GetInstance()
 
-}; // namespace
+} // namespace
 
 #else
 

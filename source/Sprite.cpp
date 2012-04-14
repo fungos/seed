@@ -54,6 +54,7 @@ Sprite::Sprite()
 	, iCurrentAnimation(0)
 	, iCurrentFrame(0)
 	, iFrames(0)
+    , fFrameTime(0.0f)
 	, vert()
 	, sName()
 	, bInitialized(false)
@@ -61,6 +62,7 @@ Sprite::Sprite()
 	, bAnimation(false)
 	, bLoop(false)
 	, bPlaying(false)
+    , bFinished(false)
 {
 	iNumVertices = 4;
 }
@@ -186,8 +188,8 @@ bool Sprite::SetAnimation(String name)
 		Animation *pNewAnimation = NULL;
 		u32 i = 0;
 
-		u32 anims = vAnimations.Size();
-		for (u32 i = 0; i < anims; i++)
+		u32 anims = (u32)vAnimations.Size();
+		for (i = 0; i < anims; i++)
 		{
 			Animation *p = vAnimations[i];
 			if (p->sName == name)
@@ -217,7 +219,7 @@ bool Sprite::SetAnimation(String name)
 
 u32 Sprite::GetAnimationCount() const
 {
-	return vAnimations.Size();
+	return (u32)vAnimations.Size();
 }
 
 u32 Sprite::GetAnimation() const
@@ -545,7 +547,7 @@ bool Sprite::Write(Writer &writer)
 		IRenderable::Serialize(writer);
 
 		writer.OpenArray("animations");
-		u32 anims  = vAnimations.Size();
+		u32 anims  = (u32)vAnimations.Size();
 		for (u32 i = 0; i < anims; i++)
 		{
 			Animation *anim = vAnimations[i];

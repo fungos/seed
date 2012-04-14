@@ -58,7 +58,7 @@ void Checksum::SetPolynomial1(unsigned int polynomial)
 		for (int b = 0; b < 8; b++)
 			c = c & 1 ? iPolynomial1 ^ (c >> 1) : c >> 1;
 
-		aiCRCTable1[n] = c;
+		aiCRCTable1[n] = (int)c;
 	}
 }
 
@@ -73,7 +73,7 @@ void Checksum::SetPolynomial2(unsigned int polynomial)
 		for (int b = 0; b < 8; b++)
 			c = c & 1 ? iPolynomial2 ^ (c >> 1) : c >> 1;
 
-		aiCRCTable2[n] = c;
+		aiCRCTable2[n] = (int)c;
 	}
 }
 

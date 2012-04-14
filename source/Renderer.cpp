@@ -107,11 +107,11 @@ bool Renderer::Update(f32 dt)
 		SceneNode *node = (*it);
 		ISceneObjectVector nv = node->vChild;
 
-		ISceneObjectVectorIterator it = nv.begin();
-		ISceneObjectVectorIterator end = nv.end();
-		for (; it != end; ++it)
+		ISceneObjectVectorIterator jit = nv.begin();
+		ISceneObjectVectorIterator jend = nv.end();
+		for (; jit != jend; ++jit)
 		{
-			ISceneObject *obj = (*it);
+			ISceneObject *obj = (*jit);
 			if (obj->IsVisible())
 			{
 				vRenderables += obj;
