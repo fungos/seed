@@ -47,8 +47,6 @@ class SEED_CORE_API IBasicMesh : public ISceneObject
 		IBasicMesh();
 		virtual ~IBasicMesh();
 
-		virtual void SetCustomVertexDataArray(sVertex *myVertexData, u32 qty, eMeshType type = Seed::TriangleStrip);
-
 		// IRenderable
 		virtual void Update(f32 dt);
 		virtual void Render();
@@ -57,12 +55,8 @@ class SEED_CORE_API IBasicMesh : public ISceneObject
 		SEED_DISABLE_COPY(IBasicMesh);
 
 	protected:
-		//Custom vertex and uv map
-		sVertex *arCustomVertexData; // user vertex data
-		sVertex *arCurrentVertexData; // transformed vertex data
-
-		u32 iNumVertices;
-
+		sVertex		*arCurrentVertexData;
+		u32			iNumVertices;
 		eMeshType	nMeshType;
 };
 

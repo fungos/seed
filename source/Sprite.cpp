@@ -54,7 +54,7 @@ Sprite::Sprite()
 	, iCurrentAnimation(0)
 	, iCurrentFrame(0)
 	, iFrames(0)
-    , fFrameTime(0.0f)
+	, fFrameTime(0.0f)
 	, vert()
 	, sName()
 	, bInitialized(false)
@@ -62,7 +62,8 @@ Sprite::Sprite()
 	, bAnimation(false)
 	, bLoop(false)
 	, bPlaying(false)
-    , bFinished(false)
+	, bFinished(false)
+	, bIsCopy(false)
 {
 	iNumVertices = 4;
 }
@@ -72,12 +73,120 @@ Sprite::~Sprite()
 	this->Unload();
 }
 
+Sprite::Sprite(const Sprite &other)
+	: IBasicMesh()
+	, pvFrames(other.pvFrames)
+	, pAnimation(other.pAnimation)
+	, pFrame(other.pFrame)
+	, pFrameTexture(other.pFrameTexture)
+	, vAnimations(other.vAnimations)
+	, iCurrentAnimation(other.iCurrentAnimation)
+	, iCurrentFrame(other.iCurrentFrame)
+	, iFrames(other.iFrames)
+	, fFrameTime(other.fFrameTime)
+	, vert()
+	, sName(other.sName)
+	, bInitialized(other.bInitialized)
+	, bChanged(other.bChanged)
+	, bAnimation(other.bAnimation)
+	, bLoop(other.bLoop)
+	, bPlaying(other.bPlaying)
+	, bFinished(other.bFinished)
+{
+	vert[0] = other.vert[0];
+	vert[1] = other.vert[1];
+	vert[2] = other.vert[2];
+	vert[3] = other.vert[3];
+
+	// IBasicMesh
+	arCurrentVertexData = &vert[0];
+	iNumVertices = other.iNumVertices;
+	nMeshType = other.nMeshType;
+
+	// ITransformable
+	pParent = other.pParent;
+	mTransform = other.mTransform;
+	vPos = other.vPos;
+	vPivot = other.vPivot;
+	vTransformedPivot = other.vTransformedPivot;
+	vScale = other.vScale;
+	vBoundingBox = other.vBoundingBox;
+	fRotation = other.fRotation;
+	bTransformationChanged = other.bTransformationChanged;
+
+	// IRenderable
+	eBlendOperation = other.eBlendOperation;
+	iColor = other.iColor;
+	bColorChanged = other.bColorChanged;
+	bVisible = other.bVisible;
+	bIsCopy = true;
+}
+
+Sprite &Sprite::operator=(const Sprite &other)
+{
+	if (this != &other)
+	{
+		pvFrames = other.pvFrames;
+		pAnimation = other.pAnimation;
+		pFrame = other.pFrame;
+		pFrameTexture = other.pFrameTexture;
+
+		vAnimations = other.vAnimations;
+
+		iCurrentAnimation = other.iCurrentAnimation;
+		iCurrentFrame = other.iCurrentFrame;
+		iFrames = other.iFrames;
+		fFrameTime = other.fFrameTime;
+
+		vert[0] = other.vert[0];
+		vert[1] = other.vert[1];
+		vert[2] = other.vert[2];
+		vert[3] = other.vert[3];
+		sName = other.sName;
+
+		bInitialized = other.bInitialized;
+		bChanged = other.bChanged;
+		bAnimation = other.bAnimation;
+		bLoop = other.bLoop;
+		bPlaying = other.bPlaying;
+		bFinished = other.bFinished;
+
+		// IBasicMesh
+		arCurrentVertexData = &vert[0];
+		iNumVertices = other.iNumVertices;
+		nMeshType = other.nMeshType;
+
+		// ITransformable
+		pParent = other.pParent;
+		mTransform = other.mTransform;
+		vPos = other.vPos;
+		vPivot = other.vPivot;
+		vTransformedPivot = other.vTransformedPivot;
+		vScale = other.vScale;
+		vBoundingBox = other.vBoundingBox;
+		fRotation = other.fRotation;
+		bTransformationChanged = other.bTransformationChanged;
+
+		// IRenderable
+		eBlendOperation = other.eBlendOperation;
+		iColor = other.iColor;
+		bColorChanged = other.bColorChanged;
+		bVisible = other.bVisible;
+		bIsCopy = true;
+	}
+
+	return *this;
+}
+
 void Sprite::Reset()
 {
-	AnimationVectorIterator it = vAnimations.begin();
-	AnimationVectorIterator end = vAnimations.end();
-	for (; it != end; ++it)
-		Delete(*it);
+	if (!bIsCopy)
+	{
+		AnimationVectorIterator it = vAnimations.begin();
+		AnimationVectorIterator end = vAnimations.end();
+		for (; it != end; ++it)
+			Delete(*it);
+	}
 
 	AnimationVector().swap(vAnimations);
 
@@ -361,12 +470,6 @@ void Sprite::Update(f32 delta)
 		return;
 
 	bChanged = false;
-	if (arCustomVertexData)
-	{
-		arCurrentVertexData = arCustomVertexData;
-		return;
-	}
-
 	if (bTransformationChanged)
 	{
 		arCurrentVertexData = &vert[0];
@@ -391,11 +494,6 @@ void Sprite::Update(f32 delta)
 		bColorChanged = false;
 
 		uPixel p = iColor;
-//		p.rgba.r = iColor.argb.r;
-//		p.rgba.g = iColor.argb.g;
-//		p.rgba.b = iColor.argb.b;
-//		p.rgba.a = iColor.argb.a;
-
 		vert[0].iColor = p;
 		vert[1].iColor = p;
 		vert[2].iColor = p;
@@ -470,10 +568,13 @@ int Sprite::GetObjectType() const
 
 bool Sprite::Unload()
 {
-	AnimationVectorIterator it = vAnimations.begin();
-	AnimationVectorIterator end = vAnimations.end();
-	for (; it != end; ++it)
-		Delete(*it);
+	if (!bIsCopy)
+	{
+		AnimationVectorIterator it = vAnimations.begin();
+		AnimationVectorIterator end = vAnimations.end();
+		for (; it != end; ++it)
+			Delete(*it);
+	}
 
 	AnimationVector().swap(vAnimations);
 

@@ -50,7 +50,6 @@ enum eObjectType
 	ObjectScene,
 	ObjectSoundSource,
 	ObjectSoundListener,
-	ObjectParticle,
 	ObjectParticleEmitter,
 	ObjectMap,
 

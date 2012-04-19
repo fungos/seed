@@ -7,19 +7,19 @@ INCLUDEPATH += ../include ../contrib
 DEFINES += BUILD_SDL
 
 SOURCES += main.cpp \
-	testbase.cpp \
-	jsonreader.cpp
+	testbase.cpp
 
 HEADERS += \
-	testbase.h \
-	jsonreader.h
+	testbase.h
 
 OTHER_FILES += \
 	bin/anim.sprite \
 	bin/sample.movie \
 	bin/logo.sprite \
 	bin/out.movie \
-	bin/out.sprite
+	bin/out.sprite \
+    bin/teste.particle \
+    bin/particles.sprite
 
 CONFIG(debug, debug|release) {
 	DESTDIR = $$(SEEDSDK)/seed/tests/bin

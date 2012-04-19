@@ -41,6 +41,7 @@ namespace Seed {
 /// Transformable interface
 class SEED_CORE_API ITransformable
 {
+	friend class ParticleEmitter;
 	public:
 		ITransformable();
 		virtual ~ITransformable();
@@ -139,7 +140,6 @@ class SEED_CORE_API ITransformable
 		bool bTransformationChanged;
 
 	private:
-
 		SEED_DISABLE_COPY(ITransformable);
 };
 

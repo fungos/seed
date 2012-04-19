@@ -38,11 +38,11 @@ namespace Seed {
 /// Rectangle Template
 template <class TYPE> class Rect
 {
-    public:
-            TYPE x;
-            TYPE y;
-            TYPE width;
-            TYPE height;
+	public:
+		TYPE x;
+		TYPE y;
+		TYPE width;
+		TYPE height;
 
 	public:
 		Rect(TYPE mx = 0, TYPE my = 0, TYPE mwidth = 0, TYPE mheight = 0)
@@ -64,10 +64,10 @@ template <class TYPE> class Rect
 
 		Rect<TYPE> &operator=(const Rect<TYPE> &rect)
 		{
-			x      = rect.x;
-			y      = rect.y;
-			width  = rect.width;
-			height = rect.height;
+			x		= rect.x;
+			y		= rect.y;
+			width	= rect.width;
+			height	= rect.height;
 
 			return *this;
 		}
@@ -208,6 +208,15 @@ template <class TYPE> class Rect
 
 			width	= newWidth;
 			height	= newHeight;
+		}
+
+		// FIXME: testar
+		void Encapsulate(TYPE px, TYPE py)
+		{
+			if (px < x) x = px;
+			if (py < y) y = py;
+			if (px > x + width) width = px - x;
+			if (py > y + height) height = py - y;
 		}
 
 		void Print()

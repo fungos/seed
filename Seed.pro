@@ -3,7 +3,7 @@ TEMPLATE = lib
 INCLUDEPATH += include/ contrib/ bind/lua
 win32:INCLUDEPATH += contrib/windows/
 
-DEFINES += SEED_BUILD BUILD_SDL
+DEFINES += SEED_BUILD BUILD_SDL SEED_ENABLE_PROFILER
 unix:DEFINES += LINUX
 
 CONFIG(debug, debug|release) {
@@ -34,7 +34,6 @@ SOURCES += source/Viewport.cpp \
 	source/Reader.cpp \
 	source/Rand.cpp \
 	source/Profiler.cpp \
-	source/ParticleManager.cpp \
 	source/ParticleEmitter.cpp \
 	source/Particle.cpp \
 	source/Movie.cpp \
@@ -138,10 +137,10 @@ SOURCES += source/Viewport.cpp \
 	source/platform/sdl/sdlScreen.cpp \
 	source/platform/sdl/sdlMutex.cpp \
 	source/platform/sdl/sdlInput.cpp \
-    source/api/yajl/JsonWriter.cpp \
-    source/Writer.cpp \
-    source/interface/IWriter.cpp \
-    source/interface/IDataObject.cpp
+	source/api/yajl/JsonWriter.cpp \
+	source/Writer.cpp \
+	source/interface/IWriter.cpp \
+	source/interface/IDataObject.cpp
 
 OTHER_FILES += \
 	source/platform/ios/IphoneView.mm
@@ -157,7 +156,7 @@ HEADERS += include/*.h \
 	include/api/ogl/*.h \
 	include/api/theora/*.h \
 	include/api/yajl/*.h \
-    include/Writer.h \
-    include/interface/IWriter.h \
-    include/api/yajl/JsonWriter.h \
-    include/interface/IDataObject.h
+	include/Writer.h \
+	include/interface/IWriter.h \
+	include/api/yajl/JsonWriter.h \
+	include/interface/IDataObject.h

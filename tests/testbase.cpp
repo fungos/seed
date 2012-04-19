@@ -7,7 +7,7 @@ TestBase::TestBase()
 	cConfig.SetApplicationTitle("tests");
 	cConfig.SetPublisherName("seed");
 	cConfig.SetVideoMode(Seed::Video_800x600);
-	cConfig.bDebugSprite = true;
+//	cConfig.bDebugSprite = true;
 }
 
 TestBase::~TestBase()
@@ -31,33 +31,41 @@ bool TestBase::Initialize()
 	pScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
+//	{
+//		File f("anim.sprite");
+//		Reader r(f);
+//		sptLogo.Load(r);
+//		sptLogo.SetPosition(400, 300);
+//		cScene.Add(&sptLogo);
+//	}
+
+//	{
+//		Writer w;
+//		sptLogo.Write(w);
+//		w.Save("out.sprite");
+//	}
+
+//	{
+//		File f("sample.movie");
+//		Reader r(f);
+//		mvSample.Load(r);
+//		cScene.Add(&mvSample);
+//	}
+
+//	{
+//		Writer w;
+//		mvSample.Write(w);
+//		w.Save("out.movie");
+//	}
+
 	{
-		File f("anim.sprite");
+		File f("teste.particle");
 		Reader r(f);
-		sptLogo.Load(r);
-		sptLogo.SetPosition(400, 300);
-		cScene.Add(&sptLogo);
+		cEmitter.Load(r);
+		cEmitter.SetPosition(200, 100);
+		cEmitter.Play();
+		cScene.Add(&cEmitter);
 	}
-
-	{
-		Writer w;
-		sptLogo.Write(w);
-		w.Save("out.sprite");
-	}
-
-	{
-		File f("sample.movie");
-		Reader r(f);
-		mvSample.Load(r);
-		cScene.Add(&mvSample);
-	}
-
-	{
-		Writer w;
-		mvSample.Write(w);
-		w.Save("out.movie");
-	}
-
 
 	//cScene.SetPosition(100, 100);
 	//sptLogo.SetParent(&cScene);
@@ -85,6 +93,7 @@ bool TestBase::Update(f32 dt)
 
 bool TestBase::Shutdown()
 {
+	cEmitter.Unload();
 	sptLogo.Unload();
 	mvSample.Unload();
 

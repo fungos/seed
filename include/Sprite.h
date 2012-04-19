@@ -56,7 +56,10 @@ class SEED_CORE_API Sprite : public IBasicMesh
 
 	public:
 		Sprite();
+		Sprite(const Sprite &other);
 		virtual ~Sprite();
+
+		Sprite &operator=(const Sprite &other);
 
 		virtual ITexture *GetTexture() const;
 		virtual const void *GetData() const;
@@ -128,9 +131,7 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		bool bLoop;
 		bool bPlaying;
 		bool bFinished;
-
-	private:
-		SEED_DISABLE_COPY(Sprite);
+		bool bIsCopy;
 };
 
 } // namespace

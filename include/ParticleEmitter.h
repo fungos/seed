@@ -33,6 +33,8 @@
 
 #include "interface/ITransformable.h"
 #include "interface/ISceneObject.h"
+#include "Particle.h"
+#include "Rect.h"
 
 namespace Seed {
 
@@ -44,8 +46,8 @@ class Particle;
 struct SEED_CORE_API EmitterConfiguration
 {
 	u32		iTextureFrame;
-	u32		iBlendMode;
 	u32		iEmission; // particles per sec
+
 	f32		fLifetime;
 
 	f32		fParticleLifeMin;
@@ -53,7 +55,6 @@ struct SEED_CORE_API EmitterConfiguration
 
 	f32		fDirection;
 	f32		fSpread;
-	bool	bRelative; // bool
 
 	f32		fSpeedMin;
 	f32		fSpeedMax;
@@ -92,10 +93,11 @@ struct SEED_CORE_API EmitterConfiguration
 	f32		fHeight;
 
 	f32		fInterval;
+	bool	bRelative;
 };
 
 /// Particle Emitter
-class SEED_CORE_API ParticleEmitter : public ISceneObject
+class SEED_CORE_API ParticleEmitter : public IBasicMesh
 {
 	public:
 		ParticleEmitter();
@@ -124,7 +126,6 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		virtual bool IsEnabled() const;
 
 		virtual void SetParticlesFollowEmitter(bool bFollow);
-		virtual void SetParticlesBuffer(Particle *buffer, u32 amount = 0);
 
 		// IRenderable
 		virtual void Update(f32 delta);
@@ -146,29 +147,33 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 
 	private:
 		ResourceManager				*pRes;
+		Particle					*arParticles;
+		ITexture					*pTexture;
+
 		EmitterConfiguration		cEmitter;
-		String						sSpriteFilename;
-		bool						bParticlesFollowEmitter;
+		Particle					*pTemplate;
+		String						sSprite;
+		String						sBlending;
+		Vector3f					vPrevLocation;
+		Rect4f						rBoundingBox;
 
 		f32							fAge;
 		f32							fRespawnAge;
 		f32							fEmissionResidue;
 		f32							fInterval;
-
-		Vector3f					vPrevLocation;
 		f32							fTx;
 		f32							fTy;
 		f32							fScale;
-		u32							iAnimation;
 
-		bool						bPaused;
-		bool						bEnabled;
+		u32							iAnimation;
+		u32							iParticlesAmount;
 
 		eTextureFilter				nMinFilter;
 		eTextureFilter				nMagFilter;
 
-		u32							iParticlesAmount;
-		Particle					*arParticles;
+		bool						bParticlesFollowEmitter;
+		bool						bPaused;
+		bool						bEnabled;
 };
 
 } // namespace

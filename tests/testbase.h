@@ -36,6 +36,8 @@ class TestBase : public IGameApp, public IEventSystemListener, public IEventInpu
 		Music		musTheme;
 		SoundSource sfxSound;
 		Movie		mvSample;
+		ParticleEmitter cEmitter;
+		Particle	*arParticles;
 };
 
 #endif // _TESTBASE_H_

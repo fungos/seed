@@ -75,8 +75,8 @@
 
 #include <Number.h>
 
+#include <Particle.h>
 #include <ParticleEmitter.h>
-#include <ParticleManager.h>
 #include <Point.h>
 
 #include <Rand.h>

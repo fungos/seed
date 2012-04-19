@@ -29,62 +29,73 @@
 */
 
 #include "ParticleEmitter.h"
-#include "ParticleManager.h"
 #include "Rand.h"
 #include "Number.h"
 #include "Texture.h"
 #include "SeedInit.h"
 #include "Particle.h"
 #include "MathUtil.h"
+#include "RendererDevice.h"
 
 namespace Seed {
 
 ParticleEmitter::ParticleEmitter()
 	: pRes(NULL)
+	, arParticles(NULL)
+	, pTexture(NULL)
 	, cEmitter()
-	, sSpriteFilename()
-	, bParticlesFollowEmitter(false)
+	, pTemplate(NULL)
+	, sSprite()
+	, sBlending()
+	, vPrevLocation(0.0f, 0.0f, 0.0f)
+	, rBoundingBox()
 	, fAge(0.0f)
 	, fRespawnAge(0.0f)
 	, fEmissionResidue(0.0f)
 	, fInterval(0.0f)
-	, vPrevLocation(0.0f, 0.0f, 0.0f)
 	, fTx(0.0f)
 	, fTy(0.0f)
 	, fScale(1.0f)
 	, iAnimation(0)
-	, bPaused(false)
-	, bEnabled(true)
+	, iParticlesAmount(0)
 	, nMinFilter(TextureFilterLinear)
 	, nMagFilter(TextureFilterLinear)
-	, iParticlesAmount(0)
-	, arParticles(NULL)
+	, bParticlesFollowEmitter(false)
+	, bPaused(false)
+	, bEnabled(true)
 {
 }
 
 ParticleEmitter::~ParticleEmitter()
 {
-	if (pParticleManager)
-		pParticleManager->Remove(this);
-
 	this->Unload();
 }
 
 bool ParticleEmitter::Unload()
 {
-	for (u32 i = 0; i < iParticlesAmount; i++)
+	if (arParticles)
 	{
-		if (!arParticles[i].bActive)
-			continue;
+		for (u32 i = 0; i < iParticlesAmount; i++)
+		{
+			if (!arParticles[i].bActive)
+				continue;
 
-		arParticles[i].Unload();
-		arParticles[i].bActive = false;
+			arParticles[i].Unload();
+			arParticles[i].bActive = false;
+		}
 	}
+
+	iParticlesAmount = 0;
+	DeleteArray(arParticles);
+	Delete(pTemplate);
 
 	fInterval = 0.0f;
 	iAnimation = 0;
 
 	memset(&cEmitter,'\0', sizeof(cEmitter));
+
+//	if (arCurrentVertexData)
+//		Free(arCurrentVertexData);
 
 	return true;
 }
@@ -97,7 +108,6 @@ void ParticleEmitter::Reset()
 	fTy = 0.0f;
 	fScale = 1.0f;
 	fEmissionResidue = 0.0f;
-	//iParticlesAlive = 0;
 	fAge = -2.0f;
 	fRespawnAge = 0.0f;
 	bPaused = false;
@@ -112,35 +122,23 @@ void ParticleEmitter::Reset()
 	}
 }
 
-void ParticleEmitter::SetParticlesBuffer(Particle *buffer, u32 amount)
-{
-	if (buffer)
-	{
-		arParticles = buffer;
-		iParticlesAmount = amount;
-	}
-	else
-	{
-		arParticles = NULL;
-		iParticlesAmount = 0;
-	}
-}
-
 void ParticleEmitter::Update(f32 deltaTime)
 {
 	if (!(bEnabled && !bPaused))
 		return;
 
-	//deltaTime = 0.017000001f;
+	rBoundingBox.x = 0.0f;
+	rBoundingBox.y = 0.0f;
+	rBoundingBox.width = 0.0f;
+	rBoundingBox.height = 0.0f;
 
-	//u32 i = 0;
 	f32 ang = 0.0f;
 	Particle *par = NULL;
 	Vector3f accel(0.0f, 0.0f, 0.0f);
 	Vector3f accel2(0.0f, 0.0f, 0.0f);
 	Vector3f location = this->GetPosition();
 
-	if (fAge == -2.0f && cEmitter.fLifetime != -1.0f && fInterval > 0.0f)// && nParticlesAlive == 0)
+	if (fAge == -2.0f && cEmitter.fLifetime != -1.0f && fInterval > 0.0f)
 	{
 		fRespawnAge += deltaTime;
 
@@ -149,7 +147,6 @@ void ParticleEmitter::Update(f32 deltaTime)
 			fAge = 0.0f;
 			fRespawnAge = 0.0f;
 		}
-		//return;
 	}
 
 	if (fAge >= 0)
@@ -169,14 +166,8 @@ void ParticleEmitter::Update(f32 deltaTime)
 		par->fAge += deltaTime;
 		if (par->fAge >= par->fTerminalAge)
 		{
-			//par->SetVisible(false);
-
 			arParticles[i].Unload();
 			arParticles[i].bActive = false;
-
-			//iParticlesAlive--;
-			//MEMCOPY(par, &arParticles[iParticlesAlive], sizeof(Particle));
-			//i--;
 			continue;
 		}
 
@@ -185,15 +176,13 @@ void ParticleEmitter::Update(f32 deltaTime)
 		accel2 = accel;
 		accel *= par->fRadialAccel;
 
-		// vecAccel2.Rotate(M_PI_2);
-		// the following is faster
 		ang = accel2.getX();
 		accel2.setX(-accel2.getY());
-		accel2.setY(ang * 1.25f);
+		accel2.setY(ang);
 
 		accel2 *= par->fTangentialAccel;
 		par->vVelocity += (accel + accel2) * deltaTime;
-		par->vVelocity.setY(par->vVelocity.getY() + par->fGravity * deltaTime * 1.25f);
+		par->vVelocity.setY(par->vVelocity.getY() + par->fGravity * deltaTime);
 
 		par->fSpin += par->fSpinDelta * deltaTime;
 		par->fSize += par->fSizeDelta * deltaTime;
@@ -203,44 +192,37 @@ void ParticleEmitter::Update(f32 deltaTime)
 		par->fColorA += par->fColorDeltaA * deltaTime;
 
 		par->SetColor(par->fColorR, par->fColorG, par->fColorB, par->fColorA);
-		//par->SetScale(par->fSize);
-		//par->AddPosition(par->vVelocity * deltaTime);
 		par->vScale.setX(par->fSize);
 		par->vScale.setY(par->fSize);
 		par->fRotation += par->fSpin;
-		//if (par->fRotation >= 360.0f)
-		//	par->fRotation -= 360.0f;
-		//if (par->fRotation < 0.0f)
-		//	par->fRotation += 360.0f;
 
 		par->vPos += (par->vVelocity * deltaTime);
 		bTransformationChanged = true;
 		par->bTransformationChanged = true;
 		par->bChanged = true;
-		//par++;
+		rBoundingBox.Encapsulate(par->vPos.getX(), par->vPos.getY());
 	}
 
-	// generate new particles
+	// Create more particles
 	if (fAge != -2.0f)
 	{
 		f32 fParticlesNeeded = cEmitter.iEmission * deltaTime + fEmissionResidue;
 		u32 iParticlesCreated = static_cast<u32>(Number::Ceil(fParticlesNeeded));
 		fEmissionResidue = fParticlesNeeded - iParticlesCreated;
 
-		//par = &arParticles[iParticlesAlive];
-
 		for (u32 i = 0; i < iParticlesCreated; i++)
 		{
-			//if (arParticles.Size() >= iParticlesAmount)
-			//	break;
-
 			bool bFull = true;
 			for (u32 j = 0; j < iParticlesAmount; j++)
 			{
 				if (!arParticles[j].bActive)
 				{
-					arParticles[j].bActive = true;
+					arParticles[j] = *pTemplate;
 					par = &arParticles[j];
+
+					par->bActive = true;
+					par->SetVisible(true);
+
 					bFull = false;
 					break;
 				}
@@ -253,41 +235,25 @@ void ParticleEmitter::Update(f32 deltaTime)
 
 			Vector3f pos = vPrevLocation + (location - vPrevLocation) * pRand->Get(0.0f, 1.0f);
 
-			if (!cEmitter.fWidth)
-			{
-				pos.setX(pos.getX() + pRand->Get(-0.0002f, 0.0002f));
-			}
-			else
-			{
-				pos.setX(pos.getX() + pRand->Get(cEmitter.fWidth));
-			}
-
-			if (!cEmitter.fHeight)
-			{
-				pos.setY(pos.getY() + pRand->Get(-0.0002f, 0.0002f));
-			}
-			else
-			{
-				pos.setY(pos.getY() + pRand->Get(cEmitter.fHeight));
-			}
+			pos.setX(pos.getX() + pRand->Get(cEmitter.fWidth) - cEmitter.fWidth / 2.0f);
+			pos.setY(pos.getY() + pRand->Get(cEmitter.fHeight) - cEmitter.fHeight / 2.0f);
 
 			ang = cEmitter.fDirection - kPiOver2 + pRand->Get(0, cEmitter.fSpread) - cEmitter.fSpread / 2.0f;
-
 			if (cEmitter.bRelative)
 				ang += VectorAngle(vPrevLocation - location) + kPiOver2;
 
 			par->vVelocity.setX(cosf(ang));
-			par->vVelocity.setY(sinf(ang) * 1.25f);
-			par->vVelocity *= pRand->Get(cEmitter.fSpeedMin/300.0f, cEmitter.fSpeedMax/300.0f) * 0.70f;
+			par->vVelocity.setY(sinf(ang));
+			par->vVelocity *= pRand->Get(cEmitter.fSpeedMin, cEmitter.fSpeedMax);
 
-			par->fGravity = pRand->Get(cEmitter.fGravityMin/900.0f, cEmitter.fGravityMax/900.0f) * 3.0f;
-			par->fRadialAccel = pRand->Get(cEmitter.fRadialAccelMin/900.0f, cEmitter.fRadialAccelMax/900.0f) * 4.0f;
-			par->fTangentialAccel = pRand->Get(cEmitter.fTangentialAccelMin/900.0f, cEmitter.fTangentialAccelMax/900.0f) * 3.0f;
+			par->fGravity = pRand->Get(cEmitter.fGravityMin, cEmitter.fGravityMax);
+			par->fRadialAccel = pRand->Get(cEmitter.fRadialAccelMin, cEmitter.fRadialAccelMax);
+			par->fTangentialAccel = pRand->Get(cEmitter.fTangentialAccelMin, cEmitter.fTangentialAccelMax);
 
 			par->fSize = pRand->Get(cEmitter.fSizeStart, cEmitter.fSizeStart + (cEmitter.fSizeEnd - cEmitter.fSizeStart) * cEmitter.fSizeVar);
 			par->fSizeDelta = (cEmitter.fSizeEnd - par->fSize) / par->fTerminalAge;
 
-			par->fSpin = pRand->Get(cEmitter.fSpinStart, cEmitter.fSpinStart + (cEmitter.fSpinEnd - cEmitter.fSpinStart) * cEmitter.fSpinVar) / 15.0f;
+			par->fSpin = pRand->Get(cEmitter.fSpinStart, cEmitter.fSpinStart + (cEmitter.fSpinEnd - cEmitter.fSpinStart) * cEmitter.fSpinVar);
 			par->fSpinDelta = (cEmitter.fSpinEnd - par->fSpin) / par->fTerminalAge;
 
 			par->fColorR = pRand->Get(cEmitter.fColorStartR, cEmitter.fColorStartR + (cEmitter.fColorEndR - cEmitter.fColorStartR) * cEmitter.fColorVar);
@@ -300,28 +266,16 @@ void ParticleEmitter::Update(f32 deltaTime)
 			par->fColorDeltaB = (cEmitter.fColorEndB - par->fColorB) / par->fTerminalAge;
 			par->fColorDeltaA = (cEmitter.fColorEndA - par->fColorA) / par->fTerminalAge;
 
+			// Update particle sprite
 			par->SetColor(par->fColorR, par->fColorG, par->fColorB, par->fColorA);
-			if (cEmitter.iBlendMode == 6)
-				par->SetBlending(BlendModulate);
-			else
-				par->SetBlending(BlendAdditive);
-			//par->SetScale(par->fSize);
+			par->SetBlendingByName(sBlending);
 			par->vScale.setX(par->fSize);
 			par->vScale.setY(par->fSize);
-			//par->SetPosition(pos);
-			par->vPos = pos;
-			//par->fRotation = par->fSpin;
+			par->vPos.setX(pos.getX());
+			par->vPos.setY(pos.getY());
 			par->bTransformationChanged = true;
-
-			File f(sSpriteFilename);
-			Reader r(f);
-			par->Load(r, pRes);
-			par->SetAnimation(iAnimation);
-			par->SetVisible(true);
-			//par->SetParent(this);
-
-			//iParticlesAlive++;
-			//par++;
+			par->bColorChanged = true;
+			rBoundingBox.Encapsulate(par->vPos.getX(), par->vPos.getY());
 		}
 	}
 
@@ -341,18 +295,22 @@ void ParticleEmitter::Update(f32 deltaTime)
 	vPrevLocation = location;
 	bTransformationChanged = false;
 
+	iNumVertices = 0;
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{
 		if (!arParticles[i].bActive)
 			continue;
 
 		arParticles[i].Update(deltaTime);
+//		memcpy(arCurrentVertexData, arParticles[i].arCurrentVertexData, sizeof(sVertex) * 4);
+//		iNumVertices += 4;
+//		pTexture = arParticles[i].pFrameTexture;
 	}
 }
 
 void ParticleEmitter::Render()
 {
-	if (bEnabled)
+	if (bEnabled && arParticles)
 	{
 		for (u32 i = 0; i < iParticlesAmount; i++)
 		{
@@ -361,6 +319,38 @@ void ParticleEmitter::Render()
 
 			arParticles[i].Render();
 		}
+
+		//if (pConfiguration->bDebugSprite)
+		{
+			uPixel p;
+			p.rgba.r = 255;
+			p.rgba.g = 0;
+			p.rgba.b = 0;
+			p.rgba.r = 255;
+
+			f32 x = rBoundingBox.x + this->GetX();
+			f32 y = rBoundingBox.y + this->GetY();
+			f32 w = rBoundingBox.width;
+			f32 h = rBoundingBox.height;
+			pRendererDevice->DrawRect(x, y, w + x, h + y, p);
+		}
+
+//		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+
+//		SEED_ASSERT(pTexture);
+
+//		RendererPacket packet;
+//		packet.iSize = iNumVertices;
+//		packet.nMeshType = nMeshType;
+//		packet.pVertexData = arCurrentVertexData;
+//		packet.pTexture = pTexture;
+//		packet.nBlendMode = eBlendOperation;
+//		packet.pTransform = &mTransform;
+//		packet.iColor = iColor;
+//		packet.iFlags = flags;
+//		packet.vPivot = vTransformedPivot;
+
+//		pRendererDevice->UploadData(&packet);
 	}
 }
 
@@ -368,16 +358,22 @@ void ParticleEmitter::SetSprite(const String &filename)
 {
 	if (bEnabled)
 	{
-		sSpriteFilename = filename;
+		sSprite = filename;
+		File f(filename);
+		Reader r(f);
+
+		if (pTemplate)
+			Delete(pTemplate);
+
+		pTemplate->Load(r, pRes);
+		pTemplate->SetParent(this);
+
 		for (u32 i = 0; i < iParticlesAmount; i++)
 		{
 			if (!arParticles[i].bActive)
 				continue;
 
-			File f(filename);
-			Reader r(f);
-			arParticles[i].Load(r, pRes);
-			arParticles[i].SetAnimation(iAnimation);
+			arParticles[i] = *pTemplate;
 		}
 	}
 }
@@ -449,7 +445,6 @@ void ParticleEmitter::Kill()
 {
 	fRespawnAge = 0.0f;
 	fAge = -2.0f;
-//	iParticlesAlive = 0;
 	bPaused = false;
 
 	for (u32 i = 0; i < iParticlesAmount; i++)
@@ -524,11 +519,69 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 		SEED_ASSERT(res);
 		pRes = res;
 
-		// Json Load into cEmitter
-		#warning "Implement ParticleEmitter reader"
+		cEmitter.bRelative = reader.ReadBool("relative", false);
 
-		iAnimation = cEmitter.iTextureFrame;
+		cEmitter.fLifetime			= reader.ReadF32("fLifetime", 0.0f);
+		cEmitter.fParticleLifeMin	= reader.ReadF32("fParticleLifeMin", 0.0f);
+		cEmitter.fParticleLifeMax	= reader.ReadF32("fParticleLifeMax", 0.0f);
+		cEmitter.fDirection			= reader.ReadF32("fDirection", 0.0f);
+		cEmitter.fSpread			= reader.ReadF32("fSpread", 0.0f);
+		cEmitter.fSpeedMin			= reader.ReadF32("fSpeedMin", 0.0f);
+		cEmitter.fSpeedMax			= reader.ReadF32("fSpeedMax", 0.0f);
+		cEmitter.fGravityMin		= reader.ReadF32("fGravityMin", 0.0f);
+		cEmitter.fGravityMax		= reader.ReadF32("fGravityMax", 0.0f);
+		cEmitter.fRadialAccelMin	= reader.ReadF32("fRadialAccelMin", 0.0f);
+		cEmitter.fRadialAccelMax	= reader.ReadF32("fRadialAccelMax", 0.0f);
+		cEmitter.fTangentialAccelMin	= reader.ReadF32("fTangentialAccelMin", 0.0f);
+		cEmitter.fTangentialAccelMax	= reader.ReadF32("fTangentialAccelMax", 0.0f);
+		cEmitter.fSizeStart			= reader.ReadF32("fSizeStart", 0.0f);
+		cEmitter.fSizeEnd			= reader.ReadF32("fSizeEnd", 0.0f);
+		cEmitter.fSizeVar			= reader.ReadF32("fSizeVar", 0.0f);
+		cEmitter.fSpinStart			= reader.ReadF32("fSpinStart", 0.0f);
+		cEmitter.fSpinEnd			= reader.ReadF32("fSpinEnd", 0.0f);
+		cEmitter.fSpinVar			= reader.ReadF32("fSpinVar", 0.0f);
+		cEmitter.fColorVar			= reader.ReadF32("fColorVar", 0.0f);
+		cEmitter.fAlphaVar			= reader.ReadF32("fAlphaVar", 0.0f);
+		cEmitter.fWidth				= reader.ReadF32("fWidth", 0.0f);
+		cEmitter.fHeight			= reader.ReadF32("fHeight", 0.0f);
+		cEmitter.fInterval			= reader.ReadF32("fInterval", 0.0f);
+
+		if (reader.SelectNode("sColorStart"))
+		{
+			cEmitter.fColorStartR = (reader.ReadU32("r", 255)) / 255.f;
+			cEmitter.fColorStartG = (reader.ReadU32("g", 255)) / 255.f;
+			cEmitter.fColorStartB = (reader.ReadU32("b", 255)) / 255.f;
+			cEmitter.fColorStartA = (reader.ReadU32("a", 255)) / 255.f;
+			reader.UnselectNode();
+		}
+
+		if (reader.SelectNode("sColorEnd"))
+		{
+			cEmitter.fColorEndR = (reader.ReadU32("r", 255)) / 255.f;
+			cEmitter.fColorEndG = (reader.ReadU32("g", 255)) / 255.f;
+			cEmitter.fColorEndB = (reader.ReadU32("b", 255)) / 255.f;
+			cEmitter.fColorEndA = (reader.ReadU32("a", 255)) / 255.f;
+			reader.UnselectNode();
+		}
+
+		iAnimation = reader.ReadU32("iAnimation", 0);
+		cEmitter.iEmission = reader.ReadU32("iEmission", 0);
+		sBlending = reader.ReadString("blending", "None");
+		sSprite = reader.ReadString("sSprite", "");
+		{
+			File f(sSprite);
+			Reader r(f);
+			pTemplate = New(Particle);
+			pTemplate->Load(r, pRes);
+			pTemplate->SetAnimation(iAnimation);
+			pTemplate->SetParent(this);
+		}
+
+		pTexture = pTemplate->GetTexture();
 		fInterval = cEmitter.fInterval;
+
+		arParticles = NewArray(Particle, cEmitter.iEmission);
+		iParticlesAmount = cEmitter.iEmission;
 
 		ret = true;
 	}

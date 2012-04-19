@@ -32,9 +32,10 @@
 #define __PARTICLE_H__
 
 #include "Sprite.h"
-#include "Point.h"
 
 namespace Seed {
+
+class ISceneObject;
 
 /// Particle
 class SEED_CORE_API Particle : public Sprite
@@ -45,9 +46,8 @@ class SEED_CORE_API Particle : public Sprite
 		Particle();
 		virtual ~Particle();
 
-		// IObject
-		virtual const String GetObjectName() const;
-		virtual int GetObjectType() const;
+		Particle(const Particle &other);
+		Particle &operator=(const Particle &other);
 
 	protected:
 		Vector3f vVelocity;
@@ -76,9 +76,6 @@ class SEED_CORE_API Particle : public Sprite
 		f32		fColorDeltaA;
 
 		bool	bActive;
-
-	private:
-		SEED_DISABLE_COPY(Particle);
 };
 
 } // namespace

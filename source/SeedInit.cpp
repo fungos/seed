@@ -42,7 +42,6 @@
 #include "Screen.h"
 #include "Log.h"
 #include "Input.h"
-#include "ParticleManager.h"
 #include "Updater.h"
 #include "ModuleManager.h"
 #include "Cartridge.h"
@@ -162,7 +161,6 @@ bool Initialize()
 
 	ret = ret && pModuleManager->Add(pResourceLoader);
 	ret = ret && pModuleManager->Add(pInput);
-	ret = ret && pModuleManager->Add(pParticleManager);
 
 	pUpdater->Add(Private::pApplication);
 #if !defined(BUILD_IOS)
@@ -174,7 +172,6 @@ bool Initialize()
 
 	pUpdater->Add(pSystem);
 	pUpdater->Add(pResourceLoader);
-	pUpdater->Add(pParticleManager);
 	pUpdater->Add(pRendererManager);
 	pUpdater->Add(pSceneManager);
 
@@ -225,7 +222,6 @@ void Shutdown()
 	Info(SEED_TAG "Shutting down subsystems...");
 	pModuleManager->Shutdown();
 
-	pParticleManager->DestroyInstance();
 	pSceneManager->DestroyInstance();
 	pInput->DestroyInstance();
 	pResourceLoader->DestroyInstance();

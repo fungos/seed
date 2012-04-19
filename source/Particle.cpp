@@ -34,7 +34,8 @@
 namespace Seed {
 
 Particle::Particle()
-	: vVelocity(0.0f, 0.0f, 0.0f)
+	: Sprite()
+	, vVelocity(0.0f, 0.0f, 0.0f)
 	, fGravity(0.0f)
 	, fRadialAccel(0.0f)
 	, fTangentialAccel(0.0f)
@@ -60,14 +61,60 @@ Particle::~Particle()
 {
 }
 
-const String Particle::GetObjectName() const
+Particle::Particle(const Particle &other)
+	: Sprite(other)
+	, vVelocity(other.vVelocity)
+	, fGravity(other.fGravity)
+	, fRadialAccel(other.fRadialAccel)
+	, fTangentialAccel(other.fTangentialAccel)
+	, fSpin(other.fSpin)
+	, fSpinDelta(other.fSpinDelta)
+	, fSize(other.fSize)
+	, fSizeDelta(other.fSizeDelta)
+	, fAge(other.fAge)
+	, fTerminalAge(other.fTerminalAge)
+	, fColorR(other.fColorR)
+	, fColorG(other.fColorG)
+	, fColorB(other.fColorB)
+	, fColorA(other.fColorA)
+	, fColorDeltaR(other.fColorDeltaR)
+	, fColorDeltaG(other.fColorDeltaG)
+	, fColorDeltaB(other.fColorDeltaB)
+	, fColorDeltaA(other.fColorDeltaA)
+	, bActive(other.bActive)
 {
-	return "Particle";
 }
 
-int Particle::GetObjectType() const
+Particle &Particle::operator=(const Particle &other)
 {
-	return Seed::ObjectParticle;
+	if (this != &other)
+	{
+		Sprite::operator=(other);
+
+		vVelocity = other.vVelocity;
+
+		fGravity = other.fGravity;
+		fRadialAccel = other.fRadialAccel;
+		fTangentialAccel = other.fTangentialAccel;
+		fSpin = other.fSpin;
+		fSpinDelta = other.fSpinDelta;
+		fSize = other.fSize;
+		fSizeDelta = other.fSizeDelta;
+		fAge = other.fAge;
+		fTerminalAge = other.fTerminalAge;
+		fColorR = other.fColorR;
+		fColorG = other.fColorG;
+		fColorB = other.fColorB;
+		fColorA = other.fColorA;
+		fColorDeltaR = other.fColorDeltaR;
+		fColorDeltaG = other.fColorDeltaG;
+		fColorDeltaB = other.fColorDeltaB;
+		fColorDeltaA = other.fColorDeltaA;
+
+		bActive = other.bActive;
+	}
+	return *this;
 }
+
 
 } // namespace

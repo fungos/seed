@@ -29,15 +29,11 @@
 */
 
 #include "interface/IBasicMesh.h"
-#include "ResourceManager.h"
-#include "Log.h"
-#include "Vertex.h"
 
 namespace Seed {
 
 IBasicMesh::IBasicMesh()
 	: ISceneObject()
-	, arCustomVertexData(NULL)
 	, arCurrentVertexData(NULL)
 	, iNumVertices(0)
 	, nMeshType(Seed::TriangleStrip)
@@ -46,13 +42,6 @@ IBasicMesh::IBasicMesh()
 
 IBasicMesh::~IBasicMesh()
 {
-}
-
-void IBasicMesh::SetCustomVertexDataArray(sVertex *myVertexData, u32 qty, eMeshType type)
-{
-	iNumVertices = qty;
-	arCustomVertexData = myVertexData;
-	nMeshType = type;
 }
 
 void IBasicMesh::Update(f32 dt)

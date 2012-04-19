@@ -140,7 +140,7 @@ void IRenderable::SetBlendingByName(const String &blending)
 		eBlendOperation = BlendModulateAlpha;
 	else if (name == "modulate")
 		eBlendOperation = BlendModulate;
-	else if (name == "addition")
+	else if (name == "additive")
 		eBlendOperation = BlendAdditive;
 
 	bColorChanged = true;

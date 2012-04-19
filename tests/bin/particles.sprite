@@ -1,0 +1,134 @@
+{
+	"type": "sprite",
+	"name": "particles",
+	"animations": [
+		{
+			"frames": [
+				{
+					"name": "particle 0",
+					"texture": "particle_00.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 1",
+					"texture": "particle_01.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 2",
+					"texture": "particle_02.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 3",
+					"texture": "particle_03.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 4",
+					"texture": "particle_04.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 5",
+					"texture": "particle_05.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 6",
+					"texture": "particle_06.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 7",
+					"texture": "particle_07.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 8",
+					"texture": "particle_08.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 9",
+					"texture": "particle_09.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 10",
+					"texture": "particle_10.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 11",
+					"texture": "particle_11.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 12",
+					"texture": "particle_12.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 13",
+					"texture": "particle_13.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 14",
+					"texture": "particle_14.tga"
+				}
+			]
+		},
+		{
+			"frames": [
+				{
+					"name": "particle 15",
+					"texture": "particle_15.tga"
+				}
+			]
+		}
+	]
+}

@@ -43,6 +43,8 @@
 
 #define New(T)					pLeakReport->LogNew((new T), #T, __FILE__, __LINE__, __FUNC__)
 #define Delete(ptr)				{ if (ptr) pLeakReport->LogDelete(ptr); ptr = NULL; }
+#define NewArray(T, L)			pLeakReport->LogNew((new T[L]), #T, __FILE__, __LINE__, __FUNC__)
+#define DeleteArray(ptr)		{ if (ptr) pLeakReport->LogDelete(ptr, true); ptr = NULL; }
 #define Alloc(S)				malloc(S)
 #define Free(ptr)				{ if (ptr) free(ptr); ptr = NULL; }
 
@@ -80,7 +82,7 @@ class SEED_CORE_API LeakReport
 		}
 
 		template <class T>
-		void LogDelete(T *ptr)
+		void LogDelete(T *ptr, bool array = false)
 		{
 			void *addr = (void *)ptr;
 
@@ -102,7 +104,11 @@ class SEED_CORE_API LeakReport
 
 			if (ptr)
 			{
-				delete ptr;
+				if (array)
+					delete []ptr;
+				else
+					delete ptr;
+
 				ptr = NULL;
 			}
 		}
@@ -132,6 +138,8 @@ class SEED_CORE_API LeakReport
 
 #define New(T)					new T
 #define Delete(ptr)				{ if (ptr) delete ptr; ptr = NULL; }
+#define NewArray(T, L)			new T[L]
+#define DeleteArray(ptr)		{ if (ptr) delete []ptr; ptr = NULL; }
 #define Alloc(S)				malloc(S)
 #define Free(ptr)				free(ptr)
 
