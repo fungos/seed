@@ -36,8 +36,11 @@
 namespace Seed {
 
 Viewport::Viewport()
-	: cArea(0.0f, 0.0f, 0.0f, 0.0f)
-	, pRenderer(NULL)
+	: pRenderer(NULL)
+	, fX(0.0f)
+	, fY(0.0f)
+	, fWidth(0.0f)
+	, fHeight(0.0f)
 {
 }
 
@@ -53,18 +56,18 @@ void Viewport::SetRenderer(Renderer *renderer)
 
 void Viewport::SetPosition(f32 x, f32 y)
 {
-	cArea.x = x;
-	cArea.y = y;
+	fX = x;
+	fY = y;
 }
 
 void Viewport::SetWidth(f32 w)
 {
-	cArea.width = w;
+	fWidth = w;
 }
 
 void Viewport::SetHeight(f32 h)
 {
-	cArea.height = h;
+	fHeight = h;
 }
 
 Renderer *Viewport::GetRenderer() const
@@ -74,36 +77,36 @@ Renderer *Viewport::GetRenderer() const
 
 f32 Viewport::GetX() const
 {
-	return cArea.x;
+	return fX;
 }
 
 f32 Viewport::GetY() const
 {
-	return cArea.y;
+	return fY;
 }
 
 f32 Viewport::GetWidth() const
 {
-	return cArea.width;
+	return fWidth;
 }
 
 f32 Viewport::GetHeight() const
 {
-	return cArea.height;
+	return fHeight;
 }
 
 void Viewport::Render()
 {
 	if (pRenderer)
 	{
-		pRendererDevice->SetViewport(cArea);
+		pRendererDevice->SetViewport(fX, fY, fWidth, fHeight);
 		pRenderer->Render();
 	}
 }
 
 bool Viewport::Contains(f32 x, f32 y)
 {
-	return cArea.Contains(x, y);
+	return (x >= fX && x <= fX + fWidth && y >= fY && y <= fY + fHeight);
 }
 
 const String Viewport::GetObjectName() const

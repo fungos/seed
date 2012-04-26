@@ -42,7 +42,7 @@
 	"fInterval": 0,
 	"iAnimation": 12,
 	"fSpinVar": 0,
-	"iEmission": 5000,
+	"iEmission": 1,
 	"fLifetime": -1,
 	"sSprite": "particles.sprite",
 	"blending": "Additive"

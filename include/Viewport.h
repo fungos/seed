@@ -67,14 +67,17 @@ class SEED_CORE_API Viewport
 		// IObject
 		virtual const String GetObjectName() const;
 
+	private:
+		Renderer *pRenderer;
+
 	protected:
-		Rect4f cArea;
+		f32		fX;
+		f32		fY;
+		f32		fWidth;
+		f32		fHeight;
 
 	private:
 		SEED_DISABLE_COPY(Viewport);
-
-	private:
-		Renderer *pRenderer;
 };
 
 } // namespace

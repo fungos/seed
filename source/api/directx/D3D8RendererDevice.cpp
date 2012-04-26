@@ -492,18 +492,13 @@ void D3D8RendererDevice::BackbufferFill(uPixel color)
 	mDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, &quad, sizeof(sVertex));
 }
 
-void D3D8RendererDevice::SetViewport(const Rect4f &area) const
+void D3D8RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
-	u32 x = static_cast<u32>(area.x * pScreen->GetWidth());
-	u32 y = static_cast<u32>(area.y * pScreen->GetHeight());
-	u32 width = static_cast<u32>(area.width * pScreen->GetWidth());
-	u32 height = static_cast<u32>(area.height * pScreen->GetHeight());
-
 	D3DVIEWPORT8 vp;
-	vp.X = x;
-	vp.Y = pScreen->GetHeight() - y - height;
-	vp.Width = width;
-	vp.Height = height;
+	vp.X = static_cast<u32>(x);
+	vp.Y = static_cast<u32>(y);
+	vp.Width = static_cast<u32>(w);
+	vp.Height = static_cast<u32>(h);
 	vp.MinZ = 0.0;
 	vp.MaxZ = 0.0f;
 	mDevice->SetViewport(&vp);

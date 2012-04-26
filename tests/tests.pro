@@ -18,17 +18,17 @@ OTHER_FILES += \
 	bin/logo.sprite \
 	bin/out.movie \
 	bin/out.sprite \
-    bin/teste.particle \
-    bin/particles.sprite
+	bin/particles.sprite \
+    bin/teste.emitter
 
 CONFIG(debug, debug|release) {
-	DESTDIR = $$(SEEDSDK)/seed/tests/bin
+	DESTDIR = ../tests/bin
 	DEFINES += DEBUG
-	LIBS += -L$$(SEEDSDK)/seed/lib/debug
+	LIBS += -L../lib/debug
 } else {
-	DESTDIR = $$(SEEDSDK)/seed/tests/bin
+	DESTDIR = ../tests/bin
 	DEFINES += RELEASE
-	LIBS += -L$$(SEEDSDK)/seed/lib/release
+	LIBS += -L../lib/release
 }
 
 unix {
@@ -38,6 +38,6 @@ unix {
 
 win32 {
 	DEFINES += WIN32 main=SDL_main
-	LIBS += -lseed -lseedcontrib -mwindows -lmingw32 -lSDLmain -lSDL -lopengl32 -lopenal32 -lSDL_image -lgdi32
+	LIBS += -L../contrib/windows/ -lseed -lseedcontrib -mwindows -lmingw32 -lSDLmain -lSDL -lopengl32 -lopenal32 -lSDL_image -lgdi32
 	INCLUDEPATH += ../contrib/windows/
 }

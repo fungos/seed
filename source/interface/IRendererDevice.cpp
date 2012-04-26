@@ -117,9 +117,12 @@ void IRendererDevice::BackbufferFill(const uPixel color)
 	SEED_ABSTRACT_METHOD;
 }
 
-void IRendererDevice::SetViewport(const Rect4f &area) const
+void IRendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
-	UNUSED(area);
+	UNUSED(x);
+	UNUSED(y);
+	UNUSED(w);
+	UNUSED(h);
 	SEED_ABSTRACT_METHOD;
 }
 

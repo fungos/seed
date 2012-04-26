@@ -127,10 +127,10 @@ void ParticleEmitter::Update(f32 deltaTime)
 	if (!(bEnabled && !bPaused))
 		return;
 
-	rBoundingBox.x = 0.0f;
-	rBoundingBox.y = 0.0f;
-	rBoundingBox.width = 0.0f;
-	rBoundingBox.height = 0.0f;
+	rBoundingBox.x1 = 99999.0f;
+	rBoundingBox.y1 = 99999.0f;
+	rBoundingBox.x2 = -99999.0f;
+	rBoundingBox.y2 =  -99999.0f;
 
 	f32 ang = 0.0f;
 	Particle *par = NULL;
@@ -279,6 +279,9 @@ void ParticleEmitter::Update(f32 deltaTime)
 		}
 	}
 
+	rBoundingBox.x2++;
+	rBoundingBox.y2++;
+
 	ITexture *img = NULL;
 	if (arParticles)
 		 img = arParticles[0].GetTexture();
@@ -328,11 +331,9 @@ void ParticleEmitter::Render()
 			p.rgba.b = 0;
 			p.rgba.r = 255;
 
-			f32 x = rBoundingBox.x + this->GetX();
-			f32 y = rBoundingBox.y + this->GetY();
-			f32 w = rBoundingBox.width;
-			f32 h = rBoundingBox.height;
-			pRendererDevice->DrawRect(x, y, w + x, h + y, p);
+			f32 x = this->GetX();
+			f32 y = this->GetY();
+			pRendererDevice->DrawRect(x + rBoundingBox.x1, y + rBoundingBox.y1, x + rBoundingBox.x2, y + rBoundingBox.y2, p);
 		}
 
 //		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));

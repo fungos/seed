@@ -39,47 +39,47 @@ namespace Seed {
 template <class TYPE> class Rect
 {
 	public:
-		TYPE x;
-		TYPE y;
-		TYPE width;
-		TYPE height;
+		TYPE x1;
+		TYPE y1;
+		TYPE x2;
+		TYPE y2;
 
 	public:
 		Rect(TYPE mx = 0, TYPE my = 0, TYPE mwidth = 0, TYPE mheight = 0)
-			: x(mx)
-			, y(my)
-			, width(mwidth)
-			, height(mheight)
+			: x1(mx)
+			, y1(my)
+			, x2(mwidth + mx)
+			, y2(mheight + my)
 		{
 		}
 
 		Rect(const Rect<TYPE> &rect)
-			: x(0)
-			, y(0)
-			, width(0)
-			, height(0)
+			: x1(0)
+			, y1(0)
+			, x2(0)
+			, y2(0)
 		{
 			LoadRect(rect);
 		}
 
 		Rect<TYPE> &operator=(const Rect<TYPE> &rect)
 		{
-			x		= rect.x;
-			y		= rect.y;
-			width	= rect.width;
-			height	= rect.height;
+			x1	= rect.x1;
+			y1	= rect.y1;
+			x2	= rect.x2;
+			y2	= rect.y2;
 
 			return *this;
 		}
 
 		bool operator==(const Rect<TYPE> &rect) const
 		{
-			return((x == rect.x) && (y == rect.y) && (width == rect.width) && (height == rect.height));
+			return((x1 == rect.x1) && (y1 == rect.y1) && (x2 == rect.x2) && (y2 == rect.y2));
 		}
 
 		bool operator!=(const Rect<TYPE> &rect) const
 		{
-			return(!(x == rect.x) || !(y == rect.y) || !(width == rect.width) || !(height == rect.height));
+			return(!(x1 == rect.x1) || !(y1 == rect.y1) || !(x2 == rect.x2) || !(y2 == rect.y2));
 		}
 
 		Rect<TYPE> & LoadRect(const Rect<TYPE> &rect)
@@ -95,14 +95,14 @@ template <class TYPE> class Rect
 			TYPE top1, top2;
 			TYPE bottom1, bottom2;
 
-			left1   = this->x;
-			left2   = rect.x;
-			right1  = this->x + (TYPE)this->width;
-			right2  = rect.x + (TYPE)rect.width;
+			left1   = this->x1;
+			left2   = rect.x1;
+			right1  = this->x2;
+			right2  = rect.x2;
 			top1    = this->y;
 			top2    = rect.y;
-			bottom1 = this->y + (TYPE)this->height;
-			bottom2 = rect.y + (TYPE)rect.height;
+			bottom1 = this->y1;
+			bottom2 = rect.y2;
 
 			if (bottom1 < top2) return(false);
 			if (top1 > bottom2) return(false);
@@ -125,14 +125,14 @@ template <class TYPE> class Rect
 			TYPE over_left;
 			TYPE over_right;
 
-			left1   = this->x;
-			left2   = rect.x;
-			right1  = this->x + (TYPE)this->width;
-			right2  = rect.x + (TYPE)rect.width;
-			top1    = this->y;
-			top2    = rect.y;
-			bottom1 = this->y + (TYPE)this->height;
-			bottom2 = rect.y + (TYPE)rect.height;
+			left1   = this->x1;
+			left2   = rect.x1;
+			right1  = this->x2;
+			right2  = rect.x2;
+			top1    = this->y1;
+			top2    = rect.y1;
+			bottom1 = this->y2;
+			bottom2 = rect.y2;
 
 			// Ok, compute the rectangle of overlap:
 			if (bottom1 > bottom2) over_bottom = bottom2;
@@ -163,19 +163,19 @@ template <class TYPE> class Rect
 
 		bool Contains(TYPE pX, TYPE pY) const
 		{
-			if (pX > (TYPE)(x + width))
+			if (pX > x2)
 			{
 				return false;
 			}
-			else if	(pX < x)
+			else if	(pX < x1)
 			{
 				return false;
 			}
-			if (pY > (TYPE)(y + height))
+			if (pY > y2)
 			{
 				return false;
 			}
-			else if	(pY < y)
+			else if	(pY < y1)
 			{
 				return false;
 			}
@@ -185,43 +185,24 @@ template <class TYPE> class Rect
 
 		bool ContainsArea(const Rect<TYPE> &rect) const
 		{
-			if (this->Contains(rect.x, rect.y) &&
-				this->Contains(rect.x+rect.width, rect.y+rect.height))
+			if (this->Contains(rect.x1, rect.y1) &&
+				this->Contains(rect.x2, rect.y2))
 				return true;
 
 			return false;
 		}
 
-		void ScaleSize(f32 fScale)
-		{
-			this->width		*= fScale;
-			this->height	*= fScale;
-		}
-
-		void ScaleBounds(f32 fScale)
-		{
-			TYPE newWidth	= width * fScale;
-			TYPE newHeight	= height * fScale;
-
-			x -= (newWidth - width)   / 2;
-			y -= (newHeight - height) / 2;
-
-			width	= newWidth;
-			height	= newHeight;
-		}
-
-		// FIXME: testar
 		void Encapsulate(TYPE px, TYPE py)
 		{
-			if (px < x) x = px;
-			if (py < y) y = py;
-			if (px > x + width) width = px - x;
-			if (py > y + height) height = py - y;
+			if (px < x1) x1 = px;
+			if (py < y1) y1 = py;
+			if (px > x2) x2 = px;
+			if (py > y2) y2= py;
 		}
 
 		void Print()
 		{
-			Log("Rect info: x -> %d, y -> %d, width -> %d, height -> %d", x, y, width, height);
+			Log("Rect info: x1 -> %d, y1 -> %d, x2 -> %d, y2 -> %d", x1, y1, x2, y2);
 		}
 };
 

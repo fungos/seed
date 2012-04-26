@@ -98,7 +98,7 @@ void Movie::Update(f32 delta)
 		}//);
 	}
 
-	SceneNode::Update(delta);
+	//SceneNode::Update(delta);
 }
 
 void Movie::Play()

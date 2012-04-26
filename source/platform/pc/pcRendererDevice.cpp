@@ -211,9 +211,9 @@ void RendererDevice::End() const
 	pApiDevice->End();
 }
 
-void RendererDevice::SetViewport(const Rect4f &area) const
+void RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
-	pApiDevice->SetViewport(area);
+	pApiDevice->SetViewport(x, y, w, h);
 }
 
 void RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const

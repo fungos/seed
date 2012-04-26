@@ -97,7 +97,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void BackbufferClear(const uPixel color = uPixel());
 		virtual void BackbufferFill(const uPixel color = uPixel());
 
-		virtual void SetViewport(const Rect4f &area) const;
+		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
 		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill = false) const;
 		virtual void Enable2D() const;
 		virtual void Disable2D() const;

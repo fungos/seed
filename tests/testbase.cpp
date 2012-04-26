@@ -31,13 +31,28 @@ bool TestBase::Initialize()
 	pScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
-//	{
-//		File f("anim.sprite");
-//		Reader r(f);
-//		sptLogo.Load(r);
-//		sptLogo.SetPosition(400, 300);
-//		cScene.Add(&sptLogo);
-//	}
+	cScene.sNodeName = "Main";
+
+	{
+		File f("teste.emitter");
+		Reader r(f);
+		cEmitter.Load(r);
+		cEmitter.SetPosition(200, 100);
+		cEmitter.Play();
+		cEmitter.SetPriority(10.0f);
+		cEmitter.sNodeName = "Particle Emitter";
+		cScene.Add(&cEmitter);
+	}
+
+	{
+		File f("anim.sprite");
+		Reader r(f);
+		sptLogo.Load(r);
+		sptLogo.SetPosition(400, 300);
+		sptLogo.SetPriority(100.0f);
+		sptLogo.sNodeName = "Sprite";
+		cScene.Add(&sptLogo);
+	}
 
 //	{
 //		Writer w;
@@ -45,12 +60,13 @@ bool TestBase::Initialize()
 //		w.Save("out.sprite");
 //	}
 
-//	{
-//		File f("sample.movie");
-//		Reader r(f);
-//		mvSample.Load(r);
+	{
+		File f("sample.movie");
+		Reader r(f);
+		mvSample.Load(r);
+		mvSample.SetPriority(200.0f);
 //		cScene.Add(&mvSample);
-//	}
+	}
 
 //	{
 //		Writer w;
@@ -58,26 +74,17 @@ bool TestBase::Initialize()
 //		w.Save("out.movie");
 //	}
 
-	{
-		File f("teste.particle");
-		Reader r(f);
-		cEmitter.Load(r);
-		cEmitter.SetPosition(200, 100);
-		cEmitter.Play();
-		cScene.Add(&cEmitter);
-	}
-
-	//cScene.SetPosition(100, 100);
-	//sptLogo.SetParent(&cScene);
+//	cScene.SetPosition(100, 100);
+//	sptLogo.SetParent(&cScene);
 
 //	musTheme.Load("theme.ogg");
 //	musTheme.SetVolume(.2f);
 //	pSoundSystem->PlayMusic(&musTheme);
 
-	sfxSound.Load("helloworld.ogg");
-	sfxSound.SetLoop(true);
-	sfxSound.SetVolume(1.0f);
-	pSoundSystem->Add(&sfxSound);
+//	sfxSound.Load("sfx.ogg");
+//	sfxSound.SetLoop(true);
+//	sfxSound.SetVolume(1.0f);
+//	pSoundSystem->Add(&sfxSound);
 
 	sfxSound.Play();
 	pScreen->FadeIn();

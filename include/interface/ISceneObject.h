@@ -41,6 +41,8 @@ namespace Seed {
 class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, public IDataObject
 {
 	public:
+		String sNodeName;
+
 		ISceneObject();
 		virtual ~ISceneObject();
 

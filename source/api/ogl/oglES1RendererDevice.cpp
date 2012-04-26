@@ -65,7 +65,7 @@
 namespace Seed { namespace OpenGL {
 
 OGLES1RendererDevice::OGLES1RendererDevice()
-    : vTexture()
+	: vTexture()
 {
 	Log(TAG "Initializing...");
 
@@ -513,17 +513,9 @@ void OGLES1RendererDevice::BackbufferFill(uPixel color)
 	glPopAttrib();
 }
 
-void OGLES1RendererDevice::SetViewport(const Rect4f &area) const
+void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
-	GLint x, y;
-	GLsizei width, height;
-
-	x = static_cast<GLint>(area.x);
-	y = static_cast<GLint>(area.y);
-	width = static_cast<GLsizei>(area.width);
-	height = static_cast<GLsizei>(area.height);
-
-	glViewport(x, y, width, height);
+	glViewport(static_cast<GLint>(x), static_cast<GLint>(y), static_cast<GLsizei>(w), static_cast<GLsizei>(h));
 }
 
 void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const

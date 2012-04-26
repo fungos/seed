@@ -7,10 +7,10 @@ DEFINES += SEED_BUILD BUILD_SDL SEED_ENABLE_PROFILER
 unix:DEFINES += LINUX
 
 CONFIG(debug, debug|release) {
-	DESTDIR = $$(SEEDSDK)/seed/lib/debug
+	DESTDIR =../seed/lib/debug
 	DEFINES += DEBUG
 } else {
-	DESTDIR = $$(SEEDSDK)/seed/lib/release
+	DESTDIR = ../seed/lib/release
 	DEFINES += RELEASE
 }
 

@@ -60,7 +60,7 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		virtual void Begin() const;
 		virtual void End() const;
 
-		virtual void SetViewport(const Rect4f &area) const;
+		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
 		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill = false) const;
 		virtual void Enable2D() const;
 		virtual void Disable2D() const;

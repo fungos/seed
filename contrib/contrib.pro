@@ -4,10 +4,10 @@ TARGET = seedcontrib
 TEMPLATE = lib
 
 CONFIG(debug, debug|release) {
-	DESTDIR = $$(SEEDSDK)/seed/lib/debug
+	DESTDIR = ../lib/debug
 	DEFINES += DEBUG
 } else {
-	DESTDIR = $$(SEEDSDK)/seed/lib/release
+	DESTDIR = ../lib/release
 	DEFINES += RELEASE
 }
 
