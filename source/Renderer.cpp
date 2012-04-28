@@ -122,7 +122,7 @@ bool Renderer::Update(f32 dt)
 	return true;
 }
 
-void Renderer::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const
+void Renderer::DrawRect(f32 x, f32 y, f32 w, f32 h, Color color, bool fill) const
 {
 	UNUSED(x);
 	UNUSED(y);
@@ -156,6 +156,7 @@ void Renderer::RenderObjects(const RenderableVector &vec) const
 		ISceneObject *obj = const_cast<ISceneObject *>(*it);
 		SEED_ASSERT(obj);
 
+		Log("- Rendering: %s", obj->sName.c_str());
 		obj->Render();
 	}
 }

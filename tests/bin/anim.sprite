@@ -1,31 +1,31 @@
 {
-	"type": "sprite",
-	"name": "anim",
-	"scale": {"x": 2, "y": 2},
-	"blending": "modulate",
-	"color": {
+	"sType": "sprite",
+	"sName": "Panda",
+	"cScale": {"x": 2, "y": 2},
+	"sBlending": "modulate",
+	"cColor": {
 		"r": 255,
 		"g": 0,
 		"b": 0,
 		"a": 255
 	},
-	"animations": [
+	"aAnimations": [
 		{
-			"animated": true,
-			"loop": true,
-			"fps": 25,
-			"frames": [
+			"bAnimated": true,
+			"bLoop": true,
+			"iFps": 25,
+			"aFrames": [
 				{
-					"name": "frame 1",
-					"texture": "frame01.png"
+					"sName": "frame 1",
+					"sTexture": "frame01.png"
 				},
 				{
-					"name": "frame 2",
-					"texture": "frame02.png"
+					"sName": "frame 2",
+					"sTexture": "frame02.png"
 				},
 				{
-					"name": "frame 3",
-					"texture": "frame03.png"
+					"sName": "frame 3",
+					"sTexture": "frame03.png"
 				}
 			]
 		}

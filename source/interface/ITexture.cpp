@@ -73,7 +73,7 @@ const void *ITexture::GetData() const
 	return NULL;
 }
 
-void ITexture::PutPixel(u32 x, u32 y, uPixel px)
+void ITexture::PutPixel(u32 x, u32 y, const Color &px)
 {
 	UNUSED(x)
 	UNUSED(y)
@@ -82,10 +82,9 @@ void ITexture::PutPixel(u32 x, u32 y, uPixel px)
 	SEED_ABSTRACT_METHOD;
 }
 
-uPixel ITexture::GetPixel(u32 x, u32 y) const
+Color ITexture::GetPixel(u32 x, u32 y) const
 {
-	uPixel px;
-
+	Color px;
 	UNUSED(x)
 	UNUSED(y)
 
@@ -156,7 +155,7 @@ bool ITexture::Load(const String &filename, ResourceManager *res)
 	return ret;
 }
 
-bool ITexture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 atlasHeight)
+bool ITexture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight)
 {
 	UNUSED(width)
 	UNUSED(height)
@@ -191,7 +190,7 @@ u32 ITexture::GetBytesPerPixel() const
 	return 0;
 }
 
-void ITexture::Update(uPixel *buffer)
+void ITexture::Update(Color *buffer)
 {
 	UNUSED(buffer);
 	SEED_ABSTRACT_METHOD;

@@ -50,10 +50,10 @@ Timeline::Timeline()
 	, iKeyframeFrom(0)
 	, iKeyframeTo(0)
 	, iPriority(0)
-    , ptParentPosition()
-    , ptParentLocalPosition()
-    , ptParentScale()
-    , fParentRotation(0.0f)
+	, ptParentPosition()
+	, ptParentLocalPosition()
+	, ptParentScale()
+	, fParentRotation(0.0f)
 	, mapKeyframes()
 {
 }
@@ -507,37 +507,37 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		sName = reader.ReadString("name", "timeline");
-		f32 prio = reader.ReadF32("priority", 0.0f);
+		sName = reader.ReadString("sName", "timeline");
+		iPriority = reader.ReadU32("iPriority", 0);
 
 		/*
 		FIXME: The object here can be any ISceneObject, so we need a way to
 		identify the kind of object and a kind of factory that will construct
 		the object and return to us (Project)
 		*/
-		if (reader.SelectNode("object"))
+		if (reader.SelectNode("cObject"))
 		{
 			Reader r(reader);
 			Sprite *spt = New(Sprite);
 			spt->Load(r, res);
-			spt->SetPriority(prio);
+			spt->SetPriority(iPriority);
 			pObject = spt;
 			reader.UnselectNode();
 		}
 		else
 		{
-			String object = reader.ReadString("object", "");
+			String object = reader.ReadString("sObject", "");
 			SEED_ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
 
 			File f(object);
 			Reader r(f);
 			Sprite *spt = New(Sprite);
 			spt->Load(r, res);
-			spt->SetPriority(prio);
+			spt->SetPriority(iPriority);
 			pObject = spt;
 		}
 
-		u32 keyframes = reader.SelectArray("keyframes");
+		u32 keyframes = reader.SelectArray("aKeyframes");
 		SEED_ASSERT_MSG(keyframes != 0, "Timeline does not have keyframes.");
 		if (keyframes)
 		{
@@ -573,19 +573,19 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 bool Timeline::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("type", this->GetObjectName().c_str());
-		writer.WriteString("name", sName.c_str());
+		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sName", sName.c_str());
 
-		writer.WriteS32("priority", iPriority);
+		writer.WriteS32("iPriority", iPriority);
 
 		if (pObject)
 		{
-			writer.OpenNode("object");
+			writer.OpenNode("cObject");
 				pObject->Write(writer);
 			writer.CloseNode();
 		}
 
-		writer.OpenArray("keyframes");
+		writer.OpenArray("aKeyframes");
 			KeyframeMapIterator it = mapKeyframes.begin();
 			KeyframeMapIterator end = mapKeyframes.end();
 			for (; it != end; ++it)

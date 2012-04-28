@@ -46,12 +46,12 @@ struct sVertex
 {
 	// To be compatible with DX, we use FVF. So we must respect the DX FVF ordering in this struct.
 	Vector3f	cVertex;
-	uPixel		iColor;
+	Color3b		cColor;
 	Point2f		cCoords;
 
 	sVertex()
 		: cVertex(0.0f, 0.0f, 0.0f)
-		, iColor(255, 255, 255, 255)
+		, cColor(255, 255, 255, 255)
 		, cCoords(0.0f, 0.0f)
 	{
 	}
@@ -59,7 +59,7 @@ struct sVertex
 	sVertex &operator=(const sVertex &v)
 	{
 		cVertex = v.cVertex;
-		iColor = v.iColor;
+		cColor = v.cColor;
 		cCoords = v.cCoords;
 		return *this;
 	}
@@ -78,7 +78,7 @@ struct RendererPacket
 	ITexture				*pTexture;
 	void					*pVertexData;
 	u32						iSize;
-	uPixel					iColor;
+	Color					cColor;
 	eMeshType				nMeshType;
 	eBlendMode				nBlendMode;
 	ePacketFlags			iFlags;
@@ -89,7 +89,7 @@ struct RendererPacket
 		, pTexture(NULL)
 		, pVertexData(NULL)
 		, iSize(0)
-		, iColor(0, 0, 0, 255)
+		, cColor(0, 0, 0, 255)
 		, nMeshType(Seed::TriangleStrip)
 		, nBlendMode(Seed::BlendNone)
 		, iFlags(FlagNone)

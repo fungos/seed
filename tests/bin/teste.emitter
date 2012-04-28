@@ -1,11 +1,11 @@
 {
-	"sColorStart": {
+	"cColorStart": {
 		"r": 255,
 		"g": 168,
 		"b": 68,
 		"a": 255
 	},
-	"sColorEnd": {
+	"cColorEnd": {
 		"r": 255,
 		"g": 109,
 		"b": 79,
@@ -42,8 +42,9 @@
 	"fInterval": 0,
 	"iAnimation": 12,
 	"fSpinVar": 0,
-	"iEmission": 1,
+	"iEmission": 100,
 	"fLifetime": -1,
 	"sSprite": "particles.sprite",
-	"blending": "Additive"
+	"sName": "Particle Emitter 1",
+	"sBlending": "Additive"
 }

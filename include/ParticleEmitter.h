@@ -32,7 +32,6 @@
 #define __PARTICLE_EMITTER_H__
 
 #include "interface/ITransformable.h"
-#include "interface/ISceneObject.h"
 #include "Particle.h"
 #include "Rect.h"
 

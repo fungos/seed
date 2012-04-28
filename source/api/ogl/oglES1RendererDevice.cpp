@@ -132,9 +132,9 @@ bool OGLES1RendererDevice::Shutdown()
 	return IRendererDevice::Shutdown();
 }
 
-void OGLES1RendererDevice::BackbufferClear(const uPixel color)
+void OGLES1RendererDevice::BackbufferClear(const Color &color) const
 {
-	glClearColor(color.rgba.r / 255.0f, color.rgba.g / 255.0f, color.rgba.b / 255.0f, color.rgba.a / 255.0f);
+	glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 }
 
@@ -165,7 +165,7 @@ void OGLES1RendererDevice::End() const
 	glDisableClientState(GL_VERTEX_ARRAY);
 }
 
-void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) const
+void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &color) const
 {
 	switch (mode)
 	{
@@ -206,7 +206,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) c
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 			glBlendFunc(GL_DST_COLOR, GL_ONE);
-			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
+			glColor4ub(color.r, color.g, color.b, color.a);
 		}
 		break;
 
@@ -215,7 +215,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) c
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
-			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
+			glColor4ub(color.r, color.g, color.b, color.a);
 		}
 		break;
 
@@ -223,7 +223,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) c
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_DST_COLOR, GL_ONE);
-			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
+			glColor4ub(color.r, color.g, color.b, color.a);
 		}
 		break;
 
@@ -231,7 +231,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) c
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
+			glColor4ub(color.r, color.g, color.b, color.a);
 		}
 		break;
 
@@ -239,7 +239,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) c
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_ONE, GL_ONE);
-			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
+			glColor4ub(color.r, color.g, color.b, color.a);
 		}
 		break;
 
@@ -249,7 +249,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) c
 			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 			glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_ALPHA);
 
-			glColor4ub(255, 255, 255, color.rgba.a);
+			glColor4ub(255, 255, 255, color.a);
 		}
 		break;
 
@@ -257,7 +257,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) c
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-			glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
+			glColor4ub(color.r, color.g, color.b, color.a);
 		}
 		break;
 	}
@@ -436,7 +436,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	sVertex *data = static_cast<sVertex *>(packet->pVertexData);
 	Vector3f pivot = packet->vPivot;
 
-	this->SetBlendingOperation(packet->nBlendMode, packet->iColor);
+	this->SetBlendingOperation(packet->nBlendMode, packet->cColor);
 	this->SetTextureParameters(texture);
 
 	glBindTexture(GL_TEXTURE_2D, texture->iTextureId);
@@ -446,7 +446,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	glLoadMatrixf(pfm);
 
 	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &data[0].cVertex);
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &data[0].iColor);
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &data[0].cColor);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &data[0].cCoords);
 	glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, packet->iSize);
 
@@ -487,7 +487,7 @@ int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const
 	return GL_TRIANGLE_STRIP;
 }
 
-void OGLES1RendererDevice::BackbufferFill(uPixel color)
+void OGLES1RendererDevice::BackbufferFill(const Color &color) const
 {
 	glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_CURRENT_BIT | GL_COLOR_BUFFER_BIT);
 	const GLfloat vertices[] = {0.0f, 0.0f, 0.0f, pScreen->GetHeight(), pScreen->GetWidth(), 0.0f, pScreen->GetWidth(), pScreen->GetHeight()};
@@ -501,7 +501,7 @@ void OGLES1RendererDevice::BackbufferFill(uPixel color)
 	glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
+	glColor4ub(color.r, color.g, color.b, color.a);
 	glPushMatrix();
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
@@ -518,7 +518,7 @@ void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 	glViewport(static_cast<GLint>(x), static_cast<GLint>(y), static_cast<GLsizei>(w), static_cast<GLsizei>(h));
 }
 
-void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const
+void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill) const
 {
 	GLfloat vertices[8];
 
@@ -551,7 +551,10 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bo
 		vertices[7] = h;
 	}
 
-	glColor4ub(color.rgba.r, color.rgba.g, color.rgba.b, color.rgba.a);
+	glDisableClientState(GL_COLOR_ARRAY);
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+	glColor4ub(color.r, color.g, color.b, color.a);
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
 	glEnableClientState(GL_VERTEX_ARRAY);
 
@@ -566,7 +569,11 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bo
 	glPopMatrix();
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
+
 	glDisableClientState(GL_VERTEX_ARRAY);
+
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void OGLES1RendererDevice::Enable2D() const

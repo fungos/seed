@@ -73,8 +73,8 @@ class SEED_CORE_API Frame : public IDataObject
 		// IObject
 		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
-    
-        // IMPLEMENT COPY
+
+		// IMPLEMENT COPY
 };
 
 } // namespace

@@ -181,7 +181,7 @@ void RendererDevice::TextureDataUpdate(ITexture *texture)
 	pApiDevice->TextureDataUpdate(texture);
 }
 
-void RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) const
+void RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &color) const
 {
 	pApiDevice->SetBlendingOperation(mode, color);
 }
@@ -191,12 +191,12 @@ void RendererDevice::UploadData(void *userData)
 	pApiDevice->UploadData(userData);
 }
 
-void RendererDevice::BackbufferClear(const uPixel color)
+void RendererDevice::BackbufferClear(const Color &color) const
 {
 	pApiDevice->BackbufferClear(color);
 }
 
-void RendererDevice::BackbufferFill(const uPixel color)
+void RendererDevice::BackbufferFill(const Color &color) const
 {
 	pApiDevice->BackbufferFill(color);
 }
@@ -216,7 +216,7 @@ void RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 	pApiDevice->SetViewport(x, y, w, h);
 }
 
-void RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const
+void RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill) const
 {
 	pApiDevice->DrawRect(x, y, w, h, color, fill);
 }

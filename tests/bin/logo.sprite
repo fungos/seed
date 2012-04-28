@@ -1,11 +1,11 @@
 {
-	"type": "sprite",
-	"name": "logo",
-	"animations": [
+	"sType": "sprite",
+	"sName": "Logo",
+	"aAnimations": [
 		{
-			"frames": [
+			"aFrames": [
 				{
-					"texture": "logo.tga"
+					"sTexture": "logo.tga"
 				}
 			]
 		}

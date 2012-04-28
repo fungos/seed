@@ -56,7 +56,6 @@ Sprite::Sprite()
 	, iFrames(0)
 	, fFrameTime(0.0f)
 	, vert()
-	, sName()
 	, bInitialized(false)
 	, bChanged(false)
 	, bAnimation(false)
@@ -66,6 +65,7 @@ Sprite::Sprite()
 	, bIsCopy(false)
 {
 	iNumVertices = 4;
+	arCurrentVertexData = &vert[0];
 }
 
 Sprite::~Sprite()
@@ -85,7 +85,6 @@ Sprite::Sprite(const Sprite &other)
 	, iFrames(other.iFrames)
 	, fFrameTime(other.fFrameTime)
 	, vert()
-	, sName(other.sName)
 	, bInitialized(other.bInitialized)
 	, bChanged(other.bChanged)
 	, bAnimation(other.bAnimation)
@@ -116,7 +115,7 @@ Sprite::Sprite(const Sprite &other)
 
 	// IRenderable
 	eBlendOperation = other.eBlendOperation;
-	iColor = other.iColor;
+	cColor = other.cColor;
 	bColorChanged = other.bColorChanged;
 	bVisible = other.bVisible;
 	bIsCopy = true;
@@ -142,7 +141,6 @@ Sprite &Sprite::operator=(const Sprite &other)
 		vert[1] = other.vert[1];
 		vert[2] = other.vert[2];
 		vert[3] = other.vert[3];
-		sName = other.sName;
 
 		bInitialized = other.bInitialized;
 		bChanged = other.bChanged;
@@ -155,6 +153,9 @@ Sprite &Sprite::operator=(const Sprite &other)
 		arCurrentVertexData = &vert[0];
 		iNumVertices = other.iNumVertices;
 		nMeshType = other.nMeshType;
+
+		// ISceneObject
+		sName = other.sName;
 
 		// ITransformable
 		pParent = other.pParent;
@@ -169,7 +170,7 @@ Sprite &Sprite::operator=(const Sprite &other)
 
 		// IRenderable
 		eBlendOperation = other.eBlendOperation;
-		iColor = other.iColor;
+		cColor = other.cColor;
 		bColorChanged = other.bColorChanged;
 		bVisible = other.bVisible;
 		bIsCopy = true;
@@ -493,11 +494,11 @@ void Sprite::Update(f32 delta)
 	{
 		bColorChanged = false;
 
-		uPixel p = iColor;
-		vert[0].iColor = p;
-		vert[1].iColor = p;
-		vert[2].iColor = p;
-		vert[3].iColor = p;
+		Color p = cColor;
+		vert[0].cColor = p;
+		vert[1].cColor = p;
+		vert[2].cColor = p;
+		vert[3].cColor = p;
 	}
 }
 
@@ -517,7 +518,7 @@ void Sprite::Render()
 	packet.pTexture = pFrameTexture;
 	packet.nBlendMode = eBlendOperation;
 	packet.pTransform = &mTransform;
-	packet.iColor = iColor;
+	packet.cColor = cColor;
 	packet.iFlags = flags;
 
 	//Vector3f t = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
@@ -527,9 +528,9 @@ void Sprite::Render()
 	pRendererDevice->UploadData(&packet);
 }
 
-uPixel Sprite::GetPixel(u32 x, u32 y) const
+Color Sprite::GetPixel(u32 x, u32 y) const
 {
-	uPixel ret;
+	Color ret;
 
 	if (pFrame && pFrameTexture)
 		ret = pFrameTexture->GetPixel(x + pFrame->iX, y + pFrame->iY);
@@ -596,8 +597,8 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		sName = reader.ReadString("name", "sprite");
-		u32 anims = reader.SelectArray("animations");
+		sName = reader.ReadString("sName", "sprite");
+		u32 anims = reader.SelectArray("aAnimations");
 		if (anims)
 		{
 			for (u32 i = 0; i < anims; i++)
@@ -614,10 +615,10 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 			ITransformable::Unserialize(reader);
 			IRenderable::Unserialize(reader);
 
-			s32 anim = reader.ReadS32("animation", -1);
+			s32 anim = reader.ReadS32("iAnimation", -1);
 			if (anim == -1)
 			{
-				String sanim = reader.ReadString("animation", "");
+				String sanim = reader.ReadString("sAnimation", "");
 				if (sanim == "")
 					this->SetAnimation(0u);
 				else
@@ -640,14 +641,14 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 bool Sprite::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("type", this->GetObjectName().c_str());
-		writer.WriteString("name", sName.c_str());
-		writer.WriteS32("animation", this->GetAnimation());
+		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sName", sName.c_str());
+		writer.WriteS32("iAnimation", this->GetAnimation());
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);
 
-		writer.OpenArray("animations");
+		writer.OpenArray("aAnimations");
 		u32 anims  = (u32)vAnimations.Size();
 		for (u32 i = 0; i < anims; i++)
 		{

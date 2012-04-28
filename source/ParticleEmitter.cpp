@@ -323,13 +323,13 @@ void ParticleEmitter::Render()
 			arParticles[i].Render();
 		}
 
-		//if (pConfiguration->bDebugSprite)
+		if (pConfiguration->bDebugSprite)
 		{
-			uPixel p;
-			p.rgba.r = 255;
-			p.rgba.g = 0;
-			p.rgba.b = 0;
-			p.rgba.r = 255;
+			Color p;
+			p.r = 255;
+			p.g = 0;
+			p.b = 0;
+			p.a = 255;
 
 			f32 x = this->GetX();
 			f32 y = this->GetY();
@@ -520,7 +520,7 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 		SEED_ASSERT(res);
 		pRes = res;
 
-		cEmitter.bRelative = reader.ReadBool("relative", false);
+		cEmitter.bRelative = reader.ReadBool("bRelative", false);
 
 		cEmitter.fLifetime			= reader.ReadF32("fLifetime", 0.0f);
 		cEmitter.fParticleLifeMin	= reader.ReadF32("fParticleLifeMin", 0.0f);
@@ -547,7 +547,7 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 		cEmitter.fHeight			= reader.ReadF32("fHeight", 0.0f);
 		cEmitter.fInterval			= reader.ReadF32("fInterval", 0.0f);
 
-		if (reader.SelectNode("sColorStart"))
+		if (reader.SelectNode("cColorStart"))
 		{
 			cEmitter.fColorStartR = (reader.ReadU32("r", 255)) / 255.f;
 			cEmitter.fColorStartG = (reader.ReadU32("g", 255)) / 255.f;
@@ -556,7 +556,7 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 			reader.UnselectNode();
 		}
 
-		if (reader.SelectNode("sColorEnd"))
+		if (reader.SelectNode("cColorEnd"))
 		{
 			cEmitter.fColorEndR = (reader.ReadU32("r", 255)) / 255.f;
 			cEmitter.fColorEndG = (reader.ReadU32("g", 255)) / 255.f;
@@ -567,7 +567,8 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 
 		iAnimation = reader.ReadU32("iAnimation", 0);
 		cEmitter.iEmission = reader.ReadU32("iEmission", 0);
-		sBlending = reader.ReadString("blending", "None");
+		sBlending = reader.ReadString("sBlending", "None");
+		sName = reader.ReadString("sName", "");
 		sSprite = reader.ReadString("sSprite", "");
 		{
 			File f(sSprite);
@@ -581,6 +582,7 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 		pTexture = pTemplate->GetTexture();
 		fInterval = cEmitter.fInterval;
 
+		SEED_ASSERT_MSG(cEmitter.iEmission, "iEmission must be greater than 0.");
 		arParticles = NewArray(Particle, cEmitter.iEmission);
 		iParticlesAmount = cEmitter.iEmission;
 

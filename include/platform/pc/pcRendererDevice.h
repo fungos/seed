@@ -52,16 +52,16 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		virtual void TextureRequestProcess() const;
 		virtual void TextureDataUpdate(ITexture *texture);
 
-		virtual void SetBlendingOperation(eBlendMode mode, uPixel color) const;
+		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const;
 		virtual void UploadData(void *userData);
-		virtual void BackbufferClear(const uPixel color = uPixel());
-		virtual void BackbufferFill(const uPixel color = uPixel());
+		virtual void BackbufferClear(const Color &color = Color(0, 0, 0, 0)) const;
+		virtual void BackbufferFill(const Color &color = Color(0, 0, 0, 0)) const;
 
 		virtual void Begin() const;
 		virtual void End() const;
 
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
-		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill = false) const;
+		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
 		virtual void Enable2D() const;
 		virtual void Disable2D() const;
 

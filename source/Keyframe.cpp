@@ -71,19 +71,19 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		sName = reader.ReadString("name", "keyframe");
-		fRotation = reader.ReadF32("rotation", 0.0f);
-		fEasing = reader.ReadF32("easing", 0.0f);
+		sName = reader.ReadString("sName", "keyframe");
+		fRotation = reader.ReadF32("fRotation", 0.0f);
+		fEasing = reader.ReadF32("fEasing", 0.0f);
 
-		iFrame = reader.ReadS32("frame", -1);
+		iFrame = reader.ReadS32("iFrame", -1);
 		SEED_ASSERT_MSG(iFrame != -1, "Keyframe without a frame number");
 
-		iFrameToJump = reader.ReadS32("goto", -1);
+		iFrameToJump = reader.ReadS32("iGoto", -1);
 
-		bTween = reader.ReadBool("tween", false);
-		bBlank = reader.ReadBool("blank", false);
+		bTween = reader.ReadBool("bTween", false);
+		bBlank = reader.ReadBool("bBlank", false);
 
-		String event(reader.ReadString("event", "none"));
+		String event(reader.ReadString("sEvent", "none"));
 		std::transform(event.begin(), event.end(), event.begin(), tolower);
 		if (event == "stop")
 		{
@@ -102,28 +102,28 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 			iEvent = KeyframeEventNone;
 		}
 
-		if (reader.SelectNode("position"))
+		if (reader.SelectNode("cPosition"))
 		{
 			ptPos.x = reader.ReadF32("x", 0.0f);
 			ptPos.y = reader.ReadF32("y", 0.0f);
 			reader.UnselectNode();
 		}
 
-		if (reader.SelectNode("pivot"))
+		if (reader.SelectNode("cPivot"))
 		{
 			ptPivot.x = reader.ReadF32("x", 0.0f);
 			ptPivot.y = reader.ReadF32("y", 0.0f);
 			reader.UnselectNode();
 		}
 
-		if (reader.SelectNode("scale"))
+		if (reader.SelectNode("cScale"))
 		{
 			ptScale.x = reader.ReadF32("x", 1.0f);
 			ptScale.y = reader.ReadF32("y", 1.0f);
 			reader.UnselectNode();
 		}
 
-		if (reader.SelectNode("color"))
+		if (reader.SelectNode("cColor"))
 		{
 			iColorR = reader.ReadS32("r", 255);
 			iColorG = reader.ReadS32("g", 255);
@@ -141,47 +141,47 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 bool Keyframe::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("type", this->GetObjectName().c_str());
-		writer.WriteString("name", sName.c_str());
-		writer.WriteS32("frame", iFrame);
-		writer.WriteS32("goto", iFrameToJump);
-		writer.WriteF32("rotation", fRotation);
-		writer.WriteBool("tween", bTween);
-		writer.WriteBool("blank", bBlank);
+		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sName", sName.c_str());
+		writer.WriteS32("iFrame", iFrame);
+		writer.WriteS32("iGoto", iFrameToJump);
+		writer.WriteF32("fRotation", fRotation);
+		writer.WriteBool("bTween", bTween);
+		writer.WriteBool("bBlank", bBlank);
 
 		if (iEvent == KeyframeEventStop)
 		{
-			writer.WriteString("event", "stop");
+			writer.WriteString("sEvent", "stop");
 		}
 		else if (iEvent == KeyframeEventRestart)
 		{
-			writer.WriteString("event", "restart");
+			writer.WriteString("sEvent", "restart");
 		}
 		else if (iEvent == KeyframeEventJumpToFrame)
 		{
-			writer.WriteString("event", "goto");
+			writer.WriteString("sEvent", "goto");
 		}
 		else
 		{
-			writer.WriteString("event", "none");
+			writer.WriteString("sEvent", "none");
 		}
 
-		writer.OpenNode("position");
+		writer.OpenNode("cPosition");
 			writer.WriteF32("x", ptPos.x);
 			writer.WriteF32("y", ptPos.y);
 		writer.CloseNode();
 
-		writer.OpenNode("pivot");
+		writer.OpenNode("cPivot");
 			writer.WriteF32("x", ptPivot.x);
 			writer.WriteF32("y", ptPivot.y);
 		writer.CloseNode();
 
-		writer.OpenNode("scale");
+		writer.OpenNode("cScale");
 			writer.WriteF32("x", ptScale.x);
 			writer.WriteF32("y", ptScale.y);
 		writer.CloseNode();
 
-		writer.OpenNode("color");
+		writer.OpenNode("cColor");
 			if (iColorR != 255) writer.WriteU32("r", iColorR);
 			if (iColorG != 255) writer.WriteU32("g", iColorG);
 			if (iColorB != 255) writer.WriteU32("b", iColorB);

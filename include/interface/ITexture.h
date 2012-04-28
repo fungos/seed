@@ -52,10 +52,10 @@ class SEED_CORE_API ITexture : public IResource
 		virtual const void *GetData() const = 0;
 
 		/// PutPixel draw a pixel inside the texture.
-		virtual void PutPixel(u32 x, u32 y, uPixel px) = 0;
+		virtual void PutPixel(u32 x, u32 y, const Color &px) = 0;
 
 		/// Returns a uPixel color from the texture.
-		virtual uPixel GetPixel(u32 x, u32 y) const = 0;
+		virtual Color GetPixel(u32 x, u32 y) const = 0;
 
 		/// GetPixelAlpha returns only the alpha component of the pixel.
 		virtual u8 GetPixelAlpha(u32 x, u32 y) const = 0;
@@ -110,7 +110,7 @@ class SEED_CORE_API ITexture : public IResource
 		\param height Height of the texture
 		\param buffer Buffer to texture pixels
 		*/
-		virtual bool Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth = 0, u32 atlasHeight = 0) = 0;
+		virtual bool Load(u32 width, u32 height, Color *buffer, u32 atlasWidth = 0, u32 atlasHeight = 0) = 0;
 
 		/// Update the internal state of a dynamic texture with a new buffer (texture created by the user)
 		/**
@@ -122,7 +122,7 @@ class SEED_CORE_API ITexture : public IResource
 		be used, so be sure to keep your buffer alive until this texture is not needed.
 		Keep the Width and Height unchanged, otherwise you must do a Load again.
 		*/
-		virtual void Update(uPixel *buffer) = 0;
+		virtual void Update(Color *buffer) = 0;
 
 		// IObject
 		virtual int GetObjectType() const;

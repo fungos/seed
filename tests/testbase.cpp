@@ -31,28 +31,26 @@ bool TestBase::Initialize()
 	pScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
-	cScene.sNodeName = "Main";
+	cScene.sName = "Main";
 
-	{
-		File f("teste.emitter");
-		Reader r(f);
-		cEmitter.Load(r);
-		cEmitter.SetPosition(200, 100);
-		cEmitter.Play();
-		cEmitter.SetPriority(10.0f);
-		cEmitter.sNodeName = "Particle Emitter";
-		cScene.Add(&cEmitter);
-	}
+//	{
+//		File f("teste.emitter");
+//		Reader r(f);
+//		cEmitter.Load(r);
+//		cEmitter.SetPosition(200, 100);
+//		cEmitter.Play();
+//		cEmitter.SetPriority(10.0f);
+//		cScene.Add(&cEmitter);
+//	}
 
-	{
-		File f("anim.sprite");
-		Reader r(f);
-		sptLogo.Load(r);
-		sptLogo.SetPosition(400, 300);
-		sptLogo.SetPriority(100.0f);
-		sptLogo.sNodeName = "Sprite";
-		cScene.Add(&sptLogo);
-	}
+//	{
+//		File f("anim.sprite");
+//		Reader r(f);
+//		sptLogo.Load(r);
+//		sptLogo.SetPosition(400, 300);
+//		sptLogo.SetPriority(100.0f);
+//		cScene.Add(&sptLogo);
+//	}
 
 //	{
 //		Writer w;
@@ -65,7 +63,7 @@ bool TestBase::Initialize()
 		Reader r(f);
 		mvSample.Load(r);
 		mvSample.SetPriority(200.0f);
-//		cScene.Add(&mvSample);
+		cScene.Add(&mvSample);
 	}
 
 //	{
@@ -95,6 +93,7 @@ bool TestBase::Initialize()
 bool TestBase::Update(f32 dt)
 {
 	UNUSED(dt)
+	//pRendererDevice->DrawRect(100, 100, 50, 50, Color(255, 0, 255, 255), true);
 	return true;
 }
 

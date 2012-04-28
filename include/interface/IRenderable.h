@@ -53,9 +53,8 @@ class SEED_CORE_API IRenderable
 
 		virtual void SetColor(u32 r, u32 g, u32 b, u32 a);
 		virtual void SetColor(f32 r, f32 g, f32 b, f32 a);
-		virtual void SetColor(u32 px);
-		virtual void SetColor(uPixel px);
-		virtual u32 GetColor() const;
+		virtual void SetColor(Color px);
+		virtual Color GetColor() const;
 
 		virtual void SetBlending(eBlendMode op);
 		virtual String GetBlendingName() const;
@@ -68,7 +67,7 @@ class SEED_CORE_API IRenderable
 
 	protected:
 		eBlendMode	eBlendOperation;
-		uPixel		iColor;
+		Color		cColor;
 		bool		bColorChanged;
 		bool		bVisible;
 

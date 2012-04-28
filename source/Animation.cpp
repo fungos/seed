@@ -41,7 +41,7 @@ namespace Seed {
 Animation::Animation()
 	: vFrames()
 	, sName()
-    , iFps(0)
+	, iFps(0)
 	, iIndex(0)
 	, iFrames(0)
 	, iAnimationId(0)
@@ -61,11 +61,11 @@ bool Animation::Load(Reader &reader, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		sName = reader.ReadString("name", "animation");
-		bAnimated = reader.ReadBool("animated", true);
-		bLoop = reader.ReadBool("loop", true);
-		iFps = reader.ReadU32("fps", 60);
-		iFrames = reader.SelectArray("frames");
+		sName = reader.ReadString("sName", "animation");
+		bAnimated = reader.ReadBool("bAnimated", true);
+		bLoop = reader.ReadBool("bLoop", true);
+		iFps = reader.ReadU32("iFps", 60);
+		iFrames = reader.SelectArray("aFrames");
 
 		if (iFrames)
 		{
@@ -93,12 +93,12 @@ bool Animation::Write(Writer &writer)
 	bool ret = false;
 
 	writer.OpenNode();
-		writer.WriteString("type", this->GetObjectName().c_str());
-		writer.WriteString("name", sName.c_str());
-		writer.WriteBool("animated", bAnimated);
-		writer.WriteU32("fps", iFps);
+		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sName", sName.c_str());
+		writer.WriteBool("bAnimated", bAnimated);
+		writer.WriteU32("iFps", iFps);
 
-		writer.OpenArray("frames");
+		writer.OpenArray("aFrames");
 		for (u32 i = 0; i < iFrames; i++)
 		{
 			Frame *f = vFrames[i];

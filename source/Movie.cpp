@@ -37,7 +37,6 @@ namespace Seed {
 Movie::Movie()
 	: fElapsedTime(0.0f)
 	, vTimelines()
-	, sName("")
 	, bPlaying(true)
 {
 	TimelineVector().swap(vTimelines);
@@ -137,12 +136,12 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		sName = reader.ReadString("name", "movie");
+		sName = reader.ReadString("sName", "movie");
 
 		ITransformable::Unserialize(reader);
 		IRenderable::Unserialize(reader);
 
-		u32 timelines = reader.SelectArray("timelines");
+		u32 timelines = reader.SelectArray("aTimelines");
 		if (timelines)
 		{
 			for (u32 i = 0; i < timelines; i++)
@@ -154,7 +153,6 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 				vTimelines += obj;
 
 				ISceneObject *o = obj->GetObject();
-				o->SetParent(this);
 				this->Add(o);
 			}
 			reader.UnselectArray();
@@ -173,13 +171,13 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 bool Movie::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("type", this->GetObjectName().c_str());
-		writer.WriteString("name", sName.c_str());
+		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sName", sName.c_str());
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);
 
-		writer.OpenArray("timelines");
+		writer.OpenArray("aTimelines");
 		u32 lines  = (u32)vTimelines.Size();
 		for (u32 i = 0; i < lines; i++)
 		{

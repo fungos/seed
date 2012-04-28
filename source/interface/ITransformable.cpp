@@ -35,14 +35,14 @@ namespace Seed {
 
 ITransformable::ITransformable()
 	: pParent(NULL)
-    , mTransform()
+	, mTransform()
 	, vPos(0.0f, 0.0f, 0.0f)
 #if SEED_USE_CENTERED_PIVOT == 1
 	, vPivot(0.5f, 0.5f, 0.5f)
 #else
 	, vPivot(0.0f, 0.0f, 0.0f)
 #endif
-    , vTransformedPivot(0.0f, 0.0f, 0.0f)
+	, vTransformedPivot(0.0f, 0.0f, 0.0f)
 	, vScale(1.0f, 1.0f, 1.0f)
 	, vBoundingBox(0.0f, 0.0f, 0.0f)
 	, fRotation(0.0f)
@@ -610,24 +610,24 @@ void ITransformable::UpdateTransform()
 
 void ITransformable::Unserialize(Reader &reader)
 {
-	vPos.setZ(reader.ReadF32("priority", 0.0f));
-	this->SetRotation(reader.ReadF32("rotation", 0.0f));
+	vPos.setZ(reader.ReadF32("fPriority", 0.0f));
+	this->SetRotation(reader.ReadF32("fRotation", 0.0f));
 
-	if (reader.SelectNode("position"))
+	if (reader.SelectNode("cPosition"))
 	{
 		vPos.setX(reader.ReadF32("x", 0.0f));
 		vPos.setY(reader.ReadF32("y", 0.0f));
 		reader.UnselectNode();
 	}
 
-	if (reader.SelectNode("pivot"))
+	if (reader.SelectNode("cPivot"))
 	{
 		vPivot.setX(reader.ReadF32("x", 0.0f));
 		vPivot.setY(reader.ReadF32("y", 0.0f));
 		reader.UnselectNode();
 	}
 
-	if (reader.SelectNode("scale"))
+	if (reader.SelectNode("cScale"))
 	{
 		vScale.setX(reader.ReadF32("x", 1.0f));
 		vScale.setY(reader.ReadF32("y", 1.0f));
@@ -638,20 +638,20 @@ void ITransformable::Unserialize(Reader &reader)
 
 void ITransformable::Serialize(Writer &writer)
 {
-	writer.WriteF32("priority", (s32)vPos.getZ());
-	writer.WriteF32("rotation", fRotation);
+	writer.WriteF32("fPriority", (s32)vPos.getZ());
+	writer.WriteF32("fRotation", fRotation);
 
-	writer.OpenNode("position");
+	writer.OpenNode("cPosition");
 		writer.WriteF32("x", vPos.getX());
 		writer.WriteF32("y", vPos.getY());
 	writer.CloseNode();
 
-	writer.OpenNode("pivot");
+	writer.OpenNode("cPivot");
 		writer.WriteF32("x", vPivot.getX());
 		writer.WriteF32("y", vPivot.getY());
 	writer.CloseNode();
 
-	writer.OpenNode("scale");
+	writer.OpenNode("cScale");
 		writer.WriteF32("x", vScale.getX());
 		writer.WriteF32("y", vScale.getY());
 	writer.CloseNode();

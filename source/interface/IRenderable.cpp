@@ -37,7 +37,7 @@ namespace Seed {
 
 IRenderable::IRenderable()
 	: eBlendOperation(BlendNone)
-	, iColor(255, 255, 255, 255)
+	, cColor(255, 255, 255, 255)
 	, bColorChanged(false)
 	, bVisible(true)
 {
@@ -51,7 +51,7 @@ IRenderable::~IRenderable()
 void IRenderable::Reset()
 {
 	eBlendOperation = BlendNone;
-	iColor.pixel = 0;
+	cColor = Color();
 	bVisible = true;
 	bColorChanged = false;
 }
@@ -85,37 +85,31 @@ bool IRenderable::IsVisible() const
 
 void IRenderable::SetColor(u32 r, u32 g, u32 b, u32 a)
 {
-	iColor.rgba.r = r;
-	iColor.rgba.g = g;
-	iColor.rgba.b = b;
-	iColor.rgba.a = a;
+	cColor.r = r;
+	cColor.g = g;
+	cColor.b = b;
+	cColor.a = a;
 	bColorChanged = true;
 }
 
 void IRenderable::SetColor(f32 r, f32 g, f32 b, f32 a)
 {
-	iColor.rgba.r = static_cast<u32>(r * 255);
-	iColor.rgba.g = static_cast<u32>(g * 255);
-	iColor.rgba.b = static_cast<u32>(b * 255);
-	iColor.rgba.a = static_cast<u32>(a * 255);
+	cColor.r = static_cast<u8>(r * 255);
+	cColor.g = static_cast<u8>(g * 255);
+	cColor.b = static_cast<u8>(b * 255);
+	cColor.a = static_cast<u8>(a * 255);
 	bColorChanged = true;
 }
 
-void IRenderable::SetColor(uPixel px)
+void IRenderable::SetColor(Color px)
 {
-	iColor = px;
+	cColor = px;
 	bColorChanged = true;
 }
 
-void IRenderable::SetColor(u32 px)
+Color IRenderable::GetColor() const
 {
-	iColor.pixel = px;
-	bColorChanged = true;
-}
-
-u32 IRenderable::GetColor() const
-{
-	return iColor.pixel;
+	return cColor;
 }
 
 void IRenderable::SetBlendingByName(const String &blending)
@@ -171,33 +165,30 @@ String IRenderable::GetBlendingName() const
 
 void IRenderable::Unserialize(Reader &reader)
 {
-	if (reader.SelectNode("color"))
+	if (reader.SelectNode("cColor"))
 	{
-		iColor.rgba.r = reader.ReadU32("r", 255);
-		iColor.rgba.g = reader.ReadU32("g", 255);
-		iColor.rgba.b = reader.ReadU32("b", 255);
-		iColor.rgba.a = reader.ReadU32("a", 255);
+		cColor.r = reader.ReadU32("r", 255);
+		cColor.g = reader.ReadU32("g", 255);
+		cColor.b = reader.ReadU32("b", 255);
+		cColor.a = reader.ReadU32("a", 255);
 		reader.UnselectNode();
 	}
 
-	String blending = reader.ReadString("blending", "None");
+	String blending = reader.ReadString("sBlending", "None");
 	this->SetBlendingByName(blending);
 }
 
 void IRenderable::Serialize(Writer &writer)
 {
 	if (eBlendOperation != BlendDefault && eBlendOperation != BlendNone)
-		writer.WriteString("blending", this->GetBlendingName().c_str());
+		writer.WriteString("sBlending", this->GetBlendingName().c_str());
 
-	if (iColor.pixel != 0xffffffff)
-	{
-		writer.OpenNode("color");
-			writer.WriteU32("r", iColor.rgba.r);
-			writer.WriteU32("g", iColor.rgba.g);
-			writer.WriteU32("b", iColor.rgba.b);
-			writer.WriteU32("a", iColor.rgba.a);
-		writer.CloseNode();
-	}
+	writer.OpenNode("cColor");
+		writer.WriteU32("r", cColor.r);
+		writer.WriteU32("g", cColor.g);
+		writer.WriteU32("b", cColor.b);
+		writer.WriteU32("a", cColor.a);
+	writer.CloseNode();
 }
 
 } // namespace

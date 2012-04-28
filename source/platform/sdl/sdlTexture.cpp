@@ -211,7 +211,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 	return bLoaded;
 }
 
-bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 atlasHeight)
+bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight)
 {
 	SEED_ASSERT(buffer);
 	SEED_ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
@@ -242,7 +242,7 @@ bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 at
 	return bLoaded;
 }
 
-void Texture::Update(uPixel *data)
+void Texture::Update(Color *data)
 {
 	//this->UnloadTexture();
 	//pRendererDevice->TextureRequest(this, &iTextureId);
@@ -280,7 +280,7 @@ u32 Texture::GetAtlasHeight() const
 }
 
 // NEED TEST
-void Texture::PutPixel(u32 x, u32 y, uPixel px)
+void Texture::PutPixel(u32 x, u32 y, const Color &px)
 {
 	if (!pSurface)
 		return;
@@ -292,28 +292,37 @@ void Texture::PutPixel(u32 x, u32 y, uPixel px)
 	{
 		case 3:
 		{
-			u8 r = static_cast<u8>(px.rgba.r);
-			u8 g = static_cast<u8>(px.rgba.g);
-			u8 b = static_cast<u8>(px.rgba.b);
-
 			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
 			{
-				p[0] = r;
-				p[1] = b;
-				p[2] = g;
+				p[0] = px.r;
+				p[1] = px.b;
+				p[2] = px.g;
 			}
 			else
 			{
-				p[0] = g;
-				p[1] = b;
-				p[2] = r;
+				p[0] = px.g;
+				p[1] = px.b;
+				p[2] = px.r;
 			}
 		}
 		break;
 
 		case 4:
 		{
-			*(u32 *)p = px.pixel;
+			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+			{
+				p[0] = px.r;
+				p[1] = px.b;
+				p[2] = px.g;
+				p[3] = px.a;
+			}
+			else
+			{
+				p[0] = px.a;
+				p[1] = px.g;
+				p[2] = px.b;
+				p[3] = px.r;
+			}
 		}
 		break;
 
@@ -323,9 +332,9 @@ void Texture::PutPixel(u32 x, u32 y, uPixel px)
 }
 
 // NEED TEST
-uPixel Texture::GetPixel(u32 x, u32 y) const
+Color Texture::GetPixel(u32 x, u32 y) const
 {
-	uPixel px;
+	Color px;
 	if (!pSurface)
 		return px;
 
@@ -336,13 +345,15 @@ uPixel Texture::GetPixel(u32 x, u32 y) const
 	{
 		case 1:
 		{
-			px.pixel = (u32)*p;
+			u8 x = (u8)*p;
+			px = Color(x, x, x, 255);
 		}
 		break;
 
 		case 2:
 		{
-			px.pixel = (u32)*(u16 *)p;
+			u16 x = *(u16 *)p;
+			px = Color((x >> 11) & 5, (x >> 5) & 6, x & 5, 255);
 		}
 		break;
 
@@ -350,24 +361,37 @@ uPixel Texture::GetPixel(u32 x, u32 y) const
 		{
 			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
 			{
-				px.rgba.r = p[0] << 16;
-				px.rgba.g = p[1] << 8;
-				px.rgba.b = p[2];
-				px.rgba.a = 255;
+				px.r = p[0];
+				px.g = p[1];
+				px.b = p[2];
+				px.a = 255;
 			}
 			else
 			{
-				px.rgba.r = p[0];
-				px.rgba.g = p[1] << 8;
-				px.rgba.b = p[2] << 16;
-				px.rgba.a = 255;
+				px.a = 255;
+				px.b = p[0];
+				px.g = p[1];
+				px.r = p[2];
 			}
 		}
 		break;
 
 		case 4:
 		{
-			px.pixel = *(u32 *)p;
+			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
+			{
+				px.r = p[0];
+				px.g = p[1];
+				px.b = p[2];
+				px.a = p[3];
+			}
+			else
+			{
+				px.a = p[0];
+				px.b = p[1];
+				px.g = p[2];
+				px.r = p[3];
+			}
 		}
 		break;
 
@@ -395,17 +419,8 @@ u8 Texture::GetPixelAlpha(u32 x, u32 y) const
 		return this->GetPixelAlpha(x, y);
 	}
 
-	u8 a = 255;
-	u8 r, g, b;
-	if (iBytesPerPixel == 4)
-	{
-		uPixel px = this->GetPixel(x, y);
-
-		if (pSurface)
-			SDL_GetRGBA(px.pixel, pSurface->format, &r, &g, &b, &a);
-	}
-
-	return a;
+	Color px = this->GetPixel(x, y);
+	return px.a;
 }
 
 u32 Texture::GetUsedMemory() const

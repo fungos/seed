@@ -259,9 +259,9 @@ bool D3D8RendererDevice::Shutdown()
 	return ret;
 }
 
-void D3D8RendererDevice::BackbufferClear(const uPixel p)
+void D3D8RendererDevice::BackbufferClear(const Color &p)
 {
-	mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(p.argb.a, p.argb.r, p.argb.g, p.argb.b), 0.0f, 0);
+	mDevice->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_ARGB(p.a, p.r, p.g, p.b), 0.0f, 0);
 }
 
 void D3D8RendererDevice::Begin() const
@@ -279,7 +279,7 @@ void D3D8RendererDevice::End() const
 	mDevice->Present(NULL, NULL, NULL, NULL);
 }
 
-void D3D8RendererDevice::SetBlendingOperation(eBlendMode mode, uPixel color) const
+void D3D8RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &color) const
 {
 	UNUSED(color);
 	switch (mode)
@@ -431,7 +431,7 @@ void D3D8RendererDevice::UploadData(void *userData)
 	RendererPacket *packet = static_cast<RendererPacket *>(userData);
 	SEED_ASSERT_MSG(packet->pVertexData != NULL, "VERTEX DATA CANNOT BE NULL!");
 
-	this->SetBlendingOperation(packet->nBlendMode, packet->iColor);
+	this->SetBlendingOperation(packet->nBlendMode, packet->cColor);
 
 	ITexture *texture = packet->pTexture;
 	IDirect3DTexture8 *t = static_cast<IDirect3DTexture8 *>(texture->pTextureId);
@@ -456,35 +456,35 @@ void D3D8RendererDevice::UploadData(void *userData)
 	mDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, packet->iSize - 2, packet->pVertexData, sizeof(sVertex));
 }
 
-void D3D8RendererDevice::BackbufferFill(uPixel color)
+void D3D8RendererDevice::BackbufferFill(const Color &color)
 {
-	uPixel rgba = color;
-	rgba.rgba.r = color.argb.r;
-	rgba.rgba.g = color.argb.g;
-	rgba.rgba.b = color.argb.b;
-	rgba.rgba.a = color.argb.a;
+	Color rgba = color;
+	rgba.r = color.r;
+	rgba.g = color.g;
+	rgba.b = color.b;
+	rgba.a = color.a;
 
 	sVertex quad[4];
 
 	quad[0].cVertex.x = 0.0f;
 	quad[0].cVertex.y = 0.0f;
 	quad[0].cVertex.z = 1.0f;
-	quad[0].iColor = rgba;
+	quad[0].cColor = rgba;
 
 	quad[1].cVertex.x = 1.0f;
 	quad[1].cVertex.y = 0.0f;
 	quad[1].cVertex.z = 1.0f;
-	quad[1].iColor = rgba;
+	quad[1].cColor = rgba;
 
 	quad[2].cVertex.x = 0.0f;
 	quad[2].cVertex.y = 1.0f;
 	quad[2].cVertex.z = 1.0f;
-	quad[2].iColor = rgba;
+	quad[2].cColor = rgba;
 
 	quad[3].cVertex.x = 1.0f;
 	quad[3].cVertex.y = 1.0f;
 	quad[3].cVertex.z = 1.0f;
-	quad[3].iColor = rgba;
+	quad[3].cColor = rgba;
 
 	this->SetBlendingOperation(Seed::BlendModulate, 0);
 	mDevice->SetTexture(0, NULL);
@@ -504,15 +504,15 @@ void D3D8RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 	mDevice->SetViewport(&vp);
 }
 
-void D3D8RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool fill) const
+void D3D8RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill) const
 {
 	UNUSED(fill);
 
-	uPixel rgba = color;
-	rgba.rgba.r = color.argb.r;
-	rgba.rgba.g = color.argb.g;
-	rgba.rgba.b = color.argb.b;
-	rgba.rgba.a = color.argb.a;
+	Color rgba = color;
+	rgba.r = color.r;
+	rgba.g = color.g;
+	rgba.b = color.b;
+	rgba.a = color.a;
 
 	f32 ratio = pScreen->GetAspectRatio();
 
@@ -521,27 +521,27 @@ void D3D8RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, uPixel color, bool
 	quad[0].cVertex.x = x;
 	quad[0].cVertex.y = y * ratio;
 	quad[0].cVertex.z = 1.0f;
-	quad[0].iColor = rgba;
+	quad[0].cColor = rgba;
 
 	quad[1].cVertex.x = x + w;
 	quad[1].cVertex.y = y * ratio;
 	quad[1].cVertex.z = 1.0f;
-	quad[1].iColor = rgba;
+	quad[1].cColor = rgba;
 
 	quad[2].cVertex.x = x + w;
 	quad[2].cVertex.y = (y + h) * ratio;
 	quad[2].cVertex.z = 1.0f;
-	quad[2].iColor = rgba;
+	quad[2].cColor = rgba;
 
 	quad[3].cVertex.x = x;
 	quad[3].cVertex.y = (y + h) * ratio;
 	quad[3].cVertex.z = 1.0f;
-	quad[3].iColor = rgba;
+	quad[3].cColor = rgba;
 
 	quad[4].cVertex.x = x;
 	quad[4].cVertex.y = y * ratio;
 	quad[4].cVertex.z = 1.0f;
-	quad[4].iColor = rgba;
+	quad[4].cColor = rgba;
 
 	this->SetBlendingOperation(Seed::BlendModulate, 0);
 	mDevice->SetTexture(0, NULL);

@@ -70,7 +70,6 @@ class SEED_CORE_API Movie : public SceneNode
 	private:
 		f32				fElapsedTime;
 		TimelineVector	vTimelines;
-		String			sName;
 		bool			bPlaying;
 };
 

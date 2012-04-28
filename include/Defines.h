@@ -72,38 +72,25 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 
 typedef std::string String;
 
-/// Pixel union
-union uPixel
+struct Color
 {
-	u32 pixel;
-	/// Pixel components in array
-	struct vec
-	{
-		u8 c[4];
-	} pComponent;
-	/// Pixel components RGBA
-	struct _rgba
-	{
-		u8 r;
-		u8 g;
-		u8 b;
-		u8 a;
-	} rgba;
+	u8 r;
+	u8 g;
+	u8 b;
+	u8 a;
 
-	uPixel(u8 R, u8 G, u8 B, u8 A)
-		: rgba()
+	Color(u8 R, u8 G, u8 B, u8 A)
+		: r(R), g(G), b(B), a(A)
 	{
-		rgba.r = R;
-		rgba.g = G;
-		rgba.b = B;
-		rgba.a = A;
 	}
 
-	uPixel()
-		: pixel(0)
+	Color()
+		: r(255), g(0), b(255), a(255)
 	{
 	}
 };
+
+typedef Color Color3b;
 
 // Debugging
 #if defined(DEBUG)

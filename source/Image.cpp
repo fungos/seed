@@ -118,7 +118,7 @@ void Image::Render()
 		packet.pVertexData = &vert;
 		packet.pTexture = pTexture;
 		packet.nBlendMode = eBlendOperation;
-		packet.iColor = iColor;
+		packet.cColor = cColor;
 		pRendererDevice->UploadData(&packet);
 	}
 }
