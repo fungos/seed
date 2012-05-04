@@ -507,8 +507,8 @@ void OGLES1RendererDevice::BackbufferFill(const Color &color) const
 	glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
 	glPopMatrix();
 
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glPopAttrib();
 }
@@ -551,8 +551,8 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &col
 		vertices[7] = h;
 	}
 
-	glDisableClientState(GL_COLOR_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
 
 	glColor4ub(color.r, color.g, color.b, color.a);
 	glVertexPointer(2, GL_FLOAT, 0, vertices);
@@ -569,8 +569,6 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &col
 	glPopMatrix();
 	glEnable(GL_BLEND);
 	glEnable(GL_TEXTURE_2D);
-
-	glDisableClientState(GL_VERTEX_ARRAY);
 
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);

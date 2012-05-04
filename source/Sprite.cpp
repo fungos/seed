@@ -524,9 +524,6 @@ void Sprite::Render()
 	packet.pTransform = &mTransform;
 	packet.cColor = cColor;
 	packet.iFlags = flags;
-
-	//Vector3f t = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
-	//Vector3f p = Vector3f(t.getX() * vBoundingBox.getX(), t.getY() * vBoundingBox.getY(), t.getZ() * vBoundingBox.getZ());
 	packet.vPivot = vTransformedPivot;
 
 	pRendererDevice->UploadData(&packet);

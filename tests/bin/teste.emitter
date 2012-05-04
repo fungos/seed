@@ -29,6 +29,7 @@
 
 	"fSpinStart": 0,
 	"fSpinEnd": 0,
+	"fSpinVar": 0,
 
 	"fColorVar": 0,
 	"fAlphaVar": 0,
@@ -41,8 +42,8 @@
 	"bRelative": false,
 	"fInterval": 0,
 	"iAnimation": 12,
-	"fSpinVar": 0,
-	"iEmission": 2,
+
+	"iEmission": 500,
 	"fLifetime": -1,
 	"sSprite": "particles.sprite",
 	"sName": "Particle Emitter 1",

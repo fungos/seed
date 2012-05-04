@@ -7,7 +7,7 @@ TestBase::TestBase()
 	cConfig.SetApplicationTitle("tests");
 	cConfig.SetPublisherName("seed");
 	cConfig.SetVideoMode(Seed::Video_800x600);
-	cConfig.bDebugSprite = true;
+//	cConfig.bDebugSprite = true;
 }
 
 TestBase::~TestBase()
