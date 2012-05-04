@@ -68,10 +68,12 @@ void SceneNode::Render()
 void SceneNode::Add(ISceneObject *obj)
 {
 	vChild += obj;
+	obj->SetParent(this);
 }
 
 void SceneNode::Remove(ISceneObject *obj)
 {
+	obj->SetParent(NULL);
 	vChild -= obj;
 }
 

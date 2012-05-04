@@ -458,10 +458,14 @@ void Sprite::Update(f32 delta)
 			else
 				iCurrentFrame++;
 
-			pFrame = pvFrames->at(iCurrentFrame);
-			pFrameTexture = pFrame->pTexture;
+			Frame *next = pvFrames->at(iCurrentFrame);
+			if (next != pFrame)
+			{
+				pFrame = next;
+				pFrameTexture = pFrame->pTexture;
 
-			this->ReconfigureFrame();
+				this->ReconfigureFrame();
+			}
 		}
 	}
 

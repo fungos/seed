@@ -105,7 +105,7 @@ void Timeline::GotoAndPlay(const char *strKeyframeName)
 
 void Timeline::Update()
 {
-	if (!pObject)
+	if (!pObject ||  mapKeyframes.size() < 2)
 		return;
 
 	//attempt to get the next keyframe

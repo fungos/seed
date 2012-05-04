@@ -42,7 +42,7 @@
 	"fInterval": 0,
 	"iAnimation": 12,
 	"fSpinVar": 0,
-	"iEmission": 100,
+	"iEmission": 2,
 	"fLifetime": -1,
 	"sSprite": "particles.sprite",
 	"sName": "Particle Emitter 1",

@@ -170,7 +170,7 @@ void ITransformable::SetPivotX(f32 x)
 	vPivot.setX(x);
 	bTransformationChanged = true;
 
-	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
@@ -182,7 +182,7 @@ void ITransformable::SetPivotY(f32 y)
 	vPivot.setY(y);
 	bTransformationChanged = true;
 
-	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
@@ -194,7 +194,7 @@ void ITransformable::SetPivotZ(f32 z)
 	vPivot.setZ(z);
 	bTransformationChanged = true;
 
-	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
@@ -206,7 +206,7 @@ void ITransformable::AddPivotX(f32 value)
 	vPivot.setX(vPivot.getX() + value);
 	bTransformationChanged = true;
 
-	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
@@ -218,7 +218,7 @@ void ITransformable::AddPivotY(f32 value)
 	vPivot.setY(vPivot.getY() + value);
 	bTransformationChanged = true;
 
-	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
@@ -230,7 +230,7 @@ void ITransformable::AddPivotZ(f32 value)
 	vPivot.setZ(vPivot.getZ() + value);
 	bTransformationChanged = true;
 
-	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
@@ -243,7 +243,7 @@ void ITransformable::SetPivot(f32 x, f32 y)
 	vPivot.setY(y);
 	bTransformationChanged = true;
 
-	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
@@ -255,7 +255,7 @@ void ITransformable::SetPivot(const Vector3f &pos)
 	vPivot = pos;
 	bTransformationChanged = true;
 
-	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
@@ -268,7 +268,7 @@ void ITransformable::AddPivot(f32 x, f32 y)
 	vPivot.setY(vPivot.getY() + y);
 	bTransformationChanged = true;
 
-	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
@@ -280,7 +280,7 @@ void ITransformable::AddPivot(const Vector3f &pos)
 	vPivot += pos;
 	bTransformationChanged = true;
 
-	vTransformedPivot = this->GetPivot() - Vector3f(0.5f, 0.5f, 0.5f);
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 

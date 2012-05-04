@@ -7,7 +7,7 @@ TestBase::TestBase()
 	cConfig.SetApplicationTitle("tests");
 	cConfig.SetPublisherName("seed");
 	cConfig.SetVideoMode(Seed::Video_800x600);
-//	cConfig.bDebugSprite = true;
+	cConfig.bDebugSprite = true;
 }
 
 TestBase::~TestBase()
@@ -33,24 +33,24 @@ bool TestBase::Initialize()
 
 	cScene.sName = "Main";
 
-//	{
-//		File f("teste.emitter");
-//		Reader r(f);
-//		cEmitter.Load(r);
-//		cEmitter.SetPosition(200, 100);
-//		cEmitter.Play();
-//		cEmitter.SetPriority(10.0f);
-//		cScene.Add(&cEmitter);
-//	}
+	{
+		File f("teste.emitter");
+		Reader r(f);
+		cEmitter.Load(r);
+		cEmitter.SetPosition(200, 100);
+		cEmitter.Play();
+		cEmitter.SetPriority(10.0f);
+		cScene.Add(&cEmitter);
+	}
 
-//	{
-//		File f("anim.sprite");
-//		Reader r(f);
-//		sptLogo.Load(r);
-//		sptLogo.SetPosition(400, 300);
-//		sptLogo.SetPriority(100.0f);
-//		cScene.Add(&sptLogo);
-//	}
+	{
+		File f("anim.sprite");
+		Reader r(f);
+		sptLogo.Load(r);
+		sptLogo.SetPosition(400, 300);
+		sptLogo.SetPriority(100.0f);
+		cScene.Add(&sptLogo);
+	}
 
 //	{
 //		Writer w;

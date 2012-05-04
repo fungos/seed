@@ -94,10 +94,10 @@ void Movie::Update(f32 delta)
 			}
 
 			obj->Update();
-		}//);
+		}
 	}
 
-	//SceneNode::Update(delta);
+	SceneNode::Update(delta);
 }
 
 void Movie::Play()
@@ -131,7 +131,6 @@ void Movie::Reset()
 bool Movie::Load(Reader &reader, ResourceManager *res)
 {
 	SEED_ASSERT(res);
-
 	bool ret = false;
 
 	if (this->Unload())
