@@ -73,7 +73,7 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 		sName = reader.ReadString("sName", "frame");
 
 		sTexture = reader.ReadString("sTexture", "default");
-		pTexture = (ITexture *)res->Get(sTexture.c_str(), Seed::ObjectTexture);
+		pTexture = (ITexture *)res->Get(sTexture.c_str(), Seed::TypeTexture);
 
 		if (reader.SelectNode("cBoundary"))
 		{
@@ -165,7 +165,7 @@ const String Frame::GetObjectName() const
 
 int Frame::GetObjectType() const
 {
-	return Seed::ObjectFrame;
+	return Seed::TypeFrame;
 }
 
 } // namespace

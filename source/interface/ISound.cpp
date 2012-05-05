@@ -42,7 +42,7 @@ ISound::~ISound()
 
 int ISound::GetObjectType() const
 {
-	return Seed::ObjectSound;
+	return Seed::TypeSound;
 }
 
 const String ISound::GetObjectName() const

@@ -38,10 +38,15 @@ bool TestBase::Initialize()
 		Reader r(f);
 		cEmitter.Load(r);
 		cEmitter.SetPosition(200, 100);
-		cEmitter.Play();
 		cEmitter.SetPriority(10.0f);
 		cScene.Add(&cEmitter);
 	}
+
+//	{
+//		Writer w;
+//		cEmitter.Write(w);
+//		w.Save("out.emitter");
+//	}
 
 	{
 		File f("anim.sprite");

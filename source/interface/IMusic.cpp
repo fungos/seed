@@ -89,7 +89,7 @@ void IMusic::SetAutoUnload(bool b)
 
 int IMusic::GetObjectType() const
 {
-	return Seed::ObjectMusic;
+	return Seed::TypeMusic;
 }
 
 const String IMusic::GetObjectName() const

@@ -181,7 +181,7 @@ const String Configuration::GetObjectName() const
 
 int Configuration::GetObjectType() const
 {
-	return Seed::ObjectConfiguration;
+	return Seed::TypeConfiguration;
 }
 
 } // namespace

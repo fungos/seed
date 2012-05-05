@@ -199,7 +199,7 @@ const String Keyframe::GetObjectName() const
 
 int Keyframe::GetObjectType() const
 {
-	return Seed::ObjectKeyframe;
+	return Seed::TypeKeyframe;
 }
 
 } // namespace

@@ -63,6 +63,10 @@ class SEED_CORE_API SceneNode : public ISceneObject
 		virtual bool Unload();
 		virtual void Reset();
 
+		// IObject
+		virtual const String GetObjectName() const;
+		virtual int GetObjectType() const;
+
 	private:
 		SEED_DISABLE_COPY(SceneNode);
 

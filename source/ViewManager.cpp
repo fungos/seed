@@ -166,7 +166,7 @@ const String ViewManager::GetObjectName() const
 
 int ViewManager::GetObjectType() const
 {
-	return Seed::ObjectViewManager;
+	return Seed::TypeViewManager;
 }
 
 } // namespace

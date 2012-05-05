@@ -63,6 +63,7 @@ ParticleEmitter::ParticleEmitter()
 	, bParticlesFollowEmitter(false)
 	, bPaused(false)
 	, bEnabled(true)
+	, bAutoPlay(false)
 {
 }
 
@@ -520,7 +521,11 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 		SEED_ASSERT(res);
 		pRes = res;
 
+		ITransformable::Unserialize(reader);
+		IRenderable::Unserialize(reader);
+
 		cEmitter.bRelative = reader.ReadBool("bRelative", false);
+		bAutoPlay = reader.ReadBool("bAutoPlay", false);
 
 		cEmitter.fLifetime			= reader.ReadF32("fLifetime", 0.0f);
 		cEmitter.fParticleLifeMin	= reader.ReadF32("fParticleLifeMin", 0.0f);
@@ -586,6 +591,9 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 		arParticles = NewArray(Particle, cEmitter.iEmission);
 		iParticlesAmount = cEmitter.iEmission;
 
+		if (bAutoPlay)
+			this->Play();
+
 		ret = true;
 	}
 
@@ -594,9 +602,62 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 
 bool ParticleEmitter::Write(Writer &writer)
 {
-	bool ret = false;
-	#warning "Implement ParticleEmitter writer"
-	return ret;
+	writer.OpenNode();
+		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sName", sName.c_str());
+		writer.WriteString("sSprite", sSprite.c_str());
+
+		ITransformable::Serialize(writer);
+//		IRenderable::Serialize(writer);
+
+		writer.WriteString("sBlending", sBlending.c_str());
+		writer.OpenNode("cColorStart");
+			writer.WriteU32("r", static_cast<u8>(cEmitter.fColorStartR * 255.0f));
+			writer.WriteU32("g", static_cast<u8>(cEmitter.fColorStartG * 255.0f));
+			writer.WriteU32("b", static_cast<u8>(cEmitter.fColorStartB * 255.0f));
+			writer.WriteU32("a", static_cast<u8>(cEmitter.fColorStartA * 255.0f));
+		writer.CloseNode();
+
+		writer.OpenNode("cColorEnd");
+			writer.WriteU32("r", static_cast<u8>(cEmitter.fColorEndR * 255.0f));
+			writer.WriteU32("g", static_cast<u8>(cEmitter.fColorEndG * 255.0f));
+			writer.WriteU32("b", static_cast<u8>(cEmitter.fColorEndB * 255.0f));
+			writer.WriteU32("a", static_cast<u8>(cEmitter.fColorEndA * 255.0f));
+		writer.CloseNode();
+
+		writer.WriteF32("fLifetime", cEmitter.fLifetime);
+		writer.WriteF32("fParticleLifeMin", cEmitter.fParticleLifeMin);
+		writer.WriteF32("fParticleLifeMax", cEmitter.fParticleLifeMax);
+		writer.WriteF32("fDirection", cEmitter.fDirection);
+		writer.WriteF32("fSpread", cEmitter.fSpread);
+		writer.WriteF32("fSpeedMin", cEmitter.fSpeedMin);
+		writer.WriteF32("fSpeedMax", cEmitter.fSpeedMax);
+		writer.WriteF32("fGravityMin", cEmitter.fGravityMin);
+		writer.WriteF32("fGravityMax", cEmitter.fGravityMax);
+		writer.WriteF32("fRadialAccelMin", cEmitter.fRadialAccelMin);
+		writer.WriteF32("fRadialAccelMax", cEmitter.fRadialAccelMax);
+		writer.WriteF32("fTangentialAccelMin", cEmitter.fTangentialAccelMin);
+		writer.WriteF32("fTangentialAccelMax", cEmitter.fTangentialAccelMax);
+		writer.WriteF32("fSizeStart", cEmitter.fSizeStart);
+		writer.WriteF32("fSizeEnd", cEmitter.fSizeEnd);
+		writer.WriteF32("fSizeVar", cEmitter.fSizeVar);
+		writer.WriteF32("fSpinStart", cEmitter.fSpinStart);
+		writer.WriteF32("fSpinEnd", cEmitter.fSpinEnd);
+		writer.WriteF32("fSpinVar", cEmitter.fSpinVar);
+		writer.WriteF32("fColorVar", cEmitter.fColorVar);
+		writer.WriteF32("fAlphaVar", cEmitter.fAlphaVar);
+		writer.WriteF32("fWidth", cEmitter.fWidth);
+		writer.WriteF32("fHeight", cEmitter.fHeight);
+		writer.WriteF32("fInterval", cEmitter.fInterval);
+
+		writer.WriteBool("bRelative", cEmitter.bRelative);
+		writer.WriteBool("bAutoPlay", bAutoPlay);
+
+		writer.WriteU32("iAnimation", iAnimation);
+		writer.WriteU32("iEmission", cEmitter.iEmission);
+	writer.CloseNode();
+
+	return true;
 }
 
 const String ParticleEmitter::GetObjectName() const
@@ -606,7 +667,7 @@ const String ParticleEmitter::GetObjectName() const
 
 int ParticleEmitter::GetObjectType() const
 {
-	return Seed::ObjectParticleEmitter;
+	return Seed::TypeParticleEmitter;
 }
 
 } // namespace

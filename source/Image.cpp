@@ -71,7 +71,7 @@ bool Image::Load(const String &filename, ResourceManager *res)
 		sFilename = filename;
 		pRes = res;
 
-		pTexture = static_cast<ITexture *>(res->Get(filename, Seed::ObjectTexture));
+		pTexture = static_cast<ITexture *>(res->Get(filename, Seed::TypeTexture));
 		this->UpdateCoords();
 		bDynamic = false;
 	}
@@ -166,7 +166,7 @@ void Image::UpdateCoords()
 
 int Image::GetObjectType() const
 {
-	return Seed::ObjectImage;
+	return Seed::TypeImage;
 }
 
 const String Image::GetObjectName() const

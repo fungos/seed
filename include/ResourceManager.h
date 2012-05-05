@@ -56,7 +56,7 @@ class SEED_CORE_API ResourceManager
 		~ResourceManager();
 
 		void Reset();
-		IResource *Get(const String &filename, Seed::eObjectType resourceType = Seed::ObjectTexture);
+		IResource *Get(const String &filename, Seed::eObjectType resourceType = Seed::TypeTexture);
 		void GarbageCollect();
 
 		u32 GetTotalUsedMemory();

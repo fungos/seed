@@ -175,9 +175,9 @@ bool Initialize()
 	pUpdater->Add(pRendererManager);
 	pUpdater->Add(pSceneManager);
 
-	ResourceManager::Register(Seed::ObjectTexture,			TextureResourceLoader);
-	ResourceManager::Register(Seed::ObjectSound,			SoundResourceLoader);
-	ResourceManager::Register(Seed::ObjectMusic,			MusicResourceLoader);
+	ResourceManager::Register(Seed::TypeTexture,		TextureResourceLoader);
+	ResourceManager::Register(Seed::TypeSound,			SoundResourceLoader);
+	ResourceManager::Register(Seed::TypeMusic,			MusicResourceLoader);
 
 	Private::bInitialized = true;
 

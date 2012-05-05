@@ -196,7 +196,7 @@ const String Movie::GetObjectName() const
 
 int Movie::GetObjectType() const
 {
-	return Seed::ObjectMovie;
+	return Seed::TypeMovie;
 }
 
 } // namespace

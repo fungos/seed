@@ -134,7 +134,7 @@ const String Animation::GetObjectName() const
 
 int Animation::GetObjectType() const
 {
-	return Seed::ObjectAnimation;
+	return Seed::TypeAnimation;
 }
 
 } // namespace

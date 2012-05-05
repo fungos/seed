@@ -53,8 +53,8 @@ class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, pu
 		virtual void Render() = 0;
 
 		// IObject
-		virtual const String GetObjectName() const;
-		virtual int GetObjectType() const;
+//		virtual const String GetObjectName() const;
+//		virtual int GetObjectType() const;
 
 	private:
 		SEED_DISABLE_COPY(ISceneObject);

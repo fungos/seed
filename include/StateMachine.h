@@ -67,7 +67,7 @@ class SEED_CORE_API StateMachineEvent : public IEvent
 
 		virtual int GetObjectType() const
 		{
-			return Seed::ObjectEvent;
+			return Seed::TypeEvent;
 		}
 };
 

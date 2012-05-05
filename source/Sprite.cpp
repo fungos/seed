@@ -565,7 +565,7 @@ const String Sprite::GetObjectName() const
 
 int Sprite::GetObjectType() const
 {
-	return Seed::ObjectSprite;
+	return Seed::TypeSprite;
 }
 
 bool Sprite::Unload()

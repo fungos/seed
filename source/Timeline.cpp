@@ -606,7 +606,7 @@ const String Timeline::GetObjectName() const
 
 int Timeline::GetObjectType() const
 {
-	return Seed::ObjectTimeline;
+	return Seed::TypeTimeline;
 }
 
 } // namespace

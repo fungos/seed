@@ -48,7 +48,7 @@ class SEED_CORE_API ResourceGroup
 		ResourceGroup();
 		virtual ~ResourceGroup();
 
-		void Add(const String &filename, Seed::eObjectType resourceType = Seed::ObjectSprite, ResourceManager *res = pResourceManager);
+		void Add(const String &filename, Seed::eObjectType resourceType = Seed::TypeSprite, ResourceManager *res = pResourceManager);
 
 	protected:
 		/// Item for loading with Resource Group

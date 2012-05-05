@@ -36,38 +36,37 @@ namespace Seed {
 enum eObjectType
 {
 	// Assets
-	ObjectTexture = 0,
-	ObjectImage,
-	ObjectSprite,
-	ObjectAnimation,
-	ObjectFrame,
-	ObjectSound,
-	ObjectMusic,
-	ObjectEvent,
-	ObjectMovie,
-	ObjectTimeline,
-	ObjectKeyframe,
-	ObjectScene,
-	ObjectSoundSource,
-	ObjectSoundListener,
-	ObjectParticleEmitter,
-	ObjectMap,
+	TypeTexture = 0,
+	TypeImage,
+	TypeSprite,
+	TypeAnimation,
+	TypeFrame,
+	TypeSound,
+	TypeMusic,
+	TypeEvent,
+	TypeMovie,
+	TypeTimeline,
+	TypeKeyframe,
+	TypeScene,
+	TypeSoundSource,
+	TypeSoundListener,
+	TypeParticleEmitter,
+	TypeMap,
 
 	// Managers
-	ObjectParticleManager,
-	ObjectViewManager,
-	ObjectRendererManager,
+	TypeViewManager,
+	TypeRendererManager,
 
 	// System
-	ObjectFile,
-	ObjectConfiguration,
-	ObjectInterfaceModule,
-	ObjectInterfaceRenderable,
-	ObjectInterfaceBaseApp,
-	ObjectInterfaceGameApp,
+	TypeFile,
+	TypeConfiguration,
+	TypeInterfaceModule,
+	TypeInterfaceRenderable,
+	TypeInterfaceBaseApp,
+	TypeInterfaceGameApp,
 
 	// From here just user defines types
-	ObjectUser
+	TypeUser
 };
 
 enum eLanguage

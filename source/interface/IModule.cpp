@@ -90,7 +90,7 @@ bool IModule::IsRequired() const
 
 int IModule::GetObjectType() const
 {
-	return Seed::ObjectInterfaceModule;
+	return Seed::TypeInterfaceModule;
 }
 
 } // namespace

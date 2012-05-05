@@ -90,7 +90,7 @@ const String IGameApp::GetObjectName() const
 
 int IGameApp::GetObjectType() const
 {
-	return Seed::ObjectInterfaceGameApp;
+	return Seed::TypeInterfaceGameApp;
 }
 
 } // namespace

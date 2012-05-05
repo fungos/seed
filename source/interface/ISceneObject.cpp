@@ -63,14 +63,14 @@ bool ISceneObject::IsNode() const
 	return false;
 }
 
-const String ISceneObject::GetObjectName() const
-{
-	return "ISceneObject";
-}
+//const String ISceneObject::GetObjectName() const
+//{
+//	return "ISceneObject";
+//}
 
-int ISceneObject::GetObjectType() const
-{
-	return Seed::ObjectScene;
-}
+//int ISceneObject::GetObjectType() const
+//{
+//	return Seed::ObjectScene;
+//}
 
 } // namespace

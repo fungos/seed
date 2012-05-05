@@ -77,7 +77,7 @@ bool IEvent::IsConsumed() const
 
 int IEvent::GetObjectType() const
 {
-	return Seed::ObjectEvent;
+	return Seed::TypeEvent;
 }
 
 const String IEvent::GetObjectName() const

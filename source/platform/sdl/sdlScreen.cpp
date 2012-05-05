@@ -412,11 +412,11 @@ void Screen::ToggleFullscreen()
 #else
 	iFlags ^= SDL_FULLSCREEN;
 
-	pResourceManager->Unload(Seed::ObjectTexture);
+	pResourceManager->Unload(Seed::TypeTexture);
 	pRendererDevice->Shutdown();
 	this->InitializeVideo();
 	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::ObjectTexture);
+	pResourceManager->Reload(Seed::TypeTexture);
 
 #if defined(WIN32)
 	if (!bFullScreen)
@@ -441,13 +441,13 @@ void Screen::SetMode(eVideoMode mode)
 	this->PrepareMode();
 	this->InitializeVideo();
 #else
-	pResourceManager->Unload(Seed::ObjectTexture);
+	pResourceManager->Unload(Seed::TypeTexture);
 	pRendererDevice->Shutdown();
 	this->Shutdown();
 	IScreen::SetMode(mode);
 	this->Initialize();
 	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::ObjectTexture);
+	pResourceManager->Reload(Seed::TypeTexture);
 #endif
 }
 

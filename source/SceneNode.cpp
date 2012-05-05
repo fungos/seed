@@ -96,9 +96,15 @@ bool SceneNode::Load(Reader &reader, ResourceManager *res)
 
 bool SceneNode::Write(Writer &writer)
 {
-	bool ret = false;
-	#warning "Implement Scene writer"
-	return ret;
+	writer.OpenNode();
+		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sName", sName.c_str());
+		#warning "Implement Scene writer"
+		writer.OpenArray("aObjects");
+		writer.CloseArray();
+	writer.CloseNode();
+
+	return true;
 }
 
 bool SceneNode::Unload()
@@ -111,6 +117,16 @@ bool SceneNode::Unload()
 void SceneNode::Reset()
 {
 	ISceneObjectVector().swap(vChild);
+}
+
+const String SceneNode::GetObjectName() const
+{
+	return "SceneNode";
+}
+
+int SceneNode::GetObjectType() const
+{
+	return Seed::TypeScene;
 }
 
 } // namespace

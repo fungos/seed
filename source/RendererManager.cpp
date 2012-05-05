@@ -141,7 +141,7 @@ const String RendererManager::GetObjectName() const
 
 int RendererManager::GetObjectType() const
 {
-	return Seed::ObjectRendererManager;
+	return Seed::TypeRendererManager;
 }
 
 } // namespace

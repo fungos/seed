@@ -145,34 +145,35 @@ class SEED_CORE_API ParticleEmitter : public IBasicMesh
 		void MoveEverything(const Vector3f &pos);
 
 	private:
-		ResourceManager				*pRes;
-		Particle					*arParticles;
-		ITexture					*pTexture;
+		ResourceManager			*pRes;
+		Particle				*arParticles;
+		ITexture				*pTexture;
 
-		EmitterConfiguration		cEmitter;
-		Particle					*pTemplate;
-		String						sSprite;
-		String						sBlending;
-		Vector3f					vPrevLocation;
-		Rect4f						rBoundingBox;
+		EmitterConfiguration	cEmitter;
+		Particle				*pTemplate;
+		String					sSprite;
+		String					sBlending;
+		Vector3f				vPrevLocation;
+		Rect4f					rBoundingBox;
 
-		f32							fAge;
-		f32							fRespawnAge;
-		f32							fEmissionResidue;
-		f32							fInterval;
-		f32							fTx;
-		f32							fTy;
-		f32							fScale;
+		f32						fAge;
+		f32						fRespawnAge;
+		f32						fEmissionResidue;
+		f32						fInterval;
+		f32						fTx;
+		f32						fTy;
+		f32						fScale;
 
-		u32							iAnimation;
-		u32							iParticlesAmount;
+		u32						iAnimation;
+		u32						iParticlesAmount;
 
-		eTextureFilter				nMinFilter;
-		eTextureFilter				nMagFilter;
+		eTextureFilter			nMinFilter;
+		eTextureFilter			nMagFilter;
 
-		bool						bParticlesFollowEmitter;
-		bool						bPaused;
-		bool						bEnabled;
+		bool					bParticlesFollowEmitter;
+		bool					bPaused;
+		bool					bEnabled;
+		bool					bAutoPlay;
 };
 
 } // namespace

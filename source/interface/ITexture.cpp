@@ -198,7 +198,7 @@ void ITexture::Update(Color *buffer)
 
 int ITexture::GetObjectType() const
 {
-	return Seed::ObjectTexture;
+	return Seed::TypeTexture;
 }
 
 const String ITexture::GetObjectName() const

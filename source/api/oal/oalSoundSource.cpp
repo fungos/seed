@@ -61,7 +61,7 @@ void SoundSource::Load(const String &fname, ResourceManager *res)
 		this->Unload();
 
 		/* Get the resource */
-		pSound = static_cast<Sound *>(res->Get(fname.c_str(), Seed::ObjectSound));
+		pSound = static_cast<Sound *>(res->Get(fname.c_str(), Seed::TypeSound));
 
 		if (iSource)
 			alDeleteSources(1, &iSource);

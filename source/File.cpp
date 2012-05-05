@@ -157,7 +157,7 @@ const String File::GetObjectName() const
 
 int File::GetObjectType() const
 {
-	return Seed::ObjectFile;
+	return Seed::TypeFile;
 }
 
 } // namespace

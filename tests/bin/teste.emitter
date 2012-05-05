@@ -12,6 +12,8 @@
 		"a": 0
 	},
 
+	"bAutoPlay": true,
+
 	"fParticleLifeMin": 0.87,
 	"fParticleLifeMax": 0.87,
 	"fRadialAccelMin": 0,

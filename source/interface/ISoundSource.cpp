@@ -41,8 +41,8 @@ ISoundSource::ISoundSource()
 	: cPosition(0.0f, 0.0f, 0.0f)
 	, cVelocity(0.0f, 0.0f, 0.0f)
 	, cOrientation(0.0f, 0.0f, 0.0f)
-    , fMin(0)
-    , fMax(0)
+	, fMin(0)
+	, fMax(0)
 	, fVolume(1.0f)
 	, fFadeTime(0.0f)
 	, fStartFadeTime(0)
@@ -208,7 +208,7 @@ const String ISoundSource::GetObjectName() const
 
 int ISoundSource::GetObjectType() const
 {
-	return Seed::ObjectSoundSource;
+	return Seed::TypeSoundSource;
 }
 
 } // namespace
