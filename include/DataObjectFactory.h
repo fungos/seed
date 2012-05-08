@@ -28,58 +28,42 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __PARTICLE_H__
-#define __PARTICLE_H__
+#ifndef DATAOBJECTFACTORY_H
+#define DATAOBJECTFACTORY_H
 
-#include "Sprite.h"
+#include "Defines.h"
+#include "Singleton.h"
+#include "Reader.h"
+#include "Container.h"
 
 namespace Seed {
 
-class ISceneObject;
+class IDataObject;
 
-IDataObject *FactoryParticle();
+typedef IDataObject *(*pDataObjectFactoryFunc)();
 
-/// Particle
-class SEED_CORE_API Particle : public Sprite
+typedef Map<String, pDataObjectFactoryFunc> FactoryMap;
+typedef FactoryMap::iterator FactoryMapIterator;
+
+
+class SEED_CORE_API DataObjectFactory
 {
-	friend class ParticleEmitter;
-
+	SEED_SINGLETON_DECLARE(DataObjectFactory)
 	public:
-		Particle();
-		virtual ~Particle();
+		IDataObject *Create(const String &type) const;
+		IDataObject *Load(Reader &reader, ResourceManager *res = pResourceManager) const;
 
-		Particle(const Particle &other);
-		Particle &operator=(const Particle &other);
+		static void Register(const String &type, pDataObjectFactoryFunc pfunc);
+		static void Unregister(const String &type);
 
-	protected:
-		Vector3f vVelocity;
+	private:
+		static FactoryMap mapFactory;
 
-		f32		fGravity;
-		f32		fRadialAccel;
-		f32		fTangentialAccel;
-
-		f32		fSpin;
-		f32		fSpinDelta;
-
-		f32		fSize;
-		f32		fSizeDelta;
-
-		f32		fAge;
-		f32		fTerminalAge;
-
-		f32		fColorR;
-		f32		fColorG;
-		f32		fColorB;
-		f32		fColorA;
-
-		f32		fColorDeltaR;
-		f32		fColorDeltaG;
-		f32		fColorDeltaB;
-		f32		fColorDeltaA;
-
-		bool	bActive;
+		SEED_DISABLE_COPY(DataObjectFactory);
 };
+
+#define pDataObjectFactory DataObjectFactory::GetInstance()
 
 } // namespace
 
-#endif // __PARTICLE_H__
+#endif // DATAOBJECTFACTORY_H

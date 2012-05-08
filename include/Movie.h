@@ -37,6 +37,8 @@
 
 namespace Seed {
 
+IDataObject *FactoryMovie();
+
 /// Movie
 class SEED_CORE_API Movie : public SceneNode
 {

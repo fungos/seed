@@ -34,6 +34,11 @@
 
 namespace Seed {
 
+IDataObject *FactoryKeyframe()
+{
+	return New(Keyframe());
+}
+
 Keyframe::Keyframe()
 	: ptPos(0.0f, 0.0f)
 	, ptPivot(0.0f, 0.0f)

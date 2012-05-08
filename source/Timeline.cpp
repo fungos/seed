@@ -39,6 +39,11 @@
 
 namespace Seed {
 
+IDataObject *FactoryTimeline()
+{
+	return New(Timeline());
+}
+
 Timeline::Timeline()
 	: pParent(NULL)
 	, pObject(NULL)

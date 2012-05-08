@@ -44,6 +44,11 @@
 
 namespace Seed {
 
+IDataObject *FactorySprite()
+{
+	return New(Sprite());
+}
+
 Sprite::Sprite()
 	: IBasicMesh()
 	, pvFrames(NULL)

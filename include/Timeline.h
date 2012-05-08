@@ -43,6 +43,8 @@ class ISceneObject;
 class Keyframe;
 class IEventMovieListener;
 
+IDataObject *FactoryTimeline();
+
 /// Movie Timeline
 class SEED_CORE_API Timeline : public IDataObject
 {

@@ -38,6 +38,11 @@
 
 namespace Seed {
 
+IDataObject *FactoryAnimation()
+{
+	return New(Animation());
+}
+
 Animation::Animation()
 	: vFrames()
 	, sName()

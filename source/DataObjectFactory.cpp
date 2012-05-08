@@ -28,58 +28,74 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __PARTICLE_H__
-#define __PARTICLE_H__
+#include "DataObjectFactory.h"
+#include "Log.h"
+#include "interface/IDataObject.h"
 
-#include "Sprite.h"
+#define TAG		"[SceneManager] "
 
 namespace Seed {
 
-class ISceneObject;
+FactoryMap DataObjectFactory::mapFactory;
 
-IDataObject *FactoryParticle();
+SEED_SINGLETON_DEFINE(DataObjectFactory)
 
-/// Particle
-class SEED_CORE_API Particle : public Sprite
+void DataObjectFactory::Register(const String &objectType, pDataObjectFactoryFunc pfunc)
 {
-	friend class ParticleEmitter;
+	String type = objectType;
+	std::transform(type.begin(), type.end(), type.begin(), ::tolower);
 
-	public:
-		Particle();
-		virtual ~Particle();
+	if (mapFactory.find(type) != mapFactory.end())
+	{
+		Log(TAG "This object factory is already registered.");
+		return;
+	}
 
-		Particle(const Particle &other);
-		Particle &operator=(const Particle &other);
+	mapFactory[type] = pfunc;
+}
 
-	protected:
-		Vector3f vVelocity;
+void DataObjectFactory::Unregister(const String &objectType)
+{
+	String type = objectType;
+	std::transform(type.begin(), type.end(), type.begin(), ::tolower);
 
-		f32		fGravity;
-		f32		fRadialAccel;
-		f32		fTangentialAccel;
+	FactoryMapIterator it = mapFactory.find(type);
 
-		f32		fSpin;
-		f32		fSpinDelta;
+	if (it == mapFactory.end())
+	{
+		Log(TAG "Object factory not found.");
+		return;
+	}
 
-		f32		fSize;
-		f32		fSizeDelta;
+	mapFactory.erase(it);
+}
 
-		f32		fAge;
-		f32		fTerminalAge;
+IDataObject *DataObjectFactory::Load(Reader &reader, ResourceManager *res) const
+{
+	String type = reader.ReadString("sType", "");
+	SEED_ASSERT_MSG(type != "", "Object without type.");
 
-		f32		fColorR;
-		f32		fColorG;
-		f32		fColorB;
-		f32		fColorA;
+	IDataObject *obj = this->Create(type);
+	SEED_ASSERT_MSG(obj != NULL, "Object type invalid.");
 
-		f32		fColorDeltaR;
-		f32		fColorDeltaG;
-		f32		fColorDeltaB;
-		f32		fColorDeltaA;
+	obj->Load(reader, res);
 
-		bool	bActive;
-};
+	return obj;
+}
+
+IDataObject *DataObjectFactory::Create(const String &objectType) const
+{
+	IDataObject *obj = NULL;
+	String type = objectType;
+	std::transform(type.begin(), type.end(), type.begin(), ::tolower);
+
+	if (mapFactory.find(type) == mapFactory.end())
+		Log(TAG "Factory %s not found.", objectType.c_str());
+
+	obj = mapFactory[type]();
+	SEED_ASSERT_MSG(obj != NULL, "Couldn't create the object.");
+
+	return obj;
+}
 
 } // namespace
-
-#endif // __PARTICLE_H__

@@ -39,6 +39,11 @@
 
 namespace Seed {
 
+IDataObject *FactoryParticleEmitter()
+{
+	return New(ParticleEmitter());
+}
+
 ParticleEmitter::ParticleEmitter()
 	: pRes(NULL)
 	, arParticles(NULL)

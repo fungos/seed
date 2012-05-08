@@ -33,6 +33,11 @@
 
 namespace Seed {
 
+IDataObject *FactoryParticle()
+{
+	return New(Particle());
+}
+
 Particle::Particle()
 	: Sprite()
 	, vVelocity(0.0f, 0.0f, 0.0f)

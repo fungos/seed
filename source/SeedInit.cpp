@@ -30,6 +30,7 @@
 
 #include "Defines.h"
 #include "SeedInit.h"
+#include "DataObjectFactory.h"
 #include "ResourceManager.h"
 #include "ResourceLoader.h"
 #include "Texture.h"
@@ -51,6 +52,15 @@
 #include "RendererDevice.h"
 #include "Checksum.h"
 #include "Profiler.h"
+
+#include "Sprite.h"
+#include "Animation.h"
+#include "Frame.h"
+#include "Movie.h"
+#include "Timeline.h"
+#include "Keyframe.h"
+#include "ParticleEmitter.h"
+#include "Particle.h"
 
 extern "C" {
 
@@ -178,6 +188,15 @@ bool Initialize()
 	ResourceManager::Register(Seed::TypeTexture,		TextureResourceLoader);
 	ResourceManager::Register(Seed::TypeSound,			SoundResourceLoader);
 	ResourceManager::Register(Seed::TypeMusic,			MusicResourceLoader);
+
+	DataObjectFactory::Register("Sprite", FactorySprite);
+	DataObjectFactory::Register("Animation", FactoryAnimation);
+	DataObjectFactory::Register("Frame", FactoryFrame);
+	DataObjectFactory::Register("Movie", FactoryMovie);
+	DataObjectFactory::Register("Timeline", FactoryTimeline);
+	DataObjectFactory::Register("Keyframe", FactoryKeyframe);
+	DataObjectFactory::Register("ParticleEmitter", FactoryParticleEmitter);
+	DataObjectFactory::Register("Particle", FactoryParticle);
 
 	Private::bInitialized = true;
 

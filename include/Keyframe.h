@@ -37,6 +37,8 @@
 
 namespace Seed {
 
+IDataObject *FactoryKeyframe();
+
 /// Movie Keyframe
 class SEED_CORE_API Keyframe : public IDataObject
 {

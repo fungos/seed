@@ -39,6 +39,8 @@ namespace Seed {
 
 struct Frame;
 
+IDataObject *FactoryAnimation();
+
 /// Animation
 /**
 Animation is a sequence of Frames used by Sprite

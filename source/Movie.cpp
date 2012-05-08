@@ -34,6 +34,11 @@
 
 namespace Seed {
 
+IDataObject *FactoryMovie()
+{
+	return New(Movie());
+}
+
 Movie::Movie()
 	: fElapsedTime(0.0f)
 	, vTimelines()
