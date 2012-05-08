@@ -141,7 +141,7 @@ SOURCES += source/Viewport.cpp \
 	source/Writer.cpp \
 	source/interface/IWriter.cpp \
 	source/interface/IDataObject.cpp \
-	source/DataObjectFactory.cpp
+    source/SceneObjectFactory.cpp
 
 OTHER_FILES += \
 	source/platform/ios/IphoneView.mm
@@ -161,4 +161,4 @@ HEADERS += include/*.h \
 	include/interface/IWriter.h \
 	include/api/yajl/JsonWriter.h \
 	include/interface/IDataObject.h \
-	include/DataObjectFactory.h
+    include/SceneObjectFactory.h

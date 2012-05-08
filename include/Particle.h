@@ -37,8 +37,6 @@ namespace Seed {
 
 class ISceneObject;
 
-IDataObject *FactoryParticle();
-
 /// Particle
 class SEED_CORE_API Particle : public Sprite
 {

@@ -44,7 +44,7 @@
 
 namespace Seed {
 
-IDataObject *FactorySprite()
+ISceneObject *FactorySprite()
 {
 	return New(Sprite());
 }

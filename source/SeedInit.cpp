@@ -30,7 +30,7 @@
 
 #include "Defines.h"
 #include "SeedInit.h"
-#include "DataObjectFactory.h"
+#include "SceneObjectFactory.h"
 #include "ResourceManager.h"
 #include "ResourceLoader.h"
 #include "Texture.h"
@@ -68,12 +68,13 @@ namespace Seed {
 
 namespace Private
 {
-	IGameApp	*pApplication;// 	= NULL;
-	bool		bInitialized;// 	= false;
-	int			iArgc;//			= 0;
-	const char	**pcArgv;//		= NULL;
-	bool		bDisableSound;//	= false;
-	f32			fCurrentTime;//	= 0.0f;
+	IGameApp	*pApplication;
+	bool		bInitialized;
+	int			iArgc;
+	const char	**pcArgv;
+	bool		bDisableSound;
+	String		sConfigFile;
+	f32			fCurrentTime;
 }
 
 ResourceManager *pResourceManager = NULL;
@@ -81,12 +82,22 @@ Configuration *pConfiguration = NULL;
 
 #define MAX_FRAME_DELTA ((1.0f / 60.0f) * 5.0f)
 
-void CommandLineParameter(const char *param)
+int CommandLineParameter(const char **argv, int pos)
 {
+	const char *param = argv[pos];
+	int consume = 1;
+
 	if (!strcasecmp(param, "--nosound"))
 	{
 		Private::bDisableSound = true;
 	}
+	else if (!strcasecmp(param, "--config"))
+	{
+		Private::sConfigFile = argv[pos + 1];
+		consume++;
+	}
+
+	return consume;
 }
 
 void CommandLineParse(int argc, const char **argv)
@@ -94,9 +105,7 @@ void CommandLineParse(int argc, const char **argv)
 	int i = 0;
 	while (i < argc)
 	{
-		const char *param = argv[i];
-		Seed::CommandLineParameter(param);
-		i++;
+		i += Seed::CommandLineParameter(argv, i);
 	}
 }
 
@@ -105,6 +114,7 @@ void SetGameApp(IGameApp *app, int argc, const char **argv)
 	Private::iArgc = argc;
 	Private::pcArgv = argv;
 	Private::pApplication = app;
+	Private::sConfigFile = "app.config";
 	pConfiguration  = app->GetConfiguration();
 	pResourceManager = app->GetResourceManager();
 
@@ -157,9 +167,13 @@ bool Initialize()
 
 	pChecksum = Checksum::GetInstance();
 
+	ret = ret && pModuleManager->Add(pFileSystem);
+
+	pConfiguration->Load(Private::sConfigFile);
+	pFileSystem->Prepare();
+
 	ret = ret && pModuleManager->Add(pSystem);
 	ret = ret && pModuleManager->Add(pTimer);
-	ret = ret && pModuleManager->Add(pFileSystem);
 	ret = ret && pModuleManager->Add(pCartridge);
 	ret = ret && pModuleManager->Add(pScreen);
 	ret = ret && pModuleManager->Add(pRendererDevice);
@@ -173,6 +187,7 @@ bool Initialize()
 	ret = ret && pModuleManager->Add(pInput);
 
 	pUpdater->Add(Private::pApplication);
+
 #if !defined(BUILD_IOS)
 	pUpdater->Add(pInput);
 #endif
@@ -189,14 +204,9 @@ bool Initialize()
 	ResourceManager::Register(Seed::TypeSound,			SoundResourceLoader);
 	ResourceManager::Register(Seed::TypeMusic,			MusicResourceLoader);
 
-	DataObjectFactory::Register("Sprite", FactorySprite);
-	DataObjectFactory::Register("Animation", FactoryAnimation);
-	DataObjectFactory::Register("Frame", FactoryFrame);
-	DataObjectFactory::Register("Movie", FactoryMovie);
-	DataObjectFactory::Register("Timeline", FactoryTimeline);
-	DataObjectFactory::Register("Keyframe", FactoryKeyframe);
-	DataObjectFactory::Register("ParticleEmitter", FactoryParticleEmitter);
-	DataObjectFactory::Register("Particle", FactoryParticle);
+	SceneObjectFactory::Register("Sprite", FactorySprite);
+	SceneObjectFactory::Register("Movie", FactoryMovie);
+	SceneObjectFactory::Register("ParticleEmitter", FactoryParticleEmitter);
 
 	Private::bInitialized = true;
 
@@ -241,6 +251,7 @@ void Shutdown()
 	Info(SEED_TAG "Shutting down subsystems...");
 	pModuleManager->Shutdown();
 
+	pSceneObjectFactory->DestroyInstance();
 	pSceneManager->DestroyInstance();
 	pInput->DestroyInstance();
 	pResourceLoader->DestroyInstance();
@@ -249,9 +260,9 @@ void Shutdown()
 	pViewManager->DestroyInstance();
 	pScreen->DestroyInstance();
 	pCartridge->DestroyInstance();
-	pFileSystem->DestroyInstance();
 	pTimer->DestroyInstance();
 	pSystem->DestroyInstance();
+	pFileSystem->DestroyInstance();
 
 	ProfilerReportPrint;
 	ProfilerTerminate;

@@ -28,74 +28,42 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "DataObjectFactory.h"
-#include "Log.h"
-#include "interface/IDataObject.h"
+#ifndef SCENEOBJECTFACTORY_H
+#define SCENEOBJECTFACTORY_H
 
-#define TAG		"[SceneManager] "
+#include "Defines.h"
+#include "Singleton.h"
+#include "Reader.h"
+#include "Container.h"
 
 namespace Seed {
 
-FactoryMap DataObjectFactory::mapFactory;
+class ISceneObject;
 
-SEED_SINGLETON_DEFINE(DataObjectFactory)
+typedef ISceneObject *(*pSceneObjectFactoryFunc)();
 
-void DataObjectFactory::Register(const String &objectType, pDataObjectFactoryFunc pfunc)
+typedef Map<String, pSceneObjectFactoryFunc> FactoryMap;
+typedef FactoryMap::iterator FactoryMapIterator;
+
+
+class SEED_CORE_API SceneObjectFactory
 {
-	String type = objectType;
-	std::transform(type.begin(), type.end(), type.begin(), ::tolower);
+	SEED_SINGLETON_DECLARE(SceneObjectFactory)
+	public:
+		ISceneObject *Create(const String &type) const;
+		ISceneObject *Load(Reader &reader, ResourceManager *res = pResourceManager) const;
 
-	if (mapFactory.find(type) != mapFactory.end())
-	{
-		Log(TAG "This object factory is already registered.");
-		return;
-	}
+		static void Register(const String &type, pSceneObjectFactoryFunc pfunc);
+		static void Unregister(const String &type);
 
-	mapFactory[type] = pfunc;
-}
+	private:
+		static FactoryMap mapFactory;
 
-void DataObjectFactory::Unregister(const String &objectType)
-{
-	String type = objectType;
-	std::transform(type.begin(), type.end(), type.begin(), ::tolower);
+		SEED_DISABLE_COPY(SceneObjectFactory);
+};
 
-	FactoryMapIterator it = mapFactory.find(type);
-
-	if (it == mapFactory.end())
-	{
-		Log(TAG "Object factory not found.");
-		return;
-	}
-
-	mapFactory.erase(it);
-}
-
-IDataObject *DataObjectFactory::Load(Reader &reader, ResourceManager *res) const
-{
-	String type = reader.ReadString("sType", "");
-	SEED_ASSERT_MSG(type != "", "Object without type.");
-
-	IDataObject *obj = this->Create(type);
-	SEED_ASSERT_MSG(obj != NULL, "Object type invalid.");
-
-	obj->Load(reader, res);
-
-	return obj;
-}
-
-IDataObject *DataObjectFactory::Create(const String &objectType) const
-{
-	IDataObject *obj = NULL;
-	String type = objectType;
-	std::transform(type.begin(), type.end(), type.begin(), ::tolower);
-
-	if (mapFactory.find(type) == mapFactory.end())
-		Log(TAG "Factory %s not found.", objectType.c_str());
-
-	obj = mapFactory[type]();
-	SEED_ASSERT_MSG(obj != NULL, "Couldn't create the object.");
-
-	return obj;
-}
+#define pSceneObjectFactory SceneObjectFactory::GetInstance()
 
 } // namespace
+
+#endif // SCENEOBJECTFACTORY_H

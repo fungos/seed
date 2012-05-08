@@ -44,6 +44,8 @@ class SEED_CORE_API Configuration : public IObject
 		Configuration();
 		virtual ~Configuration();
 
+		void Load(const String &file);
+
 		void SetVideoMode(eVideoMode videoMode);
 		eVideoMode GetVideoMode() const;
 

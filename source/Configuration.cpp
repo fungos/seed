@@ -29,6 +29,8 @@
 */
 
 #include "Configuration.h"
+#include "File.h"
+#include "Reader.h"
 
 namespace Seed {
 
@@ -37,7 +39,7 @@ Configuration::Configuration()
 	, pcWorkingDirectory(NULL)
 	, pcTitle(NULL)
 	, pcDescription(NULL)
-	, pcPublisherName(NULL)
+	, pcPublisherName(NULL)jogos.pucpr.br
 	, fInputRadius(0.0f)
 	, iRendererDeviceType(Seed::RendererDeviceOpenGL14)
 	, iReaderType(Seed::ReaderDefault)
@@ -52,6 +54,14 @@ Configuration::Configuration()
 
 Configuration::~Configuration()
 {
+}
+
+void Configuration::Load(const String &file)
+{
+	File f(file);
+	Reader r(f);
+
+	bDebugSprite = r.ReadBool("bDebugSprite", false);
 }
 
 void Configuration::SetVideoMode(eVideoMode videoMode)

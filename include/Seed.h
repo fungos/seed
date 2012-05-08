@@ -88,6 +88,7 @@
 
 #include <SaveSystem.h>
 #include <SceneNode.h>
+#include <SceneObjectFactory.h>
 #include <Screen.h>
 #include <Sound.h>
 #include <SoundSystem.h>

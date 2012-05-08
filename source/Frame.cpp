@@ -39,11 +39,6 @@
 
 namespace Seed {
 
-IDataObject *FactoryFrame()
-{
-	return New(Frame());
-}
-
 Frame::Frame()
 	: pTexture(NULL)
 	, sName()

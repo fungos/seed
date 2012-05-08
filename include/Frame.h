@@ -38,8 +38,6 @@ namespace Seed {
 
 class ITexture;
 
-IDataObject *FactoryFrame();
-
 /// Sprite Frame
 /**
 Frame is a static region from a Texture

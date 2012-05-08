@@ -39,7 +39,7 @@
 
 namespace Seed {
 
-IDataObject *FactoryParticleEmitter()
+ISceneObject *FactoryParticleEmitter()
 {
 	return New(ParticleEmitter());
 }

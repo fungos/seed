@@ -31,6 +31,7 @@
 #ifndef __FILESYSTEM_H__
 #define __FILESYSTEM_H__
 
+#include "Defines.h"
 #include "interface/IModule.h"
 #include "Singleton.h"
 
@@ -41,6 +42,7 @@ class SEED_CORE_API FileSystem : public IModule
 {
 	SEED_SINGLETON_DECLARE(FileSystem)
 	public:
+		void Prepare() const;
 		const char *GetWorkDirectory() const;
 		const char *GetWriteableDirectory() const;
 

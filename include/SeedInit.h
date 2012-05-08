@@ -105,7 +105,7 @@ namespace Seed {
 	*/
 	SEED_CORE_API void GetVersion(u32 *major, u32 *middle, u32 *minor);
 
-	SEED_CORE_API void CommandLineParameter(const char *param);
+	SEED_CORE_API int CommandLineParameter(const char **argv, int pos);
 	SEED_CORE_API void CommandLineParse(int argc, const char **argv);
 
 	/// Private states that Seed maintain, must not be accessed directly.

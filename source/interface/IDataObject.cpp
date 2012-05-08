@@ -33,6 +33,7 @@
 namespace Seed {
 
 IDataObject::IDataObject()
+	: IObject()
 {
 }
 

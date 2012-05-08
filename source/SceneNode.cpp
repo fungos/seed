@@ -30,6 +30,7 @@
 
 #include "SceneNode.h"
 #include "Defines.h"
+#include "SceneObjectFactory.h"
 #include <algorithm>
 
 #define TAG "[SceneNode] "
@@ -89,8 +90,26 @@ ISceneObject *SceneNode::GetChildAt(u32 i)
 
 bool SceneNode::Load(Reader &reader, ResourceManager *res)
 {
+	SEED_ASSERT(res);
+
 	bool ret = false;
-	#warning "Implement Scene loader"
+
+	if (this->Unload())
+	{
+		sName = reader.ReadString("sName", "node");
+		u32 objs = reader.SelectArray("aObjects");
+		if (objs)
+		{
+			for (u32 i = 0; i < objs; i++)
+			{
+				IDataObject *obj = pSceneObjectFactory->Load(reader, res);
+				reader.SelectNext();
+				vChild += static_cast<ISceneObject *>(obj);
+			}
+			reader.UnselectArray();
+		}
+	}
+
 	return ret;
 }
 
@@ -99,8 +118,14 @@ bool SceneNode::Write(Writer &writer)
 	writer.OpenNode();
 		writer.WriteString("sType", this->GetObjectName().c_str());
 		writer.WriteString("sName", sName.c_str());
-		#warning "Implement Scene writer"
+
 		writer.OpenArray("aObjects");
+		u32 objects  = (u32)vChild.Size();
+		for (u32 i = 0; i < objects; i++)
+		{
+			IDataObject *obj = vChild[i];
+			obj->Write(writer);
+		}
 		writer.CloseArray();
 	writer.CloseNode();
 
@@ -110,7 +135,17 @@ bool SceneNode::Write(Writer &writer)
 bool SceneNode::Unload()
 {
 	bool ret = false;
-	#warning "Implement Scene unload"
+
+	ISceneObjectVectorIterator it = vChild.begin();
+	ISceneObjectVectorIterator end = vChild.end();
+	for (; it != end; ++it)
+	{
+		if ((*it)->bFromFactory)
+			Delete((*it));
+	}
+
+	ISceneObjectVector().swap(vChild);
+
 	return ret;
 }
 

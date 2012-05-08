@@ -43,7 +43,7 @@ class ITexture;
 struct Animation;
 struct Frame;
 
-IDataObject *FactorySprite();
+ISceneObject *FactorySprite();
 
 /// Sprite 2D
 /*!

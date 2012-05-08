@@ -34,7 +34,7 @@
 
 namespace Seed {
 
-IDataObject *FactoryMovie()
+ISceneObject *FactoryMovie()
 {
 	return New(Movie());
 }

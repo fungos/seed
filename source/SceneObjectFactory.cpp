@@ -28,41 +28,84 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "Defines.h"
-#include "interface/ISceneObject.h"
+#include "SceneObjectFactory.h"
 #include "Log.h"
-#include "Enum.h"
+#include "interface/ISceneObject.h"
 
-#define TAG		"[ISceneObject] "
+#define TAG		"[SceneObjectFactory] "
 
 namespace Seed {
 
-ISceneObject::ISceneObject()
-	: ITransformable()
-	, IRenderable()
-	, bFromFactory(false)
+FactoryMap SceneObjectFactory::mapFactory;
+
+SEED_SINGLETON_DEFINE(SceneObjectFactory)
+
+SceneObjectFactory::SceneObjectFactory()
 {
 }
 
-ISceneObject::~ISceneObject()
+SceneObjectFactory::~SceneObjectFactory()
 {
-	bFromFactory = false;
 }
 
-void ISceneObject::Update(f32 delta)
+void SceneObjectFactory::Register(const String &objectType, pSceneObjectFactoryFunc pfunc)
 {
-	UNUSED(delta);
-	SEED_ABSTRACT_METHOD;
+	String type = objectType;
+	std::transform(type.begin(), type.end(), type.begin(), ::tolower);
+
+	if (mapFactory.find(type) != mapFactory.end())
+	{
+		Log(TAG "This object factory is already registered.");
+		return;
+	}
+
+	mapFactory[type] = pfunc;
 }
 
-void ISceneObject::Render()
+void SceneObjectFactory::Unregister(const String &objectType)
 {
-	SEED_ABSTRACT_METHOD;
+	String type = objectType;
+	std::transform(type.begin(), type.end(), type.begin(), ::tolower);
+
+	FactoryMapIterator it = mapFactory.find(type);
+
+	if (it == mapFactory.end())
+	{
+		Log(TAG "Object factory not found.");
+		return;
+	}
+
+	mapFactory.erase(it);
 }
 
-bool ISceneObject::IsNode() const
+ISceneObject *SceneObjectFactory::Load(Reader &reader, ResourceManager *res) const
 {
-	return false;
+	String type = reader.ReadString("sType", "");
+	SEED_ASSERT_MSG(type != "", "Object without type.");
+
+	ISceneObject *obj = this->Create(type);
+	SEED_ASSERT_MSG(obj != NULL, "Object type invalid.");
+
+	obj->Load(reader, res);
+
+	return obj;
+}
+
+ISceneObject *SceneObjectFactory::Create(const String &objectType) const
+{
+	ISceneObject *obj = NULL;
+	String type = objectType;
+	std::transform(type.begin(), type.end(), type.begin(), ::tolower);
+
+	if (mapFactory.find(type) == mapFactory.end())
+		Log(TAG "Factory %s not found.", objectType.c_str());
+
+	obj = mapFactory[type]();
+	SEED_ASSERT_MSG(obj != NULL, "Couldn't create the object.");
+
+	obj->bFromFactory = true;
+
+	return obj;
 }
 
 } // namespace

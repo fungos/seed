@@ -41,7 +41,7 @@ class ITexture;
 class ResourceManager;
 class Particle;
 
-IDataObject *FactoryParticleEmitter();
+ISceneObject *FactoryParticleEmitter();
 
 /// Particle Emitter Configuration
 struct SEED_CORE_API EmitterConfiguration

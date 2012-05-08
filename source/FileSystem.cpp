@@ -55,9 +55,12 @@ FileSystem::~FileSystem()
 bool FileSystem::Initialize()
 {
 	FS_CHECK(PHYSFS_init(Seed::Private::pcArgv[0]));
-	FS_CHECK(PHYSFS_setSaneConfig(Seed::pConfiguration->GetPublisherName(), Seed::pConfiguration->GetApplicationTitle(), "zip", false, false));
-
 	return true;
+}
+
+void FileSystem::Prepare() const
+{
+	FS_CHECK(PHYSFS_setSaneConfig(Seed::pConfiguration->GetPublisherName(), Seed::pConfiguration->GetApplicationTitle(), "zip", false, false));
 }
 
 bool FileSystem::Shutdown()
