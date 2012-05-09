@@ -29,7 +29,7 @@
 */
 
 #include "Writer.h"
-#include "SeedInit.h"
+#include "Configuration.h"
 #include "api/yajl/JsonWriter.h"
 
 #define TAG "[Writer] "

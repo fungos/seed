@@ -46,7 +46,6 @@ Everything from Seed SDK will be inside Seed namespace.
 namespace Seed {
 
 	SEED_CORE_API extern ResourceManager *pResourceManager;
-	SEED_CORE_API extern Configuration *pConfiguration;
 
 	/// Set the Game Application main class.
 	/**

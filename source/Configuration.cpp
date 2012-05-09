@@ -31,24 +31,27 @@
 #include "Configuration.h"
 #include "File.h"
 #include "Reader.h"
+#include <algorithm>
 
 namespace Seed {
 
+SEED_SINGLETON_DEFINE(Configuration)
+
 Configuration::Configuration()
 	: bDebugSprite(false)
-	, pcWorkingDirectory(NULL)
-	, pcTitle(NULL)
-	, pcDescription(NULL)
-	, pcPublisherName(NULL)jogos.pucpr.br
+	, sWorkingDirectory("")
+	, sTitle("")
+	, sDescription("")
+	, sPublisherName("")
 	, fInputRadius(0.0f)
-	, iRendererDeviceType(Seed::RendererDeviceOpenGL14)
+	, iRendererDeviceType(Seed::RendererDeviceAuto)
 	, iReaderType(Seed::ReaderDefault)
-	, nVideoMode(Video_AutoDetect)
-	, iFrameRate(Seed::FrameRateLockAt60)
+	, iFrameRate(60)
 	, iResolutionWidth(800)
 	, iResolutionHeight(600)
 	, bMultipleInstances(false)
 	, bWarningMultipleInstances(false)
+	, bFullScreen(false)
 {
 }
 
@@ -62,16 +65,48 @@ void Configuration::Load(const String &file)
 	Reader r(f);
 
 	bDebugSprite = r.ReadBool("bDebugSprite", false);
-}
+	bMultipleInstances = r.ReadBool("bMultipleInstances", false);
+	bWarningMultipleInstances = r.ReadBool("bWarningMultipleInstances", false);
+	bFullScreen = r.ReadBool("bFullScreen", false);
 
-void Configuration::SetVideoMode(eVideoMode videoMode)
-{
-	nVideoMode = videoMode;
-}
+	String renderer = r.ReadString("sRendererDevice", "auto");
+	std::transform(renderer.begin(), renderer.end(), renderer.begin(), ::tolower);
 
-eVideoMode Configuration::GetVideoMode() const
-{
-	return nVideoMode;
+	// FIXME: A better way to select the renderer (via register/unregister handlers?)
+	// also, a way to detect the default system renderer.
+	if (renderer == "auto")
+		iRendererDeviceType = Seed::RendererDeviceAuto;
+	else if (renderer == "ogl" || renderer == "opengl")
+		iRendererDeviceType = Seed::RendererDeviceOpenGLAny;
+	else if (renderer == "ogles1" || renderer == "opengl es1")
+		iRendererDeviceType = Seed::RendererDeviceOpenGLES1;
+	else if (renderer == "ogl2" || renderer == "opengl 2.x")
+		iRendererDeviceType = Seed::RendererDeviceOpenGL2x;
+	else if (renderer == "ogl3" || renderer == "opengl 3.x")
+		iRendererDeviceType = Seed::RendererDeviceOpenGL3x;
+	else if (renderer == "ogl4" || renderer == "opengl 4.x")
+		iRendererDeviceType = Seed::RendererDeviceOpenGL4x;
+	else if (renderer == "dx8" || renderer == "directx 8")
+		iRendererDeviceType = Seed::RendererDeviceDirectX8;
+	else if (renderer == "dx9" || renderer == "directx 9")
+		iRendererDeviceType = Seed::RendererDeviceDirectX9;
+	else if (renderer == "dx10" || renderer == "directx 10")
+		iRendererDeviceType = Seed::RendererDeviceDirectX10;
+	else if (renderer == "dx11" || renderer == "directx 11")
+		iRendererDeviceType = Seed::RendererDeviceDirectX11;
+	else
+		Log("[Configuration] Unknown renderer %s - fallbacking to OpenGL 1.x.", renderer.c_str());
+
+	sWorkingDirectory = r.ReadString("sWorkingDirectory", "./");
+	sTitle = r.ReadString("sTitle", "");
+	sDescription = r.ReadString("sDescription", "");
+	sPublisherName = r.ReadString("sPublisherName", "");
+
+	fInputRadius = r.ReadF32("fInputRadius", 0.0f);
+
+	iResolutionWidth = r.ReadU32("iResolutionWidth", 0);
+	iResolutionHeight = r.ReadU32("iResolutionHeight", 0);
+	iFrameRate = r.ReadU32("iFrameRate", 60);
 }
 
 u32 Configuration::GetResolutionWidth() const
@@ -84,54 +119,54 @@ u32 Configuration::GetResolutionHeight() const
 	return iResolutionHeight;
 }
 
-void Configuration::SetWorkingDirectory(const char *path)
+void Configuration::SetWorkingDirectory(const String path)
 {
-	pcWorkingDirectory = path;
+	sWorkingDirectory = path;
 }
 
-const char *Configuration::GetWorkingDirectory() const
+const String &Configuration::GetWorkingDirectory() const
 {
-	return pcWorkingDirectory;
+	return sWorkingDirectory;
 }
 
-void Configuration::SetFrameRate(eSystemFrameRate frameRate)
+void Configuration::SetFrameRate(u32 frameRate)
 {
 	iFrameRate = frameRate;
 }
 
-eSystemFrameRate Configuration::GetFrameRate() const
+u32 Configuration::GetFrameRate() const
 {
 	return iFrameRate;
 }
 
-void Configuration::SetApplicationTitle(const char *title)
+void Configuration::SetApplicationTitle(const String &title)
 {
-	pcTitle = title;
+	sTitle = title;
 }
 
-const char *Configuration::GetApplicationTitle() const
+const String &Configuration::GetApplicationTitle() const
 {
-	return pcTitle;
+	return sTitle;
 }
 
-void Configuration::SetApplicationDescription(const char *desc)
+void Configuration::SetApplicationDescription(const String &desc)
 {
-	pcDescription = desc;
+	sDescription = desc;
 }
 
-const char *Configuration::GetPublisherName() const
+const String &Configuration::GetPublisherName() const
 {
-	return pcPublisherName;
+	return sPublisherName;
 }
 
-void Configuration::SetPublisherName(const char *desc)
+void Configuration::SetPublisherName(const String desc)
 {
-	pcPublisherName = desc;
+	sPublisherName = desc;
 }
 
-const char *Configuration::GetApplicationDescription() const
+const String &Configuration::GetApplicationDescription() const
 {
-	return pcDescription;
+	return sDescription;
 }
 
 void Configuration::SetCanHaveMultipleInstances(bool enable)
@@ -152,6 +187,16 @@ void Configuration::SetWarningMultipleInstances(bool warnUser)
 bool Configuration::GetWarningMultipleInstances() const
 {
 	return bWarningMultipleInstances;
+}
+
+void Configuration::SetFullScreen(bool enable)
+{
+	bFullScreen = enable;
+}
+
+bool Configuration::GetFullScreen() const
+{
+	return bFullScreen;
 }
 
 void Configuration::SetRendererDeviceType(eRendererDeviceType deviceType)

@@ -34,6 +34,7 @@
 #include "Log.h"
 #include "RendererDevice.h"
 #include "SeedInit.h"
+#include "Configuration.h"
 
 #if defined(WIN32)
 #define USER_DEFAULT_SCREEN_DPI	96
@@ -61,15 +62,26 @@ Screen::Screen()
 
 Screen::~Screen()
 {
-	this->Reset();
 }
 
 bool Screen::Reset()
 {
+#if defined(__linux__)
+	this->PrepareMode();
+	this->InitializeVideo();
+#else
+	pResourceManager->Unload(Seed::TypeTexture);
+	pRendererDevice->Shutdown();
+	this->Shutdown();
+	this->Initialize();
+	pRendererDevice->Initialize();
+	pResourceManager->Reload(Seed::TypeTexture);
+#endif
+
 	return true;
 }
 
-void Screen::PrepareMode()
+void Screen::Prepare()
 {
 	videoInfo = const_cast<SDL_VideoInfo *>(SDL_GetVideoInfo());
 	if (videoInfo)
@@ -93,95 +105,41 @@ void Screen::PrepareMode()
 		Info(TAG "\tTotal video memory available.: %d", videoInfo->video_mem);
 	}
 
-	switch (nMode)
+	u32 reqW = pConfiguration->GetResolutionWidth();
+	u32 reqH = pConfiguration->GetResolutionHeight();
+	if (reqW && reqH)
 	{
-		case Video_AutoDetect:
+		iWidth = reqW;
+		iHeight = reqH;
+	}
+	else
+	{
+		if (videoInfo)
 		{
-			if (videoInfo)
-			{
-				iWidth = videoInfo->current_w;
-				iHeight = videoInfo->current_h;
-				iBPP = videoInfo->vfmt->BitsPerPixel;
-			}
-			else
-			{
-				Log(TAG "Error: Failed to auto detect video mode.");
-				return;
-			}
+			iWidth = videoInfo->current_w;
+			iHeight = videoInfo->current_h;
+			iBPP = videoInfo->vfmt->BitsPerPixel;
 		}
-		break;
-
-		case Video_320x240:
+		else
 		{
-			iWidth = 320;
-			iHeight = 240;
+			Log(TAG "Error: Failed to auto detect video mode.");
+			return;
 		}
-		break;
-
-		case Video_480x272:
-		{
-			iWidth = 480;
-			iHeight = 272;
-		}
-		break;
-
-		case Video_iOSPortrait:
-		{
-			iWidth = 320;
-			iHeight = 480;
-		}
-		break;
-
-		case Video_iOSLandscape:
-		case Video_480x320:
-		{
-			iWidth = 480;
-			iHeight = 320;
-		}
-		break;
-
-		case Video_640x480:
-		{
-			iWidth = 640;
-			iHeight = 480;
-		}
-		break;
-
-		case Video_800x600:
-		{
-			iWidth = 800;
-			iHeight = 600;
-		}
-		break;
-
-		case Video_1024x600:
-		{
-			iWidth = 1024;
-			iHeight = 600;
-		}
-		break;
-
-		case Video_1024x768:
-		{
-			iWidth = 1024;
-			iHeight = 768;
-		}
-		break;
-
-		default:
-			Log(TAG "Invalid video mode!");
-		break;
 	}
 
 	fAspectRatio = (f32)iHeight / (f32)iWidth;
 	iFlags = SDL_DOUBLEBUF | SDL_HWSURFACE;
+
+	if (bFullScreen)
+		iFlags |= SDL_FULLSCREEN;
 }
 
 bool Screen::Initialize()
 {
 	Log(TAG "Initializing...");
 
-	IScreen::SetMode(pConfiguration->GetVideoMode());
+	bFullScreen = pConfiguration->GetFullScreen();
+
 	bFading = false;
 	iFadeStatus = 16;
 
@@ -192,7 +150,7 @@ bool Screen::Initialize()
 		return false;
 	}
 
-	this->PrepareMode();
+	this->Prepare();
 	if (!videoInfo)
 	{
 		Log(TAG "ERROR: You must set up a video mode!");
@@ -228,8 +186,8 @@ bool Screen::InitializeVideo()
 	this->SetupOpenGL();
 #else
 	eRendererDeviceType type = pConfiguration->GetRendererDeviceType();
-	if (type == Seed::RendererDeviceOpenGL14 || type == Seed::RendererDeviceOpenGL20 ||
-		type == Seed::RendererDeviceOpenGL30 || type == Seed::RendererDeviceOpenGL40)
+	if (type == Seed::RendererDeviceOpenGL1x || type == Seed::RendererDeviceOpenGL2x ||
+		type == Seed::RendererDeviceOpenGL3x || type == Seed::RendererDeviceOpenGL4x)
 	{
 		this->SetupOpenGL();
 	}
@@ -267,7 +225,7 @@ bool Screen::InitializeVideo()
 	}
 #endif
 
-	SDL_WM_SetCaption(pConfiguration->GetApplicationTitle(), pConfiguration->GetApplicationTitle());
+	SDL_WM_SetCaption(pConfiguration->GetApplicationTitle().c_str(), pConfiguration->GetApplicationTitle().c_str());
 	pSurface = SDL_SetVideoMode(iWidth, iHeight, iBPP, iFlags);
 	if (!pSurface)
 	{
@@ -431,23 +389,6 @@ void Screen::ToggleFullscreen()
 		SetWindowPos(GetActiveWindow(), HWND_TOP, rectWindow.left, rectWindow.top, rectWindow.right, rectWindow.bottom, SWP_SHOWWINDOW);
 	}
 #endif
-#endif
-}
-
-void Screen::SetMode(eVideoMode mode)
-{
-#if defined(__linux__)
-	IScreen::SetMode(mode);
-	this->PrepareMode();
-	this->InitializeVideo();
-#else
-	pResourceManager->Unload(Seed::TypeTexture);
-	pRendererDevice->Shutdown();
-	this->Shutdown();
-	IScreen::SetMode(mode);
-	this->Initialize();
-	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::TypeTexture);
 #endif
 }
 

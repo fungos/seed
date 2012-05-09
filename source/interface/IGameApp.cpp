@@ -39,8 +39,7 @@
 namespace Seed {
 
 IGameApp::IGameApp()
-	: cConfig()
-	, cResourceManager("IGameApp")
+	: cResourceManager("IGameApp")
 {
 }
 
@@ -71,11 +70,6 @@ void IGameApp::WriteErr(const char *msg)
 void IGameApp::WriteDbg(const char *msg)
 {
 	fprintf(stdout, "%s\n", msg);
-}
-
-Configuration *IGameApp::GetConfiguration()
-{
-	return &cConfig;
 }
 
 ResourceManager *IGameApp::GetResourceManager()

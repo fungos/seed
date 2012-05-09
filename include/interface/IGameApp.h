@@ -33,7 +33,6 @@
 
 #include "IUpdatable.h"
 #include "IModule.h"
-#include "Configuration.h"
 #include "ResourceManager.h"
 
 namespace Seed {
@@ -60,9 +59,6 @@ class SEED_CORE_API IGameApp : public IUpdatable, public IModule
 		/// Print debug level string
 		virtual void WriteDbg(const char *msg);
 
-		/// Get user configuration
-		Configuration *GetConfiguration();
-
 		/// Get user resource manager
 		ResourceManager *GetResourceManager();
 
@@ -71,7 +67,6 @@ class SEED_CORE_API IGameApp : public IUpdatable, public IModule
 		virtual int GetObjectType() const;
 
 	protected:
-		Configuration	cConfig;
 		ResourceManager	cResourceManager;
 
 	private:

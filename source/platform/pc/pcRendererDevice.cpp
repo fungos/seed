@@ -32,7 +32,7 @@
 
 #if defined(BUILD_PC)
 
-#include "SeedInit.h"
+#include "Configuration.h"
 #define TAG "[RendererDevice] "
 
 namespace Seed { namespace PC {
@@ -62,31 +62,54 @@ bool RendererDevice::Initialize()
 
 	Log(TAG "Initializing...");
 
-	switch (pConfiguration->GetRendererDeviceType())
+	eRendererDeviceType renderDevice = pConfiguration->GetRendererDeviceType();
+	if (renderDevice == RendererDeviceAuto)
+	{
+#if defined(SEED_ENABLE_D3D11) || defined(SEED_ENABLE_D3D10) || defined(SEED_ENABLE_D3D9) || defined(SEED_ENABLE_D3D8)
+		renderDevice = Seed::RendererDeviceDirectXAny;
+#else
+		renderDevice = Seed::RendererDeviceOpenGLAny;
+#endif
+	}
+
+	if (renderDevice == RendererDeviceOpenGLAny)
+	{
+		char *version = (char *)glGetString(GL_VERSION);
+		switch (version[0])
+		{
+			case '4': renderDevice = Seed::RendererDeviceOpenGL4x; break;
+			case '3': renderDevice = Seed::RendererDeviceOpenGL3x; break;
+			case '2': renderDevice = Seed::RendererDeviceOpenGL2x; break;
+			default: renderDevice = Seed::RendererDeviceOpenGL1x; break;
+		}
+	}
+
+
+	switch (renderDevice)
 	{
 #if defined(SEED_ENABLE_OGL20)
-		case RendererDeviceOpenGL20:
+		case RendererDeviceOpenGL2x:
 		{
-			Info(TAG "Creating renderer device OpenGL 2.0");
-			pApiDevice = New(OGL20RendererDevice());
+			Info(TAG "Creating renderer device OpenGL 2.x");
+			pApiDevice = New(OGL2xRendererDevice());
 		}
 		break;
 #endif
 
 #if defined(SEED_ENABLE_OGL30)
-		case RendererDeviceOpenGL30:
+		case RendererDeviceOpenGL3x:
 		{
-			Info(TAG "Creating renderer device OpenGL 3.0");
-			pApiDevice = New(OGL30RendererDevice());
+			Info(TAG "Creating renderer device OpenGL 3.x");
+			pApiDevice = New(OGL3xRendererDevice());
 		}
 		break;
 #endif
 
 #if defined(SEED_ENABLE_OGL40)
-		case RendererDeviceOpenGL40:
+		case RendererDeviceOpenGL4x:
 		{
-			Info(TAG "Creating renderer device OpenGL 4.0");
-			pApiDevice = New(OGL40RendererDevice());
+			Info(TAG "Creating renderer device OpenGL 4.x");
+			pApiDevice = New(OGL4xRendererDevice());
 		}
 		break;
 #endif
@@ -128,7 +151,7 @@ bool RendererDevice::Initialize()
 #endif
 
 		case RendererDeviceOpenGLES1:
-		case RendererDeviceOpenGL14:
+		case RendererDeviceOpenGL1x:
 		default:
 		{
 			Info(TAG "Creating renderer device OpenGL 1.5/ES 1");

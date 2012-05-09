@@ -155,8 +155,6 @@ void Renderer::RenderObjects(const RenderableVector &vec) const
 	{
 		ISceneObject *obj = const_cast<ISceneObject *>(*it);
 		SEED_ASSERT(obj);
-
-		Log("- Rendering: %s", obj->sName.c_str());
 		obj->Render();
 	}
 }

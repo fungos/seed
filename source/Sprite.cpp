@@ -39,6 +39,7 @@
 #include "SeedInit.h"
 #include "interface/ITexture.h"
 #include "Profiler.h"
+#include "Configuration.h"
 
 #define TAG "[Sprite] "
 

@@ -58,7 +58,6 @@ class SEED_CORE_API Screen : public IScreen
 		virtual bool Reset();
 		virtual bool Shutdown();
 
-		void SetMode(eVideoMode mode);
 		virtual void FadeOut();
 		virtual void FadeIn();
 		virtual void CancelFade();
@@ -84,7 +83,7 @@ class SEED_CORE_API Screen : public IScreen
 		SEED_DISABLE_COPY(Screen);
 
 		bool InitializeVideo();
-		void PrepareMode();
+		void Prepare();
 		void SetupOpenGL();
 
 #if defined(DEBUG)

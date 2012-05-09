@@ -33,6 +33,7 @@
 #include "Number.h"
 #include "Texture.h"
 #include "SeedInit.h"
+#include "Configuration.h"
 #include "Particle.h"
 #include "MathUtil.h"
 #include "RendererDevice.h"

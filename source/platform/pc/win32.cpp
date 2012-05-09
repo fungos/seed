@@ -35,7 +35,7 @@
 
 #include "Defines.h"
 #include "Log.h"
-#include "SeedInit.h"
+#include "Configuration.h"
 
 #pragma push_macro("Delete")
 #pragma push_macro("Free")
@@ -178,7 +178,7 @@ bool system_check_multiple_instance()
 	DWORD error = 0;
 
 	HANDLE handleProcess;
-	LPCTSTR lpName = (LPCTSTR)Seed::pConfiguration->GetApplicationTitle();
+	LPCTSTR lpName = (LPCTSTR)Seed::pConfiguration->GetApplicationTitle().c_str();
 
 	handleProcess = CreateMutex(NULL, CREATE_MUTEX_INITIAL_OWNER, lpName);
 	error = GetLastError();
@@ -189,12 +189,12 @@ bool system_check_multiple_instance()
 	}
 	else if (error == ERROR_ALREADY_EXISTS)
 	{
-		HWND hWnd = FindWindowA(NULL, Seed::pConfiguration->GetApplicationTitle());
+		HWND hWnd = FindWindowA(NULL, Seed::pConfiguration->GetApplicationTitle().c_str());
 		if (hWnd)
 		{
 			if (Seed::pConfiguration->GetWarningMultipleInstances())
 			{
-				MessageBoxA(NULL, "There is already an instance of this application running!", Seed::pConfiguration->GetApplicationTitle(), MB_ICONWARNING);
+				MessageBoxA(NULL, "There is already an instance of this application running!", Seed::pConfiguration->GetApplicationTitle().c_str(), MB_ICONWARNING);
 			}
 #if (_WIN32_WINNT >= 0x0500)
 			SwitchToThisWindow(hWnd, false);

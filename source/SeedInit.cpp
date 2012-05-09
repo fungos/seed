@@ -52,6 +52,7 @@
 #include "RendererDevice.h"
 #include "Checksum.h"
 #include "Profiler.h"
+#include "Configuration.h"
 
 #include "Sprite.h"
 #include "Animation.h"
@@ -78,7 +79,6 @@ namespace Private
 }
 
 ResourceManager *pResourceManager = NULL;
-Configuration *pConfiguration = NULL;
 
 #define MAX_FRAME_DELTA ((1.0f / 60.0f) * 5.0f)
 
@@ -115,7 +115,6 @@ void SetGameApp(IGameApp *app, int argc, const char **argv)
 	Private::pcArgv = argv;
 	Private::pApplication = app;
 	Private::sConfigFile = "app.config";
-	pConfiguration  = app->GetConfiguration();
 	pResourceManager = app->GetResourceManager();
 
 	Seed::CommandLineParse(argc, argv);
@@ -161,6 +160,7 @@ bool Initialize()
 	Info(SEED_TAG "\tTheora: %s", SEED_USE_THEORA ? "Yes" : "No");
 	Info(SEED_TAG "\tSingleton: %s", SEED_SINGLETON_HEAP ? "Heap" : "Stack");
 	Info(SEED_TAG "\tMusic Buffer: %d", SEED_MUSIC_STREAMING_BUFFER_SIZE);
+	Info(SEED_TAG "\tReader: %s", SEED_USE_JSON ? "JSON" : "Binary");
 	Info(SEED_TAG "Initializing...");
 
 	bool ret = true;
@@ -168,7 +168,6 @@ bool Initialize()
 	pChecksum = Checksum::GetInstance();
 
 	ret = ret && pModuleManager->Add(pFileSystem);
-
 	pConfiguration->Load(Private::sConfigFile);
 	pFileSystem->Prepare();
 

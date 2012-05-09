@@ -19,7 +19,8 @@ OTHER_FILES += \
 	bin/out.movie \
 	bin/out.sprite \
 	bin/particles.sprite \
-    bin/teste.emitter
+    bin/teste.emitter \
+    bin/app.config
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../tests/bin

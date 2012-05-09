@@ -36,7 +36,7 @@
 #include "Log.h"
 #include "Screen.h"
 #include "RendererDevice.h"
-#include "SeedInit.h"
+#include "Configuration.h"
 
 #define TAG "[Texture] "
 
@@ -144,7 +144,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 				height *= 2;
 
 			eRendererDeviceType type = pConfiguration->GetRendererDeviceType();
-			if (type >= Seed::RendererDeviceOpenGLES1 && type <= Seed::RendererDeviceOpenGL40)
+			if (type >= Seed::RendererDeviceOpenGLES1 && type <= Seed::RendererDeviceOpenGL4x)
 			{
 				/*
 				HACK:

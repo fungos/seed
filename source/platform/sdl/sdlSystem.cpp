@@ -35,7 +35,7 @@
 #include "Log.h"
 #include "Timer.h"
 #include "EventSystem.h"
-#include "SeedInit.h"
+#include "Configuration.h"
 #include "physfs/physfs.h"
 #include "platform/pc/platform.h"
 
@@ -48,14 +48,14 @@ namespace Seed { namespace SDL {
 SEED_SINGLETON_DEFINE(System)
 
 System::System()
-	: iRetraceCount(0)
-	, iFrameRate(FrameRateLockAt60)
+	: iLastFrameTime(0)
+	, iFpsTime(0)
+	, fElapsedTime(0.0f)
+	, iRetraceCount(0)
+	, iFrameRate(60)
 	, bShutdown(false)
 	, bSleeping(false)
 	, bDefaultCursorEnabled(false)
-	, fElapsedTime(0.0f)
-	, iLastFrameTime(0)
-	, iFpsTime(0)
 {
 }
 
@@ -152,7 +152,7 @@ bool System::IsResetting() const
 	return false;
 }
 
-void System::WaitForRetrace(eSystemFrameRate rate)
+void System::WaitForRetrace(u32 rate)
 {
 	++this->iRetraceCount;
 

@@ -34,83 +34,78 @@
 #include "Defines.h"
 #include "interface/IObject.h"
 #include "Enum.h"
+#include "Singleton.h"
 
 namespace Seed {
 
 /// Run-time Configuration
 class SEED_CORE_API Configuration : public IObject
 {
+	SEED_SINGLETON_DECLARE(Configuration)
 	public:
-		Configuration();
-		virtual ~Configuration();
-
 		void Load(const String &file);
 
-		void SetVideoMode(eVideoMode videoMode);
-		eVideoMode GetVideoMode() const;
-
-		//void SetResolution(u32 width, u32 height);
 		u32 GetResolutionWidth() const;
 		u32 GetResolutionHeight() const;
 
-		void SetWorkingDirectory(const char *path);
-		const char *GetWorkingDirectory() const;
+		void SetWorkingDirectory(const String path);
+		const String &GetWorkingDirectory() const;
 
 		//! Sets the desired frame rate.
 		/*!
 			Sets the desired frame rate for running the entire system.
 			\param frameRate Frame rate of the system
 		 */
-		void SetFrameRate(eSystemFrameRate frameRate);
+		void SetFrameRate(u32 frameRate);
 
 		//! Gets the desired frame rate.
 		/*!
 			Returns the selected frame rate.
 			\returns a ISystem::eFrameRate enumeration;
 		 */
-		eSystemFrameRate GetFrameRate() const;
+		u32 GetFrameRate() const;
 
 		//! Sets the application title.
 		/*!
 			Sets the application title, mainly used for savegame data.
 			\param title Title of the application;
 		 */
-		void SetApplicationTitle(const char *title);
+		void SetApplicationTitle(const String &title);
 
 		//! Returns the application title.
 		/*!
 			Returns the application title.
 			\returns a const char * string;
 		 */
-		const char *GetApplicationTitle() const;
+		const String &GetApplicationTitle() const;
 
 		//! Sets the application description.
 		/*!
 			Sets the application description, mainly used for savegame data.
 			\param descr Description of the application ;
 		 */
-		void SetApplicationDescription(const char *desc);
+		void SetApplicationDescription(const String &desc);
 
 		//! Returns the application description.
 		/*!
 			Returns the application description.
 			\returns a const char * string;
 		 */
-		const char *GetApplicationDescription() const;
+		const String &GetApplicationDescription() const;
 
 		//! Sets the application publisher name.
 		/*!
 			Sets the application publisher name, mainly used for savegame data.
 			\param descr Publisher of the application ;
 		 */
-		void SetPublisherName(const char *desc);
+		void SetPublisherName(const String desc);
 
 		//! Returns the application publisher name.
 		/*!
 			Returns the application publisher name.
 			\returns a const char * string;
 		 */
-		const char *GetPublisherName() const;
+		const String &GetPublisherName() const;
 
 		//! Set the maximum radius for distance based widget collision
 		/*!
@@ -134,6 +129,9 @@ class SEED_CORE_API Configuration : public IObject
 		void SetWarningMultipleInstances(bool warnUser);
 		bool GetWarningMultipleInstances() const;
 
+		void SetFullScreen(bool enable);
+		bool GetFullScreen() const;
+
 		void SetRendererDeviceType(eRendererDeviceType deviceType);
 		eRendererDeviceType GetRendererDeviceType() const;
 
@@ -149,24 +147,26 @@ class SEED_CORE_API Configuration : public IObject
 	private:
 		SEED_DISABLE_COPY(Configuration);
 
-		const char *pcWorkingDirectory;
-		const char *pcTitle;
-		const char *pcDescription;
-		const char *pcPublisherName;
+		String sWorkingDirectory;
+		String sTitle;
+		String sDescription;
+		String sPublisherName;
 
 		f32 fInputRadius;
 
 		eRendererDeviceType iRendererDeviceType;
 		eReaderType iReaderType;
-		eVideoMode nVideoMode;
-		eSystemFrameRate iFrameRate;
 
+		u32 iFrameRate;
 		u32 iResolutionWidth;
 		u32 iResolutionHeight;
 
 		bool bMultipleInstances;
 		bool bWarningMultipleInstances;
+		bool bFullScreen;
 };
+
+#define pConfiguration Configuration::GetInstance()
 
 } // namespace
 

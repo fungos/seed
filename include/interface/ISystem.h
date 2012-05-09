@@ -145,7 +145,7 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 		/*!
 			\param frameRate Retrace rate.
 		 */
-		virtual void WaitForRetrace(eSystemFrameRate frameRate) = 0;
+		virtual void WaitForRetrace(u32 frameRate) = 0;
 
 		//! Get current user name
 		/*!

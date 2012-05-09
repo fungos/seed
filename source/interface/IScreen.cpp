@@ -35,7 +35,6 @@ namespace Seed {
 
 IScreen::IScreen()
 	: bFading(false)
-	, nMode(Seed::Video_AutoDetect)
 	, fAspectRatio(static_cast<f32>(PLATFORM_MAX_SCREEN_HEIGHT)/static_cast<f32>(PLATFORM_MAX_SCREEN_WIDTH))
 	, iHeight(PLATFORM_MAX_SCREEN_HEIGHT)
 	, iWidth(PLATFORM_MAX_SCREEN_WIDTH)
@@ -49,16 +48,6 @@ IScreen::~IScreen()
 bool IScreen::IsFading() const
 {
 	return bFading;
-}
-
-void IScreen::SetMode(eVideoMode mode)
-{
-	nMode = mode;
-}
-
-eVideoMode IScreen::GetMode() const
-{
-	return nMode;
 }
 
 void IScreen::ToggleFullscreen()

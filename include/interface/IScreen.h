@@ -46,12 +46,6 @@ class SEED_CORE_API IScreen : public IModule
 		IScreen();
 		virtual ~IScreen();
 
-		/// Gets the current video mode
-		virtual eVideoMode GetMode() const;
-
-		/// Change the current video mode
-		virtual void SetMode(eVideoMode mode);
-
 		/// Start fade out
 		virtual void FadeOut();
 
@@ -89,7 +83,6 @@ class SEED_CORE_API IScreen : public IModule
 
 	protected:
 		bool		bFading;
-		eVideoMode	nMode;
 		f32			fAspectRatio;
 		u32			iHeight;
 		u32			iWidth;

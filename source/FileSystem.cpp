@@ -33,6 +33,7 @@
 #include "File.h"
 #include "System.h"
 #include "SeedInit.h"
+#include "Configuration.h"
 #include "physfs/physfs.h"
 
 #define FS_CHECK(x)	{ if (!x) { const char *_err = PHYSFS_getLastError(); Log(TAG "Error: %s", _err); }}
@@ -55,12 +56,13 @@ FileSystem::~FileSystem()
 bool FileSystem::Initialize()
 {
 	FS_CHECK(PHYSFS_init(Seed::Private::pcArgv[0]));
+	FS_CHECK(PHYSFS_setSaneConfig(".", "", "zip", false, false));
 	return true;
 }
 
 void FileSystem::Prepare() const
 {
-	FS_CHECK(PHYSFS_setSaneConfig(Seed::pConfiguration->GetPublisherName(), Seed::pConfiguration->GetApplicationTitle(), "zip", false, false));
+	FS_CHECK(PHYSFS_setSaneConfig(Seed::pConfiguration->GetPublisherName().c_str(), Seed::pConfiguration->GetApplicationTitle().c_str(), "zip", false, false));
 }
 
 bool FileSystem::Shutdown()

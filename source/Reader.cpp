@@ -29,7 +29,7 @@
 */
 
 #include "Reader.h"
-#include "SeedInit.h"
+#include "Configuration.h"
 #include "api/yajl/JsonReader.h"
 
 #define TAG "[Reader] "

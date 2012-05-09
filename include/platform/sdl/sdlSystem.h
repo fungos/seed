@@ -47,7 +47,7 @@ class SEED_CORE_API System : public ISystem
 		virtual void GoToMenu();
 		virtual void Sleep();
 		virtual void OnHomeCalled();
-		virtual void WaitForRetrace(eSystemFrameRate rate);
+		virtual void WaitForRetrace(u32 rate);
 		virtual void HangUp();
 		virtual void GoToDataManager();
 
@@ -80,14 +80,14 @@ class SEED_CORE_API System : public ISystem
 		SEED_DISABLE_COPY(System);
 
 	private:
+		u64 		iLastFrameTime;
+		u64 		iFpsTime;
+		f32 		fElapsedTime;
 		u32 		iRetraceCount;
-		eSystemFrameRate iFrameRate;
+		u32			iFrameRate;
 		bool 		bShutdown;
 		bool		bSleeping;
 		bool		bDefaultCursorEnabled;
-		f32 		fElapsedTime;
-		u64 		iLastFrameTime;
-		u64 		iFpsTime;
 };
 
 #define pSystem Seed::SDL::System::GetInstance()

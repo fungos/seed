@@ -87,48 +87,20 @@ enum eReaderType
 	ReaderJson = ReaderDefault
 };
 
-//! Basic frame rate values.
-/*!
-	Some platform may not support nativelly some frame rates values.
-*/
-enum eSystemFrameRate
-{
-	FrameRateLockAt120 = 120, /*!< 120 Frames per second. */
-	FrameRateLockAt60 = 60, /*!< 60 Frames per second. */
-	FrameRateLockAt30 = 30, /*!< 30 Frames per second. */
-	FrameRateLockAt20 = 20, /*!< 20 Frames per second. */
-	FrameRateLockAt15 = 15, /*!< 15 Frames per second. */
-	FrameRateUnlocked = 1000 /*!< 120 or more frames per second. */
-};
-
 enum eRendererDeviceType
 {
+	RendererDeviceAuto,
 	RendererDeviceOpenGLES1,
-	RendererDeviceOpenGL14,
-	RendererDeviceOpenGL20,
-	RendererDeviceOpenGL30,
-	RendererDeviceOpenGL40,
+	RendererDeviceOpenGL1x,
+	RendererDeviceOpenGL2x,
+	RendererDeviceOpenGL3x,
+	RendererDeviceOpenGL4x,
+	RendererDeviceOpenGLAny,
 	RendererDeviceDirectX8,
 	RendererDeviceDirectX9,
 	RendererDeviceDirectX10,
-	RendererDeviceDirectX11
-};
-
-enum eVideoMode
-{
-	Video_AutoDetect,
-	Video_320x240,
-	Video_480x272,
-	Video_480x320,
-	Video_iOS,
-	Video_iOSLandscape = Video_iOS,
-	Video_iOSPortrait,
-	Video_640x480,
-	Video_800x600,
-	Video_1024x600,
-	Video_Netbook = Video_1024x600,
-	Video_1024x768,
-	Video_iPad = Video_1024x768
+	RendererDeviceDirectX11,
+	RendererDeviceDirectXAny
 };
 
 enum eTextureCompression
