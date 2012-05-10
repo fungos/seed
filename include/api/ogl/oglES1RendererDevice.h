@@ -115,6 +115,9 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 	private:
 		SEED_DISABLE_COPY(OGLES1RendererDevice);
 		int GetOpenGLMeshType(eMeshType type) const;
+
+		bool bHasFrameBuffer;
+		bool bNeedPowerOfTwoTexture;
 };
 
 }} // namespace

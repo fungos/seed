@@ -38,6 +38,8 @@ namespace Seed {
 
 class ITexture;
 
+ISceneObject *FactoryImage();
+
 /// Renderable Static Image
 class SEED_CORE_API Image : public ISceneObject
 {
@@ -45,13 +47,16 @@ class SEED_CORE_API Image : public ISceneObject
 		Image();
 		virtual ~Image();
 
-		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual bool Load(ITexture *texture);
-		virtual bool Unload();
+		bool Load(ITexture *texture);
 
 		// IRenderable
 		virtual void Update(f32 delta);
 		virtual void Render();
+
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
 
 		// IObject
 		virtual int GetObjectType() const;

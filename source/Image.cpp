@@ -37,6 +37,11 @@
 
 namespace Seed {
 
+ISceneObject *FactoryImage()
+{
+	return New(Image());
+}
+
 Image::Image()
 	: pTexture(NULL)
 	, pRes(NULL)
@@ -51,32 +56,6 @@ Image::Image()
 
 Image::~Image()
 {
-}
-
-bool Image::Unload()
-{
-	if (!bDynamic)
-		sRelease(pTexture);
-	pTexture = NULL;
-
-	return true;
-}
-
-bool Image::Load(const String &filename, ResourceManager *res)
-{
-	SEED_ASSERT(res);
-
-	if (this->Unload())
-	{
-		sFilename = filename;
-		pRes = res;
-
-		pTexture = static_cast<ITexture *>(res->Get(filename, Seed::TypeTexture));
-		this->UpdateCoords();
-		bDynamic = false;
-	}
-
-	return true;
 }
 
 void Image:: Update(f32 delta)
@@ -135,6 +114,7 @@ bool Image::Load(ITexture *texture)
 	sFilename = "[dynamic texture]";
 	pTexture = texture;
 	this->UpdateCoords();
+
 	bDynamic = true;
 
 	return true;
@@ -162,6 +142,58 @@ void Image::UpdateCoords()
 	vert[1].cCoords = Point2f(s1, t0);
 	vert[2].cCoords = Point2f(s0, t1);
 	vert[3].cCoords = Point2f(s1, t1);
+}
+
+bool Image::Load(Reader &reader, ResourceManager *res)
+{
+	SEED_ASSERT(res);
+
+	bool ret = false;
+
+	if (this->Unload())
+	{
+		sName = reader.ReadString("sName", "image");
+		sFilename = reader.ReadString("sFilename", "");
+
+		ITransformable::Unserialize(reader);
+		IRenderable::Unserialize(reader);
+
+		pRes = res;
+
+		pTexture = static_cast<ITexture *>(res->Get(sFilename, Seed::TypeTexture));
+		this->UpdateCoords();
+
+		bDynamic = false;
+	}
+
+	return ret;
+}
+
+bool Image::Unload()
+{
+	if (!bDynamic)
+		sRelease(pTexture);
+	pTexture = NULL;
+
+	return true;
+}
+
+bool Image::Write(Writer &writer)
+{
+	bool ret = !bDynamic;
+	if (ret)
+	{
+		writer.OpenNode();
+			writer.WriteString("sType", this->GetObjectName().c_str());
+			writer.WriteString("sName", sName.c_str());
+			writer.WriteString("sFilename", sFilename.c_str());
+
+			ITransformable::Serialize(writer);
+			IRenderable::Serialize(writer);
+		writer.CloseNode();
+	}
+
+	return ret;
 }
 
 int Image::GetObjectType() const

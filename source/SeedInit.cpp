@@ -55,13 +55,9 @@
 #include "Configuration.h"
 
 #include "Sprite.h"
-#include "Animation.h"
-#include "Frame.h"
+#include "Image.h"
 #include "Movie.h"
-#include "Timeline.h"
-#include "Keyframe.h"
 #include "ParticleEmitter.h"
-#include "Particle.h"
 
 extern "C" {
 
@@ -206,6 +202,7 @@ bool Initialize()
 	SceneObjectFactory::Register("Sprite", FactorySprite);
 	SceneObjectFactory::Register("Movie", FactoryMovie);
 	SceneObjectFactory::Register("ParticleEmitter", FactoryParticleEmitter);
+	SceneObjectFactory::Register("Image", FactoryImage);
 
 	Private::bInitialized = true;
 

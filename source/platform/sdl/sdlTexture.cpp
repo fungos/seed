@@ -130,11 +130,11 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		iWidth = pSurface->w;
 		iHeight = pSurface->h;
 
+		/*
+		If the image isn't power of two, we need fix it.
+		*/
 		if (pRendererDevice->NeedPowerOfTwoTextures())
 		{
-			/*
-			If the image isn't power of two, we need fix it.
-			*/
 			u32 width = 1;
 			while (width < iWidth)
 				width *= 2;
@@ -143,46 +143,35 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			while (height < iHeight)
 				height *= 2;
 
-			eRendererDeviceType type = pConfiguration->GetRendererDeviceType();
-			if (type >= Seed::RendererDeviceOpenGLES1 && type <= Seed::RendererDeviceOpenGL4x)
+			if (width != iWidth || height != iHeight)
 			{
-				/*
-				HACK:
-				When using OpenGL we must pass power of 2 textures to the device, so we check if the texture need fix and create
-				a new and correct surface for it. When using DirectX the device will not use SDL Surface to load texture, it will
-				load directly from our in memory file and then close it, so we don't need to fix our texture.
-				*/
+				Log(TAG "WARNING: texture size not optimal, changing from %dx%d to %dx%d", iWidth, iHeight, width, height);
 
-				if (width != iWidth || height != iHeight)
-				{
-					Log(TAG "WARNING: texture size not optimal, changing from %dx%d to %dx%d", iWidth, iHeight, width, height);
+				SDL_Surface *pTempSurface = NULL;
+				Uint32 rmask, gmask, bmask, amask;
 
-					SDL_Surface *pTempSurface = NULL;
-					Uint32 rmask, gmask, bmask, amask;
+				#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+					rmask = 0xff000000;
+					gmask = 0x00ff0000;
+					bmask = 0x0000ff00;
+					amask = 0x000000ff;
+				#else
+					rmask = 0x000000ff;
+					gmask = 0x0000ff00;
+					bmask = 0x00ff0000;
+					amask = 0xff000000;
+				#endif
 
-					#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-						rmask = 0xff000000;
-						gmask = 0x00ff0000;
-						bmask = 0x0000ff00;
-						amask = 0x000000ff;
-					#else
-						rmask = 0x000000ff;
-						gmask = 0x0000ff00;
-						bmask = 0x00ff0000;
-						amask = 0xff000000;
-					#endif
+				pTempSurface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA , width, height, 32, bmask, gmask, rmask, amask);
 
-					pTempSurface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA , width, height, 32, bmask, gmask, rmask, amask);
+				SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_OPAQUE);
+				SDL_SetAlpha(pSurface, 0, SDL_ALPHA_OPAQUE);
+				SDL_BlitSurface(pSurface, NULL, pTempSurface, NULL);
+				SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_TRANSPARENT);
+				SDL_SetAlpha(pSurface, 0, SDL_ALPHA_TRANSPARENT);
 
-					SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_OPAQUE);
-					SDL_SetAlpha(pSurface, 0, SDL_ALPHA_OPAQUE);
-					SDL_BlitSurface(pSurface, NULL, pTempSurface, NULL);
-					SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_TRANSPARENT);
-					SDL_SetAlpha(pSurface, 0, SDL_ALPHA_TRANSPARENT);
-
-					SDL_FreeSurface(pSurface);
-					pSurface = pTempSurface;
-				}
+				SDL_FreeSurface(pSurface);
+				pSurface = pTempSurface;
 			}
 		}
 

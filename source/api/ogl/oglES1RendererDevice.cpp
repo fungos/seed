@@ -42,7 +42,7 @@
 #endif
 
 #if defined(BUILD_IOS)
-	#include "platform/ios/iosoneView.h"
+	#include "platform/ios/iosView.h"
 	#include <OpenGLES/ES1/gl.h>
 	#define _OPENGL_ES1		1
 #else
@@ -66,6 +66,8 @@ namespace Seed { namespace OpenGL {
 
 OGLES1RendererDevice::OGLES1RendererDevice()
 	: vTexture()
+	, bHasFrameBuffer(false)
+	, bNeedPowerOfTwoTexture(true)
 {
 	Log(TAG "Initializing...");
 
@@ -73,6 +75,14 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 		Log(TAG "Error: %s\n", glewGetErrorString(err));
+
+	if (GLEW_ARB_texture_non_power_of_two)
+		bNeedPowerOfTwoTexture = false;
+
+	if (GLEW_EXT_framebuffer_object)
+		bHasFrameBuffer = true;
+#else
+	// check device ext
 #endif
 
 	char *version = (char *)glGetString(GL_VERSION);
@@ -607,11 +617,12 @@ void OGLES1RendererDevice::Enable2D() const
 
 bool OGLES1RendererDevice::NeedPowerOfTwoTextures() const
 {
-#if defined(BUILD_IOS)
-	return true;
-#else
-	return false;
-#endif
+	return bNeedPowerOfTwoTexture;
+//#if defined(BUILD_IOS)
+//	return true;
+//#else
+//	return false;
+//#endif
 }
 
 void OGLES1RendererDevice::Disable2D() const
