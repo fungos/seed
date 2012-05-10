@@ -31,6 +31,7 @@
 #ifndef __EVENTMOVIE_H__
 #define __EVENTMOVIE_H__
 
+#include "Defines.h"
 #include "interface/IEvent.h"
 
 namespace Seed {

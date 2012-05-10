@@ -51,6 +51,7 @@ enum eObjectType
 	TypeSoundSource,
 	TypeSoundListener,
 	TypeParticleEmitter,
+	TypeCamera,
 	TypeMap,
 
 	// Managers
