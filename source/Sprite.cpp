@@ -527,7 +527,7 @@ void Sprite::Render()
 	packet.pVertexData = arCurrentVertexData;
 	packet.pTexture = pFrameTexture;
 	packet.nBlendMode = eBlendOperation;
-	packet.pTransform = &mTransform;
+	packet.pTransform = &mWorldTransform;
 	packet.cColor = cColor;
 	packet.iFlags = flags;
 	packet.vPivot = vTransformedPivot;

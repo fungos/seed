@@ -57,7 +57,7 @@ bool TestBase::Initialize()
 		sptLogo.sName = "ANIM";
 
 		sptLogo.SetPosition(0, 0);
-		cCamera.SetPosition(256, 0);
+		cCamera.SetPosition(-400, -300);
 
 		sptLogo.SetPriority(100.0f);
 		cScene.Add(&sptLogo);
