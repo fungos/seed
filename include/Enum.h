@@ -70,6 +70,12 @@ enum eObjectType
 	TypeUser
 };
 
+enum eProjection
+{
+	Orthogonal,
+	Perspective
+};
+
 enum eLanguage
 {
 	en_US,

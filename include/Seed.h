@@ -39,6 +39,7 @@
 #include <Profiler.h>
 
 #include <Cartridge.h>
+#include <Camera.h>
 #include <Checksum.h>
 
 #include <EventInputMotion.h>

@@ -18,25 +18,31 @@ bool TestBase::Initialize()
 	/* ------- Rendering Initialization ------- */
 	cScene.SetPriority(0);
 	cRenderer.Add(&cScene);
-	cViewport.SetRenderer(&cRenderer);
+
 	cViewport.SetHeight(pScreen->GetHeight());
 	cViewport.SetWidth(pScreen->GetWidth());
+	cViewport.SetCamera(&cCamera);
+	cViewport.SetRenderer(&cRenderer);
+
 	pViewManager->Add(&cViewport);
 	pRendererManager->Add(&cRenderer);
 	pSceneManager->Add(&cScene);
 	pScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
+	cCamera.sName = "Camera";
+	//pScene->Add(&cCamera);
+
 	cScene.sName = "Main";
 
-	{
-		File f("teste.emitter");
-		Reader r(f);
-		cEmitter.Load(r);
-		cEmitter.SetPosition(200, 100);
-		cEmitter.SetPriority(10.0f);
-		cScene.Add(&cEmitter);
-	}
+//	{
+//		File f("teste.emitter");
+//		Reader r(f);
+//		cEmitter.Load(r);
+//		cEmitter.SetPosition(200, 100);
+//		cEmitter.SetPriority(10.0f);
+//		cScene.Add(&cEmitter);
+//	}
 
 //	{
 //		Writer w;
@@ -48,7 +54,11 @@ bool TestBase::Initialize()
 		File f("anim.sprite");
 		Reader r(f);
 		sptLogo.Load(r);
-		sptLogo.SetPosition(400, 300);
+		sptLogo.sName = "ANIM";
+
+		sptLogo.SetPosition(0, 0);
+		cCamera.SetPosition(-800, -600);
+
 		sptLogo.SetPriority(100.0f);
 		cScene.Add(&sptLogo);
 	}
@@ -59,13 +69,13 @@ bool TestBase::Initialize()
 //		w.Save("out.sprite");
 //	}
 
-	{
-		File f("sample.movie");
-		Reader r(f);
-		mvSample.Load(r);
-		mvSample.SetPriority(200.0f);
-		cScene.Add(&mvSample);
-	}
+//	{
+//		File f("sample.movie");
+//		Reader r(f);
+//		mvSample.Load(r);
+//		mvSample.SetPriority(200.0f);
+//		cScene.Add(&mvSample);
+//	}
 
 //	{
 //		Writer w;

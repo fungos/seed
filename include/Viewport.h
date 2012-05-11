@@ -37,6 +37,7 @@
 namespace Seed {
 
 class Renderer;
+class Camera;
 
 /// Viewport Interface
 /**
@@ -53,6 +54,10 @@ class SEED_CORE_API Viewport
 		virtual void SetRenderer(Renderer *renderer);
 		virtual Renderer *GetRenderer() const;
 
+		virtual void SetCamera(Camera *camera);
+		virtual Camera *GetCamera() const;
+
+		virtual void SetArea(const Rect4f &rect);
 		virtual void SetPosition(f32 x, f32 y);
 		virtual void SetWidth(f32 w);
 		virtual void SetHeight(f32 h);
@@ -68,7 +73,8 @@ class SEED_CORE_API Viewport
 		virtual const String GetObjectName() const;
 
 	private:
-		Renderer *pRenderer;
+		Renderer	*pRenderer;
+		Camera		*pCamera;
 
 	protected:
 		f32		fX;

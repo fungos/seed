@@ -60,6 +60,8 @@ void SceneNode::Update(f32 dt)
 	{
 		(*it)->Update(dt);
 	}
+
+	bTransformationChanged = false;
 }
 
 void SceneNode::Render()

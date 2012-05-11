@@ -41,7 +41,7 @@ namespace Seed {
 /// Transformable interface
 class SEED_CORE_API ITransformable
 {
-	friend class ParticleEmitter;
+	friend class ParticleEmitter; // argh. fix this please.
 	public:
 		ITransformable();
 		virtual ~ITransformable();

@@ -40,6 +40,7 @@ namespace Seed {
 class ISceneObject;
 class ISceneNode;
 class ITexture;
+class Camera;
 
 /// Renderer
 class SEED_CORE_API Renderer : public IUpdatable, public IModule
@@ -54,14 +55,10 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 		Renderer();
 		virtual ~Renderer();
 
-		virtual void Render();
-		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, Color color, bool fill = false) const;
+		virtual void Render(Camera *camera);
 
 		virtual void Begin() const;
 		virtual void End() const;
-
-		virtual void Sort(RenderableVector &vec);
-		virtual void Culler();
 
 		void Add(SceneNode *node);
 		void Remove(SceneNode *node);
@@ -81,6 +78,9 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 	private:
 		void RenderObjects(const RenderableVector &vec) const;
 		void PushChildNodes(SceneNode *, SceneNodeVector &vec);
+
+		void Sort(RenderableVector &vec);
+		void Culler(Camera *camera);
 
 		SEED_DISABLE_COPY(Renderer);
 };

@@ -46,11 +46,34 @@ ISceneObject *FactoryCamera()
 Camera::Camera()
 	: pTexture(NULL)
 	, aMesh()
+	, nProjection(Seed::Orthogonal)
+	, rViewArea()
 {
 }
 
 Camera::~Camera()
 {
+}
+
+void Camera::SetProjection(eProjection type)
+{
+	nProjection = type;
+}
+
+bool Camera::Contains(ITransformable *obj)
+{
+	bool ret = false;
+	if (nProjection == Seed::Orthogonal)
+		ret = this->IsInRectangle(obj);
+	else
+		ret = this->IsInFrustum(obj);
+
+	return ret;
+}
+
+void Camera::SetRectangle(const Rect4f &rectangle)
+{
+	rViewArea = rectangle;
 }
 
 void Camera::Update(f32 delta)
@@ -85,6 +108,8 @@ void Camera::Update(f32 delta)
 		aMesh[2].cColor = p;
 		aMesh[3].cColor = p;
 	}
+
+	bTransformationChanged = false;
 }
 
 void Camera::Render()
@@ -106,6 +131,25 @@ void Camera::Render()
 ITexture *Camera::GetTexture() const
 {
 	return pTexture;
+}
+
+bool Camera::IsInRectangle(ITransformable *obj)
+{
+//	//Vector3f pos = obj->mTransform.getTranslation();
+
+//	Vector3f op = obj->GetPosition();
+//	//Vector3f pos = (mTransform * Vector4f(op, 1.0f)).getXYZ();
+//	Vector3f pos = op - vPos;
+//	Rect4f box(pos.getX(), pos.getY(), obj->GetWidth(), obj->GetHeight());
+
+//	return rViewArea.Intersect(box);
+
+	return true;
+}
+
+bool Camera::IsInFrustum(ITransformable *obj)
+{
+	return true;
 }
 
 const String Camera::GetObjectName() const

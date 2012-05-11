@@ -37,7 +37,7 @@
 #include <stack>
 #include <time.h>
 
-#define SEED_FUNCTION_PROFILER					ProfileContext _ctx_func(__FUNCTION__);
+#define SEED_FUNCTION_PROFILER					ProfileContext _ctx_func(__PRETTY_FUNCTION__ ); //__FUNCTION__); // Check: MSVC and Xcode
 #define SEED_BEGIN_REGION_PROFILER(name, str)	ProfileContext _c##name(str, Profiler::regionProfilerInstance);
 #define SEED_END_REGION_PROFILER(name)			_c##name.Terminate();
 #define ProfilerReportPrint		Profiler::funcProfilerInstance->Dump(); Profiler::regionProfilerInstance->Dump();

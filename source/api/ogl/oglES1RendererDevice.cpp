@@ -615,16 +615,6 @@ void OGLES1RendererDevice::Enable2D() const
 #endif
 }
 
-bool OGLES1RendererDevice::NeedPowerOfTwoTextures() const
-{
-	return bNeedPowerOfTwoTexture;
-//#if defined(BUILD_IOS)
-//	return true;
-//#else
-//	return false;
-//#endif
-}
-
 void OGLES1RendererDevice::Disable2D() const
 {
 #if !defined(BUILD_QT)
@@ -639,6 +629,15 @@ void OGLES1RendererDevice::Disable2D() const
 #endif
 }
 
+bool OGLES1RendererDevice::NeedPowerOfTwoTextures() const
+{
+	return bNeedPowerOfTwoTexture;
+//#if defined(BUILD_IOS)
+//	return true;
+//#else
+//	return false;
+//#endif
+}
 
 }} // namespace
 

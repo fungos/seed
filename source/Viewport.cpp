@@ -31,12 +31,14 @@
 #include "Viewport.h"
 #include "Log.h"
 #include "Renderer.h"
+#include "Camera.h"
 #include "RendererDevice.h"
 
 namespace Seed {
 
 Viewport::Viewport()
 	: pRenderer(NULL)
+	, pCamera(NULL)
 	, fX(0.0f)
 	, fY(0.0f)
 	, fWidth(0.0f)
@@ -50,8 +52,31 @@ Viewport::~Viewport()
 
 void Viewport::SetRenderer(Renderer *renderer)
 {
-	SEED_ASSERT(renderer);
 	pRenderer = renderer;
+}
+
+Renderer *Viewport::GetRenderer() const
+{
+	return pRenderer;
+}
+
+void Viewport::SetCamera(Camera *camera)
+{
+	pCamera = camera;
+	pCamera->SetRectangle(Rect4f(fX, fY, fWidth, fHeight));
+}
+
+Camera *Viewport::GetCamera() const
+{
+	return pCamera;
+}
+
+void Viewport::SetArea(const Rect4f &rect)
+{
+	fX = rect.x1;
+	fY = rect.y1;
+	fWidth = rect.x2 - rect.x1;
+	fHeight = rect.y2 - rect.y1;
 }
 
 void Viewport::SetPosition(f32 x, f32 y)
@@ -68,11 +93,6 @@ void Viewport::SetWidth(f32 w)
 void Viewport::SetHeight(f32 h)
 {
 	fHeight = h;
-}
-
-Renderer *Viewport::GetRenderer() const
-{
-	return pRenderer;
 }
 
 f32 Viewport::GetX() const
@@ -97,10 +117,10 @@ f32 Viewport::GetHeight() const
 
 void Viewport::Render()
 {
-	if (pRenderer)
+	if (pRenderer && pCamera)
 	{
 		pRendererDevice->SetViewport(fX, fY, fWidth, fHeight);
-		pRenderer->Render();
+		pRenderer->Render(pCamera);
 	}
 }
 

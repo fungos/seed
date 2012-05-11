@@ -1,12 +1,12 @@
 {
 	"sType": "sprite",
 	"sName": "Panda",
-	"cScale": {"x": 2, "y": 2},
-	"sBlending": "modulate",
+	"cScale": {"x": 1, "y": 1},
+	"sBlending": "none",
 	"cColor": {
 		"r": 255,
-		"g": 0,
-		"b": 0,
+		"g": 255,
+		"b": 255,
 		"a": 255
 	},
 	"aAnimations": [
@@ -17,15 +17,15 @@
 			"aFrames": [
 				{
 					"sName": "frame 1",
-					"sTexture": "frame01.png"
+					"sTexture": "test.png"
 				},
 				{
 					"sName": "frame 2",
-					"sTexture": "frame02.png"
+					"sTexture": "test.png"
 				},
 				{
 					"sName": "frame 3",
-					"sTexture": "frame03.png"
+					"sTexture": "test.png"
 				}
 			]
 		}

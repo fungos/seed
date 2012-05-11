@@ -32,6 +32,7 @@
 #include "Log.h"
 #include "SceneNode.h"
 #include "RendererDevice.h"
+#include "Camera.h"
 #include "Profiler.h"
 
 #include <algorithm>
@@ -122,28 +123,37 @@ bool Renderer::Update(f32 dt)
 	return true;
 }
 
-void Renderer::DrawRect(f32 x, f32 y, f32 w, f32 h, Color color, bool fill) const
-{
-	UNUSED(x);
-	UNUSED(y);
-	UNUSED(w);
-	UNUSED(h);
-	UNUSED(color);
-	UNUSED(fill);
-	SEED_ABSTRACT_METHOD;
-}
-
-void Renderer::Render()
+void Renderer::Render(Camera *camera)
 {
 	SEED_FUNCTION_PROFILER;
 	if (pRendererDevice && pRendererDevice->IsEnabled() && IModule::IsEnabled())
 	{
-		this->Culler();
+		this->Culler(camera);
 
 		this->Begin();
-			this->RenderObjects(vRenderables); //vVisibleRenderables);
+			this->RenderObjects(vVisibleRenderables);
 		this->End();
 	}
+}
+
+void Renderer::Culler(Camera *camera)
+{
+	SEED_FUNCTION_PROFILER;
+
+	vVisibleRenderables.clear();
+
+	ConstRenderableVectorIterator it = vRenderables.begin();
+	ConstRenderableVectorIterator end = vRenderables.end();
+	for (; it != end; ++it)
+	{
+		ISceneObject *obj = const_cast<ISceneObject *>(*it);
+		SEED_ASSERT(obj);
+
+		if (camera->Contains(obj))
+			vVisibleRenderables.push_back(obj);
+	}
+
+	this->Sort(vVisibleRenderables);
 }
 
 void Renderer::RenderObjects(const RenderableVector &vec) const
@@ -157,30 +167,6 @@ void Renderer::RenderObjects(const RenderableVector &vec) const
 		SEED_ASSERT(obj);
 		obj->Render();
 	}
-}
-
-// FIXME: Culler(SceneNode, CullingOperation)
-void Renderer::Culler()
-{
-	SEED_FUNCTION_PROFILER;
-	this->Sort(vRenderables);
-/*
-	vVisibleRenderables.clear();
-
-	ConstRenderableVectorIterator it = vRenderables.begin();
-	ConstRenderableVectorIterator end = vRenderables.end();
-
-	for (; it != end; ++it)
-	{
-		ISceneObject *obj = const_cast<ISceneObject *>(*it);
-		SEED_ASSERT(obj);
-
-		if (obj->IsVisible())
-			vVisibleRenderables.push_back(obj);
-	}
-
-	this->Sort(vVisibleRenderables);
-*/
 }
 
 void Renderer::Sort(RenderableVector &vec)

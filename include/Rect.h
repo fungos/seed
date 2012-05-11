@@ -183,6 +183,15 @@ template <class TYPE> class Rect
 			return true;
 		}
 
+		bool Intersect(const Rect<TYPE> &rect) const
+		{
+			if (this->Contains(rect.x1, rect.y1) ||
+				this->Contains(rect.x2, rect.y2))
+				return true;
+
+			return false;
+		}
+
 		bool ContainsArea(const Rect<TYPE> &rect) const
 		{
 			if (this->Contains(rect.x1, rect.y1) &&
@@ -197,7 +206,7 @@ template <class TYPE> class Rect
 			if (px < x1) x1 = px;
 			if (py < y1) y1 = py;
 			if (px > x2) x2 = px;
-			if (py > y2) y2= py;
+			if (py > y2) y2 = py;
 		}
 
 		void Print()
