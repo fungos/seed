@@ -135,14 +135,12 @@ ITexture *Camera::GetTexture() const
 
 bool Camera::IsInRectangle(ITransformable *obj)
 {
-//	//Vector3f pos = obj->mTransform.getTranslation();
+	obj->mWorldTransform = inverse(mTransform) * obj->mTransform;
 
-//	Vector3f op = obj->GetPosition();
-//	//Vector3f pos = (mTransform * Vector4f(op, 1.0f)).getXYZ();
-//	Vector3f pos = op - vPos;
-//	Rect4f box(pos.getX(), pos.getY(), obj->GetWidth(), obj->GetHeight());
+	Vector3f op = obj->mWorldTransform.getTranslation();
+	Rect4f box(op.getX(), op.getY(), obj->GetWidth(), obj->GetHeight());
 
-//	return rViewArea.Intersect(box);
+	bool ret =  rViewArea.Intersect(box);
 
 	return true;
 }
