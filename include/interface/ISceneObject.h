@@ -48,34 +48,11 @@ class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, pu
 
 		virtual bool IsNode() const;
 
-		// IRenderable
-		virtual void Update(f32 delta) = 0;
-		virtual void Render() = 0;
-
 		bool	bFromFactory;
 
 	private:
 		SEED_DISABLE_COPY(ISceneObject);
 };
-
-/// Scene object ascending predicate
-struct SEED_CORE_API ISceneObjectAscendingPrioritySort
-{
-	bool operator()(ISceneObject * const &left, ISceneObject * const &right)
-	{
-		return (left->GetPriority() < right->GetPriority());
-	}
-};
-
-/// Scene object descending predicate
-struct SEED_CORE_API ISceneObjectDescendingPrioritySort
-{
-	bool operator()(ISceneObject * const &left, ISceneObject * const &right)
-	{
-		return (left->GetPriority() > right->GetPriority());
-	}
-};
-
 
 } // namespace
 

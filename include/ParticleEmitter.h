@@ -98,7 +98,7 @@ struct SEED_CORE_API EmitterConfiguration
 };
 
 /// Particle Emitter
-class SEED_CORE_API ParticleEmitter : public IBasicMesh
+class SEED_CORE_API ParticleEmitter : public ISceneObject
 {
 	public:
 		ParticleEmitter();
@@ -130,7 +130,7 @@ class SEED_CORE_API ParticleEmitter : public IBasicMesh
 
 		// IRenderable
 		virtual void Update(f32 delta);
-		virtual void Render();
+		virtual void Render(const Matrix4f &worldTransform);
 
 		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);

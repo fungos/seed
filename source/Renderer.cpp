@@ -40,15 +40,24 @@
 
 namespace Seed {
 
-bool PredicateIsNodeAndVisible(SceneNode *obj)
+/// Scene object ascending predicate
+struct SEED_CORE_API VisibleObjectAscendingPrioritySort
 {
-	return (obj->IsNode() && obj->IsVisible());
-}
+	bool operator()(VisibleObject const &left, VisibleObject const &right)
+	{
+		return (left.pObj->GetPriority() < right.pObj->GetPriority());
+	}
+};
 
-bool PredicateIsVisible(ISceneObject *obj)
+/// Scene object descending predicate
+struct SEED_CORE_API VisibleObjectDescendingPrioritySort
 {
-	return (obj->IsVisible());
-}
+	bool operator()(VisibleObject const &left, VisibleObject const &right)
+	{
+		return (left.pObj->GetPriority() > right.pObj->GetPriority());
+	}
+};
+
 
 Renderer::Renderer()
 	: vScenes()
@@ -66,7 +75,7 @@ Renderer::~Renderer()
 	RenderableVector().swap(vRenderables);
 
 	vVisibleRenderables.clear();
-	RenderableVector().swap(vVisibleRenderables);
+	VisibleVector().swap(vVisibleRenderables);
 }
 
 void Renderer::PushChildNodes(SceneNode *node, SceneNodeVector &v)
@@ -144,35 +153,39 @@ void Renderer::Culler(Camera *camera)
 
 	ConstRenderableVectorIterator it = vRenderables.begin();
 	ConstRenderableVectorIterator end = vRenderables.end();
+
+	VisibleObject visible;
 	for (; it != end; ++it)
 	{
 		ISceneObject *obj = const_cast<ISceneObject *>(*it);
 		SEED_ASSERT(obj);
 
-		if (camera->Contains(obj))
-			vVisibleRenderables.push_back(obj);
+		if (camera->Contains(obj, visible.mWorldTransform))
+		{
+			visible.pObj = obj;
+			vVisibleRenderables.push_back(visible);
+		}
 	}
 
 	this->Sort(vVisibleRenderables);
 }
 
-void Renderer::RenderObjects(const RenderableVector &vec) const
+void Renderer::RenderObjects(const VisibleVector &vec) const
 {
-	ConstRenderableVectorIterator it = vec.begin();
-	ConstRenderableVectorIterator end = vec.end();
+	ConstVisibleVectorIterator it = vec.begin();
+	ConstVisibleVectorIterator end = vec.end();
 
 	for (; it != end; ++it)
 	{
-		ISceneObject *obj = const_cast<ISceneObject *>(*it);
-		SEED_ASSERT(obj);
-		obj->Render();
+		const VisibleObject *obj = &(*it);
+		obj->pObj->Render(obj->mWorldTransform);
 	}
 }
 
-void Renderer::Sort(RenderableVector &vec)
+void Renderer::Sort(VisibleVector &vec)
 {
 #if !SEED_ENABLE_DEPTH_TEST
-	std::sort(vec.begin(), vec.end(), ISceneObjectAscendingPrioritySort());
+	std::sort(vec.begin(), vec.end(), VisibleObjectAscendingPrioritySort());
 #else
 	UNUSED(vec)
 #endif

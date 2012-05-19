@@ -32,10 +32,10 @@
 #define __SPRITE_H__
 
 #include "Defines.h"
-#include "interface/IBasicMesh.h"
 #include "Reader.h"
 #include "Vertex.h"
 #include "Container.h"
+#include "interface/ISceneObject.h"
 
 namespace Seed {
 
@@ -49,7 +49,7 @@ ISceneObject *FactorySprite();
 /*!
 Animated Sprite
 */
-class SEED_CORE_API Sprite : public IBasicMesh
+class SEED_CORE_API Sprite : public ISceneObject
 {
 	public:
 		DECLARE_CONTAINER_TYPE(Vector, Animation)
@@ -96,7 +96,7 @@ class SEED_CORE_API Sprite : public IBasicMesh
 
 		// ISceneObject
 		virtual void Update(f32 delta);
-		virtual void Render();
+		virtual void Render(const Matrix4f &worldTransform);
 
 		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
@@ -124,7 +124,7 @@ class SEED_CORE_API Sprite : public IBasicMesh
 		u32 iFrames;
 		f32 fFrameTime;
 
-		sVertex vert[4];
+		sVertex		cVertex[4];
 
 		bool bInitialized;
 		bool bChanged;

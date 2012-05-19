@@ -51,7 +51,7 @@ ISceneObject *FactorySprite()
 }
 
 Sprite::Sprite()
-	: IBasicMesh()
+	: ISceneObject()
 	, pvFrames(NULL)
 	, pAnimation(NULL)
 	, pFrame(NULL)
@@ -61,7 +61,7 @@ Sprite::Sprite()
 	, iCurrentFrame(0)
 	, iFrames(0)
 	, fFrameTime(0.0f)
-	, vert()
+	, cVertex()
 	, bInitialized(false)
 	, bChanged(false)
 	, bAnimation(false)
@@ -70,8 +70,6 @@ Sprite::Sprite()
 	, bFinished(false)
 	, bIsCopy(false)
 {
-	iNumVertices = 4;
-	arCurrentVertexData = &vert[0];
 }
 
 Sprite::~Sprite()
@@ -80,7 +78,7 @@ Sprite::~Sprite()
 }
 
 Sprite::Sprite(const Sprite &other)
-	: IBasicMesh()
+	: ISceneObject()
 	, pvFrames(other.pvFrames)
 	, pAnimation(other.pAnimation)
 	, pFrame(other.pFrame)
@@ -90,7 +88,7 @@ Sprite::Sprite(const Sprite &other)
 	, iCurrentFrame(other.iCurrentFrame)
 	, iFrames(other.iFrames)
 	, fFrameTime(other.fFrameTime)
-	, vert()
+	, cVertex()
 	, bInitialized(other.bInitialized)
 	, bChanged(other.bChanged)
 	, bAnimation(other.bAnimation)
@@ -98,15 +96,10 @@ Sprite::Sprite(const Sprite &other)
 	, bPlaying(other.bPlaying)
 	, bFinished(other.bFinished)
 {
-	vert[0] = other.vert[0];
-	vert[1] = other.vert[1];
-	vert[2] = other.vert[2];
-	vert[3] = other.vert[3];
-
-	// IBasicMesh
-	arCurrentVertexData = &vert[0];
-	iNumVertices = other.iNumVertices;
-	nMeshType = other.nMeshType;
+	cVertex[0] = other.cVertex[0];
+	cVertex[1] = other.cVertex[1];
+	cVertex[2] = other.cVertex[2];
+	cVertex[3] = other.cVertex[3];
 
 	// ITransformable
 	pParent = other.pParent;
@@ -143,10 +136,10 @@ Sprite &Sprite::operator=(const Sprite &other)
 		iFrames = other.iFrames;
 		fFrameTime = other.fFrameTime;
 
-		vert[0] = other.vert[0];
-		vert[1] = other.vert[1];
-		vert[2] = other.vert[2];
-		vert[3] = other.vert[3];
+		cVertex[0] = other.cVertex[0];
+		cVertex[1] = other.cVertex[1];
+		cVertex[2] = other.cVertex[2];
+		cVertex[3] = other.cVertex[3];
 
 		bInitialized = other.bInitialized;
 		bChanged = other.bChanged;
@@ -154,11 +147,6 @@ Sprite &Sprite::operator=(const Sprite &other)
 		bLoop = other.bLoop;
 		bPlaying = other.bPlaying;
 		bFinished = other.bFinished;
-
-		// IBasicMesh
-		arCurrentVertexData = &vert[0];
-		iNumVertices = other.iNumVertices;
-		nMeshType = other.nMeshType;
 
 		// ISceneObject
 		sName = other.sName;
@@ -263,10 +251,10 @@ void Sprite::ReconfigureFrame()
 	u1 = pFrame->fTexS1;
 	v1 = pFrame->fTexT1;
 
-	vert[0].cCoords = Point2f(u0, v0);
-	vert[1].cCoords = Point2f(u1, v0);
-	vert[2].cCoords = Point2f(u0, v1);
-	vert[3].cCoords = Point2f(u1, v1);
+	cVertex[0].cCoords = Point2f(u0, v0);
+	cVertex[1].cCoords = Point2f(u1, v0);
+	cVertex[2].cCoords = Point2f(u0, v1);
+	cVertex[3].cCoords = Point2f(u1, v1);
 
 	bChanged = true;
 }
@@ -483,8 +471,6 @@ void Sprite::Update(f32 delta)
 	bChanged = false;
 	if (bTransformationChanged)
 	{
-		arCurrentVertexData = &vert[0];
-
 		f32  x1, y1, x2, y2, z;
 		x2 = vBoundingBox.getX() * 0.5f;
 		y2 = vBoundingBox.getY() * 0.5f;
@@ -492,10 +478,10 @@ void Sprite::Update(f32 delta)
 		y1 = -y2;
 		z = vPos.getZ();
 
-		vert[0].cVertex = Vector3f(x1, y1, z);
-		vert[1].cVertex = Vector3f(x2, y1, z);
-		vert[2].cVertex = Vector3f(x1, y2, z);
-		vert[3].cVertex = Vector3f(x2, y2, z);
+		cVertex[0].cVertex = Vector3f(x1, y1, z);
+		cVertex[1].cVertex = Vector3f(x2, y1, z);
+		cVertex[2].cVertex = Vector3f(x1, y2, z);
+		cVertex[3].cVertex = Vector3f(x2, y2, z);
 
 		this->UpdateTransform();
 	}
@@ -505,14 +491,14 @@ void Sprite::Update(f32 delta)
 		bColorChanged = false;
 
 		Color p = cColor;
-		vert[0].cColor = p;
-		vert[1].cColor = p;
-		vert[2].cColor = p;
-		vert[3].cColor = p;
+		cVertex[0].cColor = p;
+		cVertex[1].cColor = p;
+		cVertex[2].cColor = p;
+		cVertex[3].cColor = p;
 	}
 }
 
-void Sprite::Render()
+void Sprite::Render(const Matrix4f &worldTransform)
 {
 	if (!bInitialized)
 		return;
@@ -522,12 +508,13 @@ void Sprite::Render()
 	SEED_ASSERT(pFrameTexture);
 
 	RendererPacket packet;
-	packet.iSize = iNumVertices;
-	packet.nMeshType = nMeshType;
-	packet.pVertexData = arCurrentVertexData;
+	packet.iSize = 4;
+	packet.nMeshType = Seed::TriangleStrip;
+	packet.pVertexData = &cVertex;
 	packet.pTexture = pFrameTexture;
 	packet.nBlendMode = eBlendOperation;
-	packet.pTransform = &mWorldTransform;
+//	packet.pTransform = (const Matrix4f *)&mTransform;
+	packet.pTransform = &worldTransform;
 	packet.cColor = cColor;
 	packet.iFlags = flags;
 	packet.vPivot = vTransformedPivot;

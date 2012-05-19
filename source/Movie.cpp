@@ -105,6 +105,10 @@ void Movie::Update(f32 delta)
 	SceneNode::Update(delta);
 }
 
+void Movie::Render(const Matrix4f &)
+{
+}
+
 void Movie::Play()
 {
 	fElapsedTime = 0.0f;

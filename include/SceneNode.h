@@ -50,7 +50,7 @@ class SEED_CORE_API SceneNode : public ISceneObject
 
 		// IRenderable
 		virtual void Update(f32 dt);
-		virtual void Render();
+		virtual void Render(const Matrix4f &worldTransform);
 
 		virtual void Add(ISceneObject *obj);
 		virtual void Remove(ISceneObject *obj);

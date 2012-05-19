@@ -64,8 +64,9 @@ void SceneNode::Update(f32 dt)
 	bTransformationChanged = false;
 }
 
-void SceneNode::Render()
+void SceneNode::Render(const Matrix4f &worldTransform)
 {
+	UNUSED(worldTransform)
 }
 
 void SceneNode::Add(ISceneObject *obj)

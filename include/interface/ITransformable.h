@@ -42,6 +42,7 @@ namespace Seed {
 class SEED_CORE_API ITransformable
 {
 	friend class ParticleEmitter; // argh. fix this please.
+	friend class Camera;
 	public:
 		ITransformable();
 		virtual ~ITransformable();
@@ -128,11 +129,10 @@ class SEED_CORE_API ITransformable
 
 		virtual bool IsChanged() const;
 
-		Matrix4f mWorldTransform;
-		Matrix4f mTransform;
-
 	protected:
 		ITransformable *pParent;
+		Matrix4f *pWorldTransform;
+		Matrix4f mTransform;
 		Vector3f vPos;
 		Vector3f vPivot;
 		Vector3f vTransformedPivot;

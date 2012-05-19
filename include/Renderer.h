@@ -42,10 +42,20 @@ class ISceneNode;
 class ITexture;
 class Camera;
 
+struct VisibleObject
+{
+	Matrix4f mWorldTransform;
+	ISceneObject *pObj;
+};
+
 /// Renderer
 class SEED_CORE_API Renderer : public IUpdatable, public IModule
 {
 	DECLARE_CONTAINER_TYPE(Vector, SceneNode)
+
+	typedef Vector<VisibleObject> VisibleVector;
+	typedef VisibleVector::iterator VisibleVectorIterator;
+	typedef VisibleVector::const_iterator ConstVisibleVectorIterator;
 
 	typedef Vector<ISceneObject *> RenderableVector;
 	typedef RenderableVector::iterator RenderableVectorIterator;
@@ -73,13 +83,13 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 	protected:
 		SceneNodeVector vScenes;
 		RenderableVector vRenderables;
-		RenderableVector vVisibleRenderables;
+		VisibleVector vVisibleRenderables;
 
 	private:
-		void RenderObjects(const RenderableVector &vec) const;
+		void RenderObjects(const VisibleVector &vec) const;
 		void PushChildNodes(SceneNode *, SceneNodeVector &vec);
 
-		void Sort(RenderableVector &vec);
+		void Sort(VisibleVector &vec);
 		void Culler(Camera *camera);
 
 		SEED_DISABLE_COPY(Renderer);

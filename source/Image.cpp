@@ -86,12 +86,12 @@ void Image:: Update(f32 delta)
 	}
 }
 
-void Image::Render()
+void Image::Render(const Matrix4f &worldTransform)
 {
 	if (pTexture && pTexture->GetData())
 	{
 		RendererPacket packet;
-		packet.pTransform = &mTransform;
+		packet.pTransform = &mTransform; // &worldTransform; // FIXME: ortho or billboard
 		packet.iSize = 4;
 		packet.nMeshType = Seed::TriangleStrip;
 		packet.pVertexData = &vert;

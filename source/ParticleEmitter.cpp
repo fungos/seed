@@ -305,7 +305,6 @@ void ParticleEmitter::Update(f32 deltaTime)
 	vPrevLocation = location;
 	bTransformationChanged = false;
 
-	iNumVertices = 0;
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{
 		if (!arParticles[i].bActive)
@@ -318,7 +317,7 @@ void ParticleEmitter::Update(f32 deltaTime)
 	}
 }
 
-void ParticleEmitter::Render()
+void ParticleEmitter::Render(const Matrix4f &worldTransform)
 {
 	if (bEnabled && arParticles)
 	{
@@ -327,7 +326,8 @@ void ParticleEmitter::Render()
 			if (!arParticles[i].bActive)
 				continue;
 
-			arParticles[i].Render();
+//			arParticles[i].Render(worldTransform);
+			arParticles[i].Render(arParticles[i].mTransform);
 		}
 
 		if (pConfiguration->bDebugSprite)

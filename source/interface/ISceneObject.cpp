@@ -49,17 +49,6 @@ ISceneObject::~ISceneObject()
 	bFromFactory = false;
 }
 
-void ISceneObject::Update(f32 delta)
-{
-	UNUSED(delta);
-	SEED_ABSTRACT_METHOD;
-}
-
-void ISceneObject::Render()
-{
-	SEED_ABSTRACT_METHOD;
-}
-
 bool ISceneObject::IsNode() const
 {
 	return false;

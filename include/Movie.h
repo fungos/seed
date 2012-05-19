@@ -56,6 +56,7 @@ class SEED_CORE_API Movie : public SceneNode
 
 		// IRenderable
 		virtual void Update(f32 delta);
+		virtual void Render(const Matrix4f &);
 
 		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);

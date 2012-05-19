@@ -96,7 +96,6 @@ SOURCES += source/Viewport.cpp \
 	source/interface/IEventFileSystemListener.cpp \
 	source/interface/IEvent.cpp \
 	source/interface/ICartridge.cpp \
-	source/interface/IBasicMesh.cpp \
 	source/api/oal/vorbis_util.cpp \
 	source/api/oal/oalSoundSystem.cpp \
 	source/api/oal/oalSoundSource.cpp \

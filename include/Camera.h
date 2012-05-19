@@ -34,6 +34,7 @@
 #include "interface/ISceneObject.h"
 #include "Vertex.h"
 #include "Rect.h"
+#include "MathUtil.h"
 
 namespace Seed {
 
@@ -52,13 +53,13 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual ~Camera();
 
 		virtual void SetProjection(eProjection type);
-		virtual bool Contains(ITransformable *obj);
+		virtual bool Contains(ITransformable *obj, Matrix4f &worldMatrix);
 		virtual void SetRectangle(const Rect4f &rectangle);
 		virtual ITexture *GetTexture() const;
 
 		// ISceneObject
 		virtual void Update(f32 delta);
-		virtual void Render();
+		virtual void Render(const Matrix4f &worldTransform);
 
 		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
@@ -70,8 +71,8 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual int GetObjectType() const;
 
 	protected:
-		virtual bool IsInRectangle(ITransformable *obj);
-		virtual bool IsInFrustum(ITransformable *obj);
+		virtual bool IsInRectangle(ITransformable *obj, Matrix4f &worldTransform);
+		virtual bool IsInFrustum(ITransformable *obj, Matrix4f &worldTransform);
 
 	protected:
 		ITexture	*pTexture;

@@ -56,8 +56,9 @@ void IRenderable::Reset()
 	bColorChanged = false;
 }
 
-void IRenderable::Render()
+void IRenderable::Render(const Matrix4f &worldTransform)
 {
+	UNUSED(worldTransform);
 	SEED_ABSTRACT_METHOD;
 }
 

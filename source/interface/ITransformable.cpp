@@ -35,6 +35,7 @@ namespace Seed {
 
 ITransformable::ITransformable()
 	: pParent(NULL)
+	, pWorldTransform(NULL)
 	, mTransform()
 	, vPos(0.0f, 0.0f, 0.0f)
 #if SEED_USE_CENTERED_PIVOT == 1

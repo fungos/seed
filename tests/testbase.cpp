@@ -56,7 +56,9 @@ bool TestBase::Initialize()
 		sptLogo.Load(r);
 		sptLogo.sName = "ANIM";
 
-		sptLogo.SetPosition(0, 0);
+//		sptLogo.SetPivot(0.0f, 0.0f);
+//		sptLogo.SetPosition(401, 100);
+//		sptLogo.SetRotation(45.f);
 		cCamera.SetPosition(-400, -300);
 
 		sptLogo.SetPriority(100.0f);
