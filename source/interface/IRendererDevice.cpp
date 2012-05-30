@@ -117,6 +117,44 @@ void IRendererDevice::BackbufferFill(const Color &color) const
 	SEED_ABSTRACT_METHOD;
 }
 
+u32 IRendererDevice::CreateFrameBuffer(ITexture *texture)
+{
+	UNUSED(texture)
+	return 0;
+}
+
+void IRendererDevice::DestroyFrameBuffer(u32 buffer)
+{
+	UNUSED(buffer)
+}
+
+u32 IRendererDevice::CreateDepthBuffer(u32 w, u32 h)
+{
+	UNUSED(w)
+	UNUSED(h)
+	return 0;
+}
+
+void IRendererDevice::DestroyDepthBuffer(u32 buffer)
+{
+	UNUSED(buffer)
+}
+
+void IRendererDevice::AttachDepthBuffer(u32 buffer)
+{
+	UNUSED(buffer)
+}
+
+void IRendererDevice::ActivateFrameBuffer(u32 buffer)
+{
+	UNUSED(buffer)
+}
+
+bool IRendererDevice::CheckFrameBufferStatus() const
+{
+	return true;
+}
+
 void IRendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
 	UNUSED(x);

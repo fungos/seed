@@ -30,6 +30,15 @@ bool TestBase::Initialize()
 	pScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
+	// Initialize the texture that will be our render target
+	cRenderTarget.Load(800, 600);
+	pRendererDevice->TextureRequest(&cRenderTarget);
+	pRendererDevice->TextureRequestProcess();
+	// --
+
+	cCameraTex.sName = "Camera to Texture";
+	cCameraTex.SetTexture(&cRenderTarget);
+
 	cCamera.sName = "Camera";
 	//pScene->Add(&cCamera);
 

@@ -55,6 +55,13 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual void SetProjection(eProjection type);
 		virtual bool Contains(ITransformable *obj, Matrix4f &worldMatrix);
 		virtual void SetRectangle(const Rect4f &rectangle);
+
+		/// Set a texture as render target, must be a valid and initialized texture.
+		/**
+		Will try to set a valid initialized texture as a render target.
+		Check result to be sure that it was succeded.
+		*/
+		virtual bool SetTexture(ITexture *target);
 		virtual ITexture *GetTexture() const;
 
 		// ISceneObject

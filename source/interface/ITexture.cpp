@@ -31,6 +31,7 @@
 #include "interface/ITexture.h"
 #include "Enum.h"
 #include "Log.h"
+#include "RendererDevice.h"
 
 namespace Seed {
 
@@ -43,6 +44,8 @@ ITexture::ITexture()
 	, nMagFilter(Seed::TextureFilterNearest)
 	, iWidth(0)
 	, iHeight(0)
+	, iRenderTargetId(0)
+	, iDepthTargetId(0)
 {
 }
 
@@ -60,6 +63,8 @@ void ITexture::Reset()
 
 	nMinFilter = Seed::TextureFilterLinear;
 	nMagFilter = Seed::TextureFilterNearest;
+
+	this->DisableRenderTarget();
 }
 
 File *ITexture::GetFile()
@@ -194,6 +199,45 @@ void ITexture::Update(Color *buffer)
 {
 	UNUSED(buffer);
 	SEED_ABSTRACT_METHOD;
+}
+
+bool ITexture::EnableRenderTarget(bool useDepthBuffer)
+{
+	this->DisableRenderTarget();
+
+	bool ret = false;
+	if (iTextureId)
+	{
+		ret = true;
+		iRenderTargetId = pRendererDevice->CreateFrameBuffer(this);
+
+		if (useDepthBuffer)
+		{
+			iDepthTargetId = pRendererDevice->CreateDepthBuffer(iWidth, iHeight);
+			pRendererDevice->AttachDepthBuffer(iDepthTargetId);
+		}
+
+		if (!(ret = pRendererDevice->CheckFrameBufferStatus()))
+			this->DisableRenderTarget();
+
+		pRendererDevice->ActivateFrameBuffer();
+	}
+
+	return ret;
+}
+
+void ITexture::DisableRenderTarget()
+{
+	if (iDepthTargetId)
+		pRendererDevice->DestroyDepthBuffer(iDepthTargetId);
+
+	if (iRenderTargetId)
+		pRendererDevice->DestroyFrameBuffer(iRenderTargetId);
+}
+
+u32 ITexture::GetRenderTarget() const
+{
+	return iRenderTargetId;
 }
 
 int ITexture::GetObjectType() const

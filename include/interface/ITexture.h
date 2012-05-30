@@ -82,6 +82,24 @@ class SEED_CORE_API ITexture : public IResource
 		*/
 		virtual void SetFilter(eTextureFilterType type, eTextureFilter filter);
 
+		/// Specify if this texture will be used as a Render Target
+		/**
+		When set to be a Render Target, it will create frame buffer and depth buffer if needed.
+		*/
+		virtual bool EnableRenderTarget(bool useDepthBuffer = false);
+
+		/// Disable the use of this texture as a render target.
+		/**
+		Will destroy frame buffer and depth buffer if existent.
+		*/
+		virtual void DisableRenderTarget();
+
+		/// Get the render target id
+		/**
+		If the id value is greater than zero, then this is a render target, else it is a normal texture.
+		*/
+		virtual u32 GetRenderTarget() const;
+
 		virtual eTextureFilter GetFilter(eTextureFilterType type) const;
 
 		virtual File *GetFile();
@@ -141,6 +159,9 @@ class SEED_CORE_API ITexture : public IResource
 
 		u32		iWidth;
 		u32		iHeight;
+
+		u32		iRenderTargetId;
+		u32		iDepthTargetId;
 
 	private:
 		SEED_DISABLE_COPY(ITexture);

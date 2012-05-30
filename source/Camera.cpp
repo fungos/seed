@@ -128,6 +128,22 @@ void Camera::Render(const Matrix4f &worldTransform)
 //	pRendererDevice->UploadData(&packet);
 }
 
+bool Camera::SetTexture(ITexture *target)
+{
+	bool ret = false;
+	if (target)
+	{
+		ret = (target->GetRenderTarget() > 0);
+		if (!ret)
+			ret = target->EnableRenderTarget();
+	}
+
+	if (ret)
+		pTexture = target;
+
+	return ret;
+}
+
 ITexture *Camera::GetTexture() const
 {
 	return pTexture;

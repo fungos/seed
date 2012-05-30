@@ -42,10 +42,12 @@
 #endif
 
 #if defined(BUILD_IOS)
+	#define PIXEL_FORMAT_32 GL_RGBA
 	#include "platform/ios/iosView.h"
 	#include <OpenGLES/ES1/gl.h>
 	#define _OPENGL_ES1		1
 #else
+	#define PIXEL_FORMAT_32 GL_BGRA
 	#define _OPENGL_15		1
 	#if defined(__APPLE_CC__)
 		#include <OpenGL/gl.h>
@@ -323,7 +325,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			GLuint h = texture->GetAtlasHeight();
 			const void *data = texture->GetData();
 
-			// if data == NULL then this can be a dynamic texture. we need just the texture id.
+			// if data == NULL then this can be a dynamic texture/render target. we need just the texture id.
 			if (data)
 			{
 				u32 bpp = texture->GetBytesPerPixel();
@@ -350,11 +352,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 						{
 							case 4:
 							{
-#if defined(BUILD_IOS)
-								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
-#else
-								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_BGRA, GL_UNSIGNED_BYTE, data);
-#endif
+								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, data);
 							}
 							break;
 
@@ -382,6 +380,12 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 					}
 				}
 			}
+			else if (w && h)// Render Target, 32bits only
+			{
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, NULL);
+			}
+			// else is a dynamic texture from image/video.
+
 			texture->iTextureId = tex;
 			texture->Close();
 		}
@@ -413,7 +417,7 @@ void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 		{
 			case 4:
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, data);
 			}
 			break;
 
@@ -521,6 +525,57 @@ void OGLES1RendererDevice::BackbufferFill(const Color &color) const
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
 	glPopAttrib();
+}
+
+u32 OGLES1RendererDevice::CreateFrameBuffer(ITexture *texture)
+{
+	GLuint fb;
+	glGenFramebuffersEXT(1, &fb);
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
+
+	if (texture && texture->iTextureId)
+		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, texture->iTextureId, 0);
+
+	return fb;
+}
+
+void OGLES1RendererDevice::DestroyFrameBuffer(u32 buffer)
+{
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
+	glDeleteFramebuffersEXT(1, &buffer);
+}
+
+u32 OGLES1RendererDevice::CreateDepthBuffer(u32 w, u32 h)
+{
+	GLuint db;
+
+	glGenRenderbuffersEXT(1, &db);
+	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, db);
+	glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, w, h);
+
+	return db;
+}
+
+void OGLES1RendererDevice::DestroyDepthBuffer(u32 buffer)
+{
+	glDeleteRenderbuffersEXT(1, &buffer);
+}
+
+void OGLES1RendererDevice::AttachDepthBuffer(u32 buffer)
+{
+	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, buffer);
+}
+
+void OGLES1RendererDevice::ActivateFrameBuffer(u32 buffer)
+{
+	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, buffer);
+}
+
+bool OGLES1RendererDevice::CheckFrameBufferStatus() const
+{
+	GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+
+	return (status == GL_FRAMEBUFFER_COMPLETE_EXT);
 }
 
 void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const

@@ -234,6 +234,41 @@ void RendererDevice::End() const
 	pApiDevice->End();
 }
 
+u32 RendererDevice::CreateFrameBuffer(ITexture *texture)
+{
+	return pApiDevice->CreateFrameBuffer(texture);
+}
+
+void RendererDevice::DestroyFrameBuffer(u32 buffer)
+{
+	pApiDevice->DestroyFrameBuffer(buffer);
+}
+
+u32 RendererDevice::CreateDepthBuffer(u32 w, u32 h)
+{
+	return pApiDevice->CreateDepthBuffer(w, h);
+}
+
+void RendererDevice::DestroyDepthBuffer(u32 buffer)
+{
+	pApiDevice->DestroyDepthBuffer(buffer);
+}
+
+void RendererDevice::AttachDepthBuffer(u32 buffer)
+{
+	pApiDevice->AttachDepthBuffer(buffer);
+}
+
+void RendererDevice::ActivateFrameBuffer(u32 buffer)
+{
+	pApiDevice->ActivateFrameBuffer(buffer);
+}
+
+bool RendererDevice::CheckFrameBufferStatus() const
+{
+	return pApiDevice->CheckFrameBufferStatus();
+}
+
 void RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
 	pApiDevice->SetViewport(x, y, w, h);

@@ -32,6 +32,8 @@ class TestBase : public IGameApp, public IEventSystemListener, public IEventInpu
 		SceneNode	cScene;
 		Viewport	cViewport;
 		Camera		cCamera;
+		Camera		cCameraTex;
+		Texture		cRenderTarget;
 		Renderer	cRenderer;
 		Sprite		sptLogo;
 		Music		musTheme;

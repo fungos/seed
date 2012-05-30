@@ -45,6 +45,9 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 {
 	SEED_SINGLETON_DECLARE(RendererDevice)
 	public:
+		virtual void Begin() const;
+		virtual void End() const;
+
 		// IRendererDevice
 		virtual void TextureUnload(ITexture *tex);
 		virtual void TextureRequest(ITexture *texture);
@@ -57,8 +60,14 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		virtual void BackbufferClear(const Color &color = Color(0, 0, 0, 0)) const;
 		virtual void BackbufferFill(const Color &color = Color(0, 0, 0, 0)) const;
 
-		virtual void Begin() const;
-		virtual void End() const;
+		virtual u32 CreateFrameBuffer(ITexture *texture = NULL);
+		virtual void DestroyFrameBuffer(u32 buffer);
+		virtual u32 CreateDepthBuffer(u32 w, u32 h);
+		virtual void DestroyDepthBuffer(u32 buffer);
+		/// Attach a depth buffer to the active frame buffer
+		virtual void AttachDepthBuffer(u32 buffer);
+		virtual void ActivateFrameBuffer(u32 buffer = 0);
+		virtual bool CheckFrameBufferStatus() const;
 
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
 		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
