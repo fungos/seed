@@ -150,6 +150,11 @@ void IRendererDevice::ActivateFrameBuffer(u32 buffer)
 	UNUSED(buffer)
 }
 
+void IRendererDevice::ActivateDepthBuffer(u32 buffer)
+{
+	UNUSED(buffer)
+}
+
 bool IRendererDevice::CheckFrameBufferStatus() const
 {
 	return true;

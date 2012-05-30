@@ -59,13 +59,15 @@ class SEED_CORE_API IRendererDevice : public IModule
 		virtual void BackbufferClear(const Color &color) const;
 		virtual void BackbufferFill(const Color &color) const;
 
+		// Render to Texture support
 		virtual u32 CreateFrameBuffer(ITexture *texture = NULL);
+		virtual void ActivateFrameBuffer(u32 buffer = 0);
 		virtual void DestroyFrameBuffer(u32 buffer);
 		virtual u32 CreateDepthBuffer(u32 w, u32 h);
+		virtual void ActivateDepthBuffer(u32 buffer = 0);
 		virtual void DestroyDepthBuffer(u32 buffer);
 		/// Attach a depth buffer to the active frame buffer
 		virtual void AttachDepthBuffer(u32 buffer);
-		virtual void ActivateFrameBuffer(u32 buffer = 0);
 		virtual bool CheckFrameBufferStatus() const;
 
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;

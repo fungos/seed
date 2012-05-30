@@ -571,6 +571,11 @@ void OGLES1RendererDevice::ActivateFrameBuffer(u32 buffer)
 	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, buffer);
 }
 
+void OGLES1RendererDevice::ActivateDepthBuffer(u32 buffer)
+{
+	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, buffer);
+}
+
 bool OGLES1RendererDevice::CheckFrameBufferStatus() const
 {
 	GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);

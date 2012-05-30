@@ -215,6 +215,7 @@ bool ITexture::EnableRenderTarget(bool useDepthBuffer)
 		{
 			iDepthTargetId = pRendererDevice->CreateDepthBuffer(iWidth, iHeight);
 			pRendererDevice->AttachDepthBuffer(iDepthTargetId);
+			pRendererDevice->ActivateDepthBuffer();
 		}
 
 		if (!(ret = pRendererDevice->CheckFrameBufferStatus()))

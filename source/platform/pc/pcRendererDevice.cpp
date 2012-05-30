@@ -264,6 +264,11 @@ void RendererDevice::ActivateFrameBuffer(u32 buffer)
 	pApiDevice->ActivateFrameBuffer(buffer);
 }
 
+void RendererDevice::ActivateDepthBuffer(u32 buffer)
+{
+	pApiDevice->ActivateDepthBuffer(buffer);
+}
+
 bool RendererDevice::CheckFrameBufferStatus() const
 {
 	return pApiDevice->CheckFrameBufferStatus();
