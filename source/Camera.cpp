@@ -135,7 +135,7 @@ bool Camera::SetTexture(ITexture *target)
 	{
 		ret = (target->GetRenderTarget() > 0);
 		if (!ret)
-			ret = target->EnableRenderTarget();
+			ret = target->EnableRenderTarget(true);
 	}
 
 	if (ret)
