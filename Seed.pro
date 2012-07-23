@@ -143,7 +143,14 @@ SOURCES += source/Viewport.cpp \
 	source/interface/IWriter.cpp \
 	source/interface/IDataObject.cpp \
 	source/SceneObjectFactory.cpp \
-	source/Camera.cpp
+	source/Camera.cpp \
+    source/platform/glfw/glfwTimer.cpp \
+    source/platform/glfw/glfwThread.cpp \
+    source/platform/glfw/glfwTexture.cpp \
+    source/platform/glfw/glfwSystem.cpp \
+    source/platform/glfw/glfwScreen.cpp \
+    source/platform/glfw/glfwMutex.cpp \
+    source/platform/glfw/glfwInput.cpp
 
 OTHER_FILES += \
 	source/platform/ios/IphoneView.mm
@@ -164,4 +171,12 @@ HEADERS += include/*.h \
 	include/api/yajl/JsonWriter.h \
 	include/interface/IDataObject.h \
 	include/SceneObjectFactory.h \
-	include/Camera.h
+	include/Camera.h \
+    include/platform/glfw/glfwTimer.h \
+    include/platform/glfw/glfwThread.h \
+    include/platform/glfw/glfwTexture.h \
+    include/platform/glfw/glfwSystem.h \
+    include/platform/glfw/glfwScreen.h \
+    include/platform/glfw/glfwMutex.h \
+    include/platform/glfw/glfwInput.h \
+    include/platform/glfw/glfwDefines.h

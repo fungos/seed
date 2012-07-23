@@ -40,7 +40,7 @@ unix:!macx {
 macx {
 	DEFINES += LINUX
 	INCLUDEPATH += ../contrib/osx/
-	LIBS += -framework Cocoa -framework OpenGL -F../osx/ -framework SDL -framework SDL_image
+	LIBS += -framework Cocoa -framework OpenGL -framework IOKit -F../osx/ -framework SDL -framework SDL_image
 }
 
 win32 {
