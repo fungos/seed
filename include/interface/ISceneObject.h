@@ -41,13 +41,12 @@ namespace Seed {
 class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, public IDataObject
 {
 	public:
-		String sName;
-
 		ISceneObject();
 		virtual ~ISceneObject();
 
 		virtual bool IsNode() const;
 
+        String  sName;
 		bool	bFromFactory;
 
 	private:

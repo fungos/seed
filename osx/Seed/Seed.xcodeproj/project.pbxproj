@@ -39,7 +39,6 @@
 		97A9331715390C3D001064D7 /* Frame.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A9327115390C3D001064D7 /* Frame.h */; };
 		97A9331815390C3D001064D7 /* Image.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A9327215390C3D001064D7 /* Image.h */; };
 		97A9331915390C3D001064D7 /* Input.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A9327315390C3D001064D7 /* Input.h */; };
-		97A9331A15390C3D001064D7 /* IBasicMesh.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A9327615390C3D001064D7 /* IBasicMesh.h */; };
 		97A9331B15390C3D001064D7 /* ICartridge.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A9327715390C3D001064D7 /* ICartridge.h */; };
 		97A9331C15390C3D001064D7 /* IDataObject.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A9327815390C3D001064D7 /* IDataObject.h */; };
 		97A9331D15390C3D001064D7 /* IEvent.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A9327915390C3D001064D7 /* IEvent.h */; };
@@ -92,7 +91,6 @@
 		97A9334C15390C3D001064D7 /* Number.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932A815390C3D001064D7 /* Number.h */; };
 		97A9334D15390C3D001064D7 /* Particle.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932A915390C3D001064D7 /* Particle.h */; };
 		97A9334E15390C3D001064D7 /* ParticleEmitter.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932AA15390C3D001064D7 /* ParticleEmitter.h */; };
-		97A9334F15390C3D001064D7 /* ParticleManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932AB15390C3D001064D7 /* ParticleManager.h */; };
 		97A9335015390C3D001064D7 /* iosDefines.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932AF15390C3D001064D7 /* iosDefines.h */; };
 		97A9335115390C3D001064D7 /* iosInput.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932B015390C3D001064D7 /* iosInput.h */; };
 		97A9335215390C3D001064D7 /* iosMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932B115390C3D001064D7 /* iosMusic.h */; };
@@ -140,7 +138,6 @@
 		97A9337C15390C3D001064D7 /* ResourceGroup.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932DF15390C3D001064D7 /* ResourceGroup.h */; };
 		97A9337D15390C3D001064D7 /* ResourceLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932E015390C3D001064D7 /* ResourceLoader.h */; };
 		97A9337E15390C3D001064D7 /* ResourceManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932E115390C3D001064D7 /* ResourceManager.h */; };
-		97A9337F15390C3D001064D7 /* ResourceManagerDebug.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932E215390C3D001064D7 /* ResourceManagerDebug.h */; };
 		97A9338015390C3D001064D7 /* SaveSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932E315390C3D001064D7 /* SaveSystem.h */; };
 		97A9338115390C3D001064D7 /* SceneManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932E415390C3D001064D7 /* SceneManager.h */; };
 		97A9338215390C3D001064D7 /* SceneNode.h in Headers */ = {isa = PBXBuildFile; fileRef = 97A932E515390C3D001064D7 /* SceneNode.h */; };
@@ -190,7 +187,6 @@
 		97A9343E15390C46001064D7 /* FileSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933B615390C46001064D7 /* FileSystem.cpp */; };
 		97A9343F15390C46001064D7 /* Frame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933B715390C46001064D7 /* Frame.cpp */; };
 		97A9344015390C46001064D7 /* Image.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933B815390C46001064D7 /* Image.cpp */; };
-		97A9344115390C46001064D7 /* IBasicMesh.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933BB15390C46001064D7 /* IBasicMesh.cpp */; };
 		97A9344215390C46001064D7 /* ICartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933BC15390C46001064D7 /* ICartridge.cpp */; };
 		97A9344315390C46001064D7 /* IDataObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933BD15390C46001064D7 /* IDataObject.cpp */; };
 		97A9344415390C46001064D7 /* IEvent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933BE15390C46001064D7 /* IEvent.cpp */; };
@@ -238,7 +234,6 @@
 		97A9346E15390C46001064D7 /* Movie.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933E815390C46001064D7 /* Movie.cpp */; };
 		97A9346F15390C46001064D7 /* Particle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933E915390C46001064D7 /* Particle.cpp */; };
 		97A9347015390C46001064D7 /* ParticleEmitter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933EA15390C46001064D7 /* ParticleEmitter.cpp */; };
-		97A9347115390C46001064D7 /* ParticleManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933EB15390C46001064D7 /* ParticleManager.cpp */; };
 		97A9347215390C46001064D7 /* iosInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933EE15390C46001064D7 /* iosInput.cpp */; };
 		97A9347315390C46001064D7 /* iosMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933EF15390C46001064D7 /* iosMusic.cpp */; };
 		97A9347415390C46001064D7 /* iosMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933F015390C46001064D7 /* iosMutex.cpp */; };
@@ -290,6 +285,10 @@
 		97A934A315390C46001064D7 /* ViewManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9342415390C46001064D7 /* ViewManager.cpp */; };
 		97A934A415390C46001064D7 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9342515390C46001064D7 /* Viewport.cpp */; };
 		97A934A515390C46001064D7 /* Writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9342615390C46001064D7 /* Writer.cpp */; };
+		D15AB1DD15BD97DC00C0A964 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D15AB1DC15BD97DC00C0A964 /* Camera.cpp */; };
+		D15AB1DF15BD97F100C0A964 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = D15AB1DE15BD97F100C0A964 /* Camera.h */; };
+		D15AB1E115BD98FF00C0A964 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15AB1E015BD98FF00C0A964 /* SDL.framework */; };
+		D15AB1E315BD993B00C0A964 /* SDL_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15AB1E215BD993B00C0A964 /* SDL_image.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -328,7 +327,6 @@
 		97A9327215390C3D001064D7 /* Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Image.h; sourceTree = "<group>"; };
 		97A9327315390C3D001064D7 /* Input.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Input.h; sourceTree = "<group>"; };
 		97A9327515390C3D001064D7 /* .directory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .directory; sourceTree = "<group>"; };
-		97A9327615390C3D001064D7 /* IBasicMesh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IBasicMesh.h; sourceTree = "<group>"; };
 		97A9327715390C3D001064D7 /* ICartridge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ICartridge.h; sourceTree = "<group>"; };
 		97A9327815390C3D001064D7 /* IDataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IDataObject.h; sourceTree = "<group>"; };
 		97A9327915390C3D001064D7 /* IEvent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEvent.h; sourceTree = "<group>"; };
@@ -381,7 +379,6 @@
 		97A932A815390C3D001064D7 /* Number.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Number.h; sourceTree = "<group>"; };
 		97A932A915390C3D001064D7 /* Particle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Particle.h; sourceTree = "<group>"; };
 		97A932AA15390C3D001064D7 /* ParticleEmitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleEmitter.h; sourceTree = "<group>"; };
-		97A932AB15390C3D001064D7 /* ParticleManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ParticleManager.h; sourceTree = "<group>"; };
 		97A932AE15390C3D001064D7 /* .directory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .directory; sourceTree = "<group>"; };
 		97A932AF15390C3D001064D7 /* iosDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iosDefines.h; sourceTree = "<group>"; };
 		97A932B015390C3D001064D7 /* iosInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iosInput.h; sourceTree = "<group>"; };
@@ -431,7 +428,6 @@
 		97A932DF15390C3D001064D7 /* ResourceGroup.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceGroup.h; sourceTree = "<group>"; };
 		97A932E015390C3D001064D7 /* ResourceLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceLoader.h; sourceTree = "<group>"; };
 		97A932E115390C3D001064D7 /* ResourceManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceManager.h; sourceTree = "<group>"; };
-		97A932E215390C3D001064D7 /* ResourceManagerDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourceManagerDebug.h; sourceTree = "<group>"; };
 		97A932E315390C3D001064D7 /* SaveSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveSystem.h; sourceTree = "<group>"; };
 		97A932E415390C3D001064D7 /* SceneManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneManager.h; sourceTree = "<group>"; };
 		97A932E515390C3D001064D7 /* SceneNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneNode.h; sourceTree = "<group>"; };
@@ -483,7 +479,6 @@
 		97A933B715390C46001064D7 /* Frame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Frame.cpp; sourceTree = "<group>"; };
 		97A933B815390C46001064D7 /* Image.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Image.cpp; sourceTree = "<group>"; };
 		97A933BA15390C46001064D7 /* .directory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .directory; sourceTree = "<group>"; };
-		97A933BB15390C46001064D7 /* IBasicMesh.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IBasicMesh.cpp; sourceTree = "<group>"; };
 		97A933BC15390C46001064D7 /* ICartridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ICartridge.cpp; sourceTree = "<group>"; };
 		97A933BD15390C46001064D7 /* IDataObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IDataObject.cpp; sourceTree = "<group>"; };
 		97A933BE15390C46001064D7 /* IEvent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IEvent.cpp; sourceTree = "<group>"; };
@@ -531,7 +526,6 @@
 		97A933E815390C46001064D7 /* Movie.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Movie.cpp; sourceTree = "<group>"; };
 		97A933E915390C46001064D7 /* Particle.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Particle.cpp; sourceTree = "<group>"; };
 		97A933EA15390C46001064D7 /* ParticleEmitter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleEmitter.cpp; sourceTree = "<group>"; };
-		97A933EB15390C46001064D7 /* ParticleManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ParticleManager.cpp; sourceTree = "<group>"; };
 		97A933EE15390C46001064D7 /* iosInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iosInput.cpp; sourceTree = "<group>"; };
 		97A933EF15390C46001064D7 /* iosMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iosMusic.cpp; sourceTree = "<group>"; };
 		97A933F015390C46001064D7 /* iosMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iosMutex.cpp; sourceTree = "<group>"; };
@@ -585,6 +579,10 @@
 		97A9342415390C46001064D7 /* ViewManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ViewManager.cpp; sourceTree = "<group>"; };
 		97A9342515390C46001064D7 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
 		97A9342615390C46001064D7 /* Writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Writer.cpp; sourceTree = "<group>"; };
+		D15AB1DC15BD97DC00C0A964 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		D15AB1DE15BD97F100C0A964 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		D15AB1E015BD98FF00C0A964 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../SDL.framework; sourceTree = "<group>"; };
+		D15AB1E215BD993B00C0A964 /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = ../SDL_image.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -592,6 +590,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D15AB1E315BD993B00C0A964 /* SDL_image.framework in Frameworks */,
+				D15AB1E115BD98FF00C0A964 /* SDL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -601,6 +601,8 @@
 		97A9323715390BB6001064D7 = {
 			isa = PBXGroup;
 			children = (
+				D15AB1E215BD993B00C0A964 /* SDL_image.framework */,
+				D15AB1E015BD98FF00C0A964 /* SDL.framework */,
 				97A9339715390C46001064D7 /* source */,
 				97A9324C15390C3D001064D7 /* include */,
 				97A9324315390BB6001064D7 /* Products */,
@@ -621,6 +623,7 @@
 				97A9324D15390C3D001064D7 /* .directory */,
 				97A9324E15390C3D001064D7 /* Animation.h */,
 				97A9324F15390C3D001064D7 /* api */,
+				D15AB1DE15BD97F100C0A964 /* Camera.h */,
 				97A9326015390C3D001064D7 /* Cartridge.h */,
 				97A9326115390C3D001064D7 /* Checksum.h */,
 				97A9326215390C3D001064D7 /* Config.h */,
@@ -654,7 +657,6 @@
 				97A932A815390C3D001064D7 /* Number.h */,
 				97A932A915390C3D001064D7 /* Particle.h */,
 				97A932AA15390C3D001064D7 /* ParticleEmitter.h */,
-				97A932AB15390C3D001064D7 /* ParticleManager.h */,
 				97A932AC15390C3D001064D7 /* platform */,
 				97A932D715390C3D001064D7 /* Point.h */,
 				97A932D815390C3D001064D7 /* Profiler.h */,
@@ -667,7 +669,6 @@
 				97A932DF15390C3D001064D7 /* ResourceGroup.h */,
 				97A932E015390C3D001064D7 /* ResourceLoader.h */,
 				97A932E115390C3D001064D7 /* ResourceManager.h */,
-				97A932E215390C3D001064D7 /* ResourceManagerDebug.h */,
 				97A932E315390C3D001064D7 /* SaveSystem.h */,
 				97A932E415390C3D001064D7 /* SceneManager.h */,
 				97A932E515390C3D001064D7 /* SceneNode.h */,
@@ -758,7 +759,6 @@
 			isa = PBXGroup;
 			children = (
 				97A9327515390C3D001064D7 /* .directory */,
-				97A9327615390C3D001064D7 /* IBasicMesh.h */,
 				97A9327715390C3D001064D7 /* ICartridge.h */,
 				97A9327815390C3D001064D7 /* IDataObject.h */,
 				97A9327915390C3D001064D7 /* IEvent.h */,
@@ -886,6 +886,7 @@
 				97A9339815390C46001064D7 /* .directory */,
 				97A9339915390C46001064D7 /* Animation.cpp */,
 				97A9339A15390C46001064D7 /* api */,
+				D15AB1DC15BD97DC00C0A964 /* Camera.cpp */,
 				97A933AB15390C46001064D7 /* Checksum.cpp */,
 				97A933AC15390C46001064D7 /* Configuration.cpp */,
 				97A933AD15390C46001064D7 /* EventFileSystem.cpp */,
@@ -908,7 +909,6 @@
 				97A933E815390C46001064D7 /* Movie.cpp */,
 				97A933E915390C46001064D7 /* Particle.cpp */,
 				97A933EA15390C46001064D7 /* ParticleEmitter.cpp */,
-				97A933EB15390C46001064D7 /* ParticleManager.cpp */,
 				97A933EC15390C46001064D7 /* platform */,
 				97A9341415390C46001064D7 /* Profiler.cpp */,
 				97A9341515390C46001064D7 /* Rand.cpp */,
@@ -995,7 +995,6 @@
 			isa = PBXGroup;
 			children = (
 				97A933BA15390C46001064D7 /* .directory */,
-				97A933BB15390C46001064D7 /* IBasicMesh.cpp */,
 				97A933BC15390C46001064D7 /* ICartridge.cpp */,
 				97A933BD15390C46001064D7 /* IDataObject.cpp */,
 				97A933BE15390C46001064D7 /* IEvent.cpp */,
@@ -1153,7 +1152,6 @@
 				97A9331715390C3D001064D7 /* Frame.h in Headers */,
 				97A9331815390C3D001064D7 /* Image.h in Headers */,
 				97A9331915390C3D001064D7 /* Input.h in Headers */,
-				97A9331A15390C3D001064D7 /* IBasicMesh.h in Headers */,
 				97A9331B15390C3D001064D7 /* ICartridge.h in Headers */,
 				97A9331C15390C3D001064D7 /* IDataObject.h in Headers */,
 				97A9331D15390C3D001064D7 /* IEvent.h in Headers */,
@@ -1206,7 +1204,6 @@
 				97A9334C15390C3D001064D7 /* Number.h in Headers */,
 				97A9334D15390C3D001064D7 /* Particle.h in Headers */,
 				97A9334E15390C3D001064D7 /* ParticleEmitter.h in Headers */,
-				97A9334F15390C3D001064D7 /* ParticleManager.h in Headers */,
 				97A9335015390C3D001064D7 /* iosDefines.h in Headers */,
 				97A9335115390C3D001064D7 /* iosInput.h in Headers */,
 				97A9335215390C3D001064D7 /* iosMusic.h in Headers */,
@@ -1254,7 +1251,6 @@
 				97A9337C15390C3D001064D7 /* ResourceGroup.h in Headers */,
 				97A9337D15390C3D001064D7 /* ResourceLoader.h in Headers */,
 				97A9337E15390C3D001064D7 /* ResourceManager.h in Headers */,
-				97A9337F15390C3D001064D7 /* ResourceManagerDebug.h in Headers */,
 				97A9338015390C3D001064D7 /* SaveSystem.h in Headers */,
 				97A9338115390C3D001064D7 /* SceneManager.h in Headers */,
 				97A9338215390C3D001064D7 /* SceneNode.h in Headers */,
@@ -1278,6 +1274,7 @@
 				97A9339415390C3D001064D7 /* ViewManager.h in Headers */,
 				97A9339515390C3D001064D7 /* Viewport.h in Headers */,
 				97A9339615390C3D001064D7 /* Writer.h in Headers */,
+				D15AB1DF15BD97F100C0A964 /* Camera.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1357,7 +1354,6 @@
 				97A9343E15390C46001064D7 /* FileSystem.cpp in Sources */,
 				97A9343F15390C46001064D7 /* Frame.cpp in Sources */,
 				97A9344015390C46001064D7 /* Image.cpp in Sources */,
-				97A9344115390C46001064D7 /* IBasicMesh.cpp in Sources */,
 				97A9344215390C46001064D7 /* ICartridge.cpp in Sources */,
 				97A9344315390C46001064D7 /* IDataObject.cpp in Sources */,
 				97A9344415390C46001064D7 /* IEvent.cpp in Sources */,
@@ -1405,7 +1401,6 @@
 				97A9346E15390C46001064D7 /* Movie.cpp in Sources */,
 				97A9346F15390C46001064D7 /* Particle.cpp in Sources */,
 				97A9347015390C46001064D7 /* ParticleEmitter.cpp in Sources */,
-				97A9347115390C46001064D7 /* ParticleManager.cpp in Sources */,
 				97A9347215390C46001064D7 /* iosInput.cpp in Sources */,
 				97A9347315390C46001064D7 /* iosMusic.cpp in Sources */,
 				97A9347415390C46001064D7 /* iosMutex.cpp in Sources */,
@@ -1457,6 +1452,7 @@
 				97A934A315390C46001064D7 /* ViewManager.cpp in Sources */,
 				97A934A415390C46001064D7 /* Viewport.cpp in Sources */,
 				97A934A515390C46001064D7 /* Writer.cpp in Sources */,
+				D15AB1DD15BD97DC00C0A964 /* Camera.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1469,7 +1465,6 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = NO;
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
@@ -1480,8 +1475,10 @@
 					"$(inherited)",
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_UNROLL_LOOPS = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = YES;
@@ -1501,6 +1498,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../contrib\" \"$(SRCROOT)/../../include\"";
 			};
 			name = Debug;
@@ -1512,12 +1510,13 @@
 				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_ENABLE_CPP_EXCEPTIONS = NO;
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_UNROLL_LOOPS = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_EFFECTIVE_CPLUSPLUS_VIOLATIONS = YES;
@@ -1536,6 +1535,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.7;
 				SDKROOT = macosx;
+				STRINGS_FILE_OUTPUT_ENCODING = "UTF-8";
 				USER_HEADER_SEARCH_PATHS = "\"$(SRCROOT)/../../contrib\" \"$(SRCROOT)/../../include\"";
 			};
 			name = Release;
@@ -1544,6 +1544,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/..\"",
+				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1559,6 +1563,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				EXECUTABLE_PREFIX = lib;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/..\"",
+				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
 			};
@@ -1583,6 +1591,7 @@
 				97A9324815390BB6001064D7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

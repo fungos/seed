@@ -110,7 +110,7 @@ bool Input::IsReleased(u32 button, u16 joystick) const
 	return false;
 }
 
-bool Input::IsEnabled(u16 joystick) const
+bool Input::IsPointerEnabled(u16 joystick) const
 {
 	return (joystick == 0);
 }

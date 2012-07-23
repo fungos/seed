@@ -57,7 +57,7 @@ class Input : public IInput, public IInputPointer, public IInputKeyboard
 		virtual bool IsKeyboard() const;
 
 		// IInputPointer
-		virtual bool IsEnabled(u16 joystick = 0) const;
+		virtual bool IsPointerEnabled(u16 joystick = 0) const;
 		virtual bool IsHold(u32 button, u16 joystick = 0) const;
 		virtual bool IsPressed(u32 button, u16 joystick = 0) const;
 		virtual bool IsReleased(u32 button, u16 joystick = 0) const;

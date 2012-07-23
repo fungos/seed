@@ -63,8 +63,7 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 		// IInputKeyboard
 
 		// IInputPointer
-		// FIXME: This method is hidding Module::IsEnabled()
-		virtual bool IsEnabled(u16 joystick = 0) const;
+		virtual bool IsPointerEnabled(u16 joystick = 0) const;
 		virtual bool IsHold(u32 button, u16 joystick = 0) const;
 		virtual bool IsPressed(u32 button, u16 joystick = 0) const;
 		virtual bool IsReleased(u32 button, u16 joystick = 0) const;

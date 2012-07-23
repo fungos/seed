@@ -336,15 +336,15 @@ Color Texture::GetPixel(u32 x, u32 y) const
 	{
 		case 1:
 		{
-			u8 x = (u8)*p;
-			px = Color(x, x, x, 255);
+			u8 v = (u8)*p;
+			px = Color(v, v, v, 255);
 		}
 		break;
 
 		case 2:
 		{
-			u16 x = *(u16 *)p;
-			px = Color((x >> 11) & 5, (x >> 5) & 6, x & 5, 255);
+			u16 v = *(u16 *)p;
+			px = Color((v >> 11) & 5, (v >> 5) & 6, v & 5, 255);
 		}
 		break;
 

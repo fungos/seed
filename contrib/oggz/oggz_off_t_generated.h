@@ -54,12 +54,15 @@
  <pre>
    echo "gcc -E oggz.h | grep oggz_off_t
  </pre>
- * 
+ *
  */
 
 #include <sys/types.h>
 
+#if __APPLE__
+#else
 typedef loff_t oggz_off_t;
+#endif
 
 #define PRI_OGGZ_OFF_T "ll"
 

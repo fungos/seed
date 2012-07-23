@@ -95,6 +95,7 @@ Sprite::Sprite(const Sprite &other)
 	, bLoop(other.bLoop)
 	, bPlaying(other.bPlaying)
 	, bFinished(other.bFinished)
+    , bIsCopy(true)
 {
 	cVertex[0] = other.cVertex[0];
 	cVertex[1] = other.cVertex[1];
@@ -117,7 +118,6 @@ Sprite::Sprite(const Sprite &other)
 	cColor = other.cColor;
 	bColorChanged = other.bColorChanged;
 	bVisible = other.bVisible;
-	bIsCopy = true;
 }
 
 Sprite &Sprite::operator=(const Sprite &other)

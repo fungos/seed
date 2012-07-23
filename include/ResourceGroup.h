@@ -60,6 +60,18 @@ class SEED_CORE_API ResourceGroup
 			ResourceManager		*resManager;
 			u32					startTime;
 			bool				erased;
+            
+            QueueItem()
+                : filename()
+                , resource(NULL)
+                , resourceType()
+                , resManager(NULL)
+                , startTime(0)
+                , erased(false)
+            {}
+            
+            SEED_DISABLE_COPY(QueueItem);
+            
 		} QueueItem;
 
 		typedef Vector<QueueItem *>		QueueVector;

@@ -19,8 +19,8 @@ OTHER_FILES += \
 	bin/out.movie \
 	bin/out.sprite \
 	bin/particles.sprite \
-    bin/teste.emitter \
-    bin/app.config
+	bin/teste.emitter \
+	bin/app.config
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../tests/bin
@@ -32,9 +32,15 @@ CONFIG(debug, debug|release) {
 	LIBS += -L../lib/release
 }
 
-unix {
+unix:!macx {
 	DEFINES += LINUX
 	LIBS += -lseed -lseedcontrib -lGL -lopenal -lSDL -lSDL_image
+}
+
+macx {
+	DEFINES += LINUX
+	INCLUDEPATH += ../contrib/osx/
+	LIBS += -framework Cocoa -framework OpenGL -F../osx/ -framework SDL -framework SDL_image
 }
 
 win32 {

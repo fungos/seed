@@ -219,7 +219,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-
+    
 #ifndef DOXYGEN_SHOULD_IGNORE_THIS
 #if (defined _MSC_VER)
 #define __EXPORT__ __declspec(dllexport)
@@ -288,7 +288,7 @@ typedef PHYSFS_sint32         PHYSFS_sint64;
 typedef signed __int64        PHYSFS_sint64;
 typedef unsigned __int64      PHYSFS_uint64;
 #else
-
+    
 #if !defined(int64_t)
 typedef long long int64_t;
 typedef unsigned long long uint64_t;
@@ -296,9 +296,6 @@ typedef unsigned long long uint64_t;
 
 typedef uint64_t    PHYSFS_uint64;
 typedef int64_t      PHYSFS_sint64;
-//#else
-//typedef unsigned long long    PHYSFS_uint64;
-//typedef signed long long      PHYSFS_sint64;
 #endif
 
 

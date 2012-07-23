@@ -77,6 +77,8 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
+        SEED_DISABLE_COPY(Camera);
+    
 	protected:
 		virtual bool IsInRectangle(ITransformable *obj, Matrix4f &worldTransform);
 		virtual bool IsInFrustum(ITransformable *obj, Matrix4f &worldTransform);

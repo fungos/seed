@@ -137,7 +137,7 @@ f32 IInputPointer::GetOrientation(u16 joystick) const
 	return 0.0f;
 }
 
-bool IInputPointer::IsEnabled(u16 joystick) const
+bool IInputPointer::IsPointerEnabled(u16 joystick) const
 {
 	UNUSED(joystick);
 	SEED_ABSTRACT_METHOD;

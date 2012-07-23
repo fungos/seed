@@ -2,6 +2,8 @@ TARGET = seed
 TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
 win32:INCLUDEPATH += contrib/windows/
+macx:INCLUDEPATH += contrib/osx/
+macx:LIBS += -framework SDL -framework SDL_image
 
 DEFINES += SEED_BUILD BUILD_SDL SEED_ENABLE_PROFILER
 unix:DEFINES += LINUX
@@ -140,8 +142,8 @@ SOURCES += source/Viewport.cpp \
 	source/Writer.cpp \
 	source/interface/IWriter.cpp \
 	source/interface/IDataObject.cpp \
-    source/SceneObjectFactory.cpp \
-    source/Camera.cpp
+	source/SceneObjectFactory.cpp \
+	source/Camera.cpp
 
 OTHER_FILES += \
 	source/platform/ios/IphoneView.mm
@@ -161,5 +163,5 @@ HEADERS += include/*.h \
 	include/interface/IWriter.h \
 	include/api/yajl/JsonWriter.h \
 	include/interface/IDataObject.h \
-    include/SceneObjectFactory.h \
-    include/Camera.h
+	include/SceneObjectFactory.h \
+	include/Camera.h
