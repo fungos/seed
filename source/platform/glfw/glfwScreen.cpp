@@ -284,8 +284,8 @@ bool Screen::Shutdown()
 
 	iFadeStatus = 0;
 	fadeType	= FADE_IN;
-	iHeight		= PLATFORM_MAX_SCREEN_HEIGHT;
-	iWidth		= PLATFORM_MAX_SCREEN_WIDTH;
+	iHeight		= 0;
+	iWidth		= 0;
 	iBPP		= 32;
 	iFlags		= 0;
 	videoInfo	= NULL;

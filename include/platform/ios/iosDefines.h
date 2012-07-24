@@ -61,8 +61,6 @@ using namespace Seed::iOS;
 using namespace Seed::PC;
 using namespace Seed::OGL;
 
-#define PLATFORM_MAX_SCREEN_WIDTH		480
-#define PLATFORM_MAX_SCREEN_HEIGHT		320
 #define PLATFORM_CODE					2
 #define PLATFORM_MAX_INPUT				2
 #define PLATFORM_PATH_SEPARATOR			'/'

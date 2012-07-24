@@ -50,6 +50,8 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlDefines.h"
+#elif defined(BUILD_GLFW)
+	#include "platform/glfw/glfwDefines.h"
 #elif defined(BUILD_IOS)
 	#include "platform/ios/iosDefines.h"
 #elif defined(BUILD_QT)

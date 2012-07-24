@@ -33,6 +33,8 @@
 
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlInput.h"
+#elif defined(BUILD_GLFW)
+	#include "platform/glfw/glfwInput.h"
 #elif defined(BUILD_IOS)
 	#include "platform/ios/iosInput.h"
 #elif defined(BUILD_QT)

@@ -35,9 +35,9 @@ namespace Seed {
 
 IScreen::IScreen()
 	: bFading(false)
-	, fAspectRatio(static_cast<f32>(PLATFORM_MAX_SCREEN_HEIGHT)/static_cast<f32>(PLATFORM_MAX_SCREEN_WIDTH))
-	, iHeight(PLATFORM_MAX_SCREEN_HEIGHT)
-	, iWidth(PLATFORM_MAX_SCREEN_WIDTH)
+	, fAspectRatio(1.0f)
+	, iHeight(0)
+	, iWidth(0)
 {
 }
 

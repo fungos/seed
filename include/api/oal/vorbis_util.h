@@ -31,7 +31,7 @@
 #ifndef __VORBIS_UTIL_H__
 #define __VORBIS_UTIL_H__
 
-#if defined(BUILD_SDL) || defined(BUILD_QT)
+#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
 
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"

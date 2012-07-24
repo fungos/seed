@@ -31,7 +31,7 @@
 #ifndef __SOUND_SOURCE_H__
 #define __SOUND_SOURCE_H__
 
-#if defined(BUILD_SDL) || defined(BUILD_QT)
+#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
 	#include "api/oal/oalSoundSource.h"
 #elif defined(BUILD_IOS)
 	#include "platform/ios/iosSoundSource.h"

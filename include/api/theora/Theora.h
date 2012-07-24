@@ -56,7 +56,7 @@
 	#define SEM_CHECK(p)		if (p)
 	#define SEM_CLEAR(p)		p = 0
 	typedef void*				semaphore;
-#else
+#elif defined(BUILD_QT)
 	#if !defined(QT_SEM_WARNING)
 		#warning "Qt Semaphores not tested!"
 		#define QT_SEM_WARNING 1

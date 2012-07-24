@@ -33,6 +33,8 @@
 
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlThread.h"
+#elif defined(BUILD_GLFW)
+	#include "platform/glfw/glfwThread.h"
 #elif defined(BUILD_IOS)
 	#include "platform/ios/iosThread.h"
 #elif defined(BUILD_QT)

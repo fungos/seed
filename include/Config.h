@@ -44,6 +44,8 @@
 	#define SEED_PLATFORM_NAME "SDL"
 #elif defined(BUILD_QT)
 	#define SEED_PLATFORM_NAME "Qt"
+#elif defined(BUILD_GLFW)
+	#define SEED_PLATFORM_NAME "GLFW"
 #endif // BUILD_IOS
 
 //================================================================================

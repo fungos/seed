@@ -45,17 +45,6 @@ namespace Seed { namespace PC {} };
 using namespace Seed::QT;
 using namespace Seed::PC;
 
-#if defined(_QT_EMULATE_WII_)
-	#define PLATFORM_MAX_SCREEN_WIDTH		640
-	#define PLATFORM_MAX_SCREEN_HEIGHT		480
-#elif _QT_EMULATE_IPH_
-	#define PLATFORM_MAX_SCREEN_WIDTH		480
-	#define PLATFORM_MAX_SCREEN_HEIGHT		320
-#else
-	#define PLATFORM_MAX_SCREEN_WIDTH		1024
-	#define PLATFORM_MAX_SCREEN_HEIGHT		768
-#endif // BUILD_QTEMULATE_IPH_
-
 #define PLATFORM						QT
 #define PLATFORM_CODE					3
 #define PLATFORM_MAX_INPUT				1

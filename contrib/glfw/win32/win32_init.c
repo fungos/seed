@@ -28,7 +28,7 @@
 //
 //========================================================================
 
-#include "internal.h"
+#include "glfw/internal.h"
 
 // With the Borland C++ compiler, we want to disable FPU exceptions
 #ifdef __BORLANDC__

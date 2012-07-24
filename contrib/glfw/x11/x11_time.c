@@ -28,7 +28,7 @@
 //
 //========================================================================
 
-#include "internal.h"
+#include "glfw/internal.h"
 
 #include <time.h>
 
@@ -119,9 +119,9 @@ void _glfwPlatformSleep( double time )
     if( time == 0.0 )
     {
 #ifdef _GLFW_HAS_SCHED_YIELD
-	sched_yield();
+    sched_yield();
 #endif
-	return;
+    return;
     }
 
     struct timeval  currenttime;

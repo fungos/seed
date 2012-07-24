@@ -31,7 +31,7 @@
 #ifndef __CARTRIDGE_H__
 #define __CARTRIDGE_H__
 
-#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_IOS)
+#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_IOS) || defined(BUILD_GLFW)
 	#include "platform/pc/pcCartridge.h"
 #endif // BUILD_PC
 

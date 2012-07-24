@@ -28,11 +28,11 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include "RendererDevice.h"
 #include "Viewport.h"
 #include "Log.h"
 #include "Renderer.h"
 #include "Camera.h"
-#include "RendererDevice.h"
 
 namespace Seed {
 

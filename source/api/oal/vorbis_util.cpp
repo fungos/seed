@@ -28,7 +28,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_SDL) || defined(BUILD_QT)
+#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
 
 #define OV_EXCLUDE_STATIC_CALLBACKS
 #include "api/oal/vorbis_util.h"

@@ -28,10 +28,10 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SDL_DEFINES_H__
-#define __SDL_DEFINES_H__
+#ifndef __GLFW_DEFINES_H__
+#define __GLFW_DEFINES_H__
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
 #define BUILD_PC		1
 #define USE_API_OGL		1
@@ -39,13 +39,13 @@
 
 namespace Seed
 {
-	namespace SDL {}
+	namespace GLFW {}
 	namespace PC {}
 	namespace OAL {}
 	namespace OGL {}
 }
 
-using namespace Seed::SDL;
+using namespace Seed::GLFW;
 using namespace Seed::PC;
 using namespace Seed::OAL;
 using namespace Seed::OGL;
@@ -56,14 +56,6 @@ using namespace Seed::OGL;
 #include <string.h>
 #include <time.h>
 #include <wchar.h>
-
-#include <SDL/SDL.h>
-
-#if defined(__APPLE_CC__) && (__APPLE_CC__ < 5666)
-#include <SDL_image/SDL_image.h>
-#else
-#include <SDL/SDL_image.h>
-#endif
 
 #if defined(__MWERKS__)
 #pragma warning off (10342)
@@ -95,18 +87,7 @@ using namespace Seed::OGL;
 	#endif // _MSC_VER
 #endif
 
-#define PLATFORM SDL
-
-#if defined(_SDL_EMULATE_WII_)
-	#define PLATFORM_MAX_SCREEN_WIDTH		640
-	#define PLATFORM_MAX_SCREEN_HEIGHT		480
-#elif _SDL_EMULATE_IPH_
-	#define PLATFORM_MAX_SCREEN_WIDTH		480
-	#define PLATFORM_MAX_SCREEN_HEIGHT		320
-#else
-	#define PLATFORM_MAX_SCREEN_WIDTH		1024
-	#define PLATFORM_MAX_SCREEN_HEIGHT		768
-#endif // BUILD_SDLEMULATE_IPH_
+#define PLATFORM GLFW
 
 #define PLATFORM_CODE					3
 #define PLATFORM_MAX_INPUT				1
@@ -194,7 +175,7 @@ typedef u32 					PIXEL;
 #define HALT	do { asm("int $3"); exit(-1); } while (1);
 #endif // WIN32
 
-#else // BUILD_SDL
-	#error "Include 'Defines.h' instead 'platform/sdl/sdlDefines.h' directly."
-#endif // BUILD_SDL
-#endif // __SDL_DEFINES_H__
+#else // BUILD_GLFW
+	#error "Include 'Defines.h' instead 'platform/glfw/glfwDefines.h' directly."
+#endif // BUILD_GLFW
+#endif // __GLFW_DEFINES_H__

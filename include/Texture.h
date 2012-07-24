@@ -33,6 +33,8 @@
 
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlTexture.h"
+#elif defined(BUILD_GLFW)
+	#include "platform/glfw/glfwTexture.h"
 #elif defined(BUILD_IOS)
 	#include "platform/ios/iosTexture.h"
 #elif defined(BUILD_QT)

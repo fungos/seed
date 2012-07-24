@@ -22,7 +22,6 @@ SOURCES += yajl/yajl_buf.c \
 	yajl/yajl_lex.c \
 	yajl/yajl_gen.c \
 	yajl/yajl_encode.c \
-	vorbis/window.c \
 	vorbis/vorbisfile.c \
 	vorbis/vorbisenc.c \
 	vorbis/synthesis.c \
@@ -210,7 +209,8 @@ SOURCES += yajl/yajl_buf.c \
 	glfw/image.c \
 	glfw/glext.c \
 	glfw/fullscreen.c \
-	glfw/enable.c
+	glfw/enable.c \
+    vorbis/vorbiswindow.c
 
 unix:!macx:SOURCES += \
 	glfw/x11/x11_enable.c \

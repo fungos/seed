@@ -33,6 +33,8 @@
 
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlSystem.h"
+#elif defined(BUILD_GLFW)
+	#include "platform/glfw/glfwSystem.h"
 #elif defined(BUILD_IOS)
 	#include "platform/ios/iosSystem.h"
 #elif defined(BUILD_QT)

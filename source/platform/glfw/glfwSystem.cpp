@@ -96,6 +96,8 @@ bool System::Shutdown()
 	this->bShutdown = true;
 	Log(TAG "Terminating...");
 
+	glfwTerminate();
+
 	return true;
 }
 

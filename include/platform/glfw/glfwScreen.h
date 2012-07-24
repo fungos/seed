@@ -28,14 +28,13 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SDL_SCREEN_H__
-#define __SDL_SCREEN_H__
+#ifndef __GLFW_SCREEN_H__
+#define __GLFW_SCREEN_H__
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
 #include "interface/IScreen.h"
 #include "Singleton.h"
-#include <SDL/SDL.h>
 
 #define FADE_OUT_COLOR  0xff
 #define FADE_OUT_SOLID  0xff
@@ -47,9 +46,9 @@
 #define FADE_INCREMENT	0x04
 #endif // DEBUG
 
-namespace Seed { namespace SDL {
+namespace Seed { namespace GLFW {
 
-/// SDL Screen Module
+/// GLFW Screen Module
 class SEED_CORE_API Screen : public IScreen
 {
 	SEED_SINGLETON_DECLARE(Screen)
@@ -73,11 +72,10 @@ class SEED_CORE_API Screen : public IScreen
 		virtual void Update();
 
 		// HACK - test
-		int			iHandle;
+		int	iHandle;
 
 	protected:
-		int		surfaceSize;
-		SDL_Surface *pSurface;
+		int	surfaceSize;
 
 	private:
 		SEED_DISABLE_COPY(Screen);
@@ -98,18 +96,17 @@ class SEED_CORE_API Screen : public IScreen
 		};
 
 		bool		bFullScreen;
-		int 		iFadeStatus;
-		eFadeType 	fadeType;
+		int			iFadeStatus;
+		eFadeType	fadeType;
 		int			iBPP;
 		int			iFlags;
-		SDL_VideoInfo *videoInfo;
 };
 
-#define pScreen Seed::SDL::Screen::GetInstance()
+#define pScreen Seed::GLFW::Screen::GetInstance()
 
 }} // namespace
 
-#else //._SDL_
-	#error "Include 'Screen.h' instead 'platform/sdl/sdlScreen.h' directly."
-#endif // BUILD_SDL
-#endif // __SDL_SCREEN_H__
+#else //.BUILD_GLFW
+	#error "Include 'Screen.h' instead 'platform/glfw/glfwScreen.h' directly."
+#endif // BUILD_GLFW
+#endif // __GLFW_SCREEN_H__

@@ -31,7 +31,7 @@
 #ifndef __MUSIC_H__
 #define __MUSIC_H__
 
-#if defined(BUILD_SDL) || defined(BUILD_QT)
+#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
 	#include "api/oal/oalMusic.h"
 #elif defined(BUILD_IOS)
 	#include "platform/ios/iosMusic.h"
