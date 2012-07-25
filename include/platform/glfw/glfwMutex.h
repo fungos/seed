@@ -52,7 +52,7 @@ class SEED_CORE_API Mutex : public IMutex
 		SEED_DISABLE_COPY(Mutex);
 
 	private:
-		GLFWmutex iMutex;
+		GLFWmutex pMutex;
 };
 
 }} // namespace

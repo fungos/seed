@@ -28,7 +28,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_GLFW)
+#if defined(USE_API_SOIL)
 
 #include "Texture.h"
 #include "FileSystem.h"
@@ -40,7 +40,7 @@
 
 #define TAG "[Texture] "
 
-namespace Seed { namespace GLFW {
+namespace Seed { namespace SOIL {
 
 const char *const pImageFormatTable[] = {"TGA", "PNG", "JPG"};
 enum eImageFormat
@@ -440,4 +440,4 @@ void Texture::UnloadTexture()
 
 }} // namespace
 
-#endif // BUILD_GLFW
+#endif // USE_API_SOIL

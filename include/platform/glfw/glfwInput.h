@@ -39,14 +39,27 @@
 #include "interface/IInputKeyboard.h"
 #include "Enum.h"
 #include "Singleton.h"
+#include "glfw/glfw.h"
 
 #define MAX_JOYSTICKS 16
 
 namespace Seed { namespace GLFW {
 
-/// SDL Input Module
+void GLFWCALL glfwOnKeyCb(int key, int action);
+void GLFWCALL glfwOnCharCb(int character, int action);
+void GLFWCALL glfwOnMouseButtonCb(int button, int action);
+void GLFWCALL glfwOnMouseWheelCb(int pos);
+void GLFWCALL glfwOnMousePosCb(int x, int y);
+
+/// GLFW Input Module
 class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKeyboard, public IInputJoystick
 {
+	friend void GLFWCALL glfwOnKeyCb(int key, int action);
+	friend void GLFWCALL glfwOnCharCb(int character, int action);
+	friend void GLFWCALL glfwOnMouseButtonCb(int button, int action);
+	friend void GLFWCALL glfwOnMouseWheelCb(int pos);
+	friend void GLFWCALL glfwOnMousePosCb(int x, int y);
+
 	SEED_SINGLETON_DECLARE(Input)
 	public:
 		// IInput
@@ -94,18 +107,35 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 		Seed::eKey GetKeyCode(u32 key) const;
 		Seed::eModifier GetModifierCode(u32 mod) const;
 
+		void OnKeyCb(int key, int action);
+		void OnMouseButtonCb(int button, int action);
+		void OnMouseWheelCb(int pos);
+		void OnMousePosCb(int x, int y);
+
 	private:
-		u32  iJoystickCount;
+		u32 iJoystickCount;
 		f32 fX;
 		f32 fY;
+		u32 iWheel;
+		u32 iOldWheel;
+		u32 iOriginWheel;
+		u32 iOriginX;
+		u32 iOriginY;
+		u32 iOldX;
+		u32 iOldY;
+		u32 iX;
+		u32 iY;
+		u32 iAxesMax;
+		u32 iButtonsMax;
 
 		struct glfwJoyInfo {
 			bool bIsPresent;
-			int iAxes;
-			int iButtons;
+			u32 iAxes;
+			u32 iButtons;
 		};
 
 		glfwJoyInfo arJoyInfo[MAX_JOYSTICKS];
+		int nModifiers;
 };
 
 #define pInput Seed::GLFW::Input::GetInstance()

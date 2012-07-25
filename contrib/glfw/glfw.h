@@ -35,6 +35,9 @@ extern "C" {
 #endif
 
 #define GLFW_NO_GLU 1
+//#if !defined(__APPLE_CC__)
+#include "glew/glew.h"
+//#endif
 
 /*************************************************************************
  * Global definitions
@@ -160,7 +163,6 @@ extern "C" {
  * special defines which normally requires the user to include <windows.h>
  * (which is not a nice solution for portable programs).
  */
-#include "glew/glew.h"
 
 #if defined(__APPLE_CC__)
  #if defined(GLFW_INCLUDE_GL3)

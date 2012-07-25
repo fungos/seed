@@ -35,6 +35,7 @@
 
 #include "interface/IScreen.h"
 #include "Singleton.h"
+#include "glfw/glfw.h"
 
 #define FADE_OUT_COLOR	0xff
 #define FADE_OUT_SOLID	0xff

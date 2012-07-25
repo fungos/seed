@@ -39,11 +39,21 @@
 #include "physfs/physfs.h"
 #include "platform/pc/platform.h"
 
+#include "glfw/glfw.h"
+
 #define TAG "[System] "
 
 #define MAX_FRAMESKIP_THRESHOLD 10
 
 namespace Seed { namespace GLFW {
+
+int GLFWCALL glfwOnCloseWindow()
+{
+	EventSystem ev;
+	pSystem->SendEventShutdown(&ev);
+
+	return GL_TRUE;
+}
 
 SEED_SINGLETON_DEFINE(System)
 
@@ -85,6 +95,8 @@ bool System::Initialize()
 		Info(TAG "Failed to initialize GLFW");
 		exit(1);
 	}
+
+	glfwSetWindowCloseCallback(glfwOnCloseWindow);
 
 	Log(TAG "Initialization completed.");
 

@@ -118,7 +118,7 @@ enum eTextureCompression
 
 enum eModifier
 {
-	ModifierNone			= 0x00,
+	ModifierNone			= 0x0000,
 	ModifierShiftLeft		= 0x0001,
 	ModifierShiftRight		= 0x0002,
 	ModifierShift			= (ModifierShiftLeft | ModifierShiftRight),
@@ -133,7 +133,7 @@ enum eModifier
 	ModifierMeta			= (ModifierMetaLeft | ModifierMetaRight),
 	ModifierNumLock			= 0x1000,
 	ModifierCapsLock		= 0x2000,
-	ModifierKeypad			= 0x4000
+	ModifierScrollLock		= 0x4000
 };
 
 /* Yes, it is entirely based on SDL, until now it is the most complete Keyboard mapping I ever found in an API. So, get used to it. */
@@ -316,11 +316,11 @@ enum eInputButton
 
 	// From here it is just helper enums, may not be portable.
 	// Mouse specific mapping
-	ButtonLeft = Button0,
-	ButtonRight = Button1,
-	ButtonMiddle = Button2,
-	ButtonUp = Button3,
-	ButtonDown = Button4
+	ButtonUp = Button0,
+	ButtonDown = Button1,
+	ButtonLeft = Button2,
+	ButtonRight = Button3,
+	ButtonMiddle = Button4
 };
 
 /// Maximum size of the cartridge

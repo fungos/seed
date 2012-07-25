@@ -42,10 +42,68 @@
 #include "EventSystem.h"
 #include "ViewManager.h"
 #include "Viewport.h"
+#include "glfw/glfw.h"
 
 #define TAG "[Input] "
 
 namespace Seed { namespace GLFW {
+
+void GLFWCALL glfwOnKeyCb(int key, int action)
+{
+	pInput->OnKeyCb(key, action);
+}
+
+void GLFWCALL glfwOnCharCb(int character, int action)
+{
+	pInput->OnKeyCb(character, action);
+}
+
+void GLFWCALL glfwOnMouseButtonCb(int button, int action)
+{
+	pInput->OnMouseButtonCb(button, action);
+}
+
+static int _glfw_scroll_origin = 0;
+void GLFWCALL glfwOnMouseWheelCb(int pos)
+{
+	if (!_glfw_scroll_origin)
+	{
+		_glfw_scroll_origin = pos;
+		pInput->iOriginWheel = pos;
+	}
+
+	if (pos < _glfw_scroll_origin)
+	{
+		pInput->OnMouseButtonCb(GLFW_MOUSE_BUTTON_LAST + 1, GLFW_PRESS);
+		pInput->OnMouseButtonCb(GLFW_MOUSE_BUTTON_LAST + 1, GLFW_RELEASE);
+	}
+	else if (pos > _glfw_scroll_origin)
+	{
+		pInput->OnMouseButtonCb(GLFW_MOUSE_BUTTON_LAST + 2, GLFW_PRESS);
+		pInput->OnMouseButtonCb(GLFW_MOUSE_BUTTON_LAST + 2, GLFW_RELEASE);
+	}
+
+	pInput->OnMouseWheelCb(pos);
+}
+
+static int _glfw_origin_x = 0xdeadbeef;
+static int _glfw_origin_y = 0xdeadbeef;
+void GLFWCALL glfwOnMousePosCb(int x, int y)
+{
+	if (_glfw_origin_x == (int)0xdeadbeef)
+	{
+		_glfw_origin_x = x;
+		pInput->iOriginX = x;
+	}
+
+	if (_glfw_origin_y == (int)0xdeadbeef)
+	{
+		_glfw_origin_y = y;
+		pInput->iOriginY = y;
+	}
+
+	pInput->OnMousePosCb(x, y);
+}
 
 SEED_SINGLETON_DEFINE(Input)
 
@@ -53,7 +111,21 @@ Input::Input()
 	: iJoystickCount(0)
 	, fX(0.0f)
 	, fY(0.0f)
+	, iWheel(0)
+	, iOldWheel(0)
+	, iOriginWheel(0)
+	, iOriginX(0)
+	, iOriginY(0)
+	, iOldX(0)
+	, iOldY(0)
+	, iX(0)
+	, iY(0)
+	, iAxesMax(0)
+	, iButtonsMax(0)
+	, arJoyInfo()
+	, nModifiers(ModifierNone)
 {
+	memset(arJoyInfo, '\0', sizeof(arJoyInfo));
 }
 
 Input::~Input()
@@ -77,8 +149,6 @@ bool Input::Initialize()
 	Log(TAG "Initializing...");
 	bool r = this->Reset();
 
-	memset(arJoyInfo, '\0', sizeof(arJoyInfo));
-
 	Log(TAG "Joystick(s): ");
 	for (int i = 0; i < MAX_JOYSTICKS; i++)
 	{
@@ -89,227 +159,241 @@ bool Input::Initialize()
 		{
 			iJoystickCount++;
 			arJoyInfo[i].iAxes = glfwGetJoystickParam(i, GLFW_AXES);
+			if (arJoyInfo[i].iAxes > iAxesMax)
+				iAxesMax = arJoyInfo[i].iAxes;
+
 			arJoyInfo[i].iButtons = glfwGetJoystickParam(i, GLFW_BUTTONS);
+			if (arJoyInfo[i].iButtons > iButtonsMax)
+				iButtonsMax = arJoyInfo[i].iButtons;
+
 			Log(TAG "\t\t[%d] Axes: %d Buttons: %d\n", i, arJoyInfo[i].iAxes, arJoyInfo[i].iButtons);
 		}
 	}
+
+	glfwSetKeyCallback(glfwOnKeyCb);
+	glfwSetCharCallback(glfwOnCharCb);
+	glfwSetMouseButtonCallback(glfwOnMouseButtonCb);
+	glfwSetMouseWheelCallback(glfwOnMouseWheelCb);
+	glfwSetMousePosCallback(glfwOnMousePosCb);
+
 	Log(TAG "Initialization completed.");
 
 	return r;
+}
+
+void Input::OnKeyCb(int key, int action)
+{
+	if (action == GLFW_PRESS)
+	{
+		switch (key)
+		{
+			case GLFW_KEY_LALT:
+				nModifiers |= ModifierAltLeft;
+			break;
+
+			case GLFW_KEY_RALT:
+				nModifiers |= (int)ModifierAltRight;
+			break;
+
+			case GLFW_KEY_LSHIFT:
+				nModifiers |= ModifierShiftLeft;
+			break;
+
+			case GLFW_KEY_RSHIFT:
+				nModifiers |= ModifierShiftRight;
+			break;
+
+			case GLFW_KEY_LCTRL:
+				nModifiers |= ModifierControlLeft;
+			break;
+
+			case GLFW_KEY_RCTRL:
+				nModifiers |= ModifierControlRight;
+			break;
+
+			case GLFW_KEY_LSUPER:
+				nModifiers |= ModifierMetaLeft;
+			break;
+
+			case GLFW_KEY_RSUPER:
+				nModifiers |= ModifierMetaRight;
+			break;
+
+			case GLFW_KEY_CAPS_LOCK:
+				nModifiers |= ModifierCapsLock;
+			break;
+
+			case GLFW_KEY_KP_NUM_LOCK:
+				nModifiers |= ModifierNumLock;
+			break;
+
+			case GLFW_KEY_SCROLL_LOCK:
+				nModifiers |= ModifierScrollLock;
+			break;
+
+			default:
+			break;
+		}
+
+		EventInputKeyboard ev(key, nModifiers, key, key);
+		this->SendEventKeyboardPress(&ev);
+	}
+	else
+	{
+		switch (key)
+		{
+			case GLFW_KEY_LALT:
+				nModifiers ^= ModifierAltLeft;
+			break;
+
+			case GLFW_KEY_RALT:
+				nModifiers ^= ModifierAltRight;
+			break;
+
+			case GLFW_KEY_LSHIFT:
+				nModifiers ^= ModifierShiftLeft;
+			break;
+
+			case GLFW_KEY_RSHIFT:
+				nModifiers ^= ModifierShiftRight;
+			break;
+
+			case GLFW_KEY_LCTRL:
+				nModifiers ^= ModifierControlLeft;
+			break;
+
+			case GLFW_KEY_RCTRL:
+				nModifiers ^= ModifierControlRight;
+			break;
+
+			case GLFW_KEY_LSUPER:
+				nModifiers ^= ModifierMetaLeft;
+			break;
+
+			case GLFW_KEY_RSUPER:
+				nModifiers ^= ModifierMetaRight;
+			break;
+
+			case GLFW_KEY_CAPS_LOCK:
+				nModifiers ^= ModifierCapsLock;
+			break;
+
+			case GLFW_KEY_KP_NUM_LOCK:
+				nModifiers ^= ModifierNumLock;
+			break;
+
+			case GLFW_KEY_SCROLL_LOCK:
+				nModifiers ^= ModifierScrollLock;
+			break;
+
+			default:
+			break;
+		}
+
+		EventInputKeyboard ev(key, nModifiers, key, key);
+		this->SendEventKeyboardRelease(&ev);
+	}
+}
+
+void Input::OnMouseButtonCb(int button, int action)
+{
+	int xp = 0;
+	int yp = 0;
+	glfwGetMousePos(&xp, &yp);
+
+	f32 x, y;
+	x = fX = (f32)xp / (f32)pScreen->GetWidth();
+	y = fY = (f32)yp / (f32)pScreen->GetHeight();
+
+	Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(fX, fY));
+	f32 fw = 1.0f;
+	f32 fh = 1.0f;
+	if (viewport)
+	{
+		fw = (viewport->GetWidth());
+		fh = (viewport->GetHeight());
+		x = (fX - viewport->GetX()) / fw;
+		y = (fY - viewport->GetY()) / fh;
+	}
+
+	if (action == GLFW_RELEASE)
+	{
+		const EventInputPointer ev(0, 0, 0, this->GetButtonCode(button), x, y);
+		this->SendEventPointerRelease(&ev);
+	}
+	else
+	{
+		const EventInputPointer ev(0, this->GetButtonCode(button), 0, 0, x, y);
+		this->SendEventPointerPress(&ev);
+	}
+}
+
+void Input::OnMouseWheelCb(int pos)
+{
+	iOldWheel = iWheel;
+	iWheel = pos;
+	// ?
+}
+
+void Input::OnMousePosCb(int xp, int yp)
+{
+	iOldX = iX;
+	iX = xp;
+
+	iOldY = iY;
+	iY = yp;
+
+	f32 x, y;
+	x = fX = (f32)xp / (f32)pScreen->GetWidth();
+	y = fY = (f32)yp / (f32)pScreen->GetHeight();
+
+	Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(fX, fY));
+	f32 fw = 1.0f;
+	f32 fh = 1.0f;
+	if (viewport)
+	{
+		fw = (viewport->GetWidth());
+		fh = (viewport->GetHeight());
+		x = (fX - viewport->GetX()) / fw;
+		y = (fY - viewport->GetY()) / fh;
+	}
+
+	EventInputPointer ev(0, 0, 0, 0, x, y);
+	this->SendEventPointerMove(&ev);
 }
 
 bool Input::Update(f32 dt)
 {
 	UNUSED(dt);
 
-/*
-FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate configurado pelo usuario. Verificar tambem... | Danny Angelo Carminati Grein
-*/
-	SDL_Event event;
-	while (SDL_PollEvent(&event))
+	float axes[iAxesMax];
+	memset(axes, '\0', sizeof(axes));
+
+	unsigned char buttons[iButtonsMax];
+	memset(buttons, '\0', sizeof(buttons));
+
+	for (int i = 0; i < MAX_JOYSTICKS; i++)
 	{
-		switch (event.type)
+		int amount = glfwGetJoystickPos(i, axes, iAxesMax);
+		for (int axis = 0; axis < amount; axis++)
 		{
-			#if defined(WIN32) && defined(DEBUG)
-			case SDL_SYSWMEVENT:
+			const EventInputJoystick ev(i, 0, 0, 0, axis, axes[axis]);
+			this->SendEventJoystickAxisMove(&ev);
+		}
+
+		amount = glfwGetJoystickButtons(i, buttons, iButtonsMax);
+		for (int btn = 0; btn < amount; btn++)
+		{
+			if (buttons[btn] == GLFW_PRESS)
 			{
-				switch (event.syswm.msg->msg)
-				{
-					case WM_SYSCOMMAND:
-					case WM_IME_SETCONTEXT:
-					case WM_IME_NOTIFY:
-					break;
-
-					case WM_GETTEXT:
-					case WM_GETICON:
-					case WM_NCHITTEST:
-					case WM_NCMOUSEMOVE:
-					case WM_NCLBUTTONDOWN:
-					case WM_NCLBUTTONDBLCLK:
-					case WM_NCLBUTTONUP:
-					case WM_CAPTURECHANGED:
-					case WM_WINDOWPOSCHANGING:
-					case WM_WINDOWPOSCHANGED:
-					case WM_MOVE:
-					case WM_MOVING:
-					case WM_ENTERSIZEMOVE:
-					case WM_EXITSIZEMOVE:
-					case WM_MOUSEACTIVATE:
-					case WM_NCCALCSIZE:
-					case WM_SIZE:
-					case WM_QUERYOPEN:
-					break;
-
-					case WM_DISPLAYCHANGE:
-						Log(TAG "event DISPLAYCHANGE");
-					break;
-
-					case WM_SYNCPAINT:
-						Log(TAG "event SYNCPAINT");
-					break;
-
-					case WM_NCPAINT:
-						Log(TAG "event NCPAINT");
-					break;
-
-					case WM_NCACTIVATE:
-						Log(TAG "event NCACTIVATE");
-					break;
-
-					case WM_KILLFOCUS:
-						Log(TAG "event KILLFOCUS");
-					break;
-
-					case WM_SETFOCUS:
-						Log(TAG "event SETFOCUS");
-					break;
-
-					case WM_ACTIVATEAPP:
-						Log(TAG "event ACTIVATEAPP");
-					break;
-
-					case 0xc086: //WM_TASKBAR_CREATED:
-						Log(TAG "event TASKBAR_CREATED");
-					break;
-
-					case WM_DWMCOMPOSITIONCHANGED:
-						Log(TAG "event DWMCOMPOSITIONCHANGED");
-					break;
-
-					default:
-						Log(TAG "Received system event. Message (0x%x) wParam = %d, lParam = %d.", event.syswm.msg->msg, event.syswm.msg->wParam, event.syswm.msg->lParam);
-					break;
-				}
-			}
-			break;
-			#endif
-
-			case SDL_KEYDOWN:
-			{
-				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, event.key.which);
-				this->SendEventKeyboardPress(&ev);
-			}
-			break;
-
-			case SDL_KEYUP:
-			{
-				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, event.key.which);
-				this->SendEventKeyboardRelease(&ev);
-			}
-			break;
-
-			case SDL_QUIT:
-			{
-				EventSystem ev;
-				pSystem->SendEventShutdown(&ev);
-			}
-			break;
-
-			case SDL_MOUSEMOTION:
-			{
-				f32 x, y;
-				x = fX = (f32)event.motion.x / (f32)pScreen->GetWidth();
-				y = fY = (f32)event.motion.y / (f32)pScreen->GetHeight();
-
-				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(fX, fY));
-				f32 fw = 1.0f;
-				f32 fh = 1.0f;
-				if (viewport)
-				{
-					fw = (viewport->GetWidth());// * viewport->GetWidth());
-					fh = (viewport->GetHeight());// * viewport->GetHeight());
-					//x = viewport->GetX() + viewport->GetWidth() * fX;
-					//y = viewport->GetY() + viewport->GetHeight() * fY;
-					x = (fX - viewport->GetX()) / fw;
-					y = (fY - viewport->GetY()) / fh;
-				}
-
-				EventInputPointer ev(0, 0, 0, 0, x, y);
-				this->SendEventPointerMove(&ev);
-			}
-			break;
-
-			case SDL_MOUSEBUTTONUP:
-			{
-				f32 x, y;
-				x = fX = (f32)event.motion.x / (f32)pScreen->GetWidth();
-				y = fY = (f32)event.motion.y / (f32)pScreen->GetHeight();
-
-				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(fX, fY));
-				f32 fw = 1.0f;
-				f32 fh = 1.0f;
-				if (viewport)
-				{
-					fw = (viewport->GetWidth());// * viewport->GetWidth());
-					fh = (viewport->GetHeight());// * viewport->GetHeight());
-					//x = viewport->GetX() + viewport->GetWidth() * fX;
-					//y = viewport->GetY() + viewport->GetHeight() * fY;
-					x = (fX - viewport->GetX()) / fw;
-					y = (fY - viewport->GetY()) / fh;
-				}
-
-				const EventInputPointer ev(0, 0, 0, this->ConvertButtonFlags(event.button.button), x, y);
-				this->SendEventPointerRelease(&ev);
-			}
-			break;
-
-			case SDL_MOUSEBUTTONDOWN:
-			{
-				f32 x, y;
-				x = fX = (f32)event.motion.x / (f32)pScreen->GetWidth();
-				y = fY = (f32)event.motion.y / (f32)pScreen->GetHeight();
-
-				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(fX, fY));
-				f32 fw = 1.0f;
-				f32 fh = 1.0f;
-				if (viewport)
-				{
-					fw = (viewport->GetWidth());// * viewport->GetWidth());
-					fh = (viewport->GetHeight());// * viewport->GetHeight());
-					//x = viewport->GetX() + viewport->GetWidth() * fX;
-					//y = viewport->GetY() + viewport->GetHeight() * fY;
-					x = (fX - viewport->GetX()) / fw;
-					y = (fY - viewport->GetY()) / fh;
-				}
-
-				const EventInputPointer ev(0, this->ConvertButtonFlags(event.button.button), 0, 0, x, y);
-				this->SendEventPointerPress(&ev);
-			}
-			break;
-
-			case SDL_JOYBUTTONDOWN:
-			{
-				const EventInputJoystick ev(event.jbutton.which, event.jbutton.button, 0, 0, 0, 0);
+				const EventInputJoystick ev(i, btn, 0, 0, 0, 0);
 				this->SendEventJoystickButtonPress(&ev);
 			}
-			break;
-
-			case SDL_JOYBUTTONUP:
+			else
 			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, event.jbutton.button, 0, 0);
+				const EventInputJoystick ev(i, 0, 0, btn, 0, 0);
 				this->SendEventJoystickButtonRelease(&ev);
 			}
-			break;
-
-			case SDL_JOYAXISMOTION:
-			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, 0, event.jaxis.axis, event.jaxis.value);
-				this->SendEventJoystickAxisMove(&ev);
-			}
-			break;
-
-			case SDL_JOYHATMOTION:
-			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, 0, event.jhat.hat, event.jhat.value);
-				this->SendEventJoystickDPadMove(&ev);
-			}
-			break;
-
-			case SDL_JOYBALLMOTION:
-			break;
-
-			default:
-			break;
 		}
 	}
 
@@ -318,6 +402,8 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 bool Input::Reset()
 {
+	memset(arJoyInfo, '\0', sizeof(arJoyInfo));
+	nModifiers = ModifierNone;
 	return true;
 }
 
@@ -388,27 +474,33 @@ Seed::eInputButton Input::GetButtonCode(u32 button) const
 {
 	Seed::eInputButton btn = Seed::ButtonInvalid;
 
-	if (button & SDL_BUTTON_LMASK)
+	if (button == GLFW_MOUSE_BUTTON_LEFT)
 		btn = Seed::ButtonLeft;
-	else if (button & SDL_BUTTON_RMASK)
+	else if (button == GLFW_MOUSE_BUTTON_RIGHT)
 		btn = Seed::ButtonRight;
-	else if (button & SDL_BUTTON_MMASK)
+	else if (button == GLFW_MOUSE_BUTTON_MIDDLE)
 		btn = Seed::ButtonMiddle;
-	else if (button & SDL_BUTTON(SDL_BUTTON_WHEELUP))
-		btn = Seed::ButtonUp;
-	else if (button & SDL_BUTTON(SDL_BUTTON_WHEELDOWN))
+	else if (button == GLFW_MOUSE_BUTTON_4)
+		btn = Seed::Button5;
+	else if (button == GLFW_MOUSE_BUTTON_5)
+		btn = Seed::Button6;
+	else if (button == GLFW_MOUSE_BUTTON_6)
+		btn = Seed::Button7;
+	else if (button == GLFW_MOUSE_BUTTON_7)
+		btn = Seed::Button8;
+	else if (button == GLFW_MOUSE_BUTTON_8)
+		btn = Seed::Button9;
+	else if (button == GLFW_MOUSE_BUTTON_LAST + 1)
 		btn = Seed::ButtonDown;
+	else if (button == GLFW_MOUSE_BUTTON_LAST + 2)
+		btn = Seed::ButtonUp;
 
 	return btn;
 }
 
 u32 Input::ConvertButtonFlags(u32 flags)
 {
-	u32 converted = 0;
-
-	converted |= this->GetButtonCode(SDL_BUTTON(flags));
-
-	return converted;
+	return this->GetButtonCode(flags);
 }
 
 u32 Input::GetSensitivity(u16 joystick) const

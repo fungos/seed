@@ -30,6 +30,7 @@
 #ifndef _platform_h_
 #define _platform_h_
 
+#include "glew/glew.h"
 
 // This is the Mac OS X version of GLFW
 #define _GLFW_MAC_OS_X

@@ -39,7 +39,7 @@ namespace Seed { namespace GLFW {
 static void __seed_thread_loop_callback(void *param)
 {
 	Thread *pt = static_cast<Thread *>(param);
-	while (pt->Run());
+	while (pt->Run()) {};
 }
 
 Thread::Thread()

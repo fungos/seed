@@ -28,20 +28,20 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __GLFW_TEXTURE_H__
-#define __GLFW_TEXTURE_H__
+#ifndef __SOIL_TEXTURE_H__
+#define __SOIL_TEXTURE_H__
 
-#if defined(BUILD_GLFW)
+#if defined(USE_API_SOIL)
 
 #include "Defines.h"
 #include "File.h"
 #include "interface/ITexture.h"
 
-namespace Seed { namespace GLFW {
+namespace Seed { namespace SOIL {
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
-/// GLFW Texture
+/// SOIL Texture
 class SEED_CORE_API Texture : public ITexture
 {
 	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);
@@ -88,7 +88,7 @@ class SEED_CORE_API Texture : public ITexture
 
 }} // namespace
 
-#else // BUILD_GLFW
-	#error "Include 'Texture.h' instead 'platform/glfw/glfwTexture.h' directly."
-#endif // BUILD_GLFW
-#endif // __GLFW_TEXTURE__
+#else // USE_API_SOIL
+	#error "Include 'Texture.h' instead 'api/soil/soilTexture.h' directly."
+#endif // USE_API_SOIL
+#endif // __SOIL_TEXTURE__

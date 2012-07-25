@@ -36,6 +36,7 @@
 #define BUILD_PC		1
 #define USE_API_OGL		1
 #define USE_API_OAL		1
+#define USE_API_SOIL	1
 
 namespace Seed
 {
@@ -43,12 +44,14 @@ namespace Seed
 	namespace PC {}
 	namespace OAL {}
 	namespace OGL {}
+	namespace SOIL {}
 }
 
 using namespace Seed::GLFW;
 using namespace Seed::PC;
 using namespace Seed::OAL;
 using namespace Seed::OGL;
+using namespace Seed::SOIL;
 
 #define _NO_W32_PSEUDO_MODIFIERS
 #define OV_EXCLUDE_STATIC_CALLBACKS

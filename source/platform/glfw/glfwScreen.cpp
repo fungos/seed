@@ -81,7 +81,7 @@ void Screen::Prepare()
 	int amount = glfwGetVideoModes(list, 64);
 
 	Info(TAG "Video Modes:");
-	Info(TAG "\t%dx%d (%d%d%d) [Desktop]\n", desk[i].Width, desk[i].Height, desk[i].RedBits, desk[i].GreenBits, desk[i].BlueBits);
+	Info(TAG "\t%dx%d (%d%d%d) [Desktop]\n", desk.Width, desk.Height, desk.RedBits, desk.GreenBits, desk.BlueBits);
 	for (int i = 0; i < amount; i++)
 	{
 		Info(TAG "\t%dx%d (%d%d%d)\n", list[i].Width, list[i].Height, list[i].RedBits, list[i].GreenBits, list[i].BlueBits);
