@@ -36,8 +36,8 @@
 #include "interface/IScreen.h"
 #include "Singleton.h"
 
-#define FADE_OUT_COLOR  0xff
-#define FADE_OUT_SOLID  0xff
+#define FADE_OUT_COLOR	0xff
+#define FADE_OUT_SOLID	0xff
 #define FADE_OUT_TRANS	0x00
 
 #if defined(DEBUG)
@@ -74,15 +74,11 @@ class SEED_CORE_API Screen : public IScreen
 		// HACK - test
 		int	iHandle;
 
-	protected:
-		int	surfaceSize;
-
 	private:
 		SEED_DISABLE_COPY(Screen);
 
 		bool InitializeVideo();
 		void Prepare();
-		void SetupOpenGL();
 
 #if defined(DEBUG)
 		void PrintVideoMode();

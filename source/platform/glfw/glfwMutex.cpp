@@ -28,37 +28,36 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
-#include <SDL/SDL_mutex.h>
-#include "platform/sdl/sdlMutex.h"
+#include "platform/glfw/glfwMutex.h"
 
-namespace Seed { namespace SDL {
+namespace Seed { namespace GLFW {
 
 Mutex::Mutex()
-	: pMutex(NULL)
+	: iMutex(0)
 {
-	pMutex = SDL_CreateMutex();
+	iMutex = glfwCreateMutex();
 	SEED_ASSERT(pMutex);
 }
 
 Mutex::~Mutex()
 {
-	SDL_DestroyMutex(pMutex);
+	glfwDestroyMutex(iMutex);
 }
 
 void Mutex::Lock()
 {
 	IMutex::Lock();
-	SDL_mutexP(pMutex);
+	glfwLockMutex(iMutex);
 }
 
 void Mutex::Unlock()
 {
-	SDL_mutexV(pMutex);
+	glfwUnlockMutex(iMutex);
 	IMutex::Unlock();
 }
 
 }} // namespace
 
-#endif // _SDL
+#endif // BUILD_GLFW

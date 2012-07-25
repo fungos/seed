@@ -53,6 +53,9 @@ using namespace Seed::OGL;
 #define _NO_W32_PSEUDO_MODIFIERS
 #define OV_EXCLUDE_STATIC_CALLBACKS
 
+#include <stdio.h>
+#include <stdarg.h>
+#include <stdlib.h>
 #include <string.h>
 #include <time.h>
 #include <wchar.h>

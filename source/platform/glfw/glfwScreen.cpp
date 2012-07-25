@@ -28,7 +28,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
 #include "Screen.h"
 #include "Log.h"
@@ -36,27 +36,19 @@
 #include "SeedInit.h"
 #include "Configuration.h"
 
-#if defined(WIN32)
-#define USER_DEFAULT_SCREEN_DPI	96
-#include <SDL/SDL_syswm.h>
-#endif
-
 #define TAG "[Screen] "
 
-namespace Seed { namespace SDL {
+namespace Seed { namespace GLFW {
 
 SEED_SINGLETON_DEFINE(Screen)
 
 Screen::Screen()
 	: iHandle(0)
-	, surfaceSize(0)
-	, pSurface(NULL)
 	, bFullScreen(false)
 	, iFadeStatus(0)
 	, fadeType(FADE_IN)
 	, iBPP(32)
 	, iFlags(0)
-	, videoInfo(NULL)
 {
 }
 
@@ -83,26 +75,16 @@ bool Screen::Reset()
 
 void Screen::Prepare()
 {
-	videoInfo = const_cast<SDL_VideoInfo *>(SDL_GetVideoInfo());
-	if (videoInfo)
+	GLFWvidmode list[64];
+	GLFWvidmode desk;
+	glfwGetDesktopMode(&desk);
+	int amount = glfwGetVideoModes(list, 64);
+
+	Info(TAG "Video Modes:");
+	Info(TAG "\t%dx%d (%d%d%d) [Desktop]\n", desk[i].Width, desk[i].Height, desk[i].RedBits, desk[i].GreenBits, desk[i].BlueBits);
+	for (int i = 0; i < amount; i++)
 	{
-		Info(TAG "SDL Video Info:");
-		Info(TAG "\tHardware surface available...: %s", videoInfo->hw_available ? "yes" : "no");
-		Info(TAG "\tWindow manager available.....: %s", videoInfo->wm_available ? "yes" : "no");
-		Info(TAG "\tHardware blit accelerated....: %s", videoInfo->blit_hw ? "yes" : "no");
-		Info(TAG "\tHardware colorkey blit.......: %s", videoInfo->blit_hw_CC ? "yes" : "no");
-		Info(TAG "\tHardware alpha blit..........: %s", videoInfo->blit_hw_A ? "yes" : "no");
-		Info(TAG "\tSoftware to hardware blit....: %s", videoInfo->blit_sw ? "yes" : "no");
-		Info(TAG "\tSoftware to hardware colorkey: %s", videoInfo->blit_sw_CC ? "yes" : "no");
-		Info(TAG "\tSoftware to hardware alpha...: %s", videoInfo->blit_sw_A ? "yes" : "no");
-		Info(TAG "\tColor fill accelerated.......: %s", videoInfo->blit_fill ? "yes" : "no");
-		Info(TAG "\tDisplay pixel format.........: ");
-		Info(TAG "\t\tBytes per pixel............: %d", videoInfo->vfmt->BytesPerPixel);
-		Info(TAG "\t\tColorkey...................: %x", videoInfo->vfmt->colorkey);
-		Info(TAG "\t\talpha......................: %d", videoInfo->vfmt->alpha);
-		Info(TAG "\t\tRGBA loss..................: %d %d %d %d", videoInfo->vfmt->Rloss, videoInfo->vfmt->Gloss, videoInfo->vfmt->Bloss, videoInfo->vfmt->Aloss);
-		Info(TAG "\tBest resolution..............: %dx%d", videoInfo->current_w, videoInfo->current_h);
-		Info(TAG "\tTotal video memory available.: %d", videoInfo->video_mem);
+		Info(TAG "\t%dx%d (%d%d%d)\n", list[i].Width, list[i].Height, list[i].RedBits, list[i].GreenBits, list[i].BlueBits);
 	}
 
 	u32 reqW = pConfiguration->GetResolutionWidth();
@@ -114,24 +96,16 @@ void Screen::Prepare()
 	}
 	else
 	{
-		if (videoInfo)
-		{
-			iWidth = videoInfo->current_w;
-			iHeight = videoInfo->current_h;
-			iBPP = videoInfo->vfmt->BitsPerPixel;
-		}
-		else
-		{
-			Log(TAG "Error: Failed to auto detect video mode.");
-			return;
-		}
+		iWidth = desk.Width;
+		iHeight = desk.Height;
+		iBPP = desk.RedBits + desk.GreenBits + desk.BlueBits;
 	}
 
 	fAspectRatio = (f32)iHeight / (f32)iWidth;
-	iFlags = SDL_DOUBLEBUF | SDL_HWSURFACE;
+	iFlags = 0;
 
 	if (bFullScreen)
-		iFlags |= SDL_FULLSCREEN;
+		iFlags |= GLFW_FULLSCREEN;
 }
 
 bool Screen::Initialize()
@@ -143,29 +117,16 @@ bool Screen::Initialize()
 	bFading = false;
 	iFadeStatus = 16;
 
-	if (SDL_InitSubSystem(SDL_INIT_VIDEO) < 0)
-	{
-		Log(TAG "ERROR: Failed to initialize screen.");
-		Log(TAG "Initialization failed.");
-		return false;
-	}
-
 	this->Prepare();
-	if (!videoInfo)
-	{
-		Log(TAG "ERROR: You must set up a video mode!");
-		return false;
-	}
-
 	if (!this->InitializeVideo())
 		return false;
 
 	Info(TAG "Video resolution is %dx%dx%d.", iWidth, iHeight, iBPP);
 
 #if defined(DEBUG)
-	SDL_ShowCursor(1);
+	glfwEnable(GLFW_MOUSE_CURSOR);
 #else
-	SDL_ShowCursor(0);
+	glfwDisable(GLFW_MOUSE_CURSOR);
 #endif // DEBUG
 
 	Log(TAG "Initialization completed.");
@@ -174,30 +135,19 @@ bool Screen::Initialize()
 
 bool Screen::InitializeVideo()
 {
-	bool ret = true;
+	int depthbits = 8;
+	int stencilbits = 8;
 
-	if (pSurface)
+	if (!glfwOpenWindow(iWidth, iHeight, 8, 8, 8, 8, depthbits, stencilbits, iFlags))
 	{
-		SDL_FreeSurface(pSurface);
-		pSurface = NULL;
+		Log(TAG "ERROR: Failed to initialize screen.");
+		Log(TAG "Initialization failed.");
+		return false;
 	}
 
-#if defined(__APPLE_CC__) || defined(__linux__)
-	this->SetupOpenGL();
-#else
-	eRendererDeviceType type = pConfiguration->GetRendererDeviceType();
-	if (type == Seed::RendererDeviceOpenGL1x || type == Seed::RendererDeviceOpenGL2x ||
-		type == Seed::RendererDeviceOpenGL3x || type == Seed::RendererDeviceOpenGL4x)
-	{
-		this->SetupOpenGL();
-	}
-	else
-	{
-#if !defined(SEED_ENABLE_D3D8) && !defined(SEED_ENABLE_D3D9) && !defined(SEED_ENABLE_D3D10) && !defined(SEED_ENABLE_D3D11)
-		this->SetupOpenGL();
-#endif
-	}
-#endif
+	glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
+
+	glfwSwapInterval(1); // v-sync on
 
 #if defined(WIN32)
 	int dpiX = 0, dpiY = 0;
@@ -225,57 +175,9 @@ bool Screen::InitializeVideo()
 	}
 #endif
 
-	SDL_WM_SetCaption(pConfiguration->GetApplicationTitle().c_str(), pConfiguration->GetApplicationTitle().c_str());
-	pSurface = SDL_SetVideoMode(iWidth, iHeight, iBPP, iFlags);
-	if (!pSurface)
-	{
-		Log(TAG "Could not set video mode: %s\n", SDL_GetError());
-		ret = false;
-	}
-	else
-	{
-#if defined(WIN32)
-		bool icon = false;
+	glfwSetWindowTitle(pConfiguration->GetApplicationTitle().c_str());
 
-		/*
-		If there is a icon.ico file in the SAME directory of the executable (can't be workdir) we will use it, otherwise we will look for
-		<workdir>/data/icon.bmp and use it instead.
-		*/
-		SDL_SysWMinfo info;
-		SDL_VERSION(&info.version);
-		if (SDL_GetWMInfo(&info) > 0)
-		{
-			HWND hWnd = info.window;
-			iHandle = (u32)hWnd;
-
-			const HANDLE bigIcon = ::LoadImageA(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
-			if (bigIcon)
-			{
-				icon = true;
-				::SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)bigIcon);
-			}
-
-			const HANDLE lilIcon = ::LoadImageA(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
-			if (bigIcon)
-			{
-				icon = true;
-				::SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)lilIcon);
-			}
-		}
-		if (!icon)
-#endif
-		{
-			SDL_Surface *icon = SDL_LoadBMP("icon.bmp");
-			if (icon)
-			{
-				Uint32 colorkey = SDL_MapRGB(icon->format, 255, 0, 255);
-				SDL_SetColorKey(icon, SDL_SRCCOLORKEY, colorkey);
-				SDL_WM_SetIcon(icon, NULL);
-			}
-		}
-	}
-
-	return ret;
+	return true;
 }
 
 bool Screen::Shutdown()
@@ -288,13 +190,8 @@ bool Screen::Shutdown()
 	iWidth		= 0;
 	iBPP		= 32;
 	iFlags		= 0;
-	videoInfo	= NULL;
 
-	if (pSurface)
-		SDL_FreeSurface(pSurface);
-	pSurface = NULL;
-
-	SDL_QuitSubSystem(SDL_INIT_VIDEO);
+	glfwCloseWindow();
 
 	Log(TAG "Terminated.");
 
@@ -335,27 +232,7 @@ void Screen::CancelFade()
 
 void Screen::SwapSurfaces()
 {
-	if (iFlags & SDL_OPENGL)
-		SDL_GL_SwapBuffers();
-}
-
-void Screen::SetupOpenGL()
-{
-	iFlags |= SDL_OPENGL;
-
-	// http://sdl.beuc.net/sdl.wiki/SDL_GLattr
-	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
-	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
-	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 5);
-
-	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
-	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
-	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-
-	//SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
-	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
-	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+	glfwSwapBuffers();
 }
 
 void Screen::ToggleFullscreen()
@@ -364,11 +241,9 @@ void Screen::ToggleFullscreen()
 	// change video mode
 	// reconfigure opengl context
 	// reload textures
+
 	bFullScreen = !bFullScreen;
-#if defined(__linux__)
-	SDL_WM_ToggleFullScreen(pSurface);
-#else
-	iFlags ^= SDL_FULLSCREEN;
+	iFlags ^= GLFW_FULLSCREEN;
 
 	pResourceManager->Unload(Seed::TypeTexture);
 	pRendererDevice->Shutdown();
@@ -388,7 +263,6 @@ void Screen::ToggleFullscreen()
 
 		SetWindowPos(GetActiveWindow(), HWND_TOP, rectWindow.left, rectWindow.top, rectWindow.right, rectWindow.bottom, SWP_SHOWWINDOW);
 	}
-#endif
 #endif
 }
 
@@ -434,4 +308,4 @@ void Screen::ApplyFade()
 
 }} // namespace
 
-#endif // BUILD_SDL
+#endif // BUILD_GLFW

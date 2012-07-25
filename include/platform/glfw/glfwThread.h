@@ -28,15 +28,17 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SDL_THREAD_H__
-#define __SDL_THREAD_H__
+#ifndef __GLFW_THREAD_H__
+#define __GLFW_THREAD_H__
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
 #include "Defines.h"
 #include "interface/IThread.h"
 
-namespace Seed { namespace SDL {
+#include "glfw/glfw.h"
+
+namespace Seed { namespace GLFW {
 
 /// SDL Thread
 class SEED_CORE_API Thread : public IThread
@@ -55,12 +57,12 @@ class SEED_CORE_API Thread : public IThread
 
 	private:
 		bool		bRunning;
-		SDL_Thread 	*pThread;
+		GLFWthread 	iThread;
 };
 
 }} // namespace
 
-#else // BUILD_SDL
-	#error "Include 'Thread.h' instead 'platform/sdl/sdlThread.h' directly."
-#endif // BUILD_SDL
-#endif // __SDL_THREAD_H__
+#else // BUILD_GLFW
+	#error "Include 'Thread.h' instead 'platform/glfw/glfwThread.h' directly."
+#endif // BUILD_GLFW
+#endif // __GLFW_THREAD_H__

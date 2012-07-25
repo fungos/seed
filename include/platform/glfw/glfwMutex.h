@@ -28,16 +28,17 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SDL_MUTEX_H__
-#define __SDL_MUTEX_H__
+#ifndef __GLFW_MUTEX_H__
+#define __GLFW_MUTEX_H__
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
 #include "interface/IMutex.h"
+#include "glfw/glfw.h"
 
-namespace Seed { namespace SDL {
+namespace Seed { namespace GLFW {
 
-/// SDL Mutex
+/// GLFW Mutex
 class SEED_CORE_API Mutex : public IMutex
 {
 	public:
@@ -51,12 +52,12 @@ class SEED_CORE_API Mutex : public IMutex
 		SEED_DISABLE_COPY(Mutex);
 
 	private:
-		SDL_mutex		*pMutex;
+		GLFWmutex iMutex;
 };
 
 }} // namespace
 
-#else // BUILD_SDL
-	#error "Include 'Mutex.h' instead 'platform/sdl/sdlMutex.h' directly."
-#endif // BUILD_SDL
-#endif // __SDL_MUTEX_H__
+#else // BUILD_GLFW
+	#error "Include 'Mutex.h' instead 'platform/glfw/glfwMutex.h' directly."
+#endif // BUILD_GLFW
+#endif // __GLFW_MUTEX_H__

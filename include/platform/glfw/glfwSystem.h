@@ -28,17 +28,17 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SDL_SYSTEM_H__
-#define __SDL_SYSTEM_H__
+#ifndef __GLFW_SYSTEM_H__
+#define __GLFW_SYSTEM_H__
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
 #include "interface/ISystem.h"
 #include "Singleton.h"
 
-namespace Seed { namespace SDL {
+namespace Seed { namespace GLFW {
 
-/// SDL System Module
+/// GLFW System Module
 class SEED_CORE_API System : public ISystem
 {
 	SEED_SINGLETON_DECLARE(System)
@@ -80,21 +80,21 @@ class SEED_CORE_API System : public ISystem
 		SEED_DISABLE_COPY(System);
 
 	private:
-		u64 		iLastFrameTime;
-		u64 		iFpsTime;
-		f32 		fElapsedTime;
-		u32 		iRetraceCount;
-		u32			iFrameRate;
-		bool 		bShutdown;
-		bool		bSleeping;
-		bool		bDefaultCursorEnabled;
+		u64		iLastFrameTime;
+		u64		iFpsTime;
+		f32		fElapsedTime;
+		u32		iRetraceCount;
+		u32		iFrameRate;
+		bool	bShutdown;
+		bool	bSleeping;
+		bool	bDefaultCursorEnabled;
 };
 
-#define pSystem Seed::SDL::System::GetInstance()
+#define pSystem Seed::GLFW::System::GetInstance()
 
 }} // namespace
 
-#else // BUILD_SDL
-	#error "Include 'System.h' instead 'platform/sdl/sdlSystem.h' directly."
-#endif // BUILD_SDL
-#endif // __SDL_SYSTEM_H__
+#else // BUILD_GLFW
+	#error "Include 'System.h' instead 'platform/glfw/glfwSystem.h' directly."
+#endif // BUILD_GLFW
+#endif // __GLFW_SYSTEM_H__

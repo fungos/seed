@@ -93,7 +93,7 @@ bool System::Initialize()
 
 bool System::Shutdown()
 {
-	this->bShutdown = true;
+	bShutdown = true;
 	Log(TAG "Terminating...");
 
 	glfwTerminate();
@@ -109,11 +109,16 @@ bool System::Update(f32 dt)
 	bool isActive = glfwGetWindowParam(GLFW_ACTIVE);
 	bool isMinimized =  glfwGetWindowParam(GLFW_ICONIFIED);
 
+#if defined(__APPLE_)
+	// Cocoa/NSGL - Active state is false despite window being active
+	isActive = true;
+#endif
+
 	if (isMinimized || !isActive || !isOpen)
 	{
-		if (!this->bSleeping)
+		if (!bSleeping)
 		{
-			this->bSleeping = true;
+			bSleeping = true;
 
 			EventSystem ev;
 			this->SendEventSleep(&ev);
@@ -121,16 +126,16 @@ bool System::Update(f32 dt)
 	}
 	else
 	{
-		if (this->bSleeping)
+		if (bSleeping)
 		{
-			this->bSleeping = false;
+			bSleeping = false;
 
 			EventSystem ev;
 			this->SendEventSleep(&ev);
 		}
 	}
 
-	//this->WaitForRetrace(this->iFrameRate);
+	//this->WaitForRetrace(iFrameRate);
 	return true;
 }
 
@@ -141,12 +146,12 @@ void System::Sleep()
 
 bool System::IsSleeping() const
 {
-	return this->bSleeping;
+	return bSleeping;
 }
 
 bool System::IsShuttingDown() const
 {
-	return this->bShutdown;
+	return bShutdown;
 }
 
 bool System::IsResetting() const
@@ -156,10 +161,10 @@ bool System::IsResetting() const
 
 void System::WaitForRetrace(u32 rate)
 {
-	++this->iRetraceCount;
+	++iRetraceCount;
 
-	if (!this->iLastFrameTime)
-		this->iLastFrameTime = pTimer->GetMilliseconds();
+	if (!iLastFrameTime)
+		iLastFrameTime = pTimer->GetMilliseconds();
 
 	f32 frameMaxTime			= 1000.0f / (f32)rate;
 

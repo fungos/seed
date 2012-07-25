@@ -28,7 +28,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
 #include "Texture.h"
 #include "FileSystem.h"
@@ -40,7 +40,7 @@
 
 #define TAG "[Texture] "
 
-namespace Seed { namespace SDL {
+namespace Seed { namespace GLFW {
 
 const char *const pImageFormatTable[] = {"TGA", "PNG", "JPG"};
 enum eImageFormat
@@ -440,4 +440,4 @@ void Texture::UnloadTexture()
 
 }} // namespace
 
-#endif // BUILD_SDL
+#endif // BUILD_GLFW

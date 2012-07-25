@@ -28,7 +28,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
 #include "Defines.h"
 #include "Input.h"
@@ -43,16 +43,9 @@
 #include "ViewManager.h"
 #include "Viewport.h"
 
-#if defined(WIN32)
-#define WM_IME_SETCONTEXT			0x281
-#define WM_IME_NOTIFY				0x282
-#define WM_DWMCOMPOSITIONCHANGED	0x31e
-#include <SDL/SDL_syswm.h>
-#endif
-
 #define TAG "[Input] "
 
-namespace Seed { namespace SDL {
+namespace Seed { namespace GLFW {
 
 SEED_SINGLETON_DEFINE(Input)
 
@@ -71,14 +64,7 @@ Input::~Input()
 bool Input::Shutdown()
 {
 	Log(TAG "Terminating...");
-
-	for (u32 i = 0; i < iJoystickCount; i++)
-	{
-		if (SDL_JoystickOpened(i))
-			SDL_JoystickClose(parJoy[i]);
-	}
-
-	memset(parJoy, '\0', sizeof(parJoy));
+	memset(arJoyInfo, '\0', sizeof(arJoyInfo));
 
 	bool r = this->Reset();
 	Log(TAG "Terminated.");
@@ -90,31 +76,21 @@ bool Input::Initialize()
 {
 	Log(TAG "Initializing...");
 	bool r = this->Reset();
-	#if defined(WIN32) && defined(DEBUG)
-	SDL_EventState(SDL_SYSWMEVENT, SDL_ENABLE);
-	#endif
 
-	memset(parJoy, '\0', sizeof(parJoy));
-	SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+	memset(arJoyInfo, '\0', sizeof(arJoyInfo));
 
-	iJoystickCount = SDL_NumJoysticks();
-	if (iJoystickCount)
+	Log(TAG "Joystick(s): ");
+	for (int i = 0; i < MAX_JOYSTICKS; i++)
 	{
-		SDL_JoystickEventState(SDL_ENABLE);
+		bool b = glfwGetJoystickParam(i, GLFW_PRESENT);
+		arJoyInfo[i].bIsPresent = b;
 
-		Log(TAG "Joystick(s): ");
-		for (u32 i = 0; i < iJoystickCount; i++)
+		if (b)
 		{
-			parJoy[i] = SDL_JoystickOpen(i);
-			if (parJoy[i])
-			{
-				Log("Opened Joystick %d:", i);
-				Log(TAG "\tName: %s", SDL_JoystickName(i));
-				Log(TAG "\t\tAxes: %d", SDL_JoystickNumAxes(parJoy[i]));
-				Log(TAG "\t\tButtons: %d", SDL_JoystickNumButtons(parJoy[i]));
-				Log(TAG "\t\tHats: %d", SDL_JoystickNumHats(parJoy[i]));
-				Log(TAG "\t\tBalls: %d", SDL_JoystickNumBalls(parJoy[i]));
-			}
+			iJoystickCount++;
+			arJoyInfo[i].iAxes = glfwGetJoystickParam(i, GLFW_AXES);
+			arJoyInfo[i].iButtons = glfwGetJoystickParam(i, GLFW_BUTTONS);
+			Log(TAG "\t\t[%d] Axes: %d Buttons: %d\n", i, arJoyInfo[i].iAxes, arJoyInfo[i].iButtons);
 		}
 	}
 	Log(TAG "Initialization completed.");
@@ -482,7 +458,6 @@ bool Input::IsPointer() const
 	return true;
 }
 
-//bool Input::IsMotion() const;
 bool Input::IsJoystick() const
 {
 	return iJoystickCount > 0;
@@ -495,4 +470,4 @@ bool Input::IsKeyboard() const
 
 }} // namespace
 
-#endif // BUILD_SDL
+#endif // BUILD_GLFW

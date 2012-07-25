@@ -32,7 +32,6 @@
 
 #if defined(WIN32)
 
-
 #include "Defines.h"
 #include "Log.h"
 #include "Configuration.h"
@@ -119,6 +118,10 @@ const char *get_user_savegame_folder()
 	const char *s = get_user_home_folder();
 
 	memset((void *)strUserSaveGamePath, '\0', sizeof(strUserSaveGamePath));
+
+#if defined(__GNUC__)
+#define _snprintf snprintf
+#endif
 
 	system_version();
 	if (bIsVistaOrSeven)

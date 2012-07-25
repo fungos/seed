@@ -28,26 +28,23 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
-#include "platform/sdl/sdlThread.h"
+#include "platform/glfw/glfwThread.h"
 
 #define TAG 	"[Thread] "
 
-namespace Seed { namespace SDL {
+namespace Seed { namespace GLFW {
 
-static int __seed_thread_loop_callback(void *param)
+static void __seed_thread_loop_callback(void *param)
 {
 	Thread *pt = static_cast<Thread *>(param);
 	while (pt->Run());
-
-	pt->Destroy(); // Sera q fode?
-	return 0;
 }
 
 Thread::Thread()
 	: bRunning(true)
-	, pThread(NULL)
+	, iThread(0)
 {
 }
 
@@ -61,10 +58,10 @@ void Thread::Create(s32 priority)
 	UNUSED(priority);
 
 	bRunning = true;
-	if (!pThread)
+	if (!iThread)
 	{
-		pThread = SDL_CreateThread(__seed_thread_loop_callback, this);
-		SEED_ASSERT_MSG(pThread != NULL, TAG "Failed to create thread.");
+		iThread = glfwCreateThread(__seed_thread_loop_callback, this);
+		SEED_ASSERT_MSG(iThread > 0, TAG "Failed to create thread.");
 	}
 }
 
@@ -72,16 +69,12 @@ void Thread::Destroy()
 {
 	bRunning = false;
 
-	if (pThread)
+	if (iThread)
 	{
-#if defined(__APPLE_CC__)
-		SDL_WaitThread(pThread, NULL);
-#else
-		SDL_KillThread(pThread);
-#endif
+		glfwWaitThread(iThread, GLFW_WAIT);
 	}
 
-	pThread = NULL;
+	iThread = 0;
 }
 
 bool Thread::Run()
@@ -91,4 +84,4 @@ bool Thread::Run()
 
 }} // namespace
 
-#endif // BUILD_SDL
+#endif // BUILD_GLFW

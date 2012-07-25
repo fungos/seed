@@ -28,20 +28,20 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SDL_TEXTURE_H__
-#define __SDL_TEXTURE_H__
+#ifndef __GLFW_TEXTURE_H__
+#define __GLFW_TEXTURE_H__
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
 #include "Defines.h"
 #include "File.h"
 #include "interface/ITexture.h"
 
-namespace Seed { namespace SDL {
+namespace Seed { namespace GLFW {
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
-/// SDL Texture
+/// GLFW Texture
 class SEED_CORE_API Texture : public ITexture
 {
 	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);
@@ -77,8 +77,6 @@ class SEED_CORE_API Texture : public ITexture
 		SEED_DISABLE_COPY(Texture);
 
 	private:
-		SDL_Surface *pSurface;
-
 		void *pData;
 
 		u32 iBytesPerPixel;
@@ -90,7 +88,7 @@ class SEED_CORE_API Texture : public ITexture
 
 }} // namespace
 
-#else // BUILD_SDL
-	#error "Include 'Texture.h' instead 'platform/sdl/sdlTexture.h' directly."
-#endif // BUILD_SDL
-#endif // __SDL_TEXTURE__
+#else // BUILD_GLFW
+	#error "Include 'Texture.h' instead 'platform/glfw/glfwTexture.h' directly."
+#endif // BUILD_GLFW
+#endif // __GLFW_TEXTURE__

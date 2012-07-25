@@ -28,10 +28,10 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SDL_INPUT_H__
-#define __SDL_INPUT_H__
+#ifndef __GLFW_INPUT_H__
+#define __GLFW_INPUT_H__
 
-#if defined(BUILD_SDL)
+#if defined(BUILD_GLFW)
 
 #include "interface/IInput.h"
 #include "interface/IInputPointer.h"
@@ -40,9 +40,9 @@
 #include "Enum.h"
 #include "Singleton.h"
 
-#define MAX_JOYSTICKS 32
+#define MAX_JOYSTICKS 16
 
-namespace Seed { namespace SDL {
+namespace Seed { namespace GLFW {
 
 /// SDL Input Module
 class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKeyboard, public IInputJoystick
@@ -99,14 +99,20 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 		f32 fX;
 		f32 fY;
 
-		SDL_Joystick *parJoy[MAX_JOYSTICKS];
+		struct glfwJoyInfo {
+			bool bIsPresent;
+			int iAxes;
+			int iButtons;
+		};
+
+		glfwJoyInfo arJoyInfo[MAX_JOYSTICKS];
 };
 
-#define pInput Seed::SDL::Input::GetInstance()
+#define pInput Seed::GLFW::Input::GetInstance()
 
 }} // namespace
 
-#else // BUILD_SDL
-	#error "Include 'Input.h' instead 'platform/sdl/sdlInput.h' directly."
-#endif // BUILD_SDL
-#endif // __SDL_INPUT_H__
+#else // BUILD_GLFW
+	#error "Include 'Input.h' instead 'platform/glfw/glfwInput.h' directly."
+#endif // BUILD_GLFW
+#endif // __GLFW_INPUT_H__

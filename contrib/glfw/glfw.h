@@ -34,6 +34,7 @@
 extern "C" {
 #endif
 
+#define GLFW_NO_GLU 1
 
 /*************************************************************************
  * Global definitions
@@ -159,6 +160,8 @@ extern "C" {
  * special defines which normally requires the user to include <windows.h>
  * (which is not a nice solution for portable programs).
  */
+#include "glew/glew.h"
+
 #if defined(__APPLE_CC__)
  #if defined(GLFW_INCLUDE_GL3)
   #include <OpenGL/gl3.h>
@@ -388,16 +391,16 @@ extern "C" {
 
 /* The video mode structure used by glfwGetVideoModes() */
 typedef struct {
-    int Width, Height;
-    int RedBits, BlueBits, GreenBits;
+	int Width, Height;
+	int RedBits, BlueBits, GreenBits;
 } GLFWvidmode;
 
 /* Image/texture information */
 typedef struct {
-    int Width, Height;
-    int Format;
-    int BytesPerPixel;
-    unsigned char *Data;
+	int Width, Height;
+	int Format;
+	int BytesPerPixel;
+	unsigned char *Data;
 } GLFWimage;
 
 /* Thread ID */
