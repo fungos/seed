@@ -36,6 +36,19 @@
 #include "SeedInit.h"
 #include "Configuration.h"
 
+#ifdef WIN32
+#pragma push_macro("Delete")
+#pragma push_macro("Free")
+#undef Free
+#undef Delete
+#include <io.h>
+#include <windows.h>
+#include <winuser.h>
+#include <tchar.h>
+#pragma pop_macro("Free")
+#pragma pop_macro("Delete")
+#endif
+
 #define TAG "[Screen] "
 
 namespace Seed { namespace GLFW {
@@ -161,8 +174,8 @@ bool Screen::InitializeVideo()
 
 	int cxScreen = GetSystemMetrics(SM_CXSCREEN);
 	int cyScreen = GetSystemMetrics(SM_CYSCREEN);
-	int scaleX = MulDiv(cxScreen, USER_DEFAULT_SCREEN_DPI, dpiX);
-	int scaleY = MulDiv(cyScreen, USER_DEFAULT_SCREEN_DPI, dpiY);
+	int scaleX = MulDiv(cxScreen, 96, dpiX);
+	int scaleY = MulDiv(cyScreen, 96, dpiY);
 
 	Info(TAG "Desktop DPI: %dx%d", dpiX, dpiY);
 	Info(TAG "Desktop Resolution: %dx%d", cxScreen, cyScreen);
