@@ -31,9 +31,10 @@
 #ifndef __SOIL_TEXTURE_H__
 #define __SOIL_TEXTURE_H__
 
+#include "Defines.h"
+
 #if defined(USE_API_SOIL)
 
-#include "Defines.h"
 #include "File.h"
 #include "interface/ITexture.h"
 

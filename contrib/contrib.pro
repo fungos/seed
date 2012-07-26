@@ -210,7 +210,12 @@ SOURCES += yajl/yajl_buf.c \
 	glfw/glext.c \
 	glfw/fullscreen.c \
 	glfw/enable.c \
-    vorbis/vorbiswindow.c
+	vorbis/vorbiswindow.c \
+	soil/stb_image_aug.c \
+	soil/SOIL.c \
+	soil/image_helper.c \
+	soil/image_DXT.c \
+	soil/original/stb_image-1.33.c
 
 unix:!macx:SOURCES += \
 	glfw/x11/x11_enable.c \
@@ -223,7 +228,7 @@ unix:!macx:SOURCES += \
 	glfw/x11/x11_time.c \
 	glfw/x11/x11_window.c
 
-macx:SOURCES += \
+macx:OBJECTIVE_SOURCES += \
 	glfw/cocoa/cocoa_enable.m \
 	glfw/cocoa/cocoa_fullscreen.m \
 	glfw/cocoa/cocoa_glext.m \
@@ -540,7 +545,13 @@ HEADERS += yajl/api/yajl_version.h \
 	lua/lauxlib.h \
 	lua/lapi.h \
 	glfw/internal.h \
-	glfw/glfw.h
+	glfw/glfw.h \
+	soil/stbi_DDS_aug.h \
+	soil/stbi_DDS_aug_c.h \
+	soil/stb_image_aug.h \
+	soil/SOIL.h \
+	soil/image_helper.h \
+	soil/image_DXT.h
 
 OTHER_FILES += \
 	physfs/CREDITS.txt \

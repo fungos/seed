@@ -66,9 +66,9 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 		virtual Seed::eInputButton GetButtonCode(u32 button) const;
 		virtual u32 ConvertButtonFlags(u32 flags);
 
-		virtual bool IsJoystick() const;
-		virtual bool IsPointer() const;
-		virtual bool IsKeyboard() const;
+		virtual bool IsJoystick() const override;
+		virtual bool IsPointer() const override;
+		virtual bool IsKeyboard() const override;
 
 		// IInputJoystick
 		virtual u32 GetMaximumJoysticks() const;

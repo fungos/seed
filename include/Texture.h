@@ -34,9 +34,6 @@
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlTexture.h"
 #elif defined(BUILD_GLFW)
-	#ifndef USE_API_SOIL
-	#define USE_API_SOIL 1
-	#endif
 	#include "api/soil/soilTexture.h"
 #elif defined(BUILD_IOS)
 	#include "platform/ios/iosTexture.h"

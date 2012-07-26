@@ -28,9 +28,10 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include "api/soil/soilTexture.h"
+
 #if defined(USE_API_SOIL)
 
-#include "Texture.h"
 #include "FileSystem.h"
 #include "ResourceManager.h"
 #include "Log.h"
