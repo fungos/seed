@@ -1163,12 +1163,12 @@ unsigned int
 		*/
 	}
 	/*	create the OpenGL texture ID handle
-    	(note: allowing a forced texture ID lets me reload a texture)	*/
-    tex_id = reuse_texture_ID;
-    if( tex_id == 0 )
-    {
+		(note: allowing a forced texture ID lets me reload a texture)	*/
+	tex_id = reuse_texture_ID;
+	if( tex_id == 0 )
+	{
 		glGenTextures( 1, &tex_id );
-    }
+	}
 	check_for_GL_errors( "glGenTextures" );
 	/* Note: sometimes glGenTextures fails (usually no OpenGL context)	*/
 	if( tex_id )
@@ -1394,12 +1394,12 @@ int
 		return 0;
 	}
 
-    /*  Get the data from OpenGL	*/
-    pixel_data = (unsigned char*)malloc( 3*width*height );
-    glReadPixels (x, y, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixel_data);
+	/*  Get the data from OpenGL	*/
+	pixel_data = (unsigned char*)malloc( 3*width*height );
+	glReadPixels (x, y, width, height, GL_RGB, GL_UNSIGNED_BYTE, pixel_data);
 
-    /*	invert the image	*/
-    for( j = 0; j*2 < height; ++j )
+	/*	invert the image	*/
+	for( j = 0; j*2 < height; ++j )
 	{
 		int index1 = j * width * 3;
 		int index2 = (height - 1 - j) * width * 3;
@@ -1413,11 +1413,11 @@ int
 		}
 	}
 
-    /*	save the image	*/
-    save_result = SOIL_save_image( filename, image_type, width, height, 3, pixel_data);
+	/*	save the image	*/
+	save_result = SOIL_save_image( filename, image_type, width, height, 3, pixel_data);
 
-    /*  And free the memory	*/
-    SOIL_free_image_data( pixel_data );
+	/*  And free the memory	*/
+	SOIL_free_image_data( pixel_data );
 	return save_result;
 }
 

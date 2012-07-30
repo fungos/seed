@@ -2,8 +2,13 @@ TARGET = seed
 TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
 win32:INCLUDEPATH += contrib/windows/
-macx:INCLUDEPATH += contrib/osx/
-macx:LIBS += -framework SDL -framework SDL_image
+
+macx {
+	INCLUDEPATH += contrib/osx/
+	#CONFIG -= x86_64 ppc64
+	#CONFIG += x86
+	#LIBS += -framework SDL -framework SDL_image
+}
 
 DEFINES += SEED_BUILD BUILD_GLFW SEED_ENABLE_PROFILER
 unix:DEFINES += LINUX
