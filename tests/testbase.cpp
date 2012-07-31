@@ -82,13 +82,13 @@ bool TestBase::Initialize()
 //		w.Save("out.sprite");
 //	}
 
-//	{
-//		File f("sample.movie");
-//		Reader r(f);
-//		mvSample.Load(r);
-//		mvSample.SetPriority(200.0f);
-//		cScene.Add(&mvSample);
-//	}
+	{
+		File f("sample.movie");
+		Reader r(f);
+		mvSample.Load(r);
+		mvSample.SetPriority(200.0f);
+		cScene.Add(&mvSample);
+	}
 
 //	{
 //		Writer w;
@@ -99,9 +99,9 @@ bool TestBase::Initialize()
 //	cScene.SetPosition(100, 100);
 //	sptLogo.SetParent(&cScene);
 
-//	musTheme.Load("theme.ogg");
-//	musTheme.SetVolume(.2f);
-//	pSoundSystem->PlayMusic(&musTheme);
+	musTheme.Load("theme.ogg");
+	musTheme.SetVolume(.2f);
+	pSoundSystem->PlayMusic(&musTheme);
 
 //	sfxSound.Load("sfx.ogg");
 //	sfxSound.SetLoop(true);

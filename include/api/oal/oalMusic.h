@@ -89,6 +89,8 @@ class SEED_CORE_API Music : public IMusic
 		vorbis_info		*vorbisInfo;
 		vorbis_comment	*vorbisComment;
 		OggVorbis_File	oggStream;
+		sOggFile		oggFile;
+		ov_callbacks	vorbisCb;
 		ALenum			eFormat;
 		bool			bLoop;
 };

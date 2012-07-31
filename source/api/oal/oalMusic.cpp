@@ -57,6 +57,8 @@ Music::Music()
 	, vorbisInfo(NULL)
 	, vorbisComment(NULL)
 	, oggStream()
+	, oggFile()
+	, vorbisCb()
 	, eFormat(AL_FORMAT_MONO16)
 	, bLoop(true)
 {
@@ -97,18 +99,33 @@ bool Music::Load(const String &filename, ResourceManager *res)
 			memset(iBuffers, '\0', sizeof(iBuffers));
 			bLoaded = false;
 
-			Info(TAG "Could not generate OpenAL music buffers (0x%04x).", err);//alGetError());
+			Info(TAG "Could not generate OpenAL music buffers (0x%04x).", err);
 		}
 
-		// FIXME: FileSystem manipulation must be centralized, rewrite to use File/FileSystem
-		if (ov_fopen(const_cast<char *>(filename.c_str()), &oggStream) < 0)
+		// TODO: Now File will load all data to a memory allocated buffer, for music this means something big if we are in a resource limited device.
+		//		 We need to make File able to memmap the file contents to a virtual memory address so this will be transparent to the vorbis reader
+		//		 as it will be streaming from disk Agree?. ~Danny
+		//		 Also reading resources from different platforms (asynchronous like dvd reading on wii or nacl web files) will be more natural.
+		File stFile(filename);
+		oggFile.dataPtr = stFile.GetData();
+		oggFile.dataRead = 0;
+		oggFile.dataSize = stFile.GetSize();
+
+		vorbisCb.read_func = vorbis_read;
+		vorbisCb.close_func = vorbis_close;
+		vorbisCb.seek_func = vorbis_seek;
+		vorbisCb.tell_func = vorbis_tell;
+
+		if (ov_open_callbacks(&oggFile, &oggStream, NULL, 0, vorbisCb) != 0)
 		{
+			Log(TAG "Could not read ogg stream (%s).", filename.c_str());
+			memset(&oggFile, '\0', sizeof(oggFile));
+
 			alDeleteSources(1, &iSource);
 			alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers);
 			memset(iBuffers, '\0', sizeof(iBuffers));
 			bLoaded = false;
 
-			Info(TAG "Could not open '%s' ogg stream (file does not exist or is not a valid ogg file).", filename.c_str());
 			return bLoaded;
 		}
 
