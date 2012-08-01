@@ -47,7 +47,11 @@
 	#include <OpenGLES/ES1/gl.h>
 	#define _OPENGL_ES1		1
 #else
-	#define PIXEL_FORMAT_32 GL_BGRA
+	#if defined(__APPLE_CC__)
+		#define PIXEL_FORMAT_32 GL_RGBA
+	#else
+		#define PIXEL_FORMAT_32 GL_BGRA
+	#endif
 	#define _OPENGL_15		1
 	#if defined(__APPLE_CC__)
 		#include <OpenGL/gl.h>

@@ -98,12 +98,8 @@ class SEED_CORE_API ResourceLoader : public IModule, public IUpdatable, public T
 		ListenerVector 	vListeners;
 		GroupVector		vGroups;
 		bool 			bRunning;
-		Mutex			stMutex;
+		Mutex			*pMutex;
 };
-
-//extern "C" {
-//SEED_CORE_API SEED_SINGLETON_EXTERNALIZE(ResourceLoader);
-//}
 
 #define pResourceLoader ResourceLoader::GetInstance()
 

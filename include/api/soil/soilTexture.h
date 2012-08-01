@@ -78,7 +78,7 @@ class SEED_CORE_API Texture : public ITexture
 		SEED_DISABLE_COPY(Texture);
 
 	private:
-		void *pData;
+		u8 *pData;
 
 		u32 iBytesPerPixel;
 		u32 iPitch;

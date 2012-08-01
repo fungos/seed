@@ -38,18 +38,12 @@
 #include "Screen.h"
 #include "RendererDevice.h"
 #include "Configuration.h"
+#include "SOIL/SOIL.h"
+#include "SOIL/image_helper.h"
 
 #define TAG "[Texture] "
 
 namespace Seed { namespace SOIL {
-
-const char *const pImageFormatTable[] = {"TGA", "PNG", "JPG"};
-enum eImageFormat
-{
-	TGA,
-	PNG,
-	JPG
-};
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 {
@@ -60,8 +54,7 @@ IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 }
 
 Texture::Texture()
-	: pSurface(NULL)
-	, pData(NULL)
+	: pData(NULL)
 	, iBytesPerPixel(0)
 	, iPitch(0)
 	, iAtlasWidth(0)
@@ -80,9 +73,8 @@ void Texture::Reset()
 
 	this->UnloadTexture();
 
-	if (pSurface)
-		SDL_FreeSurface(pSurface);
-	pSurface = NULL;
+	if (pData)
+		SOIL_free_image_data(pData);
 	pData = NULL;
 
 	iBytesPerPixel = 0;
@@ -95,42 +87,19 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 {
 	if (ITexture::Load(filename, res))
 	{
-		SDL_RWops *rwops = SDL_RWFromConstMem(stFile.GetData(), stFile.GetSize());
+//		u32 flags = SOIL_FLAG_MULTIPLY_ALPHA |		// for using (GL_ONE,GL_ONE_MINUS_SRC_ALPHA) blending
+//					SOIL_FLAG_DDS_LOAD_DIRECT |		// will load DDS files directly without _ANY_ additional processing
+//					SOIL_FLAG_COMPRESS_TO_DXT;		// if the card can display them, will convert RGB to DXT1, RGBA to DXT5
 
-		size_t extpos = SDL_strlen(stFile.GetName().c_str());
-		char *ext = const_cast<char *>(stFile.GetName().c_str()) - 3;
-		ext = &ext[extpos];
+//		if (pRendererDevice->NeedPowerOfTwoTextures())
+//			flags |= SOIL_FLAG_POWER_OF_TWO;
 
-		u32 format = PNG;
-		if (!SDL_strcasecmp(pImageFormatTable[TGA], ext))
-			format = TGA;
-		else if (!SDL_strcasecmp(pImageFormatTable[JPG], ext))
-			format = JPG;
+		int channels = 4, h = 0, w = 0;
+		pData = SOIL_load_image_from_memory(stFile.GetData(), stFile.GetSize(), &w, &h, &channels, 0);
+		SEED_ASSERT_MSG(pData, "Could not load texture data.");
 
-		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, const_cast<char *>(pImageFormatTable[format]));
-
-		if (!tmp)
-		{
-			Info(TAG "IMG_Load_RW ERROR: %s\n", IMG_GetError());
-
-			if (format == PNG)
-				Info(TAG "Make sure that libpng12-0.dll and zlib1.dll are in the exact same folder than this application binary.");
-
-			SEED_ASSERT(false);
-		}
-
-		if (tmp->format->BitsPerPixel != 32)
-		{
-			SDL_SetAlpha(tmp, 0, SDL_ALPHA_OPAQUE);
-		}
-
-		pSurface = SDL_DisplayFormatAlpha(tmp);
-		SEED_ASSERT(pSurface);
-		SDL_FreeSurface(tmp);
-
-		iWidth = pSurface->w;
-		iHeight = pSurface->h;
-
+		iAtlasWidth = iWidth = w;
+		iAtlasHeight = iHeight = h;
 		/*
 		If the image isn't power of two, we need fix it.
 		*/
@@ -148,46 +117,18 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			{
 				Log(TAG "WARNING: texture size not optimal, changing from %dx%d to %dx%d", iWidth, iHeight, width, height);
 
-				SDL_Surface *pTempSurface = NULL;
-				Uint32 rmask, gmask, bmask, amask;
+				unsigned char *resampled = (unsigned char*)Alloc(4 * width * height);
+				up_scale_image(pData, iWidth, iHeight, 4, resampled, width, height);
 
-				#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-					rmask = 0xff000000;
-					gmask = 0x00ff0000;
-					bmask = 0x0000ff00;
-					amask = 0x000000ff;
-				#else
-					rmask = 0x000000ff;
-					gmask = 0x0000ff00;
-					bmask = 0x00ff0000;
-					amask = 0xff000000;
-				#endif
-
-				pTempSurface = SDL_CreateRGBSurface(SDL_SWSURFACE | SDL_SRCALPHA , width, height, 32, bmask, gmask, rmask, amask);
-
-				SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_OPAQUE);
-				SDL_SetAlpha(pSurface, 0, SDL_ALPHA_OPAQUE);
-				SDL_BlitSurface(pSurface, NULL, pTempSurface, NULL);
-				SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_TRANSPARENT);
-				SDL_SetAlpha(pSurface, 0, SDL_ALPHA_TRANSPARENT);
-
-				SDL_FreeSurface(pSurface);
-				pSurface = pTempSurface;
+				SOIL_free_image_data(pData);
+				pData = resampled;
+				iAtlasWidth = width;
+				iAtlasHeight = height;
 			}
 		}
 
-		// FIXME: Must divide by res_width , res_height - not by screen width/height
-		iAtlasWidth = pSurface->w;
-		iAtlasHeight = pSurface->h;
-
-		// Lets keep the iWidth and iHeight the original one so the sprite rect can match it.
-		// For texture UV mapping, we use the relation between original W and H and the converted texture W and H.
-		//iWidth = pSurface->w;
-		//iHeight = pSurface->h;
-
-		iBytesPerPixel = pSurface->format->BytesPerPixel;
-		iPitch = pSurface->pitch;
-		pData = pSurface->pixels;
+		iBytesPerPixel = 4;
+		iPitch = ROUND_UP(iAtlasWidth, 32);
 
 		pRendererDevice->TextureRequest(this);
 
@@ -224,7 +165,7 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 
 		iBytesPerPixel = 4; // FIXME: parametized?
 		iPitch = ROUND_UP(width, 32); // FIXME: parametized?
-		pData = buffer;
+		pData = static_cast<u8 *>((void *)buffer);
 
 		pRendererDevice->TextureRequest(this);
 
@@ -236,9 +177,7 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 
 void Texture::Update(Color *data)
 {
-	//this->UnloadTexture();
-	//pRendererDevice->TextureRequest(this, &iTextureId);
-	pData = data;
+	pData = static_cast<u8 *>((void *)data);
 	pRendererDevice->TextureDataUpdate(this);
 }
 
@@ -247,10 +186,10 @@ bool Texture::Unload()
 	if (bLoaded)
 		this->UnloadTexture();
 
-	if (pSurface)
-		SDL_FreeSurface(pSurface);
+	if (pData)
+		SOIL_free_image_data(pData);
 
-	pSurface = NULL;
+	pData = NULL;
 	bLoaded = false;
 
 	return true;
@@ -274,7 +213,7 @@ u32 Texture::GetAtlasHeight() const
 // NEED TEST
 void Texture::PutPixel(u32 x, u32 y, const Color &px)
 {
-	if (!pSurface)
+	if (!pData)
 		return;
 
 	/* Here p is the address to the pixel we want to retrieve */
@@ -284,37 +223,18 @@ void Texture::PutPixel(u32 x, u32 y, const Color &px)
 	{
 		case 3:
 		{
-			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-			{
-				p[0] = px.r;
-				p[1] = px.b;
-				p[2] = px.g;
-			}
-			else
-			{
-				p[0] = px.g;
-				p[1] = px.b;
-				p[2] = px.r;
-			}
+			p[0] = px.g;
+			p[1] = px.b;
+			p[2] = px.r;
 		}
 		break;
 
 		case 4:
 		{
-			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-			{
-				p[0] = px.r;
-				p[1] = px.b;
-				p[2] = px.g;
-				p[3] = px.a;
-			}
-			else
-			{
-				p[0] = px.a;
-				p[1] = px.g;
-				p[2] = px.b;
-				p[3] = px.r;
-			}
+			p[0] = px.a;
+			p[1] = px.g;
+			p[2] = px.b;
+			p[3] = px.r;
 		}
 		break;
 
@@ -327,7 +247,7 @@ void Texture::PutPixel(u32 x, u32 y, const Color &px)
 Color Texture::GetPixel(u32 x, u32 y) const
 {
 	Color px;
-	if (!pSurface)
+	if (!pData)
 		return px;
 
 	/* Here p is the address to the pixel we want to retrieve */
@@ -351,39 +271,19 @@ Color Texture::GetPixel(u32 x, u32 y) const
 
 		case 3:
 		{
-			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-			{
-				px.r = p[0];
-				px.g = p[1];
-				px.b = p[2];
-				px.a = 255;
-			}
-			else
-			{
-				px.a = 255;
-				px.b = p[0];
-				px.g = p[1];
-				px.r = p[2];
-			}
+			px.a = 255;
+			px.b = p[0];
+			px.g = p[1];
+			px.r = p[2];
 		}
 		break;
 
 		case 4:
 		{
-			if (SDL_BYTEORDER == SDL_BIG_ENDIAN)
-			{
-				px.r = p[0];
-				px.g = p[1];
-				px.b = p[2];
-				px.a = p[3];
-			}
-			else
-			{
-				px.a = p[0];
-				px.b = p[1];
-				px.g = p[2];
-				px.r = p[3];
-			}
+			px.a = p[0];
+			px.b = p[1];
+			px.g = p[2];
+			px.r = p[3];
 		}
 		break;
 
@@ -397,17 +297,17 @@ Color Texture::GetPixel(u32 x, u32 y) const
 // NEED TEST
 u8 Texture::GetPixelAlpha(u32 x, u32 y) const
 {
-	if (!pSurface)
+	if (!pData)
 		return 0;
 
 	if (x >= iWidth)
 	{
-		x = static_cast<u32>(pSurface->w) - 1;
+		x = iAtlasWidth - 1;
 		return this->GetPixelAlpha(x, y);
 	}
 	else if (y >= iHeight)
 	{
-		y = static_cast<u32>(pSurface->h) - 1;
+		y = iAtlasHeight - 1;
 		return this->GetPixelAlpha(x, y);
 	}
 

@@ -45,7 +45,7 @@ ResourceLoader::ResourceLoader()
 	: vListeners()
 	, vGroups()
 	, bRunning(false)
-	, stMutex()
+	, pMutex(NULL)
 {
 }
 
@@ -63,8 +63,9 @@ bool ResourceLoader::Initialize()
 {
 	Log(TAG "Initializing...");
 	IModule::Initialize();
+	pMutex = New(Mutex());
 	this->Create();
-	this->bRunning = true;
+	bRunning = true;
 	Log(TAG "Initialization completed.");
 
 	return true;
@@ -72,8 +73,9 @@ bool ResourceLoader::Initialize()
 
 bool ResourceLoader::Shutdown()
 {
-	this->bRunning = false;
+	bRunning = false;
 	this->Destroy();
+	Delete(pMutex);
 	IModule::Shutdown();
 	Log(TAG "Terminated.");
 
@@ -89,17 +91,17 @@ bool ResourceLoader::Update(f32 dt)
 
 	ResourceGroup *group = NULL;
 
-	stMutex.Lock();
+	pMutex->Lock();
 	if (vGroups.size() > 0)
 	{
 		group = (*vGroups.begin());
 	}
-	stMutex.Unlock();
+	pMutex->Unlock();
 
 	if (!group)
 		return true;
 
-	stMutex.Lock();
+	pMutex->Lock();
 	if (group->IsLoaded())
 	{
 		EventResourceLoader ev;
@@ -120,7 +122,7 @@ bool ResourceLoader::Update(f32 dt)
 
 		//glResourceManager.Print();
 	}
-	stMutex.Unlock();
+	pMutex->Unlock();
 
 	return true;
 }
@@ -128,17 +130,16 @@ bool ResourceLoader::Update(f32 dt)
 bool ResourceLoader::Run()
 {
 	bool ret = Thread::Run();
-	//Log("Load thread loop");
 	if (ret)
 	{
 		ResourceGroup *group = NULL;
 
-		stMutex.Lock();
+		pMutex->Lock();
 		if (vGroups.size() > 0)
 		{
 			group = (*vGroups.begin());
 		}
-		stMutex.Unlock();
+		pMutex->Unlock();
 
 		if (!group)
 			return true;
@@ -148,12 +149,12 @@ bool ResourceLoader::Run()
 
 		if (group->Load())
 		{
-			stMutex.Lock();
+			pMutex->Lock();
 			group->SetLoaded();
-			stMutex.Unlock();
+			pMutex->Unlock();
 		}
 
-		ret = this->bRunning;
+		ret = bRunning;
 	}
 
 	pTimer->Sleep(10);
@@ -162,9 +163,12 @@ bool ResourceLoader::Run()
 
 void ResourceLoader::Add(ResourceGroup *group)
 {
-	stMutex.Lock();
-	vGroups.push_back(group);
-	stMutex.Unlock();
+	if (bRunning)
+	{
+		pMutex->Lock();
+		vGroups.push_back(group);
+		pMutex->Unlock();
+	}
 }
 
 void ResourceLoader::AddListener(IEventResourceLoaderListener *listener)

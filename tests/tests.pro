@@ -2,10 +2,10 @@ TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
 
-QMAKE_CXXFLAGS += -std=c++0x
+#QMAKE_CXXFLAGS += -std=c++0x
 INCLUDEPATH += ../include ../contrib
 
-DEFINES += BUILD_SDL
+DEFINES += BUILD_GLFW
 
 SOURCES += main.cpp \
 	testbase.cpp
@@ -41,7 +41,11 @@ unix:!macx {
 macx {
 	DEFINES += LINUX
 	INCLUDEPATH += ../contrib/osx/
-	LIBS += -framework Cocoa -framework OpenGL -framework IOKit -F../osx/ -framework SDL -framework SDL_image
+	LIBS += -lseed -lseedcontrib -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit
+	# -framework Cocoa -framework OpenGL -framework IOKit
+	#CONFIG -= x86_64 ppc64
+	#CONFIG += x86
+	#-F../osx/ -framework SDL -framework SDL_image
 }
 
 win32 {

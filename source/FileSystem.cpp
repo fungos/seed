@@ -57,6 +57,7 @@ bool FileSystem::Initialize()
 {
 	FS_CHECK(PHYSFS_init(Seed::Private::pcArgv[0]));
 	FS_CHECK(PHYSFS_setSaneConfig(".", "", "zip", false, false));
+	Info(TAG "Using working directory as: %s", PHYSFS_getBaseDir());
 	return true;
 }
 
@@ -73,7 +74,7 @@ bool FileSystem::Shutdown()
 
 const char *FileSystem::GetWorkDirectory() const
 {
-	return PHYSFS_getUserDir();
+	return PHYSFS_getBaseDir();
 }
 
 const char *FileSystem::GetWriteableDirectory() const
