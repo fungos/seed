@@ -64,14 +64,14 @@ bool Camera::Contains(ITransformable *obj, Matrix4f &worldMatrix)
 {
 	bool ret = false;
 	if (nProjection == Seed::Orthogonal)
-		ret = this->IsInRectangle(obj, worldMatrix);
+		ret = this->IsInView(obj, worldMatrix);
 	else
 		ret = this->IsInFrustum(obj, worldMatrix);
 
 	return ret;
 }
 
-void Camera::SetRectangle(const Rect4f &rectangle)
+void Camera::SetView(const Rect4f &rectangle)
 {
 	rViewArea = rectangle;
 }
@@ -149,15 +149,17 @@ ITexture *Camera::GetTexture() const
 	return pTexture;
 }
 
-bool Camera::IsInRectangle(ITransformable *obj, Matrix4f &worldTransform)
+bool Camera::IsInView(ITransformable *obj, Matrix4f &worldTransform)
 {
 	worldTransform = inverse(mTransform) * obj->mTransform;
 	obj->pWorldTransform = &worldTransform;
 
 	Vector3f op = worldTransform.getTranslation();
-	Rect4f box(op.getX(), op.getY(), obj->GetWidth(), obj->GetHeight());
 
-	return rViewArea.Intersect(box);
+	f32 ox = op.getX();
+	f32 oy = op.getY();
+	Rect4f box(ox, oy, obj->GetWidth(), obj->GetHeight());
+	return rViewArea.Intersect(ox, oy, box.CircleRadius());
 }
 
 bool Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)

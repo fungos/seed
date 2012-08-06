@@ -46,6 +46,7 @@ ITransformable::ITransformable()
 	, vTransformedPivot(0.0f, 0.0f, 0.0f)
 	, vScale(1.0f, 1.0f, 1.0f)
 	, vBoundingBox(0.0f, 0.0f, 0.0f)
+	, fBoundingCircleRadius(0.0f)
 	, fRotation(0.0f)
 	, bTransformationChanged(true)
 {
@@ -77,6 +78,8 @@ void ITransformable::SetWidth(f32 w)
 		return;
 
 	vBoundingBox.setX(w);
+	this->UpdateBoundingCircle();
+
 	bTransformationChanged = true;
 }
 
@@ -86,6 +89,8 @@ void ITransformable::SetHeight(f32 h)
 		return;
 
 	vBoundingBox.setY(h);
+	this->UpdateBoundingCircle();
+
 	bTransformationChanged = true;
 }
 
@@ -588,25 +593,33 @@ bool ITransformable::IsChanged() const
 
 void ITransformable::UpdateTransform()
 {
-	Vector3f pos = this->GetPosition();
+	if (bTransformationChanged)
+	{
+		Vector3f pos = this->GetPosition();
 
 #if SEED_USE_ROTATION_PIVOT == 0
-	Matrix4f r = Matrix4f::rotationZ(DegToRad(this->GetRotation()));
-	r = appendScale(r, this->GetScale());
-	Matrix4f p = Matrix4f::identity();
-	p.setTranslation(-vTransformedPivot);
-	Matrix4f self = Matrix4f::identity();
-	self.setTranslation(pos);
-	mTransform = self * (r * p);
+		Matrix4f r = Matrix4f::rotationZ(DegToRad(this->GetRotation()));
+		r = appendScale(r, this->GetScale());
+		Matrix4f p = Matrix4f::identity();
+		p.setTranslation(-vTransformedPivot);
+		Matrix4f self = Matrix4f::identity();
+		self.setTranslation(pos);
+		mTransform = self * (r * p);
 #else
-	Matrix4f r = Matrix4f(Quaternion::rotationZ(DegToRad(this->GetRotation())), -vTransformedPivot);
-	r = appendScale(r, this->GetScale());
-	Matrix4f self = Matrix4f::identity();
-	self.setTranslation(pos);
-	mTransform = self * r;
+		Matrix4f r = Matrix4f(Quaternion::rotationZ(DegToRad(this->GetRotation())), -vTransformedPivot);
+		r = appendScale(r, this->GetScale());
+		Matrix4f self = Matrix4f::identity();
+		self.setTranslation(pos);
+		mTransform = self * r;
 #endif
 
-	bTransformationChanged = false;
+		bTransformationChanged = false;
+	}
+}
+
+void ITransformable::UpdateBoundingCircle()
+{
+	fBoundingCircleRadius = static_cast<f32>(sqrtl(vBoundingBox.getX() * vBoundingBox.getX() + vBoundingBox.getY() * vBoundingBox.getY()) / 2.0f);
 }
 
 void ITransformable::Unserialize(Reader &reader)

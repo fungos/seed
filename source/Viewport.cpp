@@ -63,7 +63,7 @@ Renderer *Viewport::GetRenderer() const
 void Viewport::SetCamera(Camera *camera)
 {
 	pCamera = camera;
-	pCamera->SetRectangle(Rect4f(fX, fY, fWidth, fHeight));
+	pCamera->SetView(Rect4f(fX, fY, fWidth, fHeight));
 }
 
 Camera *Viewport::GetCamera() const

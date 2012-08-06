@@ -112,6 +112,7 @@ class SEED_CORE_API ITransformable
 		virtual f32 GetPriority() const;
 
 		virtual void UpdateTransform();
+		void UpdateBoundingCircle();
 
 		/// Set a parent for this transformable
 		/**
@@ -138,6 +139,7 @@ class SEED_CORE_API ITransformable
 		Vector3f vTransformedPivot;
 		Vector3f vScale;
 		Vector3f vBoundingBox;
+		f32 fBoundingCircleRadius;
 		f32 fRotation;
 		bool bTransformationChanged;
 

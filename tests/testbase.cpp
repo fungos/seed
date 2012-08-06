@@ -60,18 +60,18 @@ bool TestBase::Initialize()
 //	}
 
 	{
-		File f("anim.sprite");
-		Reader r(f);
-		sptLogo.Load(r);
-		sptLogo.sName = "ANIM";
+//		File f("anim.sprite");
+//		Reader r(f);
+//		sptLogo.Load(r);
+//		sptLogo.sName = "ANIM";
 
 //		sptLogo.SetPivot(0.0f, 0.0f);
 //		sptLogo.SetPosition(401, 100);
 //		sptLogo.SetRotation(45.f);
 		cCamera.SetPosition(-400, -300);
 
-		sptLogo.SetPriority(100.0f);
-		cScene.Add(&sptLogo);
+//		sptLogo.SetPriority(100.0f);
+//		cScene.Add(&sptLogo);
 	}
 
 	cCamera.Update(0.0f);

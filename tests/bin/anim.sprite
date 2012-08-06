@@ -1,6 +1,6 @@
 {
 	"sType": "sprite",
-	"sName": "Panda",
+	"sName": "PandaSprite",
 	"cScale": {"x": 1, "y": 1},
 	"sBlending": "none",
 	"cColor": {

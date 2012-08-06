@@ -54,7 +54,7 @@ class SEED_CORE_API Camera : public ISceneObject
 
 		virtual void SetProjection(eProjection type);
 		virtual bool Contains(ITransformable *obj, Matrix4f &worldMatrix);
-		virtual void SetRectangle(const Rect4f &rectangle);
+		virtual void SetView(const Rect4f &rectangle);
 
 		/// Set a texture as render target, must be a valid and initialized texture.
 		/**
@@ -77,10 +77,10 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
-        SEED_DISABLE_COPY(Camera);
-    
+		SEED_DISABLE_COPY(Camera);
+
 	protected:
-		virtual bool IsInRectangle(ITransformable *obj, Matrix4f &worldTransform);
+		virtual bool IsInView(ITransformable *obj, Matrix4f &worldTransform);
 		virtual bool IsInFrustum(ITransformable *obj, Matrix4f &worldTransform);
 
 	protected:

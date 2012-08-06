@@ -1,5 +1,5 @@
 {
-	"sName": "Panda Pong",
+	"sName": "PandaMovieRotation",
 	"cPosition": {"x": 400, "y": 150},
 	"cPivot": {"x": 0, "y": 0},
 	"aTimelines": [

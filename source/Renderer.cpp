@@ -164,6 +164,11 @@ void Renderer::Culler(Camera *camera)
 		{
 			visible.pObj = obj;
 			vVisibleRenderables.push_back(visible);
+			fprintf(stdout, "+ %s IN\n", obj->sName.c_str());
+		}
+		else
+		{
+			fprintf(stdout, "- %s OUT\n", obj->sName.c_str());
 		}
 	}
 

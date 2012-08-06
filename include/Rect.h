@@ -72,23 +72,23 @@ template <class TYPE> class Rect
 			return *this;
 		}
 
-		bool operator==(const Rect<TYPE> &rect) const
+		inline bool operator==(const Rect<TYPE> &rect) const
 		{
-			return((x1 == rect.x1) && (y1 == rect.y1) && (x2 == rect.x2) && (y2 == rect.y2));
+			return ((x1 == rect.x1) && (y1 == rect.y1) && (x2 == rect.x2) && (y2 == rect.y2));
 		}
 
-		bool operator!=(const Rect<TYPE> &rect) const
+		inline bool operator!=(const Rect<TYPE> &rect) const
 		{
-			return(!(x1 == rect.x1) || !(y1 == rect.y1) || !(x2 == rect.x2) || !(y2 == rect.y2));
+			return (!(x1 == rect.x1) || !(y1 == rect.y1) || !(x2 == rect.x2) || !(y2 == rect.y2));
 		}
 
-		Rect<TYPE> & LoadRect(const Rect<TYPE> &rect)
+		inline Rect<TYPE> & LoadRect(const Rect<TYPE> &rect)
 		{
 			*this = rect;
 			return *this;
 		}
 
-		bool IsCollidedWith(const Rect<TYPE> &rect) const
+		inline bool IsCollidedWith(const Rect<TYPE> &rect) const
 		{
 			TYPE left1, left2;
 			TYPE right1, right2;
@@ -113,7 +113,7 @@ template <class TYPE> class Rect
 			return true;
 		}
 
-		bool GetOverlappedRect(const Rect<TYPE> &rect, Rect<TYPE> &rectDst) const
+		inline bool GetOverlappedRect(const Rect<TYPE> &rect, Rect<TYPE> &rectDst) const
 		{
 			TYPE left1, left2;
 			TYPE right1, right2;
@@ -161,7 +161,7 @@ template <class TYPE> class Rect
 			return true;
 		}
 
-		bool Contains(TYPE pX, TYPE pY) const
+		inline bool Contains(TYPE pX, TYPE pY) const
 		{
 			if (pX > x2)
 			{
@@ -183,7 +183,7 @@ template <class TYPE> class Rect
 			return true;
 		}
 
-		bool Intersect(const Rect<TYPE> &rect) const
+		inline bool Intersect(const Rect<TYPE> &rect) const
 		{
 			if (this->Contains(rect.x1, rect.y1) ||
 				this->Contains(rect.x2, rect.y2))
@@ -192,7 +192,18 @@ template <class TYPE> class Rect
 			return false;
 		}
 
-		bool ContainsArea(const Rect<TYPE> &rect) const
+		inline bool Intersect(f32 x, f32 y, f32 radius) const
+		{
+			f32 cx = CLAMP(x, x1, x2);
+			f32 cy = CLAMP(y, y1, y2);
+
+			f32 dx = x - cx;
+			f32 dy = y - cy;
+
+			return (dx * dx + dy *  dy) < (radius * radius);
+		}
+
+		inline bool ContainsArea(const Rect<TYPE> &rect) const
 		{
 			if (this->Contains(rect.x1, rect.y1) &&
 				this->Contains(rect.x2, rect.y2))
@@ -201,12 +212,19 @@ template <class TYPE> class Rect
 			return false;
 		}
 
-		void Encapsulate(TYPE px, TYPE py)
+		inline void Encapsulate(TYPE px, TYPE py)
 		{
 			if (px < x1) x1 = px;
 			if (py < y1) y1 = py;
 			if (px > x2) x2 = px;
 			if (py > y2) y2 = py;
+		}
+
+		inline TYPE CircleRadius() const
+		{
+			TYPE x = x2 - x1;
+			TYPE y = y2 - y1;
+			return static_cast<TYPE>(sqrtl(x * x + y * y) / 2.0f);
 		}
 
 		void Print()
