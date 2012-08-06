@@ -1,17 +1,32 @@
 TARGET = seed
 TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
-win32:INCLUDEPATH += contrib/windows/
+DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
 
-macx {
-	INCLUDEPATH += contrib/osx/
-	#CONFIG -= x86_64 ppc64
-	#CONFIG += x86
-	#LIBS += -framework SDL -framework SDL_image
+win32 {
+	CONFIG += glfw
+	INCLUDEPATH += contrib/windows/
 }
 
-DEFINES += SEED_BUILD BUILD_GLFW SEED_ENABLE_PROFILER
-unix:DEFINES += LINUX
+macx {
+	!glfw {
+		message("Seed for OSX must use GLFW, disabling SDL.")
+		CONFIG -= sdl
+		CONFIG += glfw
+	}
+	INCLUDEPATH += contrib/osx/
+}
+
+unix {
+	DEFINES += LINUX
+	CONFIG += sdl
+}
+
+glfw {
+	DEFINES += BUILD_GLFW
+} else:sdl {
+	DEFINES += BUILD_SDL
+}
 
 CONFIG(debug, debug|release) {
 	DESTDIR =../seed/lib/debug

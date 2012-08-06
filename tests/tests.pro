@@ -1,11 +1,9 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
+CONFIG += glfw
 
-#QMAKE_CXXFLAGS += -std=c++0x
 INCLUDEPATH += ../include ../contrib
-
-DEFINES += BUILD_GLFW
 
 SOURCES += main.cpp \
 	testbase.cpp
@@ -35,21 +33,33 @@ CONFIG(debug, debug|release) {
 
 unix:!macx {
 	DEFINES += LINUX
-	LIBS += -lseed -lseedcontrib -lGL -lopenal -lSDL -lSDL_image
+	LIBS += -lseed -lseedcontrib -lGL -lopenal
+	QMAKE_CXXFLAGS += -std=c++0x
+
+	sdl {
+		LIBS += -lSDL -lSDL_image
+	}
 }
 
 macx {
 	DEFINES += LINUX
 	INCLUDEPATH += ../contrib/osx/
 	LIBS += -lseed -lseedcontrib -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit
-	# -framework Cocoa -framework OpenGL -framework IOKit
-	#CONFIG -= x86_64 ppc64
-	#CONFIG += x86
-	#-F../osx/ -framework SDL -framework SDL_image
+	CONFIG -= sdl
+	CONFIG += glfw
 }
 
 win32 {
-	DEFINES += WIN32 main=SDL_main
-	LIBS += -L../contrib/windows/ -lseed -lseedcontrib -mwindows -lmingw32 -lSDLmain -lSDL -lopengl32 -lopenal32 -lSDL_image -lgdi32
+	LIBS += -L../contrib/windows/ -lseed -lseedcontrib -mwindows -lmingw32 -lopengl32 -lopenal32
 	INCLUDEPATH += ../contrib/windows/
+	sdl {
+		DEFINES += WIN32 main=SDL_main
+		LIBS += -lSDLmain -lSDL -lSDL_image -lgdi32
+	}
+}
+
+glfw {
+	DEFINES += BUILD_GLFW
+} else:sdl {
+	DEFINES += BUILD_SDL
 }
