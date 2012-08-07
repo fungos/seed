@@ -38,12 +38,22 @@
 #define _NO_W32_PSEUDO_MODIFIERS
 #define USE_API_OGL		1
 #define USE_API_OAL		1
+#define USE_API_SOIL	1
 #define BUILD_PC		1
 
-namespace Seed { namespace QT {} };
-namespace Seed { namespace PC {} };
+namespace Seed
+{
+	namespace QT {}
+	namespace PC {}
+	namespace OAL {}
+	namespace OGL {}
+	namespace SOIL {}
+}
 using namespace Seed::QT;
 using namespace Seed::PC;
+using namespace Seed::OAL;
+using namespace Seed::OGL;
+using namespace Seed::SOIL;
 
 #define PLATFORM						QT
 #define PLATFORM_CODE					3
@@ -63,7 +73,6 @@ typedef float 					f32;
 
 typedef float 					fixed32;
 typedef int 					PIXEL;
-typedef int						bool;
 
 #if defined(WIN32)
 	#undef OUT

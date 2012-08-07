@@ -59,35 +59,7 @@ class IRenderer;
 /// Qt Screen Module
 class Screen : public IScreen
 {
-	friend class Renderer;
-	friend class Renderer2D;
-
 	SEED_SINGLETON_DECLARE(Screen)
-
-	public:
-		enum eMode
-		{
-			SCREEN_AUTODETECTW,
-			SCREEN_AUTODETECTFS,
-			SCREEN_320X240X32W_OPENGL,
-			SCREEN_PSP,
-			SCREEN_480x272x32W_OPENGL,
-			SCREEN_480x320x32W_OPENGL,
-			SCREEN_IPHONE,
-			SCREEN_640X480X32W_OPENGL,
-			SCREEN_WII,
-			SCREEN_800X600X32W_OPENGL,
-			SCREEN_1024X768X32W_OPENGL,
-			SCREEN_2048X1024X32W_OPENGL,
-			SCREEN_320X240X32FS_OPENGL,
-			SCREEN_480x272x32FS_OPENGL,
-			SCREEN_480x320x32FS_OPENGL,
-			SCREEN_640X480X32FS_OPENGL,
-			SCREEN_800X600X32FS_OPENGL,
-			SCREEN_1024X768X32FS_OPENGL,
-			SCREEN_2048X1024X32FS_OPENGL
-		};
-
 	public:
 		virtual void FadeOut();
 		virtual void FadeIn();
@@ -108,7 +80,7 @@ class Screen : public IScreen
 		virtual bool Reset();
 		virtual bool Shutdown();
 
-	protected:platform/qt/Qt
+	protected:
 		u32		surfaceSize;
 		static Scene *pScene;
 

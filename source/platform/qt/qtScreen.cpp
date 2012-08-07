@@ -67,72 +67,10 @@ bool Screen::Reset()
 	return true;
 }
 
-void Screen::PrepareMode()
-{
-	iWidth = 800;
-	iHeight = 600;
-	iFlags = 0;
-	iBPP = 32;
-
-	switch (nMode)
-	{
-		case Video_480x272:
-		{
-			iWidth = 480;
-			iHeight = 272;
-		}
-		break;
-
-		case Video_iPhonePortrait:
-		{
-			iWidth = 320;
-			iHeight = 480;
-		}
-		break;
-
-		case Video_iPhoneLandscape:
-		case Video_iPhoneLandscapeGoofy:
-		case Video_480x320:
-		{
-			iWidth = 480;
-			iHeight = 320;
-		}
-		break;
-
-		case Video_NintendoWii:
-		case Video_640x480:
-		{
-			iWidth = 640;
-			iHeight = 480;
-		}
-		break;
-
-		case Video_AutoDetect:
-		case Video_800x600:
-		{
-			iWidth = 800;
-			iHeight = 600;
-		}
-		break;
-
-		case Video_1024x768:
-		{
-			iWidth = 1024;
-			iHeight = 768;
-		}
-		break;
-
-		default:
-			Info(TAG "Invalid video mode, using 800x600.");
-		break;
-	}
-}
-
 bool Screen::Initialize()
 {
 	Log(TAG "Initializing...");
 	IModule::Initialize();
-	this->PrepareMode();
 
 	if (!pScene)
 		pScene = New(Scene(iWidth, iHeight));

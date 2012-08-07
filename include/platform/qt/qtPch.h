@@ -33,7 +33,8 @@
 
 #if defined(BUILD_QT)
 	#include <QtGui>
-	#include <QtOpenGL>
+	#include "glew/glew.h"
+	//#include <QtOpenGL>
 #endif
 
 #endif // QTPCH_H

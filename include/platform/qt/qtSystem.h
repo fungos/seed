@@ -48,12 +48,9 @@ class System : public ISystem
 		virtual void GoToMenu();
 		virtual void Sleep();
 		virtual void OnHomeCalled();
-		virtual void WaitForRetrace(eSystemFrameRate rate);
-		virtual void SetFrameRate(eSystemFrameRate rate);
+		virtual void WaitForRetrace(u32 rate);
 		virtual void HangUp();
 		virtual void GoToDataManager();
-
-		virtual eSystemFrameRate GetFrameRate();
 
 		virtual bool IsShuttingDown() const;
 		virtual bool IsResetting() const;
@@ -65,30 +62,34 @@ class System : public ISystem
 		virtual bool IsHomeRunning() const;
 		virtual bool InitializeHome();
 
-		virtual void WriteOut(const char *msg);
-		virtual void WriteErr(const char *msg);
-		virtual void SetWidget(QWidget *widget);
+		virtual const char *GetUsername() const;
+		virtual const char *GetHomeFolder() const;
+		virtual const char *GetApplicationDataFolder() const;
+		virtual const char *GetSaveGameFolder() const;
 
-		// IUpdatable
-		virtual bool Update(f32 dt);
+		void SetWidget(QWidget *widget);
 
 		// IModule
 		virtual bool Initialize();
 		virtual bool Shutdown();
 		virtual bool Reset();
 
+		// IUpdatable
+		virtual bool Update(f32 dt);
+
 	private:
 		SEED_DISABLE_COPY(System);
 
 	private:
-		u32 		iRetraceCount;
-		eSystemFrameRate iFrameRate;
-		bool 		bShutdown;
-		f32 		fElapsedTime;
-		u64 		iLastFrameTime;
-		u64 		iFpsTime;
+		u64		iLastFrameTime;
+		u64		iFpsTime;
+		f32		fElapsedTime;
+		u32		iRetraceCount;
+		u32		iFrameRate;
+		bool	bShutdown;
+		bool	bSleeping;
 
-		QWidget		*pWidget;
+		QWidget	*pWidget;
 };
 
 #define pSystem Seed::QT::System::GetInstance()

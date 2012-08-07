@@ -34,6 +34,8 @@
 #include "System.h"
 #include "Log.h"
 #include "Timer.h"
+#include "physfs/physfs.h"
+#include "platform/pc/platform.h"
 
 #define TAG "[System] "
 
@@ -44,12 +46,13 @@ namespace Seed { namespace QT {
 SEED_SINGLETON_DEFINE(System)
 
 System::System()
-	: iRetraceCount(0)
-	, iFrameRate(Seed::FrameRateLockAt60)
-	, bShutdown(false)
-	, fElapsedTime(0.0f)
-	, iLastFrameTime(0)
+	: iLastFrameTime(0)
 	, iFpsTime(0)
+	, fElapsedTime(0.0f)
+	, iRetraceCount(0)
+	, iFrameRate(60)
+	, bShutdown(false)
+	, bSleeping(false)
 {
 }
 
@@ -107,56 +110,64 @@ bool System::IsResetting() const
 	return false;
 }
 
-void System::WaitForRetrace(eSystemFrameRate rate)
+void System::WaitForRetrace(u32 rate)
 {
-	++this->iRetraceCount;
+	++iRetraceCount;
 
-	if (!this->iLastFrameTime)
-		this->iLastFrameTime = pTimer->GetMilliseconds();
+	if (!iLastFrameTime)
+		iLastFrameTime = pTimer->GetMilliseconds();
 
-	f32 fFrameMaxTime			= 1000.0f / (f32)rate;
+	f32 frameMaxTime			= 1000.0f / (f32)rate;
 
 	do
 	{
 		//hold fps
-		u64 iTime				= pTimer->GetMilliseconds();
-		u64 iFrameTime			= iTime - iLastFrameTime;
-		this->iFpsTime			+= iFrameTime;
-		this->fElapsedTime		+= iFrameTime;
-		this->iLastFrameTime	= iTime;
-	} while (this->fElapsedTime < fFrameMaxTime);
+		u64 time			= pTimer->GetMilliseconds();
+		u64 frameTime		= time - iLastFrameTime;
+		iFpsTime			+= frameTime;
+		fElapsedTime		+= (f32)frameTime;
+		iLastFrameTime	= time;
+	} while (fElapsedTime < frameMaxTime);
 
-	Dbg("Loop. %d", this->iFpsTime);
-
-	this->fElapsedTime -= fFrameMaxTime;
+	fElapsedTime -= frameMaxTime;
 
 	//Raptor: test fix for when WM_PAINT stops comming for a long time due to the
 	//user moving the window, for instance. Tries to avoid the retrace trying to
 	//catch up with the lost frame time
-	if ((this->fElapsedTime / fFrameMaxTime) > MAX_FRAMESKIP_THRESHOLD)
-		this->fElapsedTime = 0;
+	if ((fElapsedTime / frameMaxTime) > MAX_FRAMESKIP_THRESHOLD)
+		fElapsedTime = 0;
 
-	if (this->iFpsTime > 1000)
+	if (iFpsTime > 1000)
 	{
-		Dbg("FPS: %d", this->iRetraceCount);
+		Dbg("FPS: %d", iRetraceCount);
 
-		arRetraceCount[iRetraceIndex++] = this->iRetraceCount;
+		arRetraceCount[iRetraceIndex++] = iRetraceCount;
 		if (iRetraceIndex >= SYSTEM_RETRACE_HISTORY_MAX)
 			iRetraceIndex = 0;
 
-		this->iFpsTime -= 1000;
-		this->iRetraceCount = 0;
+		iFpsTime -= 1000;
+		iRetraceCount = 0;
 	}
 }
 
-void System::SetFrameRate(eSystemFrameRate rate)
+const char *System::GetUsername() const
 {
-	this->iFrameRate = rate;
+	return get_user_name();
 }
 
-eSystemFrameRate System::GetFrameRate()
+const char *System::GetHomeFolder() const
 {
-	return this->iFrameRate;
+	return PHYSFS_getUserDir();
+}
+
+const char *System::GetApplicationDataFolder() const
+{
+	return PHYSFS_getBaseDir();
+}
+
+const char *System::GetSaveGameFolder() const
+{
+	return PHYSFS_getUserDir();
 }
 
 void System::GoToMenu()
@@ -196,16 +207,6 @@ void System::EnableHome()
 
 void System::DisableHome()
 {
-}
-
-void System::WriteOut(const char *msg)
-{
-	UNUSED(msg);
-}
-
-void System::WriteErr(const char *msg)
-{
-	UNUSED(msg);
 }
 
 void System::SetWidget(QWidget *widget)

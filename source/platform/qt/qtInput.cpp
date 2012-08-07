@@ -33,7 +33,6 @@
 #include "Input.h"
 #include "Log.h"
 #include "Screen.h"
-#include "Trigonometry.h"
 #include "System.h"
 #include "Input.h"
 #include "EventInputPointer.h"
@@ -260,7 +259,7 @@ eModifier Input::TranslateModifier(u32 mod)
 
 		case Qt::KeypadModifier:
 		{
-			m = Seed::ModifierKeypad;
+			m = Seed::ModifierScrollLock;
 		}
 		break;
 

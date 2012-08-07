@@ -2,6 +2,11 @@ TARGET = seed
 TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
+CONFIG += editor
+
+!editor {
+	CONFIG -= qt
+}
 
 win32 {
 	CONFIG += glfw
@@ -22,7 +27,10 @@ unix {
 	CONFIG += sdl
 }
 
-glfw {
+qt {
+	DEFINES += BUILD_QT
+	QT += opengl
+} else:glfw {
 	DEFINES += BUILD_GLFW
 } else:sdl {
 	DEFINES += BUILD_SDL
@@ -37,7 +45,6 @@ CONFIG(debug, debug|release) {
 }
 
 CONFIG += staticlib
-CONFIG -= qt
 
 SOURCES += source/Viewport.cpp \
 	source/ViewManager.cpp \
@@ -144,7 +151,6 @@ SOURCES += source/Viewport.cpp \
 	source/platform/pc/pcCartridge.cpp \
 	source/platform/qt/qtTimer.cpp \
 	source/platform/qt/qtThread.cpp \
-	source/platform/qt/qtTexture.cpp \
 	source/platform/qt/qtSystem.cpp \
 	source/platform/qt/qtSurface.cpp \
 	source/platform/qt/qtScreen.cpp \
