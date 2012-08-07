@@ -496,7 +496,6 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	glEnable(GL_BLEND);
 
 	glPopMatrix();
-
 }
 
 int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const
@@ -590,6 +589,41 @@ bool OGLES1RendererDevice::CheckFrameBufferStatus() const
 void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
 	glViewport(static_cast<GLint>(x), static_cast<GLint>(y), static_cast<GLsizei>(w), static_cast<GLsizei>(h));
+}
+
+void OGLES1RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const
+{
+	static const int points = 100;
+	float ang = 2 * M_PI / points;
+	float cur = 0;
+	GLfloat vertices[points * 2];
+
+	for (int i = 0, v = 0; i < points; i++, v += 2)
+	{
+		vertices[v] = x + sinl(cur) * radius;
+		vertices[v + 1] = y + cosl(cur) * radius;
+		cur += ang;
+	}
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+
+	glColor4ub(color.r, color.g, color.b, color.a);
+	glVertexPointer(2, GL_FLOAT, 0, vertices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+	glPushMatrix();
+	glLoadIdentity();
+	glDrawArrays(GL_LINE_LOOP, 0, points);
+
+	glPopMatrix();
+	glEnable(GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
+
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 }
 
 void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill) const

@@ -39,7 +39,6 @@
 namespace Seed {
 
 class ITexture;
-class ITransformable;
 
 /// Vertex Format
 struct sVertex

@@ -194,8 +194,10 @@ template <class TYPE> class Rect
 
 		inline bool Intersect(f32 x, f32 y, f32 radius) const
 		{
-			f32 cx = CLAMP(x, x1, x2);
-			f32 cy = CLAMP(y, y1, y2);
+			f32 cx = x;
+			CLAMP(cx, x1, x2);
+			f32 cy = y;
+			CLAMP(cy, y1, y2);
 
 			f32 dx = x - cx;
 			f32 dy = y - cy;

@@ -160,6 +160,7 @@ void Renderer::Culler(Camera *camera)
 		ISceneObject *obj = const_cast<ISceneObject *>(*it);
 		SEED_ASSERT(obj);
 
+		fprintf(stdout, "Check %s\n", obj->sName.c_str());
 		if (camera->Contains(obj, visible.mWorldTransform))
 		{
 			visible.pObj = obj;

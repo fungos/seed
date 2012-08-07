@@ -180,6 +180,15 @@ void IRendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, b
 	SEED_ABSTRACT_METHOD;
 }
 
+void IRendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const
+{
+	UNUSED(x);
+	UNUSED(y);
+	UNUSED(radius);
+	UNUSED(color);
+	SEED_ABSTRACT_METHOD;
+}
+
 void IRendererDevice::Enable2D() const
 {
 	SEED_ABSTRACT_METHOD;

@@ -110,6 +110,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
 		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
+		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const;
 		virtual void Enable2D() const;
 		virtual void Disable2D() const;
 

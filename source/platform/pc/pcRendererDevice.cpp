@@ -284,6 +284,11 @@ void RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bo
 	pApiDevice->DrawRect(x, y, w, h, color, fill);
 }
 
+void RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const
+{
+	pApiDevice->DrawCircle(x, y, radius, color);
+}
+
 void RendererDevice::Enable2D() const
 {
 	pApiDevice->Enable2D();

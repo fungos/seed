@@ -95,7 +95,7 @@ Sprite::Sprite(const Sprite &other)
 	, bLoop(other.bLoop)
 	, bPlaying(other.bPlaying)
 	, bFinished(other.bFinished)
-    , bIsCopy(true)
+	, bIsCopy(true)
 {
 	cVertex[0] = other.cVertex[0];
 	cVertex[1] = other.cVertex[1];
@@ -513,11 +513,16 @@ void Sprite::Render(const Matrix4f &worldTransform)
 	packet.pVertexData = &cVertex;
 	packet.pTexture = pFrameTexture;
 	packet.nBlendMode = eBlendOperation;
-//	packet.pTransform = (const Matrix4f *)&mTransform;
 	packet.pTransform = &worldTransform;
 	packet.cColor = cColor;
 	packet.iFlags = flags;
 	packet.vPivot = vTransformedPivot;
+
+	Vector3f op = worldTransform.getTranslation();
+	f32 ox = op.getX();
+	f32 oy = op.getY();
+	Rect4f box(ox, oy, this->GetWidth(), this->GetHeight());
+	pRendererDevice->DrawCircle(ox, oy, box.CircleRadius(), Color(255, 0, 255, 255));
 
 	pRendererDevice->UploadData(&packet);
 }
