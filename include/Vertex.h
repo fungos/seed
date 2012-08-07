@@ -82,6 +82,7 @@ struct RendererPacket
 	eBlendMode				nBlendMode;
 	ePacketFlags			iFlags;
 	Vector3f				vPivot;
+	f32						fRadius;
 
 	RendererPacket()
 		: pTransform(NULL)
@@ -93,6 +94,7 @@ struct RendererPacket
 		, nBlendMode(Seed::BlendNone)
 		, iFlags(FlagNone)
 		, vPivot(0.5f, 0.5f, 0.5f)
+		, fRadius(0)
 	{
 	}
 };

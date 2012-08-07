@@ -482,6 +482,12 @@ void OGLES1RendererDevice::UploadData(void *userData)
 			glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
 		#endif
 
+		if (packet->fRadius)
+		{
+			Vector3f op = packet->pTransform->getTranslation();
+			pRendererDevice->DrawCircle(op.getX(), op.getY(), packet->fRadius, Color(255, 0, 255, 255));
+		}
+
 		glPointSize(5.0f);
 		glDrawArrays(GL_POINTS, 0, packet->iSize);
 
@@ -593,7 +599,7 @@ void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 
 void OGLES1RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const
 {
-	static const int points = 100;
+	static const int points = 50;
 	float ang = 2 * M_PI / points;
 	float cur = 0;
 	GLfloat vertices[points * 2];

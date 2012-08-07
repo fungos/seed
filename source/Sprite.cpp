@@ -518,11 +518,8 @@ void Sprite::Render(const Matrix4f &worldTransform)
 	packet.iFlags = flags;
 	packet.vPivot = vTransformedPivot;
 
-	Vector3f op = worldTransform.getTranslation();
-	f32 ox = op.getX();
-	f32 oy = op.getY();
-	Rect4f box(ox, oy, this->GetWidth(), this->GetHeight());
-	pRendererDevice->DrawCircle(ox, oy, box.CircleRadius(), Color(255, 0, 255, 255));
+	Rect4f box(0, 0, this->GetWidth(), this->GetHeight());
+	packet.fRadius = box.CircleRadius();
 
 	pRendererDevice->UploadData(&packet);
 }
