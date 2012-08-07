@@ -44,8 +44,8 @@ class QtSurface : public QGraphicsScene
 	Q_OBJECT
 
 	public:
-		QtSurface(){}
-		virtual ~QtSurface(){}
+		QtSurface() {}
+		virtual ~QtSurface() {}
 };
 
 }} // namespace
