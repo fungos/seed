@@ -6,8 +6,6 @@ using namespace Seed;
 
 extern SceneNode *pScene;
 
-using namespace Seed;
-
 class TestBase : public IGameApp, public IEventSystemListener, public IEventInputKeyboardListener
 {
 	public:

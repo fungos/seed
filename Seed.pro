@@ -6,6 +6,8 @@ CONFIG += editor
 
 !editor {
 	CONFIG -= qt
+} else {
+	CONFIG += qt
 }
 
 win32 {
@@ -14,7 +16,7 @@ win32 {
 }
 
 macx {
-	!glfw {
+	!editor:!glfw {
 		message("Seed for OSX must use GLFW, disabling SDL.")
 		CONFIG -= sdl
 		CONFIG += glfw
@@ -183,7 +185,16 @@ OTHER_FILES += \
 
 HEADERS += include/*.h \
 	include/platform/sdl/*.h \
-	include/platform/qt/*.h \
+	include/platform/qt/qtSurface.h \
+	include/platform/qt/qtScene.h \
+	include/platform/qt/qtDefines.h \
+	include/platform/qt/qtInput.h \
+	include/platform/qt/qtMutex.h \
+	include/platform/qt/qtPch.h \
+	include/platform/qt/qtScreen.h \
+	include/platform/qt/qtSystem.h \
+	include/platform/qt/qtThread.h \
+	include/platform/qt/qtTimer.h \
 	include/platform/pc/*.h \
 	include/platform/ios/*.h \
 	include/interface/*.h \

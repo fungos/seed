@@ -31,6 +31,7 @@
 #ifndef __MATH_UTIL_H__
 #define __MATH_UTIL_H__
 
+#include "Defines.h"
 #include <math.h>
 #include <vectormath/cpp/vectormath_aos.h>
 

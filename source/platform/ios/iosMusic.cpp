@@ -28,10 +28,11 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "Music.h"
+#include "Defines.h"
 
 #if defined(BUILD_IOS)
 
+#include "Music.h"
 #include "Log.h"
 #include "SoundSystem.h"
 #include "platform/ios/iosoneView.h"
