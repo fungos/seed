@@ -39,7 +39,7 @@ SEED_SINGLETON_DEFINE(Configuration)
 
 Configuration::Configuration()
 	: bDebugSprite(false)
-	, sWorkingDirectory("")
+	, sWorkingDirectory("./")
 	, sTitle("")
 	, sDescription("")
 	, sPublisherName("")
@@ -61,52 +61,55 @@ Configuration::~Configuration()
 
 void Configuration::Load(const String &file)
 {
-	File f(file);
-	Reader r(f);
+	File f;
+	if (f.Load(file))
+	{
+		Reader r(f);
 
-	bDebugSprite = r.ReadBool("bDebugSprite", false);
-	bMultipleInstances = r.ReadBool("bMultipleInstances", false);
-	bWarningMultipleInstances = r.ReadBool("bWarningMultipleInstances", false);
-	bFullScreen = r.ReadBool("bFullScreen", false);
+		bDebugSprite = r.ReadBool("bDebugSprite", false);
+		bMultipleInstances = r.ReadBool("bMultipleInstances", false);
+		bWarningMultipleInstances = r.ReadBool("bWarningMultipleInstances", false);
+		bFullScreen = r.ReadBool("bFullScreen", false);
 
-	String renderer = r.ReadString("sRendererDevice", "auto");
-	std::transform(renderer.begin(), renderer.end(), renderer.begin(), ::tolower);
+		String renderer = r.ReadString("sRendererDevice", "auto");
+		std::transform(renderer.begin(), renderer.end(), renderer.begin(), ::tolower);
 
-	// FIXME: A better way to select the renderer (via register/unregister handlers?)
-	// also, a way to detect the default system renderer.
-	if (renderer == "auto")
-		iRendererDeviceType = Seed::RendererDeviceAuto;
-	else if (renderer == "ogl" || renderer == "opengl")
-		iRendererDeviceType = Seed::RendererDeviceOpenGLAny;
-	else if (renderer == "ogles1" || renderer == "opengl es1")
-		iRendererDeviceType = Seed::RendererDeviceOpenGLES1;
-	else if (renderer == "ogl2" || renderer == "opengl 2.x")
-		iRendererDeviceType = Seed::RendererDeviceOpenGL2x;
-	else if (renderer == "ogl3" || renderer == "opengl 3.x")
-		iRendererDeviceType = Seed::RendererDeviceOpenGL3x;
-	else if (renderer == "ogl4" || renderer == "opengl 4.x")
-		iRendererDeviceType = Seed::RendererDeviceOpenGL4x;
-	else if (renderer == "dx8" || renderer == "directx 8")
-		iRendererDeviceType = Seed::RendererDeviceDirectX8;
-	else if (renderer == "dx9" || renderer == "directx 9")
-		iRendererDeviceType = Seed::RendererDeviceDirectX9;
-	else if (renderer == "dx10" || renderer == "directx 10")
-		iRendererDeviceType = Seed::RendererDeviceDirectX10;
-	else if (renderer == "dx11" || renderer == "directx 11")
-		iRendererDeviceType = Seed::RendererDeviceDirectX11;
-	else
-		Log("[Configuration] Unknown renderer %s - fallbacking to OpenGL 1.x.", renderer.c_str());
+		// FIXME: A better way to select the renderer (via register/unregister handlers?)
+		// also, a way to detect the default system renderer.
+		if (renderer == "auto")
+			iRendererDeviceType = Seed::RendererDeviceAuto;
+		else if (renderer == "ogl" || renderer == "opengl")
+			iRendererDeviceType = Seed::RendererDeviceOpenGLAny;
+		else if (renderer == "ogles1" || renderer == "opengl es1")
+			iRendererDeviceType = Seed::RendererDeviceOpenGLES1;
+		else if (renderer == "ogl2" || renderer == "opengl 2.x")
+			iRendererDeviceType = Seed::RendererDeviceOpenGL2x;
+		else if (renderer == "ogl3" || renderer == "opengl 3.x")
+			iRendererDeviceType = Seed::RendererDeviceOpenGL3x;
+		else if (renderer == "ogl4" || renderer == "opengl 4.x")
+			iRendererDeviceType = Seed::RendererDeviceOpenGL4x;
+		else if (renderer == "dx8" || renderer == "directx 8")
+			iRendererDeviceType = Seed::RendererDeviceDirectX8;
+		else if (renderer == "dx9" || renderer == "directx 9")
+			iRendererDeviceType = Seed::RendererDeviceDirectX9;
+		else if (renderer == "dx10" || renderer == "directx 10")
+			iRendererDeviceType = Seed::RendererDeviceDirectX10;
+		else if (renderer == "dx11" || renderer == "directx 11")
+			iRendererDeviceType = Seed::RendererDeviceDirectX11;
+		else
+			Log("[Configuration] Unknown renderer %s - fallbacking to OpenGL 1.x.", renderer.c_str());
 
-	sWorkingDirectory = r.ReadString("sWorkingDirectory", "./");
-	sTitle = r.ReadString("sTitle", "");
-	sDescription = r.ReadString("sDescription", "");
-	sPublisherName = r.ReadString("sPublisherName", "");
+		sWorkingDirectory = r.ReadString("sWorkingDirectory", "./");
+		sTitle = r.ReadString("sTitle", "");
+		sDescription = r.ReadString("sDescription", "");
+		sPublisherName = r.ReadString("sPublisherName", "");
 
-	fInputRadius = r.ReadF32("fInputRadius", 0.0f);
+		fInputRadius = r.ReadF32("fInputRadius", 0.0f);
 
-	iResolutionWidth = r.ReadU32("iResolutionWidth", 0);
-	iResolutionHeight = r.ReadU32("iResolutionHeight", 0);
-	iFrameRate = r.ReadU32("iFrameRate", 60);
+		iResolutionWidth = r.ReadU32("iResolutionWidth", 800);
+		iResolutionHeight = r.ReadU32("iResolutionHeight", 600);
+		iFrameRate = r.ReadU32("iFrameRate", 60);
+	}
 }
 
 u32 Configuration::GetResolutionWidth() const

@@ -48,7 +48,7 @@ class SEED_CORE_API File : public IObject
 		File(const File &other);
 		File &operator=(const File &other);
 
-		void Load(const String &filename);
+		bool Load(const String &filename);
 
 		void Close();
 		u32 GetSize() const;
@@ -61,7 +61,7 @@ class SEED_CORE_API File : public IObject
 
 	protected:
 		bool Check() const;
-		void Open();
+		bool Open();
 
 	private:
 		String			sName;

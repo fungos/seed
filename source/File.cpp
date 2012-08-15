@@ -54,7 +54,7 @@ File::File(const String &filename)
 	, pData(NULL)
 	, iSize(0)
 {
-	this->Open();
+	SEED_ASSERT_MSG(this->Open(),"Aborted, could not open file.");
 }
 
 File::~File()
@@ -84,30 +84,35 @@ File &File::operator=(const File &other)
 	return *this;
 }
 
-void File::Load(const String &filename)
+bool File::Load(const String &filename)
 {
 	this->Close();
 	sName = filename;
-	this->Open();
+	return this->Open();
 }
 
-void File::Open()
+bool File::Open()
 {
+	bool ret = true;
 	SEED_ASSERT_MSG(sName.length(), TAG "Error: No filename was given to open file!");
 	pHandle = PHYSFS_openRead(sName.c_str());
 	if (!pHandle)
 	{
 		Log(TAG "Error: file: %s - %s", sName.c_str(), PHYSFS_getLastError());
-		SEED_ASSERT_MSG(false, "Aborted, file not found.");
+		//SEED_ASSERT_MSG(false, "Aborted, file not found.");
+		return false;
 	}
+	else
+		iSize = static_cast<u32>(PHYSFS_fileLength(pHandle));
 
-	iSize = static_cast<u32>(PHYSFS_fileLength(pHandle));
+	return ret;
 }
 
 void File::Close()
 {
 	Delete(pData);
-	PHYSFS_close(pHandle);
+	if (pHandle)
+		PHYSFS_close(pHandle);
 	iSize = 0;
 	sName = "";
 }
