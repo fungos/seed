@@ -109,9 +109,6 @@ class Screen : public IScreen
 		u32			iWidth;
 		u8			iBPP;
 		u32			iFlags;
-		//Renderer2D *pRenderer2D;
-		//Renderer 	*pRenderer;
-		//QColor		cBackgroundColor;
 };
 
 #define pScreen Seed::QT::Screen::GetInstance()

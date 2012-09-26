@@ -3,10 +3,12 @@ QT -= qt
 TARGET = seedcontrib
 TEMPLATE = lib
 
-CONFIG(debug, debug|release) {
+Debug {
 	DESTDIR = ../lib/debug
 	DEFINES += DEBUG
-} else {
+}
+
+Release {
 	DESTDIR = ../lib/release
 	DEFINES += RELEASE
 }

@@ -68,7 +68,9 @@ void FileSystem::Prepare() const
 
 bool FileSystem::Shutdown()
 {
-	FS_CHECK(PHYSFS_deinit());
+	if (bInitialized)
+		FS_CHECK(PHYSFS_deinit());
+
 	return true;
 }
 

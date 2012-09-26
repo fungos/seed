@@ -48,6 +48,8 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #pragma warning(disable:4251) // stl + dll
 #endif
 
+#define OV_EXCLUDE_STATIC_CALLBACKS
+
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlDefines.h"
 #elif defined(BUILD_GLFW)
