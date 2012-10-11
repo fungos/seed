@@ -1,7 +1,7 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
-CONFIG += glfw
+CONFIG += sdl
 
 INCLUDEPATH += ../include ../contrib
 

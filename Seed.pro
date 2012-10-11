@@ -2,7 +2,7 @@ TARGET = seed
 TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
-CONFIG += editor
+CONFIG += sdl
 
 !editor {
 	CONFIG -= qt
@@ -11,7 +11,6 @@ CONFIG += editor
 }
 
 win32 {
-	CONFIG += glfw
 	INCLUDEPATH += contrib/windows/
 }
 
