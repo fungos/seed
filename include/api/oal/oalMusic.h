@@ -83,6 +83,7 @@ class SEED_CORE_API Music : public IMusic
 		SEED_DISABLE_COPY(Music);
 
 	private:
+		File			*pFile;
 		ALuint			iBuffers[OPENAL_MUSIC_BUFFERS];
 		ALuint			iSource;
 

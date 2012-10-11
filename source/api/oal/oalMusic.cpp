@@ -39,6 +39,12 @@
 
 #define TAG "[Music] "
 
+#if defined(DEBUG)
+#define AL_CHECK(x)	x; if (alGetError() != AL_NO_ERROR) { fprintf(stdout, TAG "Error %d", alGetError()); SEED_ASSERT_MSG(false, "Crashing."); }
+#else
+#define AL_CHECK(x)	x;
+#endif
+
 namespace Seed { namespace OAL {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
@@ -52,7 +58,8 @@ IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 }
 
 Music::Music()
-	: iBuffers()
+	: pFile(NULL)
+	, iBuffers()
 	, iSource(0)
 	, vorbisInfo(NULL)
 	, vorbisComment(NULL)
@@ -79,9 +86,6 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		pRes = res;
 
 		ALenum err = AL_NO_ERROR;
-
-		/* prepare openal */
-		err = alGetError();
 		alGenSources(1, &iSource);
 		err = alGetError();
 		if (err != AL_NO_ERROR)
@@ -106,10 +110,10 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		//		 We need to make File able to memmap the file contents to a virtual memory address so this will be transparent to the vorbis reader
 		//		 as it will be streaming from disk Agree?. ~Danny
 		//		 Also reading resources from different platforms (asynchronous like dvd reading on wii or nacl web files) will be more natural.
-		File stFile(filename);
-		oggFile.dataPtr = stFile.GetData();
+		pFile = new File(filename);
+		oggFile.dataPtr = pFile->GetData();
 		oggFile.dataRead = 0;
-		oggFile.dataSize = stFile.GetSize();
+		oggFile.dataSize = pFile->GetSize();
 
 		vorbisCb.read_func = vorbis_read;
 		vorbisCb.close_func = vorbis_close;
@@ -121,8 +125,8 @@ bool Music::Load(const String &filename, ResourceManager *res)
 			Log(TAG "Could not read ogg stream (%s).", filename.c_str());
 			memset(&oggFile, '\0', sizeof(oggFile));
 
-			alDeleteSources(1, &iSource);
-			alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers);
+			AL_CHECK(alDeleteSources(1, &iSource));
+			AL_CHECK(alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers));
 			memset(iBuffers, '\0', sizeof(iBuffers));
 			bLoaded = false;
 
@@ -135,11 +139,11 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		if (vorbisInfo->channels > 1)
 			eFormat = AL_FORMAT_STEREO16;
 
-		alSource3f(iSource, AL_POSITION, 0.0f, 0.0f, 0.0f);
-		alSource3f(iSource, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
-		alSource3f(iSource, AL_DIRECTION, 0.0f, 0.0f, 0.0f);
-		alSourcef(iSource, AL_ROLLOFF_FACTOR, 0.0f);
-		alSourcei(iSource, AL_SOURCE_RELATIVE, AL_TRUE);
+		AL_CHECK(alSource3f(iSource, AL_POSITION, 0.0f, 0.0f, 0.0f));
+		AL_CHECK(alSource3f(iSource, AL_VELOCITY, 0.0f, 0.0f, 0.0f));
+		AL_CHECK(alSource3f(iSource, AL_DIRECTION, 0.0f, 0.0f, 0.0f));
+		AL_CHECK(alSourcef(iSource, AL_ROLLOFF_FACTOR, 0.0f));
+		AL_CHECK(alSourcei(iSource, AL_SOURCE_RELATIVE, AL_TRUE));
 
 		this->Reset();
 
@@ -159,32 +163,29 @@ bool Music::Unload()
 	fVolume = 1.0f;
 
 	pSoundSystem->StopMusic(0, this);
-	//ALenum err = AL_NO_ERROR;
-
 	if (iSource)
 	{
 		int queued = 0;
-		alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued);
-		//err = alGetError();
+		AL_CHECK(alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued));
 
 		while (queued--)
 		{
 			ALuint buffer;
-			alSourceUnqueueBuffers(iSource, 1, &buffer);
-			//err = alGetError();
+			AL_CHECK(alSourceUnqueueBuffers(iSource, 1, &buffer));
 		}
 
-		alDeleteSources(1, &iSource);
-		//err = alGetError();
+		AL_CHECK(alDeleteSources(1, &iSource));
 		iSource = 0;
 	}
 
-	alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers);
-	//err = alGetError();
+	AL_CHECK(alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers));
 	memset(iBuffers, '\0', sizeof(iBuffers));
 
 	ov_clear(&oggStream);
 	bLoaded = false;
+
+	if (pFile)
+		Delete(pFile);
 
 	return true;
 }
@@ -192,12 +193,12 @@ bool Music::Unload()
 void Music::Reset()
 {
 	int queued = 0;
-	alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued);
+	AL_CHECK(alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued));
 
 	while (queued--)
 	{
 		ALuint buffer;
-		alSourceUnqueueBuffers(iSource, 1, &buffer);
+		AL_CHECK(alSourceUnqueueBuffers(iSource, 1, &buffer));
 	}
 
 	this->SetVolume(fVolume);
@@ -206,8 +207,7 @@ void Music::Reset()
 	for (u32 i = 0; i < OPENAL_MUSIC_BUFFERS; i++)
 		this->DoStream(iBuffers[i]);
 
-	alSourceQueueBuffers(iSource, OPENAL_MUSIC_BUFFERS, iBuffers);
-	//ALenum err = alGetError();
+	AL_CHECK(alSourceQueueBuffers(iSource, OPENAL_MUSIC_BUFFERS, iBuffers));
 }
 
 bool Music::Update(f32 dt)
@@ -217,7 +217,6 @@ bool Music::Update(f32 dt)
 	bool active = true;
 	ALint processed = 0;
 	alGetSourcei(iSource, AL_BUFFERS_PROCESSED, &processed);
-
 	while (processed--)
 	{
 		ALuint buffer;
@@ -242,12 +241,12 @@ bool Music::DoStream(ALuint buffer)
 void Music::SetVolume(f32 vol)
 {
 	IMusic::SetVolume(vol);
-	alSourcef(iSource, AL_GAIN, fVolume * pSoundSystem->GetMusicVolume());
+	AL_CHECK(alSourcef(iSource, AL_GAIN, fVolume * pSoundSystem->GetMusicVolume()));
 }
 
 void Music::UpdateVolume()
 {
-	alSourcef(iSource, AL_GAIN, fVolume * pSoundSystem->GetMusicVolume());
+	AL_CHECK(alSourcef(iSource, AL_GAIN, fVolume * pSoundSystem->GetMusicVolume()));
 }
 
 const void *Music::GetData() const
