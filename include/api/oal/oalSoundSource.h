@@ -59,10 +59,6 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		SoundSource();
 		virtual ~SoundSource();
 
-		// ISoundSource
-		virtual void Load(const String &fname, ResourceManager *res = pResourceManager);
-		virtual void Unload();
-
 		virtual void SetLoop(bool b);
 		virtual void Play();
 		virtual void Stop(f32 ms = 0.0f);
@@ -71,12 +67,19 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		virtual void SetVolume(f32 vol);
 		virtual void UpdateVolume();
 
+		// IRenderable
+		virtual void Update(f32 delta);
+
+	protected:
+		// ISoundSource
+		virtual bool OnLoadFinished();
+		virtual bool OnUnloadRequest();
+
 	private:
 		SEED_DISABLE_COPY(SoundSource);
 
 	private:
 		ALuint			iSource;
-		Sound			*pSound;
 };
 
 }} // namespace

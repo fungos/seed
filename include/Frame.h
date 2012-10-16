@@ -75,7 +75,7 @@ class SEED_CORE_API Frame : public IDataObject
 		virtual int GetObjectType() const;
 
 		// IMPLEMENT COPY
-        SEED_DISABLE_COPY(Frame);
+		SEED_DISABLE_COPY(Frame);
 };
 
 } // namespace

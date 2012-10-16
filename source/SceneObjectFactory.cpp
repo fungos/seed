@@ -31,10 +31,16 @@
 #include "SceneObjectFactory.h"
 #include "Log.h"
 #include "interface/ISceneObject.h"
+#include "SoundSource.h"
 
 #define TAG		"[SceneObjectFactory] "
 
 namespace Seed {
+
+ISceneObject *FactorySoundSource()
+{
+	return New(SoundSource());
+}
 
 FactoryMap SceneObjectFactory::mapFactory;
 

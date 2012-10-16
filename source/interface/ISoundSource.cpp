@@ -38,16 +38,13 @@
 namespace Seed {
 
 ISoundSource::ISoundSource()
-	: cPosition(0.0f, 0.0f, 0.0f)
-	, cVelocity(0.0f, 0.0f, 0.0f)
-	, cOrientation(0.0f, 0.0f, 0.0f)
-	, fMin(0)
-	, fMax(0)
+	: pSound(NULL)
 	, fVolume(1.0f)
 	, fFadeTime(0.0f)
 	, fStartFadeTime(0)
 	, eState(SourceNone)
 	, bLoop(false)
+	, bAutoplay(false)
 {
 }
 
@@ -55,64 +52,59 @@ ISoundSource::~ISoundSource()
 {
 }
 
-void ISoundSource::Load(const String &filename, ResourceManager *res)
+bool ISoundSource::Load(Reader &reader, ResourceManager *res)
 {
-	UNUSED(filename);
-	UNUSED(res);
-	SEED_ABSTRACT_METHOD;
+	SEED_ASSERT(res);
+	bool ret = false;
+
+	if (pSoundSystem->IsInitialized() && this->Unload())
+	{
+		sName = reader.ReadString("sName", "sound");
+		String fname = reader.ReadString("sResource", "");
+
+		f32 vol = reader.ReadF32("fVolume", 1.0f);
+		SetVolume(vol);
+
+		bLoop = reader.ReadBool("bLoop", false);
+		bAutoplay = reader.ReadBool("bAutoplay", false);
+
+		ITransformable::Unserialize(reader);
+		IRenderable::Unserialize(reader);
+
+		pSound = static_cast<Sound *>(res->Get(fname.c_str(), Seed::TypeSound));
+		ret = OnLoadFinished();
+
+		if (bAutoplay)
+			Play();
+	}
+
+	return ret;
 }
 
-void ISoundSource::Unload()
+bool ISoundSource::Write(Writer &writer)
 {
+	writer.OpenNode();
+		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sName", sName.c_str());
+		writer.WriteString("sResource", pSound->GetFilename().c_str());
+		writer.WriteF32("fVolume", fVolume);
+		writer.WriteBool("bLoop", bLoop);
+		writer.WriteBool("bAutoplay", bAutoplay);
+
+		ITransformable::Serialize(writer);
+		IRenderable::Serialize(writer);
+
+		writer.CloseArray();
+	writer.CloseNode();
+
+	return true;
+}
+
+bool ISoundSource::Unload()
+{
+	bool ret = OnUnloadRequest();
 	eState = SourceNone;
-}
-
-void ISoundSource::SetPosition(f32 x, f32 y, f32 z)
-{
-	Vector3f v(x, y, z);
-	cPosition = v;
-}
-
-void ISoundSource::SetPosition(Vector3f vec)
-{
-	cPosition = vec;
-}
-
-void ISoundSource::GetPosition(Vector3f *vec) const
-{
-	*vec = cPosition;
-}
-
-void ISoundSource::SetVelocity(f32 x, f32 y, f32 z)
-{
-	Vector3f v(x, y, z);
-	cVelocity = v;
-}
-
-void ISoundSource::SetVelocity(Vector3f vec)
-{
-	cVelocity = vec;
-}
-
-void ISoundSource::GetVelocity(Vector3f *vec) const
-{
-	*vec = cVelocity;
-}
-
-void ISoundSource::SetOrientation(f32 x, f32 y, f32 z)
-{
-	Vector3f v(x, y, z);
-	cOrientation = v;
-}
-
-void ISoundSource::SetOrientation(Vector3f vec)
-{
-	cOrientation = vec;
-}
-
-void ISoundSource::GetOrientation(Vector3f *vec) const
-{
-	*vec = cOrientation;
+	return ret;
 }
 
 void ISoundSource::SetVolume(f32 vol)
@@ -201,9 +193,14 @@ eSoundSourceState ISoundSource::GetState() const
 	return eState;
 }
 
+void ISoundSource::Render(const Matrix4f &worldTransform)
+{
+	UNUSED(worldTransform);
+}
+
 const String ISoundSource::GetObjectName() const
 {
-	return "ISoundSource";
+	return "SoundSource";
 }
 
 int ISoundSource::GetObjectType() const

@@ -203,6 +203,8 @@ bool Initialize()
 	SceneObjectFactory::Register("Movie", FactoryMovie);
 	SceneObjectFactory::Register("ParticleEmitter", FactoryParticleEmitter);
 	SceneObjectFactory::Register("Image", FactoryImage);
+	SceneObjectFactory::Register("SoundSource", FactorySoundSource);
+//	SceneObjectFactory::Register("Music", FactoryMusic);
 
 	Private::bInitialized = true;
 

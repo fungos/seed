@@ -43,7 +43,6 @@ namespace Seed { namespace OAL {
 
 SoundSource::SoundSource()
 	: iSource(0)
-	, pSound(NULL)
 {
 }
 
@@ -52,45 +51,37 @@ SoundSource::~SoundSource()
 	this->Unload();
 }
 
-void SoundSource::Load(const String &fname, ResourceManager *res)
+bool SoundSource::OnLoadFinished()
 {
-	SEED_ASSERT(res);
+	if (iSource)
+		alDeleteSources(1, &iSource);
+	ALenum err = alGetError();
 
-	if (pSoundSystem->IsInitialized())
-	{
-		this->Unload();
+	alGenSources(1, &iSource);
+	err = alGetError();
+	if (err != AL_NO_ERROR)
+		Info(TAG "Could not create OpenAL Source: %4x", err);
 
-		/* Get the resource */
-		pSound = static_cast<Sound *>(res->Get(fname.c_str(), Seed::TypeSound));
+	const ALint *buffer = static_cast<const ALint *>(pSound->GetData());
 
-		if (iSource)
-			alDeleteSources(1, &iSource);
-		ALenum err = alGetError();
+	alDistanceModel(AL_LINEAR_DISTANCE);
+	alSource3f(iSource, AL_POSITION, GetX(), GetY(), GetZ());
+	alSource3f(iSource, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
+	alSource3f(iSource, AL_DIRECTION, 0.0f, 0.0f, 0.0f); // direction == vector forward == transfromMatrix column 2;
+	alSourcei(iSource, AL_LOOPING, bLoop);
+	alSourcef(iSource, AL_ROLLOFF_FACTOR, 1.0f);
+	alSourcef(iSource, AL_MAX_DISTANCE, 1.0f);
+	alSourcef(iSource, AL_REFERENCE_DISTANCE, 1.0f);
+	alSourcef(iSource, AL_PITCH, 1.0f);
+	alSourcef(iSource, AL_GAIN, 1.0f);
+	alSourcei(iSource, AL_BUFFER, *buffer);
 
-		alGenSources(1, &iSource);
-		err = alGetError();
-		if (err != AL_NO_ERROR)
-			Info(TAG "Could not create OpenAL Source: %4x", err);
+	this->SetVolume(fVolume);
 
-		const ALint *buffer = static_cast<const ALint *>(pSound->GetData());
-
-		alDistanceModel(AL_LINEAR_DISTANCE);
-		alSource3f(iSource, AL_POSITION, cPosition.getX(), cPosition.getY(), cPosition.getZ());
-		alSource3f(iSource, AL_VELOCITY, cVelocity.getX(), cVelocity.getY(), cVelocity.getZ());
-		alSource3f(iSource, AL_DIRECTION, 0.0f, 0.0f, 0.0f);
-		alSourcei(iSource, AL_LOOPING, bLoop);
-		alSourcef(iSource, AL_ROLLOFF_FACTOR, 1.0f);
-		alSourcef(iSource, AL_MAX_DISTANCE, 1.0f);
-		alSourcef(iSource, AL_REFERENCE_DISTANCE, 1.0f);
-		alSourcef(iSource, AL_PITCH, 1.0f);
-		alSourcef(iSource, AL_GAIN, 1.0f);
-		alSourcei(iSource, AL_BUFFER, *buffer);
-
-		this->SetVolume(fVolume);
-	}
+	return true;
 }
 
-void SoundSource::Unload()
+bool SoundSource::OnUnloadRequest()
 {
 	if (Private::bInitialized)
 		pSoundSystem->Remove(this);
@@ -99,6 +90,8 @@ void SoundSource::Unload()
 		alDeleteSources(1, &iSource);
 
 	sRelease(pSound);
+
+	return true;
 }
 
 void SoundSource::SetVolume(f32 vol)
@@ -139,6 +132,17 @@ void SoundSource::Resume()
 	{
 		alSourcePlay(iSource);
 		eState = SourcePlay;
+	}
+}
+
+void SoundSource::Update(f32 delta)
+{
+	UNUSED(delta);
+
+	if (bTransformationChanged)
+	{
+		alSource3f(iSource, AL_POSITION, GetX(), GetY(), GetZ());
+		ITransformable::UpdateTransform();
 	}
 }
 

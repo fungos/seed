@@ -485,6 +485,11 @@ f32 ITransformable::GetY() const
 	return y;
 }
 
+f32 ITransformable::GetZ() const
+{
+	return GetPriority();
+}
+
 Vector3f ITransformable::GetPosition() const
 {
 	Vector3f p = vPos;

@@ -32,7 +32,8 @@
 #define __ISOUND_SOURCE_H__
 
 #include "Defines.h"
-#include "interface/IObject.h"
+#include "interface/ISceneObject.h"
+#include "ISound.h"
 #include "MathUtil.h"
 
 namespace Seed {
@@ -56,26 +57,11 @@ enum eSoundSourceState
 };
 
 /// Sound source interface
-class SEED_CORE_API ISoundSource : public IObject
+class SEED_CORE_API ISoundSource : public ISceneObject
 {
 	public:
 		ISoundSource();
 		virtual ~ISoundSource();
-
-		virtual void Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual void Unload();
-
-		virtual void SetPosition(f32 x, f32 y, f32 z);
-		virtual void SetPosition(Vector3f vec);
-		virtual void GetPosition(Vector3f *vec) const;
-
-		virtual void SetVelocity(f32 x, f32 y, f32 z);
-		virtual void SetVelocity(Vector3f vec);
-		virtual void GetVelocity(Vector3f *vec) const;
-
-		virtual void SetOrientation(f32 x, f32 y, f32 z);
-		virtual void SetOrientation(Vector3f vec);
-		virtual void GetOrientation(Vector3f *vec) const;
 
 		virtual void SetVolume(f32 vol);
 		virtual f32 GetVolume() const;
@@ -94,24 +80,32 @@ class SEED_CORE_API ISoundSource : public IObject
 		virtual void SetLoop(bool b);
 		virtual bool IsLoop() const;
 
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
+
+		// IRenderable
+		virtual void Render(const Matrix4f &worldTransform);
+
 		// IObject
 		virtual const String GetObjectName() const;
 		virtual int GetObjectType() const;
 
 	protected:
+		virtual bool OnLoadFinished()= 0;
+		virtual bool OnUnloadRequest() = 0;
+
 		virtual eSoundSourceState GetState() const;
 
 	protected:
-		Vector3f cPosition;
-		Vector3f cVelocity;
-		Vector3f cOrientation;
-		f32 fMin;
-		f32 fMax;
+		ISound *pSound;
 		f32 fVolume;
 		f32 fFadeTime;
 		u64 fStartFadeTime;
 		eSoundSourceState eState;
 		bool bLoop;
+		bool bAutoplay;
 
 	private:
 		SEED_DISABLE_COPY(ISoundSource);

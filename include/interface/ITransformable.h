@@ -92,6 +92,7 @@ class SEED_CORE_API ITransformable
 
 		virtual f32 GetX() const;
 		virtual f32 GetY() const;
+		virtual f32 GetZ() const;
 		virtual Vector3f GetPosition() const;
 
 		virtual f32 GetPivotX() const;

@@ -51,7 +51,7 @@ IResource *SoundResourceLoader(const String &filename, ResourceManager *res)
 
 Sound::Sound()
 	: iBuffer(0)
-    , iSize(0)
+	, iSize(0)
 {
 }
 

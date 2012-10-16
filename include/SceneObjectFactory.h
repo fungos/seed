@@ -45,6 +45,7 @@ typedef ISceneObject *(*pSceneObjectFactoryFunc)();
 typedef Map<String, pSceneObjectFactoryFunc> FactoryMap;
 typedef FactoryMap::iterator FactoryMapIterator;
 
+ISceneObject *FactorySoundSource();
 
 class SEED_CORE_API SceneObjectFactory
 {
