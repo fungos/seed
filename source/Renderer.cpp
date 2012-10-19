@@ -45,7 +45,7 @@ struct SEED_CORE_API VisibleObjectAscendingPrioritySort
 {
 	bool operator()(VisibleObject const &left, VisibleObject const &right)
 	{
-		return (left.pObj->GetPriority() < right.pObj->GetPriority());
+		return (left.pObj->GetZ() < right.pObj->GetZ());
 	}
 };
 
@@ -54,7 +54,7 @@ struct SEED_CORE_API VisibleObjectDescendingPrioritySort
 {
 	bool operator()(VisibleObject const &left, VisibleObject const &right)
 	{
-		return (left.pObj->GetPriority() > right.pObj->GetPriority());
+		return (left.pObj->GetZ() > right.pObj->GetZ());
 	}
 };
 

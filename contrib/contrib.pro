@@ -169,8 +169,6 @@ SOURCES += yajl/yajl_buf.c \
 	lua/lzio.c \
 	lua/lvm.c \
 	lua/lundump.c \
-	lua/luac.c \
-	lua/lua.c \
 	lua/ltm.c \
 	lua/ltablib.c \
 	lua/ltable.c \

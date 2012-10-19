@@ -200,7 +200,7 @@ void Sprite::Reset()
 	iFrames 		= 0;
 	fFrameTime		= 0.0f;
 
-	this->SetPriority(0);
+	this->SetZ(0);
 }
 
 void Sprite::operator+=(Animation *anim)

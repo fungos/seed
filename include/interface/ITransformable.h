@@ -49,14 +49,19 @@ class SEED_CORE_API ITransformable
 
 		virtual void SetWidth(f32 w);
 		virtual void SetHeight(f32 h);
+		virtual void SetDepth(f32 d);
 
 		virtual void SetX(f32 x);
 		virtual void SetY(f32 y);
+		virtual void SetZ(f32 z);
 		virtual void AddX(f32 value);
 		virtual void AddY(f32 value);
+		virtual void AddZ(f32 value);
 
 		virtual void SetPosition(f32 x, f32 y);
 		virtual void AddPosition(f32 x, f32 y);
+		virtual void SetPosition(f32 x, f32 y, f32 z);
+		virtual void AddPosition(f32 x, f32 y, f32 z);
 		virtual void SetPosition(const Vector3f &pos);
 		virtual void AddPosition(const Vector3f &pos);
 
@@ -69,6 +74,8 @@ class SEED_CORE_API ITransformable
 
 		virtual void SetPivot(f32 x, f32 y);
 		virtual void AddPivot(f32 x, f32 y);
+		virtual void SetPivot(f32 x, f32 y, f32 z);
+		virtual void AddPivot(f32 x, f32 y, f32 z);
 		virtual void SetPivot(const Vector3f &pos);
 		virtual void AddPivot(const Vector3f &pos);
 
@@ -77,18 +84,23 @@ class SEED_CORE_API ITransformable
 
 		virtual void SetScaleX(f32 scaleX);
 		virtual void SetScaleY(f32 scaleY);
-		virtual void SetScale(f32 scale);
+		virtual void SetScaleZ(f32 scaleZ);
+		virtual void SetScale(f32 scaleXY);
 		virtual void SetScale(f32 scaleX, f32 scaleY);
+		virtual void SetScale(f32 scaleX, f32 scaleY, f32 scaleZ);
 		virtual void SetScale(const Vector3f &scale);
 
 		virtual void AddScaleX(f32 scaleX);
 		virtual void AddScaleY(f32 scaleY);
+		virtual void AddScaleZ(f32 scaleZ);
 		virtual void AddScale(f32 scale);
 		virtual void AddScale(f32 scaleX, f32 scaleY);
+		virtual void AddScale(f32 scaleX, f32 scaleY, f32 scaleZ);
 		virtual void AddScale(const Vector3f &scale);
 
 		virtual f32 GetWidth() const;
 		virtual f32 GetHeight() const;
+		virtual f32 GetDepth() const;
 
 		virtual f32 GetX() const;
 		virtual f32 GetY() const;
@@ -104,13 +116,12 @@ class SEED_CORE_API ITransformable
 
 		virtual f32 GetScaleX() const;
 		virtual f32 GetScaleY() const;
+		virtual f32 GetScaleZ() const;
 		virtual Vector3f GetScale() const;
 
 		virtual bool ContainsPoint(f32 x, f32 y) const;
+		virtual bool ContainsPoint(f32 x, f32 y, f32 z) const;
 		virtual bool ContainsPoint(const Vector3f &pos) const;
-
-		virtual void SetPriority(f32 prio);
-		virtual f32 GetPriority() const;
 
 		virtual void UpdateTransform();
 		void UpdateBoundingCircle();
@@ -153,7 +164,7 @@ struct SEED_CORE_API ITransformableAscendingPrioritySort
 {
 	bool operator()(ITransformable * const &left, ITransformable * const &right)
 	{
-		return (left->GetPriority() < right->GetPriority());
+		return (left->GetZ() < right->GetZ());
 	}
 };
 
@@ -162,7 +173,7 @@ struct SEED_CORE_API ITransformableDescendingPrioritySort
 {
 	bool operator()(ITransformable * const &left, ITransformable * const &right)
 	{
-		return (left->GetPriority() > right->GetPriority());
+		return (left->GetZ() > right->GetZ());
 	}
 };
 

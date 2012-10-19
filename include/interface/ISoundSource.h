@@ -105,7 +105,7 @@ class SEED_CORE_API ISoundSource : public ISceneObject
 		u64 fStartFadeTime;
 		eSoundSourceState eState;
 		bool bLoop;
-		bool bAutoplay;
+		bool bAutoPlay;
 
 	private:
 		SEED_DISABLE_COPY(ISoundSource);

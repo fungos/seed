@@ -446,7 +446,7 @@ void Timeline::SetPriority(u32 p)
 {
 	iPriority = p;
 	if (pObject)
-		pObject->SetPriority(p);
+		pObject->SetZ(p);
 }
 
 u32 Timeline::GetPriority() const
@@ -520,7 +520,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 			Reader r(reader);
 			Sprite *spt = New(Sprite);
 			spt->Load(r, res);
-			spt->SetPriority(iPriority);
+			spt->SetZ(iPriority);
 			pObject = spt;
 			reader.UnselectNode();
 		}
@@ -533,7 +533,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 			Reader r(f);
 			Sprite *spt = New(Sprite);
 			spt->Load(r, res);
-			spt->SetPriority(iPriority);
+			spt->SetZ(iPriority);
 			pObject = spt;
 		}
 

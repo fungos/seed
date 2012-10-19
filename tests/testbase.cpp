@@ -16,7 +16,7 @@ bool TestBase::Initialize()
 	pInput->AddKeyboardListener(this);
 
 	/* ------- Rendering Initialization ------- */
-	cScene.SetPriority(0);
+	cScene.SetZ(0);
 	cRenderer.Add(&cScene);
 
 	cViewport.SetHeight(pScreen->GetHeight());
@@ -44,21 +44,6 @@ bool TestBase::Initialize()
 
 	cScene.sName = "Main";
 
-//	{
-//		File f("teste.emitter");
-//		Reader r(f);
-//		cEmitter.Load(r);
-//		cEmitter.SetPosition(200, 100);
-//		cEmitter.SetPriority(10.0f);
-//		cScene.Add(&cEmitter);
-//	}
-
-//	{
-//		Writer w;
-//		cEmitter.Write(w);
-//		w.Save("out.emitter");
-//	}
-
 	{
 //		File f("anim.sprite");
 //		Reader r(f);
@@ -68,7 +53,8 @@ bool TestBase::Initialize()
 //		sptLogo.SetPivot(0.0f, 0.0f);
 //		sptLogo.SetPosition(401, 100);
 //		sptLogo.SetRotation(45.f);
-		cCamera.SetPosition(-400, -300);
+
+//		cCamera.SetPosition(-400, -300);
 
 //		sptLogo.SetPriority(100.0f);
 //		cScene.Add(&sptLogo);
@@ -86,14 +72,17 @@ bool TestBase::Initialize()
 		File f("sample.movie");
 		Reader r(f);
 		mvSample.Load(r);
-		mvSample.SetPriority(200.0f);
+		mvSample.SetZ(200.0f);
 		cScene.Add(&mvSample);
 	}
 
 //	{
-//		Writer w;
-//		mvSample.Write(w);
-//		w.Save("out.movie");
+//		File f("teste.emitter");
+//		Reader r(f);
+//		cEmitter.Load(r);
+//		cEmitter.SetPosition(-400, -300);
+//		cEmitter.SetPriority(10.0f);
+//		cScene.Add(&cEmitter);
 //	}
 
 //	cScene.SetPosition(100, 100);
@@ -103,12 +92,12 @@ bool TestBase::Initialize()
 	musTheme.SetVolume(.2f);
 	pSoundSystem->PlayMusic(&musTheme);
 
-//	sfxSound.Load("sfx.ogg");
-//	sfxSound.SetLoop(true);
-//	sfxSound.SetVolume(1.0f);
-//	pSoundSystem->Add(&sfxSound);
+//	{
+//		File f("sound.sfx");
+//		Reader r(f);
+//		sfxSound.Load(r);
+//	}
 
-	sfxSound.Play();
 	pScreen->FadeIn();
 
 	return true;
@@ -117,7 +106,7 @@ bool TestBase::Initialize()
 bool TestBase::Update(f32 dt)
 {
 	UNUSED(dt)
-	//pRendererDevice->DrawRect(100, 100, 50, 50, Color(255, 0, 255, 255), true);
+//	pRendererDevice->DrawRect(100, 100, 50, 50, Color(255, 0, 255, 255), true);
 	return true;
 }
 

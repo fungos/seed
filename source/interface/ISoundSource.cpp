@@ -44,7 +44,7 @@ ISoundSource::ISoundSource()
 	, fStartFadeTime(0)
 	, eState(SourceNone)
 	, bLoop(false)
-	, bAutoplay(false)
+	, bAutoPlay(false)
 {
 }
 
@@ -62,20 +62,19 @@ bool ISoundSource::Load(Reader &reader, ResourceManager *res)
 		sName = reader.ReadString("sName", "sound");
 		String fname = reader.ReadString("sResource", "");
 
-		f32 vol = reader.ReadF32("fVolume", 1.0f);
-		SetVolume(vol);
-
+		fVolume = reader.ReadF32("fVolume", 1.0f);
 		bLoop = reader.ReadBool("bLoop", false);
-		bAutoplay = reader.ReadBool("bAutoplay", false);
+		bAutoPlay = reader.ReadBool("bAutoPlay", false);
 
 		ITransformable::Unserialize(reader);
 		IRenderable::Unserialize(reader);
 
 		pSound = static_cast<Sound *>(res->Get(fname.c_str(), Seed::TypeSound));
-		ret = OnLoadFinished();
+		ret = this->OnLoadFinished();
 
-		if (bAutoplay)
-			Play();
+		pSoundSystem->Add(this);
+		if (bAutoPlay)
+			this->Play();
 	}
 
 	return ret;
@@ -89,7 +88,7 @@ bool ISoundSource::Write(Writer &writer)
 		writer.WriteString("sResource", pSound->GetFilename().c_str());
 		writer.WriteF32("fVolume", fVolume);
 		writer.WriteBool("bLoop", bLoop);
-		writer.WriteBool("bAutoplay", bAutoplay);
+		writer.WriteBool("bAutoPlay", bAutoPlay);
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);
@@ -103,6 +102,7 @@ bool ISoundSource::Write(Writer &writer)
 bool ISoundSource::Unload()
 {
 	bool ret = OnUnloadRequest();
+	pSoundSystem->Remove(this);
 	eState = SourceNone;
 	return ret;
 }

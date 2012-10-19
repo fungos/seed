@@ -45,7 +45,7 @@ ITransformable::ITransformable()
 #endif
 	, vTransformedPivot(0.0f, 0.0f, 0.0f)
 	, vScale(1.0f, 1.0f, 1.0f)
-	, vBoundingBox(0.0f, 0.0f, 0.0f)
+	, vBoundingBox(0.0f, 0.0f, 1.0f)
 	, fBoundingCircleRadius(0.0f)
 	, fRotation(0.0f)
 	, bTransformationChanged(true)
@@ -94,6 +94,16 @@ void ITransformable::SetHeight(f32 h)
 	bTransformationChanged = true;
 }
 
+void ITransformable::SetDepth(f32 d)
+{
+	if (d == vBoundingBox.getZ())
+		return;
+
+	vBoundingBox.setZ(d);
+
+	bTransformationChanged = true;
+}
+
 void ITransformable::SetX(f32 x)
 {
 	if (x == vPos.getX())
@@ -109,6 +119,15 @@ void ITransformable::SetY(f32 y)
 		return;
 
 	vPos.setY(y);
+	bTransformationChanged = true;
+}
+
+void ITransformable::SetZ(f32 z)
+{
+	if (z == vPos.getZ())
+		return;
+
+	vPos.setZ(z);
 	bTransformationChanged = true;
 }
 
@@ -130,6 +149,15 @@ void ITransformable::AddY(f32 value)
 	bTransformationChanged = true;
 }
 
+void ITransformable::AddZ(f32 value)
+{
+	if (value == 0)
+		return;
+
+	vPos.setZ(vPos.getZ() + value);
+	bTransformationChanged = true;
+}
+
 void ITransformable::SetPosition(f32 x, f32 y)
 {
 	if (vPos.getX() == x && vPos.getY() == y)
@@ -137,6 +165,17 @@ void ITransformable::SetPosition(f32 x, f32 y)
 
 	vPos.setX(x);
 	vPos.setY(y);
+	bTransformationChanged = true;
+}
+
+void ITransformable::SetPosition(f32 x, f32 y, f32 z)
+{
+	if (vPos.getX() == x && vPos.getY() == y && vPos.getZ() == z)
+		return;
+
+	vPos.setX(x);
+	vPos.setY(y);
+	vPos.setZ(z);
 	bTransformationChanged = true;
 }
 
@@ -156,6 +195,17 @@ void ITransformable::AddPosition(f32 x, f32 y)
 
 	vPos.setX(vPos.getX() + x);
 	vPos.setY(vPos.getY() + y);
+	bTransformationChanged = true;
+}
+
+void ITransformable::AddPosition(f32 x, f32 y, f32 z)
+{
+	if (0.0f == x && 0.0f == y && 0.0f == z)
+		return;
+
+	vPos.setX(vPos.getX() + x);
+	vPos.setY(vPos.getY() + y);
+	vPos.setZ(vPos.getZ() + z);
 	bTransformationChanged = true;
 }
 
@@ -253,6 +303,20 @@ void ITransformable::SetPivot(f32 x, f32 y)
 	VectorAgg(vTransformedPivot, vBoundingBox);
 }
 
+void ITransformable::SetPivot(f32 x, f32 y, f32 z)
+{
+	if (vPivot.getX() == x && vPivot.getY() == y && vPivot.getZ() == z)
+		return;
+
+	vPivot.setX(x);
+	vPivot.setY(y);
+	vPivot.setZ(z);
+	bTransformationChanged = true;
+
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
+}
+
 void ITransformable::SetPivot(const Vector3f &pos)
 {
 	if (VectorEquals(vPivot, pos))
@@ -272,6 +336,20 @@ void ITransformable::AddPivot(f32 x, f32 y)
 
 	vPivot.setX(vPivot.getX() + x);
 	vPivot.setY(vPivot.getY() + y);
+	bTransformationChanged = true;
+
+	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
+	VectorAgg(vTransformedPivot, vBoundingBox);
+}
+
+void ITransformable::AddPivot(f32 x, f32 y, f32 z)
+{
+	if (0.0f == x && 0.0f == y && 0.0f == z)
+		return;
+
+	vPivot.setX(vPivot.getX() + x);
+	vPivot.setY(vPivot.getY() + y);
+	vPivot.setY(vPivot.getZ() + z);
 	bTransformationChanged = true;
 
 	vTransformedPivot = vPivot - Vector3f(0.5f, 0.5f, 0.5f);
@@ -340,13 +418,23 @@ void ITransformable::SetScaleY(f32 scaleY)
 	bTransformationChanged = true;
 }
 
-void ITransformable::SetScale(f32 scale)
+void ITransformable::SetScaleZ(f32 scaleZ)
 {
-	if (vScale.getX() == scale && vScale.getY() == scale)
+	if (vScale.getZ() == scaleZ)
 		return;
 
-	vScale.setX(scale);
-	vScale.setY(scale);
+	vScale.setZ(scaleZ);
+	bTransformationChanged = true;
+}
+
+void ITransformable::SetScale(f32 scaleXY)
+{
+	if (vScale.getX() == scaleXY && vScale.getY() == scaleXY)
+		return;
+
+	vScale.setX(scaleXY);
+	vScale.setY(scaleXY);
+
 	bTransformationChanged = true;
 }
 
@@ -369,6 +457,17 @@ void ITransformable::SetScale(f32 scaleX, f32 scaleY)
 	bTransformationChanged = true;
 }
 
+void ITransformable::SetScale(f32 scaleX, f32 scaleY, f32 scaleZ)
+{
+	if (vScale.getX() == scaleX && vScale.getY() == scaleY && vScale.getZ() == scaleZ)
+		return;
+
+	vScale.setX(scaleX);
+	vScale.setY(scaleY);
+	vScale.setZ(scaleZ);
+	bTransformationChanged = true;
+}
+
 void ITransformable::AddScaleX(f32 scaleX)
 {
 	if (0.0f == scaleX)
@@ -387,6 +486,15 @@ void ITransformable::AddScaleY(f32 scaleY)
 	bTransformationChanged = true;
 }
 
+void ITransformable::AddScaleZ(f32 scaleZ)
+{
+	if (0.0f == scaleZ)
+		return;
+
+	vScale.setZ(vScale.getZ() + scaleZ);
+	bTransformationChanged = true;
+}
+
 void ITransformable::AddScale(f32 scaleX, f32 scaleY)
 {
 	if (0.0f == scaleX && 0.0f == scaleY)
@@ -394,6 +502,17 @@ void ITransformable::AddScale(f32 scaleX, f32 scaleY)
 
 	vScale.setX(vScale.getX() + scaleX);
 	vScale.setY(vScale.getY() + scaleY);
+	bTransformationChanged = true;
+}
+
+void ITransformable::AddScale(f32 scaleX, f32 scaleY, f32 scaleZ)
+{
+	if (0.0f == scaleX && 0.0f == scaleY && 0.0f == scaleZ)
+		return;
+
+	vScale.setX(vScale.getX() + scaleX);
+	vScale.setY(vScale.getY() + scaleY);
+	vScale.setZ(vScale.getZ() + scaleZ);
 	bTransformationChanged = true;
 }
 
@@ -443,6 +562,15 @@ f32 ITransformable::GetScaleY() const
 	return s;
 }
 
+f32 ITransformable::GetScaleZ() const
+{
+	f32 s = vScale.getZ();
+	if (pParent)
+		s *= pParent->GetScaleZ();
+
+	return s;
+}
+
 Vector3f ITransformable::GetScale() const
 {
 	Vector3f s = vScale;
@@ -467,6 +595,11 @@ f32 ITransformable::GetHeight() const
 	return vBoundingBox.getY() * Number::Abs(this->GetScaleY());
 }
 
+f32 ITransformable::GetDepth() const
+{
+	return vBoundingBox.getZ() * Number::Abs(this->GetScaleZ());
+}
+
 f32 ITransformable::GetX() const
 {
 	f32 x = vPos.getX();
@@ -487,7 +620,12 @@ f32 ITransformable::GetY() const
 
 f32 ITransformable::GetZ() const
 {
-	return GetPriority();
+	u32 prio = vPos.getZ();
+
+	if (pParent)
+		prio += pParent->GetZ();
+
+	return prio;
 }
 
 Vector3f ITransformable::GetPosition() const
@@ -557,24 +695,39 @@ bool ITransformable::ContainsPoint(f32 x, f32 y) const
 	return true;
 }
 
+bool ITransformable::ContainsPoint(f32 x, f32 y, f32 z) const
+{
+	if (x > (this->GetX() + this->GetWidth()))
+	{
+		return false;
+	}
+	else if	(x < this->GetX())
+	{
+		return false;
+	}
+	if (y > (this->GetY() + this->GetHeight()))
+	{
+		return false;
+	}
+	else if	(y < this->GetY())
+	{
+		return false;
+	}
+	if (z > (this->GetZ() + this->GetDepth()))
+	{
+		return false;
+	}
+	else if	(z < this->GetZ())
+	{
+		return false;
+	}
+
+	return true;
+}
+
 bool ITransformable::ContainsPoint(const Vector3f &pos) const
 {
-	return this->ContainsPoint(pos.getX(), pos.getY());
-}
-
-void ITransformable::SetPriority(f32 prio)
-{
-	vPos.setZ(prio);
-}
-
-f32 ITransformable::GetPriority() const
-{
-	u32 prio = vPos.getZ();
-
-	if (pParent)
-		prio += pParent->GetPriority();
-
-	return prio;
+	return this->ContainsPoint(pos.getX(), pos.getY()); // Z?
 }
 
 void ITransformable::SetParent(ITransformable *parent)
@@ -629,13 +782,13 @@ void ITransformable::UpdateBoundingCircle()
 
 void ITransformable::Unserialize(Reader &reader)
 {
-	vPos.setZ(reader.ReadF32("fPriority", 0.0f));
 	this->SetRotation(reader.ReadF32("fRotation", 0.0f));
 
 	if (reader.SelectNode("cPosition"))
 	{
 		vPos.setX(reader.ReadF32("x", 0.0f));
 		vPos.setY(reader.ReadF32("y", 0.0f));
+		vPos.setZ(reader.ReadF32("z", 0.0f));
 		reader.UnselectNode();
 	}
 
@@ -643,6 +796,7 @@ void ITransformable::Unserialize(Reader &reader)
 	{
 		vPivot.setX(reader.ReadF32("x", 0.0f));
 		vPivot.setY(reader.ReadF32("y", 0.0f));
+		vPivot.setZ(reader.ReadF32("z", 0.0f));
 		reader.UnselectNode();
 	}
 
@@ -657,22 +811,24 @@ void ITransformable::Unserialize(Reader &reader)
 
 void ITransformable::Serialize(Writer &writer)
 {
-	writer.WriteF32("fPriority", (s32)vPos.getZ());
 	writer.WriteF32("fRotation", fRotation);
 
 	writer.OpenNode("cPosition");
 		writer.WriteF32("x", vPos.getX());
 		writer.WriteF32("y", vPos.getY());
+		writer.WriteF32("z", vPos.getZ());
 	writer.CloseNode();
 
 	writer.OpenNode("cPivot");
 		writer.WriteF32("x", vPivot.getX());
 		writer.WriteF32("y", vPivot.getY());
+		writer.WriteF32("z", vPivot.getZ());
 	writer.CloseNode();
 
 	writer.OpenNode("cScale");
 		writer.WriteF32("x", vScale.getX());
 		writer.WriteF32("y", vScale.getY());
+		writer.WriteF32("z", vScale.getZ());
 	writer.CloseNode();
 }
 

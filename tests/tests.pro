@@ -19,7 +19,8 @@ OTHER_FILES += \
 	bin/out.sprite \
 	bin/particles.sprite \
 	bin/teste.emitter \
-	bin/app.config
+	bin/app.config \
+    bin/sound.sfx
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../tests/bin
