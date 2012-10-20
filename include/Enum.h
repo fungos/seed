@@ -372,7 +372,8 @@ enum eMeshType
 	TriangleStrip,
 	Triangles,
 	LineStrip,
-	Quads
+	Quads,
+	MeshTypeCount
 };
 
 /*

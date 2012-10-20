@@ -506,8 +506,8 @@ void OGLES1RendererDevice::UploadData(void *userData)
 
 int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const
 {
-	UNUSED(type);
-	return GL_TRIANGLE_STRIP;
+	int types[MeshTypeCount] = {GL_TRIANGLE_STRIP, GL_TRIANGLES, GL_LINE_STRIP, GL_QUADS};
+	return types[type];
 }
 
 void OGLES1RendererDevice::BackbufferFill(const Color &color) const

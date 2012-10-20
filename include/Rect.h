@@ -72,6 +72,16 @@ template <class TYPE> class Rect
 			return *this;
 		}
 
+		inline TYPE Width() const
+		{
+			return (x2 - x1);
+		}
+
+		inline TYPE Height() const
+		{
+			return (y2 - y1);
+		}
+
 		inline bool operator==(const Rect<TYPE> &rect) const
 		{
 			return ((x1 == rect.x1) && (y1 == rect.y1) && (x2 == rect.x2) && (y2 == rect.y2));

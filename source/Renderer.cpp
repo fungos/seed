@@ -160,16 +160,16 @@ void Renderer::Culler(Camera *camera)
 		ISceneObject *obj = const_cast<ISceneObject *>(*it);
 		SEED_ASSERT(obj);
 
-		fprintf(stdout, "Check %s\n", obj->sName.c_str());
+//		fprintf(stdout, "Check %s\n", obj->sName.c_str());
 		if (camera->Contains(obj, visible.mWorldTransform))
 		{
 			visible.pObj = obj;
 			vVisibleRenderables.push_back(visible);
-			fprintf(stdout, "+ %s IN\n", obj->sName.c_str());
+//			fprintf(stdout, "+ %s IN\n", obj->sName.c_str());
 		}
 		else
 		{
-			fprintf(stdout, "- %s OUT\n", obj->sName.c_str());
+//			fprintf(stdout, "- %s OUT\n", obj->sName.c_str());
 		}
 	}
 

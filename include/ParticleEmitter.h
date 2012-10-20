@@ -172,6 +172,9 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		eTextureFilter			nMinFilter;
 		eTextureFilter			nMagFilter;
 
+		sVertex					*pVertexData;
+		u32						iVertexAmount;
+
 		bool					bParticlesFollowEmitter;
 		bool					bPaused;
 		bool					bEnabled;

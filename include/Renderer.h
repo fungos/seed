@@ -46,11 +46,11 @@ struct VisibleObject
 {
 	Matrix4f mWorldTransform;
 	ISceneObject *pObj;
-    
-    VisibleObject()
-        : mWorldTransform()
-        , pObj(NULL)
-    {}
+
+	VisibleObject()
+		: mWorldTransform()
+		, pObj(NULL)
+	{}
 };
 
 /// Renderer

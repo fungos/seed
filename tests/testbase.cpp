@@ -36,37 +36,12 @@ bool TestBase::Initialize()
 	pRendererDevice->TextureRequestProcess();
 	// --
 
-	cCameraTex.sName = "Camera to Texture";
-	cCameraTex.SetTexture(&cRenderTarget);
-
-	cCamera.sName = "Camera";
-	//pScene->Add(&cCamera);
-
-	cScene.sName = "Main";
-
 	{
-//		File f("anim.sprite");
-//		Reader r(f);
-//		sptLogo.Load(r);
-//		sptLogo.sName = "ANIM";
-
-//		sptLogo.SetPivot(0.0f, 0.0f);
-//		sptLogo.SetPosition(401, 100);
-//		sptLogo.SetRotation(45.f);
-
-//		cCamera.SetPosition(-400, -300);
-
-//		sptLogo.SetPriority(100.0f);
-//		cScene.Add(&sptLogo);
+		File f("anim.sprite");
+		Reader r(f);
+		sptLogo.Load(r);
+		cScene.Add(&sptLogo);
 	}
-
-	cCamera.Update(0.0f);
-
-//	{
-//		Writer w;
-//		sptLogo.Write(w);
-//		w.Save("out.sprite");
-//	}
 
 	{
 		File f("sample.movie");
@@ -76,21 +51,20 @@ bool TestBase::Initialize()
 		cScene.Add(&mvSample);
 	}
 
+	{
+		File f("teste.emitter");
+		Reader r(f);
+		cEmitter.Load(r);
+		cEmitter.SetPosition(200, 0);
+		cEmitter.SetZ(10.0f);
+		cScene.Add(&cEmitter);
+	}
+
 //	{
-//		File f("teste.emitter");
-//		Reader r(f);
-//		cEmitter.Load(r);
-//		cEmitter.SetPosition(-400, -300);
-//		cEmitter.SetPriority(10.0f);
-//		cScene.Add(&cEmitter);
+//		musTheme.Load("theme.ogg");
+//		musTheme.SetVolume(.2f);
+//		pSoundSystem->PlayMusic(&musTheme);
 //	}
-
-//	cScene.SetPosition(100, 100);
-//	sptLogo.SetParent(&cScene);
-
-	musTheme.Load("theme.ogg");
-	musTheme.SetVolume(.2f);
-	pSoundSystem->PlayMusic(&musTheme);
 
 //	{
 //		File f("sound.sfx");
@@ -98,6 +72,25 @@ bool TestBase::Initialize()
 //		sfxSound.Load(r);
 //	}
 
+//	{
+//		Writer w;
+//		sptLogo.Write(w);
+//		w.Save("out.sprite");
+//	}
+
+//	cScene.SetPosition(100, 100);
+//	sptLogo.SetParent(&cScene);
+
+	cScene.sName = "Main";
+
+	cCameraTex.sName = "Camera to Texture";
+	cCameraTex.SetTexture(&cRenderTarget);
+
+	cCamera.sName = "Camera";
+	cCamera.SetPosition(-400, -300);
+	cCamera.Update(0.0f);
+
+	//pScene->Add(&cCamera);
 	pScreen->FadeIn();
 
 	return true;

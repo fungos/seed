@@ -1,6 +1,6 @@
 {
 	"sName": "PandaMovieRotation",
-	"cPosition": {"x": 400, "y": 150},
+	"cPosition": {"x": 400, "y": 150, "z": 200},
 	"cPivot": {"x": 0, "y": 0},
 	"aTimelines": [
 		{

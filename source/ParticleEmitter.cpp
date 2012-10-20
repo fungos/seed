@@ -66,6 +66,8 @@ ParticleEmitter::ParticleEmitter()
 	, iParticlesAmount(0)
 	, nMinFilter(TextureFilterLinear)
 	, nMagFilter(TextureFilterLinear)
+	, pVertexData(NULL)
+	, iVertexAmount(0)
 	, bParticlesFollowEmitter(false)
 	, bPaused(false)
 	, bEnabled(true)
@@ -95,6 +97,7 @@ bool ParticleEmitter::Unload()
 	iParticlesAmount = 0;
 	DeleteArray(arParticles);
 	Delete(pTemplate);
+	Free(pVertexData);
 
 	fInterval = 0.0f;
 	iAnimation = 0;
@@ -305,30 +308,49 @@ void ParticleEmitter::Update(f32 deltaTime)
 	vPrevLocation = location;
 	bTransformationChanged = false;
 
+	iVertexAmount = 0;
+	memset(pVertexData, '\0', sizeof(sVertex) * 4 * iParticlesAmount);
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{
 		if (!arParticles[i].bActive)
 			continue;
 
 		arParticles[i].Update(deltaTime);
-//		memcpy(arCurrentVertexData, arParticles[i].arCurrentVertexData, sizeof(sVertex) * 4);
-//		iNumVertices += 4;
-//		pTexture = arParticles[i].pFrameTexture;
+		memcpy(&pVertexData[i * 4], arParticles[i].cVertex, sizeof(sVertex) * 4);
+		iVertexAmount += 4;
+
+		pTexture = arParticles[i].pFrameTexture;
 	}
+
+	vBoundingBox = Vector3f(rBoundingBox.Width(), rBoundingBox.Height(), 1.0f);
 }
 
 void ParticleEmitter::Render(const Matrix4f &worldTransform)
 {
 	if (bEnabled && arParticles)
 	{
-		for (u32 i = 0; i < iParticlesAmount; i++)
-		{
-			if (!arParticles[i].bActive)
-				continue;
+//		for (u32 i = 0; i < iParticlesAmount; i++)
+//		{
+//			if (!arParticles[i].bActive)
+//				continue;
 
-//			arParticles[i].Render(worldTransform);
-			arParticles[i].Render(arParticles[i].mTransform);
-		}
+//			arParticles[i].Render(arParticles[i].mTransform);
+//		}
+
+		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+		SEED_ASSERT(pTexture);
+		RendererPacket packet;
+		packet.iSize = iVertexAmount;
+		packet.nMeshType = Seed::Quads;
+		packet.pVertexData = pVertexData;
+		packet.pTexture = pTexture;
+		packet.nBlendMode = eBlendOperation;
+		packet.pTransform = &mTransform;
+		packet.cColor = cColor;
+		packet.iFlags = flags;
+		packet.vPivot = vTransformedPivot;
+
+		pRendererDevice->UploadData(&packet);
 
 		if (pConfiguration->bDebugSprite)
 		{
@@ -342,23 +364,6 @@ void ParticleEmitter::Render(const Matrix4f &worldTransform)
 			f32 y = this->GetY();
 			pRendererDevice->DrawRect(x + rBoundingBox.x1, y + rBoundingBox.y1, x + rBoundingBox.x2, y + rBoundingBox.y2, p);
 		}
-
-//		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
-
-//		SEED_ASSERT(pTexture);
-
-//		RendererPacket packet;
-//		packet.iSize = iNumVertices;
-//		packet.nMeshType = nMeshType;
-//		packet.pVertexData = arCurrentVertexData;
-//		packet.pTexture = pTexture;
-//		packet.nBlendMode = eBlendOperation;
-//		packet.pTransform = &mTransform;
-//		packet.iColor = iColor;
-//		packet.iFlags = flags;
-//		packet.vPivot = vTransformedPivot;
-
-//		pRendererDevice->UploadData(&packet);
 	}
 }
 
@@ -597,6 +602,7 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 		arParticles = NewArray(Particle, cEmitter.iEmission);
 		iParticlesAmount = cEmitter.iEmission;
 
+		pVertexData = (sVertex *)Alloc(sizeof(sVertex) * iParticlesAmount * 4);
 		if (bAutoPlay)
 			this->Play();
 

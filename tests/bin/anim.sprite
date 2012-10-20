@@ -1,7 +1,8 @@
 {
 	"sType": "sprite",
 	"sName": "PandaSprite",
-	"cScale": {"x": 1, "y": 1},
+	"cScale": {"x": 1, "y": 1, "z": 1},
+	"cPosition": {"z": 100},
 	"sBlending": "none",
 	"cColor": {
 		"r": 255,

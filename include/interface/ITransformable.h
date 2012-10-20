@@ -144,7 +144,6 @@ class SEED_CORE_API ITransformable
 
 	protected:
 		ITransformable *pParent;
-		Matrix4f *pWorldTransform;
 		Matrix4f mTransform;
 		Vector3f vPos;
 		Vector3f vPivot;

@@ -31,18 +31,19 @@
 #include "interface/ITransformable.h"
 #include "Number.h"
 
+#if SEED_USE_CENTERED_PIVOT == 1
+	#define SEED_PIVOT_VALUE 0.5f
+#else
+	#define SEED_PIVOT_VALUE 0.0f
+#endif
+
 namespace Seed {
 
 ITransformable::ITransformable()
 	: pParent(NULL)
-	, pWorldTransform(NULL)
 	, mTransform()
 	, vPos(0.0f, 0.0f, 0.0f)
-#if SEED_USE_CENTERED_PIVOT == 1
-	, vPivot(0.5f, 0.5f, 0.5f)
-#else
-	, vPivot(0.0f, 0.0f, 0.0f)
-#endif
+	, vPivot(SEED_PIVOT_VALUE, SEED_PIVOT_VALUE, SEED_PIVOT_VALUE)
 	, vTransformedPivot(0.0f, 0.0f, 0.0f)
 	, vScale(1.0f, 1.0f, 1.0f)
 	, vBoundingBox(0.0f, 0.0f, 1.0f)
@@ -63,13 +64,9 @@ void ITransformable::Reset()
 	vPivot = Vector3f();
 	vScale = Vector3f();
 	vBoundingBox = Vector3f();
-	fRotation		= 0.0f;
-
-	pParent			= NULL;
-
+	fRotation = 0.0f;
+	pParent = NULL;
 	bTransformationChanged = true;
-
-	//IRenderable::Reset();
 }
 
 void ITransformable::SetWidth(f32 w)
