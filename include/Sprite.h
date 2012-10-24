@@ -40,6 +40,7 @@
 namespace Seed {
 
 class ITexture;
+class ParticleEmitter;
 struct Animation;
 struct Frame;
 
@@ -51,6 +52,7 @@ Animated Sprite
 */
 class SEED_CORE_API Sprite : public ISceneObject
 {
+	friend class ParticleEmitter;
 	public:
 		DECLARE_CONTAINER_TYPE(Vector, Animation)
 		DECLARE_CONTAINER_TYPE(Vector, Frame)

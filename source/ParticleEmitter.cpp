@@ -37,6 +37,7 @@
 #include "Particle.h"
 #include "MathUtil.h"
 #include "RendererDevice.h"
+#include "Sprite.h"
 
 namespace Seed {
 
@@ -62,6 +63,8 @@ ParticleEmitter::ParticleEmitter()
 	, fTx(0.0f)
 	, fTy(0.0f)
 	, fScale(1.0f)
+	, fParticleWidhtHalf(0.0f)
+	, fParticleHeightHalf(0.0f)
 	, iAnimation(0)
 	, iParticlesAmount(0)
 	, nMinFilter(TextureFilterLinear)
@@ -82,18 +85,6 @@ ParticleEmitter::~ParticleEmitter()
 
 bool ParticleEmitter::Unload()
 {
-	if (arParticles)
-	{
-		for (u32 i = 0; i < iParticlesAmount; i++)
-		{
-			if (!arParticles[i].bActive)
-				continue;
-
-			arParticles[i].Unload();
-			arParticles[i].bActive = false;
-		}
-	}
-
 	iParticlesAmount = 0;
 	DeleteArray(arParticles);
 	Delete(pTemplate);
@@ -103,9 +94,6 @@ bool ParticleEmitter::Unload()
 	iAnimation = 0;
 
 	memset(&cEmitter,'\0', sizeof(cEmitter));
-
-//	if (arCurrentVertexData)
-//		Free(arCurrentVertexData);
 
 	return true;
 }
@@ -121,15 +109,6 @@ void ParticleEmitter::Reset()
 	fAge = -2.0f;
 	fRespawnAge = 0.0f;
 	bPaused = false;
-
-	for (u32 i = 0; i < iParticlesAmount; i++)
-	{
-		if (!arParticles[i].bActive)
-			continue;
-
-		arParticles[i].Unload();
-		arParticles[i].bActive = false;
-	}
 }
 
 void ParticleEmitter::Update(f32 deltaTime)
@@ -176,12 +155,11 @@ void ParticleEmitter::Update(f32 deltaTime)
 		par->fAge += deltaTime;
 		if (par->fAge >= par->fTerminalAge)
 		{
-			arParticles[i].Unload();
 			arParticles[i].bActive = false;
 			continue;
 		}
 
-		accel = par->vPos - location;
+		accel = par->vPosition - location;
 		accel = normalize(accel);
 		accel2 = accel;
 		accel *= par->fRadialAccel;
@@ -201,16 +179,12 @@ void ParticleEmitter::Update(f32 deltaTime)
 		par->fColorB += par->fColorDeltaB * deltaTime;
 		par->fColorA += par->fColorDeltaA * deltaTime;
 
-		par->SetColor(par->fColorR, par->fColorG, par->fColorB, par->fColorA);
 		par->vScale.setX(par->fSize);
 		par->vScale.setY(par->fSize);
 		par->fRotation += par->fSpin;
 
-		par->vPos += (par->vVelocity * deltaTime);
-		bTransformationChanged = true;
-		par->bTransformationChanged = true;
-		par->bChanged = true;
-		rBoundingBox.Encapsulate(par->vPos.getX(), par->vPos.getY());
+		par->vPosition += (par->vVelocity * deltaTime);
+		rBoundingBox.Encapsulate(par->vPosition.getX(), par->vPosition.getY());
 	}
 
 	// Create more particles
@@ -227,12 +201,8 @@ void ParticleEmitter::Update(f32 deltaTime)
 			{
 				if (!arParticles[j].bActive)
 				{
-					arParticles[j] = *pTemplate;
 					par = &arParticles[j];
-
 					par->bActive = true;
-					par->SetVisible(true);
-
 					bFull = false;
 					break;
 				}
@@ -276,26 +246,18 @@ void ParticleEmitter::Update(f32 deltaTime)
 			par->fColorDeltaB = (cEmitter.fColorEndB - par->fColorB) / par->fTerminalAge;
 			par->fColorDeltaA = (cEmitter.fColorEndA - par->fColorA) / par->fTerminalAge;
 
-			// Update particle sprite
-			par->SetColor(par->fColorR, par->fColorG, par->fColorB, par->fColorA);
-			par->SetBlendingByName(sBlending);
 			par->vScale.setX(par->fSize);
 			par->vScale.setY(par->fSize);
-			par->vPos.setX(pos.getX());
-			par->vPos.setY(pos.getY());
-			par->bTransformationChanged = true;
-			par->bColorChanged = true;
-			rBoundingBox.Encapsulate(par->vPos.getX(), par->vPos.getY());
+			par->vPosition.setX(pos.getX());
+			par->vPosition.setY(pos.getY());
+			rBoundingBox.Encapsulate(par->vPosition.getX(), par->vPosition.getY());
 		}
 	}
 
 	rBoundingBox.x2++;
 	rBoundingBox.y2++;
 
-	ITexture *img = NULL;
-	if (arParticles)
-		 img = arParticles[0].GetTexture();
-
+	ITexture *img = pTemplate->GetTexture();
 	if (img)
 	{
 		img->SetFilter(TextureFilterTypeMag, nMagFilter);
@@ -306,20 +268,40 @@ void ParticleEmitter::Update(f32 deltaTime)
 		MoveEverything(vPos);
 
 	vPrevLocation = location;
-	bTransformationChanged = false;
+	ITransformable::UpdateTransform();
 
+	memset(pVertexData, '\0', sizeof(sVertex) * 6 * iParticlesAmount);
 	iVertexAmount = 0;
-	memset(pVertexData, '\0', sizeof(sVertex) * 4 * iParticlesAmount);
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{
 		if (!arParticles[i].bActive)
 			continue;
 
-		arParticles[i].Update(deltaTime);
-		memcpy(&pVertexData[i * 4], arParticles[i].cVertex, sizeof(sVertex) * 4);
-		iVertexAmount += 4;
+		Particle *par = &arParticles[i];
+		Color c(par->fColorR * 255, par->fColorG * 255, par->fColorB * 255, par->fColorA * 255);
+		{
+			pVertexData[iVertexAmount + 0].cCoords = pTemplate->cVertex[0].cCoords;
+			pVertexData[iVertexAmount + 0].cColor = c;
+			pVertexData[iVertexAmount + 0].cVertex = par->vPosition + Vector3f(-fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+			pVertexData[iVertexAmount + 1].cCoords = pTemplate->cVertex[1].cCoords;
+			pVertexData[iVertexAmount + 1].cColor = c;
+			pVertexData[iVertexAmount + 1].cVertex = par->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+			pVertexData[iVertexAmount + 2].cCoords = pTemplate->cVertex[2].cCoords;
+			pVertexData[iVertexAmount + 2].cColor = c;
+			pVertexData[iVertexAmount + 2].cVertex = par->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
 
-		pTexture = arParticles[i].pFrameTexture;
+			pVertexData[iVertexAmount + 3].cCoords = pTemplate->cVertex[1].cCoords;
+			pVertexData[iVertexAmount + 3].cColor = c;
+			pVertexData[iVertexAmount + 3].cVertex = par->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+			pVertexData[iVertexAmount + 4].cCoords = pTemplate->cVertex[2].cCoords;
+			pVertexData[iVertexAmount + 4].cColor = c;
+			pVertexData[iVertexAmount + 4].cVertex = par->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+			pVertexData[iVertexAmount + 5].cCoords = pTemplate->cVertex[3].cCoords;
+			pVertexData[iVertexAmount + 5].cColor = c;
+			pVertexData[iVertexAmount + 5].cVertex = par->vPosition + Vector3f(fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+		}
+
+		iVertexAmount += 6;
 	}
 
 	vBoundingBox = Vector3f(rBoundingBox.Width(), rBoundingBox.Height(), 1.0f);
@@ -329,78 +311,75 @@ void ParticleEmitter::Render(const Matrix4f &worldTransform)
 {
 	if (bEnabled && arParticles)
 	{
-//		for (u32 i = 0; i < iParticlesAmount; i++)
-//		{
-//			if (!arParticles[i].bActive)
-//				continue;
-
-//			arParticles[i].Render(arParticles[i].mTransform);
-//		}
-
-		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+		ePacketFlags flags = FlagNone;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
 		SEED_ASSERT(pTexture);
 		RendererPacket packet;
 		packet.iSize = iVertexAmount;
-		packet.nMeshType = Seed::Quads;
+		packet.nMeshType = Seed::Triangles;
 		packet.pVertexData = pVertexData;
 		packet.pTexture = pTexture;
 		packet.nBlendMode = eBlendOperation;
-		packet.pTransform = &mTransform;
+		packet.pTransform = &worldTransform;
 		packet.cColor = cColor;
 		packet.iFlags = flags;
 		packet.vPivot = vTransformedPivot;
 
 		pRendererDevice->UploadData(&packet);
 
-		if (pConfiguration->bDebugSprite)
-		{
-			Color p;
-			p.r = 255;
-			p.g = 0;
-			p.b = 0;
-			p.a = 255;
+//		{
+//			Color p;
+//			p.r = 255;
+//			p.g = 255;
+//			p.b = 0;
+//			p.a = 255;
+//			pRendererDevice->DrawCircle(rBoundingBox.x1 + rBoundingBox.Width() / 2, rBoundingBox.y1 + rBoundingBox.Height() / 2, 10.0f, p);
+//		}
 
-			f32 x = this->GetX();
-			f32 y = this->GetY();
-			pRendererDevice->DrawRect(x + rBoundingBox.x1, y + rBoundingBox.y1, x + rBoundingBox.x2, y + rBoundingBox.y2, p);
-		}
+//		//if (pConfiguration->bDebugSprite)
+//		{
+//			Color p;
+//			p.r = 255;
+//			p.g = 0;
+//			p.b = 0;
+//			p.a = 255;
+//			pRendererDevice->DrawRect(rBoundingBox.x1, rBoundingBox.y1, rBoundingBox.x2, rBoundingBox.y2, p);
+//		}
+
+//		for (u32 i = 0; i < iParticlesAmount * 6; i++)
+//		{
+//			Color p;
+//			p.r = 255;
+//			p.g = 0;
+//			p.b = 255;
+//			p.a = 255;
+//			pRendererDevice->DrawCircle(pVertexData[i].cVertex.getX(), pVertexData[i].cVertex.getY(), 2.0f, p);
+//		}
 	}
 }
 
 void ParticleEmitter::SetSprite(const String &filename)
 {
-	if (bEnabled)
-	{
-		sSprite = filename;
-		File f(filename);
-		Reader r(f);
+	sSprite = filename;
+	File f(filename);
+	Reader r(f);
 
-		if (pTemplate)
-			Delete(pTemplate);
+	if (pTemplate)
+		Delete(pTemplate);
 
-		pTemplate->Load(r, pRes);
-		pTemplate->SetParent(this);
+	pTemplate = New(Sprite);
+	pTemplate->Load(r, pRes);
+	pTemplate->SetAnimation(iAnimation);
+	pTexture = pTemplate->GetTexture();
 
-		for (u32 i = 0; i < iParticlesAmount; i++)
-		{
-			if (!arParticles[i].bActive)
-				continue;
-
-			arParticles[i] = *pTemplate;
-		}
-	}
+	fParticleWidhtHalf = pTemplate->GetWidth() / 2.0f;
+	fParticleHeightHalf = pTemplate->GetHeight() / 2.0f;
 }
 
 void ParticleEmitter::SetAnimation(u32 anim)
 {
 	iAnimation = anim;
-	for (u32 i = 0; i < iParticlesAmount; i++)
-	{
-		if (!arParticles[i].bActive)
-			continue;
-
-		arParticles[i].SetAnimation(anim);
-	}
+	pTemplate->SetAnimation(anim);
+	pTexture = pTemplate->GetTexture();
 }
 
 void ParticleEmitter::Play()
@@ -459,15 +438,6 @@ void ParticleEmitter::Kill()
 	fRespawnAge = 0.0f;
 	fAge = -2.0f;
 	bPaused = false;
-
-	for (u32 i = 0; i < iParticlesAmount; i++)
-	{
-		if (!arParticles[i].bActive)
-			continue;
-
-		arParticles[i].Unload();
-		arParticles[i].bActive = false;
-	}
 }
 
 void ParticleEmitter::Enable()
@@ -507,13 +477,13 @@ void ParticleEmitter::MoveEverything(const Vector3f &pos)
 		if (!arParticles[i].bActive)
 			continue;
 
-		arParticles[i].AddPosition(dpos);
+		arParticles[i].vPosition += dpos;
 	}
 }
 
 void ParticleEmitter::SetParticlesFollowEmitter(bool bFollow)
 {
-	this->bParticlesFollowEmitter = bFollow;
+	bParticlesFollowEmitter = bFollow;
 }
 
 const EmitterConfiguration &ParticleEmitter::GetConfig() const
@@ -586,23 +556,14 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 		sBlending = reader.ReadString("sBlending", "None");
 		sName = reader.ReadString("sName", "");
 		sSprite = reader.ReadString("sSprite", "");
-		{
-			File f(sSprite);
-			Reader r(f);
-			pTemplate = New(Particle);
-			pTemplate->Load(r, pRes);
-			pTemplate->SetAnimation(iAnimation);
-			pTemplate->SetParent(this);
-		}
+		this->SetSprite(sSprite);
 
-		pTexture = pTemplate->GetTexture();
 		fInterval = cEmitter.fInterval;
 
 		SEED_ASSERT_MSG(cEmitter.iEmission, "iEmission must be greater than 0.");
-		arParticles = NewArray(Particle, cEmitter.iEmission);
 		iParticlesAmount = cEmitter.iEmission;
-
-		pVertexData = (sVertex *)Alloc(sizeof(sVertex) * iParticlesAmount * 4);
+		arParticles = NewArray(Particle, iParticlesAmount);
+		pVertexData = (sVertex *)Alloc(sizeof(sVertex) * iParticlesAmount * 6);
 		if (bAutoPlay)
 			this->Play();
 

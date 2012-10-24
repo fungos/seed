@@ -46,7 +46,7 @@
 	"fInterval": 0,
 	"iAnimation": 12,
 
-	"iEmission": 500,
+	"iEmission": 15000,
 	"fLifetime": -1,
 	"sSprite": "particles.sprite",
 	"sName": "Particle Emitter 1",

@@ -31,17 +31,14 @@
 #ifndef __PARTICLE_H__
 #define __PARTICLE_H__
 
-#include "Sprite.h"
+#include "Defines.h"
+#include "MathUtil.h"
 
 namespace Seed {
 
-class ISceneObject;
-
 /// Particle
-class SEED_CORE_API Particle : public Sprite
+class SEED_CORE_API Particle
 {
-	friend class ParticleEmitter;
-
 	public:
 		Particle();
 		virtual ~Particle();
@@ -49,9 +46,11 @@ class SEED_CORE_API Particle : public Sprite
 		Particle(const Particle &other);
 		Particle &operator=(const Particle &other);
 
-	protected:
+		Vector3f vPosition;
+		Vector3f vScale;
 		Vector3f vVelocity;
 
+		f32		fRotation;
 		f32		fGravity;
 		f32		fRadialAccel;
 		f32		fTangentialAccel;

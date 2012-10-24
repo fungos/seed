@@ -157,7 +157,6 @@ bool Camera::IsInView(ITransformable *obj, Matrix4f &worldTransform)
 	f32 ox = op.getX();
 	f32 oy = op.getY();
 	Rect4f box(ox, oy, obj->GetWidth(), obj->GetHeight());
-	fprintf(stdout, "Rect [%f, %f, %f, %f]\n", ox, oy, obj->GetWidth(), obj->GetHeight());
 	return rViewArea.Intersect(ox, oy, box.CircleRadius());
 }
 

@@ -29,13 +29,14 @@
 */
 
 #include "Particle.h"
-#include "Enum.h"
 
 namespace Seed {
 
 Particle::Particle()
-	: Sprite()
+	: vPosition(0.0f, 0.0f, 0.0f)
+	, vScale(1.0f, 1.0f, 1.0f)
 	, vVelocity(0.0f, 0.0f, 0.0f)
+	, fRotation(0.0f)
 	, fGravity(0.0f)
 	, fRadialAccel(0.0f)
 	, fTangentialAccel(0.0f)
@@ -62,8 +63,10 @@ Particle::~Particle()
 }
 
 Particle::Particle(const Particle &other)
-	: Sprite(other)
+	: vPosition(other.vPosition)
+	, vScale(other.vScale)
 	, vVelocity(other.vVelocity)
+	, fRotation(other.fRotation)
 	, fGravity(other.fGravity)
 	, fRadialAccel(other.fRadialAccel)
 	, fTangentialAccel(other.fTangentialAccel)
@@ -89,10 +92,11 @@ Particle &Particle::operator=(const Particle &other)
 {
 	if (this != &other)
 	{
-		Sprite::operator=(other);
-
+		vPosition = other.vPosition;
+		vScale = other.vScale;
 		vVelocity = other.vVelocity;
 
+		fRotation = other.fRotation;
 		fGravity = other.fGravity;
 		fRadialAccel = other.fRadialAccel;
 		fTangentialAccel = other.fTangentialAccel;
@@ -115,6 +119,5 @@ Particle &Particle::operator=(const Particle &other)
 	}
 	return *this;
 }
-
 
 } // namespace

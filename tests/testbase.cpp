@@ -31,32 +31,32 @@ bool TestBase::Initialize()
 	/* ------- Rendering Initialization ------- */
 
 	// Initialize the texture that will be our render target
-	cRenderTarget.Load(800, 600);
-	pRendererDevice->TextureRequest(&cRenderTarget);
-	pRendererDevice->TextureRequestProcess();
+//	cRenderTarget.Load(800, 600);
+//	pRendererDevice->TextureRequest(&cRenderTarget);
+//	pRendererDevice->TextureRequestProcess();
 	// --
 
-	{
-		File f("anim.sprite");
-		Reader r(f);
-		sptLogo.Load(r);
-		cScene.Add(&sptLogo);
-	}
+//	{
+//		File f("anim.sprite");
+//		Reader r(f);
+//		sptLogo.Load(r);
+//		cScene.Add(&sptLogo);
+//	}
 
-	{
-		File f("sample.movie");
-		Reader r(f);
-		mvSample.Load(r);
-		mvSample.SetZ(200.0f);
-		cScene.Add(&mvSample);
-	}
+//	{
+//		File f("sample.movie");
+//		Reader r(f);
+//		mvSample.Load(r);
+//		mvSample.SetZ(200.0f);
+//		cScene.Add(&mvSample);
+//	}
 
 	{
 		File f("teste.emitter");
 		Reader r(f);
 		cEmitter.Load(r);
-		cEmitter.SetPosition(200, 0);
-		cEmitter.SetZ(10.0f);
+//		cEmitter.SetPosition(200, 0);
+//		cEmitter.SetZ(10.0f);
 		cScene.Add(&cEmitter);
 	}
 
@@ -91,7 +91,7 @@ bool TestBase::Initialize()
 	cCamera.Update(0.0f);
 
 	//pScene->Add(&cCamera);
-	pScreen->FadeIn();
+//	pScreen->FadeIn();
 
 	return true;
 }

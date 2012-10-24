@@ -32,14 +32,17 @@
 #define __PARTICLE_EMITTER_H__
 
 #include "interface/ITransformable.h"
+#include "interface/ISceneObject.h"
 #include "Particle.h"
 #include "Rect.h"
+#include "Vertex.h"
 
 namespace Seed {
 
 class ITexture;
 class ResourceManager;
 class Particle;
+class Sprite;
 
 ISceneObject *FactoryParticleEmitter();
 
@@ -152,7 +155,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		ITexture				*pTexture;
 
 		EmitterConfiguration	cEmitter;
-		Particle				*pTemplate;
+		Sprite					*pTemplate;
 		String					sSprite;
 		String					sBlending;
 		Vector3f				vPrevLocation;
@@ -166,6 +169,8 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		f32						fTy;
 		f32						fScale;
 
+		f32						fParticleWidhtHalf;
+		f32						fParticleHeightHalf;
 		u32						iAnimation;
 		u32						iParticlesAmount;
 
