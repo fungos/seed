@@ -126,7 +126,13 @@ bool System::Update(f32 dt)
 	isActive = true;
 #endif
 
-	if (isMinimized || !isActive || !isOpen)
+    if (!isMinimized && !isActive && !isOpen)
+    {
+        EventSystem ev;
+        this->SendEventShutdown(&ev);
+        bShutdown = true;
+    }
+    else if (isMinimized || !isActive || !isOpen)
 	{
 		if (!bSleeping)
 		{

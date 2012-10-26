@@ -257,7 +257,6 @@
 		97A9348615390C46001064D7 /* qtScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9340515390C46001064D7 /* qtScreen.cpp */; };
 		97A9348715390C46001064D7 /* qtSurface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9340615390C46001064D7 /* qtSurface.cpp */; };
 		97A9348815390C46001064D7 /* qtSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9340715390C46001064D7 /* qtSystem.cpp */; };
-		97A9348915390C46001064D7 /* qtTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9340815390C46001064D7 /* qtTexture.cpp */; };
 		97A9348A15390C46001064D7 /* qtThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9340915390C46001064D7 /* qtThread.cpp */; };
 		97A9348B15390C46001064D7 /* qtTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9340A15390C46001064D7 /* qtTimer.cpp */; };
 		97A9348C15390C46001064D7 /* sdlInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9340D15390C46001064D7 /* sdlInput.cpp */; };
@@ -285,6 +284,14 @@
 		97A934A315390C46001064D7 /* ViewManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9342415390C46001064D7 /* ViewManager.cpp */; };
 		97A934A415390C46001064D7 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9342515390C46001064D7 /* Viewport.cpp */; };
 		97A934A515390C46001064D7 /* Writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9342615390C46001064D7 /* Writer.cpp */; };
+		D11224CE163B1EF400827FE5 /* SceneObjectFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224CD163B1EF400827FE5 /* SceneObjectFactory.cpp */; };
+		D11224D4163B1F2D00827FE5 /* soilTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224D3163B1F2D00827FE5 /* soilTexture.cpp */; };
+		D11224DC163B1F4000827FE5 /* glfwInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224D6163B1F4000827FE5 /* glfwInput.cpp */; };
+		D11224DD163B1F4000827FE5 /* glfwMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224D7163B1F4000827FE5 /* glfwMutex.cpp */; };
+		D11224DE163B1F4000827FE5 /* glfwScreen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224D8163B1F4000827FE5 /* glfwScreen.cpp */; };
+		D11224DF163B1F4000827FE5 /* glfwSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224D9163B1F4000827FE5 /* glfwSystem.cpp */; };
+		D11224E0163B1F4000827FE5 /* glfwThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224DA163B1F4000827FE5 /* glfwThread.cpp */; };
+		D11224E1163B1F4000827FE5 /* glfwTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224DB163B1F4000827FE5 /* glfwTimer.cpp */; };
 		D15AB1DD15BD97DC00C0A964 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D15AB1DC15BD97DC00C0A964 /* Camera.cpp */; };
 		D15AB1DF15BD97F100C0A964 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = D15AB1DE15BD97F100C0A964 /* Camera.h */; };
 		D15AB1E115BD98FF00C0A964 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15AB1E015BD98FF00C0A964 /* SDL.framework */; };
@@ -550,7 +557,6 @@
 		97A9340515390C46001064D7 /* qtScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtScreen.cpp; sourceTree = "<group>"; };
 		97A9340615390C46001064D7 /* qtSurface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtSurface.cpp; sourceTree = "<group>"; };
 		97A9340715390C46001064D7 /* qtSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtSystem.cpp; sourceTree = "<group>"; };
-		97A9340815390C46001064D7 /* qtTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtTexture.cpp; sourceTree = "<group>"; };
 		97A9340915390C46001064D7 /* qtThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtThread.cpp; sourceTree = "<group>"; };
 		97A9340A15390C46001064D7 /* qtTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtTimer.cpp; sourceTree = "<group>"; };
 		97A9340C15390C46001064D7 /* .directory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .directory; sourceTree = "<group>"; };
@@ -579,6 +585,14 @@
 		97A9342415390C46001064D7 /* ViewManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ViewManager.cpp; sourceTree = "<group>"; };
 		97A9342515390C46001064D7 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
 		97A9342615390C46001064D7 /* Writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Writer.cpp; sourceTree = "<group>"; };
+		D11224CD163B1EF400827FE5 /* SceneObjectFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneObjectFactory.cpp; sourceTree = "<group>"; };
+		D11224D3163B1F2D00827FE5 /* soilTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = soilTexture.cpp; sourceTree = "<group>"; };
+		D11224D6163B1F4000827FE5 /* glfwInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwInput.cpp; sourceTree = "<group>"; };
+		D11224D7163B1F4000827FE5 /* glfwMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwMutex.cpp; sourceTree = "<group>"; };
+		D11224D8163B1F4000827FE5 /* glfwScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwScreen.cpp; sourceTree = "<group>"; };
+		D11224D9163B1F4000827FE5 /* glfwSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwSystem.cpp; sourceTree = "<group>"; };
+		D11224DA163B1F4000827FE5 /* glfwThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwThread.cpp; sourceTree = "<group>"; };
+		D11224DB163B1F4000827FE5 /* glfwTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwTimer.cpp; sourceTree = "<group>"; };
 		D15AB1DC15BD97DC00C0A964 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		D15AB1DE15BD97F100C0A964 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		D15AB1E015BD98FF00C0A964 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../SDL.framework; sourceTree = "<group>"; };
@@ -883,6 +897,7 @@
 		97A9339715390C46001064D7 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				D11224CD163B1EF400827FE5 /* SceneObjectFactory.cpp */,
 				97A9339815390C46001064D7 /* .directory */,
 				97A9339915390C46001064D7 /* Animation.cpp */,
 				97A9339A15390C46001064D7 /* api */,
@@ -936,6 +951,7 @@
 		97A9339A15390C46001064D7 /* api */ = {
 			isa = PBXGroup;
 			children = (
+				D11224D2163B1F2D00827FE5 /* soil */,
 				97A9339B15390C46001064D7 /* directx */,
 				97A9339E15390C46001064D7 /* oal */,
 				97A933A415390C46001064D7 /* ogl */,
@@ -1042,6 +1058,7 @@
 		97A933EC15390C46001064D7 /* platform */ = {
 			isa = PBXGroup;
 			children = (
+				D11224D5163B1F4000827FE5 /* glfw */,
 				97A933ED15390C46001064D7 /* ios */,
 				97A933FA15390C46001064D7 /* pc */,
 				97A9340015390C46001064D7 /* qt */,
@@ -1091,7 +1108,6 @@
 				97A9340515390C46001064D7 /* qtScreen.cpp */,
 				97A9340615390C46001064D7 /* qtSurface.cpp */,
 				97A9340715390C46001064D7 /* qtSystem.cpp */,
-				97A9340815390C46001064D7 /* qtTexture.cpp */,
 				97A9340915390C46001064D7 /* qtThread.cpp */,
 				97A9340A15390C46001064D7 /* qtTimer.cpp */,
 			);
@@ -1111,6 +1127,27 @@
 				97A9341315390C46001064D7 /* sdlTimer.cpp */,
 			);
 			path = sdl;
+			sourceTree = "<group>";
+		};
+		D11224D2163B1F2D00827FE5 /* soil */ = {
+			isa = PBXGroup;
+			children = (
+				D11224D3163B1F2D00827FE5 /* soilTexture.cpp */,
+			);
+			path = soil;
+			sourceTree = "<group>";
+		};
+		D11224D5163B1F4000827FE5 /* glfw */ = {
+			isa = PBXGroup;
+			children = (
+				D11224D6163B1F4000827FE5 /* glfwInput.cpp */,
+				D11224D7163B1F4000827FE5 /* glfwMutex.cpp */,
+				D11224D8163B1F4000827FE5 /* glfwScreen.cpp */,
+				D11224D9163B1F4000827FE5 /* glfwSystem.cpp */,
+				D11224DA163B1F4000827FE5 /* glfwThread.cpp */,
+				D11224DB163B1F4000827FE5 /* glfwTimer.cpp */,
+			);
+			path = glfw;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1304,7 +1341,7 @@
 		97A9323915390BB6001064D7 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0430;
+				LastUpgradeCheck = 0450;
 			};
 			buildConfigurationList = 97A9323C15390BB6001064D7 /* Build configuration list for PBXProject "Seed" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -1424,7 +1461,6 @@
 				97A9348615390C46001064D7 /* qtScreen.cpp in Sources */,
 				97A9348715390C46001064D7 /* qtSurface.cpp in Sources */,
 				97A9348815390C46001064D7 /* qtSystem.cpp in Sources */,
-				97A9348915390C46001064D7 /* qtTexture.cpp in Sources */,
 				97A9348A15390C46001064D7 /* qtThread.cpp in Sources */,
 				97A9348B15390C46001064D7 /* qtTimer.cpp in Sources */,
 				97A9348C15390C46001064D7 /* sdlInput.cpp in Sources */,
@@ -1453,6 +1489,14 @@
 				97A934A415390C46001064D7 /* Viewport.cpp in Sources */,
 				97A934A515390C46001064D7 /* Writer.cpp in Sources */,
 				D15AB1DD15BD97DC00C0A964 /* Camera.cpp in Sources */,
+				D11224CE163B1EF400827FE5 /* SceneObjectFactory.cpp in Sources */,
+				D11224D4163B1F2D00827FE5 /* soilTexture.cpp in Sources */,
+				D11224DC163B1F4000827FE5 /* glfwInput.cpp in Sources */,
+				D11224DD163B1F4000827FE5 /* glfwMutex.cpp in Sources */,
+				D11224DE163B1F4000827FE5 /* glfwScreen.cpp in Sources */,
+				D11224DF163B1F4000827FE5 /* glfwSystem.cpp in Sources */,
+				D11224E0163B1F4000827FE5 /* glfwThread.cpp in Sources */,
+				D11224E1163B1F4000827FE5 /* glfwTimer.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1476,7 +1520,6 @@
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_UNROLL_LOOPS = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -1514,7 +1557,6 @@
 				GCC_ENABLE_CPP_RTTI = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_UNROLL_LOOPS = YES;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_MISSING_FIELD_INITIALIZERS = YES;
 				GCC_WARN_ABOUT_MISSING_NEWLINE = YES;
@@ -1549,10 +1591,9 @@
 					"\"$(SRCROOT)/..\"",
 				);
 				GCC_PREPROCESSOR_DEFINITIONS = (
-					"DEBUG=1",
 					"$(inherited)",
-					BUILD_SDL,
 					SEED_BUILD,
+					BUILD_GLFW,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";
@@ -1566,6 +1607,10 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/..\"",
+				);
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					BUILD_GLFW,
+					SEED_BUILD,
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				USER_HEADER_SEARCH_PATHS = "";

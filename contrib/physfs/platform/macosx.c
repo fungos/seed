@@ -236,6 +236,9 @@ char *__PHYSFS_platformCalcBaseDir(const char *argv0)
 	CFRelease(cfstr);
 	BAIL_IF_MACRO(cfmutstr == NULL, NULL, NULL);
 
+#if !defined(SEED_HACK)
+    CFStringAppend(cfmutstr, CFSTR("/Contents/Resources/"));
+#else
 	/* Find last dirsep so we can chop the binary's filename from the path. */
 	cfrange = CFStringFind(cfmutstr, CFSTR("/"), kCFCompareBackwards);
 	if (cfrange.location == kCFNotFound)
@@ -257,7 +260,8 @@ char *__PHYSFS_platformCalcBaseDir(const char *argv0)
 
 	if (cfrange.location != kCFNotFound)
 		CFStringDelete(cfmutstr, cfrange);  /* chop that, too. */
-
+#endif
+    
 	retval = convertCFString(cfmutstr);
 	CFRelease(cfmutstr);
 

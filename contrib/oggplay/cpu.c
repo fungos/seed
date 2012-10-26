@@ -30,6 +30,8 @@
 #   endif
 # endif
 
+#include <ogg/config_types.h>
+
 # if (defined(__ppc__) || defined(__ppc64__)) && !(defined(__APPLE__) || defined(__MACOSX__))
 static jmp_buf jmpbuf;
 
@@ -109,7 +111,7 @@ static void oc_detect_cpuid_helper(ogg_uint32_t *_eax,ogg_uint32_t *_ebx){
 	mov [ecx],eax
 	mov ecx,_ebx
 	mov [ecx],ebx
-  }
+  }"$(SRCROOT)/../../contrib/"
 }
 #   elif defined(_M_AMD64)
 #   include <intrin.h>

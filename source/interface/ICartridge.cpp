@@ -80,17 +80,17 @@ bool ICartridge::Prepare(eCartridgeSize size)
 
 u32 ICartridge::GetOffsetForSlot(u32 headerSize, u32 sharedSize, u32 dataSize, u32 slot) const
 {
-	return headerSize + sharedSize + ((sharedSize > 0) ? sizeof(u32) : 0) + (slot * (dataSize + sizeof(u32)));
+	return (u32)(headerSize + sharedSize + ((sharedSize > 0) ? sizeof(u32) : 0) + (slot * (dataSize + sizeof(u32))));
 }
 
 u32 ICartridge::GetOffsetForSlotCRC(u32 headerSize, u32 sharedSize, u32 dataSize, u32 slot) const
 {
-	return headerSize + sharedSize + ((sharedSize > 0) ? sizeof(u32) : 0) + (slot * (dataSize + sizeof(u32))) + dataSize;
+	return (u32)(headerSize + sharedSize + ((sharedSize > 0) ? sizeof(u32) : 0) + (slot * (dataSize + sizeof(u32))) + dataSize);
 }
 
 u32 ICartridge::GetRequiredSize(u32 headerSize, u32 sharedSize, u32 dataSize, u32 num_slots) const
 {
-	return headerSize + sharedSize + ((sharedSize > 0) ? sizeof(u32) : 0) + (num_slots * (dataSize + sizeof(u32)));
+	return (u32)(headerSize + sharedSize + ((sharedSize > 0) ? sizeof(u32) : 0) + (num_slots * (dataSize + sizeof(u32))));
 }
 
 } // namespace

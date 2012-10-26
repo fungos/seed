@@ -416,7 +416,7 @@ u8 Texture::GetPixelAlpha(u32 x, u32 y) const
 
 u32 Texture::GetUsedMemory() const
 {
-	return IResource::GetUsedMemory() + sizeof(this) + (iHeight * iWidth * iBytesPerPixel);
+	return (u32)(IResource::GetUsedMemory() + sizeof(this) + (iHeight * iWidth * iBytesPerPixel));
 }
 
 u32 Texture::GetBytesPerPixel() const

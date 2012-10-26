@@ -83,7 +83,7 @@ void SceneNode::Remove(ISceneObject *obj)
 
 u32 SceneNode::Size() const
 {
-	return vChild.Size();
+	return (u32)vChild.Size();
 }
 
 ISceneObject *SceneNode::GetChildAt(u32 i)

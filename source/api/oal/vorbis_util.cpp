@@ -125,7 +125,7 @@ bool ogg_update_stream(OggVorbis_File *oggStream, ogg_int64_t rate, ALenum forma
 
 	while (size < VORBIS_BUFFER_SIZE)
 	{
-		result = ov_read(oggStream, pcm + size, VORBIS_BUFFER_SIZE - size, 0, 2, 1, &section);
+		result = (int)ov_read(oggStream, pcm + size, VORBIS_BUFFER_SIZE - size, 0, 2, 1, &section);
 
 		if (result > 0)
 			size += result;

@@ -34,7 +34,7 @@
 #include "Timer.h"
 #include "Log.h"
 
-#include "contrib/glfw/glfw.h"
+#include <glfw/glfw.h>
 
 #define TAG "[Timer] "
 

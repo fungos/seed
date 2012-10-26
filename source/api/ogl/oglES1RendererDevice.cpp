@@ -650,7 +650,7 @@ void OGLES1RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &col
 {
 	GL_TRACE("BEGIN DrawCircle")
 	static const int points = 50;
-	float ang = 2 * M_PI / points;
+	float ang = (float)(2 * M_PI / (float)points);
 	float cur = 0;
 	GLfloat vertices[points * 2];
 

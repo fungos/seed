@@ -277,28 +277,28 @@ void ParticleEmitter::Update(f32 deltaTime)
 		if (!arParticles[i].bActive)
 			continue;
 
-		Particle *par = &arParticles[i];
-		Color c(par->fColorR * 255, par->fColorG * 255, par->fColorB * 255, par->fColorA * 255);
+		Particle *p = &arParticles[i];
+		Color c(p->fColorR * 255, p->fColorG * 255, p->fColorB * 255, p->fColorA * 255);
 		{
 			pVertexData[iVertexAmount + 0].cCoords = pTemplate->cVertex[0].cCoords;
 			pVertexData[iVertexAmount + 0].cColor = c;
-			pVertexData[iVertexAmount + 0].cVertex = par->vPosition + Vector3f(-fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+			pVertexData[iVertexAmount + 0].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
 			pVertexData[iVertexAmount + 1].cCoords = pTemplate->cVertex[1].cCoords;
 			pVertexData[iVertexAmount + 1].cColor = c;
-			pVertexData[iVertexAmount + 1].cVertex = par->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+			pVertexData[iVertexAmount + 1].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
 			pVertexData[iVertexAmount + 2].cCoords = pTemplate->cVertex[2].cCoords;
 			pVertexData[iVertexAmount + 2].cColor = c;
-			pVertexData[iVertexAmount + 2].cVertex = par->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+			pVertexData[iVertexAmount + 2].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
 
 			pVertexData[iVertexAmount + 3].cCoords = pTemplate->cVertex[1].cCoords;
 			pVertexData[iVertexAmount + 3].cColor = c;
-			pVertexData[iVertexAmount + 3].cVertex = par->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+			pVertexData[iVertexAmount + 3].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
 			pVertexData[iVertexAmount + 4].cCoords = pTemplate->cVertex[2].cCoords;
 			pVertexData[iVertexAmount + 4].cColor = c;
-			pVertexData[iVertexAmount + 4].cVertex = par->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+			pVertexData[iVertexAmount + 4].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
 			pVertexData[iVertexAmount + 5].cCoords = pTemplate->cVertex[3].cCoords;
 			pVertexData[iVertexAmount + 5].cColor = c;
-			pVertexData[iVertexAmount + 5].cVertex = par->vPosition + Vector3f(fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+			pVertexData[iVertexAmount + 5].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
 		}
 
 		iVertexAmount += 6;

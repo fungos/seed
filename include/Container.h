@@ -48,7 +48,7 @@
 													void operator+=(const T& element) \
 													{ \
 														SEED_ASSERT(element); \
-														push_back(element); \
+														this->push_back(element); \
 													} \
 													\
 													void operator-=(const T& element) \
