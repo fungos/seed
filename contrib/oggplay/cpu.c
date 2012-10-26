@@ -30,7 +30,7 @@
 #   endif
 # endif
 
-#include <ogg/config_types.h>
+#include <ogg/os_types.h>
 
 # if (defined(__ppc__) || defined(__ppc64__)) && !(defined(__APPLE__) || defined(__MACOSX__))
 static jmp_buf jmpbuf;

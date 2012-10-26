@@ -387,7 +387,6 @@ HEADERS += yajl/api/yajl_version.h \
 	oggplay/x86/yuv2rgb_x86.h \
 	ogg/os_types.h \
 	ogg/ogg.h \
-	ogg/config_types.h.in \
 	glew/wglew.h \
 	glew/glxew.h \
 	glew/glew.h \
