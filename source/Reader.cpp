@@ -31,6 +31,7 @@
 #include "Reader.h"
 #include "Configuration.h"
 #include "api/yajl/JsonReader.h"
+#include "Log.h"
 
 #define TAG "[Reader] "
 

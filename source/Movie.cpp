@@ -29,6 +29,7 @@
 */
 
 #include "Movie.h"
+#include "Log.h"
 
 #define TAG "[Movie] "
 

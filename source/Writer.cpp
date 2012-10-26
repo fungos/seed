@@ -31,6 +31,7 @@
 #include "Writer.h"
 #include "Configuration.h"
 #include "api/yajl/JsonWriter.h"
+#include "Log.h"
 
 #define TAG "[Writer] "
 

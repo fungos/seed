@@ -34,6 +34,7 @@
 #include "Movie.h"
 #include "Keyframe.h"
 #include "Sprite.h"
+#include "Log.h"
 
 #define TAG "[Timeline] "
 

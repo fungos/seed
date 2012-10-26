@@ -31,6 +31,7 @@
 #include "Configuration.h"
 #include "File.h"
 #include "Reader.h"
+#include "Log.h"
 #include <algorithm>
 
 namespace Seed {

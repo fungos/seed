@@ -225,7 +225,7 @@ u32 JsonReader::SelectArray(const char *key)
 
 void JsonReader::SelectNext()
 {
-	if (pCurArray && iPos < YAJL_GET_ARRAY(pCurArray)->len)
+	if (pCurArray && (iPos < YAJL_GET_ARRAY(pCurArray)->len))
 	{
 		pCurNode = YAJL_GET_ARRAY(pCurArray)->values[iPos];
 		iPos++;

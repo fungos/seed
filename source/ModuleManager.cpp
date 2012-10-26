@@ -30,6 +30,7 @@
 
 #include "ModuleManager.h"
 #include "interface/IModule.h"
+#include "Log.h"
 
 #define TAG "[ModuleManager] "
 
