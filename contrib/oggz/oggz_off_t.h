@@ -42,13 +42,15 @@
 	/* MSVC/Borland & Cygwin */
 	typedef off_t oggz_off_t;
 	#define PRI_OGGZ_OFF_T "l"
-#else
-	#include <oggz/oggz_off_t_generated.h>
-
-	#ifdef __APPLE__
+#elif __APPLE__
 	typedef off_t oggz_off_t;
-	#else
-	#endif
+	#define PRI_OGGZ_OFF_T "l"
+#elif defined(__FLASHPLAYER) || defined(__AVM2) || defined(__AVM2__)
+	typedef off_t oggz_off_t;
+	#define PRI_OGGZ_OFF_T "l"
+#else
+	typedef loff_t oggz_off_t;
+	#define PRI_OGGZ_OFF_T "ll"
 #endif
 
 #endif /* __OGGZ_OFF_T__ */
