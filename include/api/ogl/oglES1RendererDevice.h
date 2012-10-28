@@ -69,6 +69,45 @@ namespace Seed {
 
 class ITexture;
 
+namespace OpenGL { class OGLES1RendererDevice; }
+
+struct SEED_CORE_API VertexBuffer : public IVertexBuffer
+{
+	friend class OpenGL::OGLES1RendererDevice;
+	public:
+		VertexBuffer()
+			: pData(NULL)
+			, iBuffer(0)
+			, nTarget(BufferTargetArray)
+			, nUsage(BufferUsageNeverChange)
+			, iLength(0)
+			, bUpdated(false)
+		{}
+
+		~VertexBuffer() {}
+
+		inline void SetVertexData(sVertex *data, u32 len)
+		{
+			iLength = len;
+			pData = data;
+			bUpdated = true;
+		}
+
+		inline void Configure(eBufferTarget t, eBufferUsage u = BufferUsageNeverChange)
+		{
+			nTarget = t;
+			nUsage = u;
+		}
+
+	protected:
+		sVertex *pData;
+		u32 iBuffer;
+		eBufferTarget nTarget;
+		eBufferUsage nUsage;
+		u32 iLength;
+		bool bUpdated;
+};
+
 namespace OpenGL {
 
 /// OpenGL ES 1.1 and OpenGL 1.5+ Rendering device
@@ -126,6 +165,8 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 
 	private:
 		SEED_DISABLE_COPY(OGLES1RendererDevice);
+		int GetOpenGLBufferUsageType(eBufferUsage usage) const;
+		int GetOpenGLBufferTargetType(eBufferTarget type) const;
 		int GetOpenGLMeshType(eMeshType type) const;
 
 		bool bHasFrameBuffer;

@@ -69,13 +69,14 @@ ParticleEmitter::ParticleEmitter()
 	, iParticlesAmount(0)
 	, nMinFilter(TextureFilterLinear)
 	, nMagFilter(TextureFilterLinear)
-	, pVertexData(NULL)
+	, cVertexBuffer()
 	, iVertexAmount(0)
 	, bParticlesFollowEmitter(false)
 	, bPaused(false)
 	, bEnabled(true)
 	, bAutoPlay(false)
 {
+	cVertexBuffer.Configure(BufferTargetArray, BufferUsageEveryFrameChange);
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -88,7 +89,7 @@ bool ParticleEmitter::Unload()
 	iParticlesAmount = 0;
 	DeleteArray(arParticles);
 	Delete(pTemplate);
-	Free(pVertexData);
+	Free(pVertex);
 
 	fInterval = 0.0f;
 	iAnimation = 0;
@@ -270,7 +271,7 @@ void ParticleEmitter::Update(f32 deltaTime)
 	vPrevLocation = location;
 	ITransformable::UpdateTransform();
 
-	memset(pVertexData, '\0', sizeof(sVertex) * 6 * iParticlesAmount);
+	memset(pVertex, '\0', sizeof(sVertex) * 6 * iParticlesAmount);
 	iVertexAmount = 0;
 	for (u32 i = 0; i < iParticlesAmount; i++)
 	{
@@ -280,30 +281,31 @@ void ParticleEmitter::Update(f32 deltaTime)
 		Particle *p = &arParticles[i];
 		Color c(p->fColorR * 255, p->fColorG * 255, p->fColorB * 255, p->fColorA * 255);
 		{
-			pVertexData[iVertexAmount + 0].cCoords = pTemplate->cVertex[0].cCoords;
-			pVertexData[iVertexAmount + 0].cColor = c;
-			pVertexData[iVertexAmount + 0].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
-			pVertexData[iVertexAmount + 1].cCoords = pTemplate->cVertex[1].cCoords;
-			pVertexData[iVertexAmount + 1].cColor = c;
-			pVertexData[iVertexAmount + 1].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
-			pVertexData[iVertexAmount + 2].cCoords = pTemplate->cVertex[2].cCoords;
-			pVertexData[iVertexAmount + 2].cColor = c;
-			pVertexData[iVertexAmount + 2].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+			pVertex[iVertexAmount + 0].cCoords = pTemplate->cVertex[0].cCoords;
+			pVertex[iVertexAmount + 0].cColor = c;
+			pVertex[iVertexAmount + 0].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+			pVertex[iVertexAmount + 1].cCoords = pTemplate->cVertex[1].cCoords;
+			pVertex[iVertexAmount + 1].cColor = c;
+			pVertex[iVertexAmount + 1].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+			pVertex[iVertexAmount + 2].cCoords = pTemplate->cVertex[2].cCoords;
+			pVertex[iVertexAmount + 2].cColor = c;
+			pVertex[iVertexAmount + 2].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
 
-			pVertexData[iVertexAmount + 3].cCoords = pTemplate->cVertex[1].cCoords;
-			pVertexData[iVertexAmount + 3].cColor = c;
-			pVertexData[iVertexAmount + 3].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
-			pVertexData[iVertexAmount + 4].cCoords = pTemplate->cVertex[2].cCoords;
-			pVertexData[iVertexAmount + 4].cColor = c;
-			pVertexData[iVertexAmount + 4].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
-			pVertexData[iVertexAmount + 5].cCoords = pTemplate->cVertex[3].cCoords;
-			pVertexData[iVertexAmount + 5].cColor = c;
-			pVertexData[iVertexAmount + 5].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+			pVertex[iVertexAmount + 3].cCoords = pTemplate->cVertex[1].cCoords;
+			pVertex[iVertexAmount + 3].cColor = c;
+			pVertex[iVertexAmount + 3].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+			pVertex[iVertexAmount + 4].cCoords = pTemplate->cVertex[2].cCoords;
+			pVertex[iVertexAmount + 4].cColor = c;
+			pVertex[iVertexAmount + 4].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+			pVertex[iVertexAmount + 5].cCoords = pTemplate->cVertex[3].cCoords;
+			pVertex[iVertexAmount + 5].cColor = c;
+			pVertex[iVertexAmount + 5].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
 		}
 
 		iVertexAmount += 6;
 	}
 
+	cVertexBuffer.SetVertexData(pVertex, iVertexAmount);
 	vBoundingBox = Vector3f(rBoundingBox.Width(), rBoundingBox.Height(), 1.0f);
 }
 
@@ -314,9 +316,8 @@ void ParticleEmitter::Render(const Matrix4f &worldTransform)
 		ePacketFlags flags = FlagNone;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
 		SEED_ASSERT(pTexture);
 		RendererPacket packet;
-		packet.iSize = iVertexAmount;
 		packet.nMeshType = Seed::Triangles;
-		packet.pVertexData = pVertexData;
+		packet.pVertexBuffer = &cVertexBuffer;
 		packet.pTexture = pTexture;
 		packet.nBlendMode = eBlendOperation;
 		packet.pTransform = &worldTransform;
@@ -563,7 +564,7 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 		SEED_ASSERT_MSG(cEmitter.iEmission, "iEmission must be greater than 0.");
 		iParticlesAmount = cEmitter.iEmission;
 		arParticles = NewArray(Particle, iParticlesAmount);
-		pVertexData = (sVertex *)Alloc(sizeof(sVertex) * iParticlesAmount * 6);
+		pVertex = (sVertex *)Alloc(sizeof(sVertex) * iParticlesAmount * 6);
 		if (bAutoPlay)
 			this->Play();
 

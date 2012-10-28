@@ -37,6 +37,7 @@
 #define USE_API_OGL		1
 #define USE_API_OAL		1
 
+#undef SDL
 namespace Seed
 {
 	namespace SDL {}

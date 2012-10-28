@@ -61,7 +61,7 @@ Sprite::Sprite()
 	, iCurrentFrame(0)
 	, iFrames(0)
 	, fFrameTime(0.0f)
-	, cVertex()
+	, cVertexBuffer()
 	, bInitialized(false)
 	, bChanged(false)
 	, bAnimation(false)
@@ -70,6 +70,7 @@ Sprite::Sprite()
 	, bFinished(false)
 	, bIsCopy(false)
 {
+	cVertexBuffer.SetVertexData(cVertex, 4);
 }
 
 Sprite::~Sprite()
@@ -88,7 +89,7 @@ Sprite::Sprite(const Sprite &other)
 	, iCurrentFrame(other.iCurrentFrame)
 	, iFrames(other.iFrames)
 	, fFrameTime(other.fFrameTime)
-	, cVertex()
+	, cVertexBuffer()
 	, bInitialized(other.bInitialized)
 	, bChanged(other.bChanged)
 	, bAnimation(other.bAnimation)
@@ -190,14 +191,14 @@ void Sprite::Reset()
 	pFrame			= NULL;
 	pvFrames		= NULL;
 	bInitialized	= false;
-	bChanged 		= false;
+	bChanged		= false;
 	bAnimation		= false;
 	bLoop			= false;
-	bVisible 		= true;
-	bPlaying 		= false;
+	bVisible		= true;
+	bPlaying		= false;
 
 	iCurrentFrame	= 0;
-	iFrames 		= 0;
+	iFrames			= 0;
 	fFrameTime		= 0.0f;
 
 	this->SetZ(0);
@@ -215,11 +216,11 @@ void Sprite::operator-=(Animation *anim)
 	vAnimations -= anim;
 }
 
-void Sprite::Initialize()
-{
-	this->ReconfigureAnimation();
-	bInitialized = true;
-}
+//void Sprite::Initialize()
+//{
+//	this->ReconfigureAnimation();
+//	bInitialized = true;
+//}
 
 void Sprite::ReconfigureAnimation()
 {
@@ -508,9 +509,8 @@ void Sprite::Render(const Matrix4f &worldTransform)
 	SEED_ASSERT(pFrameTexture);
 
 	RendererPacket packet;
-	packet.iSize = 4;
 	packet.nMeshType = Seed::TriangleStrip;
-	packet.pVertexData = &cVertex;
+	packet.pVertexBuffer = &cVertexBuffer;
 	packet.pTexture = pFrameTexture;
 	packet.nBlendMode = eBlendOperation;
 	packet.pTransform = &worldTransform;

@@ -94,7 +94,7 @@ struct Color
 	}
 };
 
-typedef Color Color3b;
+typedef Color Color4b;
 
 // Debugging
 #if defined(DEBUG)

@@ -50,8 +50,11 @@ Image::Image()
 	, iHalfHeight(0)
 	, iWidth(0)
 	, iHeight(0)
+	, cVertexBuffer()
+	, vert()
 	, bDynamic(false)
 {
+	cVertexBuffer.SetVertexData(vert, 4);
 }
 
 Image::~Image()
@@ -92,9 +95,8 @@ void Image::Render(const Matrix4f &worldTransform)
 	{
 		RendererPacket packet;
 		packet.pTransform = &mTransform; // &worldTransform; // FIXME: ortho or billboard
-		packet.iSize = 4;
 		packet.nMeshType = Seed::TriangleStrip;
-		packet.pVertexData = &vert;
+		packet.pVertexBuffer = &cVertexBuffer;
 		packet.pTexture = pTexture;
 		packet.nBlendMode = eBlendOperation;
 		packet.cColor = cColor;

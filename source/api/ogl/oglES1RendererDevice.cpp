@@ -35,6 +35,7 @@
 #include "Log.h"
 #include "Screen.h"
 #include "Texture.h"
+#include "Vertex.h"
 
 #if defined(BUILD_SDL)
 #define NO_SDL_GLEXT	1
@@ -74,6 +75,10 @@
 #else
 #define GL_TRACE(x)
 #endif
+
+#define GL_MESH(x)		this->GetOpenGLMeshType(x)
+#define GL_TARGET(x)	this->GetOpenGLBufferTargetType(x)
+#define GL_USAGE(x)		this->GetOpenGLBufferUsageType(x)
 
 #define TAG "[OGLES1RendererDevice] "
 
@@ -477,10 +482,10 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	RendererPacket *packet = static_cast<RendererPacket *>(userData);
 	SEED_ASSERT(packet->pTransform);
 	SEED_ASSERT(packet->pTexture);
-	SEED_ASSERT(packet->pVertexData);
+	SEED_ASSERT(packet->pVertexBuffer);
 
 	ITexture *texture = packet->pTexture;
-	sVertex *data = static_cast<sVertex *>(packet->pVertexData);
+	VertexBuffer *vbo = packet->pVertexBuffer;
 	Vector3f pivot = packet->vPivot;
 
 	this->SetBlendingOperation(packet->nBlendMode, packet->cColor);
@@ -490,10 +495,33 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 
-	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &data[0].cVertex);
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &data[0].cColor);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &data[0].cCoords);
-	glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, packet->iSize);
+#if 1
+	if (!vbo->iBuffer)
+		glGenBuffers(1, &vbo->iBuffer);
+
+//	void *c = (void *)offsetof(sVertex, cColor);
+//	void *uv = (void *)offsetof(sVertex, cCoords);
+//	void *v = (void *)offsetof(sVertex, cVertex);
+
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), (void *)offsetof(sVertex, cColor));
+	glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), (void *)offsetof(sVertex, cCoords));
+	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), (void *)offsetof(sVertex, cVertex));
+
+	glBindBuffer(GL_TARGET(vbo->nTarget), vbo->iBuffer);
+	if (vbo->bUpdated)
+	{
+		glBufferData(GL_TARGET(vbo->nTarget), sizeof(sVertex) * vbo->iLength, NULL, GL_USAGE(vbo->nUsage));
+		glBufferSubData(GL_TARGET(vbo->nTarget), 0, sizeof(sVertex) * vbo->iLength, vbo->pData);
+	}
+#else
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &vbo->pData[0].cColor);
+	glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cCoords);
+	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cVertex);
+#endif
+
+	glDrawArrays(GL_MESH(packet->nMeshType), 0, vbo->iLength);
+
+//	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	GL_TRACE("END UploadData")
 
 
@@ -530,6 +558,18 @@ void OGLES1RendererDevice::UploadData(void *userData)
 //		glEnable(GL_BLEND);
 
 //	}
+}
+
+int OGLES1RendererDevice::GetOpenGLBufferUsageType(eBufferUsage usage) const
+{
+	int usages[BufferUsageCount] = {GL_STATIC_DRAW, GL_DYNAMIC_DRAW, GL_STREAM_DRAW};
+	return usages[usage];
+}
+
+int OGLES1RendererDevice::GetOpenGLBufferTargetType(eBufferTarget type) const
+{
+	int types[BufferTargetCount] = {GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER};
+	return types[type];
 }
 
 int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const

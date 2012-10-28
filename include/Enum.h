@@ -504,6 +504,21 @@ enum eBlendMode
 	BlendAdditive
 };
 
+enum eBufferTarget
+{
+	BufferTargetArray,
+	BufferTargetElementArray,
+	BufferTargetCount
+};
+
+enum eBufferUsage
+{
+	BufferUsageNeverChange,
+	BufferUsageWillChange,
+	BufferUsageEveryFrameChange,
+	BufferUsageCount
+};
+
 enum ePlayableState
 {
 	PlayableStopped,

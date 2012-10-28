@@ -177,7 +177,18 @@ CONTRIB = contrib/yajl/yajl_buf.o \
 		contrib/lua/lbitlib.o \
 		contrib/lua/lbaselib.o \
 		contrib/lua/lauxlib.o \
-		contrib/lua/lapi.o
+		contrib/lua/lapi.o \
+		contrib/flash/SDL/SDL_image/IMG.o \
+		contrib/flash/SDL/SDL_image/IMG_bmp.o \
+		contrib/flash/SDL/SDL_image/IMG_gif.o \
+		contrib/flash/SDL/SDL_image/IMG_jpg.o \
+		contrib/flash/SDL/SDL_image/IMG_lbm.o \
+		contrib/flash/SDL/SDL_image/IMG_pcx.o \
+		contrib/flash/SDL/SDL_image/IMG_png.o \
+		contrib/flash/SDL/SDL_image/IMG_pnm.o \
+		contrib/flash/SDL/SDL_image/IMG_tga.o \
+		contrib/flash/SDL/SDL_image/IMG_tif.o \
+		contrib/flash/SDL/SDL_image/IMG_xpm.o
 
 #
 # Not for flascc

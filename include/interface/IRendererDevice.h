@@ -39,6 +39,7 @@ namespace Seed {
 
 class IRenderer;
 class ITexture;
+class IVertexBuffer;
 
 /// Rendering device interface
 class SEED_CORE_API IRendererDevice : public IModule
@@ -47,17 +48,19 @@ class SEED_CORE_API IRendererDevice : public IModule
 		IRendererDevice();
 		virtual ~IRendererDevice();
 
+		// Generic operations
+		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const;
+		virtual void UploadData(void *userData);
+		virtual void BackbufferClear(const Color &color) const;
+		virtual void BackbufferFill(const Color &color) const;
+
+		// Texturing operations
 		virtual void TextureRequest(ITexture *texture);
 		virtual void TextureRequestAbort(ITexture *texture);
 		virtual void TextureRequestProcess() const;
 		virtual void TextureDataUpdate(ITexture *texture);
 		virtual void TextureUnload(ITexture *tex);
 		virtual void SetTextureParameters(ITexture *texture) const;
-
-		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const;
-		virtual void UploadData(void *userData);
-		virtual void BackbufferClear(const Color &color) const;
-		virtual void BackbufferFill(const Color &color) const;
 
 		// Render to Texture support
 		virtual u32 CreateFrameBuffer(ITexture *texture = NULL);
@@ -70,19 +73,22 @@ class SEED_CORE_API IRendererDevice : public IModule
 		virtual void AttachDepthBuffer(u32 buffer);
 		virtual bool CheckFrameBufferStatus() const;
 
+		// Support
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
-		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
-		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const;
 		virtual void Enable2D() const;
 		virtual void Disable2D() const;
-
-		virtual bool NeedPowerOfTwoTextures() const;
-
 		virtual void Begin() const;
 		virtual void End() const;
 
-		virtual void Update();
+		// Features
+		virtual bool NeedPowerOfTwoTextures() const;
 
+		// Debugging
+		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
+		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const;
+
+		// Other
+		virtual void Update();
 		virtual bool IsRequired() const;
 
 		// IObject

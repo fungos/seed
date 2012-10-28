@@ -36,12 +36,12 @@ bool TestBase::Initialize()
 //	pRendererDevice->TextureRequestProcess();
 	// --
 
-//	{
-//		File f("anim.sprite");
-//		Reader r(f);
-//		sptLogo.Load(r);
-//		cScene.Add(&sptLogo);
-//	}
+	{
+		File f("anim.sprite");
+		Reader r(f);
+		sptLogo.Load(r);
+		cScene.Add(&sptLogo);
+	}
 
 //	{
 //		File f("sample.movie");
@@ -51,14 +51,14 @@ bool TestBase::Initialize()
 //		cScene.Add(&mvSample);
 //	}
 
-	{
-		File f("teste.emitter");
-		Reader r(f);
-		cEmitter.Load(r);
-//		cEmitter.SetPosition(200, 0);
-//		cEmitter.SetZ(10.0f);
-		cScene.Add(&cEmitter);
-	}
+//	{
+//		File f("teste.emitter");
+//		Reader r(f);
+//		cEmitter.Load(r);
+////		cEmitter.SetPosition(200, 0);
+////		cEmitter.SetZ(10.0f);
+//		cScene.Add(&cEmitter);
+//	}
 
 //	{
 //		musTheme.Load("theme.ogg");

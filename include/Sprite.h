@@ -36,6 +36,7 @@
 #include "Vertex.h"
 #include "Container.h"
 #include "interface/ISceneObject.h"
+#include "RendererDevice.h"
 
 namespace Seed {
 
@@ -94,7 +95,7 @@ class SEED_CORE_API Sprite : public ISceneObject
 		void operator-=(Animation *anim);
 
 		virtual void Reset();
-		virtual void Initialize();
+//		virtual void Initialize();
 
 		// ISceneObject
 		virtual void Update(f32 delta);
@@ -126,7 +127,8 @@ class SEED_CORE_API Sprite : public ISceneObject
 		u32 iFrames;
 		f32 fFrameTime;
 
-		sVertex		cVertex[4];
+		sVertex cVertex[4];
+		VertexBuffer cVertexBuffer;
 
 		bool bInitialized;
 		bool bChanged;

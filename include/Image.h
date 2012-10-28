@@ -33,6 +33,7 @@
 
 #include "interface/ISceneObject.h"
 #include "Vertex.h"
+#include "RendererDevice.h"
 
 namespace Seed {
 
@@ -77,6 +78,7 @@ class SEED_CORE_API Image : public ISceneObject
 		s32 iHalfHeight; // half height in pixel
 		u32 iWidth; // width in pixel
 		u32 iHeight; // height in pixel
+		VertexBuffer cVertexBuffer;
 		sVertex vert[4];
 
 		bool bDynamic;

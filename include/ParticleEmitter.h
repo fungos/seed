@@ -36,6 +36,7 @@
 #include "Particle.h"
 #include "Rect.h"
 #include "Vertex.h"
+#include "RendererDevice.h"
 
 namespace Seed {
 
@@ -177,7 +178,8 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		eTextureFilter			nMinFilter;
 		eTextureFilter			nMagFilter;
 
-		sVertex					*pVertexData;
+		VertexBuffer			cVertexBuffer;
+		sVertex					*pVertex;
 		u32						iVertexAmount;
 
 		bool					bParticlesFollowEmitter;

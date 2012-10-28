@@ -39,13 +39,14 @@
 namespace Seed {
 
 class ITexture;
+class VertexBuffer;
 
 /// Vertex Format
 struct sVertex
 {
 	// To be compatible with DX, we use FVF. So we must respect the DX FVF ordering in this struct.
 	Vector3f	cVertex;
-	Color3b		cColor;
+	Color4b		cColor;
 	Point2f		cCoords;
 
 	sVertex()
@@ -64,6 +65,12 @@ struct sVertex
 	}
 };
 
+struct SEED_CORE_API IVertexBuffer
+{
+	IVertexBuffer() {}
+	~IVertexBuffer() {}
+};
+
 enum ePacketFlags
 {
 	FlagNone		= 0x00,
@@ -75,8 +82,7 @@ struct RendererPacket
 {
 	const Matrix4f			*pTransform;
 	ITexture				*pTexture;
-	void					*pVertexData;
-	u32						iSize;
+	VertexBuffer			*pVertexBuffer;
 	Color					cColor;
 	eMeshType				nMeshType;
 	eBlendMode				nBlendMode;
@@ -87,8 +93,7 @@ struct RendererPacket
 	RendererPacket()
 		: pTransform(NULL)
 		, pTexture(NULL)
-		, pVertexData(NULL)
-		, iSize(0)
+		, pVertexBuffer(NULL)
 		, cColor(0, 0, 0, 255)
 		, nMeshType(Seed::TriangleStrip)
 		, nBlendMode(Seed::BlendNone)
