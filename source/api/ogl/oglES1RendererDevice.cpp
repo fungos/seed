@@ -499,19 +499,16 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	if (!vbo->iBuffer)
 		glGenBuffers(1, &vbo->iBuffer);
 
-//	void *c = (void *)offsetof(sVertex, cColor);
-//	void *uv = (void *)offsetof(sVertex, cCoords);
-//	void *v = (void *)offsetof(sVertex, cVertex);
+	glBindBuffer(GL_TARGET(vbo->nTarget), vbo->iBuffer);
 
 	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), (void *)offsetof(sVertex, cColor));
 	glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), (void *)offsetof(sVertex, cCoords));
 	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), (void *)offsetof(sVertex, cVertex));
 
-	glBindBuffer(GL_TARGET(vbo->nTarget), vbo->iBuffer);
 	if (vbo->bUpdated)
 	{
-		glBufferData(GL_TARGET(vbo->nTarget), sizeof(sVertex) * vbo->iLength, NULL, GL_USAGE(vbo->nUsage));
-		glBufferSubData(GL_TARGET(vbo->nTarget), 0, sizeof(sVertex) * vbo->iLength, vbo->pData);
+		glBufferData(GL_TARGET(vbo->nTarget), sizeof(sVertex) * vbo->iLength, vbo->pData, GL_USAGE(vbo->nUsage));
+		vbo->bUpdated = false;
 	}
 #else
 	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &vbo->pData[0].cColor);
