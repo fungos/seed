@@ -49,7 +49,11 @@
 	typedef off_t oggz_off_t;
 	#define PRI_OGGZ_OFF_T "l"
 #else
-	typedef loff_t oggz_off_t;
+	#if defined(loff_t)
+		typedef loff_t oggz_off_t;
+	#else
+		typedef _off64_t oggz_off_t;
+	#endif
 	#define PRI_OGGZ_OFF_T "ll"
 #endif
 
