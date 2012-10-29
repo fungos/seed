@@ -82,6 +82,10 @@ SEED  = source/Viewport.o \
 		source/api/oal/oalSoundSource.o \
 		source/api/oal/oalSound.o \
 		source/api/oal/oalMusic.o \
+		source/api/nulloal/oalSoundSystem.o \
+		source/api/nulloal/oalSoundSource.o \
+		source/api/nulloal/oalSound.o \
+		source/api/nulloal/oalMusic.o \
 		source/api/ogl/oglES1RendererDevice.o \
 		source/api/theora/Theora.o \
 		source/api/yajl/JsonReader.o \

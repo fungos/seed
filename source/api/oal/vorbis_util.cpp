@@ -28,7 +28,7 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
+#if defined(USE_API_OAL)
 
 #define OV_EXCLUDE_STATIC_CALLBACKS
 #include "api/oal/vorbis_util.h"
@@ -152,4 +152,4 @@ bool ogg_update_stream(OggVorbis_File *oggStream, ogg_int64_t rate, ALenum forma
 	return true;
 }
 
-#endif // BUILD_SDL || BUILD_QT
+#endif // USE_API_OAL

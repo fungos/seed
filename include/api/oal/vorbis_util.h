@@ -31,7 +31,7 @@
 #ifndef __VORBIS_UTIL_H__
 #define __VORBIS_UTIL_H__
 
-#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
+#if defined(USE_API_OAL)
 
 #include "vorbis/codec.h"
 #include "vorbis/vorbisfile.h"
@@ -68,6 +68,6 @@ int vorbis_close(void *datasource);
 long vorbis_tell(void *datasource);
 bool ogg_update_stream(OggVorbis_File *oggStream, ogg_int64_t rate, ALenum format, ALuint buffer, bool loop);
 
-#endif // BUILD_SDL || BUILD_QT
+#endif // USE_API_OAL
 
 #endif // __VORBIS_UTIL_H__
