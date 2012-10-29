@@ -28,128 +28,63 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_IOS)
+#include "Music.h"
 
-#include "Defines.h"
-#include "System.h"
-#include "Log.h"
-#include "FileSystem.h"
-#include "platform/ios/iosoneView.h"
+#if defined(USE_API_NULL_OAL)
 
-#define TAG "[System] "
+namespace Seed { namespace OAL {
 
-namespace Seed { namespace iOS {
+IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
+{
+	UNUSED(res);
 
-SEED_SINGLETON_DEFINE(System);
+	Music *music = New(Music());
+	music->Load(filename, res);
 
-System::System()
-	: iRetraceCount(0)
-	, iFrameRate(60)
+	return music;
+}
+
+Music::Music()
 {
 }
 
-System::~System()
+Music::~Music()
 {
 }
 
-bool System::Reset()
+bool Music::Load(const String &filename, ResourceManager *res)
 {
 	return true;
 }
 
-bool System::Initialize()
+bool Music::Unload()
 {
-	Log(TAG "Initializing...");
-	Log(TAG "Initialization completed.");
-
-	pFileSystem->SetWriteableDirectory(iphGetHomePath());
-
 	return true;
 }
 
-bool System::Shutdown()
+void Music::Reset()
 {
-	Log(TAG "Terminated.");
-	Log(TAG "Terminated.");
+}
 
+bool Music::Update(f32 dt)
+{
 	return true;
 }
 
-bool System::Update(f32 delta)
+void Music::SetVolume(f32 vol)
 {
-	UNUSED(delta);
-
-	this->WaitForRetrace(iFrameRate);
-
-	return true;
+	IMusic::SetVolume(vol);
 }
 
-void System::Sleep()
-{
-	Log(TAG "WARNING: Platform doesnt support sleep mode.");
-}
-
-bool System::IsSleeping() const
-{
-	return false;
-}
-
-bool System::IsShuttingDown() const
-{
-	return false;
-}
-
-bool System::IsResetting() const
-{
-	return false;
-}
-
-void System::WaitForRetrace(u32 rate)
-{
-	UNUSED(rate);
-	// This platform is synced by NSTimer at AppView
-	iRetraceCount = 0;
-}
-
-void System::GoToMenu()
+void Music::UpdateVolume()
 {
 }
 
-void System::OnHomeCalled()
+const void *Music::GetData() const
 {
-}
-
-void System::GoToDataManager()
-{
-}
-
-void System::HangUp()
-{
-}
-
-void System::DisableHome()
-{
-}
-
-void System::EnableHome()
-{
-}
-
-bool System::IsHomeEnabled() const
-{
-	return false;
-}
-
-bool System::IsHomeRunning() const
-{
-	return false;
-}
-
-bool System::InitializeHome()
-{
-	return false;
+	return NULL;
 }
 
 }} // namespace
 
-#endif // BUILD_IOS
+#endif // USE_API_NULL_OAL

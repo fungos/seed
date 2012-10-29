@@ -28,128 +28,73 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_IOS)
+#include "SoundSource.h"
 
-#include "Defines.h"
-#include "System.h"
-#include "Log.h"
-#include "FileSystem.h"
-#include "platform/ios/iosoneView.h"
+#if defined(USE_API_NULL_OAL)
 
-#define TAG "[System] "
+namespace Seed { namespace OAL {
 
-namespace Seed { namespace iOS {
-
-SEED_SINGLETON_DEFINE(System);
-
-System::System()
-	: iRetraceCount(0)
-	, iFrameRate(60)
+SoundSource::SoundSource()
 {
 }
 
-System::~System()
+SoundSource::~SoundSource()
 {
 }
 
-bool System::Reset()
+bool SoundSource::OnLoadFinished()
 {
 	return true;
 }
 
-bool System::Initialize()
+bool SoundSource::OnUnloadRequest()
 {
-	Log(TAG "Initializing...");
-	Log(TAG "Initialization completed.");
-
-	pFileSystem->SetWriteableDirectory(iphGetHomePath());
-
 	return true;
 }
 
-bool System::Shutdown()
+void SoundSource::SetVolume(f32 vol)
 {
-	Log(TAG "Terminated.");
-	Log(TAG "Terminated.");
-
-	return true;
+	ISoundSource::SetVolume(vol);
 }
 
-bool System::Update(f32 delta)
+void SoundSource::UpdateVolume()
+{
+}
+
+void SoundSource::SetLoop(bool b)
+{
+	ISoundSource::SetLoop(b);
+}
+
+void SoundSource::Stop(f32 ms)
+{
+	UNUSED(ms)
+	eState = Seed::SourceStop;
+}
+
+void SoundSource::Play()
+{
+	eState = Seed::SourcePlaying;
+}
+
+void SoundSource::Resume()
+{
+	if (eState == SourcePause || eState == SourcePaused)
+	{
+		eState = SourcePlay;
+	}
+}
+
+void SoundSource::Update(f32 delta)
 {
 	UNUSED(delta);
 
-	this->WaitForRetrace(iFrameRate);
-
-	return true;
-}
-
-void System::Sleep()
-{
-	Log(TAG "WARNING: Platform doesnt support sleep mode.");
-}
-
-bool System::IsSleeping() const
-{
-	return false;
-}
-
-bool System::IsShuttingDown() const
-{
-	return false;
-}
-
-bool System::IsResetting() const
-{
-	return false;
-}
-
-void System::WaitForRetrace(u32 rate)
-{
-	UNUSED(rate);
-	// This platform is synced by NSTimer at AppView
-	iRetraceCount = 0;
-}
-
-void System::GoToMenu()
-{
-}
-
-void System::OnHomeCalled()
-{
-}
-
-void System::GoToDataManager()
-{
-}
-
-void System::HangUp()
-{
-}
-
-void System::DisableHome()
-{
-}
-
-void System::EnableHome()
-{
-}
-
-bool System::IsHomeEnabled() const
-{
-	return false;
-}
-
-bool System::IsHomeRunning() const
-{
-	return false;
-}
-
-bool System::InitializeHome()
-{
-	return false;
+	if (bTransformationChanged)
+	{
+		ITransformable::UpdateTransform();
+	}
 }
 
 }} // namespace
 
-#endif // BUILD_IOS
+#endif // USE_API_NULL_OAL

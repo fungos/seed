@@ -60,6 +60,9 @@ class Screen : public IScreen
 
 		void Resize(int w, int h);
 
+        GLuint      frameBuffer;
+        GLuint      renderBuffer;
+    
 	private:
 		SEED_DISABLE_COPY(Screen);
 

@@ -35,7 +35,7 @@
 #include "SoundSystem.h"
 #include "Sound.h"
 #include "Log.h"
-#include "File.h"
+#include "SeedInit.h"
 
 #define TAG		"[SoundSource] "
 
@@ -43,8 +43,6 @@ namespace Seed { namespace iOS {
 
 SoundSource::SoundSource()
 	: iSource(0)
-	, pSound(NULL)
-	, stFile()
 {
 }
 
@@ -53,58 +51,37 @@ SoundSource::~SoundSource()
 	this->Unload();
 }
 
-void SoundSource::Load(const String &filename, ResourceManager *res)
+bool SoundSource::OnLoadFinished()
 {
-	SEED_ASSERT(res);
+	if (iSource)
+		alDeleteSources(1, &iSource);
+	ALenum err = alGetError();
 
-	if (pSoundSystem->IsInitialized())
-	{
-		this->Unload();
+	alGenSources(1, &iSource);
+	err = alGetError();
+	if (err != AL_NO_ERROR)
+		Info(TAG "Could not create OpenAL Source: %4x", err);
 
-		/* Open file .sound */
-		pFileSystem->Open(filename, &stFile);
+	const ALint *buffer = static_cast<const ALint *>(pSound->GetData());
 
-		const u8 *ptr = static_cast<const u8 *>(stFile.GetData());
-		ObjectHeader *block = NULL;
-		READ_STRUCT(block, ObjectHeader, ptr);
-		seed_validate_block(&stFile, block, SOUND_OBJECT_MAGIC, SOUND_OBJECT_VERSION);
-
-		u32 volume = 0;
-		READ_U32(volume, ptr);
-		fVolume  = volume / 100.0f;
-
-		u32 flags = 0;
-		READ_U32(flags, ptr);
-		bLoop = ((flags & 0x01) == 0x01); // FIXME
-
-		const char *fname = NULL;
-		READ_STR(fname, ptr);
-		SEED_ASSERT(fname);
-
-		/* Get the resource */
-		pSound = static_cast<Sound *>(res->Get(fname, Seed::ObjectSound, pool));
-
-		if (iSource)
-			alDeleteSources(1, &iSource);
-		ALenum err = alGetError();
-
-		alGenSources(1, &iSource);
-		err = alGetError();
-		if (err != AL_NO_ERROR)
-			Info(TAG "Could not create OpenAL Source: %4x", err);
-
-		const ALint *buffer = static_cast<const ALint *>(pSound->GetData());
-
-		alSourcef(iSource, AL_PITCH, 1.0f);
-		alSource3f(iSource, AL_POSITION, cPosition.x, cPosition.y, cPosition.z);
-		alSource3f(iSource, AL_VELOCITY, cVelocity.x, cVelocity.y, cVelocity.z);
-		alSourcei(iSource, AL_LOOPING, bLoop);
-		alSourcei(iSource, AL_BUFFER, *buffer);
-		this->SetVolume(fVolume);
-	}
+    alSourcef(iSource, AL_PITCH, 1.0f);
+	alSource3f(iSource, AL_POSITION, GetX(), GetY(), GetZ());
+	alSource3f(iSource, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
+	alSource3f(iSource, AL_DIRECTION, 0.0f, 0.0f, 0.0f);
+	alSourcei(iSource, AL_LOOPING, bLoop);
+    alSourcef(iSource, AL_ROLLOFF_FACTOR, 1.0f);
+	alSourcef(iSource, AL_MAX_DISTANCE, 1.0f);
+	alSourcef(iSource, AL_REFERENCE_DISTANCE, 1.0f);
+	alSourcef(iSource, AL_PITCH, 1.0f);
+	alSourcef(iSource, AL_GAIN, 1.0f);
+	alSourcei(iSource, AL_BUFFER, *buffer);
+    
+	this->SetVolume(fVolume);
+    
+    return true;
 }
 
-void SoundSource::Unload()
+bool SoundSource::OnUnloadRequest()
 {
 	if (Private::bInitialized)
 		pSoundSystem->Remove(this);

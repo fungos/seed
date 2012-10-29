@@ -28,128 +28,53 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_IOS)
+#include "SoundSystem.h"
 
-#include "Defines.h"
-#include "System.h"
-#include "Log.h"
-#include "FileSystem.h"
-#include "platform/ios/iosoneView.h"
+#if defined(USE_API_NULL_OAL)
 
-#define TAG "[System] "
 
-namespace Seed { namespace iOS {
+namespace Seed { namespace OAL {
 
-SEED_SINGLETON_DEFINE(System);
+SEED_SINGLETON_DEFINE(SoundSystem)
 
-System::System()
-	: iRetraceCount(0)
-	, iFrameRate(60)
+SoundSystem::SoundSystem()
 {
 }
 
-System::~System()
+SoundSystem::~SoundSystem()
 {
 }
 
-bool System::Reset()
+bool SoundSystem::Initialize()
 {
 	return true;
 }
 
-bool System::Initialize()
+bool SoundSystem::Reset()
 {
-	Log(TAG "Initializing...");
-	Log(TAG "Initialization completed.");
-
-	pFileSystem->SetWriteableDirectory(iphGetHomePath());
-
 	return true;
 }
 
-bool System::Shutdown()
+bool SoundSystem::Shutdown()
 {
-	Log(TAG "Terminated.");
-	Log(TAG "Terminated.");
-
 	return true;
 }
 
-bool System::Update(f32 delta)
+bool SoundSystem::Update(f32 dt)
 {
-	UNUSED(delta);
-
-	this->WaitForRetrace(iFrameRate);
-
 	return true;
 }
 
-void System::Sleep()
+void SoundSystem::Pause()
 {
-	Log(TAG "WARNING: Platform doesnt support sleep mode.");
+	ISoundSystem::Pause();
 }
 
-bool System::IsSleeping() const
+void SoundSystem::Resume()
 {
-	return false;
-}
-
-bool System::IsShuttingDown() const
-{
-	return false;
-}
-
-bool System::IsResetting() const
-{
-	return false;
-}
-
-void System::WaitForRetrace(u32 rate)
-{
-	UNUSED(rate);
-	// This platform is synced by NSTimer at AppView
-	iRetraceCount = 0;
-}
-
-void System::GoToMenu()
-{
-}
-
-void System::OnHomeCalled()
-{
-}
-
-void System::GoToDataManager()
-{
-}
-
-void System::HangUp()
-{
-}
-
-void System::DisableHome()
-{
-}
-
-void System::EnableHome()
-{
-}
-
-bool System::IsHomeEnabled() const
-{
-	return false;
-}
-
-bool System::IsHomeRunning() const
-{
-	return false;
-}
-
-bool System::InitializeHome()
-{
-	return false;
+	ISoundSystem::Resume();
 }
 
 }} // namespace
 
-#endif // BUILD_IOS
+#endif // USE_API_NULL_OAL

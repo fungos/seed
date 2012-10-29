@@ -77,7 +77,7 @@ typedef signed short int 		s16;
 typedef signed char 			s8;
 typedef float 					f32;
 
-#define HALT(x)		do { Log("%s", x); exit(-1); } while (1);
+#define HALT		do { exit(-1); } while (1);
 
 //#define ENABLE_NATIVE_PVRTC_FORMAT		// MUST HAVE SEED_ENABLE_PRELOAD_TEXTURE enabled!
 

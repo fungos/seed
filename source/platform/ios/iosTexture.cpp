@@ -110,7 +110,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 	return bLoaded;
 }
 
-bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 atlasHeight)
+bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight)
 {
 	SEED_ASSERT(buffer);
 	SEED_ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
@@ -144,7 +144,7 @@ bool Texture::Load(u32 width, u32 height, uPixel *buffer, u32 atlasWidth, u32 at
 	return bLoaded;
 }
 
-void Texture::Update(uPixel *data)
+void Texture::Update(Color *data)
 {
 	pData = data;
 	pRendererDevice->TextureDataUpdate(this);
@@ -174,7 +174,7 @@ u32 Texture::GetAtlasHeight() const
 	return iAtlasHeight;
 }
 
-void Texture::PutPixel(u32 x, u32 y, uPixel px)
+void Texture::PutPixel(u32 x, u32 y, const Color &px)
 {
 #if !defined(ENABLE_NATIVE_PVRTC_FORMAT)
 	if (pData || pixelFormat != kTexture2DPixelFormat_RGB565 || pixelFormat != kTexture2DPixelFormat_A8)
@@ -192,7 +192,7 @@ void Texture::PutPixel(u32 x, u32 y, uPixel px)
 #endif // ENABLE_NATIVE_PVRTC_FORMAT
 }
 
-uPixel Texture::GetPixel(u32 x, u32 y) const
+Color Texture::GetPixel(u32 x, u32 y) const
 {
 #if !defined(ENABLE_NATIVE_PVRTC_FORMAT)
 	if (!pData)

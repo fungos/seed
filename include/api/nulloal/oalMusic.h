@@ -28,128 +28,49 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_IOS)
+#ifndef __NULL_OAL_MUSIC_H__
+#define __NULL_OAL_MUSIC_H__
 
 #include "Defines.h"
-#include "System.h"
-#include "Log.h"
-#include "FileSystem.h"
-#include "platform/ios/iosoneView.h"
 
-#define TAG "[System] "
+#if defined(USE_API_NULL_OAL)
 
-namespace Seed { namespace iOS {
+#include "File.h"
+#include "interface/IMusic.h"
+#include "Sound.h"
 
-SEED_SINGLETON_DEFINE(System);
+namespace Seed { namespace OAL {
 
-System::System()
-	: iRetraceCount(0)
-	, iFrameRate(60)
+IResource *MusicResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
+
+class SEED_CORE_API Music : public IMusic
 {
-}
+	friend IResource *MusicResourceLoader(const String &filename, ResourceManager *res);
+	friend class SoundSystem;
 
-System::~System()
-{
-}
+	public:
+		Music();
+		virtual ~Music();
 
-bool System::Reset()
-{
-	return true;
-}
+		// IMusic
+		virtual void Reset();
+		virtual bool Update(f32 dt);
+		virtual const void *GetData() const;
 
-bool System::Initialize()
-{
-	Log(TAG "Initializing...");
-	Log(TAG "Initialization completed.");
+		virtual void SetVolume(f32 vol);
+		virtual void UpdateVolume();
 
-	pFileSystem->SetWriteableDirectory(iphGetHomePath());
+		// IResouce
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
+		virtual bool Unload();
 
-	return true;
-}
-
-bool System::Shutdown()
-{
-	Log(TAG "Terminated.");
-	Log(TAG "Terminated.");
-
-	return true;
-}
-
-bool System::Update(f32 delta)
-{
-	UNUSED(delta);
-
-	this->WaitForRetrace(iFrameRate);
-
-	return true;
-}
-
-void System::Sleep()
-{
-	Log(TAG "WARNING: Platform doesnt support sleep mode.");
-}
-
-bool System::IsSleeping() const
-{
-	return false;
-}
-
-bool System::IsShuttingDown() const
-{
-	return false;
-}
-
-bool System::IsResetting() const
-{
-	return false;
-}
-
-void System::WaitForRetrace(u32 rate)
-{
-	UNUSED(rate);
-	// This platform is synced by NSTimer at AppView
-	iRetraceCount = 0;
-}
-
-void System::GoToMenu()
-{
-}
-
-void System::OnHomeCalled()
-{
-}
-
-void System::GoToDataManager()
-{
-}
-
-void System::HangUp()
-{
-}
-
-void System::DisableHome()
-{
-}
-
-void System::EnableHome()
-{
-}
-
-bool System::IsHomeEnabled() const
-{
-	return false;
-}
-
-bool System::IsHomeRunning() const
-{
-	return false;
-}
-
-bool System::InitializeHome()
-{
-	return false;
-}
+	private:
+		SEED_DISABLE_COPY(Music);
+};
 
 }} // namespace
 
-#endif // BUILD_IOS
+#else // USE_API_NULL_OAL
+	#error "Include 'Music.h' instead 'api/nulloal/oalMusic.h' directly."
+#endif // USE_API_NULL_OAL
+#endif // __NULL_OAL_MUSIC_H__

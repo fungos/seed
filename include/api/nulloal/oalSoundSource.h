@@ -28,128 +28,51 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_IOS)
+#ifndef __NULL_OAL_SOUND_SOURCE_H__
+#define __NULL_OAL_SOUND_SOURCE_H__
 
 #include "Defines.h"
-#include "System.h"
-#include "Log.h"
-#include "FileSystem.h"
-#include "platform/ios/iosoneView.h"
 
-#define TAG "[System] "
+#if defined(USE_API_NULL_OAL)
 
-namespace Seed { namespace iOS {
+#include "Sound.h"
+#include "interface/ISoundSource.h"
+#include "interface/ISound.h"
+#include "Reader.h"
 
-SEED_SINGLETON_DEFINE(System);
+namespace Seed { namespace OAL {
 
-System::System()
-	: iRetraceCount(0)
-	, iFrameRate(60)
+class SEED_CORE_API SoundSource : public ISoundSource
 {
-}
+	friend class SoundSystem;
 
-System::~System()
-{
-}
+	public:
+		SoundSource();
+		virtual ~SoundSource();
 
-bool System::Reset()
-{
-	return true;
-}
+		virtual void SetLoop(bool b);
+		virtual void Play();
+		virtual void Stop(f32 ms = 0.0f);
+		virtual void Resume();
 
-bool System::Initialize()
-{
-	Log(TAG "Initializing...");
-	Log(TAG "Initialization completed.");
+		virtual void SetVolume(f32 vol);
+		virtual void UpdateVolume();
 
-	pFileSystem->SetWriteableDirectory(iphGetHomePath());
+		// IRenderable
+		virtual void Update(f32 delta);
 
-	return true;
-}
+	protected:
+		// ISoundSource
+		virtual bool OnLoadFinished();
+		virtual bool OnUnloadRequest();
 
-bool System::Shutdown()
-{
-	Log(TAG "Terminated.");
-	Log(TAG "Terminated.");
-
-	return true;
-}
-
-bool System::Update(f32 delta)
-{
-	UNUSED(delta);
-
-	this->WaitForRetrace(iFrameRate);
-
-	return true;
-}
-
-void System::Sleep()
-{
-	Log(TAG "WARNING: Platform doesnt support sleep mode.");
-}
-
-bool System::IsSleeping() const
-{
-	return false;
-}
-
-bool System::IsShuttingDown() const
-{
-	return false;
-}
-
-bool System::IsResetting() const
-{
-	return false;
-}
-
-void System::WaitForRetrace(u32 rate)
-{
-	UNUSED(rate);
-	// This platform is synced by NSTimer at AppView
-	iRetraceCount = 0;
-}
-
-void System::GoToMenu()
-{
-}
-
-void System::OnHomeCalled()
-{
-}
-
-void System::GoToDataManager()
-{
-}
-
-void System::HangUp()
-{
-}
-
-void System::DisableHome()
-{
-}
-
-void System::EnableHome()
-{
-}
-
-bool System::IsHomeEnabled() const
-{
-	return false;
-}
-
-bool System::IsHomeRunning() const
-{
-	return false;
-}
-
-bool System::InitializeHome()
-{
-	return false;
-}
+	private:
+		SEED_DISABLE_COPY(SoundSource);
+};
 
 }} // namespace
 
-#endif // BUILD_IOS
+#else // USE_API_NULL_OAL
+	#error "Include 'SoundSource.h' instead 'api/nulloal/oalSoundSource.h' directly."
+#endif // USE_API_NULL_OAL
+#endif // __NULL_OAL_SOUND_SOURCE_H__

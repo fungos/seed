@@ -34,7 +34,7 @@
 #include "Input.h"
 #include "Log.h"
 #include "Screen.h"
-#include "platform/ios/iosoneView.h"
+//#include "platform/ios/iosoneView.h"
 #include "EventInputPointer.h"
 #include "Timer.h"
 

@@ -163,7 +163,6 @@
 		D1EA5887163B076200511189 /* lzio.c in Sources */ = {isa = PBXBuildFile; fileRef = D1EA55D2163B076200511189 /* lzio.c */; };
 		D1EA5888163B076200511189 /* lzio.h in Headers */ = {isa = PBXBuildFile; fileRef = D1EA55D3163B076200511189 /* lzio.h */; };
 		D1EA588A163B076200511189 /* bitwise.c in Sources */ = {isa = PBXBuildFile; fileRef = D1EA55D6163B076200511189 /* bitwise.c */; };
-		D1EA588B163B076200511189 /* config_types.h in Headers */ = {isa = PBXBuildFile; fileRef = D1EA55D7163B076200511189 /* config_types.h */; };
 		D1EA588C163B076200511189 /* framing.c in Sources */ = {isa = PBXBuildFile; fileRef = D1EA55D8163B076200511189 /* framing.c */; };
 		D1EA588D163B076200511189 /* ogg.h in Headers */ = {isa = PBXBuildFile; fileRef = D1EA55D9163B076200511189 /* ogg.h */; };
 		D1EA588E163B076200511189 /* os_types.h in Headers */ = {isa = PBXBuildFile; fileRef = D1EA55DA163B076200511189 /* os_types.h */; };
@@ -676,7 +675,6 @@
 		D1EA55D2163B076200511189 /* lzio.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lzio.c; sourceTree = "<group>"; };
 		D1EA55D3163B076200511189 /* lzio.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lzio.h; sourceTree = "<group>"; };
 		D1EA55D6163B076200511189 /* bitwise.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bitwise.c; sourceTree = "<group>"; };
-		D1EA55D7163B076200511189 /* config_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = config_types.h; sourceTree = "<group>"; };
 		D1EA55D8163B076200511189 /* framing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = framing.c; sourceTree = "<group>"; };
 		D1EA55D9163B076200511189 /* ogg.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ogg.h; sourceTree = "<group>"; };
 		D1EA55DA163B076200511189 /* os_types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = os_types.h; sourceTree = "<group>"; };
@@ -1327,7 +1325,6 @@
 			isa = PBXGroup;
 			children = (
 				D1EA55D6163B076200511189 /* bitwise.c */,
-				D1EA55D7163B076200511189 /* config_types.h */,
 				D1EA55D8163B076200511189 /* framing.c */,
 				D1EA55D9163B076200511189 /* ogg.h */,
 				D1EA55DA163B076200511189 /* os_types.h */,
@@ -2018,7 +2015,6 @@
 				D1EA5884163B076200511189 /* lundump.h in Headers */,
 				D1EA5886163B076200511189 /* lvm.h in Headers */,
 				D1EA5888163B076200511189 /* lzio.h in Headers */,
-				D1EA588B163B076200511189 /* config_types.h in Headers */,
 				D1EA588D163B076200511189 /* ogg.h in Headers */,
 				D1EA588E163B076200511189 /* os_types.h in Headers */,
 				D1EA5890163B076200511189 /* cpu.h in Headers */,

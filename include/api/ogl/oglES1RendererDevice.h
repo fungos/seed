@@ -31,7 +31,9 @@
 #ifndef __OGLES1_RENDERER_DEVICE_H__
 #define __OGLES1_RENDERER_DEVICE_H__
 
+#if !defined(BUILD_IOS)
 #include "glew/glew.h"
+#endif
 
 #if defined(_MSC_VER)
 #pragma comment(lib, "opengl32.lib")
@@ -47,10 +49,6 @@
 
 #include "interface/IRendererDevice.h"
 
-#if defined(BUILD_IOS)
-#include <OpenGLES/ES1/gl.h>
-#endif
-
 #if defined(BUILD_SDL) && defined(_MSC_VER)
 #define NO_SDL_GLEXT	1
 #include <SDL/SDL_opengl.h>
@@ -59,7 +57,9 @@
 #include <SDL/SDL_opengl.h>
 #endif
 
-#if defined(__APPLE_CC__)
+#if defined(BUILD_IOS)
+#include <OpenGLES/ES1/gl.h>
+#elif defined(__APPLE_CC__)
 #include <OpenGL/glext.h>
 #else
 #include <GL/glext.h>

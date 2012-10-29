@@ -28,128 +28,43 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_IOS)
+#ifndef __OAL_SOUND_SYSTEM_H__
+#define __OAL_SOUND_SYSTEM_H__
 
 #include "Defines.h"
-#include "System.h"
-#include "Log.h"
-#include "FileSystem.h"
-#include "platform/ios/iosoneView.h"
 
-#define TAG "[System] "
+#if defined(USE_API_NULL_OAL)
 
-namespace Seed { namespace iOS {
+#include "interface/ISoundSystem.h"
+#include "Singleton.h"
 
-SEED_SINGLETON_DEFINE(System);
+namespace Seed { namespace OAL {
 
-System::System()
-	: iRetraceCount(0)
-	, iFrameRate(60)
+/// OpenAL Sound system
+class SEED_CORE_API SoundSystem : public ISoundSystem
 {
-}
+	SEED_SINGLETON_DECLARE(SoundSystem)
+	public:
+		virtual void Pause();
+		virtual void Resume();
 
-System::~System()
-{
-}
+		// IUpdatable
+		virtual bool Update(f32 dt);
 
-bool System::Reset()
-{
-	return true;
-}
+		// IModule
+		virtual bool Initialize();
+		virtual bool Reset();
+		virtual bool Shutdown();
 
-bool System::Initialize()
-{
-	Log(TAG "Initializing...");
-	Log(TAG "Initialization completed.");
+	private:
+		SEED_DISABLE_COPY(SoundSystem);
+};
 
-	pFileSystem->SetWriteableDirectory(iphGetHomePath());
-
-	return true;
-}
-
-bool System::Shutdown()
-{
-	Log(TAG "Terminated.");
-	Log(TAG "Terminated.");
-
-	return true;
-}
-
-bool System::Update(f32 delta)
-{
-	UNUSED(delta);
-
-	this->WaitForRetrace(iFrameRate);
-
-	return true;
-}
-
-void System::Sleep()
-{
-	Log(TAG "WARNING: Platform doesnt support sleep mode.");
-}
-
-bool System::IsSleeping() const
-{
-	return false;
-}
-
-bool System::IsShuttingDown() const
-{
-	return false;
-}
-
-bool System::IsResetting() const
-{
-	return false;
-}
-
-void System::WaitForRetrace(u32 rate)
-{
-	UNUSED(rate);
-	// This platform is synced by NSTimer at AppView
-	iRetraceCount = 0;
-}
-
-void System::GoToMenu()
-{
-}
-
-void System::OnHomeCalled()
-{
-}
-
-void System::GoToDataManager()
-{
-}
-
-void System::HangUp()
-{
-}
-
-void System::DisableHome()
-{
-}
-
-void System::EnableHome()
-{
-}
-
-bool System::IsHomeEnabled() const
-{
-	return false;
-}
-
-bool System::IsHomeRunning() const
-{
-	return false;
-}
-
-bool System::InitializeHome()
-{
-	return false;
-}
+#define pSoundSystem Seed::OAL::SoundSystem::GetInstance()
 
 }} // namespace
 
-#endif // BUILD_IOS
+#else // USE_API_NULL_OAL
+	#error "Include 'SoundSystem.h' instead 'api/nulloal/oalSoundSystem.h' directly."
+#endif // USE_API_NULL_OAL
+#endif // __NULL_OAL_SOUND_SYSTEM_H__

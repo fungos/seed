@@ -284,6 +284,14 @@
 		97A934A315390C46001064D7 /* ViewManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9342415390C46001064D7 /* ViewManager.cpp */; };
 		97A934A415390C46001064D7 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9342515390C46001064D7 /* Viewport.cpp */; };
 		97A934A515390C46001064D7 /* Writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9342615390C46001064D7 /* Writer.cpp */; };
+		D103F69C163F318F00267967 /* oalMusic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F698163F318F00267967 /* oalMusic.cpp */; };
+		D103F69D163F318F00267967 /* oalSound.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F699163F318F00267967 /* oalSound.cpp */; };
+		D103F69E163F318F00267967 /* oalSoundSource.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F69A163F318F00267967 /* oalSoundSource.cpp */; };
+		D103F69F163F318F00267967 /* oalSoundSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F69B163F318F00267967 /* oalSoundSystem.cpp */; };
+		D103F6A6163F319F00267967 /* oalMusic.h in Headers */ = {isa = PBXBuildFile; fileRef = D103F6A2163F319F00267967 /* oalMusic.h */; };
+		D103F6A7163F319F00267967 /* oalSound.h in Headers */ = {isa = PBXBuildFile; fileRef = D103F6A3163F319F00267967 /* oalSound.h */; };
+		D103F6A8163F319F00267967 /* oalSoundSource.h in Headers */ = {isa = PBXBuildFile; fileRef = D103F6A4163F319F00267967 /* oalSoundSource.h */; };
+		D103F6A9163F319F00267967 /* oalSoundSystem.h in Headers */ = {isa = PBXBuildFile; fileRef = D103F6A5163F319F00267967 /* oalSoundSystem.h */; };
 		D11224CE163B1EF400827FE5 /* SceneObjectFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224CD163B1EF400827FE5 /* SceneObjectFactory.cpp */; };
 		D11224D4163B1F2D00827FE5 /* soilTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224D3163B1F2D00827FE5 /* soilTexture.cpp */; };
 		D11224DC163B1F4000827FE5 /* glfwInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224D6163B1F4000827FE5 /* glfwInput.cpp */; };
@@ -585,6 +593,14 @@
 		97A9342415390C46001064D7 /* ViewManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ViewManager.cpp; sourceTree = "<group>"; };
 		97A9342515390C46001064D7 /* Viewport.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Viewport.cpp; sourceTree = "<group>"; };
 		97A9342615390C46001064D7 /* Writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Writer.cpp; sourceTree = "<group>"; };
+		D103F698163F318F00267967 /* oalMusic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oalMusic.cpp; sourceTree = "<group>"; };
+		D103F699163F318F00267967 /* oalSound.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oalSound.cpp; sourceTree = "<group>"; };
+		D103F69A163F318F00267967 /* oalSoundSource.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oalSoundSource.cpp; sourceTree = "<group>"; };
+		D103F69B163F318F00267967 /* oalSoundSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oalSoundSystem.cpp; sourceTree = "<group>"; };
+		D103F6A2163F319F00267967 /* oalMusic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oalMusic.h; sourceTree = "<group>"; };
+		D103F6A3163F319F00267967 /* oalSound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oalSound.h; sourceTree = "<group>"; };
+		D103F6A4163F319F00267967 /* oalSoundSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oalSoundSource.h; sourceTree = "<group>"; };
+		D103F6A5163F319F00267967 /* oalSoundSystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oalSoundSystem.h; sourceTree = "<group>"; };
 		D11224CD163B1EF400827FE5 /* SceneObjectFactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SceneObjectFactory.cpp; sourceTree = "<group>"; };
 		D11224D3163B1F2D00827FE5 /* soilTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = soilTexture.cpp; sourceTree = "<group>"; };
 		D11224D6163B1F4000827FE5 /* glfwInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwInput.cpp; sourceTree = "<group>"; };
@@ -714,6 +730,7 @@
 		97A9324F15390C3D001064D7 /* api */ = {
 			isa = PBXGroup;
 			children = (
+				D103F6A1163F319F00267967 /* nulloal */,
 				97A9325015390C3D001064D7 /* directx */,
 				97A9325315390C3D001064D7 /* oal */,
 				97A9325915390C3D001064D7 /* ogl */,
@@ -951,6 +968,7 @@
 		97A9339A15390C46001064D7 /* api */ = {
 			isa = PBXGroup;
 			children = (
+				D103F697163F318F00267967 /* nullaol */,
 				D11224D2163B1F2D00827FE5 /* soil */,
 				97A9339B15390C46001064D7 /* directx */,
 				97A9339E15390C46001064D7 /* oal */,
@@ -1127,6 +1145,28 @@
 				97A9341315390C46001064D7 /* sdlTimer.cpp */,
 			);
 			path = sdl;
+			sourceTree = "<group>";
+		};
+		D103F697163F318F00267967 /* nullaol */ = {
+			isa = PBXGroup;
+			children = (
+				D103F698163F318F00267967 /* oalMusic.cpp */,
+				D103F699163F318F00267967 /* oalSound.cpp */,
+				D103F69A163F318F00267967 /* oalSoundSource.cpp */,
+				D103F69B163F318F00267967 /* oalSoundSystem.cpp */,
+			);
+			path = nullaol;
+			sourceTree = "<group>";
+		};
+		D103F6A1163F319F00267967 /* nulloal */ = {
+			isa = PBXGroup;
+			children = (
+				D103F6A2163F319F00267967 /* oalMusic.h */,
+				D103F6A3163F319F00267967 /* oalSound.h */,
+				D103F6A4163F319F00267967 /* oalSoundSource.h */,
+				D103F6A5163F319F00267967 /* oalSoundSystem.h */,
+			);
+			path = nulloal;
 			sourceTree = "<group>";
 		};
 		D11224D2163B1F2D00827FE5 /* soil */ = {
@@ -1312,6 +1352,10 @@
 				97A9339515390C3D001064D7 /* Viewport.h in Headers */,
 				97A9339615390C3D001064D7 /* Writer.h in Headers */,
 				D15AB1DF15BD97F100C0A964 /* Camera.h in Headers */,
+				D103F6A6163F319F00267967 /* oalMusic.h in Headers */,
+				D103F6A7163F319F00267967 /* oalSound.h in Headers */,
+				D103F6A8163F319F00267967 /* oalSoundSource.h in Headers */,
+				D103F6A9163F319F00267967 /* oalSoundSystem.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1497,6 +1541,10 @@
 				D11224DF163B1F4000827FE5 /* glfwSystem.cpp in Sources */,
 				D11224E0163B1F4000827FE5 /* glfwThread.cpp in Sources */,
 				D11224E1163B1F4000827FE5 /* glfwTimer.cpp in Sources */,
+				D103F69C163F318F00267967 /* oalMusic.cpp in Sources */,
+				D103F69D163F318F00267967 /* oalSound.cpp in Sources */,
+				D103F69E163F318F00267967 /* oalSoundSource.cpp in Sources */,
+				D103F69F163F318F00267967 /* oalSoundSystem.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

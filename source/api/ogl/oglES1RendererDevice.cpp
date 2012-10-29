@@ -46,7 +46,29 @@
 	#define PIXEL_FORMAT_32 GL_RGBA
 	#include "platform/ios/iosView.h"
 	#include <OpenGLES/ES1/gl.h>
+    #include <OpenGLES/ES1/glext.h>
 	#define _OPENGL_ES1		1
+    #define GL_RGBA8 GL_RGBA8_OES
+    #define GL_FRAMEBUFFER GL_FRAMEBUFFER_OES
+    #define GL_RENDERBUFFER GL_RENDERBUFFER_OES
+    #define GL_COLOR_ATTACHMENT0 GL_COLOR_ATTACHMENT0_OES
+    #define GL_DEPTH_COMPONENT24 GL_DEPTH_COMPONENT24_OES
+    #define GL_DEPTH_ATTACHMENT GL_DEPTH_ATTACHMENT_OES
+    #define GL_FRAMEBUFFER_COMPLETE GL_FRAMEBUFFER_COMPLETE_OES
+    #define glGenFramebuffers glGenFramebuffersOES
+    #define glDeleteFramebuffers glDeleteFramebuffersOES
+    #define glGenRenderbuffers glGenRenderbuffersOES
+    #define glDeleteRenderbuffers glDeleteRenderbuffersOES
+    #define glBindFramebuffer glBindFramebufferOES
+    #define glBindRenderbuffer glBindRenderbufferOES
+    #define glRenderbufferStorage glRenderbufferStorageOES
+    #define glFramebufferRenderbuffer glFramebufferRenderbufferOES
+    #define glFramebufferTexture2D glFramebufferTexture2DOES
+    #define glCheckFramebufferStatus glCheckFramebufferStatusOES
+    #define GL_STREAM_DRAW GL_DYNAMIC_DRAW
+    #define GL_TEXTURE_BIT 0
+    #define GL_ENABLE_BIT 0
+    #define GL_CURRENT_BIT 0
 #else
 	#if defined(__APPLE_CC__)
 		#define PIXEL_FORMAT_32 GL_RGBA
@@ -67,7 +89,7 @@
 	#endif
 #endif
 
-#if defined(DEBUG)
+#if defined(DEBUG) && !defined(BUILD_IOS)
 #define GL_TRACE(x)		if (GLEW_GREMEDY_string_marker) \
 						{ \
 							glStringMarkerGREMEDY(0, x);\
@@ -571,14 +593,14 @@ int OGLES1RendererDevice::GetOpenGLBufferTargetType(eBufferTarget type) const
 
 int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const
 {
-	int types[MeshTypeCount] = {GL_TRIANGLE_STRIP, GL_TRIANGLES, GL_LINE_STRIP, GL_QUADS};
+	int types[MeshTypeCount] = {GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_LINES, GL_LINE_STRIP, GL_LINE_LOOP};
 	return types[type];
 }
 
 void OGLES1RendererDevice::BackbufferFill(const Color &color) const
 {
 	GL_TRACE("BEGIN BackbufferFill")
-	glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_CURRENT_BIT | GL_COLOR_BUFFER_BIT);
+	//glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_CURRENT_BIT | GL_COLOR_BUFFER_BIT);
 	const GLfloat vertices[] = {0.0f, 0.0f, 0.0f, pScreen->GetHeight(), pScreen->GetWidth(), 0.0f, pScreen->GetWidth(), pScreen->GetHeight()};
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -599,7 +621,7 @@ void OGLES1RendererDevice::BackbufferFill(const Color &color) const
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 
-	glPopAttrib();
+	//glPopAttrib();
 	GL_TRACE("END BackbufferFill")
 }
 
@@ -607,11 +629,11 @@ u32 OGLES1RendererDevice::CreateFrameBuffer(ITexture *texture)
 {
 	GL_TRACE("BEGIN CreateFrameBuffer")
 	GLuint fb;
-	glGenFramebuffersEXT(1, &fb);
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, fb);
+	glGenFramebuffers(1, &fb);
+	glBindFramebuffer(GL_FRAMEBUFFER, fb);
 
 	if (texture && texture->iTextureId)
-		glFramebufferTexture2DEXT(GL_FRAMEBUFFER_EXT, GL_COLOR_ATTACHMENT0_EXT, GL_TEXTURE_2D, texture->iTextureId, 0);
+		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture->iTextureId, 0);
 
 	GL_TRACE("END CreateFrameBuffer")
 	return fb;
@@ -620,8 +642,8 @@ u32 OGLES1RendererDevice::CreateFrameBuffer(ITexture *texture)
 void OGLES1RendererDevice::DestroyFrameBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN DestroyFrameBuffer")
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, 0);
-	glDeleteFramebuffersEXT(1, &buffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, 0);
+	glDeleteFramebuffers(1, &buffer);
 	GL_TRACE("END DestroyFrameBuffer")
 }
 
@@ -630,9 +652,9 @@ u32 OGLES1RendererDevice::CreateDepthBuffer(u32 w, u32 h)
 	GL_TRACE("BEGIN CreateDepthBuffer")
 	GLuint db;
 
-	glGenRenderbuffersEXT(1, &db);
-	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, db);
-	glRenderbufferStorageEXT(GL_RENDERBUFFER_EXT, GL_DEPTH_COMPONENT24, w, h);
+	glGenRenderbuffers(1, &db);
+	glBindRenderbuffer(GL_RENDERBUFFER, db);
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, w, h);
 
 	GL_TRACE("END CreateDepthBuffer")
 
@@ -642,38 +664,38 @@ u32 OGLES1RendererDevice::CreateDepthBuffer(u32 w, u32 h)
 void OGLES1RendererDevice::DestroyDepthBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN DestroyDepthBuffer")
-	glDeleteRenderbuffersEXT(1, &buffer);
+	glDeleteRenderbuffers(1, &buffer);
 	GL_TRACE("END DestroyDepthBuffer")
 }
 
 void OGLES1RendererDevice::AttachDepthBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN AttachDepthBuffer")
-	glFramebufferRenderbufferEXT(GL_FRAMEBUFFER_EXT, GL_DEPTH_ATTACHMENT_EXT, GL_RENDERBUFFER_EXT, buffer);
+	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, buffer);
 	GL_TRACE("END AttachDepthBuffer")
 }
 
 void OGLES1RendererDevice::ActivateFrameBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN ActivateFrameBuffer")
-	glBindFramebufferEXT(GL_FRAMEBUFFER_EXT, buffer);
+	glBindFramebuffer(GL_FRAMEBUFFER, buffer);
 	GL_TRACE("END ActivateFrameBuffer")
 }
 
 void OGLES1RendererDevice::ActivateDepthBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN ActivateDepthBuffer")
-	glBindRenderbufferEXT(GL_RENDERBUFFER_EXT, buffer);
+	glBindRenderbuffer(GL_RENDERBUFFER, buffer);
 	GL_TRACE("END ActivateDepthBuffer")
 }
 
 bool OGLES1RendererDevice::CheckFrameBufferStatus() const
 {
 	GL_TRACE("BEGIN CheckFrameBufferStatus")
-	GLenum status = glCheckFramebufferStatusEXT(GL_FRAMEBUFFER_EXT);
+	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	GL_TRACE("END CheckFrameBufferStatus")
 
-	return (status == GL_FRAMEBUFFER_COMPLETE_EXT);
+	return (status == GL_FRAMEBUFFER_COMPLETE);
 }
 
 void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
@@ -798,7 +820,7 @@ void OGLES1RendererDevice::Enable2D() const
 	glScalef(1.0f, 1.0f, -1.0f);
 
 	// Save previous Renderer state
-	glPushAttrib(GL_DEPTH_BUFFER_BIT);
+	//glPushAttrib(GL_DEPTH_BUFFER_BIT);
 	glDisable(GL_DEPTH_TEST);
 	//glAlphaFunc(GL_GREATER, 0.1f); /* Blending alpha png fudido, arrumar per-texture */
 	glEnable(GL_ALPHA_TEST);
@@ -816,7 +838,7 @@ void OGLES1RendererDevice::Disable2D() const
 	GL_TRACE("BEGIN Disable2D")
 #if !defined(BUILD_QT)
 	// Restore previous Renderer state
-	glPopAttrib();
+	//glPopAttrib();
 
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();

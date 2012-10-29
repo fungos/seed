@@ -1,8 +1,9 @@
 #include "Defines.h"
 #include "interface/IGameApp.h"
+#include <OpenGLES/EAGL.h>
 
-const FilePath *iphGetRootPath();
-const FilePath *iphGetHomePath();
+const char *iphGetRootPath();
+const char *iphGetHomePath();
 
 namespace Seed {
 	void SetGameApp(IGameApp *app);

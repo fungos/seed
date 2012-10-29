@@ -34,7 +34,10 @@
 #include "Screen.h"
 #include "Log.h"
 #include "RendererDevice.h"
-#include "platform/ios/iosoneView.h"
+
+#include <UIKit/UIKit.h>
+#include <CoreGraphics/CoreGraphics.h>
+//#include "platform/ios/iosoneView.h"
 
 #define FADE_OUT_COLOR  0xff
 #define FADE_OUT_SOLID  0xff
@@ -79,12 +82,9 @@ bool Screen::Initialize()
 {
 	Log(TAG "Initializing...");
 
-	nMode = pConfiguration->GetVideoMode();
-	if (nMode == Seed::Video_iPad)
-	{
-		iWidth = iModeWidth = 1024;
-		iHeight = iModeHeight = 768;
-	}
+    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+	iWidth = iModeWidth = screenBounds.size.width;
+	iHeight = iModeHeight = screenBounds.size.height;
 
 	this->Reset();
 
@@ -148,17 +148,15 @@ void Screen::Resize(int w, int h)
 {
 	if (w > h)
 	{
-		//iModeWidth = h;
-	   // iModeHeight = w;
 		iModeWidth = w;
 		iModeHeight = h;
-		nMode = Seed::Video_iOSLandscape;
+		//nMode = Seed::Video_iOSLandscape;
 	}
 	else
 	{
 		iModeWidth = w;
 		iModeHeight = h;
-		nMode = Seed::Video_iOSPortrait;
+		//nMode = Seed::Video_iOSPortrait;
 	}
 
 	iHeight = iModeHeight;
@@ -195,7 +193,7 @@ void Screen::ApplyFade()
 	}
 
 	u8 c = static_cast<u8>(iFadeStatus & 0xff);
-	pRendererDevice->BackbufferFill(uPixel(0u, 0u, 0u, c));
+	pRendererDevice->BackbufferFill(Color(0u, 0u, 0u, c));
 }
 
 }} // namespace

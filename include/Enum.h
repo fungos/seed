@@ -369,10 +369,12 @@ enum eTextureFilter
 
 enum eMeshType
 {
-	TriangleStrip,
 	Triangles,
+	TriangleStrip,
+    TriangleFan,
+    Line,
 	LineStrip,
-	Quads,
+    LineLoop,
 	MeshTypeCount
 };
 

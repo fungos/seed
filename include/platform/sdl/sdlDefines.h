@@ -35,7 +35,12 @@
 
 #define BUILD_PC		1
 #define USE_API_OGL		1
+
+#if defined(__FLASHPLAYER) || defined(EMSCRIPTEN)
+#define USE_API_NULL_OAL 1
+#else
 #define USE_API_OAL		1
+#endif
 
 #undef SDL
 namespace Seed
