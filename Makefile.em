@@ -27,7 +27,9 @@ seed: $(SEED)
 
 tests: $(TESTS)
 	cd tests/bin ; python $(EMSCRIPTEN)/tools/file_packager.py base.data --preload $(DATAFILES) --pre-run > preload.js
+	mv tests/bin/base.data .
+	mv tests/bin/preload.js .
 	$(CC) `find embuild -iname *.o` -o index.html --pre-js preload.js -s DISABLE_EXCEPTION_CATCHING=1 -s EXPORTED_FUNCTIONS="['_main']" # -O2 -s PROFILE_MAIN_LOOP=1
 
 clean:
-	rm -f embuild/*
+	rm -f embuild/* base.data preload.js index.html
