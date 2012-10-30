@@ -38,6 +38,7 @@
 #include "Vertex.h"
 
 #if defined(BUILD_SDL)
+#undef NO_SDL_GLEXT
 #define NO_SDL_GLEXT	1
 #include <SDL/SDL_opengl.h>
 #endif

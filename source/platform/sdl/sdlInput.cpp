@@ -210,14 +210,14 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 			case SDL_KEYDOWN:
 			{
-				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, event.key.which);
+				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, 0); // key.which deprecated
 				this->SendEventKeyboardPress(&ev);
 			}
 			break;
 
 			case SDL_KEYUP:
 			{
-				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, event.key.which);
+				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, 0); // key.which deprecated
 				this->SendEventKeyboardRelease(&ev);
 			}
 			break;

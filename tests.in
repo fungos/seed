@@ -1,0 +1,33 @@
+TESTS = tests/main.o \
+	tests/testbase.o 
+
+DATAFILES = \
+	anim.sprite \
+	app.config \
+	logo.sprite \
+	particles.sprite \
+	sample.movie \
+	sound.sfx \
+	teste.emitter \
+	theme.ogg \
+	frame01.png \
+	frame02.png \
+	frame03.png \
+	logo.tga \
+	particle_00.tga \
+	particle_01.tga \
+	particle_02.tga \
+	particle_03.tga \
+	particle_04.tga \
+	particle_05.tga \
+	particle_06.tga \
+	particle_07.tga \
+	particle_08.tga \
+	particle_09.tga \
+	particle_10.tga \
+	particle_11.tga \
+	particle_12.tga \
+	particle_13.tga \
+	particle_14.tga \
+	particle_15.tga \
+	test.png

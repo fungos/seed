@@ -185,6 +185,8 @@ typedef u32 					PIXEL;
 
 #if defined(_MSC_VER)
 #define HALT	do { __asm { int 3 }; exit(-1); } while (1);
+#elif defined(EMSCRIPTEN) || defined(__FLASHPLAYER) 
+#define HALT	do { exit(-1); } while (1);
 #else
 #define HALT	do { asm("int $3"); exit(-1); } while (1);
 #endif // WIN32

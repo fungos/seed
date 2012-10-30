@@ -98,8 +98,10 @@ void Screen::Prepare()
 		Info(TAG "\tColor fill accelerated.......: %s", videoInfo->blit_fill ? "yes" : "no");
 		Info(TAG "\tDisplay pixel format.........: ");
 		Info(TAG "\t\tBytes per pixel............: %d", videoInfo->vfmt->BytesPerPixel);
+#if !defined(EMSCRIPTEN)
 		Info(TAG "\t\tColorkey...................: %x", videoInfo->vfmt->colorkey);
 		Info(TAG "\t\talpha......................: %d", videoInfo->vfmt->alpha);
+#endif
 		Info(TAG "\t\tRGBA loss..................: %d %d %d %d", videoInfo->vfmt->Rloss, videoInfo->vfmt->Gloss, videoInfo->vfmt->Bloss, videoInfo->vfmt->Aloss);
 		Info(TAG "\tBest resolution..............: %dx%d", videoInfo->current_w, videoInfo->current_h);
 		Info(TAG "\tTotal video memory available.: %d", videoInfo->video_mem);
@@ -351,8 +353,10 @@ void Screen::SetupOpenGL()
 
 	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	SDL_GL_SetAttribute(SDL_GL_STENCIL_SIZE, 8);
+#if !defined(EMSCRIPTEN)
 	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
-
+#endif
+    
 	//SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);

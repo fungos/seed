@@ -33,7 +33,7 @@
 
 #if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
 #if defined(USE_API_NULL_OAL)
-	#include "api/nulloal/oalSoundSource.h"
+	#include "api/nullal/nalSoundSource.h"
 #else
 	#include "api/oal/oalSoundSource.h"
 #endif

@@ -1,6 +1,22 @@
 #ifndef _SEEDRUN_H_
 #define _SEEDRUN_H_
 
+#if defined(EMSCRIPTEN)
+
+#include <emscripten/emscripten.h>
+template <class T>
+int SeedRun(int argc, const char **argv)
+{
+	T app;
+	Seed::SetGameApp(&app, argc, argv);
+	if (Seed::Initialize())
+        emscripten_set_main_loop(Seed::Update, 60, true);
+
+    return EXIT_SUCCESS;
+}
+
+#else
+
 template <class T>
 int SeedRun(int argc, const char **argv)
 {
@@ -18,5 +34,7 @@ int SeedRun(int argc, const char **argv)
 
 	return EXIT_SUCCESS;
 }
+
+#endif // EMSCRIPTEN
 
 #endif // _SEEDRUN_H_
