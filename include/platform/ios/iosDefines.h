@@ -48,6 +48,8 @@
 #endif // RELEASE
 
 #define USE_API_OGL		1
+#define USE_API_OGL_VBO	1
+#define USE_API_OGL_RT	1
 #define BUILD_PC		1
 
 namespace Seed

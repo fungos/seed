@@ -31,6 +31,8 @@
 #ifndef __VORBIS_UTIL_H__
 #define __VORBIS_UTIL_H__
 
+#include "Defines.h"
+
 #if defined(USE_API_OAL)
 
 #include "vorbis/codec.h"

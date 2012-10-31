@@ -60,9 +60,9 @@ class Screen : public IScreen
 
 		void Resize(int w, int h);
 
-        GLuint      frameBuffer;
-        GLuint      renderBuffer;
-    
+		GLuint	frameBuffer;
+		GLuint	renderBuffer;
+
 	private:
 		SEED_DISABLE_COPY(Screen);
 
@@ -75,8 +75,8 @@ class Screen : public IScreen
 			FADE_OUT
 		};
 
-		s32 		iFadeStatus;
-		eFadeType 	fadeType;
+		s32			iFadeStatus;
+		eFadeType	fadeType;
 		GLint		iModeHeight;
 		GLint		iModeWidth;
 };

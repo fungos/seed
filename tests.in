@@ -31,3 +31,5 @@ DATAFILES = \
 	particle_14.tga \
 	particle_15.tga \
 	test.png
+
+WORKDIR = tests/bin

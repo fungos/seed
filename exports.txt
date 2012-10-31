@@ -14,3 +14,4 @@ vgl_cur_my
 engineTick
 engineTickSound
 enableCrunLoop
+_SDL_init

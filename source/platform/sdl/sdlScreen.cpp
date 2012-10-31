@@ -356,7 +356,7 @@ void Screen::SetupOpenGL()
 #if !defined(EMSCRIPTEN)
 	SDL_GL_SetAttribute(SDL_GL_SWAP_CONTROL, 1);
 #endif
-    
+
 	//SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
 	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
 	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);

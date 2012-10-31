@@ -145,8 +145,6 @@ SOURCES += source/Viewport.cpp \
 	source/platform/ios/iosMutex.cpp \
 	source/platform/ios/iosMusic.cpp \
 	source/platform/ios/iosInput.cpp \
-	source/platform/pc/win32.cpp \
-	source/platform/pc/posix.cpp \
 	source/platform/pc/pcRendererDevice.cpp \
 	source/platform/pc/pcLog.cpp \
 	source/platform/pc/pcCartridge.cpp \
@@ -177,7 +175,9 @@ SOURCES += source/Viewport.cpp \
 	source/platform/glfw/glfwScreen.cpp \
 	source/platform/glfw/glfwMutex.cpp \
 	source/platform/glfw/glfwInput.cpp \
-	source/api/soil/soilTexture.cpp
+	source/api/soil/soilTexture.cpp \
+	source/platform/pc/seed_win32.cpp \
+	source/platform/pc/seed_posix.cpp
 
 OTHER_FILES += \
 	source/platform/ios/IphoneView.mm

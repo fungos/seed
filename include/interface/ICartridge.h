@@ -99,7 +99,7 @@ class SEED_CORE_API ICartridge : public IModule
 
 	protected:
 		eCartridgeError eLastError;
-		u32	iSize;
+		u32 iSize;
 
 	private:
 		SEED_DISABLE_COPY(ICartridge);

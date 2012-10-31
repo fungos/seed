@@ -33,13 +33,16 @@
 
 #if defined(BUILD_SDL)
 
-#define BUILD_PC		1
-#define USE_API_OGL		1
+#define BUILD_PC			1
+#define USE_API_OGL			1
 
 #if defined(__FLASHPLAYER) || defined(EMSCRIPTEN)
-#define USE_API_NULL_OAL 1
+#define USE_API_NULL_OAL	1
 #else
-#define USE_API_OAL		1
+#define USE_API_OAL			1
+#define USE_API_GLEW		1
+#define USE_API_OGL_VBO		1
+#define USE_API_OGL_RT		1
 #endif
 
 #undef SDL
@@ -185,7 +188,7 @@ typedef u32 					PIXEL;
 
 #if defined(_MSC_VER)
 #define HALT	do { __asm { int 3 }; exit(-1); } while (1);
-#elif defined(EMSCRIPTEN) || defined(__FLASHPLAYER) 
+#elif defined(EMSCRIPTEN) || defined(__FLASHPLAYER)
 #define HALT	do { exit(-1); } while (1);
 #else
 #define HALT	do { asm("int $3"); exit(-1); } while (1);

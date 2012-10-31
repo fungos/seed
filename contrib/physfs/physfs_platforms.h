@@ -12,7 +12,10 @@
  *  PHYSFS_PLATFORM_UNIX on that system.
  */
 
-#if (defined __HAIKU__)
+#if defined(__FLASHPLAYER)
+#  define PHYSFS_PLATFORM_UNIX
+#  define PHYSFS_PLATFORM_POSIX
+#elif (defined __HAIKU__)
 #  define PHYSFS_PLATFORM_HAIKU
 #  define PHYSFS_PLATFORM_BEOS
 #  define PHYSFS_PLATFORM_POSIX

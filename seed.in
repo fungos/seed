@@ -100,8 +100,8 @@ SEED  = source/Viewport.o \
 		source/platform/ios/iosMutex.o \
 		source/platform/ios/iosMusic.o \
 		source/platform/ios/iosInput.o \
-		source/platform/pc/win32.o \
-		source/platform/pc/posix.o \
+		source/platform/pc/seed_win32.o \
+		source/platform/pc/seed_posix.o \
 		source/platform/pc/pcRendererDevice.o \
 		source/platform/pc/pcLog.o \
 		source/platform/pc/pcCartridge.o \

@@ -72,8 +72,8 @@ class SEED_CORE_API Screen : public IScreen
 		// IScreen
 		virtual void Update();
 
-		// HACK - test
-		int			iHandle;
+		// HACK - for win32 dx
+		int iHandle;
 
 	protected:
 		int		surfaceSize;

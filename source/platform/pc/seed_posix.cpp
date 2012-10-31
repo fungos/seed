@@ -30,7 +30,7 @@
 
 #include "platform/pc/platform.h"
 
-#if defined(__linux__) || defined(__APPLE_CC__)
+#if defined(__linux__) || defined(__APPLE_CC__) || defined(__FLASHPLAYER)
 
 #include "Log.h"
 

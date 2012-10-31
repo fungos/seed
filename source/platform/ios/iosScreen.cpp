@@ -82,7 +82,7 @@ bool Screen::Initialize()
 {
 	Log(TAG "Initializing...");
 
-    CGRect screenBounds = [[UIScreen mainScreen] bounds];
+	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	iWidth = iModeWidth = screenBounds.size.width;
 	iHeight = iModeHeight = screenBounds.size.height;
 

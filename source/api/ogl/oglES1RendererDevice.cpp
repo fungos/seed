@@ -47,29 +47,29 @@
 	#define PIXEL_FORMAT_32 GL_RGBA
 	#include "platform/ios/iosView.h"
 	#include <OpenGLES/ES1/gl.h>
-    #include <OpenGLES/ES1/glext.h>
+	#include <OpenGLES/ES1/glext.h>
 	#define _OPENGL_ES1		1
-    #define GL_RGBA8 GL_RGBA8_OES
-    #define GL_FRAMEBUFFER GL_FRAMEBUFFER_OES
-    #define GL_RENDERBUFFER GL_RENDERBUFFER_OES
-    #define GL_COLOR_ATTACHMENT0 GL_COLOR_ATTACHMENT0_OES
-    #define GL_DEPTH_COMPONENT24 GL_DEPTH_COMPONENT24_OES
-    #define GL_DEPTH_ATTACHMENT GL_DEPTH_ATTACHMENT_OES
-    #define GL_FRAMEBUFFER_COMPLETE GL_FRAMEBUFFER_COMPLETE_OES
-    #define glGenFramebuffers glGenFramebuffersOES
-    #define glDeleteFramebuffers glDeleteFramebuffersOES
-    #define glGenRenderbuffers glGenRenderbuffersOES
-    #define glDeleteRenderbuffers glDeleteRenderbuffersOES
-    #define glBindFramebuffer glBindFramebufferOES
-    #define glBindRenderbuffer glBindRenderbufferOES
-    #define glRenderbufferStorage glRenderbufferStorageOES
-    #define glFramebufferRenderbuffer glFramebufferRenderbufferOES
-    #define glFramebufferTexture2D glFramebufferTexture2DOES
-    #define glCheckFramebufferStatus glCheckFramebufferStatusOES
-    #define GL_STREAM_DRAW GL_DYNAMIC_DRAW
-    #define GL_TEXTURE_BIT 0
-    #define GL_ENABLE_BIT 0
-    #define GL_CURRENT_BIT 0
+	#define GL_RGBA8 GL_RGBA8_OES
+	#define GL_FRAMEBUFFER GL_FRAMEBUFFER_OES
+	#define GL_RENDERBUFFER GL_RENDERBUFFER_OES
+	#define GL_COLOR_ATTACHMENT0 GL_COLOR_ATTACHMENT0_OES
+	#define GL_DEPTH_COMPONENT24 GL_DEPTH_COMPONENT24_OES
+	#define GL_DEPTH_ATTACHMENT GL_DEPTH_ATTACHMENT_OES
+	#define GL_FRAMEBUFFER_COMPLETE GL_FRAMEBUFFER_COMPLETE_OES
+	#define glGenFramebuffers glGenFramebuffersOES
+	#define glDeleteFramebuffers glDeleteFramebuffersOES
+	#define glGenRenderbuffers glGenRenderbuffersOES
+	#define glDeleteRenderbuffers glDeleteRenderbuffersOES
+	#define glBindFramebuffer glBindFramebufferOES
+	#define glBindRenderbuffer glBindRenderbufferOES
+	#define glRenderbufferStorage glRenderbufferStorageOES
+	#define glFramebufferRenderbuffer glFramebufferRenderbufferOES
+	#define glFramebufferTexture2D glFramebufferTexture2DOES
+	#define glCheckFramebufferStatus glCheckFramebufferStatusOES
+	#define GL_STREAM_DRAW GL_DYNAMIC_DRAW
+	#define GL_TEXTURE_BIT 0
+	#define GL_ENABLE_BIT 0
+	#define GL_CURRENT_BIT 0
 #else
 	#if defined(__APPLE_CC__)
 		#define PIXEL_FORMAT_32 GL_RGBA
@@ -90,7 +90,7 @@
 	#endif
 #endif
 
-#if defined(DEBUG) && !defined(BUILD_IOS)
+#if defined(DEBUG) && !defined(BUILD_IOS) && defined(USE_API_GLEW)
 #define GL_TRACE(x)		if (GLEW_GREMEDY_string_marker) \
 						{ \
 							glStringMarkerGREMEDY(0, x);\
@@ -114,7 +114,7 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 {
 	Log(TAG "Initializing...");
 
-#if !defined(_OPENGL_ES1)
+#if defined(USE_API_GLEW)
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
 		Log(TAG "Error: %s\n", glewGetErrorString(err));
@@ -122,10 +122,18 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 	if (GLEW_ARB_texture_non_power_of_two)
 		bNeedPowerOfTwoTexture = false;
 
+#if !defined(USE_API_OGL_RT)
 	if (GLEW_EXT_framebuffer_object)
 		bHasFrameBuffer = true;
+#endif
+
 #else
 	// check device ext
+#endif
+
+#if defined(_OPENGL_ES1)
+	pScreen->frameBuffer = 0;
+	pScreen->renderBuffer = 0;
 #endif
 
 	char *version = (char *)glGetString(GL_VERSION);
@@ -518,7 +526,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 
-#if 1
+#if USE_API_OGL_VBO
 	if (!vbo->iBuffer)
 		glGenBuffers(1, &vbo->iBuffer);
 
@@ -630,11 +638,14 @@ u32 OGLES1RendererDevice::CreateFrameBuffer(ITexture *texture)
 {
 	GL_TRACE("BEGIN CreateFrameBuffer")
 	GLuint fb;
+
+#if defined(USE_API_OGL_RT)
 	glGenFramebuffers(1, &fb);
 	glBindFramebuffer(GL_FRAMEBUFFER, fb);
 
 	if (texture && texture->iTextureId)
 		glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, texture->iTextureId, 0);
+#endif
 
 	GL_TRACE("END CreateFrameBuffer")
 	return fb;
@@ -643,8 +654,12 @@ u32 OGLES1RendererDevice::CreateFrameBuffer(ITexture *texture)
 void OGLES1RendererDevice::DestroyFrameBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN DestroyFrameBuffer")
+
+#if defined(USE_API_OGL_RT)
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 	glDeleteFramebuffers(1, &buffer);
+#endif
+
 	GL_TRACE("END DestroyFrameBuffer")
 }
 
@@ -653,9 +668,11 @@ u32 OGLES1RendererDevice::CreateDepthBuffer(u32 w, u32 h)
 	GL_TRACE("BEGIN CreateDepthBuffer")
 	GLuint db;
 
+#if defined(USE_API_OGL_RT)
 	glGenRenderbuffers(1, &db);
 	glBindRenderbuffer(GL_RENDERBUFFER, db);
 	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT24, w, h);
+#endif
 
 	GL_TRACE("END CreateDepthBuffer")
 
@@ -665,38 +682,58 @@ u32 OGLES1RendererDevice::CreateDepthBuffer(u32 w, u32 h)
 void OGLES1RendererDevice::DestroyDepthBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN DestroyDepthBuffer")
+
+#if defined(USE_API_OGL_RT)
 	glDeleteRenderbuffers(1, &buffer);
+#endif
+
 	GL_TRACE("END DestroyDepthBuffer")
 }
 
 void OGLES1RendererDevice::AttachDepthBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN AttachDepthBuffer")
+
+#if defined(USE_API_OGL_RT)
 	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, buffer);
+#endif
+
 	GL_TRACE("END AttachDepthBuffer")
 }
 
 void OGLES1RendererDevice::ActivateFrameBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN ActivateFrameBuffer")
+
+#if defined(USE_API_OGL_RT)
 	glBindFramebuffer(GL_FRAMEBUFFER, buffer);
+#endif
+
 	GL_TRACE("END ActivateFrameBuffer")
 }
 
 void OGLES1RendererDevice::ActivateDepthBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN ActivateDepthBuffer")
+
+#if defined(USE_API_OGL_RT)
 	glBindRenderbuffer(GL_RENDERBUFFER, buffer);
+#endif
+
 	GL_TRACE("END ActivateDepthBuffer")
 }
 
 bool OGLES1RendererDevice::CheckFrameBufferStatus() const
 {
+#if defined(USE_API_OGL_RT)
 	GL_TRACE("BEGIN CheckFrameBufferStatus")
 	GLenum status = glCheckFramebufferStatus(GL_FRAMEBUFFER);
 	GL_TRACE("END CheckFrameBufferStatus")
 
 	return (status == GL_FRAMEBUFFER_COMPLETE);
+#else
+	return false;
+#endif
 }
 
 void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
@@ -716,8 +753,8 @@ void OGLES1RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &col
 
 	for (int i = 0, v = 0; i < points; i++, v += 2)
 	{
-		vertices[v] = x + sinl(cur) * radius;
-		vertices[v + 1] = y + cosl(cur) * radius;
+		vertices[v] = x + sin(cur) * radius;
+		vertices[v + 1] = y + cos(cur) * radius;
 		cur += ang;
 	}
 

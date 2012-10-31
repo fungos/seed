@@ -1,4 +1,35 @@
-CONTRIB = contrib/yajl/yajl_buf.o \
+CONTRIB = \
+		contrib/physfs/physfs_unicode.o \
+		contrib/physfs/physfs_byteorder.o \
+		contrib/physfs/physfs.o \
+		contrib/physfs/zlib123/zutil.o \
+		contrib/physfs/zlib123/trees.o \
+		contrib/physfs/zlib123/uncompr.o \
+		contrib/physfs/zlib123/inftrees.o \
+		contrib/physfs/zlib123/inflate.o \
+		contrib/physfs/zlib123/deflate.o \
+		contrib/physfs/zlib123/inffast.o \
+		contrib/physfs/zlib123/infback.o \
+		contrib/physfs/zlib123/gzio.o \
+		contrib/physfs/zlib123/crc32.o \
+		contrib/physfs/zlib123/compress.o \
+		contrib/physfs/zlib123/adler32.o \
+		contrib/physfs/platform/windows.o \
+		contrib/physfs/platform/unix.o \
+		contrib/physfs/platform/posix.o \
+		contrib/physfs/platform/pocketpc.o \
+		contrib/physfs/platform/os2.o \
+		contrib/physfs/platform/macosx.o \
+		contrib/physfs/platform/beos.o \
+		contrib/physfs/archivers/zip.o \
+		contrib/physfs/archivers/wad.o \
+		contrib/physfs/archivers/qpak.o \
+		contrib/physfs/archivers/mvl.o \
+		contrib/physfs/archivers/lzma.o \
+		contrib/physfs/archivers/hog.o \
+		contrib/physfs/archivers/grp.o \
+		contrib/physfs/archivers/dir.o \
+		contrib/yajl/yajl_buf.o \
 		contrib/yajl/yajl_alloc.o \
 		contrib/yajl/yajl.o \
 		contrib/yajl/yajl_version.o \
@@ -54,36 +85,6 @@ CONTRIB = contrib/yajl/yajl_buf.o \
 		contrib/theora/bitpack.o \
 		contrib/theora/apiwrapper.o \
 		contrib/theora/analyze.o \
-		contrib/physfs/physfs_unicode.o \
-		contrib/physfs/physfs_byteorder.o \
-		contrib/physfs/physfs.o \
-		contrib/physfs/zlib123/zutil.o \
-		contrib/physfs/zlib123/trees.o \
-		contrib/physfs/zlib123/uncompr.o \
-		contrib/physfs/zlib123/inftrees.o \
-		contrib/physfs/zlib123/inflate.o \
-		contrib/physfs/zlib123/deflate.o \
-		contrib/physfs/zlib123/inffast.o \
-		contrib/physfs/zlib123/infback.o \
-		contrib/physfs/zlib123/gzio.o \
-		contrib/physfs/zlib123/crc32.o \
-		contrib/physfs/zlib123/compress.o \
-		contrib/physfs/zlib123/adler32.o \
-		contrib/physfs/platform/windows.o \
-		contrib/physfs/platform/unix.o \
-		contrib/physfs/platform/posix.o \
-		contrib/physfs/platform/pocketpc.o \
-		contrib/physfs/platform/os2.o \
-		contrib/physfs/platform/macosx.o \
-		contrib/physfs/platform/beos.o \
-		contrib/physfs/archivers/zip.o \
-		contrib/physfs/archivers/wad.o \
-		contrib/physfs/archivers/qpak.o \
-		contrib/physfs/archivers/mvl.o \
-		contrib/physfs/archivers/lzma.o \
-		contrib/physfs/archivers/hog.o \
-		contrib/physfs/archivers/grp.o \
-		contrib/physfs/archivers/dir.o \
 		contrib/oggz/oggz_write.o \
 		contrib/oggz/oggz_vector.o \
 		contrib/oggz/oggz_table.o \
@@ -197,6 +198,7 @@ CONTRIB = contrib/yajl/yajl_buf.o \
 #		contrib/oggplay/oggplay_tcp_reader.o \
 
 #		contrib/glew/glew.o \
+
 #		contrib/glfw/window.o \
 #		contrib/glfw/time.o \
 #		contrib/glfw/thread.o \
