@@ -745,7 +745,6 @@
 		D1EA5623163B076200511189 /* oggz_write.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oggz_write.h; sourceTree = "<group>"; };
 		D1EA5625163B076200511189 /* attgetopt.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = attgetopt.c; sourceTree = "<group>"; };
 		D1EA5626163B076200511189 /* strsep.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = strsep.c; sourceTree = "<group>"; };
-		D1EA5652163B076200511189 /* .hgtags */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .hgtags; sourceTree = "<group>"; };
 		D1EA5654163B076200511189 /* dir.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = dir.c; sourceTree = "<group>"; };
 		D1EA5655163B076200511189 /* grp.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = grp.c; sourceTree = "<group>"; };
 		D1EA5656163B076200511189 /* hog.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = hog.c; sourceTree = "<group>"; };
@@ -754,8 +753,6 @@
 		D1EA5659163B076200511189 /* qpak.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = qpak.c; sourceTree = "<group>"; };
 		D1EA565A163B076200511189 /* wad.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = wad.c; sourceTree = "<group>"; };
 		D1EA565B163B076200511189 /* zip.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = zip.c; sourceTree = "<group>"; };
-		D1EA565C163B076200511189 /* CREDITS.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CREDITS.txt; sourceTree = "<group>"; };
-		D1EA5667163B076200511189 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		D1EA5668163B076200511189 /* physfs.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = physfs.c; sourceTree = "<group>"; };
 		D1EA5669163B076200511189 /* physfs.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = physfs.h; sourceTree = "<group>"; };
 		D1EA566A163B076200511189 /* physfs_byteorder.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = physfs_byteorder.c; sourceTree = "<group>"; };
@@ -1424,10 +1421,7 @@
 		D1EA5651163B076200511189 /* physfs */ = {
 			isa = PBXGroup;
 			children = (
-				D1EA5652163B076200511189 /* .hgtags */,
 				D1EA5653163B076200511189 /* archivers */,
-				D1EA565C163B076200511189 /* CREDITS.txt */,
-				D1EA5667163B076200511189 /* LICENSE.txt */,
 				D1EA5668163B076200511189 /* physfs.c */,
 				D1EA5669163B076200511189 /* physfs.h */,
 				D1EA566A163B076200511189 /* physfs_byteorder.c */,

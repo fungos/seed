@@ -30,7 +30,7 @@
 
 #include "platform/pc/platform.h"
 
-#if defined(__linux__) || defined(__APPLE_CC__) || defined(__FLASHPLAYER)
+#if defined(__linux__) || defined(__APPLE_CC__) || defined(__FLASHPLAYER) || defined(EMSCRIPTEN)
 
 #include "Log.h"
 
@@ -265,11 +265,13 @@ bool change_directory(const char *to)
 
 void print_system_info()
 {
+	Log(TAG "print_system_info not implemented for posix.");
 	#warning "Must implement function print_system_info"
 }
 
 bool system_check_multiple_instance()
 {
+	Log(TAG "system_check_multiple_instance not implemented for posix");
 	#warning "Must implement function system_check_multiple_instance"
 	return true;
 }

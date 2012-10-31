@@ -104,7 +104,13 @@ using namespace Seed::OGL;
 	#endif // _MSC_VER
 #endif
 
+#if defined(EMSCRIPTEN)
+#define PLATFORM Emscripten\|SDL
+#elif defined(__FLASHPLAYER)
+#define PLATFORM Flash\|SDL
+#else
 #define PLATFORM SDL
+#endif
 
 #define PLATFORM_CODE					3
 #define PLATFORM_MAX_INPUT				1

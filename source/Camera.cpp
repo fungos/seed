@@ -79,7 +79,6 @@ void Camera::SetView(const Rect4f &rectangle)
 void Camera::Update(f32 delta)
 {
 	UNUSED(delta)
-
 	bTransformationChanged = this->IsChanged();
 	if (bTransformationChanged)
 	{
