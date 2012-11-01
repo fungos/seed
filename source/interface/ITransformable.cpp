@@ -774,7 +774,7 @@ void ITransformable::UpdateTransform()
 
 void ITransformable::UpdateBoundingCircle()
 {
-	fBoundingCircleRadius = static_cast<f32>(sqrtl(vBoundingBox.getX() * vBoundingBox.getX() + vBoundingBox.getY() * vBoundingBox.getY()) / 2.0f);
+	fBoundingCircleRadius = static_cast<f32>(sqrt(vBoundingBox.getX() * vBoundingBox.getX() + vBoundingBox.getY() * vBoundingBox.getY()) / 2.0f);
 }
 
 void ITransformable::Unserialize(Reader &reader)

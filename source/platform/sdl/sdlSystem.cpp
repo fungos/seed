@@ -75,14 +75,11 @@ bool System::Initialize()
 
 	iFrameRate = pConfiguration->GetFrameRate();
 
-    Info(TAG "Will check instances");
 	if (!pConfiguration->GetCanHaveMultipleInstances() && !system_check_multiple_instance())
 	{
-        Info(TAG "exit called");
 		exit(1);
 	}
 
-    Info(TAG "will call SDL_Init");
 	if (SDL_Init(SDL_INIT_TIMER) < 0 ) // SDL_INIT_VIDEO
 	{
 		Info(TAG "Unable to init SDL: %s\n", SDL_GetError());

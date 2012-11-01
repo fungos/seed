@@ -92,6 +92,17 @@ void Texture::Reset()
 
 bool Texture::Load(const String &filename, ResourceManager *res)
 {
+#if defined(EMSCRIPTEN) || defined(__FLASHPLAYER)
+	if (1)
+	{
+		SDL_Surface *tmp = IMG_Load(filename.c_str());
+		if (!tmp)
+		{
+			Log(TAG "Could not load image file: %s", filename.c_str());
+			Info(TAG "IMG_Load ERROR: %s\n", IMG_GetError());
+			SEED_ASSERT(false);
+		}
+#else
 	if (ITexture::Load(filename, res))
 	{
 		SDL_RWops *rwops = SDL_RWFromConstMem(stFile.GetData(), stFile.GetSize());
@@ -117,7 +128,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 
 			SEED_ASSERT(false);
 		}
-
+#endif
 		if (tmp->format->BitsPerPixel != 32)
 		{
 			SDL_SetAlpha(tmp, 0, SDL_ALPHA_OPAQUE);
