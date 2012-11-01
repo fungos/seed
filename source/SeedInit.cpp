@@ -70,6 +70,7 @@ namespace Private
 	int			iArgc;
 	const char	**pcArgv;
 	bool		bDisableSound;
+	bool		bDisableThreadedResourceLoader;
 	String		sConfigFile;
 	f32			fCurrentTime;
 }
@@ -87,6 +88,10 @@ int CommandLineParameter(const char **argv, int pos)
 	{
 		Private::bDisableSound = true;
 	}
+	else if (!strcasecmp(param, "--no-trs"))
+	{
+		Private::bDisableThreadedResourceLoader = true;
+    }
 	else if (!strcasecmp(param, "--config"))
 	{
 		Private::sConfigFile = argv[pos + 1];
@@ -111,8 +116,15 @@ void SetGameApp(IGameApp *app, int argc, const char **argv)
 	Private::pcArgv = argv;
 	Private::pApplication = app;
 	Private::sConfigFile = "app.config";
+	Private::bDisableSound = false;
+	
+#if defined(EMSCRIPTEN)
+	Private::bDisableThreadedResourceLoader = true;
+#else
+	Private::bDisableThreadedResourceLoader = false;
+#endif
 	pResourceManager = app->GetResourceManager();
-
+	
 	Seed::CommandLineParse(argc, argv);
 }
 
@@ -178,7 +190,9 @@ bool Initialize()
 	if (!Private::bDisableSound)
 		ret = ret && pModuleManager->Add(pSoundSystem);
 
-	ret = ret && pModuleManager->Add(pResourceLoader);
+	if (!Private::bDisableThreadedResourceLoader)
+		ret = ret && pModuleManager->Add(pResourceLoader);
+    
 	ret = ret && pModuleManager->Add(pInput);
 
 	pUpdater->Add(Private::pApplication);
@@ -186,12 +200,15 @@ bool Initialize()
 #if !defined(BUILD_IOS)
 	pUpdater->Add(pInput);
 #endif
-
+    
 	if (!Private::bDisableSound)
 		pUpdater->Add(pSoundSystem);
 
 	pUpdater->Add(pSystem);
-	pUpdater->Add(pResourceLoader);
+    
+	if (!Private::bDisableThreadedResourceLoader)
+		pUpdater->Add(pResourceLoader);
+    
 	pUpdater->Add(pRendererManager);
 	pUpdater->Add(pSceneManager);
 

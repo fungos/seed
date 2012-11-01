@@ -28,7 +28,11 @@ tests: $(TESTS)
 	cd $(WORKDIR) ; python $(EMSCRIPTEN)/tools/file_packager.py base.data --preload $(DATAFILES) --pre-run > preload.js
 	mv $(WORKDIR)/base.data .
 	mv $(WORKDIR)/preload.js .
-	$(CC) `find $(BUILDDIR) -iname *.o` -o index.html --pre-js preload.js -s DISABLE_EXCEPTION_CATCHING=1 -s EXPORTED_FUNCTIONS="['_main']" # -O2 -s PROFILE_MAIN_LOOP=1
+	make -f Makefile.em link
+
+link:
+	$(CC) `find $(BUILDDIR) -iname *.o` -o index.html --pre-js preload.js -s DISABLE_EXCEPTION_CATCHING=1 
+	#-s EXPORTED_FUNCTIONS="['_main']" -O2 -s PROFILE_MAIN_LOOP=1
 
 clean:
 	rm -f $(BUILDDIR)/* base.data preload.js index.html

@@ -249,8 +249,6 @@
 		97A9347E15390C46001064D7 /* pcCartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933FB15390C46001064D7 /* pcCartridge.cpp */; };
 		97A9347F15390C46001064D7 /* pcLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933FC15390C46001064D7 /* pcLog.cpp */; };
 		97A9348015390C46001064D7 /* pcRendererDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933FD15390C46001064D7 /* pcRendererDevice.cpp */; };
-		97A9348115390C46001064D7 /* posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933FE15390C46001064D7 /* posix.cpp */; };
-		97A9348215390C46001064D7 /* win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933FF15390C46001064D7 /* win32.cpp */; };
 		97A9348315390C46001064D7 /* qtInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9340215390C46001064D7 /* qtInput.cpp */; };
 		97A9348415390C46001064D7 /* qtMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9340315390C46001064D7 /* qtMutex.cpp */; };
 		97A9348515390C46001064D7 /* qtScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A9340415390C46001064D7 /* qtScene.cpp */; };
@@ -300,6 +298,8 @@
 		D11224DF163B1F4000827FE5 /* glfwSystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224D9163B1F4000827FE5 /* glfwSystem.cpp */; };
 		D11224E0163B1F4000827FE5 /* glfwThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224DA163B1F4000827FE5 /* glfwThread.cpp */; };
 		D11224E1163B1F4000827FE5 /* glfwTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224DB163B1F4000827FE5 /* glfwTimer.cpp */; };
+		D12CF5DA1641701300AF05EC /* seed_posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D12CF5D81641701300AF05EC /* seed_posix.cpp */; };
+		D12CF5DB1641701300AF05EC /* seed_win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D12CF5D91641701300AF05EC /* seed_win32.cpp */; };
 		D15AB1DD15BD97DC00C0A964 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D15AB1DC15BD97DC00C0A964 /* Camera.cpp */; };
 		D15AB1DF15BD97F100C0A964 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = D15AB1DE15BD97F100C0A964 /* Camera.h */; };
 		D15AB1E115BD98FF00C0A964 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15AB1E015BD98FF00C0A964 /* SDL.framework */; };
@@ -556,8 +556,6 @@
 		97A933FB15390C46001064D7 /* pcCartridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pcCartridge.cpp; sourceTree = "<group>"; };
 		97A933FC15390C46001064D7 /* pcLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pcLog.cpp; sourceTree = "<group>"; };
 		97A933FD15390C46001064D7 /* pcRendererDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pcRendererDevice.cpp; sourceTree = "<group>"; };
-		97A933FE15390C46001064D7 /* posix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = posix.cpp; sourceTree = "<group>"; };
-		97A933FF15390C46001064D7 /* win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = win32.cpp; sourceTree = "<group>"; };
 		97A9340115390C46001064D7 /* .directory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .directory; sourceTree = "<group>"; };
 		97A9340215390C46001064D7 /* qtInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtInput.cpp; sourceTree = "<group>"; };
 		97A9340315390C46001064D7 /* qtMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtMutex.cpp; sourceTree = "<group>"; };
@@ -609,6 +607,8 @@
 		D11224D9163B1F4000827FE5 /* glfwSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwSystem.cpp; sourceTree = "<group>"; };
 		D11224DA163B1F4000827FE5 /* glfwThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwThread.cpp; sourceTree = "<group>"; };
 		D11224DB163B1F4000827FE5 /* glfwTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwTimer.cpp; sourceTree = "<group>"; };
+		D12CF5D81641701300AF05EC /* seed_posix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_posix.cpp; sourceTree = "<group>"; };
+		D12CF5D91641701300AF05EC /* seed_win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_win32.cpp; sourceTree = "<group>"; };
 		D15AB1DC15BD97DC00C0A964 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		D15AB1DE15BD97F100C0A964 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		D15AB1E015BD98FF00C0A964 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../SDL.framework; sourceTree = "<group>"; };
@@ -1107,11 +1107,11 @@
 		97A933FA15390C46001064D7 /* pc */ = {
 			isa = PBXGroup;
 			children = (
+				D12CF5D81641701300AF05EC /* seed_posix.cpp */,
+				D12CF5D91641701300AF05EC /* seed_win32.cpp */,
 				97A933FB15390C46001064D7 /* pcCartridge.cpp */,
 				97A933FC15390C46001064D7 /* pcLog.cpp */,
 				97A933FD15390C46001064D7 /* pcRendererDevice.cpp */,
-				97A933FE15390C46001064D7 /* posix.cpp */,
-				97A933FF15390C46001064D7 /* win32.cpp */,
 			);
 			path = pc;
 			sourceTree = "<group>";
@@ -1497,8 +1497,6 @@
 				97A9347E15390C46001064D7 /* pcCartridge.cpp in Sources */,
 				97A9347F15390C46001064D7 /* pcLog.cpp in Sources */,
 				97A9348015390C46001064D7 /* pcRendererDevice.cpp in Sources */,
-				97A9348115390C46001064D7 /* posix.cpp in Sources */,
-				97A9348215390C46001064D7 /* win32.cpp in Sources */,
 				97A9348315390C46001064D7 /* qtInput.cpp in Sources */,
 				97A9348415390C46001064D7 /* qtMutex.cpp in Sources */,
 				97A9348515390C46001064D7 /* qtScene.cpp in Sources */,
@@ -1545,6 +1543,8 @@
 				D103F6B516401D3000267967 /* nalSound.cpp in Sources */,
 				D103F6B616401D3000267967 /* nalSoundSource.cpp in Sources */,
 				D103F6B716401D3000267967 /* nalSoundSystem.cpp in Sources */,
+				D12CF5DA1641701300AF05EC /* seed_posix.cpp in Sources */,
+				D12CF5DB1641701300AF05EC /* seed_win32.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
