@@ -1,6 +1,8 @@
 #ifndef _IOS_SYSTEM_STUB_H_
 #define _IOS_SYSTEM_STUB_H_
 
+#if defined(BUILD_IOS)
+
 #include "Defines.h"
 
 /// iOS Touch Info
@@ -17,5 +19,7 @@ struct iosTouchInfo
 };
 
 extern iosTouchInfo iosTouchBuff[PLATFORM_MAX_INPUT];
+
+#endif // BUILD_IOS
 
 #endif // _IOS_SYSTEM_STUB_H_

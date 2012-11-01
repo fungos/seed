@@ -90,8 +90,8 @@ bool SoundSource::OnUnloadRequest()
 		alDeleteSources(1, &iSource);
 
 	sRelease(pSound);
-
-	stFile.Close();
+	
+	return true;
 }
 
 void SoundSource::SetVolume(f32 vol)

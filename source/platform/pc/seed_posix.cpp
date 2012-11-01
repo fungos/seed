@@ -50,7 +50,7 @@
 #define TAG	"[Platform] "
 
 #if defined(BUILD_IOS)
-#include "platform/ios/iosoneView.h"
+#include "platform/ios/iosView.h"
 #elif defined(__APPLE_CC__)
 static char pcBundle[2048];
 #endif
@@ -179,7 +179,7 @@ void get_current_directory(char *buff, int size)
 {
 #if defined(BUILD_IOS)
 	memset(buff, '\0', size);
-	memcpy(buff, iphGetRootPath(), size);
+	memcpy(buff, iosGetRootPath(), size);
 #elif defined(__APPLE_CC__)
 	Seed::Private::iArgc = 1;
 	int len = (int)strlen(Seed::Private::pcArgv[0]);

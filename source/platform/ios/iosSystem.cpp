@@ -34,7 +34,7 @@
 #include "System.h"
 #include "Log.h"
 #include "FileSystem.h"
-#include "platform/ios/iosoneView.h"
+#include "platform/ios/iosView.h"
 
 #define TAG "[System] "
 
@@ -62,7 +62,7 @@ bool System::Initialize()
 	Log(TAG "Initializing...");
 	Log(TAG "Initialization completed.");
 
-	pFileSystem->SetWriteableDirectory(iphGetHomePath());
+	//pFileSystem->SetWriteableDirectory(iosGetHomePath());
 
 	return true;
 }

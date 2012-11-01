@@ -83,6 +83,7 @@ bool Music::Load(const String &filename, ResourceManager *res)
 
 	if (pSoundSystem->IsInitialized() && this->Unload())
 	{
+		sFilename = filename;
 		pRes = res;
 
 		ALenum err = AL_NO_ERROR;
@@ -183,9 +184,7 @@ bool Music::Unload()
 
 	ov_clear(&oggStream);
 	bLoaded = false;
-
-	if (pFile)
-		Delete(pFile);
+	Delete(pFile);
 
 	return true;
 }

@@ -38,11 +38,12 @@
 #include "System.h"
 #include "Music.h"
 #include "SoundSource.h"
+#include "Timer.h"
 
 #include <stdio.h>
 #include <algorithm>
 
-#include "platform/ios/iosoneView.h"
+#include "platform/ios/iosView.h"
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
 
@@ -109,19 +110,22 @@ bool SoundSystem::Reset()
 	{
 		fMusicStartFadeTime = 0.0f;
 		fMusicFadeTime = 0.0f;
-
-		for (u32 i = arSource.Size(); i > 0; i--)
-		{
-			arSource[i-1]->Stop();
-			arSource[i-1]->Unload();
-		}
-
+		
+		ISoundSourceVectorIterator it = vSource.begin();
+		ISoundSourceVectorIterator end = vSource.end();
+		for (; it != end; ++it)
+			(*it)->Stop();
+		
+		it = vSource.begin();
+		end = vSource.end();
+		for (; it != end; ++it)
+			(*it)->Unload();
+		
+		ISoundSourceVector().swap(vSource);
+		
 		this->StopMusic();
 		pCurrentMusic = NULL;
 		pNewMusic = NULL;
-
-		arSource.Truncate();
-		// abstract IModule::Reset();
 	}
 	return true;
 }
@@ -167,15 +171,17 @@ void SoundSystem::UpdateSounds(f32 dt)
 
 	if (bChanged)
 	{
-		for (u32 i = 0; i < arSource.Size(); i++)
-		{
-			arSource[i]->UpdateVolume();
-		}
+		ISoundSourceVectorIterator it = vSource.begin();
+		ISoundSourceVectorIterator end = vSource.end();
+		for (; it != end; ++it)
+			(*it)->UpdateVolume();
 	}
 
-	for (u32 i = 0; i < arSource.Size(); i++)
+	ISoundSourceVector::iterator it = vSource.begin();
+	ISoundSourceVector::iterator end = vSource.begin();
+	for (; it != end; ++it)
 	{
-		SoundSource *src = static_cast<SoundSource *>(arSource[i]);
+		SoundSource *src = static_cast<SoundSource *>(*it);
 
 		eSoundSourceState state = src->GetState();
 		if (state == SourceNone)
@@ -412,42 +418,43 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 		break;
 	}
 }
-
-
+	
 void SoundSystem::Pause()
 {
 	ISoundSystem::Pause();
-
-	for (u32 i = 0; i < arSource.Size(); i++)
+	
+	ISoundSourceVector::iterator it = vSource.begin();
+	ISoundSourceVector::iterator end = vSource.begin();
+	for (; it != end; ++it)
 	{
-		SoundSource *src = static_cast<SoundSource *>(arSource[i]);
+		SoundSource *src = static_cast<SoundSource *>(*it);
 		src->Pause();
 		alSourcePause(src->iSource);
 	}
-
+	
 	if (pCurrentMusic)
 		static_cast<Music *>(pCurrentMusic)->eState = Seed::MusicPaused;
-
+	
 	if (pNewMusic)
 		static_cast<Music *>(pNewMusic)->eState = Seed::MusicPaused;
 }
 
 void SoundSystem::Resume()
 {
-	for (u32 i = 0; i < arSource.Size(); i++)
-	{
-		arSource[i]->Resume();
-	}
-
+	ISoundSourceVectorIterator it = vSource.begin();
+	ISoundSourceVectorIterator end = vSource.end();
+	for (; it != end; ++it)
+		(*it)->Resume();
+	
 	if (pCurrentMusic)
 		static_cast<Music *>(pCurrentMusic)->eState = Seed::MusicPlay;
-
+	
 	if (pNewMusic)
 		static_cast<Music *>(pNewMusic)->eState = Seed::MusicPlay;
-
+	
 	ISoundSystem::Resume();
 }
-
+	
 }} // namespace
 
 #endif // BUILD_IOS

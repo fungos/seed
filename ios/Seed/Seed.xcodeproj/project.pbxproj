@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		D103E437163F11CB00267967 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D103E436163F11CB00267967 /* Foundation.framework */; };
 		D103F5F0163F1CF500267967 /* Animation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F55B163F1CF500267967 /* Animation.cpp */; };
 		D103F5F1163F1CF500267967 /* D3D8RendererDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F55E163F1CF500267967 /* D3D8RendererDevice.cpp */; };
 		D103F5F2163F1CF500267967 /* DirectXVersion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F55F163F1CF500267967 /* DirectXVersion.cpp */; };
@@ -100,12 +99,9 @@
 		D103F649163F1CF600267967 /* iosTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5C0163F1CF500267967 /* iosTexture.cpp */; };
 		D103F64A163F1CF600267967 /* iosThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5C1163F1CF500267967 /* iosThread.cpp */; };
 		D103F64B163F1CF600267967 /* iosTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5C2163F1CF500267967 /* iosTimer.cpp */; };
-		D103F64C163F1CF600267967 /* IphoneView.mm in Sources */ = {isa = PBXBuildFile; fileRef = D103F5C3163F1CF500267967 /* IphoneView.mm */; };
 		D103F64D163F1CF600267967 /* pcCartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5C5163F1CF500267967 /* pcCartridge.cpp */; };
 		D103F64E163F1CF600267967 /* pcLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5C6163F1CF500267967 /* pcLog.cpp */; };
 		D103F64F163F1CF600267967 /* pcRendererDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5C7163F1CF500267967 /* pcRendererDevice.cpp */; };
-		D103F650163F1CF600267967 /* posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5C8163F1CF500267967 /* posix.cpp */; };
-		D103F651163F1CF600267967 /* win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5C9163F1CF500267967 /* win32.cpp */; };
 		D103F652163F1CF600267967 /* qtInput.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5CC163F1CF500267967 /* qtInput.cpp */; };
 		D103F653163F1CF600267967 /* qtMutex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5CD163F1CF500267967 /* qtMutex.cpp */; };
 		D103F654163F1CF600267967 /* qtScene.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5CE163F1CF500267967 /* qtScene.cpp */; };
@@ -140,6 +136,9 @@
 		D103F671163F1CF600267967 /* ViewManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5ED163F1CF500267967 /* ViewManager.cpp */; };
 		D103F672163F1CF600267967 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5EE163F1CF500267967 /* Viewport.cpp */; };
 		D103F673163F1CF600267967 /* Writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5EF163F1CF500267967 /* Writer.cpp */; };
+		D107B3FC16430BC900E4A951 /* iosView.mm in Sources */ = {isa = PBXBuildFile; fileRef = D107B3FB16430BC900E4A951 /* iosView.mm */; };
+		D1B00ADA1642F634009211BF /* seed_posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD81642F634009211BF /* seed_posix.cpp */; };
+		D1B00ADB1642F634009211BF /* seed_win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD91642F634009211BF /* seed_win32.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -156,7 +155,6 @@
 
 /* Begin PBXFileReference section */
 		D103E433163F11CB00267967 /* libSeed.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSeed.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		D103E436163F11CB00267967 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D103F4A5163F1CE800267967 /* Animation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Animation.h; sourceTree = "<group>"; };
 		D103F4A8163F1CE800267967 /* D3D8RendererDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = D3D8RendererDevice.h; sourceTree = "<group>"; };
 		D103F4A9163F1CE800267967 /* DirectXVersion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DirectXVersion.h; sourceTree = "<group>"; };
@@ -415,12 +413,9 @@
 		D103F5C0163F1CF500267967 /* iosTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iosTexture.cpp; sourceTree = "<group>"; };
 		D103F5C1163F1CF500267967 /* iosThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iosThread.cpp; sourceTree = "<group>"; };
 		D103F5C2163F1CF500267967 /* iosTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iosTimer.cpp; sourceTree = "<group>"; };
-		D103F5C3163F1CF500267967 /* IphoneView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IphoneView.mm; sourceTree = "<group>"; };
 		D103F5C5163F1CF500267967 /* pcCartridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pcCartridge.cpp; sourceTree = "<group>"; };
 		D103F5C6163F1CF500267967 /* pcLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pcLog.cpp; sourceTree = "<group>"; };
 		D103F5C7163F1CF500267967 /* pcRendererDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pcRendererDevice.cpp; sourceTree = "<group>"; };
-		D103F5C8163F1CF500267967 /* posix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = posix.cpp; sourceTree = "<group>"; };
-		D103F5C9163F1CF500267967 /* win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = win32.cpp; sourceTree = "<group>"; };
 		D103F5CB163F1CF500267967 /* .directory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .directory; sourceTree = "<group>"; };
 		D103F5CC163F1CF500267967 /* qtInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtInput.cpp; sourceTree = "<group>"; };
 		D103F5CD163F1CF500267967 /* qtMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtMutex.cpp; sourceTree = "<group>"; };
@@ -430,7 +425,6 @@
 		D103F5D1163F1CF500267967 /* qtSystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtSystem.cpp; sourceTree = "<group>"; };
 		D103F5D2163F1CF500267967 /* qtThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtThread.cpp; sourceTree = "<group>"; };
 		D103F5D3163F1CF500267967 /* qtTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = qtTimer.cpp; sourceTree = "<group>"; };
-		D103F5D5163F1CF500267967 /* .directory */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .directory; sourceTree = "<group>"; };
 		D103F5D6163F1CF500267967 /* sdlInput.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sdlInput.cpp; sourceTree = "<group>"; };
 		D103F5D7163F1CF500267967 /* sdlMutex.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sdlMutex.cpp; sourceTree = "<group>"; };
 		D103F5D8163F1CF500267967 /* sdlScreen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = sdlScreen.cpp; sourceTree = "<group>"; };
@@ -459,6 +453,9 @@
 		D103F5EF163F1CF500267967 /* Writer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Writer.cpp; sourceTree = "<group>"; };
 		D103F677163F274000267967 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		D103F67A163F278200267967 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		D107B3FB16430BC900E4A951 /* iosView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iosView.mm; sourceTree = "<group>"; };
+		D1B00AD81642F634009211BF /* seed_posix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_posix.cpp; sourceTree = "<group>"; };
+		D1B00AD91642F634009211BF /* seed_win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_win32.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -466,7 +463,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D103E437163F11CB00267967 /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -496,7 +492,6 @@
 		D103E435163F11CB00267967 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D103E436163F11CB00267967 /* Foundation.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -982,6 +977,7 @@
 		D103F5B7163F1CF500267967 /* ios */ = {
 			isa = PBXGroup;
 			children = (
+				D107B3FB16430BC900E4A951 /* iosView.mm */,
 				D103F5B8163F1CF500267967 /* iosInput.cpp */,
 				D103F5B9163F1CF500267967 /* iosMusic.cpp */,
 				D103F5BA163F1CF500267967 /* iosMutex.cpp */,
@@ -993,7 +989,6 @@
 				D103F5C0163F1CF500267967 /* iosTexture.cpp */,
 				D103F5C1163F1CF500267967 /* iosThread.cpp */,
 				D103F5C2163F1CF500267967 /* iosTimer.cpp */,
-				D103F5C3163F1CF500267967 /* IphoneView.mm */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1001,11 +996,11 @@
 		D103F5C4163F1CF500267967 /* pc */ = {
 			isa = PBXGroup;
 			children = (
+				D1B00AD81642F634009211BF /* seed_posix.cpp */,
+				D1B00AD91642F634009211BF /* seed_win32.cpp */,
 				D103F5C5163F1CF500267967 /* pcCartridge.cpp */,
 				D103F5C6163F1CF500267967 /* pcLog.cpp */,
 				D103F5C7163F1CF500267967 /* pcRendererDevice.cpp */,
-				D103F5C8163F1CF500267967 /* posix.cpp */,
-				D103F5C9163F1CF500267967 /* win32.cpp */,
 			);
 			path = pc;
 			sourceTree = "<group>";
@@ -1029,7 +1024,6 @@
 		D103F5D4163F1CF500267967 /* sdl */ = {
 			isa = PBXGroup;
 			children = (
-				D103F5D5163F1CF500267967 /* .directory */,
 				D103F5D6163F1CF500267967 /* sdlInput.cpp */,
 				D103F5D7163F1CF500267967 /* sdlMutex.cpp */,
 				D103F5D8163F1CF500267967 /* sdlScreen.cpp */,
@@ -1184,12 +1178,9 @@
 				D103F649163F1CF600267967 /* iosTexture.cpp in Sources */,
 				D103F64A163F1CF600267967 /* iosThread.cpp in Sources */,
 				D103F64B163F1CF600267967 /* iosTimer.cpp in Sources */,
-				D103F64C163F1CF600267967 /* IphoneView.mm in Sources */,
 				D103F64D163F1CF600267967 /* pcCartridge.cpp in Sources */,
 				D103F64E163F1CF600267967 /* pcLog.cpp in Sources */,
 				D103F64F163F1CF600267967 /* pcRendererDevice.cpp in Sources */,
-				D103F650163F1CF600267967 /* posix.cpp in Sources */,
-				D103F651163F1CF600267967 /* win32.cpp in Sources */,
 				D103F652163F1CF600267967 /* qtInput.cpp in Sources */,
 				D103F653163F1CF600267967 /* qtMutex.cpp in Sources */,
 				D103F654163F1CF600267967 /* qtScene.cpp in Sources */,
@@ -1224,6 +1215,9 @@
 				D103F671163F1CF600267967 /* ViewManager.cpp in Sources */,
 				D103F672163F1CF600267967 /* Viewport.cpp in Sources */,
 				D103F673163F1CF600267967 /* Writer.cpp in Sources */,
+				D1B00ADA1642F634009211BF /* seed_posix.cpp in Sources */,
+				D1B00ADB1642F634009211BF /* seed_win32.cpp in Sources */,
+				D107B3FC16430BC900E4A951 /* iosView.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1292,7 +1286,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DSTROOT = /tmp/Seed.dst;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
@@ -1303,7 +1296,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DSTROOT = /tmp/Seed.dst;
-				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;

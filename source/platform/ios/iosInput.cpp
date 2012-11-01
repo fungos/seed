@@ -34,7 +34,7 @@
 #include "Input.h"
 #include "Log.h"
 #include "Screen.h"
-//#include "platform/ios/iosoneView.h"
+#include "platform/ios/iosView.h"
 #include "EventInputPointer.h"
 #include "Timer.h"
 
@@ -77,7 +77,7 @@ bool Input::Update(f32 delta)
 	for (u32 i = 0; i < PLATFORM_MAX_INPUT; i++)
 	{
 		memcpy(&oldState[i], &curState[i], sizeof(curState[i]));
-		memcpy(&curState[i].touch, &iphTouchBuff[i], sizeof(iphTouchBuff[i]));
+		memcpy(&curState[i].touch, &iosTouchBuff[i], sizeof(iosTouchBuff[i]));
 
 		switch (oldState[i].touch.bStatus)
 		{

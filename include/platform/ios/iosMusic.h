@@ -71,9 +71,8 @@ class SEED_CORE_API Music : public IMusic
 		SEED_DISABLE_COPY(Music);
 
 	private:
-		bool	bLoop;
-		File	stFile;
 		void	*pAVPlayer;
+		bool	bLoop;
 };
 
 }} // namespace

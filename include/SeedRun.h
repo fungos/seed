@@ -15,6 +15,17 @@ int SeedRun(int argc, const char **argv)
     return EXIT_SUCCESS;
 }
 
+#elif defined(BUILD_IOS)
+
+template <class T>
+int SeedRun(int argc, const char **argv)
+{
+	@autoreleasepool
+	{
+	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+	}
+}
+
 #else
 
 template <class T>

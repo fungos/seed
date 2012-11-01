@@ -35,7 +35,7 @@
 
 #include "interface/IInput.h"
 #include "interface/IInputPointer.h"
-#include "IphoneSystemStub.h"
+#include "iosSystemStub.h"
 #include "Singleton.h"
 
 namespace Seed { namespace iOS {
@@ -85,7 +85,7 @@ class Input : public IInput, public IInputPointer
 	public:
 		struct sState
 		{
-			iphTouchInfo touch;
+			iosTouchInfo touch;
 			u32 iTrig;
 			u32 iHold;
 			u32 iRelease;

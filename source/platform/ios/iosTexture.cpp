@@ -63,7 +63,6 @@ Texture::Texture()
 	, iPitch(0)
 	, iAtlasWidth(0)
 	, iAtlasHeight(0)
-	, iReserved(0)
 	//, bCompressed(false)
 	, pixelFormat(kTexture2DPixelFormat_RGBA8888)
 {
@@ -120,8 +119,6 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 	{
 		sFilename = "[dynamic texture]";
 
-		fWidth = (f32)width / (f32)pScreen->GetWidth();
-		fHeight = (f32)height / (f32)pScreen->GetHeight();
 		iWidth = iAtlasWidth = width;
 		iHeight = iAtlasHeight = height;
 
@@ -179,8 +176,8 @@ void Texture::PutPixel(u32 x, u32 y, const Color &px)
 #if !defined(ENABLE_NATIVE_PVRTC_FORMAT)
 	if (pData || pixelFormat != kTexture2DPixelFormat_RGB565 || pixelFormat != kTexture2DPixelFormat_A8)
 	{
-		const uPixel *data1 = static_cast<const uPixel *>(pData);
-		uPixel *data = const_cast<uPixel *>(data1);
+		const Color *data1 = static_cast<const Color *>(pData);
+		Color *data = const_cast<Color *>(data1);
 		data[(y * iWidth) + x] = px; // ja deve ser arrumado em relacao ao atlas
 	}
 	else
@@ -196,20 +193,20 @@ Color Texture::GetPixel(u32 x, u32 y) const
 {
 #if !defined(ENABLE_NATIVE_PVRTC_FORMAT)
 	if (!pData)
-		return 0;
+		return Color(0, 0, 0, 0);
 
 	if (pixelFormat == kTexture2DPixelFormat_RGB565 || pixelFormat == kTexture2DPixelFormat_A8)
 	{
 		Log(TAG "GetPixel unsuported for format 565 (yet).");
-		return 0;
+		return Color(0, 0, 0, 0);
 	}
 
-	const uPixel *data = static_cast<const uPixel *>(pData);
-	uPixel px = data[(y * iWidth) + x]; // ja deve ser arrumado em relacao ao atlas
+	const Color *data = static_cast<const Color *>(pData);
+	Color px = data[(y * iWidth) + x]; // ja deve ser arrumado em relacao ao atlas
 
 	return px;
 #else
-	return 0;
+	return Color(0, 0, 0, 0);
 #endif // ENABLE_NATIVE_PVRTC_FORMAT
 }
 
@@ -236,9 +233,9 @@ u8 Texture::GetPixelAlpha(u32 x, u32 y) const
 		return this->GetPixelAlpha(x, y);
 	}
 
-	uPixel px = this->GetPixel(x, y);
+	Color px = this->GetPixel(x, y);
 
-	return uPixel.rgba.a;
+	return px.a;
 #else
 	return 255;
 #endif // ENABLE_NATIVE_PVRTC_FORMAT
@@ -444,16 +441,11 @@ void Texture::LoadPNG(const char *file)
 	//bCompressed = false;
 	pixelFormat = pixelFormat;
 
-	// FIXME: Must divide by res_width , res_height - not by screen width/height
-	fWidth = (f32)iWidth / (f32)pScreen->GetWidth();
-	fHeight = (f32)iHeight / (f32)pScreen->GetHeight();
-
 	iAtlasWidth = width;
 	iAtlasHeight = height;
 	iWidth = imageSize.width;
 	iHeight = imageSize.height;
 	iPitch = CGImageGetBytesPerRow(image);
-	iReserved = height * width * iBytesPerPixel;
 
 	pRendererDevice->TextureRequest(this);
 

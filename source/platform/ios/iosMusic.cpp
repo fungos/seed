@@ -35,7 +35,7 @@
 #include "Music.h"
 #include "Log.h"
 #include "SoundSystem.h"
-#include "platform/ios/iosoneView.h"
+#include "platform/ios/iosView.h"
 #include <Foundation/NSURL.h>
 #include <Foundation/NSBundle.h>
 #include <Foundation/Foundation.h>
@@ -51,14 +51,14 @@ IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 	UNUSED(res);
 
 	Music *music = New(Music());
-	music->Load(filename, res, pool);
+	music->Load(filename, res);
 
 	return music;
 }
 
 Music::Music()
-	: bLoop(true)
-	, stFile()
+	: pAVPlayer(NULL)
+	, bLoop(true)
 {
 }
 
@@ -69,7 +69,6 @@ Music::~Music()
 
 bool Music::Load(const String &filename, ResourceManager *res)
 {
-	SEED_ASSERT(filename);
 	SEED_ASSERT(res);
 
 	if (pSoundSystem->IsInitialized() && this->Unload())
@@ -77,28 +76,11 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		sFilename = filename;
 		pRes = res;
 
-		/* Open file .music */
-		/* FIXME: This should be from a file resource acquired using a Get() from resource manager cache. */
-		pFileSystem->Open(filename, &stFile);
-
-		const u8 *ptr = static_cast<const u8 *>(stFile.GetData());
-		ObjectHeader *block = NULL;
-		READ_STRUCT(block, ObjectHeader, ptr);
-		seed_validate_block(&stFile, block, MUSIC_OBJECT_MAGIC, MUSIC_OBJECT_VERSION);
-
-		u32 volume = 0;
-		READ_U32(volume, ptr);
-		fVolume = (volume / 100.0f);
-
-		const char *fname = NULL;
-		READ_STR(fname, ptr);
-		SEED_ASSERT(fname);
-
 		this->Reset();
 
 		{
-			NSString *root = [NSString stringWithCString: iphGetRootPath() encoding: [NSString defaultCStringEncoding]];
-			NSString *musicName = [NSString stringWithCString: fname encoding: [NSString defaultCStringEncoding]];
+			NSString *root = [NSString stringWithCString: iosGetRootPath() encoding: [NSString defaultCStringEncoding]];
+			NSString *musicName = [NSString stringWithCString: filename.c_str() encoding: [NSString defaultCStringEncoding]];
 			//NSString *extensionName = [NSString stringWithCString: ".mp3" encoding: [NSString defaultCStringEncoding]];
 			NSString *dataPath = [@"/data/" stringByAppendingString: musicName]; //[musicName stringByAppendingString: extensionName]];
 			NSString *path = [root stringByAppendingString: dataPath];
@@ -119,7 +101,7 @@ bool Music::Load(const String &filename, ResourceManager *res)
 			else
 			{
 				Log(TAG "Error: %s", [[err localizedDescription] cStringUsingEncoding: NSASCIIStringEncoding]);
-				Log(TAG "Error happened when trying to play music %s.", fname);
+				Log(TAG "Error happened when trying to play music %s.", filename.c_str());
 				bLoaded = false;
 			}
 		}
@@ -137,7 +119,6 @@ bool Music::Unload()
 	fVolume = 1.0f;
 
 	pSoundSystem->StopMusic(0, this);
-	stFile.Close();
 
 	bLoaded = false;
 
@@ -212,7 +193,7 @@ void Music::FadeVolume(f32 vol)
 
 const void *Music::GetData() const
 {
-	return &stFile;
+	return (void *)pAVPlayer;
 }
 
 }} // namespace

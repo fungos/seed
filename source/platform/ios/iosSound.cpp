@@ -33,7 +33,7 @@
 #if defined(BUILD_IOS)
 
 #include "Log.h"
-#include "platform/ios/iosoneView.h"
+#include "platform/ios/iosView.h"
 #include <Foundation/Foundation.h>
 #include <OpenAL/al.h>
 #include <OpenAL/alc.h>
@@ -45,7 +45,7 @@
 #define TAG "[Sound] "
 
 #define AUDIO_FRAME_TIME 3
-#define AUDIO_DATA_PATH		"/" FILESYSTEM_DEFAULT_PATH "/"
+#define AUDIO_DATA_PATH		"/"
 #define AUDIO_DATA_EXT		".caf"
 
 typedef ALvoid AL_APIENTRY (*alBufferDataStaticProcPtr) (const ALint bid, ALenum format, ALvoid *data, ALsizei size, ALsizei freq);
@@ -144,7 +144,7 @@ void Sound::ReadData(const char *file)
 	void						*theData = NULL;
 	UInt32						dataSize = 0;
 
-	NSString *root = [NSString stringWithCString: iphGetRootPath() encoding: [NSString defaultCStringEncoding]];
+	NSString *root = [NSString stringWithCString: iosGetRootPath() encoding: [NSString defaultCStringEncoding]];
 	NSString *fname = [NSString stringWithCString: file encoding: [NSString defaultCStringEncoding]];
 	//NSString *ext = [NSString stringWithCString: AUDIO_DATA_EXT encoding: [NSString defaultCStringEncoding]];
 

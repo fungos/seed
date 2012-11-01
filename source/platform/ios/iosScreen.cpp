@@ -37,7 +37,7 @@
 
 #include <UIKit/UIKit.h>
 #include <CoreGraphics/CoreGraphics.h>
-//#include "platform/ios/iosoneView.h"
+#include "platform/ios/iosView.h"
 
 #define FADE_OUT_COLOR  0xff
 #define FADE_OUT_SOLID  0xff
