@@ -70,7 +70,6 @@ package com.adobe.flascc
       bm = new Bitmap(bmd)
       inputContainer.addChild(bm)
       CModule.startAsync(this)
-      initTesting()
     }
 
     /**
@@ -151,8 +150,11 @@ package com.adobe.flascc
     protected function enterFrame(e:Event):void
     {
       CModule.serviceUIRequests()
-      var args:Vector.<int> = new Vector.<int>;
-      CModule.callI(CModule.getPublicSymbol("updateUniverse"), args);
+	  
+      /*
+	  var args:Vector.<int> = new Vector.<int>;
+      CModule.callI(CModule.getPublicSymbol("DoUpdateFrame"), args);
+	  */
     }
 
     /**

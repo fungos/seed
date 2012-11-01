@@ -11,10 +11,10 @@ OBJECTS = $(CONTRIB) $(SEED) $(TESTS)
 
 ifeq ("$(DEBUG)","FALSE")
 	CFLAGS += -O4 -fno-stack-protector $(EXTRACFLAGS)
-	DEFS += -DSEED_ENABLE_PROFILER -DDEBUG
+	DEFS += -DRELEASE
 else
 	CFLAGS += -O0 -g $(EXTRACFLAGS)
-	DEFS += -DRELEASE
+	DEFS += -DDEBUG -DSEED_ENABLE_PROFILER
 endif
 
 LFLAGS = -flto-api=../../exports.txt
@@ -86,10 +86,10 @@ build: check assets
 	make -j2 link linkmt
 
 link:
-	cd $(BUILDDIR) && "$(FLASCC)/usr/bin/g++" $(CXXFLAGS) $(LFLAGS) `ls *.o` -o ../tests.swf $(LIBS) vfs*.abc $(FLASCC)/usr/lib/AlcVFSZip.abc -emit-swf -symbol-abc=Console.abc -swf-size=800x600
+	cd $(BUILDDIR) && "$(FLASCC)/usr/bin/g++" $(CXXFLAGS) -Wl,--warn-unresolved-symbols `ls *.o` -o ../tests.swf $(LIBS) vfs*.abc $(FLASCC)/usr/lib/AlcVFSZip.abc -emit-swf -symbol-abc=Console.abc -swf-size=800x600
 
 linkmt:
-	cd $(BUILDDIR) && "$(FLASCC)/usr/bin/g++" $(CXXFLAGS) $(LFLAGS) `ls *.o` -o ../testsmt.swf $(LIBS) vfs*.abc $(FLASCC)/usr/lib/AlcVFSZip.abc -emit-swf -symbol-abc=Console.abc -swf-size=800x600 -pthread -swf-version=18
+	cd $(BUILDDIR) && "$(FLASCC)/usr/bin/g++" $(CXXFLAGS) -Wl,--warn-unresolved-symbols `ls *.o` -o ../testsmt.swf $(LIBS) vfs*.abc $(FLASCC)/usr/lib/AlcVFSZip.abc -emit-swf -symbol-abc=Console.abc -swf-size=800x600 -pthread -swf-version=18
 #------------- FLASCC
 	
 .c.o:
