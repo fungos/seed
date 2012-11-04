@@ -2,7 +2,16 @@ TARGET = seed
 TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
-CONFIG += sdl
+CONFIG += glfw
+
+#TARGET_EXT = .bc
+#QMAKE_EXT_OBJ = .bc
+#QMAKE_CXXFLAGS += -emit-llvm
+QMAKE_CXX = clang++
+QMAKE_CC = clang
+#QMAKE_LIB = llvm-ld -link-as-library -o
+#QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
+#QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj
 
 !editor {
 	CONFIG -= qt
@@ -177,10 +186,15 @@ SOURCES += source/Viewport.cpp \
 	source/platform/glfw/glfwInput.cpp \
 	source/api/soil/soilTexture.cpp \
 	source/platform/pc/seed_win32.cpp \
-	source/platform/pc/seed_posix.cpp
+	source/platform/pc/seed_posix.cpp \
+	source/JobManager.cpp \
+	source/Job.cpp \
+	source/EventJob.cpp \
+	source/interface/IEventJobListener.cpp \
+	source/ThreadManager.cpp
 
 OTHER_FILES += \
-	source/platform/ios/IphoneView.mm
+	source/platform/ios/iosView.mm
 
 HEADERS += include/*.h \
 	include/platform/sdl/*.h \
@@ -215,4 +229,9 @@ HEADERS += include/*.h \
 	include/platform/glfw/glfwMutex.h \
 	include/platform/glfw/glfwInput.h \
 	include/platform/glfw/glfwDefines.h \
-	include/api/soil/soilTexture.h
+	include/api/soil/soilTexture.h \
+	include/JobManager.h \
+	include/Job.h \
+	include/EventJob.h \
+	include/interface/IEventJobListener.h \
+	include/ThreadManager.h

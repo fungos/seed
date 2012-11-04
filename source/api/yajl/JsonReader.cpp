@@ -112,9 +112,13 @@ bool JsonReader::Load(const void *data)
 	else
 	{
 		if (strlen(err))
+		{
 			Log(TAG "Error: %s", err);
+		}
 		else
+		{
 			Log(TAG "Error: unknown.");
+		}
 	}
 
 	return ret;

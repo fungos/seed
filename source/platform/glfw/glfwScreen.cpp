@@ -72,7 +72,6 @@ Screen::~Screen()
 bool Screen::Reset()
 {
 #if defined(__linux__)
-	this->PrepareMode();
 	this->InitializeVideo();
 #else
 	pResourceManager->Unload(Seed::TypeTexture);

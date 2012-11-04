@@ -46,6 +46,7 @@ oggz_metric_dirac (OGGZ * oggz, long serialno,
   ogg_uint16_t delay;
   ogg_int64_t dt;
   ogg_int64_t units;
+  (void)user_data;
 
   stream = oggz_get_stream (oggz, serialno);
   if (stream == NULL) return -1;
@@ -68,6 +69,7 @@ oggz_metric_default_granuleshift (OGGZ * oggz, long serialno,
   oggz_stream_t * stream;
   ogg_int64_t iframe, pframe;
   ogg_int64_t units;
+  (void)user_data;
 
   stream = oggz_get_stream (oggz, serialno);
   if (stream == NULL) return -1;
@@ -87,6 +89,7 @@ oggz_metric_default_linear (OGGZ * oggz, long serialno, ogg_int64_t granulepos,
 				void * user_data)
 {
   oggz_stream_t * stream;
+  (void)user_data;
 
   stream = oggz_get_stream (oggz, serialno);
   if (stream == NULL) return -1;

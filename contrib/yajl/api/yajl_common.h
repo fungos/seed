@@ -19,7 +19,7 @@
 
 #include <stddef.h>
 
-#if !defined(int64_t)
+#if !defined(int64_t) && !defined(__linux)
 typedef long long int64_t;
 #endif
 

@@ -39,8 +39,8 @@
 #include "Screen.h"
 #include "RendererDevice.h"
 #include "Configuration.h"
-#include "SOIL/SOIL.h"
-#include "SOIL/image_helper.h"
+#include <soil/SOIL.h>
+#include <soil/image_helper.h>
 
 #define TAG "[Texture] "
 

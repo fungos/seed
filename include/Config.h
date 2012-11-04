@@ -4,14 +4,14 @@
 #if defined(SEED_BUILD)
 	#if !defined(SEED_USE_STATIC)
 		#define SEED_BUILD_SHARED	1
-		#define SEED_LICENSE		"Seed license"
+		#define SEED_LICENSE		"Shared"
 	#else
 		#define SEED_LICENSE		"Static"
 	#endif // SEED_BUILD
 #else
 	#if !defined(SEED_USE_STATIC)
 		#define SEED_BUILD_SHARED	1
-		#define SEED_LICENSE		"Seed license"
+		#define SEED_LICENSE		"Shared"
 	#else
 		#define SEED_LICENSE		"Static"
 	#endif
@@ -46,6 +46,12 @@
 	#define SEED_PLATFORM_NAME "Qt"
 #elif defined(BUILD_GLFW)
 	#define SEED_PLATFORM_NAME "GLFW"
+#elif defined(__FLASHPLAYER)
+	#define SEED_PLATFORM_NAME "Flash/SDL"
+#elif defined(EMSCRIPTEN)
+	#define SEED_PLATFORM_NAME "Emscripen/SDL"
+#elif defined(SEED_NACL)
+	#define SEED_PLATFORM_NAME "NativeClient"
 #endif // BUILD_IOS
 
 #if __GNUG__ && __GNUC_MINOR__ < 7
@@ -55,6 +61,7 @@
 //================================================================================
 // FEATURES CAPPING
 //================================================================================
+#define SEED_USE_THREAD						1
 #define SEED_USE_JSON						1
 #define SEED_USE_THEORA						0
 #define SEED_ENABLE_DEPTH_TEST				0

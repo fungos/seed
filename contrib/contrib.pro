@@ -3,12 +3,19 @@ QT -= qt
 TARGET = seedcontrib
 TEMPLATE = lib
 
-Debug {
+#TARGET_EXT = .bc
+#QMAKE_EXT_OBJ = .bc
+#QMAKE_CXXFLAGS += -emit-llvm
+QMAKE_CXX = clang++
+QMAKE_CC = clang
+#QMAKE_LIB = llvm-ld
+#QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
+#QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj
+
+CONFIG(debug, debug|release) {
 	DESTDIR = ../lib/debug
 	DEFINES += DEBUG
-}
-
-Release {
+} else {
 	DESTDIR = ../lib/release
 	DEFINES += RELEASE
 }
@@ -214,8 +221,7 @@ SOURCES += yajl/yajl_buf.c \
 	soil/stb_image_aug.c \
 	soil/SOIL.c \
 	soil/image_helper.c \
-	soil/image_DXT.c \
-	soil/original/stb_image-1.33.c
+	soil/image_DXT.c
 
 unix:!macx:SOURCES += \
 	glfw/x11/x11_enable.c \

@@ -192,7 +192,8 @@ void get_current_directory(char *buff, int size)
 	memcpy(buff, pcBundle, size);
 #else
 	char *b = (char *)static_cast<void *>(buff);
-	getcwd(b, size);
+	char *out = getcwd(b, size);
+	UNUSED(out);
 #endif
 }
 

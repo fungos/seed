@@ -50,6 +50,7 @@
 #include <EventResourceLoader.h>
 #include <EventSystem.h>
 #include <EventMovie.h>
+#include <EventJob.h>
 
 #include <File.h>
 #include <FileSystem.h>
@@ -57,6 +58,9 @@
 #include <Image.h>
 #include <Input.h>
 #include <Texture.h>
+
+#include <JobManager.h>
+#include <Job.h>
 
 #include <LeakReport.h>
 
@@ -68,6 +72,7 @@
 #include <interface/IEventSystemListener.h>
 #include <interface/IEventFileSystemListener.h>
 #include <interface/IEventMovieListener.h>
+#include <interface/IEventJobListener.h>
 #include <interface/IObject.h>
 #include <interface/ISceneObject.h>
 

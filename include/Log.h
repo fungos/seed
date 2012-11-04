@@ -42,11 +42,11 @@ extern SEED_CORE_API void Info(const char *pMessage, ...);
 	extern SEED_CORE_API void Dbg(const char *pMessage, ...);
 #else
 	#if defined(__GNUC__)
-		#define Log(...)
-		#define Dbg(...)
+		#define Log(...) {}
+		#define Dbg(...) {}
 	#else
-		#define Log
-		#define Dbg
+		#define Log {}
+		#define Dbg {}
 	#endif // __GNUC__ || _WII_
 #endif // DEBUG
 

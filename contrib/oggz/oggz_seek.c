@@ -820,12 +820,18 @@ oggz_seek_units (OGGZ * oggz, ogg_int64_t units, int whence)
 long
 oggz_seek_byorder (OGGZ * oggz, void * target)
 {
+  (void)oggz;
+  (void)target;
   return -1;
 }
 
 long
 oggz_seek_packets (OGGZ * oggz, long serialno, long packets, int whence)
 {
+  (void)oggz;
+  (void)serialno;
+  (void)packets;
+  (void)whence;
   return -1;
 }
 

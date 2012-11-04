@@ -6,7 +6,7 @@ using namespace Seed;
 
 extern SceneNode *pScene;
 
-class TestBase : public IGameApp, public IEventSystemListener, public IEventInputKeyboardListener
+class TestBase : public IGameApp, public IEventSystemListener, public IEventInputKeyboardListener, public IEventJobListener
 {
 	public:
 		TestBase();
@@ -22,6 +22,10 @@ class TestBase : public IGameApp, public IEventSystemListener, public IEventInpu
 
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
+
+		// IEventJobListener
+		virtual void OnJobCompleted(const EventJob *ev);
+		virtual void OnJobAborted(const EventJob *ev);
 
 	private:
 		SEED_DISABLE_COPY(TestBase);

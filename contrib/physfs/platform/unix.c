@@ -63,6 +63,8 @@ int __PHYSFS_platformDeinit(void)
 /* Stub version for platforms without CD-ROM support. */
 void __PHYSFS_platformDetectAvailableCDs(PHYSFS_StringCallback cb, void *data)
 {
+	(void)cb;
+	(void)data;
 } /* __PHYSFS_platformDetectAvailableCDs */
 
 #elif (defined PHYSFS_HAVE_SYS_UCRED_H)
@@ -336,6 +338,7 @@ char *__PHYSFS_platformCurrentDir(void)
 
 int __PHYSFS_platformSetDefaultAllocator(PHYSFS_Allocator *a)
 {
+	(void)a;
 	return(0);  /* just use malloc() and friends. */
 } /* __PHYSFS_platformSetDefaultAllocator */
 

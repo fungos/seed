@@ -31,6 +31,8 @@
 #if defined(BUILD_QT)
 
 #include "Defines.h"
+#include "qtScene.h"
+#include "Renderer.h"
 #include "Screen.h"
 #include "System.h"
 #include "Log.h"

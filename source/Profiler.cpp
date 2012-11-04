@@ -106,6 +106,7 @@ void Profiler::AddTotal(const char *func, f32 time)
 
 void Profiler::Dump()
 {
+#ifdef DEBUG
 	Log(TAG "Dumping %s Totals: %d", pName, (int)mapSubjectTotal.size());
 
 	FuncTimeMapIt it = mapSubjectTotal.begin();
@@ -129,6 +130,7 @@ void Profiler::Dump()
 		float average = static_cast<float>((float)entry->time / (float)calls);
 		Log(TAG "%s: %s [average time %fms, interrupted %d times]", pName, (*it).first, average, calls);
 	}
+#endif
 }
 
 void Profiler::Reset()

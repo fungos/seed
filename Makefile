@@ -101,7 +101,7 @@ linkmt:
 all: contrib seed tests build
 	
 contrib: $(CONTRIB)
-
+	
 seed: $(SEED)
 
 tests: $(TESTS)

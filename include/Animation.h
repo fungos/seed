@@ -37,7 +37,7 @@
 
 namespace Seed {
 
-struct Frame;
+class Frame;
 
 /// Animation
 /**

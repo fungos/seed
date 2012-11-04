@@ -28,70 +28,42 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RESOURCEGROUP_H__
-#define __RESOURCEGROUP_H__
+#ifndef __JOB_H__
+#define __JOB_H__
 
-#include "Log.h"
+#include "Defines.h"
+#include "Thread.h"
 #include "Enum.h"
-#include "Container.h"
+#include "Mutex.h"
 
 namespace Seed {
 
-class IResource;
+class IEventJobListener;
 
-/// Group of Resources for Loading
-class SEED_CORE_API ResourceGroup
+class SEED_CORE_API Job : public Thread
 {
-	friend class ResourceLoader;
-
+	friend class JobManager;
 	public:
-		ResourceGroup();
-		virtual ~ResourceGroup();
+		Job(u32 name, IEventJobListener *listener);
+		virtual ~Job();
 
-		void Add(const String &filename, Seed::eObjectType resourceType = Seed::TypeSprite, ResourceManager *res = pResourceManager);
+		void SetListener(IEventJobListener *listener);
+		void Update(f32 dt);
+		void Abort();
 
-	protected:
-		/// Item for loading with Resource Group
-		typedef struct SEED_CORE_API QueueItem
-		{
-			String				filename;
-			IResource			*resource;
-			Seed::eObjectType 	resourceType;
-			ResourceManager		*resManager;
-			u32					startTime;
-			bool				erased;
+		eJobState GetState() const;
 
-			QueueItem()
-				: filename()
-				, resource(NULL)
-				, resourceType()
-				, resManager(NULL)
-				, startTime(0)
-				, erased(false)
-			{}
-
-			SEED_DISABLE_COPY(QueueItem);
-
-		} QueueItem;
-
-		typedef Vector<QueueItem *>		QueueVector;
-		typedef QueueVector::iterator	QueueVectorIterator;
+		// Thread
+		virtual bool Run();
+		virtual void Create(s32 priority = 31);
 
 	protected:
-		bool Load();
-		bool Unload();
-
-		void SetLoaded();
-		bool IsLoaded() const;
-
-	protected:
-		QueueVector		queue;
-		bool			bLoaded;
-
-	private:
-		SEED_DISABLE_COPY(ResourceGroup);
+		IEventJobListener *pListener;
+		Mutex cMutex;
+		eJobState nState;
+		u32 iName;
 };
 
 } // namespace
 
-#endif // __RESOURCEGROUP_H__
+#endif // __JOB_H__

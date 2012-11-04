@@ -63,8 +63,8 @@ class SEED_CORE_API Reader : public IReader
 		virtual void UnselectNode();
 
 	private:
-        SEED_DISABLE_COPY(Reader);
-    
+		SEED_DISABLE_COPY(Reader);
+
 		void Init();
 		IReader	*pOpaque;
 };

@@ -1442,6 +1442,8 @@ static void oc_analyze_mb_mode_chroma(oc_enc_ctx *_enc,
   int      pli;
   int      bi;
   int      qii;
+  (void)_fr;
+  (void)_qs;
   lambda=_enc->lambda;
   nqis=_enc->state.nqis;
   ssd=_modec->ssd;
@@ -1641,6 +1643,7 @@ static void oc_cost_intra(oc_enc_ctx *_enc,oc_mode_choice *_modec,
   _modec->overhead+=
    oc_mode_scheme_chooser_cost(&_enc->chooser,OC_MODE_INTRA)<<OC_BIT_SCALE;
   oc_mode_set_cost(_modec,_enc->lambda);
+  (void)_mbi;
 }
 
 static void oc_cost_inter(oc_enc_ctx *_enc,oc_mode_choice *_modec,

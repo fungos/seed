@@ -71,6 +71,7 @@ static int DIR_fileClose(fvoid *opaque)
 
 static int DIR_isArchive(const char *filename, int forWriting)
 {
+	(void)forWriting;
 	/* directories ARE archives in this driver... */
 	return(__PHYSFS_platformIsDirectory(filename));
 } /* DIR_isArchive */

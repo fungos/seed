@@ -36,11 +36,13 @@
 
 namespace Seed { namespace GLFW {
 
+#if (SEED_USE_THREAD == 1)
 static void __seed_thread_loop_callback(void *param)
 {
 	Thread *pt = static_cast<Thread *>(param);
 	while (pt->Run()) {};
 }
+#endif
 
 Thread::Thread()
 	: bRunning(true)
@@ -58,21 +60,29 @@ void Thread::Create(s32 priority)
 	UNUSED(priority);
 
 	bRunning = true;
+#if (SEED_USE_THREAD == 1)
 	if (!iThread)
 	{
 		iThread = glfwCreateThread(__seed_thread_loop_callback, this);
 		SEED_ASSERT_MSG(iThread > 0, TAG "Failed to create thread.");
 	}
+#else
+	IThread::Create(priority);
+#endif
 }
 
 void Thread::Destroy()
 {
 	bRunning = false;
 
+#if (SEED_USE_THREAD == 1)
 	if (iThread)
 	{
 		glfwWaitThread(iThread, GLFW_WAIT);
 	}
+#else
+	IThread::Destroy();
+#endif
 
 	iThread = 0;
 }

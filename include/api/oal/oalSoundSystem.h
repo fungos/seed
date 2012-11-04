@@ -36,16 +36,13 @@
 #if defined(USE_API_OAL)
 
 #include "interface/ISoundSystem.h"
-#include "interface/IResource.h"
-#include "SoundSource.h"
-#include "Music.h"
-#include "File.h"
 #include "Singleton.h"
 
 #if defined(__APPLE_CC__)
 #include <OpenAL/al.h>
 #else
 #include <AL/al.h>
+#include <AL/alc.h>
 #endif
 
 #define SOUND_MASTER_VOLUME		0.2f

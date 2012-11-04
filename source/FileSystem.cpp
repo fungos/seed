@@ -36,7 +36,7 @@
 #include "Configuration.h"
 #include "physfs/physfs.h"
 
-#define FS_CHECK(x)	{ if (!x) { const char *_err = PHYSFS_getLastError(); Log(TAG "Error: %s", _err); }}
+#define FS_CHECK(x)	{ if (!x) { const char *_err = PHYSFS_getLastError(); UNUSED(_err); Log(TAG "Error: %s", _err); }}
 
 #define TAG	"[FileSystem] "
 

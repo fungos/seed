@@ -42,8 +42,8 @@ namespace Seed {
 
 class ITexture;
 class ParticleEmitter;
-struct Animation;
-struct Frame;
+class Animation;
+class Frame;
 
 ISceneObject *FactorySprite();
 

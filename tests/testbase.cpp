@@ -2,6 +2,12 @@
 
 SceneNode *pScene;
 
+enum
+{
+	kJobLoadEmitter,
+	kJobLoadAnim
+};
+
 TestBase::TestBase()
 {
 }
@@ -36,12 +42,12 @@ bool TestBase::Initialize()
 //	pRendererDevice->TextureRequestProcess();
 	// --
 
-	{
-		File f("anim.sprite");
-		Reader r(f);
-		sptLogo.Load(r);
-		cScene.Add(&sptLogo);
-	}
+//	{
+//		File f("anim.sprite");
+//		Reader r(f);
+//		sptLogo.Load(r);
+//		cScene.Add(&sptLogo);
+//	}
 
 //	{
 //		File f("sample.movie");
@@ -51,14 +57,19 @@ bool TestBase::Initialize()
 //		cScene.Add(&mvSample);
 //	}
 
-	{
-		File f("teste.emitter");
-		Reader r(f);
-		cEmitter.Load(r);
-//		cEmitter.SetPosition(200, 0);
-//		cEmitter.SetZ(10.0f);
-		cScene.Add(&cEmitter);
-	}
+	pJobManager->Add(New(FileLoad("anim.sprite", kJobLoadAnim, this)));
+	pJobManager->Add(New(FileLoad("teste.emitter", kJobLoadEmitter, this)));
+	cScene.Add(&sptLogo);
+	cScene.Add(&cEmitter);
+
+//	{
+//		File f("teste.emitter");
+//		Reader r(f);
+//		cEmitter.Load(r);
+////		cEmitter.SetPosition(200, 0);
+////		cEmitter.SetZ(10.0f);
+//		cScene.Add(&cEmitter);
+//	}
 
 //	{
 //		musTheme.Load("theme.ogg");
@@ -90,7 +101,7 @@ bool TestBase::Initialize()
 	cCamera.SetPosition(-400, -300);
 	cCamera.Update(0.0f);
 
-	//pScene->Add(&cCamera);
+//	pScene->Add(&cCamera);
 //	pScreen->FadeIn();
 
 	return true;
@@ -138,4 +149,35 @@ void TestBase::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 	if (k == Seed::KeyEscape)
 		pSystem->Shutdown();
+}
+
+void TestBase::OnJobCompleted(const EventJob *ev)
+{
+	switch (ev->GetName())
+	{
+		case kJobLoadEmitter:
+		{
+			FileLoad *job = (FileLoad *)ev->GetJob();
+			Reader r(job->pFile->GetData());
+			cEmitter.Load(r);
+			Delete(job);
+		}
+		break;
+
+		case kJobLoadAnim:
+		{
+			FileLoad *job = (FileLoad *)ev->GetJob();
+			Reader r(job->pFile->GetData());
+			sptLogo.Load(r);
+			Delete(job);
+		}
+		break;
+	}
+}
+
+void TestBase::OnJobAborted(const EventJob *ev)
+{
+	Job *job = ev->GetJob();
+	Log("Aborting job");
+	Delete(job);
 }

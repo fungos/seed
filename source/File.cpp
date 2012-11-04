@@ -165,4 +165,35 @@ int File::GetObjectType() const
 	return Seed::TypeFile;
 }
 
+FileLoad::FileLoad(const String &filename, u32 name, IEventJobListener *listener)
+	: Job(name, listener)
+	, sFilename(filename)
+{
+}
+
+FileLoad::~FileLoad()
+{
+	Delete(pFile);
+}
+
+bool FileLoad::Run()
+{
+	Log("Job Run %s", sFilename.c_str());
+	cMutex.Lock();
+	bool run = (nState == JobRunning);
+	cMutex.Unlock();
+
+	if (run)
+	{
+		pFile = New(File(sFilename));
+
+		cMutex.Lock();
+		nState = JobCompleted;
+		cMutex.Unlock();
+		Log("Job Run completed %s", sFilename.c_str());
+	}
+
+	return false;
+}
+
 } // namespace

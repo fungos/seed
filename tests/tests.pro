@@ -1,7 +1,16 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
-CONFIG += sdl
+CONFIG += glfw
+
+#TARGET_EXT = .bc
+#QMAKE_EXT_OBJ = .bc
+#QMAKE_CXXFLAGS += -emit-llvm
+QMAKE_CXX = clang++
+QMAKE_CC = clang
+#QMAKE_LIB = llvm-ld -link-as-library -o
+#QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
+#QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj
 
 INCLUDEPATH += ../include ../contrib
 
@@ -20,7 +29,7 @@ OTHER_FILES += \
 	bin/particles.sprite \
 	bin/teste.emitter \
 	bin/app.config \
-    bin/sound.sfx
+	bin/sound.sfx
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../tests/bin

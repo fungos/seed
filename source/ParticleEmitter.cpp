@@ -70,12 +70,13 @@ ParticleEmitter::ParticleEmitter()
 	, nMinFilter(TextureFilterLinear)
 	, nMagFilter(TextureFilterLinear)
 	, cVertexBuffer()
-    , pVertex(NULL)
+	, pVertex(NULL)
 	, iVertexAmount(0)
 	, bParticlesFollowEmitter(false)
 	, bPaused(false)
 	, bEnabled(true)
 	, bAutoPlay(false)
+	, bInitialized(false)
 {
 	cVertexBuffer.Configure(BufferTargetArray, BufferUsageEveryFrameChange);
 }
@@ -94,6 +95,10 @@ bool ParticleEmitter::Unload()
 
 	fInterval = 0.0f;
 	iAnimation = 0;
+	bInitialized = false;
+	bAutoPlay = false;
+	bEnabled = true;
+	bPaused = false;
 
 	memset(&cEmitter,'\0', sizeof(cEmitter));
 
@@ -111,10 +116,14 @@ void ParticleEmitter::Reset()
 	fAge = -2.0f;
 	fRespawnAge = 0.0f;
 	bPaused = false;
+	bInitialized = false;
 }
 
 void ParticleEmitter::Update(f32 deltaTime)
 {
+	if (!bInitialized)
+		return;
+
 	if (!(bEnabled && !bPaused))
 		return;
 
@@ -495,8 +504,6 @@ const EmitterConfiguration &ParticleEmitter::GetConfig() const
 
 bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 {
-	bool ret = false;
-
 	this->Unload();
 
 	if (bEnabled)
@@ -566,13 +573,13 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 		iParticlesAmount = cEmitter.iEmission;
 		arParticles = NewArray(Particle, iParticlesAmount);
 		pVertex = (sVertex *)Alloc(sizeof(sVertex) * iParticlesAmount * 6);
+		bInitialized = true;
+
 		if (bAutoPlay)
 			this->Play();
-
-		ret = true;
 	}
 
-	return ret;
+	return bInitialized;
 }
 
 bool ParticleEmitter::Write(Writer &writer)

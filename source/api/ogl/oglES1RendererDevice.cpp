@@ -71,7 +71,7 @@
 	#define GL_ENABLE_BIT 0
 	#define GL_CURRENT_BIT 0
 #else
-	#if defined(__APPLE_CC__)
+	#if defined(__APPLE_CC__) || defined(BUILD_GLFW)
 		#define PIXEL_FORMAT_32 GL_RGBA
 	#else
 		#define PIXEL_FORMAT_32 GL_BGRA
@@ -117,7 +117,9 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 #if defined(USE_API_GLEW)
 	GLenum err = glewInit();
 	if (GLEW_OK != err)
+	{
 		Log(TAG "Error: %s\n", glewGetErrorString(err));
+	}
 
 	if (GLEW_ARB_texture_non_power_of_two)
 		bNeedPowerOfTwoTexture = false;

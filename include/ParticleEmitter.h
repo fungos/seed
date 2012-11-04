@@ -186,6 +186,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		bool					bPaused;
 		bool					bEnabled;
 		bool					bAutoPlay;
+		bool					bInitialized;
 };
 
 } // namespace

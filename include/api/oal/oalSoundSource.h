@@ -35,10 +35,7 @@
 
 #if defined(USE_API_OAL)
 
-#include "Sound.h"
 #include "interface/ISoundSource.h"
-#include "interface/ISound.h"
-#include "Reader.h"
 
 #if defined(__APPLE_CC__)
 #include <OpenAL/al.h>
@@ -79,7 +76,7 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		SEED_DISABLE_COPY(SoundSource);
 
 	private:
-		ALuint			iSource;
+		ALuint iSource;
 };
 
 }} // namespace

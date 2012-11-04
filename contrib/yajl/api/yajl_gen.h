@@ -26,6 +26,10 @@
 
 #include <stddef.h>
 
+#if defined(__linux)
+#include <sys/types.h>
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -121,7 +125,7 @@ extern "C" {
 	YAJL_API void yajl_gen_free(yajl_gen handle);
 
 //	YAJL_API yajl_gen_status yajl_gen_integer(yajl_gen hand, long long int number);
-    YAJL_API yajl_gen_status yajl_gen_integer(yajl_gen hand, int64_t number);
+	YAJL_API yajl_gen_status yajl_gen_integer(yajl_gen hand, int64_t number);
 	/** generate a floating point number.  number may not be infinity or
 	 *  NaN, as these have no representation in JSON.  In these cases the
 	 *  generator will return 'yajl_gen_invalid_number' */

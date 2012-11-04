@@ -46,7 +46,8 @@ enum eEventId
 	EventIdSystem,
 	EventIdResourceLoader,
 	EventIdFileSystem,
-	EventIdMovie
+	EventIdMovie,
+	EventIdJob
 };
 
 /// Base Event
@@ -61,6 +62,7 @@ class SEED_CORE_API IEvent : public IObject
 			TypeSystem			= 3,
 			TypeResource		= 4,
 			TypeMovie			= 5,
+			TypeJob				= 6,
 			TypeUser			= 0x1000
 		};
 

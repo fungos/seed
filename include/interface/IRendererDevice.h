@@ -39,7 +39,7 @@ namespace Seed {
 
 class IRenderer;
 class ITexture;
-class IVertexBuffer;
+struct IVertexBuffer;
 
 /// Rendering device interface
 class SEED_CORE_API IRendererDevice : public IModule

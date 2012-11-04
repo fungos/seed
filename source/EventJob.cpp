@@ -28,70 +28,34 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RESOURCEGROUP_H__
-#define __RESOURCEGROUP_H__
-
-#include "Log.h"
-#include "Enum.h"
-#include "Container.h"
+#include "EventJob.h"
 
 namespace Seed {
 
-class IResource;
-
-/// Group of Resources for Loading
-class SEED_CORE_API ResourceGroup
+EventJob::EventJob(Job *job, u32 name)
+	: IEvent(TypeJob, EventIdJob)
+	, pJob(job)
+	, iName(name)
 {
-	friend class ResourceLoader;
+}
 
-	public:
-		ResourceGroup();
-		virtual ~ResourceGroup();
+EventJob::~EventJob()
+{
+}
 
-		void Add(const String &filename, Seed::eObjectType resourceType = Seed::TypeSprite, ResourceManager *res = pResourceManager);
+u32 EventJob::GetName() const
+{
+	return iName;
+}
 
-	protected:
-		/// Item for loading with Resource Group
-		typedef struct SEED_CORE_API QueueItem
-		{
-			String				filename;
-			IResource			*resource;
-			Seed::eObjectType 	resourceType;
-			ResourceManager		*resManager;
-			u32					startTime;
-			bool				erased;
+Job *EventJob::GetJob() const
+{
+	return pJob;
+}
 
-			QueueItem()
-				: filename()
-				, resource(NULL)
-				, resourceType()
-				, resManager(NULL)
-				, startTime(0)
-				, erased(false)
-			{}
-
-			SEED_DISABLE_COPY(QueueItem);
-
-		} QueueItem;
-
-		typedef Vector<QueueItem *>		QueueVector;
-		typedef QueueVector::iterator	QueueVectorIterator;
-
-	protected:
-		bool Load();
-		bool Unload();
-
-		void SetLoaded();
-		bool IsLoaded() const;
-
-	protected:
-		QueueVector		queue;
-		bool			bLoaded;
-
-	private:
-		SEED_DISABLE_COPY(ResourceGroup);
-};
+const String EventJob::GetObjectName() const
+{
+	return "EventJob";
+}
 
 } // namespace
-
-#endif // __RESOURCEGROUP_H__

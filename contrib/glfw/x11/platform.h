@@ -44,8 +44,8 @@
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <X11/Xatom.h>
+#include <glfw/glfw.h>
 #include <GL/glx.h>
-#include "../../include/GL/glfw.h"
 
 // Do we have pthread support?
 #ifdef _GLFW_HAS_PTHREAD
@@ -102,18 +102,18 @@
 
  // Macro for querying the number of processors
  #define _glfw_numprocessors(n) { \
-    int mib[2], ncpu; \
-    size_t len = 1; \
-    mib[0] = CTL_HW; \
-    mib[1] = HW_NCPU; \
-    n      = 1; \
-    if( sysctl( mib, 2, &ncpu, &len, NULL, 0 ) != -1 ) \
-    { \
-        if( len > 0 ) \
-        { \
-            n = ncpu; \
-        } \
-    } \
+	int mib[2], ncpu; \
+	size_t len = 1; \
+	mib[0] = CTL_HW; \
+	mib[1] = HW_NCPU; \
+	n      = 1; \
+	if( sysctl( mib, 2, &ncpu, &len, NULL, 0 ) != -1 ) \
+	{ \
+		if( len > 0 ) \
+		{ \
+			n = ncpu; \
+		} \
+	} \
  }
 
 #else
@@ -215,114 +215,114 @@ struct _GLFWwin_struct {
 
 // ========= PLATFORM INDEPENDENT MANDATORY PART =========================
 
-    // User callback functions
-    GLFWwindowsizefun    windowSizeCallback;
-    GLFWwindowclosefun   windowCloseCallback;
-    GLFWwindowrefreshfun windowRefreshCallback;
-    GLFWmousebuttonfun   mouseButtonCallback;
-    GLFWmouseposfun      mousePosCallback;
-    GLFWmousewheelfun    mouseWheelCallback;
-    GLFWkeyfun           keyCallback;
-    GLFWcharfun          charCallback;
+	// User callback functions
+	GLFWwindowsizefun    windowSizeCallback;
+	GLFWwindowclosefun   windowCloseCallback;
+	GLFWwindowrefreshfun windowRefreshCallback;
+	GLFWmousebuttonfun   mouseButtonCallback;
+	GLFWmouseposfun      mousePosCallback;
+	GLFWmousewheelfun    mouseWheelCallback;
+	GLFWkeyfun           keyCallback;
+	GLFWcharfun          charCallback;
 
-    // User selected window settings
-    int       fullscreen;      // Fullscreen flag
-    int       mouseLock;       // Mouse-lock flag
-    int       autoPollEvents;  // Auto polling flag
-    int       sysKeysDisabled; // System keys disabled flag
-    int       windowNoResize;  // Resize- and maximize gadgets disabled flag
-    int       refreshRate;     // Vertical monitor refresh rate
+	// User selected window settings
+	int       fullscreen;      // Fullscreen flag
+	int       mouseLock;       // Mouse-lock flag
+	int       autoPollEvents;  // Auto polling flag
+	int       sysKeysDisabled; // System keys disabled flag
+	int       windowNoResize;  // Resize- and maximize gadgets disabled flag
+	int       refreshRate;     // Vertical monitor refresh rate
 
-    // Window status & parameters
-    int       opened;          // Flag telling if window is opened or not
-    int       active;          // Application active flag
-    int       iconified;       // Window iconified flag
-    int       width, height;   // Window width and heigth
-    int       accelerated;     // GL_TRUE if window is HW accelerated
+	// Window status & parameters
+	int       opened;          // Flag telling if window is opened or not
+	int       active;          // Application active flag
+	int       iconified;       // Window iconified flag
+	int       width, height;   // Window width and heigth
+	int       accelerated;     // GL_TRUE if window is HW accelerated
 
-    // Framebuffer attributes
-    int       redBits;
-    int       greenBits;
-    int       blueBits;
-    int       alphaBits;
-    int       depthBits;
-    int       stencilBits;
-    int       accumRedBits;
-    int       accumGreenBits;
-    int       accumBlueBits;
-    int       accumAlphaBits;
-    int       auxBuffers;
-    int       stereo;
-    int       samples;
+	// Framebuffer attributes
+	int       redBits;
+	int       greenBits;
+	int       blueBits;
+	int       alphaBits;
+	int       depthBits;
+	int       stencilBits;
+	int       accumRedBits;
+	int       accumGreenBits;
+	int       accumBlueBits;
+	int       accumAlphaBits;
+	int       auxBuffers;
+	int       stereo;
+	int       samples;
 
-    // OpenGL extensions and context attributes
-    int       has_GL_SGIS_generate_mipmap;
-    int       has_GL_ARB_texture_non_power_of_two;
-    int       glMajor, glMinor, glRevision;
-    int       glForward, glDebug, glProfile;
+	// OpenGL extensions and context attributes
+	int       has_GL_SGIS_generate_mipmap;
+	int       has_GL_ARB_texture_non_power_of_two;
+	int       glMajor, glMinor, glRevision;
+	int       glForward, glDebug, glProfile;
 
-    PFNGLGETSTRINGIPROC GetStringi;
+	PFNGLGETSTRINGIPROC GetStringi;
 
 
 // ========= PLATFORM SPECIFIC PART ======================================
 
-    // Platform specific window resources
-    Colormap      colormap;          // Window colormap
-    Window        window;            // Window
-    Window        root;              // Root window for screen
-    int           screen;            // Screen ID
-    XVisualInfo  *visual;            // Visual for selected GLXFBConfig
-    GLXFBConfigID fbconfigID;        // ID of selected GLXFBConfig
-    GLXContext    context;           // OpenGL rendering context
-    Atom          wmDeleteWindow;    // WM_DELETE_WINDOW atom
-    Atom          wmPing;            // _NET_WM_PING atom
-    Atom          wmState;           // _NET_WM_STATE atom
-    Atom          wmStateFullscreen; // _NET_WM_STATE_FULLSCREEN atom
-    Atom          wmActiveWindow;    // _NET_ACTIVE_WINDOW atom
-    Cursor        cursor;            // Invisible cursor for hidden cursor
+	// Platform specific window resources
+	Colormap      colormap;          // Window colormap
+	Window        window;            // Window
+	Window        root;              // Root window for screen
+	int           screen;            // Screen ID
+	XVisualInfo  *visual;            // Visual for selected GLXFBConfig
+	GLXFBConfigID fbconfigID;        // ID of selected GLXFBConfig
+	GLXContext    context;           // OpenGL rendering context
+	Atom          wmDeleteWindow;    // WM_DELETE_WINDOW atom
+	Atom          wmPing;            // _NET_WM_PING atom
+	Atom          wmState;           // _NET_WM_STATE atom
+	Atom          wmStateFullscreen; // _NET_WM_STATE_FULLSCREEN atom
+	Atom          wmActiveWindow;    // _NET_ACTIVE_WINDOW atom
+	Cursor        cursor;            // Invisible cursor for hidden cursor
 
-    // GLX extensions
-    PFNGLXSWAPINTERVALSGIPROC             SwapIntervalSGI;
-    PFNGLXGETFBCONFIGATTRIBSGIXPROC       GetFBConfigAttribSGIX;
-    PFNGLXCHOOSEFBCONFIGSGIXPROC          ChooseFBConfigSGIX;
-    PFNGLXCREATECONTEXTWITHCONFIGSGIXPROC CreateContextWithConfigSGIX;
-    PFNGLXGETVISUALFROMFBCONFIGSGIXPROC   GetVisualFromFBConfigSGIX;
-    PFNGLXCREATECONTEXTATTRIBSARBPROC     CreateContextAttribsARB;
-    GLboolean   has_GLX_SGIX_fbconfig;
-    GLboolean   has_GLX_SGI_swap_control;
-    GLboolean   has_GLX_ARB_multisample;
-    GLboolean   has_GLX_ARB_create_context;
-    GLboolean   has_GLX_ARB_create_context_profile;
+	// GLX extensions
+	PFNGLXSWAPINTERVALSGIPROC             SwapIntervalSGI;
+	PFNGLXGETFBCONFIGATTRIBSGIXPROC       GetFBConfigAttribSGIX;
+	PFNGLXCHOOSEFBCONFIGSGIXPROC          ChooseFBConfigSGIX;
+	PFNGLXCREATECONTEXTWITHCONFIGSGIXPROC CreateContextWithConfigSGIX;
+	PFNGLXGETVISUALFROMFBCONFIGSGIXPROC   GetVisualFromFBConfigSGIX;
+	PFNGLXCREATECONTEXTATTRIBSARBPROC     CreateContextAttribsARB;
+	GLboolean   has_GLX_SGIX_fbconfig;
+	GLboolean   has_GLX_SGI_swap_control;
+	GLboolean   has_GLX_ARB_multisample;
+	GLboolean   has_GLX_ARB_create_context;
+	GLboolean   has_GLX_ARB_create_context_profile;
 
-    // Various platform specific internal variables
-    GLboolean   hasEWMH;          // True if window manager supports EWMH
-    GLboolean   overrideRedirect; // True if window is OverrideRedirect
-    GLboolean   keyboardGrabbed;  // True if keyboard is currently grabbed
-    GLboolean   pointerGrabbed;   // True if pointer is currently grabbed
-    GLboolean   pointerHidden;    // True if pointer is currently hidden
+	// Various platform specific internal variables
+	GLboolean   hasEWMH;          // True if window manager supports EWMH
+	GLboolean   overrideRedirect; // True if window is OverrideRedirect
+	GLboolean   keyboardGrabbed;  // True if keyboard is currently grabbed
+	GLboolean   pointerGrabbed;   // True if pointer is currently grabbed
+	GLboolean   pointerHidden;    // True if pointer is currently hidden
 
-    // Screensaver data
-    struct {
-        int     changed;
-        int     timeout;
-        int     interval;
-        int     blanking;
-        int     exposure;
-    } Saver;
+	// Screensaver data
+	struct {
+		int     changed;
+		int     timeout;
+		int     interval;
+		int     blanking;
+		int     exposure;
+	} Saver;
 
-    // Fullscreen data
-    struct {
-        int     modeChanged;
+	// Fullscreen data
+	struct {
+		int     modeChanged;
 #if defined( _GLFW_HAS_XF86VIDMODE )
-        XF86VidModeModeInfo oldMode;
+		XF86VidModeModeInfo oldMode;
 #endif
 #if defined( _GLFW_HAS_XRANDR )
-        SizeID   oldSizeID;
-        int      oldWidth;
-        int      oldHeight;
-        Rotation oldRotation;
+		SizeID   oldSizeID;
+		int      oldWidth;
+		int      oldHeight;
+		Rotation oldRotation;
 #endif
-    } FS;
+	} FS;
 };
 
 GLFWGLOBAL _GLFWwin _glfwWin;
@@ -335,25 +335,25 @@ GLFWGLOBAL struct {
 
 // ========= PLATFORM INDEPENDENT MANDATORY PART =========================
 
-    // Mouse status
-    int  MousePosX, MousePosY;
-    int  WheelPos;
-    char MouseButton[ GLFW_MOUSE_BUTTON_LAST+1 ];
+	// Mouse status
+	int  MousePosX, MousePosY;
+	int  WheelPos;
+	char MouseButton[ GLFW_MOUSE_BUTTON_LAST+1 ];
 
-    // Keyboard status
-    char Key[ GLFW_KEY_LAST+1 ];
-    int  LastChar;
+	// Keyboard status
+	char Key[ GLFW_KEY_LAST+1 ];
+	int  LastChar;
 
-    // User selected settings
-    int  StickyKeys;
-    int  StickyMouseButtons;
-    int  KeyRepeat;
+	// User selected settings
+	int  StickyKeys;
+	int  StickyMouseButtons;
+	int  KeyRepeat;
 
 
 // ========= PLATFORM SPECIFIC PART ======================================
 
-    // Platform specific internal variables
-    int  MouseMoved, CursorPosX, CursorPosY;
+	// Platform specific internal variables
+	int  MouseMoved, CursorPosX, CursorPosY;
 
 } _glfwInput;
 
@@ -365,42 +365,42 @@ GLFWGLOBAL struct {
 
 // ========= PLATFORM INDEPENDENT MANDATORY PART =========================
 
-    // Window opening hints
-    _GLFWhints      hints;
+	// Window opening hints
+	_GLFWhints      hints;
 
-    // Initial desktop mode
-    GLFWvidmode     desktopMode;
+	// Initial desktop mode
+	GLFWvidmode     desktopMode;
 
 // ========= PLATFORM SPECIFIC PART ======================================
 
-    Display        *display;
+	Display        *display;
 
-    // Server-side GLX version
-    int             glxMajor, glxMinor;
+	// Server-side GLX version
+	int             glxMajor, glxMinor;
 
-    struct {
-        int         available;
-        int         eventBase;
-        int         errorBase;
-    } XF86VidMode;
+	struct {
+		int         available;
+		int         eventBase;
+		int         errorBase;
+	} XF86VidMode;
 
-    struct {
-        int         available;
-        int         eventBase;
-        int         errorBase;
-    } XRandR;
+	struct {
+		int         available;
+		int         eventBase;
+		int         errorBase;
+	} XRandR;
 
-    // Timer data
-    struct {
-        GLboolean   monotonic;
-        double      resolution;
-        long long   base;
-    } Timer;
+	// Timer data
+	struct {
+		GLboolean   monotonic;
+		double      resolution;
+		long long   base;
+	} Timer;
 
 #if defined(_GLFW_HAS_DLOPEN)
-    struct {
-        void       *libGL;  // dlopen handle for libGL.so
-    } Libs;
+	struct {
+		void       *libGL;  // dlopen handle for libGL.so
+	} Libs;
 #endif
 } _glfwLibrary;
 
@@ -414,18 +414,18 @@ struct _GLFWthread_struct {
 
 // ========= PLATFORM INDEPENDENT MANDATORY PART =========================
 
-    // Pointer to previous and next threads in linked list
-    _GLFWthread   *Previous, *Next;
+	// Pointer to previous and next threads in linked list
+	_GLFWthread   *Previous, *Next;
 
-    // GLFW user side thread information
-    GLFWthread    ID;
-    GLFWthreadfun Function;
+	// GLFW user side thread information
+	GLFWthread    ID;
+	GLFWthreadfun Function;
 
 // ========= PLATFORM SPECIFIC PART ======================================
 
-    // System side thread information
+	// System side thread information
 #ifdef _GLFW_HAS_PTHREAD
-    pthread_t     PosixID;
+	pthread_t     PosixID;
 #endif
 
 };
@@ -438,17 +438,17 @@ GLFWGLOBAL struct {
 
 // ========= PLATFORM INDEPENDENT MANDATORY PART =========================
 
-    // Next thread ID to use (increments for every created thread)
-    GLFWthread       NextID;
+	// Next thread ID to use (increments for every created thread)
+	GLFWthread       NextID;
 
-    // First thread in linked list (always the main thread)
-    _GLFWthread      First;
+	// First thread in linked list (always the main thread)
+	_GLFWthread      First;
 
 // ========= PLATFORM SPECIFIC PART ======================================
 
-    // Critical section lock
+	// Critical section lock
 #ifdef _GLFW_HAS_PTHREAD
-    pthread_mutex_t  CriticalSection;
+	pthread_mutex_t  CriticalSection;
 #endif
 
 } _glfwThrd;
@@ -458,12 +458,12 @@ GLFWGLOBAL struct {
 // Joystick information & state
 //------------------------------------------------------------------------
 GLFWGLOBAL struct {
-    int           Present;
-    int           fd;
-    int           NumAxes;
-    int           NumButtons;
-    float         *Axis;
-    unsigned char *Button;
+	int           Present;
+	int           fd;
+	int           NumAxes;
+	int           NumButtons;
+	float         *Axis;
+	unsigned char *Button;
 } _glfwJoy[ GLFW_JOYSTICK_LAST + 1 ];
 
 
@@ -475,9 +475,9 @@ GLFWGLOBAL struct {
 // Thread list management
 #ifdef _GLFW_HAS_PTHREAD
  #define ENTER_THREAD_CRITICAL_SECTION \
-         pthread_mutex_lock( &_glfwThrd.CriticalSection );
+		 pthread_mutex_lock( &_glfwThrd.CriticalSection );
  #define LEAVE_THREAD_CRITICAL_SECTION \
-         pthread_mutex_unlock( &_glfwThrd.CriticalSection );
+		 pthread_mutex_unlock( &_glfwThrd.CriticalSection );
 #else
  #define ENTER_THREAD_CRITICAL_SECTION
  #define LEAVE_THREAD_CRITICAL_SECTION

@@ -33,7 +33,6 @@
 
 #include "IModule.h"
 #include "IUpdatable.h"
-#include "ISoundSource.h"
 #include "Container.h"
 
 #define DEFAULT_FADE_OUT		15
@@ -42,6 +41,7 @@ namespace Seed {
 
 class ISound;
 class IMusic;
+class ISoundSource;
 
 /// Sound interface
 /**

@@ -51,13 +51,18 @@ void Thread::Create(s32 priority)
 	this->iPriority = priority;
 
 	IThread::Create(priority);
+
+#if (SEED_USE_THREAD == 1)
 	QThread::start(static_cast<QThread::Priority>(iPriority));
+#endif
 }
 
 void Thread::Destroy()
 {
 	IThread::Destroy();
+#if (SEED_USE_THREAD == 1)
 	QThread::terminate();
+#endif
 }
 
 bool Thread::Run()

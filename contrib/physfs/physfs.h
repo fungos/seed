@@ -216,10 +216,15 @@
 #ifndef _INCLUDE_PHYSFS_H_
 #define _INCLUDE_PHYSFS_H_
 
+#if defined(__linux)
+#include <sys/types.h>
+typedef unsigned long uint64_t;
+#endif
+
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 #ifndef DOXYGEN_SHOULD_IGNORE_THIS
 #if (defined _MSC_VER)
 #define __EXPORT__ __declspec(dllexport)
@@ -288,8 +293,8 @@ typedef PHYSFS_sint32         PHYSFS_sint64;
 typedef signed __int64        PHYSFS_sint64;
 typedef unsigned __int64      PHYSFS_uint64;
 #else
-    
-#if !defined(int64_t)
+
+#if !defined(int64_t) && !defined(__linux)
 typedef long long int64_t;
 typedef unsigned long long uint64_t;
 #endif

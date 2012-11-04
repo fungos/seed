@@ -33,7 +33,9 @@
 
 #if defined(BUILD_IOS)
 
+#if (SEED_USE_THREAD == 1)
 #include <pthread.h>
+#endif
 
 #include "Defines.h"
 #include "interface/IThread.h"
@@ -57,7 +59,10 @@ class Thread : public IThread
 	private:
 		bool bCreated;
 		bool bRunning;
+
+#if (SEED_USE_THREAD == 1)
 		pthread_t thread;
+#endif
 };
 
 }} // namespace

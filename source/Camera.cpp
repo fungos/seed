@@ -181,7 +181,7 @@ bool Camera::Unload()
 
 bool Camera::Load(Reader &reader, ResourceManager *res)
 {
-	SEED_ASSERT(res);
+	UNUSED(res);
 
 	bool ret = false;
 

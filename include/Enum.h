@@ -57,6 +57,8 @@ enum eObjectType
 	// Managers
 	TypeViewManager,
 	TypeRendererManager,
+	TypeJobManager,
+	TypeThreadManager,
 
 	// System
 	TypeFile,
@@ -371,10 +373,10 @@ enum eMeshType
 {
 	Triangles,
 	TriangleStrip,
-    TriangleFan,
-    Line,
+	TriangleFan,
+	Line,
 	LineStrip,
-    LineLoop,
+	LineLoop,
 	MeshTypeCount
 };
 
@@ -528,30 +530,12 @@ enum ePlayableState
 	PlayablePlaying
 };
 
-enum eWidgetEventType
+enum eJobState
 {
-	WidgetEventNone,
-	WidgetEventFocusLost,
-	WidgetEventFocusReceived,
-	WidgetEventOver,
-	WidgetEventOut,
-	WidgetEventPressedOut,
-	WidgetEventReleasedOut,
-	WidgetEventPressed,
-	WidgetEventReleased,
-	WidgetEventDrag,
-	WidgetEventDrop
-};
-
-enum eWidgetState
-{
-	WidgetStateNone,
-	WidgetStateFocused,
-	WidgetStateOver,
-	WidgetStatePressed,
-	WidgetStatePressedOver,
-	WidgetStatePressedOut,
-	WidgetStateDrag
+	JobStopped,
+	JobRunning,
+	JobAborted,
+	JobCompleted
 };
 
 } // namespace

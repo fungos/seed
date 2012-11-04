@@ -36,6 +36,7 @@
 
 namespace Seed { namespace SDL {
 
+#if (SEED_USE_THREAD == 1)
 static int __seed_thread_loop_callback(void *param)
 {
 	Thread *pt = static_cast<Thread *>(param);
@@ -44,6 +45,7 @@ static int __seed_thread_loop_callback(void *param)
 	pt->Destroy(); // Sera q fode?
 	return 0;
 }
+#endif
 
 Thread::Thread()
 	: bRunning(true)
@@ -59,13 +61,17 @@ Thread::~Thread()
 void Thread::Create(s32 priority)
 {
 	UNUSED(priority);
-
 	bRunning = true;
+
+#if (SEED_USE_THREAD == 1)
 	if (!pThread)
 	{
 		pThread = SDL_CreateThread(__seed_thread_loop_callback, this);
 		SEED_ASSERT_MSG(pThread != NULL, TAG "Failed to create thread.");
 	}
+#else
+	IThread::Create(priority);
+#endif
 }
 
 void Thread::Destroy()
@@ -74,11 +80,15 @@ void Thread::Destroy()
 
 	if (pThread)
 	{
+#if (SEED_USE_THREAD == 1)
 #if defined(__APPLE_CC__)
 		SDL_WaitThread(pThread, NULL);
 #else
 		SDL_KillThread(pThread);
 #endif
+#else
+	IThread::Destroy();
+#endif // SEED_USE_THREAD
 	}
 
 	pThread = NULL;

@@ -41,7 +41,10 @@
 namespace Seed { namespace QT {
 
 /// Qt Thread
-class Thread : public IThread, public QThread
+class Thread : public IThread
+#if (SEED_USE_THREAD == 1)
+	, public QThread
+#endif
 {
 	public:
 		Thread();

@@ -295,6 +295,7 @@ int
 oggplay_callback_cmml (OGGZ * oggz, ogg_packet * op, long serialno,
 					   void * user_data) {
 
+  (void)serialno;
   OggPlayCmmlDecode * decoder     = (OggPlayCmmlDecode *)user_data;
   OggPlayDecode     * common      = NULL;
   ogg_int64_t         granulepos  = oggz_tell_granulepos (oggz);
@@ -372,7 +373,8 @@ static inline ogg_int64_t extract_int64(unsigned char *data) {
 int
 oggplay_callback_skel (OGGZ * oggz, ogg_packet * op, long serialno,
 					   void * user_data) {
-
+  (void)oggz;
+  (void)serialno;
   OggPlaySkeletonDecode * decoder = (OggPlaySkeletonDecode *)user_data;
 
   /* check whether user_input is valid */
@@ -589,6 +591,7 @@ oggplay_callback_audio (OGGZ * oggz, ogg_packet * op, long serialno,
 void
 oggplay_init_kate(void *user_data) {
 
+  (void)user_data;
 #ifdef HAVE_KATE
   int ret;
   OggPlayKateDecode   * decoder     = (OggPlayKateDecode *)user_data;
@@ -624,6 +627,7 @@ oggplay_init_kate(void *user_data) {
 void
 oggplay_shutdown_kate(void *user_data) {
 
+  (void)user_data;
 #ifdef HAVE_KATE
   OggPlayKateDecode   * decoder = (OggPlayKateDecode *)user_data;
 
@@ -650,6 +654,10 @@ int
 oggplay_callback_kate (OGGZ * oggz, ogg_packet * op, long serialno,
 					   void * user_data) {
 
+  (void)oggz;
+  (void)op;
+  (void)serialno;
+  (void)user_data;
 #ifdef HAVE_KATE
   OggPlayKateDecode     * decoder     = (OggPlayKateDecode *)user_data;
   OggPlayDecode         * common      = NULL;

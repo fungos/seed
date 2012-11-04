@@ -39,7 +39,7 @@
 namespace Seed {
 
 class ITexture;
-class VertexBuffer;
+struct VertexBuffer;
 
 /// Vertex Format
 struct sVertex

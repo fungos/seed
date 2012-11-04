@@ -28,70 +28,56 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RESOURCEGROUP_H__
-#define __RESOURCEGROUP_H__
-
-#include "Log.h"
-#include "Enum.h"
-#include "Container.h"
+#include "Job.h"
+#include "interface/IEventJobListener.h"
 
 namespace Seed {
 
-class IResource;
-
-/// Group of Resources for Loading
-class SEED_CORE_API ResourceGroup
+Job::Job(u32 name, IEventJobListener *listener)
+	: pListener(listener)
+	, nState(JobStopped)
+	, iName(name)
 {
-	friend class ResourceLoader;
+}
 
-	public:
-		ResourceGroup();
-		virtual ~ResourceGroup();
+Job::~Job()
+{
 
-		void Add(const String &filename, Seed::eObjectType resourceType = Seed::TypeSprite, ResourceManager *res = pResourceManager);
+}
 
-	protected:
-		/// Item for loading with Resource Group
-		typedef struct SEED_CORE_API QueueItem
-		{
-			String				filename;
-			IResource			*resource;
-			Seed::eObjectType 	resourceType;
-			ResourceManager		*resManager;
-			u32					startTime;
-			bool				erased;
+void Job::Create(s32 priority)
+{
+	Thread::Create(priority);
+	nState = JobRunning;
+}
 
-			QueueItem()
-				: filename()
-				, resource(NULL)
-				, resourceType()
-				, resManager(NULL)
-				, startTime(0)
-				, erased(false)
-			{}
+void Job::SetListener(IEventJobListener *listener)
+{
+	pListener = listener;
+}
 
-			SEED_DISABLE_COPY(QueueItem);
+void Job::Update(f32 dt)
+{
+	UNUSED(dt);
+}
 
-		} QueueItem;
+void Job::Abort()
+{
+	cMutex.Lock();
+	nState = JobAborted;
+	cMutex.Unlock();
 
-		typedef Vector<QueueItem *>		QueueVector;
-		typedef QueueVector::iterator	QueueVectorIterator;
+	Thread::Destroy();
+}
 
-	protected:
-		bool Load();
-		bool Unload();
+eJobState Job::GetState() const
+{
+	return nState;
+}
 
-		void SetLoaded();
-		bool IsLoaded() const;
-
-	protected:
-		QueueVector		queue;
-		bool			bLoaded;
-
-	private:
-		SEED_DISABLE_COPY(ResourceGroup);
-};
+bool Job::Run()
+{
+	return true;
+}
 
 } // namespace
-
-#endif // __RESOURCEGROUP_H__

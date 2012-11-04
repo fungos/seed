@@ -29,6 +29,7 @@
 */
 
 #include "interface/IThread.h"
+#include "ThreadManager.h"
 
 namespace Seed {
 
@@ -43,12 +44,21 @@ IThread::~IThread()
 void IThread::Create(s32 priority)
 {
 	UNUSED(priority)
+
+#if (SEED_USE_THREAD == 0)
+	pThreadManager->Add(this);
+#else
 	SEED_ABSTRACT_METHOD;
+#endif
 }
 
 void IThread::Destroy()
 {
+#if (SEED_USE_THREAD == 0)
+	pThreadManager->Remove(this);
+#else
 	SEED_ABSTRACT_METHOD;
+#endif
 }
 
 bool IThread::Run()

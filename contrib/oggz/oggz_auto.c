@@ -79,6 +79,7 @@ auto_speex (OGGZ * oggz, long serialno, unsigned char * data, long length, void 
   unsigned char * header = data;
   ogg_int64_t granule_rate = 0;
   int numheaders;
+  (void)user_data;
 
   if (length < 68) return 0;
 
@@ -102,6 +103,7 @@ auto_vorbis (OGGZ * oggz, long serialno, unsigned char * data, long length, void
 {
   unsigned char * header = data;
   ogg_int64_t granule_rate = 0;
+  (void)user_data;
 
   if (length < 30) return 0;
 
@@ -140,6 +142,7 @@ auto_theora (OGGZ * oggz, long serialno, unsigned char * data, long length, void
   ogg_int32_t fps_numerator, fps_denominator;
   char keyframe_granule_shift = 0;
   int keyframe_shift;
+  (void)user_data;
 
   /* TODO: this should check against 42 for the relevant version numbers */
   if (length < 41) return 0;
@@ -187,7 +190,9 @@ auto_annodex (OGGZ * oggz, long serialno, unsigned char * data, long length, voi
 {
   /* Apply a zero metric */
   oggz_set_granulerate (oggz, serialno, 0, 1);
-
+  (void)data;
+  (void)length;
+  (void)user_data;
   return 1;
 }
 
@@ -196,6 +201,7 @@ auto_anxdata (OGGZ * oggz, long serialno, unsigned char * data, long length, voi
 {
   unsigned char * header = data;
   ogg_int64_t granule_rate_numerator = 0, granule_rate_denominator = 0;
+  (void)user_data;
 
   if (length < 28) return 0;
 
@@ -214,6 +220,8 @@ auto_flac0 (OGGZ * oggz, long serialno, unsigned char * data, long length, void 
 {
   unsigned char * header = data;
   ogg_int64_t granule_rate = 0;
+  (void)length;
+  (void)user_data;
 
   granule_rate = (ogg_int64_t) (header[14] << 12) | (header[15] << 4) |
 			((header[16] >> 4)&0xf);
@@ -234,6 +242,7 @@ auto_flac (OGGZ * oggz, long serialno, unsigned char * data, long length, void *
   unsigned char * header = data;
   ogg_int64_t granule_rate = 0;
   int numheaders;
+  (void)user_data;
 
   if (length < 51) return 0;
 
@@ -260,6 +269,7 @@ auto_oggpcm2 (OGGZ * oggz, long serialno, unsigned char * data, long length, voi
 {
   unsigned char * header = data;
   ogg_int64_t granule_rate;
+  (void)user_data;
 
   if (length < 28) return 0;
 
@@ -281,6 +291,7 @@ auto_celt (OGGZ * oggz, long serialno, unsigned char * data, long length, void *
   unsigned char * header = data;
   ogg_int64_t granule_rate = 0;
   int numheaders;
+  (void)user_data;
 
   if (length < 56) return 0;
 
@@ -303,6 +314,7 @@ auto_cmml (OGGZ * oggz, long serialno, unsigned char * data, long length, void *
   unsigned char * header = data;
   ogg_int64_t granule_rate_numerator = 0, granule_rate_denominator = 0;
   int granuleshift;
+  (void)user_data;
 
   if (length < 28) return 0;
 
@@ -330,6 +342,7 @@ auto_kate (OGGZ * oggz, long serialno, unsigned char * data, long length, void *
   ogg_int32_t gps_numerator, gps_denominator;
   unsigned char granule_shift = 0;
   int numheaders;
+  (void)user_data;
 
   if (length < 64) return 0;
 
@@ -353,6 +366,7 @@ auto_dirac (OGGZ * oggz, long serialno, unsigned char * data, long length, void 
 {
   int granule_shift = 22; /* not a typo */
   dirac_info *info;
+  (void)user_data;
 
   info = (dirac_info *)oggz_malloc(sizeof(dirac_info));
   if (info == NULL) return -1;
@@ -381,6 +395,7 @@ auto_fisbone (OGGZ * oggz, long serialno, unsigned char * data, long length, voi
   long fisbone_serialno; /* The serialno referred to in this fisbone */
   ogg_int64_t granule_rate_numerator = 0, granule_rate_denominator = 0;
   int granuleshift, numheaders;
+  (void)user_data;
 
   if (length < 48) return 0;
 
@@ -409,7 +424,9 @@ static int
 auto_fishead (OGGZ * oggz, long serialno, unsigned char * data, long length, void * user_data)
 {
   oggz_set_granulerate (oggz, serialno, 0, 1);
-
+  (void)data;
+  (void)length;
+  (void)user_data;
   /* For skeleton, numheaders will get incremented as each header is seen */
   oggz_stream_set_numheaders (oggz, serialno, 1);
 
@@ -487,7 +504,7 @@ auto_calc_celt (ogg_int64_t now, oggz_stream_t *stream, ogg_packet *op) {
    * on the first (b_o_s) packet, set calculate_data to be the number
    * of celt frames per packet
    */
-
+  (void)op;
   auto_calc_celt_info_t *info
 		  = (auto_calc_celt_info_t *)stream->calculate_data;
 
@@ -610,6 +627,8 @@ static ogg_int64_t
 auto_rcalc_theora(ogg_int64_t next_packet_gp, oggz_stream_t *stream,
 				  ogg_packet *this_packet, ogg_packet *next_packet) {
 
+  (void)this_packet;
+  (void)next_packet;
   int keyframe = (int)(next_packet_gp >> stream->granuleshift);
   int offset = (int)(next_packet_gp - (keyframe << stream->granuleshift));
 

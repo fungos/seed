@@ -28,70 +28,52 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RESOURCEGROUP_H__
-#define __RESOURCEGROUP_H__
+#ifndef __JOBMANAGER_H__
+#define __JOBMANAGER_H__
 
-#include "Log.h"
-#include "Enum.h"
+#include "interface/IModule.h"
+#include "interface/IUpdatable.h"
+#include "Singleton.h"
 #include "Container.h"
 
 namespace Seed {
 
-class IResource;
+class Job;
+class IEventJobListener;
 
-/// Group of Resources for Loading
-class SEED_CORE_API ResourceGroup
+/// Job Manager
+class SEED_CORE_API JobManager : public IModule, public IUpdatable
 {
-	friend class ResourceLoader;
-
+	SEED_SINGLETON_DECLARE(JobManager)
+	DECLARE_CONTAINER_TYPE(Vector, Job)
 	public:
-		ResourceGroup();
-		virtual ~ResourceGroup();
+		virtual Job *Add(Job *job);
+		virtual void Remove(Job *job);
 
-		void Add(const String &filename, Seed::eObjectType resourceType = Seed::TypeSprite, ResourceManager *res = pResourceManager);
+		// IModule
+		virtual bool Initialize();
+		virtual bool Reset();
+		virtual bool Shutdown();
 
-	protected:
-		/// Item for loading with Resource Group
-		typedef struct SEED_CORE_API QueueItem
-		{
-			String				filename;
-			IResource			*resource;
-			Seed::eObjectType 	resourceType;
-			ResourceManager		*resManager;
-			u32					startTime;
-			bool				erased;
+		virtual void Disable();
+		virtual void Enable();
 
-			QueueItem()
-				: filename()
-				, resource(NULL)
-				, resourceType()
-				, resManager(NULL)
-				, startTime(0)
-				, erased(false)
-			{}
+		// IUpdatable
+		virtual bool Update(f32 dt);
 
-			SEED_DISABLE_COPY(QueueItem);
-
-		} QueueItem;
-
-		typedef Vector<QueueItem *>		QueueVector;
-		typedef QueueVector::iterator	QueueVectorIterator;
-
-	protected:
-		bool Load();
-		bool Unload();
-
-		void SetLoaded();
-		bool IsLoaded() const;
-
-	protected:
-		QueueVector		queue;
-		bool			bLoaded;
+		// IObject
+		virtual const String GetObjectName() const;
+		virtual int GetObjectType() const;
 
 	private:
-		SEED_DISABLE_COPY(ResourceGroup);
+		SEED_DISABLE_COPY(JobManager);
+
+		JobVector vJob;
+		bool bEnabled;
 };
+
+#define pJobManager JobManager::GetInstance()
 
 } // namespace
 
-#endif // __RESOURCEGROUP_H__
+#endif // __JOBMANAGER_H__

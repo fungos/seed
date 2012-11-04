@@ -37,6 +37,8 @@
 #include "System.h"
 #include "ResourceManager.h"
 #include "Sound.h"
+#include "SoundSource.h"
+#include "Music.h"
 #include "interface/IMusic.h"
 #include "interface/ISoundSource.h"
 #include "Timer.h"

@@ -35,8 +35,8 @@
 
 #if defined(BUILD_QT)
 
-#define FADE_OUT_COLOR  0xff
-#define FADE_OUT_SOLID  0xff
+#define FADE_OUT_COLOR	0xff
+#define FADE_OUT_SOLID	0xff
 #define FADE_OUT_TRANS	0x00
 
 #if defined(DEBUG)
@@ -47,13 +47,12 @@
 
 #include <QPainter>
 #include <QGraphicsScene>
-#include "QtScene.h"
 
-#include "Renderer.h"
 #include "Singleton.h"
 
 namespace Seed { namespace QT {
 
+class Scene;
 class IRenderer;
 
 /// Qt Screen Module
@@ -81,8 +80,8 @@ class Screen : public IScreen
 		virtual bool Shutdown();
 
 	protected:
-		u32		surfaceSize;
 		static Scene *pScene;
+		u32 surfaceSize;
 
 	private:
 		SEED_DISABLE_COPY(Screen);
@@ -102,13 +101,13 @@ class Screen : public IScreen
 			FADE_OUT
 		};
 
-		bool		bFullScreen;
-		s16 		iFadeStatus;
-		eFadeType 	fadeType;
 		u32			iHeight;
 		u32			iWidth;
-		u8			iBPP;
 		u32			iFlags;
+		eFadeType	fadeType;
+		s16			iFadeStatus;
+		u8			iBPP;
+		bool		bFullScreen;
 };
 
 #define pScreen Seed::QT::Screen::GetInstance()

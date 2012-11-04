@@ -50,9 +50,11 @@
 #include "RendererManager.h"
 #include "SceneManager.h"
 #include "RendererDevice.h"
+#include "JobManager.h"
 #include "Checksum.h"
 #include "Profiler.h"
 #include "Configuration.h"
+#include "ThreadManager.h"
 
 #include "Sprite.h"
 #include "Image.h"
@@ -91,7 +93,7 @@ int CommandLineParameter(const char **argv, int pos)
 	else if (!strcasecmp(param, "--no-trs"))
 	{
 		Private::bDisableThreadedResourceLoader = true;
-    }
+	}
 	else if (!strcasecmp(param, "--config"))
 	{
 		Private::sConfigFile = argv[pos + 1];
@@ -117,14 +119,14 @@ void SetGameApp(IGameApp *app, int argc, const char **argv)
 	Private::pApplication = app;
 	Private::sConfigFile = "app.config";
 	Private::bDisableSound = false;
-	
+
 #if defined(EMSCRIPTEN)
 	Private::bDisableThreadedResourceLoader = true;
 #else
 	Private::bDisableThreadedResourceLoader = false;
 #endif
 	pResourceManager = app->GetResourceManager();
-	
+
 	Seed::CommandLineParse(argc, argv);
 }
 
@@ -165,6 +167,7 @@ bool Initialize()
 	Info("");
 	Info(SEED_TAG "Build Configuration:");
 
+	Info(SEED_TAG "\tThreading: %s", SEED_USE_THREAD ? "Yes" : "No");
 	Info(SEED_TAG "\tTheora: %s", SEED_USE_THEORA ? "Yes" : "No");
 	Info(SEED_TAG "\tSingleton: %s", SEED_SINGLETON_HEAP ? "Heap" : "Stack");
 	Info(SEED_TAG "\tMusic Buffer: %d", SEED_MUSIC_STREAMING_BUFFER_SIZE);
@@ -190,9 +193,14 @@ bool Initialize()
 	if (!Private::bDisableSound)
 		ret = ret && pModuleManager->Add(pSoundSystem);
 
+#if (SEED_USE_THREAD == 1)
 	if (!Private::bDisableThreadedResourceLoader)
 		ret = ret && pModuleManager->Add(pResourceLoader);
-    
+#else
+	ret = ret && pModuleManager->Add(pThreadManager);
+#endif
+
+	ret = ret && pModuleManager->Add(pJobManager);
 	ret = ret && pModuleManager->Add(pInput);
 
 	pUpdater->Add(Private::pApplication);
@@ -200,15 +208,19 @@ bool Initialize()
 #if !defined(BUILD_IOS)
 	pUpdater->Add(pInput);
 #endif
-    
+
+#if (SEED_USE_THREAD == 1)
+	if (!Private::bDisableThreadedResourceLoader)
+		pUpdater->Add(pResourceLoader);
+#else
+	pUpdater->Add(pThreadManager);
+#endif
+
 	if (!Private::bDisableSound)
 		pUpdater->Add(pSoundSystem);
 
 	pUpdater->Add(pSystem);
-    
-	if (!Private::bDisableThreadedResourceLoader)
-		pUpdater->Add(pResourceLoader);
-    
+	pUpdater->Add(pJobManager);
 	pUpdater->Add(pRendererManager);
 	pUpdater->Add(pSceneManager);
 
@@ -268,8 +280,14 @@ void Shutdown()
 
 	pSceneObjectFactory->DestroyInstance();
 	pSceneManager->DestroyInstance();
+	pJobManager->DestroyInstance();
 	pInput->DestroyInstance();
 	pResourceLoader->DestroyInstance();
+
+#if (SEED_USE_THREAD == 0)
+	pThreadManager->DestroyInstance();
+#endif
+
 	pSoundSystem->DestroyInstance();
 	pRendererManager->DestroyInstance();
 	pViewManager->DestroyInstance();

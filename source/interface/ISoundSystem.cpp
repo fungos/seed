@@ -29,6 +29,7 @@
 */
 
 #include "interface/ISoundSystem.h"
+#include "interface/ISoundSource.h"
 #include "interface/IMusic.h"
 #include "Timer.h"
 

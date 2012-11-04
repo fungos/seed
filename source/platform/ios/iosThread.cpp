@@ -37,6 +37,7 @@
 
 namespace Seed { namespace iOS {
 
+#if (SEED_USE_THREAD == 1)
 static void *__seed_thread_loop_callback(void *param)
 {
 	Thread *pt = static_cast<Thread *>(param);
@@ -45,6 +46,7 @@ static void *__seed_thread_loop_callback(void *param)
 
 	return NULL;
 }
+#endif
 
 Thread::Thread()
 	: bCreated(false)
@@ -62,20 +64,32 @@ void Thread::Destroy()
 	bRunning = false;
 	if (bCreated)
 	{
+#if (SEED_USE_THREAD == 1)
 		pthread_exit(NULL);
+#endif
 		bCreated = false;
 	}
 	thread = 0;
+
+#if (SEED_USE_THREAD == 0)
+	IThread::Destroy();
+#endif
 }
 
 void Thread::Create()
 {
+#if (SEED_USE_THREAD == 0)
+	IThread::Create(0);
+#endif
+
 	bRunning = true;
 	if (!bCreated)
 	{
+#if (SEED_USE_THREAD == 1)
 		int err = pthread_create(&thread, 0, __seed_thread_loop_callback, (void *)this);
 		UNUSED(err);
 		SEED_ASSERT_MSG(err == 0, TAG "Failed to create thread.");
+#endif
 		bCreated = true;
 	}
 }

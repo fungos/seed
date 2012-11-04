@@ -28,70 +28,108 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RESOURCEGROUP_H__
-#define __RESOURCEGROUP_H__
+#if (SEED_USE_THREAD == 0)
 
+#include "ThreadManager.h"
+#include "Defines.h"
 #include "Log.h"
 #include "Enum.h"
-#include "Container.h"
+#include "interface/IThread.h"
+
+#define TAG		"[ThreadManager] "
 
 namespace Seed {
 
-class IResource;
+SEED_SINGLETON_DEFINE(ThreadManager)
 
-/// Group of Resources for Loading
-class SEED_CORE_API ResourceGroup
+ThreadManager::ThreadManager()
+	: vThread()
+	, bEnabled(true)
 {
-	friend class ResourceLoader;
+}
 
-	public:
-		ResourceGroup();
-		virtual ~ResourceGroup();
+ThreadManager::~ThreadManager()
+{
+	this->Reset();
+}
 
-		void Add(const String &filename, Seed::eObjectType resourceType = Seed::TypeSprite, ResourceManager *res = pResourceManager);
+bool ThreadManager::Initialize()
+{
+	return IModule::Initialize();
+}
 
-	protected:
-		/// Item for loading with Resource Group
-		typedef struct SEED_CORE_API QueueItem
+bool ThreadManager::Reset()
+{
+	IThreadVector().swap(vThread);
+	return true;
+}
+
+bool ThreadManager::Shutdown()
+{
+	this->Reset();
+	return IModule::Shutdown();
+}
+
+bool ThreadManager::Update(f32 dt)
+{
+	UNUSED(dt)
+	if (bEnabled)
+	{
+		IThreadVector completed;
+
+		IThreadVectorIterator it = vThread.begin();
+		IThreadVectorIterator end = vThread.end();
+		for (; it != end; ++it)
 		{
-			String				filename;
-			IResource			*resource;
-			Seed::eObjectType 	resourceType;
-			ResourceManager		*resManager;
-			u32					startTime;
-			bool				erased;
+			IThread *obj = (*it);
+			if (!obj->Run())
+			{
+				completed += obj;
+			}
+		}
 
-			QueueItem()
-				: filename()
-				, resource(NULL)
-				, resourceType()
-				, resManager(NULL)
-				, startTime(0)
-				, erased(false)
-			{}
+		it = completed.begin();
+		end = completed.end();
+		for (; it != end; ++it)
+		{
+			IThread *obj = (*it);
+			vThread -= obj;
+		}
+	}
 
-			SEED_DISABLE_COPY(QueueItem);
+	return true;
+}
 
-		} QueueItem;
+void ThreadManager::Add(IThread *obj)
+{
+	vThread += obj;
+}
 
-		typedef Vector<QueueItem *>		QueueVector;
-		typedef QueueVector::iterator	QueueVectorIterator;
+void ThreadManager::Remove(IThread *obj)
+{
+	vThread -= obj;
+}
 
-	protected:
-		bool Load();
-		bool Unload();
+void ThreadManager::Disable()
+{
+	bEnabled = false;
+}
 
-		void SetLoaded();
-		bool IsLoaded() const;
+void ThreadManager::Enable()
+{
+	bEnabled = true;
+}
 
-	protected:
-		QueueVector		queue;
-		bool			bLoaded;
+const String ThreadManager::GetObjectName() const
+{
+	return "ThreadManager";
+}
 
-	private:
-		SEED_DISABLE_COPY(ResourceGroup);
-};
+int ThreadManager::GetObjectType() const
+{
+	return Seed::TypeThreadManager;
+}
 
 } // namespace
 
-#endif // __RESOURCEGROUP_H__
+#endif // SEED_USE_THREAD

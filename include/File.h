@@ -34,6 +34,7 @@
 #include "Defines.h"
 #include "interface/IObject.h"
 #include "physfs/physfs.h"
+#include "Job.h"
 
 namespace Seed {
 
@@ -68,6 +69,18 @@ class SEED_CORE_API File : public IObject
 		PHYSFS_file		*pHandle;
 		mutable u8		*pData;
 		u32				iSize;
+};
+
+class SEED_CORE_API FileLoad : public Job
+{
+	public:
+		FileLoad(const String &filename, u32 name, IEventJobListener *listener);
+		virtual ~FileLoad();
+
+		virtual bool Run();
+
+		const String sFilename;
+		File *pFile;
 };
 
 } // namespace

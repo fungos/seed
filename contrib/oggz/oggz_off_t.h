@@ -51,6 +51,9 @@
 #else
 	#if defined(loff_t)
 		typedef loff_t oggz_off_t;
+	#elif defined(__linux)
+		#include <sys/types.h>
+		typedef __off64_t oggz_off_t;
 	#else
 		typedef _off64_t oggz_off_t;
 	#endif

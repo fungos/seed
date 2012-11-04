@@ -38,25 +38,33 @@ namespace Seed { namespace SDL {
 Mutex::Mutex()
 	: pMutex(NULL)
 {
+#if (SEED_USE_THREAD == 1)
 	pMutex = SDL_CreateMutex();
 	SEED_ASSERT(pMutex);
+#endif
 }
 
 Mutex::~Mutex()
 {
+#if (SEED_USE_THREAD == 1)
 	SDL_DestroyMutex(pMutex);
+#endif
 }
 
 void Mutex::Lock()
 {
+#if (SEED_USE_THREAD == 1)
 	IMutex::Lock();
 	SDL_mutexP(pMutex);
+#endif
 }
 
 void Mutex::Unlock()
 {
+#if (SEED_USE_THREAD == 1)
 	SDL_mutexV(pMutex);
 	IMutex::Unlock();
+#endif
 }
 
 }} // namespace
