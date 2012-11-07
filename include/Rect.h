@@ -236,7 +236,7 @@ template <class TYPE> class Rect
 		{
 			TYPE x = x2 - x1;
 			TYPE y = y2 - y1;
-			return static_cast<TYPE>(sqrtl(x * x + y * y) / 2.0f);
+			return static_cast<TYPE>(sqrt(x * x + y * y) / 2.0f); // sqrtl
 		}
 
 		void Print()

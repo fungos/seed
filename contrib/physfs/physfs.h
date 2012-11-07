@@ -218,7 +218,6 @@
 
 #if defined(__linux)
 #include <sys/types.h>
-typedef unsigned long uint64_t;
 #endif
 
 #ifdef __cplusplus
@@ -294,7 +293,9 @@ typedef signed __int64        PHYSFS_sint64;
 typedef unsigned __int64      PHYSFS_uint64;
 #else
 
-#if !defined(int64_t) && !defined(__linux)
+#if defined(__linux) && !defined(EMSCRIPTEN) 
+typedef unsigned long uint64_t;
+#elif !defined(int64_t) && !defined(__linux)
 typedef long long int64_t;
 typedef unsigned long long uint64_t;
 #endif

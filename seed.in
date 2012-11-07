@@ -132,4 +132,9 @@ SEED  = source/Viewport.o \
 		source/platform/glfw/glfwScreen.o \
 		source/platform/glfw/glfwMutex.o \
 		source/platform/glfw/glfwInput.o \
-		source/api/soil/soilTexture.o
+		source/api/soil/soilTexture.o \
+		source/EventJob.o \
+		source/Job.o \
+		source/JobManager.o \
+		source/ThreadManager.o \
+		source/interface/IEventJobListener.o

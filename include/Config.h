@@ -61,9 +61,9 @@
 //================================================================================
 // FEATURES CAPPING
 //================================================================================
-#define SEED_USE_THREAD						1
-#define SEED_USE_JSON						1
-#define SEED_USE_THEORA						0
+#define SEED_USE_THREAD					0
+#define SEED_USE_JSON					1
+#define SEED_USE_THEORA					0
 #define SEED_ENABLE_DEPTH_TEST				0
 #define SEED_USE_ROTATION_PIVOT				0
 #define SEED_USE_CENTERED_PIVOT				1
