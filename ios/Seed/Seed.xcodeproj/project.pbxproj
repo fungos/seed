@@ -1251,6 +1251,7 @@
 					"\"$(SRCROOT)/../../include\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -1277,6 +1278,7 @@
 					"\"$(SRCROOT)/../../include\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
 			};

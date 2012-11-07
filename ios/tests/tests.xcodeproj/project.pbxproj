@@ -18,26 +18,7 @@
 		D107B3D516430AB900E4A951 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D107B3D416430AB800E4A951 /* Default-568h@2x.png */; };
 		D107B3DF16430AB900E4A951 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D107B3DD16430AB900E4A951 /* ViewController_iPhone.xib */; };
 		D107B3E216430AB900E4A951 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D107B3E016430AB900E4A951 /* ViewController_iPad.xib */; };
-		D107B3FD1643116900E4A951 /* libseedcontrib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D107B3F016430B2A00E4A951 /* libseedcontrib.a */; };
-		D107B3FE1643116D00E4A951 /* libSeed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D107B3F916430B3100E4A951 /* libSeed.a */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		D107B3EF16430B2A00E4A951 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D107B3E816430B2A00E4A951 /* seedcontrib.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D103ED04163F131600267967;
-			remoteInfo = seedcontrib;
-		};
-		D107B3F816430B3100E4A951 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D107B3F116430B3100E4A951 /* Seed.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = D103E433163F11CB00267967;
-			remoteInfo = Seed;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		D107B3B616430AB800E4A951 /* tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -54,8 +35,6 @@
 		D107B3D416430AB800E4A951 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
 		D107B3DE16430AB900E4A951 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
 		D107B3E116430AB900E4A951 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
-		D107B3E816430B2A00E4A951 /* seedcontrib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = seedcontrib.xcodeproj; path = ../seedcontrib/seedcontrib.xcodeproj; sourceTree = "<group>"; };
-		D107B3F116430B3100E4A951 /* Seed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Seed.xcodeproj; path = ../Seed/Seed.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,8 +47,6 @@
 				D107B3BF16430AB800E4A951 /* CoreGraphics.framework in Frameworks */,
 				D107B3C116430AB800E4A951 /* GLKit.framework in Frameworks */,
 				D107B3C316430AB800E4A951 /* OpenGLES.framework in Frameworks */,
-				D107B3FD1643116900E4A951 /* libseedcontrib.a in Frameworks */,
-				D107B3FE1643116D00E4A951 /* libSeed.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -96,8 +73,6 @@
 		D107B3B916430AB800E4A951 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D107B3F116430B3100E4A951 /* Seed.xcodeproj */,
-				D107B3E816430B2A00E4A951 /* seedcontrib.xcodeproj */,
 				D107B3BA16430AB800E4A951 /* UIKit.framework */,
 				D107B3BC16430AB800E4A951 /* Foundation.framework */,
 				D107B3BE16430AB800E4A951 /* CoreGraphics.framework */,
@@ -128,22 +103,6 @@
 				D107B3D416430AB800E4A951 /* Default-568h@2x.png */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		D107B3E916430B2A00E4A951 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D107B3F016430B2A00E4A951 /* libseedcontrib.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		D107B3F216430B3100E4A951 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				D107B3F916430B3100E4A951 /* libSeed.a */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -185,39 +144,12 @@
 			mainGroup = D107B3AB16430AB800E4A951;
 			productRefGroup = D107B3B716430AB800E4A951 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = D107B3F216430B3100E4A951 /* Products */;
-					ProjectRef = D107B3F116430B3100E4A951 /* Seed.xcodeproj */;
-				},
-				{
-					ProductGroup = D107B3E916430B2A00E4A951 /* Products */;
-					ProjectRef = D107B3E816430B2A00E4A951 /* seedcontrib.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				D107B3B516430AB800E4A951 /* tests */,
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		D107B3F016430B2A00E4A951 /* libseedcontrib.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libseedcontrib.a;
-			remoteRef = D107B3EF16430B2A00E4A951 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		D107B3F916430B3100E4A951 /* libSeed.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libSeed.a;
-			remoteRef = D107B3F816430B3100E4A951 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D107B3B416430AB800E4A951 /* Resources */ = {
@@ -330,6 +262,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tests/tests-Prefix.pch";
 				INFOPLIST_FILE = "tests/tests-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -341,6 +274,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tests/tests-Prefix.pch";
 				INFOPLIST_FILE = "tests/tests-Info.plist";
+				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};

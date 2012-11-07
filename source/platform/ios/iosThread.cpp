@@ -69,9 +69,10 @@ void Thread::Destroy()
 #endif
 		bCreated = false;
 	}
-	thread = 0;
 
-#if (SEED_USE_THREAD == 0)
+#if (SEED_USE_THREAD == 1)
+	thread = 0;
+#else
 	IThread::Destroy();
 #endif
 }

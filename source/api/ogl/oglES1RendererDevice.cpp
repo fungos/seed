@@ -50,12 +50,22 @@
 	#include <OpenGLES/ES1/glext.h>
 	#define _OPENGL_ES1		1
 	#define GL_RGBA8 GL_RGBA8_OES
+	#ifndef GL_FRAMEBUFFER
 	#define GL_FRAMEBUFFER GL_FRAMEBUFFER_OES
+	#endif
+	#ifndef GL_RENDERBUFFER
 	#define GL_RENDERBUFFER GL_RENDERBUFFER_OES
+	#endif
+	#ifndef GL_COLOR_ATTACHMENT0
 	#define GL_COLOR_ATTACHMENT0 GL_COLOR_ATTACHMENT0_OES
+	#endif
 	#define GL_DEPTH_COMPONENT24 GL_DEPTH_COMPONENT24_OES
+	#ifndef GL_DEPTH_ATTACHMENT
 	#define GL_DEPTH_ATTACHMENT GL_DEPTH_ATTACHMENT_OES
+	#endif
+	#ifndef GL_FRAMEBUFFER_COMPLETE
 	#define GL_FRAMEBUFFER_COMPLETE GL_FRAMEBUFFER_COMPLETE_OES
+	#endif
 	#define glGenFramebuffers glGenFramebuffersOES
 	#define glDeleteFramebuffers glDeleteFramebuffersOES
 	#define glGenRenderbuffers glGenRenderbuffersOES
@@ -66,7 +76,9 @@
 	#define glFramebufferRenderbuffer glFramebufferRenderbufferOES
 	#define glFramebufferTexture2D glFramebufferTexture2DOES
 	#define glCheckFramebufferStatus glCheckFramebufferStatusOES
+	#ifndef GL_STREAM_DRAW
 	#define GL_STREAM_DRAW GL_DYNAMIC_DRAW
+	#endif
 	#define GL_TEXTURE_BIT 0
 	#define GL_ENABLE_BIT 0
 	#define GL_CURRENT_BIT 0
