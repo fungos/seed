@@ -49,6 +49,7 @@ SceneNode::SceneNode()
 
 SceneNode::~SceneNode()
 {
+	this->Unload();
 	ISceneObjectVector().swap(vChild);
 }
 
@@ -110,12 +111,14 @@ bool SceneNode::Load(Reader &reader, ResourceManager *res)
 		{
 			for (u32 i = 0; i < objs; i++)
 			{
-				IDataObject *obj = pSceneObjectFactory->Load(reader, res);
 				reader.SelectNext();
+				IDataObject *obj = pSceneObjectFactory->Load(reader, res);
 				vChild += static_cast<ISceneObject *>(obj);
 			}
 			reader.UnselectArray();
 		}
+
+		ret = true;
 	}
 
 	return ret;
@@ -142,14 +145,15 @@ bool SceneNode::Write(Writer &writer)
 
 bool SceneNode::Unload()
 {
-	bool ret = false;
+	bool ret = true;
 
 	ISceneObjectVectorIterator it = vChild.begin();
 	ISceneObjectVectorIterator end = vChild.end();
 	for (; it != end; ++it)
 	{
-		if ((*it)->bFromFactory)
-			Delete((*it));
+		ISceneObject *obj = (*it);
+		if (obj->bFromFactory)
+			Delete(obj);
 	}
 
 	ISceneObjectVector().swap(vChild);

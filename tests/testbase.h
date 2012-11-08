@@ -4,7 +4,7 @@
 #include <Seed.h>
 using namespace Seed;
 
-extern SceneNode *pScene;
+extern SceneNode *gScene;
 
 class TestBase : public IGameApp, public IEventSystemListener, public IEventInputKeyboardListener, public IEventJobListener
 {
@@ -37,12 +37,11 @@ class TestBase : public IGameApp, public IEventSystemListener, public IEventInpu
 		Camera		cCameraTex;
 		Texture		cRenderTarget;
 		Renderer	cRenderer;
-		Sprite		sptLogo;
-		Music		musTheme;
-		SoundSource sfxSound;
-		Movie		mvSample;
-		ParticleEmitter cEmitter;
-		Particle	*arParticles;
+//		Sprite		sptLogo;
+//		Music		musTheme;
+//		SoundSource sfxSound;
+//		Movie		mvSample;
+//		ParticleEmitter cEmitter;
 };
 
 #endif // _TESTBASE_H_

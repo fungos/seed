@@ -10,9 +10,9 @@ int SeedRun(int argc, const char **argv)
 	T app;
 	Seed::SetGameApp(&app, argc, argv);
 	if (Seed::Initialize())
-        emscripten_set_main_loop(Seed::Update, 60, true);
+		emscripten_set_main_loop(Seed::Update, 60, true);
 
-    return EXIT_SUCCESS;
+	return EXIT_SUCCESS;
 }
 
 #elif defined(BUILD_IOS)
@@ -24,7 +24,7 @@ int SeedRun(int argc, const char **argv)
 	T app;
 	@autoreleasepool
 	{
-	    return UIApplicationMain(argc, const_cast<char **>(argv), nil, NSStringFromClass([AppDelegate class]));
+		return UIApplicationMain(argc, const_cast<char **>(argv), nil, NSStringFromClass([AppDelegate class]));
 	}
 }
 

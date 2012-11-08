@@ -1,11 +1,12 @@
 #include "testbase.h"
 
-SceneNode *pScene;
+SceneNode *gScene;
 
 enum
 {
 	kJobLoadEmitter,
-	kJobLoadAnim
+	kJobLoadAnim,
+	kJobLoadScene
 };
 
 TestBase::TestBase()
@@ -33,7 +34,7 @@ bool TestBase::Initialize()
 	pViewManager->Add(&cViewport);
 	pRendererManager->Add(&cRenderer);
 	pSceneManager->Add(&cScene);
-	pScene = &cScene;
+	gScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
 	// Initialize the texture that will be our render target
@@ -57,10 +58,11 @@ bool TestBase::Initialize()
 //		cScene.Add(&mvSample);
 //	}
 
-	pJobManager->Add(New(FileLoad("anim.sprite", kJobLoadAnim, this)));
-	pJobManager->Add(New(FileLoad("teste.emitter", kJobLoadEmitter, this)));
-	cScene.Add(&sptLogo);
-	cScene.Add(&cEmitter);
+	pJobManager->Add(New(FileLoader("main.scene", kJobLoadScene, this)));
+//	pJobManager->Add(New(FileLoader("anim.sprite", kJobLoadAnim, this)));
+//	pJobManager->Add(New(FileLoader("teste.emitter", kJobLoadEmitter, this)));
+//	cScene.Add(&sptLogo);
+//	cScene.Add(&cEmitter);
 
 //	{
 //		File f("teste.emitter");
@@ -101,7 +103,7 @@ bool TestBase::Initialize()
 	cCamera.SetPosition(-400, -300);
 	cCamera.Update(0.0f);
 
-//	pScene->Add(&cCamera);
+//	gScene->Add(&cCamera);
 //	pScreen->FadeIn();
 
 	return true;
@@ -116,9 +118,15 @@ bool TestBase::Update(f32 dt)
 
 bool TestBase::Shutdown()
 {
-	cEmitter.Unload();
-	sptLogo.Unload();
-	mvSample.Unload();
+//	{
+//		Writer w;
+//		gScene->Write(w);
+//		w.Save("out.scene");
+//	}
+
+//	cEmitter.Unload();
+//	sptLogo.Unload();
+//	mvSample.Unload();
 
 	pSceneManager->Reset();
 	pRendererManager->Reset();
@@ -127,6 +135,7 @@ bool TestBase::Shutdown()
 	pInput->RemoveKeyboardListener(this);
 	pSystem->RemoveListener(this);
 
+	gScene->Unload();
 	IGameApp::Shutdown();
 
 	return true;
@@ -155,20 +164,29 @@ void TestBase::OnJobCompleted(const EventJob *ev)
 {
 	switch (ev->GetName())
 	{
-		case kJobLoadEmitter:
-		{
-			FileLoad *job = (FileLoad *)ev->GetJob();
-			Reader r(job->pFile->GetData());
-			cEmitter.Load(r);
-			Delete(job);
-		}
-		break;
+//		case kJobLoadEmitter:
+//		{
+//			FileLoad *job = (FileLoad *)ev->GetJob();
+//			Reader r(job->pFile->GetData());
+//			cEmitter.Load(r);
+//			Delete(job);
+//		}
+//		break;
 
-		case kJobLoadAnim:
+//		case kJobLoadAnim:
+//		{
+//			FileLoad *job = (FileLoad *)ev->GetJob();
+//			Reader r(job->pFile->GetData());
+//			sptLogo.Load(r);
+//			Delete(job);
+//		}
+//		break;
+
+		case kJobLoadScene:
 		{
-			FileLoad *job = (FileLoad *)ev->GetJob();
+			FileLoader *job = (FileLoader *)ev->GetJob();
 			Reader r(job->pFile->GetData());
-			sptLogo.Load(r);
+			gScene->Load(r);
 			Delete(job);
 		}
 		break;

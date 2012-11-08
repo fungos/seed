@@ -71,11 +71,11 @@ class SEED_CORE_API File : public IObject
 		u32				iSize;
 };
 
-class SEED_CORE_API FileLoad : public Job
+class SEED_CORE_API FileLoader : public Job
 {
 	public:
-		FileLoad(const String &filename, u32 name, IEventJobListener *listener);
-		virtual ~FileLoad();
+		FileLoader(const String &filename, u32 name, IEventJobListener *listener);
+		virtual ~FileLoader();
 
 		virtual bool Run();
 

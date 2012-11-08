@@ -47,7 +47,8 @@ namespace Seed {
 
 ISceneObject *FactorySprite()
 {
-	return New(Sprite());
+	Sprite *s = New(Sprite());
+	return s;
 }
 
 Sprite::Sprite()

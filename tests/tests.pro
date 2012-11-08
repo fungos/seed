@@ -29,6 +29,7 @@ OTHER_FILES += \
 	bin/particles.sprite \
 	bin/teste.emitter \
 	bin/app.config \
+	bin/main.scene \
 	bin/sound.sfx
 
 CONFIG(debug, debug|release) {
@@ -62,6 +63,8 @@ macx {
 win32 {
 	LIBS += -L../contrib/windows/ -lseed -lseedcontrib -mwindows -lmingw32 -lopengl32 -lopenal32
 	INCLUDEPATH += ../contrib/windows/
+	CONFIG -= glfw
+	CONFIG += sdl
 	sdl {
 		DEFINES += WIN32 main=SDL_main
 		LIBS += -lSDLmain -lSDL -lSDL_image -lgdi32

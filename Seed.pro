@@ -21,6 +21,8 @@ CONFIG += glfw
 
 win32 {
 	INCLUDEPATH += contrib/windows/
+	CONFIG -= glfw
+	CONFIG += sdl
 }
 
 macx {

@@ -165,18 +165,18 @@ int File::GetObjectType() const
 	return Seed::TypeFile;
 }
 
-FileLoad::FileLoad(const String &filename, u32 name, IEventJobListener *listener)
+FileLoader::FileLoader(const String &filename, u32 name, IEventJobListener *listener)
 	: Job(name, listener)
 	, sFilename(filename)
 {
 }
 
-FileLoad::~FileLoad()
+FileLoader::~FileLoader()
 {
 	Delete(pFile);
 }
 
-bool FileLoad::Run()
+bool FileLoader::Run()
 {
 	Log("Job Run %s", sFilename.c_str());
 	cMutex.Lock();
@@ -186,6 +186,7 @@ bool FileLoad::Run()
 	if (run)
 	{
 		pFile = New(File(sFilename));
+		pFile->GetData();
 
 		cMutex.Lock();
 		nState = JobCompleted;

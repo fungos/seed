@@ -40,7 +40,7 @@ namespace Seed {
 ISceneObject::ISceneObject()
 	: ITransformable()
 	, IRenderable()
-    , sName()
+	, sName()
 	, bFromFactory(false)
 {
 }
