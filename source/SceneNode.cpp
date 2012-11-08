@@ -37,6 +37,11 @@
 
 namespace Seed {
 
+ISceneObject *FactorySceneNode()
+{
+	return New(SceneNode());
+}
+
 SceneNode::SceneNode()
 	: vChild()
 {

@@ -6,8 +6,8 @@ TEMPLATE = lib
 #TARGET_EXT = .bc
 #QMAKE_EXT_OBJ = .bc
 #QMAKE_CXXFLAGS += -emit-llvm
-QMAKE_CXX = clang++
-QMAKE_CC = clang
+#QMAKE_CXX = clang++
+#QMAKE_CC = clang
 #QMAKE_LIB = llvm-ld
 #QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
 #QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj
@@ -357,7 +357,6 @@ HEADERS += yajl/api/yajl_version.h \
 	oggz/oggz_read.h \
 	oggz/oggz_private.h \
 	oggz/oggz_packet.h \
-	oggz/oggz_off_t_generated.h \
 	oggz/oggz_off_t.h \
 	oggz/oggz_macros.h \
 	oggz/oggz_io.h \

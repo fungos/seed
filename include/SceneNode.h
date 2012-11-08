@@ -36,6 +36,8 @@
 
 namespace Seed {
 
+ISceneObject *FactorySceneNode();
+
 DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
 
 /// Scene Node
