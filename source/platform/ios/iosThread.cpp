@@ -77,7 +77,7 @@ void Thread::Destroy()
 #endif
 }
 
-void Thread::Create()
+void Thread::Create(s32 priority)
 {
 #if (SEED_USE_THREAD == 0)
 	IThread::Create(0);

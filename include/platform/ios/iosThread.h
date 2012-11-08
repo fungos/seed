@@ -50,7 +50,7 @@ class Thread : public IThread
 		virtual ~Thread();
 
 		virtual void Destroy();
-		virtual void Create();
+		virtual void Create(s32 priority = 31);
 		virtual bool Run();
 
 	private:

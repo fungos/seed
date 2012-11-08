@@ -16,13 +16,15 @@ int SeedRun(int argc, const char **argv)
 }
 
 #elif defined(BUILD_IOS)
+#include <platform/ios/iosView.h>
 
 template <class T>
 int SeedRun(int argc, const char **argv)
 {
+	T app;
 	@autoreleasepool
 	{
-	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+	    return UIApplicationMain(argc, const_cast<char **>(argv), nil, NSStringFromClass([AppDelegate class]));
 	}
 }
 

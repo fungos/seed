@@ -1484,6 +1484,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../contrib/flash/SDL/SDL_image/Xcode/Frameworks\"",
 				);
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../contrib/windows\"",
@@ -1502,6 +1505,9 @@
 					"$(inherited)",
 					"\"$(SRCROOT)/../../contrib/flash/SDL/SDL_image/Xcode/Frameworks\"",
 				);
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/../../contrib/windows\"",
