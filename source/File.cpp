@@ -165,9 +165,10 @@ int File::GetObjectType() const
 	return Seed::TypeFile;
 }
 
-FileLoader::FileLoader(const String &filename, u32 name, IEventJobListener *listener)
+FileLoader::FileLoader(const char *filename, u32 name, IEventJobListener *listener)
 	: Job(name, listener)
 	, sFilename(filename)
+	, pFile(NULL)
 {
 }
 

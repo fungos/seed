@@ -85,6 +85,9 @@ build: check assets
 		
 	make -j2 link linkmt
 
+projector:
+	cd $(BUILDDIR) && "$(FLASCC)/usr/bin/g++" $(CXXFLAGS) -Wl,--warn-unresolved-symbols `ls *.o` -o ../tests.exe $(LIBS) vfs*.abc $(FLASCC)/usr/lib/AlcVFSZip.abc -symbol-abc=Console.abc
+
 link:
 	cd $(BUILDDIR) && "$(FLASCC)/usr/bin/g++" $(CXXFLAGS) -Wl,--warn-unresolved-symbols `ls *.o` -o ../tests.swf $(LIBS) vfs*.abc $(FLASCC)/usr/lib/AlcVFSZip.abc -emit-swf -symbol-abc=Console.abc -swf-size=800x600
 
@@ -93,10 +96,10 @@ linkmt:
 #------------- FLASCC
 	
 .c.o:
-	"$(FLASCC)/usr/bin/gcc" $(CFLAGS) $(DEFS) $(BASECFLAGS) -c $< -o $(BUILDDIR)/$(@F)
+	"$(FLASCC)/usr/bin/gcc" $(CFLAGS) $(DEFS) $(BASECFLAGS) -I$(FLASCC)/usr/ -c $< -o $(BUILDDIR)/$(@F)
 
 .cpp.o:
-	"$(FLASCC)/usr/bin/g++" $(CXXFLAGS) $(DEFS) $(BASECFLAGS) -c $< -o $(BUILDDIR)/$(@F)
+	"$(FLASCC)/usr/bin/g++" $(CXXFLAGS) $(DEFS) $(BASECFLAGS) -I$(FLASCC)/usr/ -c $< -o $(BUILDDIR)/$(@F)
 
 all: contrib seed tests build
 	

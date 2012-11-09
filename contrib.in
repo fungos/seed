@@ -111,7 +111,18 @@ CONTRIB = \
 		contrib/ogg/framing.o \
 		contrib/ogg/bitwise.o \
 		contrib/vectormath/vfpmath/vsinf.o \
-		contrib/vectormath/vfpmath/matrix_impl.o
+		contrib/vectormath/vfpmath/matrix_impl.o \
+		contrib/flash/SDL/SDL_image/IMG.o \
+		contrib/flash/SDL/SDL_image/IMG_bmp.o \
+		contrib/flash/SDL/SDL_image/IMG_gif.o \
+		contrib/flash/SDL/SDL_image/IMG_jpg.o \
+		contrib/flash/SDL/SDL_image/IMG_lbm.o \
+		contrib/flash/SDL/SDL_image/IMG_pcx.o \
+		contrib/flash/SDL/SDL_image/IMG_png.o \
+		contrib/flash/SDL/SDL_image/IMG_pnm.o \
+		contrib/flash/SDL/SDL_image/IMG_tga.o \
+		contrib/flash/SDL/SDL_image/IMG_tif.o \
+		contrib/flash/SDL/SDL_image/IMG_xpm.o
 
 #
 # Not for flascc
@@ -150,17 +161,6 @@ CONTRIB = \
 #		contrib/lua/lauxlib.o \
 #		contrib/lua/lapi.o \
 
-#		contrib/flash/SDL/SDL_image/IMG.o \
-#		contrib/flash/SDL/SDL_image/IMG_bmp.o \
-#		contrib/flash/SDL/SDL_image/IMG_gif.o \
-#		contrib/flash/SDL/SDL_image/IMG_jpg.o \
-#		contrib/flash/SDL/SDL_image/IMG_lbm.o \
-#		contrib/flash/SDL/SDL_image/IMG_pcx.o \
-#		contrib/flash/SDL/SDL_image/IMG_png.o \
-#		contrib/flash/SDL/SDL_image/IMG_pnm.o \
-#		contrib/flash/SDL/SDL_image/IMG_tga.o \
-#		contrib/flash/SDL/SDL_image/IMG_tif.o \
-#		contrib/flash/SDL/SDL_image/IMG_xpm.o \
 
 #		contrib/Box2D/Collision/b2TimeOfImpact.o \
 #		contrib/Box2D/Collision/b2DynamicTree.o \

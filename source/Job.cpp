@@ -47,8 +47,8 @@ Job::~Job()
 
 void Job::Create(s32 priority)
 {
-	Thread::Create(priority);
 	nState = JobRunning;
+	Thread::Create(priority);
 }
 
 void Job::SetListener(IEventJobListener *listener)

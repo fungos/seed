@@ -74,7 +74,7 @@ class SEED_CORE_API File : public IObject
 class SEED_CORE_API FileLoader : public Job
 {
 	public:
-		FileLoader(const String &filename, u32 name, IEventJobListener *listener);
+		FileLoader(const char *filename, u32 name, IEventJobListener *listener);
 		virtual ~FileLoader();
 
 		virtual bool Run();

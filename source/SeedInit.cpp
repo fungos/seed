@@ -258,7 +258,9 @@ void Update()
 
 	pUpdater->Run(dt);
 
+#if !defined(BUILD_IOS)
 	Seed::Render();
+#endif
 }
 
 void Render()
@@ -282,9 +284,10 @@ void Shutdown()
 	pSceneManager->DestroyInstance();
 	pJobManager->DestroyInstance();
 	pInput->DestroyInstance();
+	
+#if (SEED_USE_THREAD == 1)
 	pResourceLoader->DestroyInstance();
-
-#if (SEED_USE_THREAD == 0)
+#else
 	pThreadManager->DestroyInstance();
 #endif
 

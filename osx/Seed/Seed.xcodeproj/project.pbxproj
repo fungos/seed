@@ -245,7 +245,6 @@
 		97A9347A15390C46001064D7 /* iosTexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933F615390C46001064D7 /* iosTexture.cpp */; };
 		97A9347B15390C46001064D7 /* iosThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933F715390C46001064D7 /* iosThread.cpp */; };
 		97A9347C15390C46001064D7 /* iosTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933F815390C46001064D7 /* iosTimer.cpp */; };
-		97A9347D15390C46001064D7 /* IphoneView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 97A933F915390C46001064D7 /* IphoneView.mm */; };
 		97A9347E15390C46001064D7 /* pcCartridge.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933FB15390C46001064D7 /* pcCartridge.cpp */; };
 		97A9347F15390C46001064D7 /* pcLog.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933FC15390C46001064D7 /* pcLog.cpp */; };
 		97A9348015390C46001064D7 /* pcRendererDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 97A933FD15390C46001064D7 /* pcRendererDevice.cpp */; };
@@ -300,10 +299,20 @@
 		D11224E1163B1F4000827FE5 /* glfwTimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D11224DB163B1F4000827FE5 /* glfwTimer.cpp */; };
 		D12CF5DA1641701300AF05EC /* seed_posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D12CF5D81641701300AF05EC /* seed_posix.cpp */; };
 		D12CF5DB1641701300AF05EC /* seed_win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D12CF5D91641701300AF05EC /* seed_win32.cpp */; };
+		D14231B0164D8E7F002A834E /* EventJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14231AC164D8E7F002A834E /* EventJob.cpp */; };
+		D14231B1164D8E7F002A834E /* Job.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14231AD164D8E7F002A834E /* Job.cpp */; };
+		D14231B2164D8E7F002A834E /* JobManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14231AE164D8E7F002A834E /* JobManager.cpp */; };
+		D14231B3164D8E7F002A834E /* ThreadManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14231AF164D8E7F002A834E /* ThreadManager.cpp */; };
+		D14231B5164D8E86002A834E /* IEventJobListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D14231B4164D8E86002A834E /* IEventJobListener.cpp */; };
+		D14231BB164D8E97002A834E /* EventJob.h in Headers */ = {isa = PBXBuildFile; fileRef = D14231B6164D8E97002A834E /* EventJob.h */; };
+		D14231BC164D8E97002A834E /* Job.h in Headers */ = {isa = PBXBuildFile; fileRef = D14231B7164D8E97002A834E /* Job.h */; };
+		D14231BD164D8E97002A834E /* JobManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D14231B8164D8E97002A834E /* JobManager.h */; };
+		D14231BE164D8E97002A834E /* SceneObjectFactory.h in Headers */ = {isa = PBXBuildFile; fileRef = D14231B9164D8E97002A834E /* SceneObjectFactory.h */; };
+		D14231BF164D8E97002A834E /* ThreadManager.h in Headers */ = {isa = PBXBuildFile; fileRef = D14231BA164D8E97002A834E /* ThreadManager.h */; };
+		D14231C1164D8E9E002A834E /* IEventJobListener.h in Headers */ = {isa = PBXBuildFile; fileRef = D14231C0164D8E9E002A834E /* IEventJobListener.h */; };
+		D14231C3164D8EBE002A834E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D14231C2164D8EBE002A834E /* OpenAL.framework */; };
 		D15AB1DD15BD97DC00C0A964 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D15AB1DC15BD97DC00C0A964 /* Camera.cpp */; };
 		D15AB1DF15BD97F100C0A964 /* Camera.h in Headers */ = {isa = PBXBuildFile; fileRef = D15AB1DE15BD97F100C0A964 /* Camera.h */; };
-		D15AB1E115BD98FF00C0A964 /* SDL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15AB1E015BD98FF00C0A964 /* SDL.framework */; };
-		D15AB1E315BD993B00C0A964 /* SDL_image.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D15AB1E215BD993B00C0A964 /* SDL_image.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -552,7 +561,6 @@
 		97A933F615390C46001064D7 /* iosTexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iosTexture.cpp; sourceTree = "<group>"; };
 		97A933F715390C46001064D7 /* iosThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iosThread.cpp; sourceTree = "<group>"; };
 		97A933F815390C46001064D7 /* iosTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = iosTimer.cpp; sourceTree = "<group>"; };
-		97A933F915390C46001064D7 /* IphoneView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = IphoneView.mm; sourceTree = "<group>"; };
 		97A933FB15390C46001064D7 /* pcCartridge.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pcCartridge.cpp; sourceTree = "<group>"; };
 		97A933FC15390C46001064D7 /* pcLog.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pcLog.cpp; sourceTree = "<group>"; };
 		97A933FD15390C46001064D7 /* pcRendererDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pcRendererDevice.cpp; sourceTree = "<group>"; };
@@ -609,10 +617,20 @@
 		D11224DB163B1F4000827FE5 /* glfwTimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = glfwTimer.cpp; sourceTree = "<group>"; };
 		D12CF5D81641701300AF05EC /* seed_posix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_posix.cpp; sourceTree = "<group>"; };
 		D12CF5D91641701300AF05EC /* seed_win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_win32.cpp; sourceTree = "<group>"; };
+		D14231AC164D8E7F002A834E /* EventJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventJob.cpp; sourceTree = "<group>"; };
+		D14231AD164D8E7F002A834E /* Job.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Job.cpp; sourceTree = "<group>"; };
+		D14231AE164D8E7F002A834E /* JobManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JobManager.cpp; sourceTree = "<group>"; };
+		D14231AF164D8E7F002A834E /* ThreadManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadManager.cpp; sourceTree = "<group>"; };
+		D14231B4164D8E86002A834E /* IEventJobListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IEventJobListener.cpp; sourceTree = "<group>"; };
+		D14231B6164D8E97002A834E /* EventJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventJob.h; sourceTree = "<group>"; };
+		D14231B7164D8E97002A834E /* Job.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Job.h; sourceTree = "<group>"; };
+		D14231B8164D8E97002A834E /* JobManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobManager.h; sourceTree = "<group>"; };
+		D14231B9164D8E97002A834E /* SceneObjectFactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SceneObjectFactory.h; sourceTree = "<group>"; };
+		D14231BA164D8E97002A834E /* ThreadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadManager.h; sourceTree = "<group>"; };
+		D14231C0164D8E9E002A834E /* IEventJobListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEventJobListener.h; sourceTree = "<group>"; };
+		D14231C2164D8EBE002A834E /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D15AB1DC15BD97DC00C0A964 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		D15AB1DE15BD97F100C0A964 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
-		D15AB1E015BD98FF00C0A964 /* SDL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL.framework; path = ../SDL.framework; sourceTree = "<group>"; };
-		D15AB1E215BD993B00C0A964 /* SDL_image.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SDL_image.framework; path = ../SDL_image.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -620,8 +638,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D15AB1E315BD993B00C0A964 /* SDL_image.framework in Frameworks */,
-				D15AB1E115BD98FF00C0A964 /* SDL.framework in Frameworks */,
+				D14231C3164D8EBE002A834E /* OpenAL.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -631,8 +648,7 @@
 		97A9323715390BB6001064D7 = {
 			isa = PBXGroup;
 			children = (
-				D15AB1E215BD993B00C0A964 /* SDL_image.framework */,
-				D15AB1E015BD98FF00C0A964 /* SDL.framework */,
+				D14231C2164D8EBE002A834E /* OpenAL.framework */,
 				97A9339715390C46001064D7 /* source */,
 				97A9324C15390C3D001064D7 /* include */,
 				97A9324315390BB6001064D7 /* Products */,
@@ -650,6 +666,11 @@
 		97A9324C15390C3D001064D7 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				D14231B6164D8E97002A834E /* EventJob.h */,
+				D14231B7164D8E97002A834E /* Job.h */,
+				D14231B8164D8E97002A834E /* JobManager.h */,
+				D14231B9164D8E97002A834E /* SceneObjectFactory.h */,
+				D14231BA164D8E97002A834E /* ThreadManager.h */,
 				97A9324D15390C3D001064D7 /* .directory */,
 				97A9324E15390C3D001064D7 /* Animation.h */,
 				97A9324F15390C3D001064D7 /* api */,
@@ -789,6 +810,7 @@
 		97A9327415390C3D001064D7 /* interface */ = {
 			isa = PBXGroup;
 			children = (
+				D14231C0164D8E9E002A834E /* IEventJobListener.h */,
 				97A9327515390C3D001064D7 /* .directory */,
 				97A9327715390C3D001064D7 /* ICartridge.h */,
 				97A9327815390C3D001064D7 /* IDataObject.h */,
@@ -914,6 +936,10 @@
 		97A9339715390C46001064D7 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				D14231AC164D8E7F002A834E /* EventJob.cpp */,
+				D14231AD164D8E7F002A834E /* Job.cpp */,
+				D14231AE164D8E7F002A834E /* JobManager.cpp */,
+				D14231AF164D8E7F002A834E /* ThreadManager.cpp */,
 				D11224CD163B1EF400827FE5 /* SceneObjectFactory.cpp */,
 				97A9339815390C46001064D7 /* .directory */,
 				97A9339915390C46001064D7 /* Animation.cpp */,
@@ -1028,6 +1054,7 @@
 		97A933B915390C46001064D7 /* interface */ = {
 			isa = PBXGroup;
 			children = (
+				D14231B4164D8E86002A834E /* IEventJobListener.cpp */,
 				97A933BA15390C46001064D7 /* .directory */,
 				97A933BC15390C46001064D7 /* ICartridge.cpp */,
 				97A933BD15390C46001064D7 /* IDataObject.cpp */,
@@ -1099,7 +1126,6 @@
 				97A933F615390C46001064D7 /* iosTexture.cpp */,
 				97A933F715390C46001064D7 /* iosThread.cpp */,
 				97A933F815390C46001064D7 /* iosTimer.cpp */,
-				97A933F915390C46001064D7 /* IphoneView.mm */,
 			);
 			path = ios;
 			sourceTree = "<group>";
@@ -1356,6 +1382,12 @@
 				D103F6BE16401D4900267967 /* nalSound.h in Headers */,
 				D103F6BF16401D4900267967 /* nalSoundSource.h in Headers */,
 				D103F6C016401D4900267967 /* nalSoundSystem.h in Headers */,
+				D14231BB164D8E97002A834E /* EventJob.h in Headers */,
+				D14231BC164D8E97002A834E /* Job.h in Headers */,
+				D14231BD164D8E97002A834E /* JobManager.h in Headers */,
+				D14231BE164D8E97002A834E /* SceneObjectFactory.h in Headers */,
+				D14231BF164D8E97002A834E /* ThreadManager.h in Headers */,
+				D14231C1164D8E9E002A834E /* IEventJobListener.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1493,7 +1525,6 @@
 				97A9347A15390C46001064D7 /* iosTexture.cpp in Sources */,
 				97A9347B15390C46001064D7 /* iosThread.cpp in Sources */,
 				97A9347C15390C46001064D7 /* iosTimer.cpp in Sources */,
-				97A9347D15390C46001064D7 /* IphoneView.mm in Sources */,
 				97A9347E15390C46001064D7 /* pcCartridge.cpp in Sources */,
 				97A9347F15390C46001064D7 /* pcLog.cpp in Sources */,
 				97A9348015390C46001064D7 /* pcRendererDevice.cpp in Sources */,
@@ -1545,6 +1576,11 @@
 				D103F6B716401D3000267967 /* nalSoundSystem.cpp in Sources */,
 				D12CF5DA1641701300AF05EC /* seed_posix.cpp in Sources */,
 				D12CF5DB1641701300AF05EC /* seed_win32.cpp in Sources */,
+				D14231B0164D8E7F002A834E /* EventJob.cpp in Sources */,
+				D14231B1164D8E7F002A834E /* Job.cpp in Sources */,
+				D14231B2164D8E7F002A834E /* JobManager.cpp in Sources */,
+				D14231B3164D8E7F002A834E /* ThreadManager.cpp in Sources */,
+				D14231B5164D8E86002A834E /* IEventJobListener.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

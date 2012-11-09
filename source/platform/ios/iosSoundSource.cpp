@@ -135,6 +135,17 @@ void SoundSource::Resume()
 	}
 }
 
+void SoundSource::Update(f32 dt)
+{
+	UNUSED(dt);
+	
+	if (bTransformationChanged)
+	{
+		alSource3f(iSource, AL_POSITION, GetX(), GetY(), GetZ());
+		ITransformable::UpdateTransform();
+	}
+}
+	
 }} // namespace
 
 #endif // BUILD_IOS

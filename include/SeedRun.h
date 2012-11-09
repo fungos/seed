@@ -22,6 +22,7 @@ template <class T>
 int SeedRun(int argc, const char **argv)
 {
 	T app;
+	Seed::SetGameApp(&app, argc, argv);
 	@autoreleasepool
 	{
 		return UIApplicationMain(argc, const_cast<char **>(argv), nil, NSStringFromClass([AppDelegate class]));

@@ -137,6 +137,11 @@
 		D103F672163F1CF600267967 /* Viewport.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5EE163F1CF500267967 /* Viewport.cpp */; };
 		D103F673163F1CF600267967 /* Writer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5EF163F1CF500267967 /* Writer.cpp */; };
 		D107B3FC16430BC900E4A951 /* iosView.mm in Sources */ = {isa = PBXBuildFile; fileRef = D107B3FB16430BC900E4A951 /* iosView.mm */; };
+		D142314E164D832E002A834E /* EventJob.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D142314A164D832E002A834E /* EventJob.cpp */; };
+		D142314F164D832E002A834E /* Job.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D142314B164D832E002A834E /* Job.cpp */; };
+		D1423150164D832E002A834E /* JobManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D142314C164D832E002A834E /* JobManager.cpp */; };
+		D1423151164D832E002A834E /* ThreadManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D142314D164D832E002A834E /* ThreadManager.cpp */; };
+		D1423154164D833F002A834E /* IEventJobListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1423153164D833F002A834E /* IEventJobListener.cpp */; };
 		D1B00ADA1642F634009211BF /* seed_posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD81642F634009211BF /* seed_posix.cpp */; };
 		D1B00ADB1642F634009211BF /* seed_win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD91642F634009211BF /* seed_win32.cpp */; };
 /* End PBXBuildFile section */
@@ -454,6 +459,16 @@
 		D103F677163F274000267967 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		D103F67A163F278200267967 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 		D107B3FB16430BC900E4A951 /* iosView.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iosView.mm; sourceTree = "<group>"; };
+		D142314A164D832E002A834E /* EventJob.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventJob.cpp; sourceTree = "<group>"; };
+		D142314B164D832E002A834E /* Job.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Job.cpp; sourceTree = "<group>"; };
+		D142314C164D832E002A834E /* JobManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = JobManager.cpp; sourceTree = "<group>"; };
+		D142314D164D832E002A834E /* ThreadManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ThreadManager.cpp; sourceTree = "<group>"; };
+		D1423153164D833F002A834E /* IEventJobListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IEventJobListener.cpp; sourceTree = "<group>"; };
+		D1423155164D8357002A834E /* EventJob.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventJob.h; sourceTree = "<group>"; };
+		D1423156164D8357002A834E /* Job.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Job.h; sourceTree = "<group>"; };
+		D1423157164D8357002A834E /* JobManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JobManager.h; sourceTree = "<group>"; };
+		D1423158164D8357002A834E /* ThreadManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThreadManager.h; sourceTree = "<group>"; };
+		D1423159164D8360002A834E /* IEventJobListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEventJobListener.h; sourceTree = "<group>"; };
 		D1B00AD81642F634009211BF /* seed_posix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_posix.cpp; sourceTree = "<group>"; };
 		D1B00AD91642F634009211BF /* seed_win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_win32.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -499,6 +514,10 @@
 		D103F4A3163F1CE800267967 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				D1423155164D8357002A834E /* EventJob.h */,
+				D1423156164D8357002A834E /* Job.h */,
+				D1423157164D8357002A834E /* JobManager.h */,
+				D1423158164D8357002A834E /* ThreadManager.h */,
 				D103F4A5163F1CE800267967 /* Animation.h */,
 				D103F4A6163F1CE800267967 /* api */,
 				D103F4B9163F1CE800267967 /* Camera.h */,
@@ -646,6 +665,7 @@
 		D103F4CE163F1CE800267967 /* interface */ = {
 			isa = PBXGroup;
 			children = (
+				D1423159164D8360002A834E /* IEventJobListener.h */,
 				D103F4CF163F1CE800267967 /* .directory */,
 				D103F4D0163F1CE800267967 /* ICartridge.h */,
 				D103F4D1163F1CE800267967 /* IDataObject.h */,
@@ -784,6 +804,10 @@
 		D103F559163F1CF500267967 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				D142314A164D832E002A834E /* EventJob.cpp */,
+				D142314B164D832E002A834E /* Job.cpp */,
+				D142314C164D832E002A834E /* JobManager.cpp */,
+				D142314D164D832E002A834E /* ThreadManager.cpp */,
 				D103F55B163F1CF500267967 /* Animation.cpp */,
 				D103F55C163F1CF500267967 /* api */,
 				D103F56F163F1CF500267967 /* Camera.cpp */,
@@ -904,6 +928,7 @@
 		D103F57E163F1CF500267967 /* interface */ = {
 			isa = PBXGroup;
 			children = (
+				D1423153164D833F002A834E /* IEventJobListener.cpp */,
 				D103F57F163F1CF500267967 /* .directory */,
 				D103F580163F1CF500267967 /* ICartridge.cpp */,
 				D103F581163F1CF500267967 /* IDataObject.cpp */,
@@ -1218,6 +1243,11 @@
 				D1B00ADA1642F634009211BF /* seed_posix.cpp in Sources */,
 				D1B00ADB1642F634009211BF /* seed_win32.cpp in Sources */,
 				D107B3FC16430BC900E4A951 /* iosView.mm in Sources */,
+				D142314E164D832E002A834E /* EventJob.cpp in Sources */,
+				D142314F164D832E002A834E /* Job.cpp in Sources */,
+				D1423150164D832E002A834E /* JobManager.cpp in Sources */,
+				D1423151164D832E002A834E /* ThreadManager.cpp in Sources */,
+				D1423154164D833F002A834E /* IEventJobListener.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

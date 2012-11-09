@@ -92,14 +92,19 @@ void Texture::Reset()
 
 bool Texture::Load(const String &filename, ResourceManager *res)
 {
-	if (ITexture::Load(filename, res))
+	SEED_ASSERT(res);
+	if (this->Unload())
 	{
-		stFile.Close();
+		pRes = res;
+		sFilename = filename;
+
 		//#if !defined(ENABLE_NATIVE_PVRTC_FORMAT)
 		this->LoadPNG(filename.c_str());
 		//#else
 		//this->LoadPVRTC(filename.c_str());
 		//#endif // ENABLE_NATIVE_PVRTC_FORMAT
+		
+		bLoaded = true;
 	}
 	else
 	{
@@ -320,8 +325,8 @@ void Texture::LoadPNG(const char *file)
 
 
 	NSString *fname = [NSString stringWithCString:file encoding: [NSString defaultCStringEncoding]];
-	NSString *path = [@"/data/" stringByAppendingString:fname];
-	UIImage *uiImage = [UIImage imageNamed:path];
+	//NSString *path = [@"" stringByAppendingString:fname];
+	UIImage *uiImage = [UIImage imageNamed:fname];
 
 	if (NULL == uiImage)
 	{
