@@ -50,7 +50,8 @@ iosTouchInfo iosTouchBuff[PLATFORM_MAX_INPUT];
 
 char * _defaultRootPathA[MAX_PATH_SIZE];
 char * _defaultHomePathA[MAX_PATH_SIZE];
-
+static int gPlatformIdentifier = 0; // 0 == iPhone, 1 == iPad
+static int gOpenGLVersion = 1;
 
 const char *iosGetRootPath()
 {
@@ -86,8 +87,10 @@ const char *iosGetHomePath()
     // Override point for customization after application launch.
 	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
 	    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
+		gPlatformIdentifier = 0;
 	} else {
 	    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPad" bundle:nil];
+		gPlatformIdentifier = 1;
 	}
 	self.window.rootViewController = self.viewController;
     [self.window makeKeyAndVisible];
@@ -139,23 +142,6 @@ const char *iosGetHomePath()
 
 @implementation ViewController
 
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-	
-    if (!self.context) {
-        NSLog(@"Failed to create ES context");
-    }
-    
-    GLKView *view = (GLKView *)self.view;
-    view.context = self.context;
-    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-    
-    [self setupGL];
-}
-
 - (void)dealloc
 {
     [self tearDownGL];
@@ -165,6 +151,27 @@ const char *iosGetHomePath()
     }
 	
 	[super dealloc];
+}
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+	gOpenGLVersion = 2;
+    if (!self.context) {
+		self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+		gOpenGLVersion = 1;
+		if (!self.context) {
+			NSLog(@"Failed to create ES context");
+		}
+    }
+    
+    GLKView *view = (GLKView *)self.view;
+    view.context = self.context;
+    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+    
+    [self setupGL];
 }
 
 - (void)didReceiveMemoryWarning
@@ -193,8 +200,8 @@ const char *iosGetHomePath()
 
 - (void)tearDownGL
 {
-	Seed::Shutdown();
     [EAGLContext setCurrentContext:self.context];
+	Seed::Shutdown();
 }
 
 #pragma mark - GLKView and GLKViewController delegate methods

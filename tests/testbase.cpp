@@ -43,12 +43,12 @@ bool TestBase::Initialize()
 //	pRendererDevice->TextureRequestProcess();
 	// --
 
-//	{
-//		File f("anim.sprite");
-//		Reader r(f);
-//		sptLogo.Load(r);
-//		cScene.Add(&sptLogo);
-//	}
+	{
+		File f("anim.sprite");
+		Reader r(f);
+		sptLogo.Load(r);
+		cScene.Add(&sptLogo);
+	}
 
 //	{
 //		File f("sample.movie");
@@ -58,7 +58,7 @@ bool TestBase::Initialize()
 //		cScene.Add(&mvSample);
 //	}
 
-	pJobManager->Add(New(FileLoader("main.scene", kJobLoadScene, this)));
+//	pJobManager->Add(New(FileLoader("main.scene", kJobLoadScene, this)));
 //	pJobManager->Add(New(FileLoader("anim.sprite", kJobLoadAnim, this)));
 //	pJobManager->Add(New(FileLoader("teste.emitter", kJobLoadEmitter, this)));
 //	cScene.Add(&sptLogo);

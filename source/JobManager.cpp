@@ -146,7 +146,7 @@ bool JobManager::Update(f32 dt)
 
 Job *JobManager::Add(Job *job)
 {
-	Log(TAG "Job create");
+	Log(TAG "Job created");
 	job->Create();
 	vJob += job;
 

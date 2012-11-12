@@ -173,11 +173,11 @@
 		D107B3B916430AB800E4A951 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D1C6EA41164C28AA00248DA0 /* Seed.xcodeproj */,
+				D1C6EA37164C28A600248DA0 /* seedcontrib.xcodeproj */,
 				D1423141164D82C8002A834E /* OpenAL.framework */,
 				D142313F164D82A8002A834E /* AVFoundation.framework */,
 				D142313D164D8298002A834E /* AudioToolbox.framework */,
-				D1C6EA41164C28AA00248DA0 /* Seed.xcodeproj */,
-				D1C6EA37164C28A600248DA0 /* seedcontrib.xcodeproj */,
 				D107B3BA16430AB800E4A951 /* UIKit.framework */,
 				D107B3BC16430AB800E4A951 /* Foundation.framework */,
 				D107B3BE16430AB800E4A951 /* CoreGraphics.framework */,
