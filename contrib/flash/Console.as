@@ -69,7 +69,11 @@ package com.adobe.flascc
       bmd = new BitmapData(stage.stageWidth, stage.stageHeight, false)
       bm = new Bitmap(bmd)
       inputContainer.addChild(bm)
-      CModule.startAsync(this)
+	  
+	  var args = new Vector.<String>()
+	  args.push("/home/flascc/app.bin")
+	  args.push("--nosound")
+      CModule.startAsync(this, args)
     }
 
     /**
