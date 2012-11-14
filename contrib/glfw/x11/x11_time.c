@@ -40,21 +40,21 @@
 static uint64_t getRawTime(void)
 {
 #if defined( CLOCK_MONOTONIC )
-    if( _glfwLibrary.Timer.monotonic )
-    {
-        struct timespec ts;
+	if( _glfwLibrary.Timer.monotonic )
+	{
+		struct timespec ts;
 
-        clock_gettime( CLOCK_MONOTONIC, &ts );
-        return (uint64_t) ts.tv_sec * (uint64_t) 1000000000 + (uint64_t) ts.tv_nsec;
-    }
-    else
+		clock_gettime( CLOCK_MONOTONIC, &ts );
+		return (uint64_t) ts.tv_sec * (uint64_t) 1000000000 + (uint64_t) ts.tv_nsec;
+	}
+	else
 #endif
-    {
-        struct timeval tv;
+	{
+		struct timeval tv;
 
-        gettimeofday( &tv, NULL );
-        return (uint64_t) tv.tv_sec * (uint64_t) 1000000 + (uint64_t) tv.tv_usec;
-    }
+		gettimeofday( &tv, NULL );
+		return (uint64_t) tv.tv_sec * (uint64_t) 1000000 + (uint64_t) tv.tv_usec;
+	}
 }
 
 
@@ -65,20 +65,20 @@ static uint64_t getRawTime(void)
 void _glfwInitTimer( void )
 {
 #if defined( CLOCK_MONOTONIC )
-    struct timespec ts;
+	struct timespec ts;
 
-    if( clock_gettime( CLOCK_MONOTONIC, &ts ) == 0 )
-    {
-        _glfwLibrary.Timer.monotonic = GL_TRUE;
-        _glfwLibrary.Timer.resolution = 1e-9;
-    }
-    else
+	if( clock_gettime( CLOCK_MONOTONIC, &ts ) == 0 )
+	{
+		_glfwLibrary.Timer.monotonic = GL_TRUE;
+		_glfwLibrary.Timer.resolution = 1e-9;
+	}
+	else
 #endif
-    {
-        _glfwLibrary.Timer.resolution = 1e-6;
-    }
+	{
+		_glfwLibrary.Timer.resolution = 1e-6;
+	}
 
-    _glfwLibrary.Timer.base = getRawTime();
+	_glfwLibrary.Timer.base = getRawTime();
 }
 
 
@@ -92,8 +92,8 @@ void _glfwInitTimer( void )
 
 double _glfwPlatformGetTime( void )
 {
-    return (double) (getRawTime() - _glfwLibrary.Timer.base) *
-        _glfwLibrary.Timer.resolution;
+	return (double) (getRawTime() - _glfwLibrary.Timer.base) *
+		_glfwLibrary.Timer.resolution;
 }
 
 
@@ -103,8 +103,8 @@ double _glfwPlatformGetTime( void )
 
 void _glfwPlatformSetTime( double time )
 {
-    _glfwLibrary.Timer.base = getRawTime() -
-        (uint64_t) (time / _glfwLibrary.Timer.resolution);
+	_glfwLibrary.Timer.base = getRawTime() -
+		(uint64_t) (time / _glfwLibrary.Timer.resolution);
 }
 
 
@@ -116,58 +116,58 @@ void _glfwPlatformSleep( double time )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    if( time == 0.0 )
-    {
+	if( time == 0.0 )
+	{
 #ifdef _GLFW_HAS_SCHED_YIELD
-    sched_yield();
+	sched_yield();
 #endif
-    return;
-    }
+	return;
+	}
 
-    struct timeval  currenttime;
-    struct timespec wait;
-    pthread_mutex_t mutex;
-    pthread_cond_t  cond;
-    long dt_sec, dt_usec;
+	struct timeval  currenttime;
+	struct timespec wait;
+	pthread_mutex_t mutex;
+	pthread_cond_t  cond;
+	long dt_sec, dt_usec;
 
-    // Not all pthread implementations have a pthread_sleep() function. We
-    // do it the portable way, using a timed wait for a condition that we
-    // will never signal. NOTE: The unistd functions sleep/usleep suspends
-    // the entire PROCESS, not a signle thread, which is why we can not
-    // use them to implement glfwSleep.
+	// Not all pthread implementations have a pthread_sleep() function. We
+	// do it the portable way, using a timed wait for a condition that we
+	// will never signal. NOTE: The unistd functions sleep/usleep suspends
+	// the entire PROCESS, not a signle thread, which is why we can not
+	// use them to implement glfwSleep.
 
-    // Set timeout time, relatvie to current time
-    gettimeofday( &currenttime, NULL );
-    dt_sec  = (long) time;
-    dt_usec = (long) ((time - (double)dt_sec) * 1000000.0);
-    wait.tv_nsec = (currenttime.tv_usec + dt_usec) * 1000L;
-    if( wait.tv_nsec > 1000000000L )
-    {
-        wait.tv_nsec -= 1000000000L;
-        dt_sec++;
-    }
-    wait.tv_sec  = currenttime.tv_sec + dt_sec;
+	// Set timeout time, relatvie to current time
+	gettimeofday( &currenttime, NULL );
+	dt_sec  = (long) time;
+	dt_usec = (long) ((time - (double)dt_sec) * 1000000.0);
+	wait.tv_nsec = (currenttime.tv_usec + dt_usec) * 1000L;
+	if( wait.tv_nsec > 1000000000L )
+	{
+		wait.tv_nsec -= 1000000000L;
+		dt_sec++;
+	}
+	wait.tv_sec  = currenttime.tv_sec + dt_sec;
 
-    // Initialize condition and mutex objects
-    pthread_mutex_init( &mutex, NULL );
-    pthread_cond_init( &cond, NULL );
+	// Initialize condition and mutex objects
+	pthread_mutex_init( &mutex, NULL );
+	pthread_cond_init( &cond, NULL );
 
-    // Do a timed wait
-    pthread_mutex_lock( &mutex );
-    pthread_cond_timedwait( &cond, &mutex, &wait );
-    pthread_mutex_unlock( &mutex );
+	// Do a timed wait
+	pthread_mutex_lock( &mutex );
+	pthread_cond_timedwait( &cond, &mutex, &wait );
+	pthread_mutex_unlock( &mutex );
 
-    // Destroy condition and mutex objects
-    pthread_mutex_destroy( &mutex );
-    pthread_cond_destroy( &cond );
+	// Destroy condition and mutex objects
+	pthread_mutex_destroy( &mutex );
+	pthread_cond_destroy( &cond );
 
 #else
 
-    // For systems without PTHREAD, use unistd usleep
-    if( time > 0 )
-    {
-        usleep( (unsigned int) (time*1000000) );
-    }
+	// For systems without PTHREAD, use unistd usleep
+	if( time > 0 )
+	{
+		usleep( (unsigned int) (time*1000000) );
+	}
 
 #endif // _GLFW_HAS_PTHREAD
 }

@@ -295,84 +295,84 @@ struct _GLFWwin_struct {
 
 // ========= PLATFORM INDEPENDENT MANDATORY PART =========================
 
-    // User callback functions
-    GLFWwindowsizefun    windowSizeCallback;
-    GLFWwindowclosefun   windowCloseCallback;
-    GLFWwindowrefreshfun windowRefreshCallback;
-    GLFWmousebuttonfun   mouseButtonCallback;
-    GLFWmouseposfun      mousePosCallback;
-    GLFWmousewheelfun    mouseWheelCallback;
-    GLFWkeyfun           keyCallback;
-    GLFWcharfun          charCallback;
+	// User callback functions
+	GLFWwindowsizefun    windowSizeCallback;
+	GLFWwindowclosefun   windowCloseCallback;
+	GLFWwindowrefreshfun windowRefreshCallback;
+	GLFWmousebuttonfun   mouseButtonCallback;
+	GLFWmouseposfun      mousePosCallback;
+	GLFWmousewheelfun    mouseWheelCallback;
+	GLFWkeyfun           keyCallback;
+	GLFWcharfun          charCallback;
 
-    // User selected window settings
-    int       fullscreen;      // Fullscreen flag
-    int       mouseLock;       // Mouse-lock flag
-    int       autoPollEvents;  // Auto polling flag
-    int       sysKeysDisabled; // System keys disabled flag
-    int       windowNoResize;  // Resize- and maximize gadgets disabled flag
-    int       refreshRate;     // Vertical monitor refresh rate
+	// User selected window settings
+	int       fullscreen;      // Fullscreen flag
+	int       mouseLock;       // Mouse-lock flag
+	int       autoPollEvents;  // Auto polling flag
+	int       sysKeysDisabled; // System keys disabled flag
+	int       windowNoResize;  // Resize- and maximize gadgets disabled flag
+	int       refreshRate;     // Vertical monitor refresh rate
 
-    // Window status & parameters
-    int       opened;          // Flag telling if window is opened or not
-    int       active;          // Application active flag
-    int       iconified;       // Window iconified flag
-    int       width, height;   // Window width and heigth
-    int       accelerated;     // GL_TRUE if window is HW accelerated
+	// Window status & parameters
+	int       opened;          // Flag telling if window is opened or not
+	int       active;          // Application active flag
+	int       iconified;       // Window iconified flag
+	int       width, height;   // Window width and heigth
+	int       accelerated;     // GL_TRUE if window is HW accelerated
 
-    // Framebuffer attributes
-    int       redBits;
-    int       greenBits;
-    int       blueBits;
-    int       alphaBits;
-    int       depthBits;
-    int       stencilBits;
-    int       accumRedBits;
-    int       accumGreenBits;
-    int       accumBlueBits;
-    int       accumAlphaBits;
-    int       auxBuffers;
-    int       stereo;
-    int       samples;
+	// Framebuffer attributes
+	int       redBits;
+	int       greenBits;
+	int       blueBits;
+	int       alphaBits;
+	int       depthBits;
+	int       stencilBits;
+	int       accumRedBits;
+	int       accumGreenBits;
+	int       accumBlueBits;
+	int       accumAlphaBits;
+	int       auxBuffers;
+	int       stereo;
+	int       samples;
 
-    // OpenGL extensions and context attributes
-    int       has_GL_SGIS_generate_mipmap;
-    int       has_GL_ARB_texture_non_power_of_two;
-    int       glMajor, glMinor, glRevision;
-    int       glForward, glDebug, glProfile;
+	// OpenGL extensions and context attributes
+	int       has_GL_SGIS_generate_mipmap;
+	int       has_GL_ARB_texture_non_power_of_two;
+	int       glMajor, glMinor, glRevision;
+	int       glForward, glDebug, glProfile;
 
-    PFNGLGETSTRINGIPROC GetStringi;
+	PFNGLGETSTRINGIPROC GetStringi;
 
 
 // ========= PLATFORM SPECIFIC PART ======================================
 
-    // Platform specific window resources
-    HDC       DC;              // Private GDI device context
-    HGLRC     context;         // Permanent rendering context
-    HWND      window;          // Window handle
-    ATOM      classAtom;       // Window class atom
-    int       modeID;          // Mode ID for fullscreen mode
-    HHOOK     keyboardHook;    // Keyboard hook handle
-    DWORD     dwStyle;         // Window styles used for window creation
-    DWORD     dwExStyle;       // --"--
+	// Platform specific window resources
+	HDC       DC;              // Private GDI device context
+	HGLRC     context;         // Permanent rendering context
+	HWND      window;          // Window handle
+	ATOM      classAtom;       // Window class atom
+	int       modeID;          // Mode ID for fullscreen mode
+	HHOOK     keyboardHook;    // Keyboard hook handle
+	DWORD     dwStyle;         // Window styles used for window creation
+	DWORD     dwExStyle;       // --"--
 
-    // Platform specific extensions (context specific)
-    PFNWGLSWAPINTERVALEXTPROC      SwapIntervalEXT;
-    PFNWGLGETPIXELFORMATATTRIBIVARBPROC GetPixelFormatAttribivARB;
-    PFNWGLGETEXTENSIONSSTRINGEXTPROC GetExtensionsStringEXT;
-    PFNWGLGETEXTENSIONSSTRINGARBPROC GetExtensionsStringARB;
-    PFNWGLCREATECONTEXTATTRIBSARBPROC CreateContextAttribsARB;
-    GLboolean                      has_WGL_EXT_swap_control;
-    GLboolean                      has_WGL_ARB_multisample;
-    GLboolean                      has_WGL_ARB_pixel_format;
-    GLboolean                      has_WGL_ARB_create_context;
-    GLboolean                      has_WGL_ARB_create_context_profile;
+	// Platform specific extensions (context specific)
+	PFNWGLSWAPINTERVALEXTPROC      SwapIntervalEXT;
+	PFNWGLGETPIXELFORMATATTRIBIVARBPROC GetPixelFormatAttribivARB;
+	PFNWGLGETEXTENSIONSSTRINGEXTPROC GetExtensionsStringEXT;
+	PFNWGLGETEXTENSIONSSTRINGARBPROC GetExtensionsStringARB;
+	PFNWGLCREATECONTEXTATTRIBSARBPROC CreateContextAttribsARB;
+	GLboolean                      has_WGL_EXT_swap_control;
+	GLboolean                      has_WGL_ARB_multisample;
+	GLboolean                      has_WGL_ARB_pixel_format;
+	GLboolean                      has_WGL_ARB_create_context;
+	GLboolean                      has_WGL_ARB_create_context_profile;
 
-    // Various platform specific internal variables
-    int       oldMouseLock;    // Old mouse-lock flag (used for remembering
-                               // mouse-lock state when iconifying)
-    int       oldMouseLockValid;
-    int       desiredRefreshRate; // Desired vertical monitor refresh rate
+	// Various platform specific internal variables
+	int       oldMouseLock;    // Old mouse-lock flag (used for remembering
+							   // mouse-lock state when iconifying)
+	int       oldMouseLockValid;
+	int       desiredRefreshRate; // Desired vertical monitor refresh rate
 
 };
 
@@ -386,25 +386,25 @@ GLFWGLOBAL struct {
 
 // ========= PLATFORM INDEPENDENT MANDATORY PART =========================
 
-    // Mouse status
-    int  MousePosX, MousePosY;
-    int  WheelPos;
-    char MouseButton[ GLFW_MOUSE_BUTTON_LAST+1 ];
+	// Mouse status
+	int  MousePosX, MousePosY;
+	int  WheelPos;
+	char MouseButton[ GLFW_MOUSE_BUTTON_LAST+1 ];
 
-    // Keyboard status
-    char Key[ GLFW_KEY_LAST+1 ];
-    int  LastChar;
+	// Keyboard status
+	char Key[ GLFW_KEY_LAST+1 ];
+	int  LastChar;
 
-    // User selected settings
-    int  StickyKeys;
-    int  StickyMouseButtons;
-    int  KeyRepeat;
+	// User selected settings
+	int  StickyKeys;
+	int  StickyMouseButtons;
+	int  KeyRepeat;
 
 
 // ========= PLATFORM SPECIFIC PART ======================================
 
-    // Platform specific internal variables
-    int  MouseMoved, OldMouseX, OldMouseY;
+	// Platform specific internal variables
+	int  MouseMoved, OldMouseX, OldMouseY;
 
 } _glfwInput;
 
@@ -414,11 +414,11 @@ GLFWGLOBAL struct {
 //------------------------------------------------------------------------
 GLFWGLOBAL struct {
 
-    // Window opening hints
-    _GLFWhints      hints;
+	// Window opening hints
+	_GLFWhints      hints;
 
-    // Initial desktop mode
-    GLFWvidmode     desktopMode;
+	// Initial desktop mode
+	GLFWvidmode     desktopMode;
 
 // ========= PLATFORM SPECIFIC PART ======================================
 
@@ -426,39 +426,39 @@ GLFWGLOBAL struct {
 
   // Timer data
   struct {
-      int          HasPerformanceCounter;
-      double       Resolution;
-      unsigned int t0_32;
-      __int64      t0_64;
+	  int          HasPerformanceCounter;
+	  double       Resolution;
+	  unsigned int t0_32;
+	  __int64      t0_64;
   } Timer;
 
   // System information
   struct {
-      int     winVer;
-      int     hasUnicode;
-      DWORD   foregroundLockTimeout;
+	  int     winVer;
+	  int     hasUnicode;
+	  DWORD   foregroundLockTimeout;
   } Sys;
 
 #if !defined(_GLFW_NO_DLOAD_WINMM) || !defined(_GLFW_NO_DLOAD_GDI32)
   // Library handles and function pointers
   struct {
 #ifndef _GLFW_NO_DLOAD_GDI32
-      // gdi32.dll
-      HINSTANCE             gdi32;
-      CHOOSEPIXELFORMAT_T   ChoosePixelFormat;
-      DESCRIBEPIXELFORMAT_T DescribePixelFormat;
-      GETPIXELFORMAT_T      GetPixelFormat;
-      SETPIXELFORMAT_T      SetPixelFormat;
-      SWAPBUFFERS_T         SwapBuffers;
+	  // gdi32.dll
+	  HINSTANCE             gdi32;
+	  CHOOSEPIXELFORMAT_T   ChoosePixelFormat;
+	  DESCRIBEPIXELFORMAT_T DescribePixelFormat;
+	  GETPIXELFORMAT_T      GetPixelFormat;
+	  SETPIXELFORMAT_T      SetPixelFormat;
+	  SWAPBUFFERS_T         SwapBuffers;
 #endif // _GLFW_NO_DLOAD_GDI32
 
-      // winmm.dll
+	  // winmm.dll
 #ifndef _GLFW_NO_DLOAD_WINMM
-      HINSTANCE             winmm;
-      JOYGETDEVCAPSA_T      joyGetDevCapsA;
-      JOYGETPOS_T           joyGetPos;
-      JOYGETPOSEX_T         joyGetPosEx;
-      TIMEGETTIME_T         timeGetTime;
+	  HINSTANCE             winmm;
+	  JOYGETDEVCAPSA_T      joyGetDevCapsA;
+	  JOYGETPOS_T           joyGetPos;
+	  JOYGETPOSEX_T         joyGetPosEx;
+	  TIMEGETTIME_T         timeGetTime;
 #endif // _GLFW_NO_DLOAD_WINMM
   } Libs;
 #endif
@@ -475,18 +475,18 @@ struct _GLFWthread_struct {
 
 // ========= PLATFORM INDEPENDENT MANDATORY PART =========================
 
-    // Pointer to previous and next threads in linked list
-    _GLFWthread   *Previous, *Next;
+	// Pointer to previous and next threads in linked list
+	_GLFWthread   *Previous, *Next;
 
-    // GLFW user side thread information
-    GLFWthread    ID;
-    GLFWthreadfun Function;
+	// GLFW user side thread information
+	GLFWthread    ID;
+	GLFWthreadfun Function;
 
 // ========= PLATFORM SPECIFIC PART ======================================
 
-    // System side thread information
-    HANDLE        Handle;
-    DWORD         WinID;
+	// System side thread information
+	HANDLE        Handle;
+	DWORD         WinID;
 
 };
 
@@ -498,16 +498,16 @@ GLFWGLOBAL struct {
 
 // ========= PLATFORM INDEPENDENT MANDATORY PART =========================
 
-    // Next thread ID to use (increments for every created thread)
-    GLFWthread       NextID;
+	// Next thread ID to use (increments for every created thread)
+	GLFWthread       NextID;
 
-    // First thread in linked list (always the main thread)
-    _GLFWthread      First;
+	// First thread in linked list (always the main thread)
+	_GLFWthread      First;
 
 // ========= PLATFORM SPECIFIC PART ======================================
 
-    // Critical section lock
-    CRITICAL_SECTION CriticalSection;
+	// Critical section lock
+	CRITICAL_SECTION CriticalSection;
 
 } _glfwThrd;
 
@@ -520,9 +520,9 @@ GLFWGLOBAL struct {
 
 // Thread list management
 #define ENTER_THREAD_CRITICAL_SECTION \
-        EnterCriticalSection( &_glfwThrd.CriticalSection );
+		EnterCriticalSection( &_glfwThrd.CriticalSection );
 #define LEAVE_THREAD_CRITICAL_SECTION \
-        LeaveCriticalSection( &_glfwThrd.CriticalSection );
+		LeaveCriticalSection( &_glfwThrd.CriticalSection );
 
 
 //========================================================================

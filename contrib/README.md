@@ -22,7 +22,11 @@ FreeType 2.4.10
 - Undefined FT_DEBUG_AUTOFIT in ftoptions.h;
 - Undefined FT_DEBUG_MEMORY in ftoptions.h;
 
-GLFW
+GLFW 2.7.7
+
+- Include "internal.h" to "glfw/internal.h";
+- Added platform.h to glfw/ root, with redirect to platform specific headers;
+- Added "#define GLFW_NO_GLU 1" to glfw.h;
 
 GLEW
 

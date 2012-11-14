@@ -28,7 +28,7 @@
 //
 //========================================================================
 
-#include "internal.h"
+#include "glfw/internal.h"
 
 
 //************************************************************************
@@ -41,12 +41,12 @@
 
 GLFWAPI int GLFWAPIENTRY glfwGetJoystickParam( int joy, int param )
 {
-    if( !_glfwInitialized )
-    {
-        return 0;
-    }
+	if( !_glfwInitialized )
+	{
+		return 0;
+	}
 
-    return _glfwPlatformGetJoystickParam( joy, param );
+	return _glfwPlatformGetJoystickParam( joy, param );
 }
 
 
@@ -56,20 +56,20 @@ GLFWAPI int GLFWAPIENTRY glfwGetJoystickParam( int joy, int param )
 
 GLFWAPI int GLFWAPIENTRY glfwGetJoystickPos( int joy, float *pos, int numaxes )
 {
-    int i;
+	int i;
 
-    if( !_glfwInitialized )
-    {
-        return 0;
-    }
+	if( !_glfwInitialized )
+	{
+		return 0;
+	}
 
-    // Clear positions
-    for( i = 0; i < numaxes; i++ )
-    {
-        pos[ i ] = 0.0f;
-    }
+	// Clear positions
+	for( i = 0; i < numaxes; i++ )
+	{
+		pos[ i ] = 0.0f;
+	}
 
-    return _glfwPlatformGetJoystickPos( joy, pos, numaxes );
+	return _glfwPlatformGetJoystickPos( joy, pos, numaxes );
 }
 
 
@@ -78,22 +78,22 @@ GLFWAPI int GLFWAPIENTRY glfwGetJoystickPos( int joy, float *pos, int numaxes )
 //========================================================================
 
 GLFWAPI int GLFWAPIENTRY glfwGetJoystickButtons( int joy,
-                                                 unsigned char *buttons,
-                                                 int numbuttons )
+												 unsigned char *buttons,
+												 int numbuttons )
 {
-    int i;
+	int i;
 
-    if( !_glfwInitialized )
-    {
-        return 0;
-    }
+	if( !_glfwInitialized )
+	{
+		return 0;
+	}
 
-    // Clear button states
-    for( i = 0; i < numbuttons; i++ )
-    {
-        buttons[ i ] = GLFW_RELEASE;
-    }
+	// Clear button states
+	for( i = 0; i < numbuttons; i++ )
+	{
+		buttons[ i ] = GLFW_RELEASE;
+	}
 
-    return _glfwPlatformGetJoystickButtons( joy, buttons, numbuttons );
+	return _glfwPlatformGetJoystickButtons( joy, buttons, numbuttons );
 }
 

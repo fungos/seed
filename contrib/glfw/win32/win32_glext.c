@@ -41,33 +41,33 @@
 
 int _glfwPlatformExtensionSupported( const char *extension )
 {
-    const GLubyte *extensions;
+	const GLubyte *extensions;
 
-    if( _glfwWin.GetExtensionsStringEXT != NULL )
-    {
-        extensions = (GLubyte *) _glfwWin.GetExtensionsStringEXT();
-        if( extensions != NULL )
-        {
-            if( _glfwStringInExtensionString( extension, extensions ) )
-            {
-                return GL_TRUE;
-            }
-        }
-    }
+	if( _glfwWin.GetExtensionsStringEXT != NULL )
+	{
+		extensions = (GLubyte *) _glfwWin.GetExtensionsStringEXT();
+		if( extensions != NULL )
+		{
+			if( _glfwStringInExtensionString( extension, extensions ) )
+			{
+				return GL_TRUE;
+			}
+		}
+	}
 
-    if( _glfwWin.GetExtensionsStringARB != NULL )
-    {
-        extensions = (GLubyte *) _glfwWin.GetExtensionsStringARB( _glfwWin.DC );
-        if( extensions != NULL )
-        {
-            if( _glfwStringInExtensionString( extension, extensions ) )
-            {
-                return GL_TRUE;
-            }
-        }
-    }
+	if( _glfwWin.GetExtensionsStringARB != NULL )
+	{
+		extensions = (GLubyte *) _glfwWin.GetExtensionsStringARB( _glfwWin.DC );
+		if( extensions != NULL )
+		{
+			if( _glfwStringInExtensionString( extension, extensions ) )
+			{
+				return GL_TRUE;
+			}
+		}
+	}
 
-    return GL_FALSE;
+	return GL_FALSE;
 }
 
 
@@ -77,6 +77,6 @@ int _glfwPlatformExtensionSupported( const char *extension )
 
 void *_glfwPlatformGetProcAddress( const char *procname )
 {
-    return (void *) wglGetProcAddress( procname );
+	return (void *) wglGetProcAddress( procname );
 }
 

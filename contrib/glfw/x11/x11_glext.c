@@ -61,20 +61,20 @@ void (*glXGetProcAddressEXT(const GLubyte *procName))();
 
 int _glfwPlatformExtensionSupported( const char *extension )
 {
-    const GLubyte *extensions;
+	const GLubyte *extensions;
 
-    // Get list of GLX extensions
-    extensions = (const GLubyte*) glXQueryExtensionsString( _glfwLibrary.display,
-                                                            _glfwWin.screen );
-    if( extensions != NULL )
-    {
-        if( _glfwStringInExtensionString( extension, extensions ) )
-        {
-            return GL_TRUE;
-        }
-    }
+	// Get list of GLX extensions
+	extensions = (const GLubyte*) glXQueryExtensionsString( _glfwLibrary.display,
+															_glfwWin.screen );
+	if( extensions != NULL )
+	{
+		if( _glfwStringInExtensionString( extension, extensions ) )
+		{
+			return GL_TRUE;
+		}
+	}
 
-    return GL_FALSE;
+	return GL_FALSE;
 }
 
 
@@ -84,6 +84,6 @@ int _glfwPlatformExtensionSupported( const char *extension )
 
 void * _glfwPlatformGetProcAddress( const char *procname )
 {
-    return (void *) _glfw_glXGetProcAddress( (const GLubyte *) procname );
+	return (void *) _glfw_glXGetProcAddress( (const GLubyte *) procname );
 }
 

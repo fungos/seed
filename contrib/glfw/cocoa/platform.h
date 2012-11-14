@@ -30,7 +30,6 @@
 #ifndef _platform_h_
 #define _platform_h_
 
-#include "glew/glew.h"
 
 // This is the Mac OS X version of GLFW
 #define _GLFW_MAC_OS_X
@@ -262,5 +261,8 @@ pthread_mutex_unlock( &_glfwThrd.CriticalSection );
 // Time
 void _glfwInitTimer( void );
 
+// Joystick
+void _glfwInitJoysticks( void );
+void _glfwTerminateJoysticks( void );
 
 #endif // _platform_h_

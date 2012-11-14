@@ -29,7 +29,7 @@
 //========================================================================
 
 #define _init_c_
-#include "internal.h"
+#include "glfw/internal.h"
 
 
 //************************************************************************
@@ -42,34 +42,34 @@
 
 GLFWAPI int GLFWAPIENTRY glfwInit( void )
 {
-    // Is GLFW already initialized?
-    if( _glfwInitialized )
-    {
-        return GL_TRUE;
-    }
+	// Is GLFW already initialized?
+	if( _glfwInitialized )
+	{
+		return GL_TRUE;
+	}
 
-    memset( &_glfwLibrary, 0, sizeof( _glfwLibrary ) );
-    memset( &_glfwWin, 0, sizeof( _glfwWin ) );
+	memset( &_glfwLibrary, 0, sizeof( _glfwLibrary ) );
+	memset( &_glfwWin, 0, sizeof( _glfwWin ) );
 
-    // Window is not yet opened
-    _glfwWin.opened = GL_FALSE;
+	// Window is not yet opened
+	_glfwWin.opened = GL_FALSE;
 
-    // Default enable/disable settings
-    _glfwWin.sysKeysDisabled = GL_FALSE;
+	// Default enable/disable settings
+	_glfwWin.sysKeysDisabled = GL_FALSE;
 
-    // Clear window hints
-    _glfwClearWindowHints();
+	// Clear window hints
+	_glfwClearWindowHints();
 
-    // Platform specific initialization
-    if( !_glfwPlatformInit() )
-    {
-        return GL_FALSE;
-    }
+	// Platform specific initialization
+	if( !_glfwPlatformInit() )
+	{
+		return GL_FALSE;
+	}
 
-    // Form now on, GLFW state is valid
-    _glfwInitialized = GL_TRUE;
+	// Form now on, GLFW state is valid
+	_glfwInitialized = GL_TRUE;
 
-    return GL_TRUE;
+	return GL_TRUE;
 }
 
 
@@ -80,20 +80,20 @@ GLFWAPI int GLFWAPIENTRY glfwInit( void )
 
 GLFWAPI void GLFWAPIENTRY glfwTerminate( void )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return;
+	}
 
-    // Platform specific termination
-    if( !_glfwPlatformTerminate() )
-    {
-        return;
-    }
+	// Platform specific termination
+	if( !_glfwPlatformTerminate() )
+	{
+		return;
+	}
 
-    // GLFW is no longer initialized
-    _glfwInitialized = GL_FALSE;
+	// GLFW is no longer initialized
+	_glfwInitialized = GL_FALSE;
 }
 
 
@@ -103,8 +103,8 @@ GLFWAPI void GLFWAPIENTRY glfwTerminate( void )
 
 GLFWAPI void GLFWAPIENTRY glfwGetVersion( int *major, int *minor, int *rev )
 {
-    if( major != NULL ) *major = GLFW_VERSION_MAJOR;
-    if( minor != NULL ) *minor = GLFW_VERSION_MINOR;
-    if( rev   != NULL ) *rev   = GLFW_VERSION_REVISION;
+	if( major != NULL ) *major = GLFW_VERSION_MAJOR;
+	if( minor != NULL ) *minor = GLFW_VERSION_MINOR;
+	if( rev   != NULL ) *rev   = GLFW_VERSION_REVISION;
 }
 

@@ -44,47 +44,47 @@
 
 void * _glfwNewThread( void * arg )
 {
-    GLFWthreadfun threadfun;
-    _GLFWthread   *t;
-    pthread_t   posixID;
+	GLFWthreadfun threadfun;
+	_GLFWthread   *t;
+	pthread_t   posixID;
 
-    // Get current thread ID
-    posixID = pthread_self();
+	// Get current thread ID
+	posixID = pthread_self();
 
-    // Enter critical section
-    ENTER_THREAD_CRITICAL_SECTION
+	// Enter critical section
+	ENTER_THREAD_CRITICAL_SECTION
 
-    // Loop through entire list of threads to find the matching POSIX
-    // thread ID
-    for( t = &_glfwThrd.First; t != NULL; t = t->Next )
-    {
-        if( t->PosixID == posixID )
-        {
-            break;
-        }
-    }
-    if( t == NULL )
-    {
-        LEAVE_THREAD_CRITICAL_SECTION
-        return NULL;
-    }
+	// Loop through entire list of threads to find the matching POSIX
+	// thread ID
+	for( t = &_glfwThrd.First; t != NULL; t = t->Next )
+	{
+		if( t->PosixID == posixID )
+		{
+			break;
+		}
+	}
+	if( t == NULL )
+	{
+		LEAVE_THREAD_CRITICAL_SECTION
+		return NULL;
+	}
 
-    // Get user thread function pointer
-    threadfun = t->Function;
+	// Get user thread function pointer
+	threadfun = t->Function;
 
-    // Leave critical section
-    LEAVE_THREAD_CRITICAL_SECTION
+	// Leave critical section
+	LEAVE_THREAD_CRITICAL_SECTION
 
-    // Call the user thread function
-    threadfun( arg );
+	// Call the user thread function
+	threadfun( arg );
 
-    // Remove thread from thread list
-    ENTER_THREAD_CRITICAL_SECTION
-    _glfwRemoveThread( t );
-    LEAVE_THREAD_CRITICAL_SECTION
+	// Remove thread from thread list
+	ENTER_THREAD_CRITICAL_SECTION
+	_glfwRemoveThread( t );
+	LEAVE_THREAD_CRITICAL_SECTION
 
-    // When the thread function returns, the thread will die...
-    return NULL;
+	// When the thread function returns, the thread will die...
+	return NULL;
 }
 
 #endif // _GLFW_HAS_PTHREAD
@@ -103,57 +103,57 @@ GLFWthread _glfwPlatformCreateThread( GLFWthreadfun fun, void *arg )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    GLFWthread  ID;
-    _GLFWthread *t;
-    int         result;
+	GLFWthread  ID;
+	_GLFWthread *t;
+	int         result;
 
-    // Enter critical section
-    ENTER_THREAD_CRITICAL_SECTION
+	// Enter critical section
+	ENTER_THREAD_CRITICAL_SECTION
 
-    // Create a new thread information memory area
-    t = (_GLFWthread *) malloc( sizeof(_GLFWthread) );
-    if( t == NULL )
-    {
-        // Leave critical section
-        LEAVE_THREAD_CRITICAL_SECTION
-        return -1;
-    }
+	// Create a new thread information memory area
+	t = (_GLFWthread *) malloc( sizeof(_GLFWthread) );
+	if( t == NULL )
+	{
+		// Leave critical section
+		LEAVE_THREAD_CRITICAL_SECTION
+		return -1;
+	}
 
-    // Get a new unique thread id
-    ID = _glfwThrd.NextID ++;
+	// Get a new unique thread id
+	ID = _glfwThrd.NextID ++;
 
-    // Store thread information in the thread list
-    t->Function = fun;
-    t->ID       = ID;
+	// Store thread information in the thread list
+	t->Function = fun;
+	t->ID       = ID;
 
-    // Create thread
-    result = pthread_create(
-        &t->PosixID,      // Thread handle
-        NULL,             // Default thread attributes
-        _glfwNewThread,   // Thread function (a wrapper function)
-        (void *)arg       // Argument to thread is user argument
-    );
+	// Create thread
+	result = pthread_create(
+		&t->PosixID,      // Thread handle
+		NULL,             // Default thread attributes
+		_glfwNewThread,   // Thread function (a wrapper function)
+		(void *)arg       // Argument to thread is user argument
+	);
 
-    // Did the thread creation fail?
-    if( result != 0 )
-    {
-        free( (void *) t );
-        LEAVE_THREAD_CRITICAL_SECTION
-        return -1;
-    }
+	// Did the thread creation fail?
+	if( result != 0 )
+	{
+		free( (void *) t );
+		LEAVE_THREAD_CRITICAL_SECTION
+		return -1;
+	}
 
-    // Append thread to thread list
-    _glfwAppendThread( t );
+	// Append thread to thread list
+	_glfwAppendThread( t );
 
-    // Leave critical section
-    LEAVE_THREAD_CRITICAL_SECTION
+	// Leave critical section
+	LEAVE_THREAD_CRITICAL_SECTION
 
-    // Return the GLFW thread ID
-    return ID;
+	// Return the GLFW thread ID
+	return ID;
 
 #else
 
-    return -1;
+	return -1;
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -168,27 +168,27 @@ void _glfwPlatformDestroyThread( GLFWthread ID )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    _GLFWthread *t;
+	_GLFWthread *t;
 
-    // Enter critical section
-    ENTER_THREAD_CRITICAL_SECTION
+	// Enter critical section
+	ENTER_THREAD_CRITICAL_SECTION
 
-    // Get thread information pointer
-    t = _glfwGetThreadPointer( ID );
-    if( t == NULL )
-    {
-        LEAVE_THREAD_CRITICAL_SECTION
-        return;
-    }
+	// Get thread information pointer
+	t = _glfwGetThreadPointer( ID );
+	if( t == NULL )
+	{
+		LEAVE_THREAD_CRITICAL_SECTION
+		return;
+	}
 
-    // Simply murder the process, no mercy!
-    pthread_kill( t->PosixID, SIGKILL );
+	// Simply murder the process, no mercy!
+	pthread_kill( t->PosixID, SIGKILL );
 
-    // Remove thread from thread list
-    _glfwRemoveThread( t );
+	// Remove thread from thread list
+	_glfwRemoveThread( t );
 
-    // Leave critical section
-    LEAVE_THREAD_CRITICAL_SECTION
+	// Leave critical section
+	LEAVE_THREAD_CRITICAL_SECTION
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -202,43 +202,43 @@ int _glfwPlatformWaitThread( GLFWthread ID, int waitmode )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    pthread_t   thread;
-    _GLFWthread *t;
+	pthread_t   thread;
+	_GLFWthread *t;
 
-    // Enter critical section
-    ENTER_THREAD_CRITICAL_SECTION
+	// Enter critical section
+	ENTER_THREAD_CRITICAL_SECTION
 
-    // Get thread information pointer
-    t = _glfwGetThreadPointer( ID );
+	// Get thread information pointer
+	t = _glfwGetThreadPointer( ID );
 
-    // Is the thread already dead?
-    if( t == NULL )
-    {
-        LEAVE_THREAD_CRITICAL_SECTION
-        return GL_TRUE;
-    }
+	// Is the thread already dead?
+	if( t == NULL )
+	{
+		LEAVE_THREAD_CRITICAL_SECTION
+		return GL_TRUE;
+	}
 
-    // If got this far, the thread is alive => polling returns FALSE
-    if( waitmode == GLFW_NOWAIT )
-    {
-        LEAVE_THREAD_CRITICAL_SECTION
-        return GL_FALSE;
-    }
+	// If got this far, the thread is alive => polling returns FALSE
+	if( waitmode == GLFW_NOWAIT )
+	{
+		LEAVE_THREAD_CRITICAL_SECTION
+		return GL_FALSE;
+	}
 
-    // Get thread handle
-    thread = t->PosixID;
+	// Get thread handle
+	thread = t->PosixID;
 
-    // Leave critical section
-    LEAVE_THREAD_CRITICAL_SECTION
+	// Leave critical section
+	LEAVE_THREAD_CRITICAL_SECTION
 
-    // Wait for thread to die
-    (void) pthread_join( thread, NULL );
+	// Wait for thread to die
+	(void) pthread_join( thread, NULL );
 
-    return GL_TRUE;
+	return GL_TRUE;
 
 #else
 
-    return GL_TRUE;
+	return GL_TRUE;
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -252,36 +252,36 @@ GLFWthread _glfwPlatformGetThreadID( void )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    _GLFWthread *t;
-    GLFWthread  ID = -1;
-    pthread_t   posixID;
+	_GLFWthread *t;
+	GLFWthread  ID = -1;
+	pthread_t   posixID;
 
-    // Get current thread ID
-    posixID = pthread_self();
+	// Get current thread ID
+	posixID = pthread_self();
 
-    // Enter critical section
-    ENTER_THREAD_CRITICAL_SECTION
+	// Enter critical section
+	ENTER_THREAD_CRITICAL_SECTION
 
-    // Loop through entire list of threads to find the matching POSIX
-    // thread ID
-    for( t = &_glfwThrd.First; t != NULL; t = t->Next )
-    {
-        if( t->PosixID == posixID )
-        {
-            ID = t->ID;
-            break;
-        }
-    }
+	// Loop through entire list of threads to find the matching POSIX
+	// thread ID
+	for( t = &_glfwThrd.First; t != NULL; t = t->Next )
+	{
+		if( t->PosixID == posixID )
+		{
+			ID = t->ID;
+			break;
+		}
+	}
 
-    // Leave critical section
-    LEAVE_THREAD_CRITICAL_SECTION
+	// Leave critical section
+	LEAVE_THREAD_CRITICAL_SECTION
 
-    // Return the found GLFW thread identifier
-    return ID;
+	// Return the found GLFW thread identifier
+	return ID;
 
 #else
 
-    return 0;
+	return 0;
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -295,24 +295,24 @@ GLFWmutex _glfwPlatformCreateMutex( void )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    pthread_mutex_t *mutex;
+	pthread_mutex_t *mutex;
 
-    // Allocate memory for mutex
-    mutex = (pthread_mutex_t *) malloc( sizeof( pthread_mutex_t ) );
-    if( !mutex )
-    {
-        return NULL;
-    }
+	// Allocate memory for mutex
+	mutex = (pthread_mutex_t *) malloc( sizeof( pthread_mutex_t ) );
+	if( !mutex )
+	{
+		return NULL;
+	}
 
-    // Initialise a mutex object
-    (void) pthread_mutex_init( mutex, NULL );
+	// Initialise a mutex object
+	(void) pthread_mutex_init( mutex, NULL );
 
-    // Cast to GLFWmutex and return
-    return (GLFWmutex) mutex;
+	// Cast to GLFWmutex and return
+	return (GLFWmutex) mutex;
 
 #else
 
-    return (GLFWmutex) 0;
+	return (GLFWmutex) 0;
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -326,11 +326,11 @@ void _glfwPlatformDestroyMutex( GLFWmutex mutex )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    // Destroy the mutex object
-    pthread_mutex_destroy( (pthread_mutex_t *) mutex );
+	// Destroy the mutex object
+	pthread_mutex_destroy( (pthread_mutex_t *) mutex );
 
-    // Free memory for mutex object
-    free( (void *) mutex );
+	// Free memory for mutex object
+	free( (void *) mutex );
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -344,8 +344,8 @@ void _glfwPlatformLockMutex( GLFWmutex mutex )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    // Wait for mutex to be released
-    (void) pthread_mutex_lock( (pthread_mutex_t *) mutex );
+	// Wait for mutex to be released
+	(void) pthread_mutex_lock( (pthread_mutex_t *) mutex );
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -359,8 +359,8 @@ void _glfwPlatformUnlockMutex( GLFWmutex mutex )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    // Release mutex
-    pthread_mutex_unlock( (pthread_mutex_t *) mutex );
+	// Release mutex
+	pthread_mutex_unlock( (pthread_mutex_t *) mutex );
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -374,24 +374,24 @@ GLFWcond _glfwPlatformCreateCond( void )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    pthread_cond_t *cond;
+	pthread_cond_t *cond;
 
-    // Allocate memory for condition variable
-    cond = (pthread_cond_t *) malloc( sizeof(pthread_cond_t) );
-    if( !cond )
-    {
-        return NULL;
-    }
+	// Allocate memory for condition variable
+	cond = (pthread_cond_t *) malloc( sizeof(pthread_cond_t) );
+	if( !cond )
+	{
+		return NULL;
+	}
 
-    // Initialise condition variable
-    (void) pthread_cond_init( cond, NULL );
+	// Initialise condition variable
+	(void) pthread_cond_init( cond, NULL );
 
-    // Cast to GLFWcond and return
-    return (GLFWcond) cond;
+	// Cast to GLFWcond and return
+	return (GLFWcond) cond;
 
 #else
 
-    return (GLFWcond) 0;
+	return (GLFWcond) 0;
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -405,11 +405,11 @@ void _glfwPlatformDestroyCond( GLFWcond cond )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    // Destroy the condition variable object
-    (void) pthread_cond_destroy( (pthread_cond_t *) cond );
+	// Destroy the condition variable object
+	(void) pthread_cond_destroy( (pthread_cond_t *) cond );
 
-    // Free memory for condition variable object
-    free( (void *) cond );
+	// Free memory for condition variable object
+	free( (void *) cond );
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -420,39 +420,39 @@ void _glfwPlatformDestroyCond( GLFWcond cond )
 //========================================================================
 
 void _glfwPlatformWaitCond( GLFWcond cond, GLFWmutex mutex,
-    double timeout )
+	double timeout )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    struct timeval  currenttime;
-    struct timespec wait;
-    long dt_sec, dt_usec;
+	struct timeval  currenttime;
+	struct timespec wait;
+	long dt_sec, dt_usec;
 
-    // Select infinite or timed wait
-    if( timeout >= GLFW_INFINITY )
-    {
-        // Wait for condition (infinite wait)
-        (void) pthread_cond_wait( (pthread_cond_t *) cond,
-                  (pthread_mutex_t *) mutex );
-    }
-    else
-    {
-        // Set timeout time, relatvie to current time
-        gettimeofday( &currenttime, NULL );
-        dt_sec  = (long) timeout;
-        dt_usec = (long) ((timeout - (double)dt_sec) * 1000000.0);
-        wait.tv_nsec = (currenttime.tv_usec + dt_usec) * 1000L;
-        if( wait.tv_nsec > 1000000000L )
-        {
-            wait.tv_nsec -= 1000000000L;
-            dt_sec ++;
-        }
-        wait.tv_sec  = currenttime.tv_sec + dt_sec;
+	// Select infinite or timed wait
+	if( timeout >= GLFW_INFINITY )
+	{
+		// Wait for condition (infinite wait)
+		(void) pthread_cond_wait( (pthread_cond_t *) cond,
+				  (pthread_mutex_t *) mutex );
+	}
+	else
+	{
+		// Set timeout time, relatvie to current time
+		gettimeofday( &currenttime, NULL );
+		dt_sec  = (long) timeout;
+		dt_usec = (long) ((timeout - (double)dt_sec) * 1000000.0);
+		wait.tv_nsec = (currenttime.tv_usec + dt_usec) * 1000L;
+		if( wait.tv_nsec > 1000000000L )
+		{
+			wait.tv_nsec -= 1000000000L;
+			dt_sec ++;
+		}
+		wait.tv_sec  = currenttime.tv_sec + dt_sec;
 
-        // Wait for condition (timed wait)
-        (void) pthread_cond_timedwait( (pthread_cond_t *) cond,
-                   (pthread_mutex_t *) mutex, &wait );
-    }
+		// Wait for condition (timed wait)
+		(void) pthread_cond_timedwait( (pthread_cond_t *) cond,
+				   (pthread_mutex_t *) mutex, &wait );
+	}
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -466,8 +466,8 @@ void _glfwPlatformSignalCond( GLFWcond cond )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    // Signal condition
-    (void) pthread_cond_signal( (pthread_cond_t *) cond );
+	// Signal condition
+	(void) pthread_cond_signal( (pthread_cond_t *) cond );
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -481,8 +481,8 @@ void _glfwPlatformBroadcastCond( GLFWcond cond )
 {
 #ifdef _GLFW_HAS_PTHREAD
 
-    // Broadcast condition
-    (void) pthread_cond_broadcast( (pthread_cond_t *) cond );
+	// Broadcast condition
+	(void) pthread_cond_broadcast( (pthread_cond_t *) cond );
 
 #endif // _GLFW_HAS_PTHREAD
 }
@@ -494,10 +494,10 @@ void _glfwPlatformBroadcastCond( GLFWcond cond )
 
 int _glfwPlatformGetNumberOfProcessors( void )
 {
-    int n;
+	int n;
 
-    // Get number of processors online
-    _glfw_numprocessors( n );
-    return n;
+	// Get number of processors online
+	_glfw_numprocessors( n );
+	return n;
 }
 

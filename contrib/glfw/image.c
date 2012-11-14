@@ -53,7 +53,7 @@
 //========================================================================
 
 
-#include "internal.h"
+#include "glfw/internal.h"
 
 
 // We want to support automatic mipmap generation
@@ -73,70 +73,70 @@
 //========================================================================
 
 static void UpsampleImage( unsigned char *src, unsigned char *dst,
-    int w1, int h1, int w2, int h2, int bpp )
+	int w1, int h1, int w2, int h2, int bpp )
 {
-    int m, n, k, x, y, col8;
-    float dx, dy, xstep, ystep, col, col1, col2;
-    unsigned char *src1, *src2, *src3, *src4;
+	int m, n, k, x, y, col8;
+	float dx, dy, xstep, ystep, col, col1, col2;
+	unsigned char *src1, *src2, *src3, *src4;
 
-    // Calculate scaling factor
-    xstep = (float)(w1-1) / (float)(w2-1);
-    ystep = (float)(h1-1) / (float)(h2-1);
+	// Calculate scaling factor
+	xstep = (float)(w1-1) / (float)(w2-1);
+	ystep = (float)(h1-1) / (float)(h2-1);
 
-    // Copy source data to destination data with bilinear interpolation
-    // Note: The rather strange look of this routine is a direct result of
-    // my attempts at optimizing it. Improvements are welcome!
-    dy = 0.0f;
-    y = 0;
-    for( n = 0; n < h2; n ++ )
-    {
-        dx = 0.0f;
-        src1 = &src[ y*w1*bpp ];
-        src3 = y < (h1-1) ? src1 + w1*bpp : src1;
-        src2 = src1 + bpp;
-        src4 = src3 + bpp;
-        x = 0;
-        for( m = 0; m < w2; m ++ )
-        {
-            for( k = 0; k < bpp; k ++ )
-            {
-                col1 = *src1 ++;
-                col2 = *src2 ++;
-                col = col1 + (col2 - col1) * dx;
-                col1 = *src3 ++;
-                col2 = *src4 ++;
-                col2 = col1 + (col2 - col1) * dx;
-                col += (col2 - col) * dy;
-                col8 = (int) (col + 0.5);
-                if( col8 >= 256 ) col8 = 255;
-                *dst++ = (unsigned char) col8;
-            }
-            dx += xstep;
-            if( dx >= 1.0f )
-            {
-                x ++;
-                dx -= 1.0f;
-                if( x >= (w1-1) )
-                {
-                    src2 = src1;
-                    src4 = src3;
-                }
-            }
-            else
-            {
-                src1 -= bpp;
-                src2 -= bpp;
-                src3 -= bpp;
-                src4 -= bpp;
-            }
-        }
-        dy += ystep;
-        if( dy >= 1.0f )
-        {
-            y ++;
-            dy -= 1.0f;
-        }
-    }
+	// Copy source data to destination data with bilinear interpolation
+	// Note: The rather strange look of this routine is a direct result of
+	// my attempts at optimizing it. Improvements are welcome!
+	dy = 0.0f;
+	y = 0;
+	for( n = 0; n < h2; n ++ )
+	{
+		dx = 0.0f;
+		src1 = &src[ y*w1*bpp ];
+		src3 = y < (h1-1) ? src1 + w1*bpp : src1;
+		src2 = src1 + bpp;
+		src4 = src3 + bpp;
+		x = 0;
+		for( m = 0; m < w2; m ++ )
+		{
+			for( k = 0; k < bpp; k ++ )
+			{
+				col1 = *src1 ++;
+				col2 = *src2 ++;
+				col = col1 + (col2 - col1) * dx;
+				col1 = *src3 ++;
+				col2 = *src4 ++;
+				col2 = col1 + (col2 - col1) * dx;
+				col += (col2 - col) * dy;
+				col8 = (int) (col + 0.5);
+				if( col8 >= 256 ) col8 = 255;
+				*dst++ = (unsigned char) col8;
+			}
+			dx += xstep;
+			if( dx >= 1.0f )
+			{
+				x ++;
+				dx -= 1.0f;
+				if( x >= (w1-1) )
+				{
+					src2 = src1;
+					src4 = src3;
+				}
+			}
+			else
+			{
+				src1 -= bpp;
+				src2 -= bpp;
+				src3 -= bpp;
+				src4 -= bpp;
+			}
+		}
+		dy += ystep;
+		if( dy >= 1.0f )
+		{
+			y ++;
+			dy -= 1.0f;
+		}
+	}
 }
 
 
@@ -145,65 +145,65 @@ static void UpsampleImage( unsigned char *src, unsigned char *dst,
 //========================================================================
 
 static int HalveImage( GLubyte *src, int *width, int *height,
-    int components )
+	int components )
 {
-    int     halfwidth, halfheight, m, n, k, idx1, idx2;
-    GLubyte *dst;
+	int     halfwidth, halfheight, m, n, k, idx1, idx2;
+	GLubyte *dst;
 
-    // Last level?
-    if( *width <= 1 && *height <= 1 )
-    {
-        return GL_FALSE;
-    }
+	// Last level?
+	if( *width <= 1 && *height <= 1 )
+	{
+		return GL_FALSE;
+	}
 
-    // Calculate new width and height (handle 1D case)
-    halfwidth  = *width > 1 ? *width / 2 : 1;
-    halfheight = *height > 1 ? *height / 2 : 1;
+	// Calculate new width and height (handle 1D case)
+	halfwidth  = *width > 1 ? *width / 2 : 1;
+	halfheight = *height > 1 ? *height / 2 : 1;
 
-    // Downsample image with a simple box-filter
-    dst = src;
-    if( *width == 1 || *height == 1 )
-    {
-        // 1D case
-        for( m = 0; m < halfwidth+halfheight-1; m ++ )
-        {
-            for( k = 0; k < components; k ++ )
-            {
-                *dst ++ = (GLubyte) (((int)*src +
-                                      (int)src[components] + 1) >> 1);
-                src ++;
-            }
-            src += components;
-        }
-    }
-    else
-    {
-        // 2D case
-        idx1 = *width*components;
-        idx2 = (*width+1)*components;
-        for( m = 0; m < halfheight; m ++ )
-        {
-            for( n = 0; n < halfwidth; n ++ )
-            {
-                for( k = 0; k < components; k ++ )
-                {
-                    *dst ++ = (GLubyte) (((int)*src +
-                                          (int)src[components] +
-                                          (int)src[idx1] +
-                                          (int)src[idx2] + 2) >> 2);
-                    src ++;
-                }
-                src += components;
-            }
-            src += components * (*width);
-        }
-    }
+	// Downsample image with a simple box-filter
+	dst = src;
+	if( *width == 1 || *height == 1 )
+	{
+		// 1D case
+		for( m = 0; m < halfwidth+halfheight-1; m ++ )
+		{
+			for( k = 0; k < components; k ++ )
+			{
+				*dst ++ = (GLubyte) (((int)*src +
+									  (int)src[components] + 1) >> 1);
+				src ++;
+			}
+			src += components;
+		}
+	}
+	else
+	{
+		// 2D case
+		idx1 = *width*components;
+		idx2 = (*width+1)*components;
+		for( m = 0; m < halfheight; m ++ )
+		{
+			for( n = 0; n < halfwidth; n ++ )
+			{
+				for( k = 0; k < components; k ++ )
+				{
+					*dst ++ = (GLubyte) (((int)*src +
+										  (int)src[components] +
+										  (int)src[idx1] +
+										  (int)src[idx2] + 2) >> 2);
+					src ++;
+				}
+				src += components;
+			}
+			src += components * (*width);
+		}
+	}
 
-    // Return new width and height
-    *width = halfwidth;
-    *height = halfheight;
+	// Return new width and height
+	*width = halfwidth;
+	*height = halfheight;
 
-    return GL_TRUE;
+	return GL_TRUE;
 }
 
 
@@ -213,55 +213,55 @@ static int HalveImage( GLubyte *src, int *width, int *height,
 
 static int RescaleImage( GLFWimage* image )
 {
-    int     width, height, log2, newsize;
-    unsigned char *data;
+	int     width, height, log2, newsize;
+	unsigned char *data;
 
-    // Calculate next larger 2^N width
-    for( log2 = 0, width = image->Width; width > 1; width >>= 1, log2 ++ )
-      ;
+	// Calculate next larger 2^N width
+	for( log2 = 0, width = image->Width; width > 1; width >>= 1, log2 ++ )
+	  ;
 
-    width  = (int) 1 << log2;
-    if( width < image->Width )
-    {
-        width <<= 1;
-    }
+	width  = (int) 1 << log2;
+	if( width < image->Width )
+	{
+		width <<= 1;
+	}
 
-    // Calculate next larger 2^M height
-    for( log2 = 0, height = image->Height; height > 1; height >>= 1, log2 ++ )
-      ;
+	// Calculate next larger 2^M height
+	for( log2 = 0, height = image->Height; height > 1; height >>= 1, log2 ++ )
+	  ;
 
-    height = (int) 1 << log2;
-    if( height < image->Height )
-    {
-        height <<= 1;
-    }
+	height = (int) 1 << log2;
+	if( height < image->Height )
+	{
+		height <<= 1;
+	}
 
-    // Do we really need to rescale?
-    if( width != image->Width || height != image->Height )
-    {
-        // Allocate memory for new (upsampled) image data
-        newsize = width * height * image->BytesPerPixel;
-        data = (unsigned char *) malloc( newsize );
-        if( data == NULL )
-        {
-            free( image->Data );
-            return GL_FALSE;
-        }
+	// Do we really need to rescale?
+	if( width != image->Width || height != image->Height )
+	{
+		// Allocate memory for new (upsampled) image data
+		newsize = width * height * image->BytesPerPixel;
+		data = (unsigned char *) malloc( newsize );
+		if( data == NULL )
+		{
+			free( image->Data );
+			return GL_FALSE;
+		}
 
-        // Copy old image data to new image data with interpolation
-        UpsampleImage( image->Data, data, image->Width, image->Height,
-                       width, height, image->BytesPerPixel );
+		// Copy old image data to new image data with interpolation
+		UpsampleImage( image->Data, data, image->Width, image->Height,
+					   width, height, image->BytesPerPixel );
 
-        // Free memory for old image data (not needed anymore)
-        free( image->Data );
+		// Free memory for old image data (not needed anymore)
+		free( image->Data );
 
-        // Set pointer to new image data, and set new image dimensions
-        image->Data   = data;
-        image->Width  = width;
-        image->Height = height;
-    }
+		// Set pointer to new image data, and set new image dimensions
+		image->Data   = data;
+		image->Width  = width;
+		image->Height = height;
+	}
 
-    return GL_TRUE;
+	return GL_TRUE;
 }
 
 
@@ -274,70 +274,70 @@ static int RescaleImage( GLFWimage* image )
 //========================================================================
 
 GLFWAPI int GLFWAPIENTRY glfwReadImage( const char *name, GLFWimage *img,
-    int flags )
+	int flags )
 {
-    _GLFWstream stream;
+	_GLFWstream stream;
 
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return GL_FALSE;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return GL_FALSE;
+	}
 
-    // Start with an empty image descriptor
-    img->Width         = 0;
-    img->Height        = 0;
-    img->BytesPerPixel = 0;
-    img->Data          = NULL;
+	// Start with an empty image descriptor
+	img->Width         = 0;
+	img->Height        = 0;
+	img->BytesPerPixel = 0;
+	img->Data          = NULL;
 
-    // Open file
-    if( !_glfwOpenFileStream( &stream, name, "rb" ) )
-    {
-        return GL_FALSE;
-    }
+	// Open file
+	if( !_glfwOpenFileStream( &stream, name, "rb" ) )
+	{
+		return GL_FALSE;
+	}
 
-    // We only support TGA files at the moment
-    if( !_glfwReadTGA( &stream, img, flags ) )
-    {
-        _glfwCloseStream( &stream );
-        return GL_FALSE;
-    }
+	// We only support TGA files at the moment
+	if( !_glfwReadTGA( &stream, img, flags ) )
+	{
+		_glfwCloseStream( &stream );
+		return GL_FALSE;
+	}
 
-    // Close stream
-    _glfwCloseStream( &stream );
+	// Close stream
+	_glfwCloseStream( &stream );
 
-    // Should we rescale the image to closest 2^N x 2^M resolution?
-    if( !(flags & GLFW_NO_RESCALE_BIT) )
-    {
-        if( !RescaleImage( img ) )
-        {
-            return GL_FALSE;
-        }
-    }
+	// Should we rescale the image to closest 2^N x 2^M resolution?
+	if( !(flags & GLFW_NO_RESCALE_BIT) )
+	{
+		if( !RescaleImage( img ) )
+		{
+			return GL_FALSE;
+		}
+	}
 
-    // Interpret BytesPerPixel as an OpenGL format
-    switch( img->BytesPerPixel )
-    {
-        default:
-        case 1:
-            if( flags & GLFW_ALPHA_MAP_BIT )
-            {
-                img->Format = GL_ALPHA;
-            }
-            else
-            {
-                img->Format = GL_LUMINANCE;
-            }
-            break;
-        case 3:
-            img->Format = GL_RGB;
-            break;
-        case 4:
-            img->Format = GL_RGBA;
-            break;
-    }
+	// Interpret BytesPerPixel as an OpenGL format
+	switch( img->BytesPerPixel )
+	{
+		default:
+		case 1:
+			if( flags & GLFW_ALPHA_MAP_BIT )
+			{
+				img->Format = GL_ALPHA;
+			}
+			else
+			{
+				img->Format = GL_LUMINANCE;
+			}
+			break;
+		case 3:
+			img->Format = GL_RGB;
+			break;
+		case 4:
+			img->Format = GL_RGBA;
+			break;
+	}
 
-    return GL_TRUE;
+	return GL_TRUE;
 }
 
 
@@ -347,68 +347,68 @@ GLFWAPI int GLFWAPIENTRY glfwReadImage( const char *name, GLFWimage *img,
 
 GLFWAPI int GLFWAPIENTRY glfwReadMemoryImage( const void *data, long size, GLFWimage *img, int flags )
 {
-    _GLFWstream stream;
+	_GLFWstream stream;
 
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return GL_FALSE;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return GL_FALSE;
+	}
 
-    // Start with an empty image descriptor
-    img->Width         = 0;
-    img->Height        = 0;
-    img->BytesPerPixel = 0;
-    img->Data          = NULL;
+	// Start with an empty image descriptor
+	img->Width         = 0;
+	img->Height        = 0;
+	img->BytesPerPixel = 0;
+	img->Data          = NULL;
 
-    // Open buffer
-    if( !_glfwOpenBufferStream( &stream, (void*) data, size ) )
-    {
-        return GL_FALSE;
-    }
+	// Open buffer
+	if( !_glfwOpenBufferStream( &stream, (void*) data, size ) )
+	{
+		return GL_FALSE;
+	}
 
-    // We only support TGA files at the moment
-    if( !_glfwReadTGA( &stream, img, flags ) )
-    {
-        _glfwCloseStream( &stream );
-        return GL_FALSE;
-    }
+	// We only support TGA files at the moment
+	if( !_glfwReadTGA( &stream, img, flags ) )
+	{
+		_glfwCloseStream( &stream );
+		return GL_FALSE;
+	}
 
-    // Close stream
-    _glfwCloseStream( &stream );
+	// Close stream
+	_glfwCloseStream( &stream );
 
-    // Should we rescale the image to closest 2^N x 2^M resolution?
-    if( !(flags & GLFW_NO_RESCALE_BIT) )
-    {
-        if( !RescaleImage( img ) )
-        {
-            return GL_FALSE;
-        }
-    }
+	// Should we rescale the image to closest 2^N x 2^M resolution?
+	if( !(flags & GLFW_NO_RESCALE_BIT) )
+	{
+		if( !RescaleImage( img ) )
+		{
+			return GL_FALSE;
+		}
+	}
 
-    // Interpret BytesPerPixel as an OpenGL format
-    switch( img->BytesPerPixel )
-    {
-        default:
-        case 1:
-            if( flags & GLFW_ALPHA_MAP_BIT )
-            {
-                img->Format = GL_ALPHA;
-            }
-            else
-            {
-                img->Format = GL_LUMINANCE;
-            }
-            break;
-        case 3:
-            img->Format = GL_RGB;
-            break;
-        case 4:
-            img->Format = GL_RGBA;
-            break;
-    }
+	// Interpret BytesPerPixel as an OpenGL format
+	switch( img->BytesPerPixel )
+	{
+		default:
+		case 1:
+			if( flags & GLFW_ALPHA_MAP_BIT )
+			{
+				img->Format = GL_ALPHA;
+			}
+			else
+			{
+				img->Format = GL_LUMINANCE;
+			}
+			break;
+		case 3:
+			img->Format = GL_RGB;
+			break;
+		case 4:
+			img->Format = GL_RGBA;
+			break;
+	}
 
-    return GL_TRUE;
+	return GL_TRUE;
 }
 
 
@@ -418,24 +418,24 @@ GLFWAPI int GLFWAPIENTRY glfwReadMemoryImage( const void *data, long size, GLFWi
 
 GLFWAPI void GLFWAPIENTRY glfwFreeImage( GLFWimage *img )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return;
+	}
 
-    // Free memory
-    if( img->Data != NULL )
-    {
-        free( img->Data );
-        img->Data = NULL;
-    }
+	// Free memory
+	if( img->Data != NULL )
+	{
+		free( img->Data );
+		img->Data = NULL;
+	}
 
-    // Clear all fields
-    img->Width         = 0;
-    img->Height        = 0;
-    img->Format        = 0;
-    img->BytesPerPixel = 0;
+	// Clear all fields
+	img->Width         = 0;
+	img->Height        = 0;
+	img->Format        = 0;
+	img->BytesPerPixel = 0;
 }
 
 
@@ -445,35 +445,35 @@ GLFWAPI void GLFWAPIENTRY glfwFreeImage( GLFWimage *img )
 
 GLFWAPI int GLFWAPIENTRY glfwLoadTexture2D( const char *name, int flags )
 {
-    GLFWimage img;
+	GLFWimage img;
 
-    // Is GLFW initialized?
-    if( !_glfwInitialized || !_glfwWin.opened )
-    {
-        return GL_FALSE;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized || !_glfwWin.opened )
+	{
+		return GL_FALSE;
+	}
 
-    // Force rescaling if necessary
-    if( !_glfwWin.has_GL_ARB_texture_non_power_of_two )
-    {
-        flags &= (~GLFW_NO_RESCALE_BIT);
-    }
+	// Force rescaling if necessary
+	if( !_glfwWin.has_GL_ARB_texture_non_power_of_two )
+	{
+		flags &= (~GLFW_NO_RESCALE_BIT);
+	}
 
-    // Read image from file
-    if( !glfwReadImage( name, &img, flags ) )
-    {
-        return GL_FALSE;
-    }
+	// Read image from file
+	if( !glfwReadImage( name, &img, flags ) )
+	{
+		return GL_FALSE;
+	}
 
-    if( !glfwLoadTextureImage2D( &img, flags ) )
-    {
-        return GL_FALSE;
-    }
+	if( !glfwLoadTextureImage2D( &img, flags ) )
+	{
+		return GL_FALSE;
+	}
 
-    // Data buffer is not needed anymore
-    glfwFreeImage( &img );
+	// Data buffer is not needed anymore
+	glfwFreeImage( &img );
 
-    return GL_TRUE;
+	return GL_TRUE;
 }
 
 
@@ -483,35 +483,35 @@ GLFWAPI int GLFWAPIENTRY glfwLoadTexture2D( const char *name, int flags )
 
 GLFWAPI int  GLFWAPIENTRY glfwLoadMemoryTexture2D( const void *data, long size, int flags )
 {
-    GLFWimage img;
+	GLFWimage img;
 
-    // Is GLFW initialized?
-    if( !_glfwInitialized || !_glfwWin.opened )
-    {
-        return GL_FALSE;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized || !_glfwWin.opened )
+	{
+		return GL_FALSE;
+	}
 
-    // Force rescaling if necessary
-    if( !_glfwWin.has_GL_ARB_texture_non_power_of_two )
-    {
-        flags &= (~GLFW_NO_RESCALE_BIT);
-    }
+	// Force rescaling if necessary
+	if( !_glfwWin.has_GL_ARB_texture_non_power_of_two )
+	{
+		flags &= (~GLFW_NO_RESCALE_BIT);
+	}
 
-    // Read image from file
-    if( !glfwReadMemoryImage( data, size, &img, flags ) )
-    {
-        return GL_FALSE;
-    }
+	// Read image from file
+	if( !glfwReadMemoryImage( data, size, &img, flags ) )
+	{
+		return GL_FALSE;
+	}
 
-    if( !glfwLoadTextureImage2D( &img, flags ) )
-    {
-        return GL_FALSE;
-    }
+	if( !glfwLoadTextureImage2D( &img, flags ) )
+	{
+		return GL_FALSE;
+	}
 
-    // Data buffer is not needed anymore
-    glfwFreeImage( &img );
+	// Data buffer is not needed anymore
+	glfwFreeImage( &img );
 
-    return GL_TRUE;
+	return GL_TRUE;
 }
 
 
@@ -521,109 +521,109 @@ GLFWAPI int  GLFWAPIENTRY glfwLoadMemoryTexture2D( const void *data, long size, 
 
 GLFWAPI int  GLFWAPIENTRY glfwLoadTextureImage2D( GLFWimage *img, int flags )
 {
-    GLint   UnpackAlignment, GenMipMap;
-    int     level, format, AutoGen, newsize, n;
-    unsigned char *data, *dataptr;
+	GLint   UnpackAlignment, GenMipMap;
+	int     level, format, AutoGen, newsize, n;
+	unsigned char *data, *dataptr;
 
-    // Is GLFW initialized?
-    if( !_glfwInitialized || !_glfwWin.opened )
-    {
-        return GL_FALSE;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized || !_glfwWin.opened )
+	{
+		return GL_FALSE;
+	}
 
-    // TODO: Use GL_MAX_TEXTURE_SIZE or GL_PROXY_TEXTURE_2D to determine
-    //       whether the image size is valid.
-    // NOTE: May require box filter downsampling routine.
+	// TODO: Use GL_MAX_TEXTURE_SIZE or GL_PROXY_TEXTURE_2D to determine
+	//       whether the image size is valid.
+	// NOTE: May require box filter downsampling routine.
 
-    // Do we need to convert the alpha map to RGBA format (OpenGL 1.0)?
-    if( (_glfwWin.glMajor == 1) && (_glfwWin.glMinor == 0) &&
-        (img->Format == GL_ALPHA) )
-    {
-        // We go to RGBA representation instead
-        img->BytesPerPixel = 4;
+	// Do we need to convert the alpha map to RGBA format (OpenGL 1.0)?
+	if( (_glfwWin.glMajor == 1) && (_glfwWin.glMinor == 0) &&
+		(img->Format == GL_ALPHA) )
+	{
+		// We go to RGBA representation instead
+		img->BytesPerPixel = 4;
 
-        // Allocate memory for new RGBA image data
-        newsize = img->Width * img->Height * img->BytesPerPixel;
-        data = (unsigned char *) malloc( newsize );
-        if( data == NULL )
-        {
-            free( img->Data );
-            return GL_FALSE;
-        }
+		// Allocate memory for new RGBA image data
+		newsize = img->Width * img->Height * img->BytesPerPixel;
+		data = (unsigned char *) malloc( newsize );
+		if( data == NULL )
+		{
+			free( img->Data );
+			return GL_FALSE;
+		}
 
-        // Convert Alpha map to RGBA
-        dataptr = data;
-        for( n = 0; n < (img->Width*img->Height); ++ n )
-        {
-            *dataptr ++ = 255;
-            *dataptr ++ = 255;
-            *dataptr ++ = 255;
-            *dataptr ++ = img->Data[n];
-        }
+		// Convert Alpha map to RGBA
+		dataptr = data;
+		for( n = 0; n < (img->Width*img->Height); ++ n )
+		{
+			*dataptr ++ = 255;
+			*dataptr ++ = 255;
+			*dataptr ++ = 255;
+			*dataptr ++ = img->Data[n];
+		}
 
-        // Free memory for old image data (not needed anymore)
-        free( img->Data );
+		// Free memory for old image data (not needed anymore)
+		free( img->Data );
 
-        // Set pointer to new image data
-        img->Data = data;
-    }
+		// Set pointer to new image data
+		img->Data = data;
+	}
 
-    // Set unpack alignment to one byte
-    glGetIntegerv( GL_UNPACK_ALIGNMENT, &UnpackAlignment );
-    glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
+	// Set unpack alignment to one byte
+	glGetIntegerv( GL_UNPACK_ALIGNMENT, &UnpackAlignment );
+	glPixelStorei( GL_UNPACK_ALIGNMENT, 1 );
 
-    // Should we use automatic mipmap generation?
-    AutoGen = ( flags & GLFW_BUILD_MIPMAPS_BIT ) &&
-              _glfwWin.has_GL_SGIS_generate_mipmap;
+	// Should we use automatic mipmap generation?
+	AutoGen = ( flags & GLFW_BUILD_MIPMAPS_BIT ) &&
+			  _glfwWin.has_GL_SGIS_generate_mipmap;
 
-    // Enable automatic mipmap generation
-    if( AutoGen )
-    {
-        glGetTexParameteriv( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS,
-            &GenMipMap );
-        glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS,
-            GL_TRUE );
-    }
+	// Enable automatic mipmap generation
+	if( AutoGen )
+	{
+		glGetTexParameteriv( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS,
+			&GenMipMap );
+		glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS,
+			GL_TRUE );
+	}
 
-    // Format specification is different for OpenGL 1.0
-    if( _glfwWin.glMajor == 1 && _glfwWin.glMinor == 0 )
-    {
-        format = img->BytesPerPixel;
-    }
-    else
-    {
-        format = img->Format;
-    }
+	// Format specification is different for OpenGL 1.0
+	if( _glfwWin.glMajor == 1 && _glfwWin.glMinor == 0 )
+	{
+		format = img->BytesPerPixel;
+	}
+	else
+	{
+		format = img->Format;
+	}
 
-    // Upload to texture memeory
-    level = 0;
-    do
-    {
-        // Upload this mipmap level
-        glTexImage2D( GL_TEXTURE_2D, level, format,
-            img->Width, img->Height, 0, format,
-            GL_UNSIGNED_BYTE, (void*) img->Data );
+	// Upload to texture memeory
+	level = 0;
+	do
+	{
+		// Upload this mipmap level
+		glTexImage2D( GL_TEXTURE_2D, level, format,
+			img->Width, img->Height, 0, format,
+			GL_UNSIGNED_BYTE, (void*) img->Data );
 
-        // Build next mipmap level manually, if required
-        if( ( flags & GLFW_BUILD_MIPMAPS_BIT ) && !AutoGen )
-        {
-            level = HalveImage( img->Data, &img->Width,
-                        &img->Height, img->BytesPerPixel ) ?
-                    level + 1 : 0;
-        }
-    }
-    while( level != 0 );
+		// Build next mipmap level manually, if required
+		if( ( flags & GLFW_BUILD_MIPMAPS_BIT ) && !AutoGen )
+		{
+			level = HalveImage( img->Data, &img->Width,
+						&img->Height, img->BytesPerPixel ) ?
+					level + 1 : 0;
+		}
+	}
+	while( level != 0 );
 
-    // Restore old automatic mipmap generation state
-    if( AutoGen )
-    {
-        glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS,
-            GenMipMap );
-    }
+	// Restore old automatic mipmap generation state
+	if( AutoGen )
+	{
+		glTexParameteri( GL_TEXTURE_2D, GL_GENERATE_MIPMAP_SGIS,
+			GenMipMap );
+	}
 
-    // Restore old unpack alignment
-    glPixelStorei( GL_UNPACK_ALIGNMENT, UnpackAlignment );
+	// Restore old unpack alignment
+	glPixelStorei( GL_UNPACK_ALIGNMENT, UnpackAlignment );
 
-    return GL_TRUE;
+	return GL_TRUE;
 }
 

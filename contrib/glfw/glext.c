@@ -28,7 +28,7 @@
 //
 //========================================================================
 
-#include "internal.h"
+#include "glfw/internal.h"
 
 
 //************************************************************************
@@ -53,44 +53,44 @@
 
 void _glfwParseGLVersion( int *major, int *minor, int *rev )
 {
-    GLuint _major, _minor = 0, _rev = 0;
-    const GLubyte *version;
-    const GLubyte *ptr;
+	GLuint _major, _minor = 0, _rev = 0;
+	const GLubyte *version;
+	const GLubyte *ptr;
 
-    // Get OpenGL version string
-    version = glGetString( GL_VERSION );
-    if( !version )
-    {
-        return;
-    }
+	// Get OpenGL version string
+	version = glGetString( GL_VERSION );
+	if( !version )
+	{
+		return;
+	}
 
-    // Parse string
-    ptr = version;
-    for( _major = 0; *ptr >= '0' && *ptr <= '9'; ptr ++ )
-    {
-        _major = 10*_major + (*ptr - '0');
-    }
-    if( *ptr == '.' )
-    {
-        ptr ++;
-        for( _minor = 0; *ptr >= '0' && *ptr <= '9'; ptr ++ )
-        {
-            _minor = 10*_minor + (*ptr - '0');
-        }
-        if( *ptr == '.' )
-        {
-            ptr ++;
-            for( _rev = 0; *ptr >= '0' && *ptr <= '9'; ptr ++ )
-            {
-                _rev = 10*_rev + (*ptr - '0');
-            }
-        }
-    }
+	// Parse string
+	ptr = version;
+	for( _major = 0; *ptr >= '0' && *ptr <= '9'; ptr ++ )
+	{
+		_major = 10*_major + (*ptr - '0');
+	}
+	if( *ptr == '.' )
+	{
+		ptr ++;
+		for( _minor = 0; *ptr >= '0' && *ptr <= '9'; ptr ++ )
+		{
+			_minor = 10*_minor + (*ptr - '0');
+		}
+		if( *ptr == '.' )
+		{
+			ptr ++;
+			for( _rev = 0; *ptr >= '0' && *ptr <= '9'; ptr ++ )
+			{
+				_rev = 10*_rev + (*ptr - '0');
+			}
+		}
+	}
 
-    // Return parsed values
-    *major = _major;
-    *minor = _minor;
-    *rev = _rev;
+	// Return parsed values
+	*major = _major;
+	*minor = _minor;
+	*rev = _rev;
 }
 
 //========================================================================
@@ -98,34 +98,34 @@ void _glfwParseGLVersion( int *major, int *minor, int *rev )
 //========================================================================
 
 int _glfwStringInExtensionString( const char *string,
-                                  const GLubyte *extensions )
+								  const GLubyte *extensions )
 {
-    const GLubyte *start;
-    GLubyte *where, *terminator;
+	const GLubyte *start;
+	GLubyte *where, *terminator;
 
-    // It takes a bit of care to be fool-proof about parsing the
-    // OpenGL extensions string. Don't be fooled by sub-strings,
-    // etc.
-    start = extensions;
-    while( 1 )
-    {
-        where = (GLubyte *) strstr( (const char *) start, string );
-        if( !where )
-        {
-            return GL_FALSE;
-        }
-        terminator = where + strlen( string );
-        if( where == start || *(where - 1) == ' ' )
-        {
-            if( *terminator == ' ' || *terminator == '\0' )
-            {
-                break;
-            }
-        }
-        start = terminator;
-    }
+	// It takes a bit of care to be fool-proof about parsing the
+	// OpenGL extensions string. Don't be fooled by sub-strings,
+	// etc.
+	start = extensions;
+	while( 1 )
+	{
+		where = (GLubyte *) strstr( (const char *) start, string );
+		if( !where )
+		{
+			return GL_FALSE;
+		}
+		terminator = where + strlen( string );
+		if( where == start || *(where - 1) == ' ' )
+		{
+			if( *terminator == ' ' || *terminator == '\0' )
+			{
+				break;
+			}
+		}
+		start = terminator;
+	}
 
-    return GL_TRUE;
+	return GL_TRUE;
 }
 
 
@@ -135,39 +135,39 @@ int _glfwStringInExtensionString( const char *string,
 
 void _glfwRefreshContextParams( void )
 {
-    _glfwParseGLVersion( &_glfwWin.glMajor, &_glfwWin.glMinor,
-                         &_glfwWin.glRevision );
+	_glfwParseGLVersion( &_glfwWin.glMajor, &_glfwWin.glMinor,
+						 &_glfwWin.glRevision );
 
-    _glfwWin.glProfile = 0;
-    _glfwWin.glForward = GL_FALSE;
+	_glfwWin.glProfile = 0;
+	_glfwWin.glForward = GL_FALSE;
 
-    // Read back the context profile, if applicable
-    if( _glfwWin.glMajor >= 3 )
-    {
-        GLint flags;
-        glGetIntegerv( GL_CONTEXT_FLAGS, &flags );
+	// Read back the context profile, if applicable
+	if( _glfwWin.glMajor >= 3 )
+	{
+		GLint flags;
+		glGetIntegerv( GL_CONTEXT_FLAGS, &flags );
 
-        if( flags & GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT )
-        {
-            _glfwWin.glForward = GL_TRUE;
-        }
-    }
+		if( flags & GL_CONTEXT_FLAG_FORWARD_COMPATIBLE_BIT )
+		{
+			_glfwWin.glForward = GL_TRUE;
+		}
+	}
 
-    if( _glfwWin.glMajor > 3 ||
-        ( _glfwWin.glMajor == 3 && _glfwWin.glMinor >= 2 ) )
-    {
-        GLint mask;
-        glGetIntegerv( GL_CONTEXT_PROFILE_MASK, &mask );
+	if( _glfwWin.glMajor > 3 ||
+		( _glfwWin.glMajor == 3 && _glfwWin.glMinor >= 2 ) )
+	{
+		GLint mask;
+		glGetIntegerv( GL_CONTEXT_PROFILE_MASK, &mask );
 
-        if( mask & GL_CONTEXT_COMPATIBILITY_PROFILE_BIT )
-        {
-            _glfwWin.glProfile = GLFW_OPENGL_COMPAT_PROFILE;
-        }
-        else if( mask & GL_CONTEXT_CORE_PROFILE_BIT )
-        {
-            _glfwWin.glProfile = GLFW_OPENGL_CORE_PROFILE;
-        }
-    }
+		if( mask & GL_CONTEXT_COMPATIBILITY_PROFILE_BIT )
+		{
+			_glfwWin.glProfile = GLFW_OPENGL_COMPAT_PROFILE;
+		}
+		else if( mask & GL_CONTEXT_CORE_PROFILE_BIT )
+		{
+			_glfwWin.glProfile = GLFW_OPENGL_CORE_PROFILE;
+		}
+	}
 }
 
 
@@ -181,61 +181,61 @@ void _glfwRefreshContextParams( void )
 
 GLFWAPI int GLFWAPIENTRY glfwExtensionSupported( const char *extension )
 {
-    const GLubyte *extensions;
-    GLubyte *where;
+	const GLubyte *extensions;
+	GLubyte *where;
 
-    // Is GLFW initialized?
-    if( !_glfwInitialized || !_glfwWin.opened )
-    {
-        return GL_FALSE;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized || !_glfwWin.opened )
+	{
+		return GL_FALSE;
+	}
 
-    // Extension names should not have spaces
-    where = (GLubyte *) strchr( extension, ' ' );
-    if( where || *extension == '\0' )
-    {
-        return GL_FALSE;
-    }
+	// Extension names should not have spaces
+	where = (GLubyte *) strchr( extension, ' ' );
+	if( where || *extension == '\0' )
+	{
+		return GL_FALSE;
+	}
 
-    if( _glfwWin.glMajor < 3 )
-    {
-        // Check if extension is in the old style OpenGL extensions string
+	if( _glfwWin.glMajor < 3 )
+	{
+		// Check if extension is in the old style OpenGL extensions string
 
-        extensions = glGetString( GL_EXTENSIONS );
-        if( extensions != NULL )
-        {
-            if( _glfwStringInExtensionString( extension, extensions ) )
-            {
-                return GL_TRUE;
-            }
-        }
-    }
-    else
-    {
-        // Check if extension is in the modern OpenGL extensions string list
+		extensions = glGetString( GL_EXTENSIONS );
+		if( extensions != NULL )
+		{
+			if( _glfwStringInExtensionString( extension, extensions ) )
+			{
+				return GL_TRUE;
+			}
+		}
+	}
+	else
+	{
+		// Check if extension is in the modern OpenGL extensions string list
 
-        GLint count;
-        int i;
+		GLint count;
+		int i;
 
-        glGetIntegerv( GL_NUM_EXTENSIONS, &count );
+		glGetIntegerv( GL_NUM_EXTENSIONS, &count );
 
-        for( i = 0;  i < count;  i++ )
-        {
-             if( strcmp( (const char*) _glfwWin.GetStringi( GL_EXTENSIONS, i ),
-                         extension ) == 0 )
-             {
-                 return GL_TRUE;
-             }
-        }
-    }
+		for( i = 0;  i < count;  i++ )
+		{
+			 if( strcmp( (const char*) _glfwWin.GetStringi( GL_EXTENSIONS, i ),
+						 extension ) == 0 )
+			 {
+				 return GL_TRUE;
+			 }
+		}
+	}
 
-    // Additional platform specific extension checking (e.g. WGL)
-    if( _glfwPlatformExtensionSupported( extension ) )
-    {
-        return GL_TRUE;
-    }
+	// Additional platform specific extension checking (e.g. WGL)
+	if( _glfwPlatformExtensionSupported( extension ) )
+	{
+		return GL_TRUE;
+	}
 
-    return GL_FALSE;
+	return GL_FALSE;
 }
 
 
@@ -246,13 +246,13 @@ GLFWAPI int GLFWAPIENTRY glfwExtensionSupported( const char *extension )
 
 GLFWAPI void * GLFWAPIENTRY glfwGetProcAddress( const char *procname )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized || !_glfwWin.opened )
-    {
-        return NULL;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized || !_glfwWin.opened )
+	{
+		return NULL;
+	}
 
-    return _glfwPlatformGetProcAddress( procname );
+	return _glfwPlatformGetProcAddress( procname );
 }
 
 
@@ -262,23 +262,23 @@ GLFWAPI void * GLFWAPIENTRY glfwGetProcAddress( const char *procname )
 
 GLFWAPI void GLFWAPIENTRY glfwGetGLVersion( int *major, int *minor, int *rev )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized || !_glfwWin.opened )
-    {
-        return;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized || !_glfwWin.opened )
+	{
+		return;
+	}
 
-    if( major != NULL )
-    {
-        *major = _glfwWin.glMajor;
-    }
-    if( minor != NULL )
-    {
-        *minor = _glfwWin.glMinor;
-    }
-    if( rev != NULL )
-    {
-        *rev = _glfwWin.glRevision;
-    }
+	if( major != NULL )
+	{
+		*major = _glfwWin.glMajor;
+	}
+	if( minor != NULL )
+	{
+		*minor = _glfwWin.glMinor;
+	}
+	if( rev != NULL )
+	{
+		*rev = _glfwWin.glRevision;
+	}
 }
 

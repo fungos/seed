@@ -28,7 +28,7 @@
 //
 //========================================================================
 
-#include "internal.h"
+#include "glfw/internal.h"
 
 
 //************************************************************************
@@ -41,13 +41,13 @@
 
 GLFWAPI double GLFWAPIENTRY glfwGetTime( void )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return 0.0;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return 0.0;
+	}
 
-    return _glfwPlatformGetTime();
+	return _glfwPlatformGetTime();
 }
 
 
@@ -57,13 +57,13 @@ GLFWAPI double GLFWAPIENTRY glfwGetTime( void )
 
 GLFWAPI void GLFWAPIENTRY glfwSetTime( double time )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return;
+	}
 
-    _glfwPlatformSetTime( time );
+	_glfwPlatformSetTime( time );
 }
 
 
@@ -73,12 +73,12 @@ GLFWAPI void GLFWAPIENTRY glfwSetTime( double time )
 
 GLFWAPI void GLFWAPIENTRY glfwSleep( double time )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return;
+	}
 
-    _glfwPlatformSleep( time );
+	_glfwPlatformSleep( time );
 }
 

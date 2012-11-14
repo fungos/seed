@@ -28,7 +28,7 @@
 //
 //========================================================================
 
-#include "internal.h"
+#include "glfw/internal.h"
 
 
 
@@ -42,17 +42,17 @@
 
 _GLFWthread * _glfwGetThreadPointer( int ID )
 {
-    _GLFWthread *t;
+	_GLFWthread *t;
 
-    for( t = &_glfwThrd.First; t != NULL; t = t->Next )
-    {
-        if( t->ID == ID )
-        {
-            break;
-        }
-    }
+	for( t = &_glfwThrd.First; t != NULL; t = t->Next )
+	{
+		if( t->ID == ID )
+		{
+			break;
+		}
+	}
 
-    return t;
+	return t;
 }
 
 
@@ -62,16 +62,16 @@ _GLFWthread * _glfwGetThreadPointer( int ID )
 
 void _glfwAppendThread( _GLFWthread * t )
 {
-    _GLFWthread *t_tmp;
+	_GLFWthread *t_tmp;
 
-    t_tmp = &_glfwThrd.First;
-    while( t_tmp->Next != NULL )
-    {
-        t_tmp = t_tmp->Next;
-    }
-    t_tmp->Next = t;
-    t->Previous = t_tmp;
-    t->Next     = NULL;
+	t_tmp = &_glfwThrd.First;
+	while( t_tmp->Next != NULL )
+	{
+		t_tmp = t_tmp->Next;
+	}
+	t_tmp->Next = t;
+	t->Previous = t_tmp;
+	t->Next     = NULL;
 }
 
 
@@ -81,15 +81,15 @@ void _glfwAppendThread( _GLFWthread * t )
 
 void _glfwRemoveThread( _GLFWthread * t )
 {
-    if( t->Previous != NULL )
-    {
-        t->Previous->Next = t->Next;
-    }
-    if( t->Next != NULL )
-    {
-        t->Next->Previous = t->Previous;
-    }
-    free( (void *) t );
+	if( t->Previous != NULL )
+	{
+		t->Previous->Next = t->Next;
+	}
+	if( t->Next != NULL )
+	{
+		t->Next->Previous = t->Previous;
+	}
+	free( (void *) t );
 }
 
 
@@ -103,16 +103,16 @@ void _glfwRemoveThread( _GLFWthread * t )
 //========================================================================
 
 GLFWAPI GLFWthread GLFWAPIENTRY glfwCreateThread( GLFWthreadfun fun,
-                                                  void *arg )
+												  void *arg )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return -1;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return -1;
+	}
 
-    // Return the GLFW thread ID
-    return _glfwPlatformCreateThread( fun, arg );
+	// Return the GLFW thread ID
+	return _glfwPlatformCreateThread( fun, arg );
 }
 
 
@@ -123,19 +123,19 @@ GLFWAPI GLFWthread GLFWAPIENTRY glfwCreateThread( GLFWthreadfun fun,
 
 GLFWAPI void GLFWAPIENTRY glfwDestroyThread( GLFWthread ID )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return;
+	}
 
-    // Is it a valid thread? (killing the main thread is not allowed)
-    if( ID < 1 )
-    {
-        return;
-    }
+	// Is it a valid thread? (killing the main thread is not allowed)
+	if( ID < 1 )
+	{
+		return;
+	}
 
-    _glfwPlatformDestroyThread( ID );
+	_glfwPlatformDestroyThread( ID );
 }
 
 
@@ -145,19 +145,19 @@ GLFWAPI void GLFWAPIENTRY glfwDestroyThread( GLFWthread ID )
 
 GLFWAPI int GLFWAPIENTRY glfwWaitThread( GLFWthread ID, int waitmode )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return GL_TRUE;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return GL_TRUE;
+	}
 
-    // Is it a valid thread? (waiting for the main thread is not allowed)
-    if( ID < 1 )
-    {
-        return GL_TRUE;
-    }
+	// Is it a valid thread? (waiting for the main thread is not allowed)
+	if( ID < 1 )
+	{
+		return GL_TRUE;
+	}
 
-    return _glfwPlatformWaitThread( ID, waitmode );
+	return _glfwPlatformWaitThread( ID, waitmode );
 }
 
 
@@ -167,13 +167,13 @@ GLFWAPI int GLFWAPIENTRY glfwWaitThread( GLFWthread ID, int waitmode )
 
 GLFWAPI GLFWthread GLFWAPIENTRY glfwGetThreadID( void )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return 0;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return 0;
+	}
 
-    return _glfwPlatformGetThreadID();
+	return _glfwPlatformGetThreadID();
 }
 
 
@@ -183,13 +183,13 @@ GLFWAPI GLFWthread GLFWAPIENTRY glfwGetThreadID( void )
 
 GLFWAPI GLFWmutex GLFWAPIENTRY glfwCreateMutex( void )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return (GLFWmutex) 0;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return (GLFWmutex) 0;
+	}
 
-    return _glfwPlatformCreateMutex();
+	return _glfwPlatformCreateMutex();
 }
 
 
@@ -199,13 +199,13 @@ GLFWAPI GLFWmutex GLFWAPIENTRY glfwCreateMutex( void )
 
 GLFWAPI void GLFWAPIENTRY glfwDestroyMutex( GLFWmutex mutex )
 {
-    // Initialized & valid mutex (no real way of assuring this)?
-    if( !_glfwInitialized || !mutex )
-    {
-        return;
-    }
+	// Initialized & valid mutex (no real way of assuring this)?
+	if( !_glfwInitialized || !mutex )
+	{
+		return;
+	}
 
-    _glfwPlatformDestroyMutex( mutex );
+	_glfwPlatformDestroyMutex( mutex );
 }
 
 
@@ -215,13 +215,13 @@ GLFWAPI void GLFWAPIENTRY glfwDestroyMutex( GLFWmutex mutex )
 
 GLFWAPI void GLFWAPIENTRY glfwLockMutex( GLFWmutex mutex )
 {
-    // Initialized & valid mutex (no real way of assuring this)?
-    if( !_glfwInitialized && !mutex )
-    {
-        return;
-    }
+	// Initialized & valid mutex (no real way of assuring this)?
+	if( !_glfwInitialized && !mutex )
+	{
+		return;
+	}
 
-    _glfwPlatformLockMutex( mutex );
+	_glfwPlatformLockMutex( mutex );
 }
 
 
@@ -231,13 +231,13 @@ GLFWAPI void GLFWAPIENTRY glfwLockMutex( GLFWmutex mutex )
 
 GLFWAPI void GLFWAPIENTRY glfwUnlockMutex( GLFWmutex mutex )
 {
-    // Initialized & valid mutex (no real way of assuring this)?
-    if( !_glfwInitialized && !mutex )
-    {
-        return;
-    }
+	// Initialized & valid mutex (no real way of assuring this)?
+	if( !_glfwInitialized && !mutex )
+	{
+		return;
+	}
 
-    _glfwPlatformUnlockMutex( mutex );
+	_glfwPlatformUnlockMutex( mutex );
 }
 
 
@@ -247,13 +247,13 @@ GLFWAPI void GLFWAPIENTRY glfwUnlockMutex( GLFWmutex mutex )
 
 GLFWAPI GLFWcond GLFWAPIENTRY glfwCreateCond( void )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return (GLFWcond) 0;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return (GLFWcond) 0;
+	}
 
-    return _glfwPlatformCreateCond();
+	return _glfwPlatformCreateCond();
 }
 
 
@@ -263,13 +263,13 @@ GLFWAPI GLFWcond GLFWAPIENTRY glfwCreateCond( void )
 
 GLFWAPI void GLFWAPIENTRY glfwDestroyCond( GLFWcond cond )
 {
-    // Initialized & valid condition variable?
-    if( !_glfwInitialized || !cond )
-    {
-        return;
-    }
+	// Initialized & valid condition variable?
+	if( !_glfwInitialized || !cond )
+	{
+		return;
+	}
 
-    _glfwPlatformDestroyCond( cond );
+	_glfwPlatformDestroyCond( cond );
 }
 
 
@@ -278,15 +278,15 @@ GLFWAPI void GLFWAPIENTRY glfwDestroyCond( GLFWcond cond )
 //========================================================================
 
 GLFWAPI void GLFWAPIENTRY glfwWaitCond( GLFWcond cond, GLFWmutex mutex,
-                                        double timeout )
+										double timeout )
 {
-    // Initialized & valid condition variable and mutex?
-    if( !_glfwInitialized || !cond || !mutex )
-    {
-        return;
-    }
+	// Initialized & valid condition variable and mutex?
+	if( !_glfwInitialized || !cond || !mutex )
+	{
+		return;
+	}
 
-    _glfwPlatformWaitCond( cond, mutex, timeout );
+	_glfwPlatformWaitCond( cond, mutex, timeout );
 }
 
 
@@ -296,13 +296,13 @@ GLFWAPI void GLFWAPIENTRY glfwWaitCond( GLFWcond cond, GLFWmutex mutex,
 
 GLFWAPI void GLFWAPIENTRY glfwSignalCond( GLFWcond cond )
 {
-    // Initialized & valid condition variable?
-    if( !_glfwInitialized || !cond )
-    {
-        return;
-    }
+	// Initialized & valid condition variable?
+	if( !_glfwInitialized || !cond )
+	{
+		return;
+	}
 
-    _glfwPlatformSignalCond( cond );
+	_glfwPlatformSignalCond( cond );
 }
 
 
@@ -312,13 +312,13 @@ GLFWAPI void GLFWAPIENTRY glfwSignalCond( GLFWcond cond )
 
 GLFWAPI void GLFWAPIENTRY glfwBroadcastCond( GLFWcond cond )
 {
-    // Initialized & valid condition variable?
-    if( !_glfwInitialized || !cond )
-    {
-        return;
-    }
+	// Initialized & valid condition variable?
+	if( !_glfwInitialized || !cond )
+	{
+		return;
+	}
 
-    _glfwPlatformBroadcastCond( cond );
+	_glfwPlatformBroadcastCond( cond );
 }
 
 
@@ -330,12 +330,12 @@ GLFWAPI void GLFWAPIENTRY glfwBroadcastCond( GLFWcond cond )
 
 GLFWAPI int GLFWAPIENTRY glfwGetNumberOfProcessors( void )
 {
-    // Is GLFW initialized?
-    if( !_glfwInitialized )
-    {
-        return 0;
-    }
+	// Is GLFW initialized?
+	if( !_glfwInitialized )
+	{
+		return 0;
+	}
 
-    return _glfwPlatformGetNumberOfProcessors();
+	return _glfwPlatformGetNumberOfProcessors();
 }
 

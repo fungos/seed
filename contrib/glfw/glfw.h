@@ -35,9 +35,6 @@ extern "C" {
 #endif
 
 #define GLFW_NO_GLU 1
-//#if !defined(__APPLE_CC__)
-#include "glew/glew.h"
-//#endif
 
 /*************************************************************************
  * Global definitions
@@ -163,7 +160,6 @@ extern "C" {
  * special defines which normally requires the user to include <windows.h>
  * (which is not a nice solution for portable programs).
  */
-
 #if defined(__APPLE_CC__)
  #if defined(GLFW_INCLUDE_GL3)
   #include <OpenGL/gl3.h>
@@ -192,7 +188,7 @@ extern "C" {
 
 #define GLFW_VERSION_MAJOR    2
 #define GLFW_VERSION_MINOR    7
-#define GLFW_VERSION_REVISION 6
+#define GLFW_VERSION_REVISION 7
 
 
 /*************************************************************************
