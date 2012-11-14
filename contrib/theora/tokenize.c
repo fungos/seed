@@ -18,8 +18,6 @@
 #include <string.h>
 #include "theora/encint.h"
 
-
-
 static int oc_make_eob_token(int _run_count){
   if(_run_count<4)return OC_DCT_EOB1_TOKEN+_run_count-1;
   else{

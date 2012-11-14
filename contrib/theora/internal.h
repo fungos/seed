@@ -11,7 +11,7 @@
  ********************************************************************
 
   function:
-    last mod: $Id: internal.h 16503 2009-08-22 18:14:02Z giles $
+	last mod: $Id: internal.h 16503 2009-08-22 18:14:02Z giles $
 
  ********************************************************************/
 #if !defined(_internal_H)
@@ -23,6 +23,8 @@
 # endif
 # include "theora/codec.h"
 # include "theora/theora.h"
+
+#pragma GCC diagnostic ignored "-Wparentheses"
 
 # if defined(_MSC_VER)
 /*Disable missing EMMS warnings.*/
@@ -114,22 +116,22 @@ typedef struct oc_theora_state          oc_theora_state;
 #define OC_MODE_INTER_NOMV     (0)
 /*Encoded with no motion compensated prediction.*/
 #define OC_MODE_INTRA          (1)
-/*Encoded difference from the previous frame offset by the given motion 
+/*Encoded difference from the previous frame offset by the given motion
   vector.*/
 #define OC_MODE_INTER_MV       (2)
-/*Encoded difference from the previous frame offset by the last coded motion 
+/*Encoded difference from the previous frame offset by the last coded motion
   vector.*/
 #define OC_MODE_INTER_MV_LAST  (3)
-/*Encoded difference from the previous frame offset by the second to last 
+/*Encoded difference from the previous frame offset by the second to last
   coded motion vector.*/
 #define OC_MODE_INTER_MV_LAST2 (4)
-/*Encoded difference from the same macro block in the previous golden 
+/*Encoded difference from the same macro block in the previous golden
   frame.*/
 #define OC_MODE_GOLDEN_NOMV    (5)
-/*Encoded difference from the previous golden frame offset by the given motion 
+/*Encoded difference from the previous golden frame offset by the given motion
   vector.*/
 #define OC_MODE_GOLDEN_MV      (6)
-/*Encoded difference from the previous frame offset by the individual motion 
+/*Encoded difference from the previous frame offset by the individual motion
   vectors given for each block.*/
 #define OC_MODE_INTER_MV_FOUR  (7)
 /*The number of (coded) modes.*/
@@ -209,10 +211,10 @@ struct oc_sb_flags{
   This marks which pixels belong to the displayable region.*/
 struct oc_border_info{
   /*A bit mask marking which pixels are in the displayable region.
-    Pixel (x,y) corresponds to bit (y<<3|x).*/
+	Pixel (x,y) corresponds to bit (y<<3|x).*/
   ogg_int64_t mask;
   /*The number of pixels in the displayable region.
-    This is always positive, and always less than 64.*/
+	This is always positive, and always less than 64.*/
   int         npixels;
 };
 
@@ -223,24 +225,24 @@ struct oc_fragment{
   /*A flag indicating whether or not this fragment is coded.*/
   unsigned   coded:1;
   /*A flag indicating that this entire fragment lies outside the displayable
-     region of the frame.
-    Note the contrast with an invalid macro block, which is outside the coded
-     frame, not just the displayable one.
-    There are no fragments outside the coded frame by construction.*/
+	 region of the frame.
+	Note the contrast with an invalid macro block, which is outside the coded
+	 frame, not just the displayable one.
+	There are no fragments outside the coded frame by construction.*/
   unsigned   invalid:1;
   /*The index of the quality index used for this fragment's AC coefficients.*/
   unsigned   qii:6;
   /*The mode of the macroblock this fragment belongs to.*/
   unsigned   mb_mode:3;
   /*The index of the associated border information for fragments which lie
-     partially outside the displayable region.
-    For fragments completely inside or outside this region, this is -1.
-    Note that the C standard requires an explicit signed keyword for bitfield
-     types, since some compilers may treat them as unsigned without it.*/
+	 partially outside the displayable region.
+	For fragments completely inside or outside this region, this is -1.
+	Note that the C standard requires an explicit signed keyword for bitfield
+	 types, since some compilers may treat them as unsigned without it.*/
   signed int borderi:5;
   /*The prediction-corrected DC component.
-    Note that the C standard requires an explicit signed keyword for bitfield
-     types, since some compilers may treat them as unsigned without it.*/
+	Note that the C standard requires an explicit signed keyword for bitfield
+	 types, since some compilers may treat them as unsigned without it.*/
   signed int dc:16;
 };
 
@@ -285,7 +287,7 @@ struct oc_base_opt_vtable{
    const ptrdiff_t *_fragis,ptrdiff_t _nfragis,
    int _dst_frame,int _src_frame,int _pli);
   void (*state_loop_filter_frag_rows)(const oc_theora_state *_state,
-   int _bv[256],int _refi,int _pli,int _fragy0,int _fragy_end);  
+   int _bv[256],int _refi,int _pli,int _fragy0,int _fragy_end);
   void (*restore_fpu)(void);
 };
 
@@ -311,7 +313,7 @@ struct oc_theora_state{
   /*The list of fragments, indexed in image order.*/
   oc_fragment        *frags;
   /*The the offset into the reference frame buffer to the upper-left pixel of
-     each fragment.*/
+	 each fragment.*/
   ptrdiff_t          *frag_buf_offs;
   /*The motion vector for each fragment.*/
   oc_mv              *frag_mvs;
@@ -324,13 +326,13 @@ struct oc_theora_state{
   /*The total number of super blocks in a single frame.*/
   unsigned            nsbs;
   /*The fragments from each color plane that belong to each macro block.
-    Fragments are stored in image order (left to right then top to bottom).
-    When chroma components are decimated, the extra fragments have an index of
-     -1.*/
+	Fragments are stored in image order (left to right then top to bottom).
+	When chroma components are decimated, the extra fragments have an index of
+	 -1.*/
   oc_mb_map          *mb_maps;
   /*The list of macro block modes.
-    A negative number indicates the macro block lies entirely outside the
-     coded frame.*/
+	A negative number indicates the macro block lies entirely outside the
+	 coded frame.*/
   signed char        *mb_modes;
   /*The number of macro blocks in the X direction.*/
   unsigned            nhmbs;
@@ -339,7 +341,7 @@ struct oc_theora_state{
   /*The total number of macro blocks.*/
   size_t              nmbs;
   /*The list of coded fragments, in coded order.
-    Uncoded fragments are stored in reverse order from the end of the list.*/
+	Uncoded fragments are stored in reverse order from the end of the list.*/
   ptrdiff_t          *coded_fragis;
   /*The number of coded fragments in each plane.*/
   ptrdiff_t           ncoded_fragis[3];
@@ -356,8 +358,8 @@ struct oc_theora_state{
   /*The number of unique border patterns.*/
   int                 nborders;
   /*The unique border patterns for all border fragments.
-    The borderi field of fragments which straddle the border indexes this
-     list.*/
+	The borderi field of fragments which straddle the border indexes this
+	 list.*/
   oc_border_info      borders[16];
   /*The frame number of the last keyframe.*/
   ogg_int64_t         keyframe_num;
@@ -374,7 +376,7 @@ struct oc_theora_state{
   /*The quality indices of the current frame.*/
   unsigned char       qis[3];
   /*The dequantization tables, stored in zig-zag order, and indexed by
-     qi, pli, qti, and zzi.*/
+	 qi, pli, qti, and zzi.*/
   ogg_uint16_t       *dequant_tables[64][3][2];
   OC_ALIGN16(oc_quant_table      dequant_table_data[64][3][2]);
   /*Loop filter strength parameters.*/
@@ -388,7 +390,7 @@ struct oc_theora_state{
    plane.
   _cbmvs: The chroma block-level motion vectors to fill in.
   _lmbmv: The luma macro-block level motion vector to fill in for use in
-           prediction.
+		   prediction.
   _lbmvs: The luma block-level motion vectors.*/
 typedef void (*oc_set_chroma_mvs_func)(oc_mv _cbmvs[4],const oc_mv _lbmvs[4]);
 
