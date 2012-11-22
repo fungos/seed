@@ -28,41 +28,61 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_MANAGER_H__
-#define __SCENE_MANAGER_H__
+#ifndef __ROCKET_GUI_MANAGER_H__
+#define __ROCKET_GUI_MANAGER_H__
 
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
+#include "Defines.h"
+
+#if SEED_USE_ROCKET_GUI == 1
+
 #include "Container.h"
+#include "interface/IModule.h"
+#include "interface/IUpdatable.h"
+#include "interface/IRenderable.h"
+#include "Singleton.h"
 
-namespace Seed {
+#include <Rocket/Core/Context.h>
 
-class ISceneObject;
+namespace Seed { namespace RocketGui {
 
-/// Scene Manager
-class SEED_CORE_API SceneManager : public IUpdatable
+typedef Vector<Rocket::Core::Context *> ContextVector;
+typedef ContextVector::iterator ContextVectorIterator;
+typedef ContextVector::const_iterator ConstContextVectorIterator;
+
+class GuiInterface;
+
+class SEED_CORE_API GuiManager : public IModule, public IRenderable
 {
-	SEED_SINGLETON_DECLARE(SceneManager)
-	DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
+	SEED_SINGLETON_DECLARE(GuiManager)
 	public:
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
+		void AddContext(Rocket::Core::Context *context);
+		void RemoveContext(Rocket::Core::Context *context);
 
-		virtual void Reset();
+		// IModule
+		virtual bool Initialize();
+		virtual bool Shutdown();
 
-		// IUpdatable
-		/// Scene Manager is responsible for doing Update in all IRenderables, so IRenderables cannot be IUpdatables.
-		virtual bool Update(f32 delta);
+		// IRenderable
+		virtual void Render(const Matrix4f &worldTransform);
+		virtual void Update(f32 dt);
+
+		// IObject
+		virtual const String GetObjectName() const;
+		virtual int GetObjectType() const;
 
 	private:
-		SEED_DISABLE_COPY(SceneManager);
+		SEED_DISABLE_COPY(GuiManager);
 
 	private:
-		ISceneObjectVector vObject;
+		GuiInterface *pInterface;
+		ContextVector vContext;
 };
 
-#define pSceneManager SceneManager::GetInstance()
+#define pGuiManager Seed::RocketGui::GuiManager::GetInstance()
 
-} // namespace
+}} // namespace
 
-#endif // __SCENE_MANAGER_H__
+#else // SEED_USE_ROCKET_GUI
+	#error "Include 'GuiManager.h' instead 'api/rocket/rocketGuiManager.h' directly."
+#endif // SEED_USE_ROCKET_GUI
+#endif // __ROCKET_GUI_MANAGER_H__

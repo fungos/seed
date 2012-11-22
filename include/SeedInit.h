@@ -140,6 +140,11 @@ namespace Seed {
 	namespace QT
 	{
 	} // namespace
+
+	/// GLFW (Win32, Linux, MacOSX) platform related implementation
+	namespace GLFW
+	{
+	} // namespace
 } // namespace
 
 } // extern C

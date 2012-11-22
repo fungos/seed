@@ -750,6 +750,19 @@ bool OGLES1RendererDevice::CheckFrameBufferStatus() const
 #endif
 }
 
+void OGLES1RendererDevice::EnableScissor(bool b) const
+{
+	if (b)
+		glEnable(GL_SCISSOR_TEST);
+	else
+		glDisable(GL_SCISSOR_TEST);
+}
+
+void OGLES1RendererDevice::SetScissor(f32 x, f32 y, f32 w, f32 h) const
+{
+	glScissor(x, y, w, h);
+}
+
 void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
 	GL_TRACE("BEGIN SetViewport")

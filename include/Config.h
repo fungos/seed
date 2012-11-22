@@ -17,20 +17,15 @@
 	#endif
 #endif
 
-#define DANNY	"Danny Angelo Carminati Grein"
-#define PATUTI	"Everton Fernando Patitucci da Silva"
-#define RAPTOR	"Rafael Eduardo Gonchor"
-
 #define SEED_TAG					"[Seed] "
 #define SEED_VERSION_MINOR			0			// Developer version (features, fixes)
 #define SEED_VERSION_MIDDLE			0			// Client version
 #define SEED_VERSION_MAJOR			1			// Release version (final trunk)
 #define SEED_VERSION_STRING			"%d.%d.%d"	//"1.1.1"
 #define SEED_NAME					"Seed SDK"
-#define SEED_COPYRIGHT				"Copyright (c) 2008-2009 Danny Angelo Carminati Grein\nCopyright (c) 2009 TechFront Studios"
-#define SEED_AUTHORS				"Authors:\n\t" DANNY "\n\t" PATUTI "\n\t" RAPTOR
+#define SEED_COPYRIGHT				"Copyright (c) 2008-2009 Seed Framework Team\n"
 
-#define SEED_MESSAGE		SEED_NAME " " SEED_VERSION_STRING " [" SEED_PLATFORM_NAME " " SEED_TYPE " " SEED_LICENSE "]\n" SEED_COPYRIGHT "\n" SEED_AUTHORS
+#define SEED_MESSAGE		SEED_NAME " " SEED_VERSION_STRING " [" SEED_PLATFORM_NAME " " SEED_TYPE " " SEED_LICENSE "]\n" SEED_COPYRIGHT
 
 #if defined(DEBUG)
 	#define SEED_TYPE "Debug"
@@ -61,12 +56,12 @@
 //================================================================================
 // FEATURES CAPPING
 //================================================================================
-#define SEED_USE_THREAD					0
-#define SEED_USE_JSON					1
-#define SEED_USE_THEORA					0
+#define SEED_USE_THREAD						0
+#define SEED_USE_JSON						1
+#define SEED_USE_THEORA						0
+#define SEED_USE_ROCKET_GUI					1
 #define SEED_ENABLE_DEPTH_TEST				0
-#define SEED_USE_ROTATION_PIVOT				0
-#define SEED_USE_CENTERED_PIVOT				1
+
 /*
 Transformable objects have only one pivot for calculating the object position, scale and rotation.
 By enabling this, the rotation and scale will be separated from the position pivot but not configurable (defaults to the center of the frame).
@@ -80,7 +75,7 @@ If this option is disabled, you'll have the default pivot in the upper-left corn
 Disabling this and enabling SEED_USE_ROTATION_PIVOT will let you use the upper-left corner as position pivot while using the object center as
 scale and rotation pivot.
 */
-#define SEED_DEFAULT_PIVOT_CENTERED			1
+#define SEED_USE_CENTERED_PIVOT				1
 
 /*
 The size of the music buffer for streaming from hard disk on platforms that support it (SDL).

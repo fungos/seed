@@ -147,6 +147,9 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void AttachDepthBuffer(u32 buffer);
 		virtual bool CheckFrameBufferStatus() const;
 
+		// Support
+		virtual void EnableScissor(bool b) const;
+		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const;
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
 		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
 		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const;

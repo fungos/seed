@@ -59,6 +59,7 @@ enum eObjectType
 	TypeRendererManager,
 	TypeJobManager,
 	TypeThreadManager,
+	TypeGuiManager,
 
 	// System
 	TypeFile,

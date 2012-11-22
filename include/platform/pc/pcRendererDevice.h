@@ -71,7 +71,11 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		virtual void AttachDepthBuffer(u32 buffer);
 		virtual bool CheckFrameBufferStatus() const;
 
+		virtual void EnableScissor(bool b) const;
+		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const;
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
+		virtual f32 GetHorizontalTexelOffset() const;
+		virtual f32 GetVerticalTexelOffset() const;
 		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
 		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const;
 		virtual void Enable2D() const;

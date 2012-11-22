@@ -56,6 +56,10 @@
 #include "Configuration.h"
 #include "ThreadManager.h"
 
+#if (SEED_USE_ROCKET_GUI == 1)
+#include "api/rocket/rocketGuiManager.h"
+#endif
+
 #include "Sprite.h"
 #include "Image.h"
 #include "Movie.h"
@@ -72,7 +76,7 @@ namespace Private
 	int			iArgc;
 	const char	**pcArgv;
 	bool		bDisableSound;
-	bool		bDisableThreadedResourceLoader;
+	bool		bDisableThread;
 	String		sConfigFile;
 	f32			fCurrentTime;
 }
@@ -86,13 +90,13 @@ int CommandLineParameter(const char **argv, int pos)
 	const char *param = argv[pos];
 	int consume = 1;
 
-	if (!strcasecmp(param, "--nosound"))
+	if (!strcasecmp(param, "--no-sound"))
 	{
 		Private::bDisableSound = true;
 	}
-	else if (!strcasecmp(param, "--no-trs"))
+	else if (!strcasecmp(param, "--no-thread"))
 	{
-		Private::bDisableThreadedResourceLoader = true;
+		Private::bDisableThread = true;
 	}
 	else if (!strcasecmp(param, "--config"))
 	{
@@ -121,9 +125,9 @@ void SetGameApp(IGameApp *app, int argc, const char **argv)
 	Private::bDisableSound = false;
 
 #if defined(EMSCRIPTEN)
-	Private::bDisableThreadedResourceLoader = true;
+	Private::bDisableThread = true;
 #else
-	Private::bDisableThreadedResourceLoader = false;
+	Private::bDisableThread = false;
 #endif
 	pResourceManager = app->GetResourceManager();
 
@@ -194,7 +198,7 @@ bool Initialize()
 		ret = ret && pModuleManager->Add(pSoundSystem);
 
 #if (SEED_USE_THREAD == 1)
-	if (!Private::bDisableThreadedResourceLoader)
+	if (!Private::bDisableThread)
 		ret = ret && pModuleManager->Add(pResourceLoader);
 #else
 	ret = ret && pModuleManager->Add(pThreadManager);
@@ -203,6 +207,10 @@ bool Initialize()
 	ret = ret && pModuleManager->Add(pJobManager);
 	ret = ret && pModuleManager->Add(pInput);
 
+#if (SEED_USE_ROCKET_GUI == 1)
+	ret = ret && pModuleManager->Add(pGuiManager);
+#endif
+
 	pUpdater->Add(Private::pApplication);
 
 #if !defined(BUILD_IOS)
@@ -210,7 +218,7 @@ bool Initialize()
 #endif
 
 #if (SEED_USE_THREAD == 1)
-	if (!Private::bDisableThreadedResourceLoader)
+	if (!Private::bDisableThread)
 		pUpdater->Add(pResourceLoader);
 #else
 	pUpdater->Add(pThreadManager);
@@ -284,7 +292,11 @@ void Shutdown()
 	pSceneManager->DestroyInstance();
 	pJobManager->DestroyInstance();
 	pInput->DestroyInstance();
-	
+
+#if (SEED_USE_ROCKET_GUI == 1)
+	pGuiManager->DestroyInstance();
+#endif
+
 #if (SEED_USE_THREAD == 1)
 	pResourceLoader->DestroyInstance();
 #else

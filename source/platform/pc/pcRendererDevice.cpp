@@ -274,9 +274,29 @@ bool RendererDevice::CheckFrameBufferStatus() const
 	return pApiDevice->CheckFrameBufferStatus();
 }
 
+void RendererDevice::EnableScissor(bool b) const
+{
+	pApiDevice->EnableScissor(b);
+}
+
+void RendererDevice::SetScissor(f32 x, f32 y, f32 w, f32 h) const
+{
+	pApiDevice->SetScissor(x, y, w, h);
+}
+
 void RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
 	pApiDevice->SetViewport(x, y, w, h);
+}
+
+f32 RendererDevice::GetHorizontalTexelOffset() const
+{
+	return pApiDevice->GetHorizontalTexelOffset();
+}
+
+f32 RendererDevice::GetVerticalTexelOffset() const
+{
+	return pApiDevice->GetVerticalTexelOffset();
 }
 
 void RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill) const

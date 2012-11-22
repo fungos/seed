@@ -28,41 +28,33 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_MANAGER_H__
-#define __SCENE_MANAGER_H__
+#ifndef __ROCKET_GUI_OBJECT_H__
+#define __ROCKET_GUI_OBJECT_H__
 
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
-#include "Container.h"
+#include "Defines.h"
 
-namespace Seed {
+#if SEED_USE_ROCKET_GUI == 1
 
-class ISceneObject;
+#include "interface/IRenderable.h"
 
-/// Scene Manager
-class SEED_CORE_API SceneManager : public IUpdatable
+namespace Seed { namespace RocketGui {
+
+class SEED_CORE_API GuiObject : public IRenderable
 {
-	SEED_SINGLETON_DECLARE(SceneManager)
-	DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
 	public:
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
+		GuiObject();
+		virtual ~GuiObject();
 
-		virtual void Reset();
-
-		// IUpdatable
-		/// Scene Manager is responsible for doing Update in all IRenderables, so IRenderables cannot be IUpdatables.
-		virtual bool Update(f32 delta);
+		// IRenderable
+		virtual void Render(const Matrix4f &worldTransform);
 
 	private:
-		SEED_DISABLE_COPY(SceneManager);
-
-	private:
-		ISceneObjectVector vObject;
+		SEED_DISABLE_COPY(GuiObject);
 };
 
-#define pSceneManager SceneManager::GetInstance()
+}} // namespace
 
-} // namespace
-
-#endif // __SCENE_MANAGER_H__
+#else // SEED_USE_ROCKET_GUI
+	#error "Include 'GuiManager.h' instead 'api/rocket/rocketGuiObject.h' directly."
+#endif // SEED_USE_ROCKET_GUI
+#endif // __ROCKET_GUI_OBJECT_H__

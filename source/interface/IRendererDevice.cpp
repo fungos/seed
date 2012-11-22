@@ -160,6 +160,21 @@ bool IRendererDevice::CheckFrameBufferStatus() const
 	return true;
 }
 
+void IRendererDevice::EnableScissor(bool b) const
+{
+	UNUSED(b);
+	SEED_ABSTRACT_METHOD;
+}
+
+void IRendererDevice::SetScissor(f32 x, f32 y, f32 w, f32 h) const
+{
+	UNUSED(x);
+	UNUSED(y);
+	UNUSED(w);
+	UNUSED(h);
+	SEED_ABSTRACT_METHOD;
+}
+
 void IRendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
 	UNUSED(x);
@@ -167,6 +182,16 @@ void IRendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 	UNUSED(w);
 	UNUSED(h);
 	SEED_ABSTRACT_METHOD;
+}
+
+f32 IRendererDevice::GetHorizontalTexelOffset() const
+{
+	return 0.5f;
+}
+
+f32 IRendererDevice::GetVerticalTexelOffset() const
+{
+	return 0.5f;
 }
 
 void IRendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill) const
