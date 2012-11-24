@@ -118,9 +118,8 @@
 #include <SeedInit.h>
 #include <SeedRun.h>
 
-#if SEED_USE_THEORA == 1
 #include <api/theora/Theora.h>
-#endif
+#include <api/rocket/rocketGuiInterface.h>
 
 #if defined(BUILD_SDL) && defined(WIN32)
 #undef main

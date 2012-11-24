@@ -50,7 +50,6 @@ SceneNode::SceneNode()
 SceneNode::~SceneNode()
 {
 	this->Unload();
-	ISceneObjectVector().swap(vChild);
 }
 
 bool SceneNode::IsNode() const
@@ -152,6 +151,7 @@ bool SceneNode::Unload()
 	for (; it != end; ++it)
 	{
 		ISceneObject *obj = (*it);
+		obj->Unload();
 		if (obj->bFromFactory)
 			Delete(obj);
 	}
@@ -163,6 +163,14 @@ bool SceneNode::Unload()
 
 void SceneNode::Reset()
 {
+	ISceneObjectVectorIterator it = vChild.begin();
+	ISceneObjectVectorIterator end = vChild.end();
+	for (; it != end; ++it)
+	{
+		ISceneObject *obj = (*it);
+		obj->SetParent(NULL);
+	}
+
 	ISceneObjectVector().swap(vChild);
 }
 

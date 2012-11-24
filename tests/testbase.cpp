@@ -1,5 +1,8 @@
 #include "testbase.h"
 
+#include <Rocket/Core.h>
+#include <Rocket/Controls.h>
+
 SceneNode *gScene;
 
 enum
@@ -37,18 +40,28 @@ bool TestBase::Initialize()
 	gScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
+	/* ------- libRocket ------- */
+	pGuiInterface = New(Seed::RocketGui::GuiInterface());
+	Rocket::Core::SetFileInterface(pGuiInterface);
+	Rocket::Core::SetSystemInterface(pGuiInterface);
+	Rocket::Core::SetRenderInterface(pGuiInterface);
+
+	Rocket::Core::Initialise();
+	Rocket::Controls::Initialise();
+	/* ------- libRocket ------- */
+
 	// Initialize the texture that will be our render target
 //	cRenderTarget.Load(800, 600);
 //	pRendererDevice->TextureRequest(&cRenderTarget);
 //	pRendererDevice->TextureRequestProcess();
 	// --
 
-	{
-		File f("anim.sprite");
-		Reader r(f);
-		sptLogo.Load(r);
-		cScene.Add(&sptLogo);
-	}
+//	{
+//		File f("anim.sprite");
+//		Reader r(f);
+//		sptLogo.Load(r);
+//		cScene.Add(&sptLogo);
+//	}
 
 //	{
 //		File f("sample.movie");
@@ -58,7 +71,7 @@ bool TestBase::Initialize()
 //		cScene.Add(&mvSample);
 //	}
 
-//	pJobManager->Add(New(FileLoader("main.scene", kJobLoadScene, this)));
+	pJobManager->Add(New(FileLoader("main.scene", kJobLoadScene, this)));
 //	pJobManager->Add(New(FileLoader("anim.sprite", kJobLoadAnim, this)));
 //	pJobManager->Add(New(FileLoader("teste.emitter", kJobLoadEmitter, this)));
 //	cScene.Add(&sptLogo);
@@ -127,6 +140,9 @@ bool TestBase::Shutdown()
 //	cEmitter.Unload();
 //	sptLogo.Unload();
 //	mvSample.Unload();
+
+	Rocket::Core::Shutdown();
+	Delete(pGuiInterface);
 
 	pSceneManager->Reset();
 	pRendererManager->Reset();

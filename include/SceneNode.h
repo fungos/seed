@@ -62,7 +62,15 @@ class SEED_CORE_API SceneNode : public ISceneObject
 		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 		virtual bool Write(Writer &writer);
+
+		/*! Will unload all children objects, so if you want to keep some object loaded,
+		 * remove it from the scene before calling a parent's Unload.
+		 */
 		virtual bool Unload();
+
+		/*! Reset will not unload any children, it is just to clear the current node children
+		 * as if you're removing one by one.
+		 */
 		virtual void Reset();
 
 		// IObject

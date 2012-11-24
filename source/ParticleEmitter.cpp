@@ -78,7 +78,7 @@ ParticleEmitter::ParticleEmitter()
 	, bAutoPlay(false)
 	, bInitialized(false)
 {
-	cVertexBuffer.Configure(BufferTargetArray, BufferUsageEveryFrameChange);
+	cVertexBuffer.Configure(BufferUsageEveryFrameChange);
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -315,7 +315,7 @@ void ParticleEmitter::Update(f32 deltaTime)
 		iVertexAmount += 6;
 	}
 
-	cVertexBuffer.SetVertexData(pVertex, iVertexAmount);
+	cVertexBuffer.SetData(pVertex, iVertexAmount);
 	vBoundingBox = Vector3f(rBoundingBox.Width(), rBoundingBox.Height(), 1.0f);
 }
 

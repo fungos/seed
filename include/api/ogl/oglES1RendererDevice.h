@@ -71,42 +71,55 @@ class ITexture;
 
 namespace OpenGL { class OGLES1RendererDevice; }
 
-struct SEED_CORE_API VertexBuffer : public IVertexBuffer
+template <eBufferTarget T> struct SEED_CORE_API HardwareBuffer : public IHardwareBuffer
 {
 	friend class OpenGL::OGLES1RendererDevice;
 	public:
-		VertexBuffer()
+		HardwareBuffer()
 			: pData(NULL)
 			, iBuffer(0)
-			, nTarget(BufferTargetArray)
+			, nTarget(T)
 			, nUsage(BufferUsageNeverChange)
+			, nElemType(ElementTypeByte)
 			, iLength(0)
 			, bUpdated(false)
 		{}
 
-		~VertexBuffer() {}
+		~HardwareBuffer() {}
 
-		inline void SetVertexData(sVertex *data, u32 len)
+		inline void SetData(void *data, u32 len)
 		{
 			iLength = len;
 			pData = data;
 			bUpdated = true;
 		}
 
-		inline void Configure(eBufferTarget t, eBufferUsage u = BufferUsageNeverChange)
+		inline void Configure(eBufferUsage u = BufferUsageNeverChange, eElementType e = ElementTypeByte)
 		{
-			nTarget = t;
 			nUsage = u;
+			nElemType = e;
+		}
+
+		inline int GetData(void *data = NULL)
+		{
+			if (data)
+				data = pData;
+
+			return iLength;
 		}
 
 	protected:
-		sVertex *pData;
+		void *pData;
 		u32 iBuffer;
 		eBufferTarget nTarget;
 		eBufferUsage nUsage;
+		eElementType nElemType;
 		u32 iLength;
 		bool bUpdated;
 };
+
+struct VertexBuffer : public HardwareBuffer<BufferTargetArray> {};
+struct ElementBuffer : public HardwareBuffer<BufferTargetElementArray> {};
 
 namespace OpenGL {
 
@@ -171,6 +184,8 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		int GetOpenGLBufferUsageType(eBufferUsage usage) const;
 		int GetOpenGLBufferTargetType(eBufferTarget type) const;
 		int GetOpenGLMeshType(eMeshType type) const;
+		int GetOpenGLElementType(eElementType type) const;
+		int GetOpenGLElementSizeByType(eElementType type) const;
 
 		bool bHasFrameBuffer;
 		bool bNeedPowerOfTwoTexture;

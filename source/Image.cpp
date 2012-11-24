@@ -54,7 +54,7 @@ Image::Image()
 	, vert()
 	, bDynamic(false)
 {
-	cVertexBuffer.SetVertexData(vert, 4);
+	cVertexBuffer.SetData(vert, 4);
 }
 
 Image::~Image()

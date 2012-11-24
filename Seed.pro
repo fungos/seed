@@ -194,9 +194,7 @@ SOURCES += source/Viewport.cpp \
 	source/EventJob.cpp \
 	source/interface/IEventJobListener.cpp \
 	source/ThreadManager.cpp \
-    source/api/rocket/rocketGuiManager.cpp \
-    source/api/rocket/rocketGuiInterface.cpp \
-    source/api/rocket/rocketGuiObject.cpp
+    source/api/rocket/RocketInterface.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -240,6 +238,4 @@ HEADERS += include/*.h \
 	include/EventJob.h \
 	include/interface/IEventJobListener.h \
 	include/ThreadManager.h \
-    include/api/rocket/rocketGuiManager.h \
-    include/api/rocket/rocketGuiInterface.h \
-    include/api/rocket/rocketGuiObject.h
+    include/api/rocket/RocketInterface.h

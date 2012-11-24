@@ -56,10 +56,6 @@
 #include "Configuration.h"
 #include "ThreadManager.h"
 
-#if (SEED_USE_ROCKET_GUI == 1)
-#include "api/rocket/rocketGuiManager.h"
-#endif
-
 #include "Sprite.h"
 #include "Image.h"
 #include "Movie.h"
@@ -207,10 +203,6 @@ bool Initialize()
 	ret = ret && pModuleManager->Add(pJobManager);
 	ret = ret && pModuleManager->Add(pInput);
 
-#if (SEED_USE_ROCKET_GUI == 1)
-	ret = ret && pModuleManager->Add(pGuiManager);
-#endif
-
 	pUpdater->Add(Private::pApplication);
 
 #if !defined(BUILD_IOS)
@@ -293,10 +285,6 @@ void Shutdown()
 	pJobManager->DestroyInstance();
 	pInput->DestroyInstance();
 
-#if (SEED_USE_ROCKET_GUI == 1)
-	pGuiManager->DestroyInstance();
-#endif
-
 #if (SEED_USE_THREAD == 1)
 	pResourceLoader->DestroyInstance();
 #else
@@ -320,6 +308,6 @@ void Shutdown()
 	Private::pApplication = NULL;
 }
 
-}
-
 } // namespace
+
+} // extern C

@@ -71,7 +71,7 @@ Sprite::Sprite()
 	, bFinished(false)
 	, bIsCopy(false)
 {
-	cVertexBuffer.SetVertexData(cVertex, 4);
+	cVertexBuffer.SetData(cVertex, 4);
 }
 
 Sprite::~Sprite()

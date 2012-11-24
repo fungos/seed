@@ -36,6 +36,7 @@
 #if SEED_USE_ROCKET_GUI == 1
 
 #include "File.h"
+#include "RendererDevice.h"
 #include <Rocket/Core/RenderInterface.h>
 #include <Rocket/Core/FileInterface.h>
 #include <Rocket/Core/SystemInterface.h>
@@ -48,11 +49,11 @@ struct FilePtr
 	long iOffset;
 };
 
-class SEED_CORE_API GuiInterface : public Rocket::Core::RenderInterface, public Rocket::Core::FileInterface, public Rocket::Core::SystemInterface
+class SEED_CORE_API RocketInterface : public Rocket::Core::RenderInterface, public Rocket::Core::FileInterface, public Rocket::Core::SystemInterface
 {
 	public:
-		GuiInterface();
-		virtual ~GuiInterface();
+		RocketInterface();
+		virtual ~RocketInterface();
 
 		// Rocket::Core::RenderInterface
 		virtual void RenderGeometry(Rocket::Core::Vertex *vertices, int num_vertices, int *indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f &translation);
@@ -76,14 +77,18 @@ class SEED_CORE_API GuiInterface : public Rocket::Core::RenderInterface, public 
 
 		// Rocket::Core::SystemInterface
 		virtual float GetElapsedTime();
+		virtual bool LogMessage(Rocket::Core::Log::Type type, const Rocket::Core::String& message);
 
 	private:
-		SEED_DISABLE_COPY(GuiInterface);
+		SEED_DISABLE_COPY(RocketInterface);
+
+	private:
+		VertexBuffer cVertexBuffer;
+		ElementBuffer cElementBuffer;
 };
 
 }} // namespace
 
-#else // SEED_USE_ROCKET_GUI
-	#error "Include 'GuiManager.h' instead 'api/rocket/rocketGuiInterface.h' directly."
 #endif // SEED_USE_ROCKET_GUI
+
 #endif // __ROCKET_GUI_INTERFACE_H__

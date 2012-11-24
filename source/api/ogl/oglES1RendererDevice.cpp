@@ -114,6 +114,8 @@
 #define GL_MESH(x)		this->GetOpenGLMeshType(x)
 #define GL_TARGET(x)	this->GetOpenGLBufferTargetType(x)
 #define GL_USAGE(x)		this->GetOpenGLBufferUsageType(x)
+#define GL_ELEMTYPE(x)	this->GetOpenGLElementType(x)
+#define GL_ELEMSIZE(x)	this->GetOpenGLElementSizeByType(x)
 
 #define TAG "[OGLES1RendererDevice] "
 
@@ -526,44 +528,77 @@ void OGLES1RendererDevice::UploadData(void *userData)
 
 	RendererPacket *packet = static_cast<RendererPacket *>(userData);
 	SEED_ASSERT(packet->pTransform);
-	SEED_ASSERT(packet->pTexture);
 	SEED_ASSERT(packet->pVertexBuffer);
 
 	ITexture *texture = packet->pTexture;
-	VertexBuffer *vbo = packet->pVertexBuffer;
+	VertexBuffer *vbo = (VertexBuffer *)packet->pVertexBuffer;
+	ElementBuffer *ebo = (ElementBuffer *)packet->pElementBuffer;
 	Vector3f pivot = packet->vPivot;
 
 	this->SetBlendingOperation(packet->nBlendMode, packet->cColor);
-	this->SetTextureParameters(texture);
 
-	glBindTexture(GL_TEXTURE_2D, texture->iTextureId);
+	if (texture)
+	{
+		this->SetTextureParameters(texture);
+		glEnable(GL_TEXTURE_2D);
+		glBindTexture(GL_TEXTURE_2D, texture->iTextureId);
+		glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	}
+	else
+	{
+		glDisable(GL_TEXTURE_2D);
+		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	}
+
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 
+	void *elemPtr = NULL;
 #if USE_API_OGL_VBO
+	if (ebo)
+	{
+		if (!ebo->iBuffer)
+			glGenBuffers(1, &ebo->iBuffer);
+
+		glBindBuffer(GL_TARGET(ebo->nTarget), ebo->iBuffer);
+		if (ebo->bUpdated)
+		{
+			glBufferData(GL_TARGET(ebo->nTarget), GL_ELEMSIZE(ebo->nElemType) * ebo->iLength, ebo->pData, GL_USAGE(ebo->nUsage));
+			ebo->bUpdated = false;
+		}
+	}
+
 	if (!vbo->iBuffer)
 		glGenBuffers(1, &vbo->iBuffer);
 
 	glBindBuffer(GL_TARGET(vbo->nTarget), vbo->iBuffer);
-
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), (void *)offsetof(sVertex, cColor));
-	glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), (void *)offsetof(sVertex, cCoords));
-	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), (void *)offsetof(sVertex, cVertex));
-
 	if (vbo->bUpdated)
 	{
 		glBufferData(GL_TARGET(vbo->nTarget), sizeof(sVertex) * vbo->iLength, vbo->pData, GL_USAGE(vbo->nUsage));
 		vbo->bUpdated = false;
 	}
+
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), (void *)offsetof(sVertex, cColor));
+	if (texture)
+		glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), (void *)offsetof(sVertex, cCoords));
+	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), (void *)offsetof(sVertex, cVertex));
 #else
+	if (ebo)
+		elemPtr = ebo->pData;
+
 	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &vbo->pData[0].cColor);
-	glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cCoords);
+	if (texture)
+		glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cCoords);
 	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cVertex);
 #endif
 
-	glDrawArrays(GL_MESH(packet->nMeshType), 0, vbo->iLength);
+	if (!ebo)
+		glDrawArrays(GL_MESH(packet->nMeshType), 0, vbo->iLength);
+	else
+		glDrawElements(GL_MESH(packet->nMeshType), ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
 
-//	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
 	GL_TRACE("END UploadData")
 
 
@@ -606,6 +641,18 @@ int OGLES1RendererDevice::GetOpenGLBufferUsageType(eBufferUsage usage) const
 {
 	int usages[BufferUsageCount] = {GL_STATIC_DRAW, GL_DYNAMIC_DRAW, GL_STREAM_DRAW};
 	return usages[usage];
+}
+
+int OGLES1RendererDevice::GetOpenGLElementType(eElementType type) const
+{
+	int types[ElementTypeCount] = {GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, GL_UNSIGNED_INT};
+	return types[type];
+}
+
+int OGLES1RendererDevice::GetOpenGLElementSizeByType(eElementType type) const
+{
+	int sizes[ElementTypeCount] = {1, 2, 4};
+	return sizes[type];
 }
 
 int OGLES1RendererDevice::GetOpenGLBufferTargetType(eBufferTarget type) const

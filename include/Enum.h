@@ -59,7 +59,6 @@ enum eObjectType
 	TypeRendererManager,
 	TypeJobManager,
 	TypeThreadManager,
-	TypeGuiManager,
 
 	// System
 	TypeFile,
@@ -522,6 +521,14 @@ enum eBufferUsage
 	BufferUsageWillChange,
 	BufferUsageEveryFrameChange,
 	BufferUsageCount
+};
+
+enum eElementType
+{
+	ElementTypeByte,
+	ElementTypeShort,
+	ElementTypeInt,
+	ElementTypeCount
 };
 
 enum ePlayableState

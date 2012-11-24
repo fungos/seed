@@ -40,6 +40,7 @@ namespace Seed {
 
 class ITexture;
 struct VertexBuffer;
+struct ElementBuffer;
 
 /// Vertex Format
 struct sVertex
@@ -65,10 +66,10 @@ struct sVertex
 	}
 };
 
-struct SEED_CORE_API IVertexBuffer
+struct SEED_CORE_API IHardwareBuffer
 {
-	IVertexBuffer() {}
-	~IVertexBuffer() {}
+	IHardwareBuffer() {}
+	~IHardwareBuffer() {}
 };
 
 enum ePacketFlags
@@ -83,6 +84,7 @@ struct RendererPacket
 	const Matrix4f			*pTransform;
 	ITexture				*pTexture;
 	VertexBuffer			*pVertexBuffer;
+	ElementBuffer			*pElementBuffer;
 	Color					cColor;
 	eMeshType				nMeshType;
 	eBlendMode				nBlendMode;
@@ -94,6 +96,7 @@ struct RendererPacket
 		: pTransform(NULL)
 		, pTexture(NULL)
 		, pVertexBuffer(NULL)
+		, pElementBuffer(NULL)
 		, cColor(0, 0, 0, 255)
 		, nMeshType(Seed::TriangleStrip)
 		, nBlendMode(Seed::BlendNone)
