@@ -41,10 +41,10 @@ bool TestBase::Initialize()
 	/* ------- Rendering Initialization ------- */
 
 	/* ------- libRocket ------- */
-	pGuiInterface = New(Seed::RocketGui::GuiInterface());
-	Rocket::Core::SetFileInterface(pGuiInterface);
-	Rocket::Core::SetSystemInterface(pGuiInterface);
-	Rocket::Core::SetRenderInterface(pGuiInterface);
+	pRocketInterface = New(Seed::RocketGui::RocketInterface());
+	Rocket::Core::SetFileInterface(pRocketInterface);
+	Rocket::Core::SetSystemInterface(pRocketInterface);
+	Rocket::Core::SetRenderInterface(pRocketInterface);
 
 	Rocket::Core::Initialise();
 	Rocket::Controls::Initialise();
@@ -142,7 +142,7 @@ bool TestBase::Shutdown()
 //	mvSample.Unload();
 
 	Rocket::Core::Shutdown();
-	Delete(pGuiInterface);
+	Delete(pRocketInterface);
 
 	pSceneManager->Reset();
 	pRendererManager->Reset();

@@ -58,7 +58,7 @@ RocketInterface::~RocketInterface()
 // Rocket::Core::RenderInterface
 void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_vertices, int *indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f &translation)
 {
-	Matrix4f transform;
+	Matrix4f transform = Matrix4f::identity();
 	Vector3f t(translation.x, translation.y, 0.0f);
 	transform.setTranslation(t);
 

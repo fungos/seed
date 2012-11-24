@@ -31,7 +31,7 @@ class TestBase : public IGameApp, public IEventSystemListener, public IEventInpu
 		SEED_DISABLE_COPY(TestBase);
 
 	protected:
-		Seed::RocketGui::GuiInterface *pGuiInterface;
+		Seed::RocketGui::RocketInterface *pRocketInterface;
 		SceneNode	cScene;
 		Viewport	cViewport;
 		Camera		cCamera;

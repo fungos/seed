@@ -119,7 +119,7 @@
 #include <SeedRun.h>
 
 #include <api/theora/Theora.h>
-#include <api/rocket/rocketGuiInterface.h>
+#include <api/rocket/RocketInterface.h>
 
 #if defined(BUILD_SDL) && defined(WIN32)
 #undef main
