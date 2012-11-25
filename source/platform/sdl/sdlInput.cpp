@@ -58,8 +58,8 @@ SEED_SINGLETON_DEFINE(Input)
 
 Input::Input()
 	: iJoystickCount(0)
-	, fX(0.0f)
-	, fY(0.0f)
+	, iX(0)
+	, iY(0)
 {
 }
 
@@ -232,21 +232,17 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 			case SDL_MOUSEMOTION:
 			{
 				f32 x, y;
-				x = fX = (f32)event.motion.x / (f32)pScreen->GetWidth();
-				y = fY = (f32)event.motion.y / (f32)pScreen->GetHeight();
+				x = iX = (f32)event.motion.x;
+				y = iY = (f32)event.motion.y;
 
-				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(fX, fY));
-				f32 fw = 1.0f;
-				f32 fh = 1.0f;
-				if (viewport)
-				{
-					fw = (viewport->GetWidth());// * viewport->GetWidth());
-					fh = (viewport->GetHeight());// * viewport->GetHeight());
-					//x = viewport->GetX() + viewport->GetWidth() * fX;
-					//y = viewport->GetY() + viewport->GetHeight() * fY;
-					x = (fX - viewport->GetX()) / fw;
-					y = (fY - viewport->GetY()) / fh;
-				}
+//				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(iX, iY));
+//				if (viewport)
+//				{
+//					fw = (viewport->GetWidth());
+//					fh = (viewport->GetHeight());
+//					x = (iX - viewport->GetX());
+//					y = (iY - viewport->GetY());
+//				}
 
 				EventInputPointer ev(0, 0, 0, 0, x, y);
 				this->SendEventPointerMove(&ev);
@@ -255,22 +251,18 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 			case SDL_MOUSEBUTTONUP:
 			{
-				f32 x, y;
-				x = fX = (f32)event.motion.x / (f32)pScreen->GetWidth();
-				y = fY = (f32)event.motion.y / (f32)pScreen->GetHeight();
+				u32 x, y;
+				x = iX = event.motion.x;
+				y = iY = event.motion.y;
 
-				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(fX, fY));
-				f32 fw = 1.0f;
-				f32 fh = 1.0f;
-				if (viewport)
-				{
-					fw = (viewport->GetWidth());// * viewport->GetWidth());
-					fh = (viewport->GetHeight());// * viewport->GetHeight());
-					//x = viewport->GetX() + viewport->GetWidth() * fX;
-					//y = viewport->GetY() + viewport->GetHeight() * fY;
-					x = (fX - viewport->GetX()) / fw;
-					y = (fY - viewport->GetY()) / fh;
-				}
+//				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(iX, iY));
+//				if (viewport)
+//				{
+//					fw = (viewport->GetWidth());
+//					fh = (viewport->GetHeight());
+//					x = (iX - viewport->GetX());
+//					y = (iY - viewport->GetY());
+//				}
 
 				const EventInputPointer ev(0, 0, 0, this->ConvertButtonFlags(event.button.button), x, y);
 				this->SendEventPointerRelease(&ev);
@@ -279,22 +271,18 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 			case SDL_MOUSEBUTTONDOWN:
 			{
-				f32 x, y;
-				x = fX = (f32)event.motion.x / (f32)pScreen->GetWidth();
-				y = fY = (f32)event.motion.y / (f32)pScreen->GetHeight();
+				u32 x, y;
+				x = iX = (f32)event.motion.x;
+				y = iY = (f32)event.motion.y;
 
-				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(fX, fY));
-				f32 fw = 1.0f;
-				f32 fh = 1.0f;
-				if (viewport)
-				{
-					fw = (viewport->GetWidth());// * viewport->GetWidth());
-					fh = (viewport->GetHeight());// * viewport->GetHeight());
-					//x = viewport->GetX() + viewport->GetWidth() * fX;
-					//y = viewport->GetY() + viewport->GetHeight() * fY;
-					x = (fX - viewport->GetX()) / fw;
-					y = (fY - viewport->GetY()) / fh;
-				}
+//				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(iX, iY));
+//				if (viewport)
+//				{
+//					fw = (viewport->GetWidth());
+//					fh = (viewport->GetHeight());
+//					x = (iX - viewport->GetX());
+//					y = (iY - viewport->GetY());
+//				}
 
 				const EventInputPointer ev(0, this->ConvertButtonFlags(event.button.button), 0, 0, x, y);
 				this->SendEventPointerPress(&ev);
@@ -375,13 +363,13 @@ bool Input::IsPointerEnabled(u16 joystick) const
 f32 Input::GetX(u16 joystick) const
 {
 	UNUSED(joystick);
-	return this->fX;
+	return iX;
 }
 
 f32 Input::GetY(u16 joystick) const
 {
 	UNUSED(joystick);
-	return this->fY;
+	return iY;
 }
 
 f32 Input::GetRelativeX(u16 joystick) const

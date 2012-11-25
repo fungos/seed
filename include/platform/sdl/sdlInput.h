@@ -96,8 +96,8 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 
 	private:
 		u32  iJoystickCount;
-		f32 fX;
-		f32 fY;
+		u32 iX;
+		u32 iY;
 
 		SDL_Joystick *parJoy[MAX_JOYSTICKS];
 };

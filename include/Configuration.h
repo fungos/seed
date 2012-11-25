@@ -107,22 +107,6 @@ class SEED_CORE_API Configuration : public IObject
 		 */
 		const String &GetPublisherName() const;
 
-		//! Set the maximum radius for distance based widget collision
-		/*!
-			Set the maximum radius from widget center to consider
-			a widget collision when no collision happens by pixel or rect.
-			Useful for touch devices with finger based input.
-		 */
-		void SetInputDistanceRadius(f32 dist);
-
-		//! Get the maximum radius for distance based widget collision
-		/*!
-			Returns the maximum radius from widget center to consider
-			a widget collision when no collision happens by pixel or rect.
-			Useful for touch devices with finger based input.
-		 */
-		f32 GetInputDistanceRadius() const;
-
 		void SetCanHaveMultipleInstances(bool enable);
 		bool GetCanHaveMultipleInstances() const;
 
@@ -151,8 +135,6 @@ class SEED_CORE_API Configuration : public IObject
 		String sTitle;
 		String sDescription;
 		String sPublisherName;
-
-		f32 fInputRadius;
 
 		eRendererDeviceType iRendererDeviceType;
 		eReaderType iReaderType;

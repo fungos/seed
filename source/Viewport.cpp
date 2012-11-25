@@ -39,10 +39,10 @@ namespace Seed {
 Viewport::Viewport()
 	: pRenderer(NULL)
 	, pCamera(NULL)
-	, fX(0.0f)
-	, fY(0.0f)
-	, fWidth(0.0f)
-	, fHeight(0.0f)
+	, iX(0)
+	, iY(0)
+	, iWidth(0)
+	, iHeight(0)
 {
 }
 
@@ -63,7 +63,7 @@ Renderer *Viewport::GetRenderer() const
 void Viewport::SetCamera(Camera *camera)
 {
 	pCamera = camera;
-	pCamera->SetView(Rect4f(fX, fY, fWidth, fHeight));
+	pCamera->SetView(Rect4f(iX, iY, iWidth, iHeight));
 }
 
 Camera *Viewport::GetCamera() const
@@ -71,62 +71,62 @@ Camera *Viewport::GetCamera() const
 	return pCamera;
 }
 
-void Viewport::SetArea(const Rect4f &rect)
+void Viewport::SetArea(const Rect4u &rect)
 {
-	fX = rect.x1;
-	fY = rect.y1;
-	fWidth = rect.x2 - rect.x1;
-	fHeight = rect.y2 - rect.y1;
+	iX = rect.x1;
+	iY = rect.y1;
+	iWidth = rect.x2 - rect.x1;
+	iHeight = rect.y2 - rect.y1;
 }
 
-void Viewport::SetPosition(f32 x, f32 y)
+void Viewport::SetPosition(u32 x, u32 y)
 {
-	fX = x;
-	fY = y;
+	iX = x;
+	iY = y;
 }
 
-void Viewport::SetWidth(f32 w)
+void Viewport::SetWidth(u32 w)
 {
-	fWidth = w;
+	iWidth = w;
 }
 
-void Viewport::SetHeight(f32 h)
+void Viewport::SetHeight(u32 h)
 {
-	fHeight = h;
+	iHeight = h;
 }
 
-f32 Viewport::GetX() const
+u32 Viewport::GetX() const
 {
-	return fX;
+	return iX;
 }
 
-f32 Viewport::GetY() const
+u32 Viewport::GetY() const
 {
-	return fY;
+	return iY;
 }
 
-f32 Viewport::GetWidth() const
+u32 Viewport::GetWidth() const
 {
-	return fWidth;
+	return iWidth;
 }
 
-f32 Viewport::GetHeight() const
+u32 Viewport::GetHeight() const
 {
-	return fHeight;
+	return iHeight;
 }
 
 void Viewport::Render()
 {
 	if (pRenderer && pCamera)
 	{
-		pRendererDevice->SetViewport(fX, fY, fWidth, fHeight);
+		pRendererDevice->SetViewport(iX, iY, iWidth, iHeight);
 		pRenderer->Render(pCamera);
 	}
 }
 
-bool Viewport::Contains(f32 x, f32 y)
+bool Viewport::Contains(u32 x, u32 y)
 {
-	return (x >= fX && x <= fX + fWidth && y >= fY && y <= fY + fHeight);
+	return (x >= iX && x <= iX + iWidth && y >= iY && y <= iY + iHeight);
 }
 
 const String Viewport::GetObjectName() const

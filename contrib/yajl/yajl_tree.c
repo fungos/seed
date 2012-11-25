@@ -433,6 +433,7 @@ yajl_val yajl_tree_parse (const char *input,
 
 	handle = yajl_alloc (&callbacks, NULL, &ctx);
 	yajl_config(handle, yajl_allow_comments, 1);
+	yajl_config(handle, yajl_allow_sloppy_format, 1);
 
 	status = yajl_parse(handle,
 						(unsigned char *) input,

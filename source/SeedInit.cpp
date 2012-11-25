@@ -44,6 +44,7 @@
 #include "Log.h"
 #include "Input.h"
 #include "Updater.h"
+#include "Camera.h"
 #include "ModuleManager.h"
 #include "Cartridge.h"
 #include "ViewManager.h"
@@ -233,6 +234,7 @@ bool Initialize()
 	SceneObjectFactory::Register("ParticleEmitter", FactoryParticleEmitter);
 	SceneObjectFactory::Register("Image", FactoryImage);
 	SceneObjectFactory::Register("SoundSource", FactorySoundSource);
+	SceneObjectFactory::Register("Camera", FactoryCamera);
 	SceneObjectFactory::Register("SceneNode", FactorySceneNode);
 
 	Private::bInitialized = true;

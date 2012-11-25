@@ -54,7 +54,7 @@ class SEED_CORE_API ViewManager : public IModule
 		virtual Renderer *GetCurrentRenderer() const;
 		virtual Viewport *GetCurrentViewport() const;
 
-		virtual Viewport *GetViewportAt(f32 x, f32 y);
+		virtual Viewport *GetViewportAt(u32 x, u32 y);
 
 		// IModule
 		virtual bool Initialize();

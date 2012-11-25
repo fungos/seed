@@ -34,6 +34,7 @@
 #include "Screen.h"
 #include "MathUtil.h"
 #include "SeedInit.h"
+#include "Configuration.h"
 
 namespace Seed {
 
@@ -45,7 +46,7 @@ ISceneObject *FactoryImage()
 Image::Image()
 	: pTexture(NULL)
 	, pRes(NULL)
-	, sFilename(NULL)
+	, sFilename()
 	, iHalfWidth(0)
 	, iHalfHeight(0)
 	, iWidth(0)
@@ -93,13 +94,20 @@ void Image::Render(const Matrix4f &worldTransform)
 {
 	if (pTexture && pTexture->GetData())
 	{
+		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
 		RendererPacket packet;
-		packet.pTransform = &mTransform; // &worldTransform; // FIXME: ortho or billboard
+		packet.pTransform = &worldTransform; // FIXME: ortho or billboard
 		packet.nMeshType = Seed::TriangleStrip;
 		packet.pVertexBuffer = &cVertexBuffer;
 		packet.pTexture = pTexture;
 		packet.nBlendMode = eBlendOperation;
 		packet.cColor = cColor;
+		packet.iFlags = flags;
+		packet.vPivot = vTransformedPivot;
+
+		Rect4f box(0, 0, this->GetWidth(), this->GetHeight());
+		packet.fRadius = box.CircleRadius();
+
 		pRendererDevice->UploadData(&packet);
 	}
 }
@@ -155,7 +163,7 @@ bool Image::Load(Reader &reader, ResourceManager *res)
 	if (this->Unload())
 	{
 		sName = reader.ReadString("sName", "image");
-		sFilename = reader.ReadString("sFilename", "");
+		sFilename = reader.ReadString("sResource", "");
 
 		ITransformable::Unserialize(reader);
 		IRenderable::Unserialize(reader);
@@ -188,7 +196,7 @@ bool Image::Write(Writer &writer)
 		writer.OpenNode();
 			writer.WriteString("sType", this->GetObjectName().c_str());
 			writer.WriteString("sName", sName.c_str());
-			writer.WriteString("sFilename", sFilename.c_str());
+			writer.WriteString("sResource", sFilename.c_str());
 
 			ITransformable::Serialize(writer);
 			IRenderable::Serialize(writer);

@@ -139,7 +139,7 @@ Viewport *ViewManager::GetCurrentViewport() const
 	return pCurrentViewport;
 }
 
-Viewport *ViewManager::GetViewportAt(f32 x, f32 y)
+Viewport *ViewManager::GetViewportAt(u32 x, u32 y)
 {
 	Viewport *ret = NULL;
 	if (bEnabled)

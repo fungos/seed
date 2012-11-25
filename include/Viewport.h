@@ -57,17 +57,17 @@ class SEED_CORE_API Viewport
 		virtual void SetCamera(Camera *camera);
 		virtual Camera *GetCamera() const;
 
-		virtual void SetArea(const Rect4f &rect);
-		virtual void SetPosition(f32 x, f32 y);
-		virtual void SetWidth(f32 w);
-		virtual void SetHeight(f32 h);
+		virtual void SetArea(const Rect4u &rect);
+		virtual void SetPosition(u32 x, u32 y);
+		virtual void SetWidth(u32 w);
+		virtual void SetHeight(u32 h);
 
-		virtual f32 GetX() const;
-		virtual f32 GetY() const;
-		virtual f32 GetWidth() const;
-		virtual f32 GetHeight() const;
+		virtual u32 GetX() const;
+		virtual u32 GetY() const;
+		virtual u32 GetWidth() const;
+		virtual u32 GetHeight() const;
 
-		virtual bool Contains(f32 x, f32 y);
+		virtual bool Contains(u32 x, u32 y);
 
 		// IObject
 		virtual const String GetObjectName() const;
@@ -77,10 +77,10 @@ class SEED_CORE_API Viewport
 		Camera		*pCamera;
 
 	protected:
-		f32		fX;
-		f32		fY;
-		f32		fWidth;
-		f32		fHeight;
+		u32		iX;
+		u32		iY;
+		u32		iWidth;
+		u32		iHeight;
 
 	private:
 		SEED_DISABLE_COPY(Viewport);

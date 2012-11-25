@@ -602,39 +602,42 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	GL_TRACE("END UploadData")
 
 
-//	if (packet->iFlags & FlagWireframe)
-//	{
-//		glDisable(GL_TEXTURE_2D);
-//		glDisable(GL_BLEND);
+	if (packet->iFlags & FlagWireframe)
+	{
+		glDisable(GL_TEXTURE_2D);
+		glDisable(GL_BLEND);
 
-//		#if !defined(BUILD_IOS)
-//			glPushAttrib(GL_POLYGON_BIT);
-//			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-//			glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, packet->iSize);
-//			glPopAttrib();
-//		#else
-//			glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
-//		#endif
+		#if !defined(BUILD_IOS)
+			glPushAttrib(GL_POLYGON_BIT);
+			glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+			glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, vbo->iLength);
+			glPopAttrib();
+		#else
+			glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
+		#endif
 
-//		if (packet->fRadius)
-//		{
-//			Vector3f op = packet->pTransform->getTranslation();
-//			pRendererDevice->DrawCircle(op.getX(), op.getY(), packet->fRadius, Color(255, 0, 255, 255));
-//		}
+		if (packet->fRadius)
+		{
+			Vector3f op = packet->pTransform->getTranslation();
+			pRendererDevice->DrawCircle(op.getX(), op.getY(), packet->fRadius, Color(255, 0, 255, 255));
+		}
 
-//		glPointSize(5.0f);
-//		glDrawArrays(GL_POINTS, 0, packet->iSize);
+		glPointSize(5.0f);
+		glDrawArrays(GL_POINTS, 0, vbo->iLength);
 
-//		glPointSize(7.0f);
-//		glBegin(GL_POINTS);
-//			glColor3f(1.0f, 0.0f, 1.0f);
-//			glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
-//		glEnd();
+		glPointSize(7.0f);
+		glBegin(GL_POINTS);
+			glColor3f(1.0f, 0.0f, 1.0f);
+			glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
+		glEnd();
 
-//		glEnable(GL_TEXTURE_2D);
-//		glEnable(GL_BLEND);
+		Vector3f op = packet->pTransform->getTranslation();
+		pRendererDevice->DrawCircle(pivot.getX() + op.getX(), pivot.getY() + op.getY(), 3, Color(255, 0, 255, 255));
 
-//	}
+		glEnable(GL_TEXTURE_2D);
+		glEnable(GL_BLEND);
+
+	}
 }
 
 int OGLES1RendererDevice::GetOpenGLBufferUsageType(eBufferUsage usage) const

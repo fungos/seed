@@ -58,6 +58,7 @@ class SEED_CORE_API SceneNode : public ISceneObject
 		virtual void Remove(ISceneObject *obj);
 		virtual u32 Size() const;
 		virtual ISceneObject *GetChildAt(u32 i);
+		virtual ISceneObject *GetChildByName(String name);
 
 		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);

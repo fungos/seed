@@ -33,6 +33,7 @@
 #include "Log.h"
 #include "Enum.h"
 #include "interface/ITexture.h"
+#include <algorithm>
 
 #define TAG "[Camera] "
 
@@ -187,7 +188,15 @@ bool Camera::Load(Reader &reader, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		sName = reader.ReadString("sName", "camera");
+		sName = reader.ReadString("sName", "MainCamera");
+
+		String proj = reader.ReadString("sProjection", "Orthogonal");
+		std::transform(proj.begin(), proj.end(), proj.begin(), ::tolower);
+		if (proj == "perspective")
+			nProjection = Seed::Perspective;
+		else
+			nProjection = Seed::Orthogonal;
+
 		ITransformable::Unserialize(reader);
 		IRenderable::Unserialize(reader);
 
@@ -202,6 +211,7 @@ bool Camera::Write(Writer &writer)
 	writer.OpenNode();
 		writer.WriteString("sType", this->GetObjectName().c_str());
 		writer.WriteString("sName", sName.c_str());
+		writer.WriteString("sProjection", nProjection == Seed::Orthogonal ? "Orthogonal" : "Perspective");
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);

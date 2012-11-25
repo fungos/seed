@@ -44,7 +44,6 @@ Configuration::Configuration()
 	, sTitle("")
 	, sDescription("")
 	, sPublisherName("")
-	, fInputRadius(0.0f)
 	, iRendererDeviceType(Seed::RendererDeviceAuto)
 	, iReaderType(Seed::ReaderDefault)
 	, iFrameRate(60)
@@ -104,8 +103,6 @@ void Configuration::Load(const String &file)
 		sTitle = r.ReadString("sTitle", "");
 		sDescription = r.ReadString("sDescription", "");
 		sPublisherName = r.ReadString("sPublisherName", "");
-
-		fInputRadius = r.ReadF32("fInputRadius", 0.0f);
 
 		iResolutionWidth = r.ReadU32("iResolutionWidth", 800);
 		iResolutionHeight = r.ReadU32("iResolutionHeight", 600);
@@ -221,16 +218,6 @@ void Configuration::SetReaderType(eReaderType readerType)
 eReaderType Configuration::GetReaderType() const
 {
 	return iReaderType;
-}
-
-void Configuration::SetInputDistanceRadius(f32 dist)
-{
-	fInputRadius = dist;
-}
-
-f32 Configuration::GetInputDistanceRadius() const
-{
-	return fInputRadius;
 }
 
 const String Configuration::GetObjectName() const

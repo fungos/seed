@@ -96,6 +96,31 @@ ISceneObject *SceneNode::GetChildAt(u32 i)
 	return vChild.at(i);
 }
 
+ISceneObject *SceneNode::GetChildByName(String name)
+{
+	ISceneObjectVectorIterator it = vChild.begin();
+	ISceneObjectVectorIterator end = vChild.end();
+	for (; it != end; ++it)
+	{
+		ISceneObject *obj = (*it);
+		if (obj->sName == name)
+			return obj;
+	}
+
+	it = vChild.begin();
+	end = vChild.end();
+	for (; it != end; ++it)
+	{
+		if ((*it)->GetObjectType() == Seed::TypeScene)
+		{
+			SceneNode *obj = (SceneNode *)(*it);
+			return obj->GetChildByName(name);
+		}
+	}
+
+	return NULL;
+}
+
 bool SceneNode::Load(Reader &reader, ResourceManager *res)
 {
 	SEED_ASSERT(res);
