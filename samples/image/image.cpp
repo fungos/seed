@@ -12,6 +12,9 @@ enum
 
 ImageSample::ImageSample()
 	: pImage(NULL)
+	, fElapsed(0.0f)
+	, fDir(1.0f)
+	, bRotate(false)
 {
 }
 
@@ -41,7 +44,6 @@ bool ImageSample::Initialize()
 	cCamera.Update(0.0f);
 
 	pSystem->AddListener(this);
-
 	pInput->AddKeyboardListener(this);
 	pInput->AddPointerListener(this);
 
@@ -54,13 +56,14 @@ bool ImageSample::Update(f32 dt)
 
 	if (pImage)
 	{
-		Vector3f diff = vTo - vCurrent;
-		vCurrent = vCurrent + (dt * diff);
-		vCurrent.setX((int)vCurrent.getX());
-		vCurrent.setY((int)vCurrent.getY());
+		fElapsed += dt;
+		if (fElapsed > 1.0f)
+			fElapsed = 1.0f;
 
-		Log("Position: %f, %f, %f", vCurrent.getX(), vCurrent.getY(), vCurrent.getZ());
+		vCurrent = ((1.f - fElapsed) * vFrom) + (fElapsed * vTo);
 		pImage->SetPosition(vCurrent);
+		if (bRotate)
+			pImage->SetRotation(pImage->GetRotation() + fDir);
 	}
 
 	return true;
@@ -103,9 +106,30 @@ void ImageSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 void ImageSample::OnInputPointerRelease(const EventInputPointer *ev)
 {
-	vTo.setX(ev->GetX());
-	vTo.setY(ev->GetY());
-	vTo += cCamera.GetPosition();
+	if (ev->GetReleased() == Seed::ButtonLeft)
+	{
+		if (pImage)
+			vFrom = pImage->GetPosition();
+
+		vTo.setX(ev->GetX());
+		vTo.setY(ev->GetY());
+		vTo += cCamera.GetPosition();
+		fElapsed = 0.0f;
+	}
+	else if (ev->GetReleased() == Seed::ButtonRight)
+	{
+		bRotate = !bRotate;
+	}
+	else if (ev->GetReleased() == Seed::ButtonUp)
+	{
+		fDir = 1.0f;
+		bRotate = true;
+	}
+	else if (ev->GetReleased() == Seed::ButtonDown)
+	{
+		fDir = -1.0f;
+		bRotate = true;
+	}
 }
 
 void ImageSample::OnJobCompleted(const EventJob *ev)
@@ -120,7 +144,8 @@ void ImageSample::OnJobCompleted(const EventJob *ev)
 			Delete(job);
 
 			pImage = (Image *)gScene->GetChildByName("Panda");
-			vFrom = vCurrent = pImage->GetPosition();
+			if (pImage)
+				vFrom = vCurrent = pImage->GetPosition();
 		}
 		break;
 	}

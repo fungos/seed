@@ -66,7 +66,7 @@ class SEED_CORE_API SaveSystem
 		eCartridgeError ReadSharedData(void *sharedData);
 		eCartridgeError WriteSharedData(void *sharedData);
 
-		void SetTotalSlots(u32 slots);
+		void SetTotalSlots(u32 s);
 		u32 GetTotalSlots() const;
 
 		bool IsSaving() const;

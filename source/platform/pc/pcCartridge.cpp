@@ -309,10 +309,10 @@ bool Cartridge::GetFileSize(const char *filename, u32 *length)
 
 	ret = fclose(fp);
 	if (ret != 0)
-   {
+	{
 		this->eLastError = Seed::ErrorAccessDenied;
 		return false;
-   }
+	}
 
 	this->eLastError = Seed::ErrorNone;
 	return true;

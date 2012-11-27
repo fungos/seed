@@ -38,12 +38,16 @@ class ImageSample : public IGameApp,
 		SEED_DISABLE_COPY(ImageSample);
 
 	protected:
+		Image		*pImage;
+		f32			fElapsed;
+		f32			fDir;
+		bool		bRotate;
+
 		SceneNode	cScene;
 		Viewport	cViewport;
 		Camera		cCamera;
 		Renderer	cRenderer;
 
-		Image		*pImage;
 		Vector3f	vFrom;
 		Vector3f	vCurrent;
 		Vector3f	vTo;
