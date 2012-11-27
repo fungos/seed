@@ -63,24 +63,12 @@ void GLFWCALL glfwOnMouseButtonCb(int button, int action)
 	pInput->OnMouseButtonCb(button, action);
 }
 
-static int _glfw_scroll_origin = 0;
-void GLFWCALL glfwOnMouseWheelCb(int pos)
+void GLFWCALL glfwOnMouseWheelCb(int pos, int btn)
 {
-	if (!_glfw_scroll_origin)
+	if (btn)
 	{
-		_glfw_scroll_origin = pos;
-		pInput->iOriginWheel = pos;
-	}
-
-	if (pos < _glfw_scroll_origin)
-	{
-		pInput->OnMouseButtonCb(GLFW_MOUSE_BUTTON_LAST + 1, GLFW_PRESS);
-		pInput->OnMouseButtonCb(GLFW_MOUSE_BUTTON_LAST + 1, GLFW_RELEASE);
-	}
-	else if (pos > _glfw_scroll_origin)
-	{
-		pInput->OnMouseButtonCb(GLFW_MOUSE_BUTTON_LAST + 2, GLFW_PRESS);
-		pInput->OnMouseButtonCb(GLFW_MOUSE_BUTTON_LAST + 2, GLFW_RELEASE);
+		pInput->OnMouseButtonCb(GLFW_MOUSE_BUTTON_LAST + btn, GLFW_PRESS);
+		pInput->OnMouseButtonCb(GLFW_MOUSE_BUTTON_LAST + btn, GLFW_RELEASE);
 	}
 
 	pInput->OnMouseWheelCb(pos);
@@ -113,7 +101,6 @@ Input::Input()
 	, fY(0.0f)
 	, iWheel(0)
 	, iOldWheel(0)
-	, iOriginWheel(0)
 	, iOriginX(0)
 	, iOriginY(0)
 	, iOldX(0)
@@ -301,29 +288,14 @@ void Input::OnMouseButtonCb(int button, int action)
 	int yp = 0;
 	glfwGetMousePos(&xp, &yp);
 
-	f32 x, y;
-	x = fX = (f32)xp / (f32)pScreen->GetWidth();
-	y = fY = (f32)yp / (f32)pScreen->GetHeight();
-
-	Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(fX, fY));
-	f32 fw = 1.0f;
-	f32 fh = 1.0f;
-	if (viewport)
-	{
-		fw = (viewport->GetWidth());
-		fh = (viewport->GetHeight());
-		x = (fX - viewport->GetX()) / fw;
-		y = (fY - viewport->GetY()) / fh;
-	}
-
 	if (action == GLFW_RELEASE)
 	{
-		const EventInputPointer ev(0, 0, 0, this->GetButtonCode(button), x, y);
+		const EventInputPointer ev(0, 0, 0, this->GetButtonCode(button), xp, yp);
 		this->SendEventPointerRelease(&ev);
 	}
 	else
 	{
-		const EventInputPointer ev(0, this->GetButtonCode(button), 0, 0, x, y);
+		const EventInputPointer ev(0, this->GetButtonCode(button), 0, 0, xp, yp);
 		this->SendEventPointerPress(&ev);
 	}
 }
@@ -332,7 +304,6 @@ void Input::OnMouseWheelCb(int pos)
 {
 	iOldWheel = iWheel;
 	iWheel = pos;
-	// ?
 }
 
 void Input::OnMousePosCb(int xp, int yp)
@@ -343,22 +314,7 @@ void Input::OnMousePosCb(int xp, int yp)
 	iOldY = iY;
 	iY = yp;
 
-	f32 x, y;
-	x = fX = (f32)xp / (f32)pScreen->GetWidth();
-	y = fY = (f32)yp / (f32)pScreen->GetHeight();
-
-	Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(fX, fY));
-	f32 fw = 1.0f;
-	f32 fh = 1.0f;
-	if (viewport)
-	{
-		fw = (viewport->GetWidth());
-		fh = (viewport->GetHeight());
-		x = (fX - viewport->GetX()) / fw;
-		y = (fY - viewport->GetY()) / fh;
-	}
-
-	EventInputPointer ev(0, 0, 0, 0, x, y);
+	EventInputPointer ev(0, 0, 0, 0, xp, yp);
 	this->SendEventPointerMove(&ev);
 }
 

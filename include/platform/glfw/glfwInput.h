@@ -48,7 +48,7 @@ namespace Seed { namespace GLFW {
 void GLFWCALL glfwOnKeyCb(int key, int action);
 void GLFWCALL glfwOnCharCb(int character, int action);
 void GLFWCALL glfwOnMouseButtonCb(int button, int action);
-void GLFWCALL glfwOnMouseWheelCb(int pos);
+void GLFWCALL glfwOnMouseWheelCb(int pos, int btn);
 void GLFWCALL glfwOnMousePosCb(int x, int y);
 
 /// GLFW Input Module
@@ -57,7 +57,7 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 	friend void GLFWCALL glfwOnKeyCb(int key, int action);
 	friend void GLFWCALL glfwOnCharCb(int character, int action);
 	friend void GLFWCALL glfwOnMouseButtonCb(int button, int action);
-	friend void GLFWCALL glfwOnMouseWheelCb(int pos);
+	friend void GLFWCALL glfwOnMouseWheelCb(int pos, int btn);
 	friend void GLFWCALL glfwOnMousePosCb(int x, int y);
 
 	SEED_SINGLETON_DECLARE(Input)
@@ -118,7 +118,6 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 		f32 fY;
 		u32 iWheel;
 		u32 iOldWheel;
-		u32 iOriginWheel;
 		u32 iOriginX;
 		u32 iOriginY;
 		u32 iOldX;

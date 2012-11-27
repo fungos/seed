@@ -29,11 +29,11 @@
 */
 
 #include "Timeline.h"
+#include "Sprite.h"
 #include "EventMovie.h"
 #include "interface/IEventMovieListener.h"
 #include "Movie.h"
 #include "Keyframe.h"
-#include "Sprite.h"
 #include "Log.h"
 
 #define TAG "[Timeline] "

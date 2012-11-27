@@ -912,9 +912,10 @@ static LRESULT CALLBACK windowProc( HWND hWnd, UINT uMsg,
 			{
 				wheelDelta = (((int)wParam) >> 16) / WHEEL_DELTA;
 				_glfwInput.WheelPos += wheelDelta;
+				int btn = wheelDelta > 0 ? 1 : 2; // SEED
 				if( _glfwWin.mouseWheelCallback )
 				{
-					_glfwWin.mouseWheelCallback( _glfwInput.WheelPos );
+					_glfwWin.mouseWheelCallback( _glfwInput.WheelPos, btn );
 				}
 				return 0;
 			}

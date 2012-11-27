@@ -1214,7 +1214,7 @@ static GLboolean processSingleEvent( void )
 				_glfwInput.WheelPos++;  // To verify: is this up or down?
 				if( _glfwWin.mouseWheelCallback )
 				{
-					_glfwWin.mouseWheelCallback( _glfwInput.WheelPos );
+					_glfwWin.mouseWheelCallback( _glfwInput.WheelPos, 1 ); // SEED
 				}
 			}
 			else if( event.xbutton.button == Button5 )
@@ -1222,7 +1222,7 @@ static GLboolean processSingleEvent( void )
 				_glfwInput.WheelPos--;
 				if( _glfwWin.mouseWheelCallback )
 				{
-					_glfwWin.mouseWheelCallback( _glfwInput.WheelPos );
+					_glfwWin.mouseWheelCallback( _glfwInput.WheelPos, 2 ); // SEED
 				}
 			}
 			break;

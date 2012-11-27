@@ -416,7 +416,7 @@ typedef int  (GLFWCALL * GLFWwindowclosefun)(void);
 typedef void (GLFWCALL * GLFWwindowrefreshfun)(void);
 typedef void (GLFWCALL * GLFWmousebuttonfun)(int,int);
 typedef void (GLFWCALL * GLFWmouseposfun)(int,int);
-typedef void (GLFWCALL * GLFWmousewheelfun)(int);
+typedef void (GLFWCALL * GLFWmousewheelfun)(int, int); // SEED
 typedef void (GLFWCALL * GLFWkeyfun)(int,int);
 typedef void (GLFWCALL * GLFWcharfun)(int,int);
 typedef void (GLFWCALL * GLFWthreadfun)(void *);

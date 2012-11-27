@@ -38,7 +38,7 @@ class ImageSample : public IGameApp,
 		SEED_DISABLE_COPY(ImageSample);
 
 	protected:
-		Image		*pImage;
+		ISceneObject	*pImage;
 		f32			fElapsed;
 		f32			fDir;
 		bool		bRotate;

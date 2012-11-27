@@ -64,6 +64,7 @@
 
 #include <LeakReport.h>
 
+#include <Image.h>
 #include <interface/IEventInputMotionListener.h>
 #include <interface/IEventInputKeyboardListener.h>
 #include <interface/IEventInputPointerListener.h>

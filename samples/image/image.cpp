@@ -143,7 +143,7 @@ void ImageSample::OnJobCompleted(const EventJob *ev)
 			gScene->Load(r);
 			Delete(job);
 
-			pImage = (Image *)gScene->GetChildByName("Panda");
+			pImage = (ISceneObject *)gScene->GetChildByName("Panda");
 			if (pImage)
 				vFrom = vCurrent = pImage->GetPosition();
 		}

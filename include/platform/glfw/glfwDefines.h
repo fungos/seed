@@ -35,10 +35,12 @@
 
 #define BUILD_PC		1
 #define USE_API_OGL		1
+#define USE_API_OGL_VBO	1
 #define USE_API_OAL		1
 #define USE_API_SOIL	1
 #define USE_API_OGL_RT	1
 #define USE_API_GLEW	1
+#include "glew/glew.h"
 
 namespace Seed
 {

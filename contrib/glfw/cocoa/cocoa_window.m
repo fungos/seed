@@ -613,14 +613,16 @@ static int convertMacKeyCode( unsigned int macKeyCode )
 	}
 }
 
-- (void)scrollWheel:(NSEvent *)event
+- (void)scrollWheel:(NSEvent *)event // SEED
 {
-	_glfwInput.WheelPosFloating += [event deltaY];
+	double delta = [event deltaY];
+	_glfwInput.WheelPosFloating += delta;
 	_glfwInput.WheelPos = lrint( _glfwInput.WheelPosFloating );
 
+	int btn = (delta > 0) ? 1 : 2;
 	if( _glfwWin.mouseWheelCallback )
 	{
-		_glfwWin.mouseWheelCallback( _glfwInput.WheelPos );
+		_glfwWin.mouseWheelCallback( _glfwInput.WheelPos, btn );
 	}
 }
 
