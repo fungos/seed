@@ -46,15 +46,13 @@ class SEED_CORE_API File : public IObject
 		File(const String &filename);
 		virtual ~File();
 
-		File(const File &other);
-		File &operator=(const File &other);
-
-		bool Load(const String &filename);
-
 		void Close();
 		u32 GetSize() const;
 		u8 *GetData() const;
 		const String &GetName() const;
+
+		virtual bool Load(const String &filename);
+		virtual bool Unload();
 
 		// IObject
 		virtual const String GetObjectName() const;
@@ -65,16 +63,18 @@ class SEED_CORE_API File : public IObject
 		bool Open();
 
 	private:
-		String			sName;
+		SEED_DISABLE_COPY(File);
+
 		PHYSFS_file		*pHandle;
 		mutable u8		*pData;
+		String			sFilename;
 		u32				iSize;
 };
 
 class SEED_CORE_API FileLoader : public Job
 {
 	public:
-		FileLoader(const char *filename, u32 name, IEventJobListener *listener);
+		FileLoader(const String &filename, u32 name, IEventJobListener *listener);
 		virtual ~FileLoader();
 
 		virtual bool Run();

@@ -51,8 +51,7 @@ namespace Seed {
 LoaderMap ResourceManager::mapLoaders;
 
 ResourceManager::ResourceManager(const String &name)
-	: bHasUnusedResource(false)
-	, sName(name)
+	: sName(name)
 	, mapResources()
 {
 }
@@ -119,24 +118,23 @@ IResource *ResourceManager::Get(const String &filename, Seed::eObjectType resour
 
 void ResourceManager::GarbageCollect()
 {
-
 #if defined(DEBUG)
 	u64 tbegin = pTimer->GetMilliseconds();
 	u64 tend = 0;
 #endif // DEBUG
 
+	u32 amount = 0;
 	ResourceMapIterator it = mapResources.begin();
-	ResourceMapIterator end = mapResources.end();
-	for (; it != end; ++it)
+	while (it != mapResources.end())
 	{
 		IResource *res = (*it).second;
 		u32 r = res->GetReferenceCount();
+		LOG(TAG "> %s -> %d", res->GetFilename().c_str(), r);
 		if (!r)
 		{
+			amount++;
 			mapResources.erase(it++);
 			Delete(res);
-
-			bHasUnusedResource = true;
 		}
 		else
 		{
@@ -144,19 +142,12 @@ void ResourceManager::GarbageCollect()
 		}
 	}
 
-	if (bHasUnusedResource)
-	{
-		bHasUnusedResource = false;
-		this->GarbageCollect();
-	}
-
 #if defined(DEBUG)
 	tend = pTimer->GetMilliseconds();
-	LOG(TAG "Garbage collection done in %d milliseconds.",  (u32)(tend - tbegin));
+	LOG(TAG "Garbage collection done in %d milliseconds, cleared %d objects.",  (u32)(tend - tbegin), amount);
 	LOG(TAG "Resources inside '%s': ", sName.c_str());
 	this->Print();
 #endif // DEBUG
-
 }
 
 void ResourceManager::Unload(Seed::eObjectType resourceType)

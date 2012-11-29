@@ -43,8 +43,7 @@ class SEED_CORE_API Reader : public IReader
 {
 	public:
 		Reader();
-		Reader(const void *data);
-		Reader(const File &file);
+		Reader(File *file);
 		Reader(Reader &reader);
 		virtual ~Reader();
 

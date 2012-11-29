@@ -43,8 +43,6 @@ namespace Seed { namespace iOS {
 SEED_SINGLETON_DEFINE(System);
 
 System::System()
-	: iRetraceCount(0)
-	, iFrameRate(60)
 {
 }
 
@@ -78,15 +76,12 @@ bool System::Shutdown()
 bool System::Update(f32 delta)
 {
 	UNUSED(delta);
-
-	this->WaitForRetrace(iFrameRate);
-
 	return true;
 }
 
 void System::Sleep()
 {
-	Log(TAG "WARNING: Platform doesnt support sleep mode.");
+	Log(TAG "WARNING: Platform doesnt support sleep mode - implement it.");
 }
 
 bool System::IsSleeping() const
@@ -104,11 +99,9 @@ bool System::IsResetting() const
 	return false;
 }
 
-void System::WaitForRetrace(u32 rate)
+void System::WaitForRetrace()
 {
-	UNUSED(rate);
 	// This platform is synced by NSTimer at AppView
-	iRetraceCount = 0;
 }
 
 void System::GoToMenu()

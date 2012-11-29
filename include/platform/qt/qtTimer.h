@@ -33,23 +33,55 @@
 
 #if defined(BUILD_QT)
 
-#include "interface/ITimer.h"
-#include <QTime>
+#include "interface/IModule.h"
 #include "Singleton.h"
+#include <QTime>
 
 namespace Seed { namespace QT {
 
 /// Qt Timer Module
-class Timer : public ITimer
+class Timer : public IModule
 {
 	SEED_SINGLETON_DECLARE(Timer)
 	public:
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		inline u64 GetMilliseconds() const
+		{
+			return static_cast<u64>(t.elapsed());
+		}
 
-		virtual u64 GetMilliseconds() const;
-		virtual void Sleep(u32 ms) const;
+		inline void Sleep(u32 ms) const
+		{
+			UNUSED(ms);
+		}
+
+		// IModule
+		bool Initialize() override
+		{
+			bInitialized = true;
+			return true;
+		}
+
+		bool Reset() override
+		{
+			t.start();
+			return true;
+		}
+
+		bool Shutdown() override
+		{
+			bInitialized = false;
+			return true;
+		}
+
+		bool IsRequired() const override
+		{
+			return true;
+		}
+
+		const String GetObjectName() const override
+		{
+			return "Timer";
+		}
 
 	public:
 		QTime t;
@@ -58,7 +90,7 @@ class Timer : public ITimer
 		SEED_DISABLE_COPY(Timer);
 };
 
-#define pTimer Seed::QT::Timer::GetInstance()
+#define pTimer Seed::QT::GetInstance()
 
 }} // namespace
 

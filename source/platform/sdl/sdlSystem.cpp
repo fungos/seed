@@ -52,11 +52,14 @@ System::System()
 	, iFpsTime(0)
 	, fElapsedTime(0.0f)
 	, iRetraceCount(0)
-	, iFrameRate(60)
+	, iFrameRate(0)
+	, iRetraceIndex(0)
+	, arRetraceCount()
 	, bShutdown(false)
 	, bSleeping(false)
 	, bDefaultCursorEnabled(false)
 {
+	memset(arRetraceCount, '\0', sizeof(arRetraceCount));
 }
 
 System::~System()
@@ -128,7 +131,7 @@ bool System::Update(f32 dt)
 		}
 	}
 
-	//this->WaitForRetrace(this->iFrameRate);
+	this->WaitForRetrace();
 	return true;
 }
 
@@ -152,22 +155,22 @@ bool System::IsResetting() const
 	return false;
 }
 
-void System::WaitForRetrace(u32 rate)
+void System::WaitForRetrace()
 {
-	++this->iRetraceCount;
+	++iRetraceCount;
 
-	if (!this->iLastFrameTime)
-		this->iLastFrameTime = pTimer->GetMilliseconds();
+	if (!iLastFrameTime)
+		iLastFrameTime = pTimer->GetMilliseconds();
 
-	f32 frameMaxTime			= 1000.0f / (f32)rate;
+	f32 frameMaxTime			= 1000.0f / iFrameRate;
 
 	do
 	{
 		//hold fps
-		u64 time			= pTimer->GetMilliseconds();
-		u64 frameTime		= time - iLastFrameTime;
-		iFpsTime			+= frameTime;
-		fElapsedTime		+= (f32)frameTime;
+		u64 time		= pTimer->GetMilliseconds();
+		u64 frameTime	= time - iLastFrameTime;
+		iFpsTime		+= frameTime;
+		fElapsedTime	+= (f32)frameTime;
 		iLastFrameTime	= time;
 	} while (fElapsedTime < frameMaxTime);
 

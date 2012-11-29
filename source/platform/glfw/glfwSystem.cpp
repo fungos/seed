@@ -62,11 +62,14 @@ System::System()
 	, iFpsTime(0)
 	, fElapsedTime(0.0f)
 	, iRetraceCount(0)
-	, iFrameRate(60)
+	, iFrameRate(0)
+	, iRetraceIndex(0)
+	, arRetraceCount()
 	, bShutdown(false)
 	, bSleeping(false)
 	, bDefaultCursorEnabled(false)
 {
+	memset(arRetraceCount, '\0', sizeof(arRetraceCount));
 }
 
 System::~System()
@@ -126,13 +129,13 @@ bool System::Update(f32 dt)
 	isActive = true;
 #endif
 
-    if (!isMinimized && !isActive && !isOpen)
-    {
-        EventSystem ev;
-        this->SendEventShutdown(&ev);
-        bShutdown = true;
-    }
-    else if (isMinimized || !isActive || !isOpen)
+	if (!isMinimized && !isActive && !isOpen)
+	{
+		EventSystem ev;
+		this->SendEventShutdown(&ev);
+		bShutdown = true;
+	}
+	else if (isMinimized || !isActive || !isOpen)
 	{
 		if (!bSleeping)
 		{
@@ -153,7 +156,7 @@ bool System::Update(f32 dt)
 		}
 	}
 
-	//this->WaitForRetrace(iFrameRate);
+	this->WaitForRetrace();
 	return true;
 }
 
@@ -177,22 +180,22 @@ bool System::IsResetting() const
 	return false;
 }
 
-void System::WaitForRetrace(u32 rate)
+void System::WaitForRetrace()
 {
 	++iRetraceCount;
 
 	if (!iLastFrameTime)
 		iLastFrameTime = pTimer->GetMilliseconds();
 
-	f32 frameMaxTime			= 1000.0f / (f32)rate;
+	f32 frameMaxTime = 1000.0f / iFrameRate;
 
 	do
 	{
 		//hold fps
-		u64 time			= pTimer->GetMilliseconds();
-		u64 frameTime		= time - iLastFrameTime;
-		iFpsTime			+= frameTime;
-		fElapsedTime		+= (f32)frameTime;
+		u64 time		= pTimer->GetMilliseconds();
+		u64 frameTime	= time - iLastFrameTime;
+		iFpsTime		+= frameTime;
+		fElapsedTime	+= (f32)frameTime;
 		iLastFrameTime	= time;
 	} while (fElapsedTime < frameMaxTime);
 

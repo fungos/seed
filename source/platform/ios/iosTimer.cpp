@@ -30,14 +30,7 @@
 
 #if defined(BUILD_IOS)
 
-#include "Defines.h"
 #include "Timer.h"
-#include "Log.h"
-
-#include <time.h>
-#include <sys/time.h>
-
-#define TAG "[Timer] "
 
 namespace Seed { namespace iOS {
 
@@ -50,48 +43,6 @@ Timer::Timer()
 
 Timer::~Timer()
 {
-}
-
-bool Timer::Initialize()
-{
-	Log(TAG "Initializing...");
-	this->Reset();
-	Log(TAG "Initialization completed.");
-
-	return true;
-}
-
-bool Timer::Reset()
-{
-	struct timeval tv;
-	gettimeofday(&tv, 0);
-	fStart = (tv.tv_sec * 1000ULL) + (tv.tv_usec / 1000ULL);
-
-	//fStart = CFAbsoluteTimeGetCurrent();
-
-	return true;
-}
-
-bool Timer::Shutdown()
-{
-	return this->Reset();
-}
-
-u64 Timer::GetMilliseconds() const
-{
-	struct timeval tv;
-	gettimeofday(&tv, 0);
-	u64 ms = (tv.tv_usec / 1000ULL);
-	u64 x =  (tv.tv_sec * 1000ULL);
-	u64 ret = x + ms - fStart;
-	return ret;
-
-	//return CFAbsoluteTimeGetCurrent() - fStart;
-}
-
-void Timer::Sleep(u32 ms) const
-{
-	UNUSED(ms);
 }
 
 }} // namespace

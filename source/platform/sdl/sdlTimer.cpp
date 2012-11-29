@@ -30,13 +30,7 @@
 
 #if defined(BUILD_SDL)
 
-#include "Defines.h"
 #include "Timer.h"
-#include "Log.h"
-
-#include <SDL/SDL.h>
-
-#define TAG "[Timer] "
 
 namespace Seed { namespace SDL {
 
@@ -49,39 +43,6 @@ Timer::Timer()
 
 Timer::~Timer()
 {
-}
-
-bool Timer::Initialize()
-{
-	Log(TAG "Initializing...");
-	this->Reset();
-	Log(TAG "Initialization completed.");
-
-	return true;
-}
-
-bool Timer::Reset()
-{
-	fStart = SDL_GetTicks();
-
-	return true;
-}
-
-bool Timer::Shutdown()
-{
-	return this->Reset();
-}
-
-u64 Timer::GetMilliseconds() const
-{
-	u64 ret = SDL_GetTicks();
-
-	return (ret - fStart);
-}
-
-void Timer::Sleep(u32 ms) const
-{
-	SDL_Delay(ms);
 }
 
 }} // namespace

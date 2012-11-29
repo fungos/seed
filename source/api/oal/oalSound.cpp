@@ -79,10 +79,11 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 
 		alGenBuffers(1, &iBuffer);
 
-		File stFile(filename);
-		oggFile.dataPtr = stFile.GetData();
+		#warning "Move to async file loading"
+		File *pFile = New(File(filename));
+		oggFile.dataPtr = pFile->GetData();
 		oggFile.dataRead = 0;
-		oggFile.dataSize = iSize = stFile.GetSize();
+		oggFile.dataSize = iSize = pFile->GetSize();
 
 		vorbisCb.read_func = vorbis_read;
 		vorbisCb.close_func = vorbis_close;
@@ -129,6 +130,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 		}
 
 		bLoaded = true;
+		Delete(pFile);
 	}
 
 	return bLoaded;

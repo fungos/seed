@@ -105,10 +105,10 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 #else
 	if (ITexture::Load(filename, res))
 	{
-		SDL_RWops *rwops = SDL_RWFromConstMem(stFile.GetData(), stFile.GetSize());
+		SDL_RWops *rwops = SDL_RWFromConstMem(pFile->GetData(), pFile->GetSize());
 
-		size_t extpos = SDL_strlen(stFile.GetName().c_str());
-		char *ext = const_cast<char *>(stFile.GetName().c_str()) - 3;
+		size_t extpos = SDL_strlen(pFile->GetName().c_str());
+		char *ext = const_cast<char *>(pFile->GetName().c_str()) - 3;
 		ext = &ext[extpos];
 
 		u32 format = PNG;

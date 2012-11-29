@@ -36,6 +36,8 @@
 #include "interface/ISystem.h"
 #include "Singleton.h"
 
+#define SYSTEM_RETRACE_HISTORY_MAX	64
+
 namespace Seed { namespace SDL {
 
 /// SDL System Module
@@ -47,7 +49,7 @@ class SEED_CORE_API System : public ISystem
 		virtual void GoToMenu();
 		virtual void Sleep();
 		virtual void OnHomeCalled();
-		virtual void WaitForRetrace(u32 rate);
+		virtual void WaitForRetrace();
 		virtual void HangUp();
 		virtual void GoToDataManager();
 
@@ -80,14 +82,16 @@ class SEED_CORE_API System : public ISystem
 		SEED_DISABLE_COPY(System);
 
 	private:
-		u64 		iLastFrameTime;
-		u64 		iFpsTime;
-		f32 		fElapsedTime;
-		u32 		iRetraceCount;
-		u32			iFrameRate;
-		bool 		bShutdown;
-		bool		bSleeping;
-		bool		bDefaultCursorEnabled;
+		u64		iLastFrameTime;
+		u64		iFpsTime;
+		f32		fElapsedTime;
+		u32		iRetraceCount;
+		u32		iFrameRate;
+		u32		iRetraceIndex;
+		u32		arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
+		bool	bShutdown;
+		bool	bSleeping;
+		bool	bDefaultCursorEnabled;
 };
 
 #define pSystem Seed::SDL::System::GetInstance()

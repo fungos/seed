@@ -73,7 +73,7 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 		sName = reader.ReadString("sName", "frame");
 
 		sTexture = reader.ReadString("sTexture", "default");
-		pTexture = (ITexture *)res->Get(sTexture.c_str(), Seed::TypeTexture);
+		pTexture = static_cast<ITexture *>(res->Get(sTexture, Seed::TypeTexture));
 
 		if (reader.SelectNode("cBoundary"))
 		{

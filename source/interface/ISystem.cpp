@@ -51,9 +51,7 @@ ISystem::ISystem()
 	, pStrAppDescription(NULL)
 	, nLanguage(Seed::en_US)
 	, bDefaultCursorEnabled(false)
-	, iRetraceIndex(0)
 {
-	memset(arRetraceCount, '\0', sizeof(arRetraceCount));
 }
 
 ISystem::~ISystem()

@@ -111,7 +111,8 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		//		 We need to make File able to memmap the file contents to a virtual memory address so this will be transparent to the vorbis reader
 		//		 as it will be streaming from disk Agree?. ~Danny
 		//		 Also reading resources from different platforms (asynchronous like dvd reading on wii or nacl web files) will be more natural.
-		pFile = new File(filename);
+		#warning "Move to async file loading"
+		pFile = New(File(sFilename));
 		oggFile.dataPtr = pFile->GetData();
 		oggFile.dataRead = 0;
 		oggFile.dataSize = pFile->GetSize();
@@ -147,7 +148,6 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		AL_CHECK(alSourcei(iSource, AL_SOURCE_RELATIVE, AL_TRUE));
 
 		this->Reset();
-
 		bLoaded = true;
 	}
 

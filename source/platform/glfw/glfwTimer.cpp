@@ -30,13 +30,7 @@
 
 #if defined(BUILD_GLFW)
 
-#include "Defines.h"
 #include "Timer.h"
-#include "Log.h"
-
-#include <glfw/glfw.h>
-
-#define TAG "[Timer] "
 
 namespace Seed { namespace GLFW {
 
@@ -49,39 +43,6 @@ Timer::Timer()
 
 Timer::~Timer()
 {
-}
-
-bool Timer::Initialize()
-{
-	Log(TAG "Initializing...");
-	this->Reset();
-	Log(TAG "Initialization completed.");
-
-	return true;
-}
-
-bool Timer::Reset()
-{
-	fStart = glfwGetTime() * 1000;
-
-	return true;
-}
-
-bool Timer::Shutdown()
-{
-	return this->Reset();
-}
-
-u64 Timer::GetMilliseconds() const
-{
-	u64 ret = glfwGetTime() * 1000;
-
-	return (ret - fStart);
-}
-
-void Timer::Sleep(u32 ms) const
-{
-	glfwSleep(ms/1000.f);
 }
 
 }} // namespace

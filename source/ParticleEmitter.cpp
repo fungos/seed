@@ -38,8 +38,15 @@
 #include "MathUtil.h"
 #include "RendererDevice.h"
 #include "Sprite.h"
+#include "JobManager.h"
+#include "File.h"
+#include "EventJob.h"
 
 namespace Seed {
+
+enum EmiterJobs {
+	kLoadSprite = 1
+};
 
 ISceneObject *FactoryParticleEmitter()
 {
@@ -267,13 +274,7 @@ void ParticleEmitter::Update(f32 deltaTime)
 
 	rBoundingBox.x2++;
 	rBoundingBox.y2++;
-
-	ITexture *img = pTemplate->GetTexture();
-	if (img)
-	{
-		img->SetFilter(TextureFilterTypeMag, nMagFilter);
-		img->SetFilter(TextureFilterTypeMin, nMinFilter);
-	}
+	vBoundingBox = Vector3f(rBoundingBox.Width(), rBoundingBox.Height(), 1.0f);
 
 	if (bParticlesFollowEmitter)
 		MoveEverything(vPos);
@@ -281,50 +282,58 @@ void ParticleEmitter::Update(f32 deltaTime)
 	vPrevLocation = location;
 	ITransformable::UpdateTransform();
 
-	memset(pVertex, '\0', sizeof(sVertex) * 6 * iParticlesAmount);
-	iVertexAmount = 0;
-	for (u32 i = 0; i < iParticlesAmount; i++)
+	if (pTemplate)
 	{
-		if (!arParticles[i].bActive)
-			continue;
-
-		Particle *p = &arParticles[i];
-		Color c(p->fColorR * 255, p->fColorG * 255, p->fColorB * 255, p->fColorA * 255);
+		ITexture *img = pTemplate->GetTexture();
+		if (img)
 		{
-			pVertex[iVertexAmount + 0].cCoords = pTemplate->cVertex[0].cCoords;
-			pVertex[iVertexAmount + 0].cColor = c;
-			pVertex[iVertexAmount + 0].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
-			pVertex[iVertexAmount + 1].cCoords = pTemplate->cVertex[1].cCoords;
-			pVertex[iVertexAmount + 1].cColor = c;
-			pVertex[iVertexAmount + 1].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
-			pVertex[iVertexAmount + 2].cCoords = pTemplate->cVertex[2].cCoords;
-			pVertex[iVertexAmount + 2].cColor = c;
-			pVertex[iVertexAmount + 2].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
-
-			pVertex[iVertexAmount + 3].cCoords = pTemplate->cVertex[1].cCoords;
-			pVertex[iVertexAmount + 3].cColor = c;
-			pVertex[iVertexAmount + 3].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
-			pVertex[iVertexAmount + 4].cCoords = pTemplate->cVertex[2].cCoords;
-			pVertex[iVertexAmount + 4].cColor = c;
-			pVertex[iVertexAmount + 4].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
-			pVertex[iVertexAmount + 5].cCoords = pTemplate->cVertex[3].cCoords;
-			pVertex[iVertexAmount + 5].cColor = c;
-			pVertex[iVertexAmount + 5].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+			img->SetFilter(TextureFilterTypeMag, nMagFilter);
+			img->SetFilter(TextureFilterTypeMin, nMinFilter);
 		}
 
-		iVertexAmount += 6;
-	}
+		memset(pVertex, '\0', sizeof(sVertex) * 6 * iParticlesAmount);
+		iVertexAmount = 0;
+		for (u32 i = 0; i < iParticlesAmount; i++)
+		{
+			if (!arParticles[i].bActive)
+				continue;
 
-	cVertexBuffer.SetData(pVertex, iVertexAmount);
-	vBoundingBox = Vector3f(rBoundingBox.Width(), rBoundingBox.Height(), 1.0f);
+			Particle *p = &arParticles[i];
+			Color c(p->fColorR * 255, p->fColorG * 255, p->fColorB * 255, p->fColorA * 255);
+			{
+				pVertex[iVertexAmount + 0].cCoords = pTemplate->cVertex[0].cCoords;
+				pVertex[iVertexAmount + 0].cColor = c;
+				pVertex[iVertexAmount + 0].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+				pVertex[iVertexAmount + 1].cCoords = pTemplate->cVertex[1].cCoords;
+				pVertex[iVertexAmount + 1].cColor = c;
+				pVertex[iVertexAmount + 1].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+				pVertex[iVertexAmount + 2].cCoords = pTemplate->cVertex[2].cCoords;
+				pVertex[iVertexAmount + 2].cColor = c;
+				pVertex[iVertexAmount + 2].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+
+				pVertex[iVertexAmount + 3].cCoords = pTemplate->cVertex[1].cCoords;
+				pVertex[iVertexAmount + 3].cColor = c;
+				pVertex[iVertexAmount + 3].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, -fParticleHeightHalf, 1.0f);
+				pVertex[iVertexAmount + 4].cCoords = pTemplate->cVertex[2].cCoords;
+				pVertex[iVertexAmount + 4].cColor = c;
+				pVertex[iVertexAmount + 4].cVertex = p->vPosition + Vector3f(-fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+				pVertex[iVertexAmount + 5].cCoords = pTemplate->cVertex[3].cCoords;
+				pVertex[iVertexAmount + 5].cColor = c;
+				pVertex[iVertexAmount + 5].cVertex = p->vPosition + Vector3f(fParticleWidhtHalf, fParticleHeightHalf, 1.0f);
+			}
+
+			iVertexAmount += 6;
+		}
+
+		cVertexBuffer.SetData(pVertex, iVertexAmount);
+	}
 }
 
 void ParticleEmitter::Render(const Matrix4f &worldTransform)
 {
-	if (bEnabled && arParticles)
+	if (bEnabled && arParticles && pTexture)
 	{
 		ePacketFlags flags = FlagNone;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
-		SEED_ASSERT(pTexture);
 		RendererPacket packet;
 		packet.nMeshType = Seed::Triangles;
 		packet.pVertexBuffer = &cVertexBuffer;
@@ -371,26 +380,17 @@ void ParticleEmitter::Render(const Matrix4f &worldTransform)
 void ParticleEmitter::SetSprite(const String &filename)
 {
 	sSprite = filename;
-	File f(filename);
-	Reader r(f);
-
-	if (pTemplate)
-		Delete(pTemplate);
-
-	pTemplate = New(Sprite);
-	pTemplate->Load(r, pRes);
-	pTemplate->SetAnimation(iAnimation);
-	pTexture = pTemplate->GetTexture();
-
-	fParticleWidhtHalf = pTemplate->GetWidth() / 2.0f;
-	fParticleHeightHalf = pTemplate->GetHeight() / 2.0f;
+	pJobManager->Add(New(FileLoader(sSprite, (u32)kLoadSprite, this)));
 }
 
 void ParticleEmitter::SetAnimation(u32 anim)
 {
 	iAnimation = anim;
-	pTemplate->SetAnimation(anim);
-	pTexture = pTemplate->GetTexture();
+	if (pTemplate)
+	{
+		pTemplate->SetAnimation(anim);
+		pTexture = pTemplate->GetTexture();
+	}
 }
 
 void ParticleEmitter::Play()
@@ -640,6 +640,38 @@ bool ParticleEmitter::Write(Writer &writer)
 	writer.CloseNode();
 
 	return true;
+}
+
+void ParticleEmitter::OnJobCompleted(const EventJob *ev)
+{
+	switch (ev->GetName())
+	{
+		case kLoadSprite:
+		{
+			FileLoader *job = (FileLoader *)ev->GetJob();
+			Reader r(job->pFile);
+
+			if (pTemplate)
+				Delete(pTemplate);
+
+			pTemplate = New(Sprite);
+			pTemplate->Load(r, pRes);
+			pTemplate->SetAnimation(iAnimation);
+			pTexture = pTemplate->GetTexture();
+
+			fParticleWidhtHalf = pTemplate->GetWidth() / 2.0f;
+			fParticleHeightHalf = pTemplate->GetHeight() / 2.0f;
+
+			Delete(job);
+		}
+		break;
+	}
+}
+
+void ParticleEmitter::OnJobAborted(const EventJob *ev)
+{
+	Job *job = ev->GetJob();
+	Delete(job);
 }
 
 const String ParticleEmitter::GetObjectName() const

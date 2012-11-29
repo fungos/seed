@@ -35,6 +35,7 @@
 #include "Movie.h"
 #include "Keyframe.h"
 #include "Log.h"
+#include "ResourceManager.h"
 
 #define TAG "[Timeline] "
 
@@ -503,7 +504,6 @@ bool Timeline::Unload()
 bool Timeline::Load(Reader &reader, ResourceManager *res)
 {
 	SEED_ASSERT(res);
-
 	bool ret = false;
 
 	if (this->Unload())
@@ -518,6 +518,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 		*/
 		if (reader.SelectNode("cObject"))
 		{
+			#warning "Use SceneObjectFactory here"
 			Reader r(reader);
 			Sprite *spt = New(Sprite);
 			spt->Load(r, res);
@@ -530,12 +531,16 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 			String object = reader.ReadString("sObject", "");
 			SEED_ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
 
-			File f(object);
+			#warning "Move to async file loading"
+			File *f = New(File(object));
 			Reader r(f);
+
 			Sprite *spt = New(Sprite);
 			spt->Load(r, res);
 			spt->SetZ(iPriority);
 			pObject = spt;
+
+			Delete(f);
 		}
 
 		u32 keyframes = reader.SelectArray("aKeyframes");

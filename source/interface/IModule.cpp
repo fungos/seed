@@ -53,7 +53,6 @@ bool IModule::Initialize()
 
 bool IModule::Reset()
 {
-	SEED_ABSTRACT_METHOD;
 	return true;
 }
 

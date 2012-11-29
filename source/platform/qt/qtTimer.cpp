@@ -30,13 +30,7 @@
 
 #if defined(BUILD_QT)
 
-#include <QWaitCondition>
-
-#include "Defines.h"
 #include "Timer.h"
-#include "Log.h"
-
-#define TAG "[Timer] "
 
 namespace Seed { namespace QT {
 
@@ -48,44 +42,6 @@ Timer::Timer()
 
 Timer::~Timer()
 {
-}
-
-bool Timer::Initialize()
-{
-	Log(TAG "Initializing...");
-	IModule::Initialize();
-	this->Reset();
-	Log(TAG "Initialization completed.");
-
-	return true;
-}
-
-bool Timer::Reset()
-{
-	IModule::Reset();
-	t.start();
-
-	return true;
-}
-
-bool Timer::Shutdown()
-{
-	this->Reset();
-	IModule::Shutdown();
-
-	return true;
-}
-
-u64 Timer::GetMilliseconds() const
-{
-	return static_cast<u64>(t.elapsed());
-}
-
-void Timer::Sleep(u32 ms) const
-{
-	UNUSED(ms);
-	//QWaitCondition sleep;
-	//sleep.wait(ms);
 }
 
 }} // namespace

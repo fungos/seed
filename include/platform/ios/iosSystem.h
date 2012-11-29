@@ -47,7 +47,7 @@ class System : public ISystem
 		virtual void GoToMenu();
 		virtual void Sleep();
 		virtual void OnHomeCalled();
-		virtual void WaitForRetrace(u32 rate);
+		virtual void WaitForRetrace();
 		virtual void HangUp();
 		virtual void GoToDataManager();
 
@@ -71,10 +71,6 @@ class System : public ISystem
 
 	private:
 		SEED_DISABLE_COPY(System);
-
-	private:
-		u32 iRetraceCount;
-		u32 iFrameRate;
 };
 
 #define pSystem Seed::iOS::System::GetInstance()

@@ -152,7 +152,7 @@ class SEED_CORE_API ITexture : public IResource
 		eTextureCompression	nTextureCompression;
 
 	protected:
-		File	stFile;
+		File	*pFile;
 
 		eTextureFilter		nMinFilter;
 		eTextureFilter		nMagFilter;

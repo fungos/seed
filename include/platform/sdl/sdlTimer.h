@@ -33,24 +33,57 @@
 
 #if defined(BUILD_SDL)
 
-#include "interface/ITimer.h"
+#include "interface/IModule.h"
 #include "Singleton.h"
-
-#include <time.h>
+#include <SDL/SDL.h>
 
 namespace Seed { namespace SDL {
 
-/// SDL Timer
-class SEED_CORE_API Timer : public ITimer
+/// SDL Timer Module
+class SEED_CORE_API Timer : public IModule
 {
 	SEED_SINGLETON_DECLARE(Timer)
 	public:
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		inline u64 GetMilliseconds() const
+		{
+			u64 ret = SDL_GetTicks();
+			return (ret - fStart);
+		}
 
-		virtual u64 GetMilliseconds() const;
-		virtual void Sleep(u32 ms) const;
+		inline void Sleep(u32 ms) const
+		{
+			SDL_Delay(ms);
+		}
+
+		// IModule
+		bool Initialize() override
+		{
+			bInitialized = true;
+			fStart = SDL_GetTicks();
+			return true;
+		}
+
+		bool Reset() override
+		{
+			fStart = SDL_GetTicks();
+			return true;
+		}
+
+		bool Shutdown() override
+		{
+			bInitialized = false;
+			return true;
+		}
+
+		bool IsRequired() const override
+		{
+			return true;
+		}
+
+		const String GetObjectName() const override
+		{
+			return "Timer";
+		}
 
 	public:
 		u64 fStart;

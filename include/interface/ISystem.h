@@ -39,8 +39,6 @@
 #include "IEventListener.h"
 #include "Container.h"
 
-#define SYSTEM_RETRACE_HISTORY_MAX	64
-
 namespace Seed {
 
 class EventSystem;
@@ -143,9 +141,9 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 
 		//! Wait for retrace.
 		/*!
-			\param frameRate Retrace rate.
+			Will make sure that the system doesn't update more than the configured framerate.
 		 */
-		virtual void WaitForRetrace(u32 frameRate) = 0;
+		virtual void WaitForRetrace() = 0;
 
 		//! Get current user name
 		/*!
@@ -227,15 +225,12 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 		void SendEventLanguageChanged(const EventSystem *ev);
 
 	protected:
-		ListenerVector vListeners;
+		ListenerVector	vListeners;
 
 		const char		*pStrAppName;
 		const char		*pStrAppDescription;
-		Seed::eLanguage nLanguage;
-
+		Seed::eLanguage	nLanguage;
 		bool			bDefaultCursorEnabled;
-		u32				iRetraceIndex;
-		u32				arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
 
 	private:
 		SEED_DISABLE_COPY(ISystem);

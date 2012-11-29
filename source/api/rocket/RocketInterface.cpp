@@ -170,7 +170,7 @@ void RocketInterface::SetScissorRegion(int x, int y, int width, int height)
 
 bool RocketInterface::LoadTexture(Rocket::Core::TextureHandle &texture_handle, Rocket::Core::Vector2i &texture_dimensions, const Rocket::Core::String &source)
 {
-	Texture *t = static_cast<Texture *>(pResourceManager->Get(source.CString()));
+	Texture *t = static_cast<Texture *>(pResourceManager->Get(source.CString(), Seed::TypeTexture));
 
 	texture_dimensions.x = t->GetWidth();
 	texture_dimensions.y = t->GetHeight();
@@ -217,6 +217,7 @@ float RocketInterface::GetVerticalTexelOffset()
 Rocket::Core::FileHandle RocketInterface::Open(const Rocket::Core::String &path)
 {
 	FilePtr *fp = New(FilePtr());
+	#warning "Move to async file loading"
 	fp->pFile = New(File(path.CString()));
 	fp->pFile->GetData();
 	fp->iOffset = 0L;

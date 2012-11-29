@@ -5,9 +5,11 @@ CONFIG += glfw
 
 INCLUDEPATH += ../../include ../../contrib
 
-SOURCES += main.cpp image.cpp
+SOURCES += main.cpp \
+    image_sample.cpp
 
-HEADERS += image.h
+HEADERS += \
+    image_sample.h
 
 OTHER_FILES += ../bin/app.config ../bin/frame03.png \
     ../bin/image_sample.scene \

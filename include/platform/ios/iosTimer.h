@@ -33,26 +33,66 @@
 
 #if defined(BUILD_IOS)
 
-#include "interface/ITimer.h"
+#include "interface/IModule.h"
 #include "Singleton.h"
-
 #include <time.h>
+#include <sys/time.h>
 
 namespace Seed { namespace iOS {
 
 /// iOS Timer Module
-class Timer : public ITimer
+class Timer : public IModule
 {
 	SEED_SINGLETON_DECLARE(Timer)
 	public:
-		// ITimer
-		virtual u64 GetMilliseconds() const;
-		virtual void Sleep(u32 ms) const;
+		inline u64 GetMilliseconds() const
+		{
+			struct timeval tv;
+			gettimeofday(&tv, 0);
+			u64 ms = (tv.tv_usec / 1000ULL);
+			u64 x =  (tv.tv_sec * 1000ULL);
+			u64 ret = x + ms - fStart;
+			return ret;
+		}
+
+		inline void Sleep(u32 ms) const
+		{
+			UNUSED(ms);
+		}
 
 		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		bool Initialize() override
+		{
+			bInitialized = true;
+			struct timeval tv;
+			gettimeofday(&tv, 0);
+			fStart = (tv.tv_sec * 1000ULL) + (tv.tv_usec / 1000ULL);
+			return true;
+		}
+
+		bool Reset() override
+		{
+			struct timeval tv;
+			gettimeofday(&tv, 0);
+			fStart = (tv.tv_sec * 1000ULL) + (tv.tv_usec / 1000ULL);
+			return true;
+		}
+
+		bool Shutdown() override
+		{
+			bInitialized = false;
+			return true;
+		}
+
+		bool IsRequired() const override
+		{
+			return true;
+		}
+
+		const String GetObjectName() const override
+		{
+			return "Timer";
+		}
 
 	public:
 		u64 fStart;
@@ -61,7 +101,7 @@ class Timer : public ITimer
 		SEED_DISABLE_COPY(Timer);
 };
 
-#define pTimer Seed::iOS::Timer::GetInstance()
+#define pTimer Seed::iOS::GetInstance()
 
 }} // namespace
 

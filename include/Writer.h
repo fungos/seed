@@ -58,8 +58,8 @@ class SEED_CORE_API Writer : public IWriter
 		virtual void CloseNode();
 
 	private:
-        SEED_DISABLE_COPY(Writer);
-    
+		SEED_DISABLE_COPY(Writer);
+
 		void Init();
 		IWriter *pOpaque;
 };

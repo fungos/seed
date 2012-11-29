@@ -76,8 +76,6 @@ class SEED_CORE_API ResourceManager
 		void Remove(const String &filename);
 
 	private:
-		bool bHasUnusedResource;
-
 		const String sName;
 
 		ResourceMap mapResources;

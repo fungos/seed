@@ -40,21 +40,21 @@ namespace Seed {
 
 File::File()
 	: IObject()
-	, sName()
 	, pHandle(NULL)
 	, pData(NULL)
+	, sFilename()
 	, iSize(0)
 {
 }
 
 File::File(const String &filename)
 	: IObject()
-	, sName(filename)
 	, pHandle(NULL)
 	, pData(NULL)
+	, sFilename(filename)
 	, iSize(0)
 {
-	SEED_ASSERT_MSG(this->Open(),"Aborted, could not open file.");
+	this->Load(filename);
 }
 
 File::~File()
@@ -62,43 +62,27 @@ File::~File()
 	this->Close();
 }
 
-File::File(const File &other)
-	: IObject()
-	, sName(other.sName)
-	, pHandle(other.pHandle)
-	, pData(other.pData)
-	, iSize(other.iSize)
-{
-}
-
-File &File::operator=(const File &other)
-{
-	if (this != &other)
-	{
-		sName = other.sName;
-		pHandle = other.pHandle;
-		pData = other.pData;
-		iSize = other.iSize;
-	}
-
-	return *this;
-}
-
 bool File::Load(const String &filename)
 {
 	this->Close();
-	sName = filename;
+	sFilename = filename;
 	return this->Open();
+}
+
+bool  File::Unload()
+{
+	this->Close();
+	return true;
 }
 
 bool File::Open()
 {
 	bool ret = true;
-	SEED_ASSERT_MSG(sName.length(), TAG "Error: No filename was given to open file!");
-	pHandle = PHYSFS_openRead(sName.c_str());
+	SEED_ASSERT_MSG(sFilename.length(), TAG "Error: No filename was given to open file!");
+	pHandle = PHYSFS_openRead(sFilename.c_str());
 	if (!pHandle)
 	{
-		Log(TAG "Error: file: %s - %s", sName.c_str(), PHYSFS_getLastError());
+		Log(TAG "Error: file: %s - %s", sFilename.c_str(), PHYSFS_getLastError());
 		//SEED_ASSERT_MSG(false, "Aborted, file not found.");
 		return false;
 	}
@@ -114,7 +98,7 @@ void File::Close()
 	if (pHandle)
 		PHYSFS_close(pHandle);
 	iSize = 0;
-	sName = "";
+	sFilename = "";
 }
 
 bool File::Check() const
@@ -152,7 +136,7 @@ u32 File::GetSize() const
 
 const String &File::GetName() const
 {
-	return sName;
+	return sFilename;
 }
 
 const String File::GetObjectName() const
@@ -165,7 +149,8 @@ int File::GetObjectType() const
 	return Seed::TypeFile;
 }
 
-FileLoader::FileLoader(const char *filename, u32 name, IEventJobListener *listener)
+
+FileLoader::FileLoader(const String &filename, u32 name, IEventJobListener *listener)
 	: Job(name, listener)
 	, sFilename(filename)
 	, pFile(NULL)

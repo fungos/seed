@@ -1,4 +1,4 @@
-#include "image.h"
+#include "image_sample.h"
 
 #include <Rocket/Core.h>
 #include <Rocket/Controls.h>
@@ -102,6 +102,10 @@ void ImageSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 	if (k == Seed::KeyEscape)
 		pSystem->Shutdown();
+	else if (k == Seed::KeyF1)
+		pResourceManager->Print();
+	else if (k == Seed::KeyF2)
+		pResourceManager->GarbageCollect();
 }
 
 void ImageSample::OnInputPointerRelease(const EventInputPointer *ev)
@@ -139,7 +143,7 @@ void ImageSample::OnJobCompleted(const EventJob *ev)
 		case kJobLoadScene:
 		{
 			FileLoader *job = (FileLoader *)ev->GetJob();
-			Reader r(job->pFile->GetData());
+			Reader r(job->pFile);
 			gScene->Load(r);
 			Delete(job);
 

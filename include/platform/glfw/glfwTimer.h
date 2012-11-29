@@ -33,24 +33,57 @@
 
 #if defined(BUILD_GLFW)
 
-#include "interface/ITimer.h"
+#include "interface/IModule.h"
 #include "Singleton.h"
-
-#include <time.h>
+#include <glfw/glfw.h>
 
 namespace Seed { namespace GLFW {
 
-/// GLFW Timer
-class SEED_CORE_API Timer : public ITimer
+/// GLFW Timer Module
+class SEED_CORE_API Timer : public IModule
 {
 	SEED_SINGLETON_DECLARE(Timer)
 	public:
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		inline u64 GetMilliseconds() const
+		{
+			u64 ret = glfwGetTime() * 1000;
+			return (ret - fStart);
+		}
 
-		virtual u64 GetMilliseconds() const;
-		virtual void Sleep(u32 ms) const;
+		inline void Sleep(u32 ms) const
+		{
+			glfwSleep(ms/1000.f);
+		}
+
+		// IModule
+		bool Initialize() override
+		{
+			bInitialized = true;
+			fStart = glfwGetTime() * 1000;
+			return true;
+		}
+
+		bool Reset() override
+		{
+			fStart = glfwGetTime() * 1000;
+			return true;
+		}
+
+		bool Shutdown() override
+		{
+			bInitialized = false;
+			return true;
+		}
+
+		bool IsRequired() const override
+		{
+			return true;
+		}
+
+		const String GetObjectName() const override
+		{
+			return "Timer";
+		}
 
 	public:
 		u64 fStart;
@@ -59,7 +92,7 @@ class SEED_CORE_API Timer : public ITimer
 		SEED_DISABLE_COPY(Timer);
 };
 
-#define pTimer Seed::GLFW::Timer::GetInstance()
+#define pTimer Seed::GLFW::GetInstance()
 
 }} // namespace
 

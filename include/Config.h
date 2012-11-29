@@ -56,7 +56,7 @@
 //================================================================================
 // FEATURES CAPPING
 //================================================================================
-#define SEED_USE_THREAD						0
+#define SEED_USE_THREAD						1
 #define SEED_USE_JSON						1
 #define SEED_USE_THEORA						0
 #define SEED_USE_ROCKET_GUI					1

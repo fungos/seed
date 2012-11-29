@@ -32,6 +32,7 @@
 #include "Enum.h"
 #include "Log.h"
 #include "RendererDevice.h"
+#include "ResourceManager.h"
 
 namespace Seed {
 
@@ -39,7 +40,7 @@ ITexture::ITexture()
 	: pTextureId(NULL)
 	, iTextureId(0)
 	, nTextureCompression(TextureCompressionNone)
-	, stFile()
+	, pFile(NULL)
 	, nMinFilter(Seed::TextureFilterLinear)
 	, nMagFilter(Seed::TextureFilterNearest)
 	, iWidth(0)
@@ -56,7 +57,7 @@ ITexture::~ITexture()
 
 void ITexture::Reset()
 {
-	stFile.Close();
+	Delete(pFile);
 
 	iWidth = 0;
 	iHeight = 0;
@@ -69,7 +70,7 @@ void ITexture::Reset()
 
 File *ITexture::GetFile()
 {
-	return &stFile;
+	return pFile;
 }
 
 const void *ITexture::GetData() const
@@ -133,28 +134,29 @@ eTextureCompression ITexture::GetCompressionType() const
 
 void ITexture::Close()
 {
-	stFile.Close();
+	Delete(pFile);
 }
 
 bool ITexture::Unload()
 {
-	stFile.Close();
-
+	Delete(pFile);
 	return true;
 }
 
 bool ITexture::Load(const String &filename, ResourceManager *res)
 {
 	SEED_ASSERT(res);
+	pRes = res;
 
 	bool ret = false;
 	if (this->Unload())
 	{
 		pRes = res;
 		sFilename = filename;
-		stFile.Load(filename);
 
-		ret = (stFile.GetData() != NULL);
+		#warning "Move to async file loading"
+		pFile = New(File(filename));
+		ret = (pFile->GetData() != NULL);
 	}
 
 	return ret;

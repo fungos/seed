@@ -141,6 +141,8 @@ bool TestBase::Shutdown()
 //	sptLogo.Unload();
 //	mvSample.Unload();
 
+	pResourceManager->GarbageCollect();
+
 	Rocket::Core::Shutdown();
 	Delete(pRocketInterface);
 
@@ -174,6 +176,12 @@ void TestBase::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 	if (k == Seed::KeyEscape)
 		pSystem->Shutdown();
+	else if (k == Seed::KeyF1)
+		pResourceManager->Print();
+	else if (k == Seed::KeyF2)
+		pLeakReport->Print();
+	else if (k == Seed::KeyF3)
+		pResourceManager->GarbageCollect();
 }
 
 void TestBase::OnJobCompleted(const EventJob *ev)
@@ -183,7 +191,7 @@ void TestBase::OnJobCompleted(const EventJob *ev)
 //		case kJobLoadEmitter:
 //		{
 //			FileLoad *job = (FileLoad *)ev->GetJob();
-//			Reader r(job->pFile->GetData());
+//			Reader r(job->pFile);
 //			cEmitter.Load(r);
 //			Delete(job);
 //		}
@@ -192,7 +200,7 @@ void TestBase::OnJobCompleted(const EventJob *ev)
 //		case kJobLoadAnim:
 //		{
 //			FileLoad *job = (FileLoad *)ev->GetJob();
-//			Reader r(job->pFile->GetData());
+//			Reader r(job->pFile);
 //			sptLogo.Load(r);
 //			Delete(job);
 //		}
@@ -201,7 +209,7 @@ void TestBase::OnJobCompleted(const EventJob *ev)
 		case kJobLoadScene:
 		{
 			FileLoader *job = (FileLoader *)ev->GetJob();
-			Reader r(job->pFile->GetData());
+			Reader r(job->pFile);
 			gScene->Load(r);
 			Delete(job);
 		}

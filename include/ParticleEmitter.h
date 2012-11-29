@@ -33,6 +33,7 @@
 
 #include "interface/ITransformable.h"
 #include "interface/ISceneObject.h"
+#include "interface/IEventJobListener.h"
 #include "Particle.h"
 #include "Rect.h"
 #include "Vertex.h"
@@ -44,6 +45,7 @@ class ITexture;
 class ResourceManager;
 class Particle;
 class Sprite;
+class EventJob;
 
 ISceneObject *FactoryParticleEmitter();
 
@@ -102,7 +104,7 @@ struct SEED_CORE_API EmitterConfiguration
 };
 
 /// Particle Emitter
-class SEED_CORE_API ParticleEmitter : public ISceneObject
+class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListener
 {
 	public:
 		ParticleEmitter();
@@ -131,6 +133,10 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		virtual bool IsEnabled() const;
 
 		virtual void SetParticlesFollowEmitter(bool bFollow);
+
+		// IEventJobListener
+		virtual void OnJobCompleted(const EventJob *ev);
+		virtual void OnJobAborted(const EventJob *ev);
 
 		// IRenderable
 		virtual void Update(f32 delta);

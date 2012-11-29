@@ -46,6 +46,8 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #pragma warning(disable:4530)
 #pragma warning(disable:4996) // _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable:4251) // stl + dll
+#else
+#define override
 #endif
 
 #define OV_EXCLUDE_STATIC_CALLBACKS

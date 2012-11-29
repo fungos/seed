@@ -69,7 +69,7 @@ bool ISoundSource::Load(Reader &reader, ResourceManager *res)
 		ITransformable::Unserialize(reader);
 		IRenderable::Unserialize(reader);
 
-		pSound = static_cast<Sound *>(res->Get(fname.c_str(), Seed::TypeSound));
+		pSound = static_cast<Sound *>(res->Get(fname, Seed::TypeSound));
 		ret = this->OnLoadFinished();
 
 		pSoundSystem->Add(this);

@@ -102,7 +102,6 @@ SOURCES += source/Viewport.cpp \
 	source/interface/IVideo.cpp \
 	source/interface/IUpdatable.cpp \
 	source/interface/ITransformable.cpp \
-	source/interface/ITimer.cpp \
 	source/interface/IThread.cpp \
 	source/interface/ITexture.cpp \
 	source/interface/ISystem.cpp \

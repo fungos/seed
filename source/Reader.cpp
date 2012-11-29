@@ -46,20 +46,12 @@ Reader::Reader()
 	this->Init();
 }
 
-Reader::Reader(const void *data)
+Reader::Reader(File *file)
 	: IReader()
 	, pOpaque(&cNullReader)
 {
 	this->Init();
-	pOpaque->Load(data);
-}
-
-Reader::Reader(const File &file)
-	: IReader()
-	, pOpaque(&cNullReader)
-{
-	this->Init();
-	pOpaque->Load(file.GetData());
+	pOpaque->Load(file->GetData());
 }
 
 Reader::Reader(Reader &reader)

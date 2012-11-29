@@ -32,6 +32,7 @@
 #include "File.h"
 #include "Reader.h"
 #include "Log.h"
+#include "ResourceManager.h"
 #include <algorithm>
 
 namespace Seed {
@@ -61,11 +62,10 @@ Configuration::~Configuration()
 
 void Configuration::Load(const String &file)
 {
-	File f;
-	if (f.Load(file))
+	File *f = New(File(file));
+	if (f && f->GetData())
 	{
 		Reader r(f);
-
 		bDebugSprite = r.ReadBool("bDebugSprite", false);
 		bMultipleInstances = r.ReadBool("bMultipleInstances", false);
 		bWarningMultipleInstances = r.ReadBool("bWarningMultipleInstances", false);
@@ -107,6 +107,8 @@ void Configuration::Load(const String &file)
 		iResolutionWidth = r.ReadU32("iResolutionWidth", 800);
 		iResolutionHeight = r.ReadU32("iResolutionHeight", 600);
 		iFrameRate = r.ReadU32("iFrameRate", 60);
+
+		Delete(f);
 	}
 }
 

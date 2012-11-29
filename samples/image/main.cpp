@@ -1,4 +1,4 @@
-#include "image.h"
+#include "image_sample.h"
 
 int main(int argc, const char **argv)
 {

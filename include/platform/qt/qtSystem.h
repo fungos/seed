@@ -33,6 +33,8 @@
 
 #if defined(BUILD_QT)
 
+#define SYSTEM_RETRACE_HISTORY_MAX	64
+
 #include <QWidget>
 #include "interface/ISystem.h"
 #include "Singleton.h"
@@ -48,7 +50,7 @@ class System : public ISystem
 		virtual void GoToMenu();
 		virtual void Sleep();
 		virtual void OnHomeCalled();
-		virtual void WaitForRetrace(u32 rate);
+		virtual void WaitForRetrace();
 		virtual void HangUp();
 		virtual void GoToDataManager();
 
@@ -86,9 +88,10 @@ class System : public ISystem
 		f32		fElapsedTime;
 		u32		iRetraceCount;
 		u32		iFrameRate;
+		u32		iRetraceIndex;
+		u32		arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
 		bool	bShutdown;
 		bool	bSleeping;
-
 		QWidget	*pWidget;
 };
 
