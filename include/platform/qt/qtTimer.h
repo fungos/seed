@@ -90,7 +90,7 @@ class Timer : public IModule
 		SEED_DISABLE_COPY(Timer);
 };
 
-#define pTimer Seed::QT::GetInstance()
+#define pTimer Seed::QT::Timer::GetInstance()
 
 }} // namespace
 

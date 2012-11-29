@@ -1,8 +1,5 @@
 #include "image_sample.h"
 
-#include <Rocket/Core.h>
-#include <Rocket/Controls.h>
-
 SceneNode *gScene;
 
 enum
@@ -29,7 +26,6 @@ bool ImageSample::Initialize()
 
 	cViewport.SetHeight(pScreen->GetHeight());
 	cViewport.SetWidth(pScreen->GetWidth());
-	cViewport.SetCamera(&cCamera);
 	cViewport.SetRenderer(&cRenderer);
 
 	pViewManager->Add(&cViewport);
@@ -39,10 +35,6 @@ bool ImageSample::Initialize()
 	/* ------- Rendering Initialization ------- */
 
 	pJobManager->Add(New(FileLoader("image_sample.scene", kJobLoadScene, this)));
-	cCamera.sName = "Camera";
-	cCamera.SetPosition(-400, -300);
-	cCamera.Update(0.0f);
-
 	pSystem->AddListener(this);
 	pInput->AddKeyboardListener(this);
 	pInput->AddPointerListener(this);
@@ -117,7 +109,7 @@ void ImageSample::OnInputPointerRelease(const EventInputPointer *ev)
 
 		vTo.setX(ev->GetX());
 		vTo.setY(ev->GetY());
-		vTo += cCamera.GetPosition();
+		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}
 	else if (ev->GetReleased() == Seed::ButtonRight)
@@ -146,6 +138,9 @@ void ImageSample::OnJobCompleted(const EventJob *ev)
 			Reader r(job->pFile);
 			gScene->Load(r);
 			Delete(job);
+
+			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
+			cViewport.SetCamera(pCamera);
 
 			pImage = (ISceneObject *)gScene->GetChildByName("Panda");
 			if (pImage)

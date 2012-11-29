@@ -96,7 +96,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 //			flags |= SOIL_FLAG_POWER_OF_TWO;
 
 		int channels = 4, h = 0, w = 0;
-		pData = SOIL_load_image_from_memory(stFile.GetData(), stFile.GetSize(), &w, &h, &channels, 0);
+		pData = SOIL_load_image_from_memory(pFile->GetData(), pFile->GetSize(), &w, &h, &channels, 0);
 		SEED_ASSERT_MSG(pData, "Could not load texture data.");
 
 		iAtlasWidth = iWidth = w;

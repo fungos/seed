@@ -6,14 +6,15 @@ CONFIG += glfw
 INCLUDEPATH += ../../include ../../contrib
 
 SOURCES += main.cpp \
-    image_sample.cpp
+	box2d_sample.cpp
 
 HEADERS += \
-    image_sample.h
+	box2d_sample.h
 
-OTHER_FILES += ../bin/app.config ../bin/frame03.png \
-    ../bin/image_sample.scene \
-    ../bin/image_sample.config
+OTHER_FILES += ../bin/box2d_app.config \
+	../bin/frame03.png \
+	../bin/box2d_sample.scene \
+	../bin/box2d_sample.config
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../bin

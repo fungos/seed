@@ -1,20 +1,21 @@
-#ifndef _IMAGESAMPLE_H_
-#define _IMAGESAMPLE_H_
+#ifndef _BOX2DSAMPLE_H_
+#define _BOX2DSAMPLE_H_
 
+#include <Box2D/Box2D.h>
 #include <Seed.h>
 using namespace Seed;
 
 extern SceneNode *gScene;
 
-class ImageSample : public IGameApp,
+class Box2DSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
 					public IEventInputPointerListener,
 					public IEventJobListener
 {
 	public:
-		ImageSample();
-		virtual ~ImageSample();
+		Box2DSample();
+		virtual ~Box2DSample();
 
 		virtual bool Initialize();
 		virtual bool Update(f32 dt);
@@ -35,22 +36,21 @@ class ImageSample : public IGameApp,
 		virtual void OnJobAborted(const EventJob *ev);
 
 	private:
-		SEED_DISABLE_COPY(ImageSample);
+		SEED_DISABLE_COPY(Box2DSample);
 
 	protected:
-		ISceneObject *pImage;
-		f32			fElapsed;
-		f32			fDir;
-		bool		bRotate;
+		ISceneObject *pImgBody;
+		ISceneObject *pImgGround;
+
+		b2World		*pWorld;
+		b2Body		*pBody;
+		b2Body		*pGround;
+		b2Body		*pPick;
 
 		SceneNode	cScene;
 		Viewport	cViewport;
 		Camera		*pCamera;
 		Renderer	cRenderer;
-
-		Vector3f	vFrom;
-		Vector3f	vCurrent;
-		Vector3f	vTo;
 };
 
-#endif // _IMAGESAMPLE_H_
+#endif // _BOX2DSAMPLE_H_

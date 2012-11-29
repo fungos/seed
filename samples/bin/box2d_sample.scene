@@ -1,0 +1,22 @@
+{
+	sType: SceneNode
+	sName: MainScene
+	aObjects: [
+		{
+			sType: Image
+			sName: Panda
+			sResource: frame03.png
+		}
+		{
+			sType: Image
+			sName: Ground
+			sResource: ground.png
+		}
+		{
+			sType: Camera
+			sName: MainCamera
+			sProjection: Orthogonal
+			cPosition: {x: -400, y: -300}
+		}
+	]
+}

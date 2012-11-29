@@ -92,7 +92,7 @@ class SEED_CORE_API Timer : public IModule
 		SEED_DISABLE_COPY(Timer);
 };
 
-#define pTimer Seed::GLFW::GetInstance()
+#define pTimer Seed::GLFW::Timer::GetInstance()
 
 }} // namespace
 

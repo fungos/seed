@@ -101,7 +101,7 @@ class Timer : public IModule
 		SEED_DISABLE_COPY(Timer);
 };
 
-#define pTimer Seed::iOS::GetInstance()
+#define pTimer Seed::iOS::Timer::GetInstance()
 
 }} // namespace
 
