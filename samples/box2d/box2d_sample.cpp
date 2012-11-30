@@ -198,11 +198,11 @@ void Box2DSample::OnJobCompleted(const EventJob *ev)
 			Delete(job);
 
 			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
-			pCamera->Update(0.0f);
+			pCamera->SetPosition(0.0f, 0.0f);
 			cViewport.SetCamera(pCamera);
 
 			pImgGround = (ISceneObject *)gScene->GetChildByName("Ground");
-			this->CreateEntity((Image *)gScene->GetChildByName("Panda"), 0, 0);
+			this->CreateEntity((Image *)gScene->GetChildByName("Panda"), 0, -300);
 		}
 		break;
 	}

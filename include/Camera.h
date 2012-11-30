@@ -88,6 +88,7 @@ class SEED_CORE_API Camera : public ISceneObject
 		sVertex		aMesh[4];
 		eProjection nProjection;
 		Rect4f		rViewArea;
+		Matrix4f	mInverse;
 };
 
 } // namespace

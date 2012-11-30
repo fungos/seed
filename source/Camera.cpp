@@ -96,6 +96,8 @@ void Camera::Update(f32 delta)
 		aMesh[3].cVertex = Vector3f(x2, y2, z);
 
 		this->UpdateTransform();
+
+		mInverse = inverse(mTransform);
 	}
 
 	if (bColorChanged)
@@ -151,7 +153,7 @@ ITexture *Camera::GetTexture() const
 
 bool Camera::IsInView(ITransformable *obj, Matrix4f &worldTransform)
 {
-	worldTransform = inverse(mTransform) * obj->mTransform;
+	worldTransform = mInverse * obj->mTransform;
 	Vector3f op = worldTransform.getTranslation();
 
 	f32 ox = op.getX();

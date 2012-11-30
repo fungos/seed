@@ -118,8 +118,8 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			{
 				Log(TAG "WARNING: texture size not optimal, changing from %dx%d to %dx%d", iWidth, iHeight, width, height);
 
-				unsigned char *resampled = (unsigned char*)Alloc(4 * width * height);
-				up_scale_image(pData, iWidth, iHeight, 4, resampled, width, height);
+				unsigned char *resampled = (unsigned char*)Alloc(channels * width * height);
+				up_scale_image(pData, iWidth, iHeight, channels, resampled, width, height);
 
 				SOIL_free_image_data(pData);
 				pData = resampled;
@@ -128,7 +128,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			}
 		}
 
-		iBytesPerPixel = 4;
+		iBytesPerPixel = channels;
 		iPitch = ROUND_UP(iAtlasWidth, 32);
 
 		pRendererDevice->TextureRequest(this);
