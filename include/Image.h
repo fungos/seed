@@ -46,9 +46,11 @@ class SEED_CORE_API Image : public ISceneObject
 {
 	public:
 		Image();
+		Image(const String &filename, ResourceManager *res = pResourceManager);
 		virtual ~Image();
 
 		bool Load(ITexture *texture);
+		bool Load(const String &filename, ResourceManager *res = pResourceManager);
 
 		// IRenderable
 		virtual void Update(f32 delta);

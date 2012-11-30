@@ -1,4 +1,4 @@
-Some customizations are done to these libraries with intent to reduce warning and compile in all supported platforms without their respective build systems.
+Some customizations are done to these libraries with intent to reduce warnings and to compile in all supported platforms without their respective build systems.
 
 libRocket 1.2.1 bc8b334d2f477f250a885de68c9f621e297faf1c
 
@@ -27,6 +27,7 @@ GLFW 2.7.7
 - Include "internal.h" to "glfw/internal.h";
 - Added platform.h to glfw/ root, with redirect to platform specific headers;
 - Added "#define GLFW_NO_GLU 1" to glfw.h;
+- Added parameter button to GLFWmousewheelfun in glfw.h and platform specific code;
 
 GLEW
 
@@ -34,7 +35,11 @@ PhysicsFS
 
 SOIL
 
-Box2D
+Box2D 2.2.1
+
+Bullet Physics Library 2.81 r2613
+
+- Not using OpenCL, MiniCL and DX11 related things;
 
 vectormath
 
@@ -53,3 +58,5 @@ libvorbis
 liboggz
 
 liboggplay
+
+- Added [#pragma GCC diagnostic ignored "-Wtype-limits"] to oggplay_private.h

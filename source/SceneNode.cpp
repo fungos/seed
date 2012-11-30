@@ -177,7 +177,7 @@ bool SceneNode::Unload()
 	{
 		ISceneObject *obj = (*it);
 		obj->Unload();
-		if (obj->bFromFactory)
+		if (obj->bMarkForDeletion)
 			Delete(obj);
 	}
 

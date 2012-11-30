@@ -109,7 +109,7 @@ ISceneObject *SceneObjectFactory::Create(const String &objectType) const
 	obj = mapFactory[type]();
 	SEED_ASSERT_MSG(obj != NULL, "Couldn't create the object.");
 
-	obj->bFromFactory = true;
+	obj->bMarkForDeletion = true;
 
 	return obj;
 }

@@ -41,13 +41,13 @@ ISceneObject::ISceneObject()
 	: ITransformable()
 	, IRenderable()
 	, sName()
-	, bFromFactory(false)
+	, bMarkForDeletion(false)
 {
 }
 
 ISceneObject::~ISceneObject()
 {
-	bFromFactory = false;
+	bMarkForDeletion = false;
 }
 
 bool ISceneObject::IsNode() const

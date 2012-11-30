@@ -47,7 +47,7 @@ class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, pu
 		virtual bool IsNode() const;
 
 		String  sName;
-		bool	bFromFactory;
+		bool	bMarkForDeletion;
 
 	private:
 		SEED_DISABLE_COPY(ISceneObject);

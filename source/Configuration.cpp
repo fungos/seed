@@ -107,9 +107,9 @@ void Configuration::Load(const String &file)
 		iResolutionWidth = r.ReadU32("iResolutionWidth", 800);
 		iResolutionHeight = r.ReadU32("iResolutionHeight", 600);
 		iFrameRate = r.ReadU32("iFrameRate", 60);
-
-		Delete(f);
 	}
+
+	Delete(f);
 }
 
 u32 Configuration::GetResolutionWidth() const

@@ -41,6 +41,7 @@
 #include <Cartridge.h>
 #include <Camera.h>
 #include <Checksum.h>
+#include <Container.h>
 
 #include <EventInputMotion.h>
 #include <EventInputPointer.h>

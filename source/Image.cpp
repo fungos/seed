@@ -58,6 +58,22 @@ Image::Image()
 	cVertexBuffer.SetData(vert, 4);
 }
 
+Image::Image(const String &filename, ResourceManager *res)
+	: pTexture(NULL)
+	, pRes(NULL)
+	, sFilename()
+	, iHalfWidth(0)
+	, iHalfHeight(0)
+	, iWidth(0)
+	, iHeight(0)
+	, cVertexBuffer()
+	, vert()
+	, bDynamic(false)
+{
+	cVertexBuffer.SetData(vert, 4);
+	this->Load(filename, res);
+}
+
 Image::~Image()
 {
 }
@@ -152,6 +168,26 @@ void Image::UpdateCoords()
 	vert[1].cCoords = Point2f(s1, t0);
 	vert[2].cCoords = Point2f(s0, t1);
 	vert[3].cCoords = Point2f(s1, t1);
+}
+
+bool Image::Load(const String &filename, ResourceManager *res)
+{
+	SEED_ASSERT(res);
+	bool ret = false;
+
+	if (this->Unload())
+	{
+		sName = filename;
+		sFilename = filename;
+		pRes = res;
+
+		pTexture = static_cast<ITexture *>(res->Get(sFilename, Seed::TypeTexture));
+		this->UpdateCoords();
+
+		bDynamic = false;
+	}
+
+	return ret;
 }
 
 bool Image::Load(Reader &reader, ResourceManager *res)

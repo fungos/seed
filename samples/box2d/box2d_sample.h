@@ -7,12 +7,15 @@ using namespace Seed;
 
 extern SceneNode *gScene;
 
+struct PhysicsEntity;
+
 class Box2DSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
 					public IEventInputPointerListener,
 					public IEventJobListener
 {
+	DECLARE_CONTAINER_TYPE(Vector, PhysicsEntity)
 	public:
 		Box2DSample();
 		virtual ~Box2DSample();
@@ -38,12 +41,13 @@ class Box2DSample : public IGameApp,
 	private:
 		SEED_DISABLE_COPY(Box2DSample);
 
-	protected:
-		ISceneObject *pImgBody;
-		ISceneObject *pImgGround;
+		void CreateEntity(Image *img, f32 x, f32 y);
+		void DestroyEntities();
+		void UpdateEntities();
 
+	protected:
+		ISceneObject *pImgGround;
 		b2World		*pWorld;
-		b2Body		*pBody;
 		b2Body		*pGround;
 		b2Body		*pPick;
 
@@ -51,6 +55,9 @@ class Box2DSample : public IGameApp,
 		Viewport	cViewport;
 		Camera		*pCamera;
 		Renderer	cRenderer;
+
+		PhysicsEntityVector vEntities;
+		u32			iId;
 };
 
 #endif // _BOX2DSAMPLE_H_
