@@ -39,7 +39,7 @@ namespace Seed {
 
 class IRenderer;
 class ITexture;
-struct IVertexBuffer;
+struct IHardwareBuffer;
 
 /// Rendering device interface
 class SEED_CORE_API IRendererDevice : public IModule
@@ -61,6 +61,9 @@ class SEED_CORE_API IRendererDevice : public IModule
 		virtual void TextureDataUpdate(ITexture *texture);
 		virtual void TextureUnload(ITexture *tex);
 		virtual void SetTextureParameters(ITexture *texture) const;
+
+		// HardwareBuffer
+		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const;
 
 		// Render to Texture support
 		virtual u32 CreateFrameBuffer(ITexture *texture = NULL);

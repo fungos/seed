@@ -237,4 +237,5 @@ HEADERS += include/*.h \
 	include/EventJob.h \
 	include/interface/IEventJobListener.h \
 	include/ThreadManager.h \
-    include/api/rocket/RocketInterface.h
+    include/api/rocket/RocketInterface.h \
+    include/interface/IHardwareBuffer.h

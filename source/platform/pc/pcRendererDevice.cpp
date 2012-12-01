@@ -204,6 +204,11 @@ void RendererDevice::TextureDataUpdate(ITexture *texture)
 	pApiDevice->TextureDataUpdate(texture);
 }
 
+void RendererDevice::DestroyHardwareBuffer(IHardwareBuffer *buf) const
+{
+	pApiDevice->DestroyHardwareBuffer(buf);
+}
+
 void RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &color) const
 {
 	pApiDevice->SetBlendingOperation(mode, color);

@@ -48,6 +48,12 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		virtual void Begin() const;
 		virtual void End() const;
 
+		// Generic operations
+		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const;
+		virtual void UploadData(void *userData);
+		virtual void BackbufferClear(const Color &color = Color(0, 0, 0, 0)) const;
+		virtual void BackbufferFill(const Color &color = Color(0, 0, 0, 0)) const;
+
 		// IRendererDevice
 		virtual void TextureUnload(ITexture *tex);
 		virtual void TextureRequest(ITexture *texture);
@@ -55,10 +61,8 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		virtual void TextureRequestProcess() const;
 		virtual void TextureDataUpdate(ITexture *texture);
 
-		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const;
-		virtual void UploadData(void *userData);
-		virtual void BackbufferClear(const Color &color = Color(0, 0, 0, 0)) const;
-		virtual void BackbufferFill(const Color &color = Color(0, 0, 0, 0)) const;
+		// HardwareBuffer
+		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const;
 
 		// Render to Texture support
 		virtual u32 CreateFrameBuffer(ITexture *texture = NULL);

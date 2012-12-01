@@ -76,6 +76,7 @@ Image::Image(const String &filename, ResourceManager *res)
 
 Image::~Image()
 {
+	pRendererDevice->DestroyHardwareBuffer(&cVertexBuffer);
 }
 
 void Image:: Update(f32 delta)

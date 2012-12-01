@@ -53,6 +53,8 @@ RocketInterface::RocketInterface()
 
 RocketInterface::~RocketInterface()
 {
+	pRendererDevice->DestroyHardwareBuffer(&cVertexBuffer);
+	pRendererDevice->DestroyHardwareBuffer(&cElementBuffer);
 }
 
 // Rocket::Core::RenderInterface
@@ -149,7 +151,9 @@ void RocketInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHand
 	packet->pElementBuffer->GetData(elems);
 
 	// inverse order freeing
+	pRendererDevice->DestroyHardwareBuffer(packet->pVertexBuffer);
 	Delete(packet->pVertexBuffer);
+	pRendererDevice->DestroyHardwareBuffer(packet->pElementBuffer);
 	Delete(packet->pElementBuffer);
 
 	DeleteArray(vert);

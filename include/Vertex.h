@@ -66,12 +66,6 @@ struct sVertex
 	}
 };
 
-struct SEED_CORE_API IHardwareBuffer
-{
-	IHardwareBuffer() {}
-	~IHardwareBuffer() {}
-};
-
 enum ePacketFlags
 {
 	FlagNone		= 0x00,

@@ -111,6 +111,12 @@ void IRendererDevice::TextureRequestProcess() const
 	SEED_ABSTRACT_METHOD;
 }
 
+void IRendererDevice::DestroyHardwareBuffer(IHardwareBuffer *buf) const
+{
+	UNUSED(buf)
+	SEED_ABSTRACT_METHOD;
+}
+
 void IRendererDevice::BackbufferFill(const Color &color) const
 {
 	UNUSED(color);

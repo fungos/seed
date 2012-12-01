@@ -2,8 +2,10 @@
 
 #define DEG2RAD		0.0174532925199432957f
 #define RAD2DEG		57.295779513082320876f
+
 #define PIX2M		0.01f
-//#define PIX2M		0.0234375f
+//#define PIX2M		0.0234375f	// PvM
+//#define PIX2M		0.03125f	// Cocos2D
 #define M2PIX		(1.0f / PIX2M)
 
 SceneNode *gScene;
@@ -25,15 +27,8 @@ class Box2DQueryCallback : public b2QueryCallback
 		}
 };
 
-struct PhysicsEntity
-{
-	Image *pImage;
-	b2Body *pBody;
-};
-
 Box2DSample::Box2DSample()
-	: pImgGround(NULL)
-	, pWorld(NULL)
+	: pWorld(NULL)
 	, pGround(NULL)
 	, pPick(NULL)
 	, iId(0)
@@ -60,21 +55,21 @@ bool Box2DSample::Initialize()
 	/* ------- Rendering Initialization ------- */
 
 	pJobManager->Add(New(FileLoader("box2d_sample.scene", kJobLoadScene, this)));
-	pWorld = New(b2World(b2Vec2(0, 10)));
+	pWorld = New(b2World(b2Vec2(0.0f, 10.0f)));
 
 	{
 		b2BodyDef bodyDef;
 		bodyDef.type = b2_staticBody;
 		bodyDef.position.Set(0.0f * PIX2M, 290.0f * PIX2M);
-		bodyDef.angle = 0;
+		bodyDef.angle = 0.0f;
 		pGround = pWorld->CreateBody(&bodyDef);
 
 		b2PolygonShape boxShape;
-		boxShape.SetAsBox(400 * PIX2M, 20 * PIX2M);
+		boxShape.SetAsBox(200.0f * PIX2M, 10.0f * PIX2M);
 
 		b2FixtureDef fixDef;
 		fixDef.shape = &boxShape;
-		fixDef.density = 1;
+		fixDef.density = 1.0f;
 		pGround->CreateFixture(&fixDef);
 	}
 
@@ -92,14 +87,16 @@ bool Box2DSample::Update(f32 dt)
 	pWorld->Step(dt, 8, 3);
 	pWorld->ClearForces();
 
-	this->UpdateEntities();
-
-	if (pImgGround)
+	for (b2Body *b = pWorld->GetBodyList(); b; b = b->GetNext())
 	{
-		b2Vec2 p = pGround->GetPosition();
-		f32 a = pGround->GetAngle() * RAD2DEG;
-		pImgGround->SetPosition(p.x * M2PIX, p.y * M2PIX);
-		pImgGround->SetRotation(a);
+		ISceneObject *obj = (ISceneObject *)b->GetUserData();
+		if (obj != NULL)
+		{
+			b2Vec2 p = b->GetPosition();
+			f32 a = b->GetAngle() * RAD2DEG;
+			obj->SetPosition(p.x * M2PIX, p.y * M2PIX);
+			obj->SetRotation(a);
+		}
 	}
 
 	return true;
@@ -107,9 +104,7 @@ bool Box2DSample::Update(f32 dt)
 
 bool Box2DSample::Shutdown()
 {
-	this->DestroyEntities();
-
-	pWorld->DestroyBody(pGround);
+	this->DestroyPhysics();
 	Delete(pWorld);
 
 	pInput->RemovePointerListener(this);
@@ -153,24 +148,24 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 {
 	if (ev->GetReleased() == Seed::ButtonLeft)
 	{
-		f32 mx = ev->GetX();
-		f32 my = ev->GetY();
-		mx *= PIX2M;
-		my *= PIX2M;
-		b2AABB aabb;
-		aabb.lowerBound.Set(mx - 0.001f, my - 0.001f);
-		aabb.upperBound.Set(mx + 0.001f, my + 0.001f);
+//		f32 mx = ev->GetX();
+//		f32 my = ev->GetY();
+//		mx *= PIX2M;
+//		my *= PIX2M;
+//		b2AABB aabb;
+//		aabb.lowerBound.Set(mx - 0.001f, my - 0.001f);
+//		aabb.upperBound.Set(mx + 0.001f, my + 0.001f);
 
-		Box2DQueryCallback cb;
-		pWorld->QueryAABB(&cb, aabb);
+//		Box2DQueryCallback cb;
+//		pWorld->QueryAABB(&cb, aabb);
 
-		if (cb.vFound.size())
-			pPick = cb.vFound[0];
+//		if (cb.vFound.size())
+//			pPick = cb.vFound[0];
 
-		if (pPick)
-			Log("Found %d", cb.vFound.size());
-		else
-			Log("Not Found");
+//		if (pPick)
+//			Log("Found %d", cb.vFound.size());
+//		else
+//			Log("Not Found");
 	}
 	else if (ev->GetReleased() == Seed::ButtonRight)
 	{
@@ -182,7 +177,7 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 		p.setY(ev->GetY());
 		p += pCamera->GetPosition();
 		Log(">Click at %f, %f", ev->GetX(), ev->GetY());
-		this->CreateEntity(img, p.getX(), p.getY());
+		this->CreateBody(img, p.getX(), p.getY());
 	}
 }
 
@@ -198,11 +193,13 @@ void Box2DSample::OnJobCompleted(const EventJob *ev)
 			Delete(job);
 
 			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
-			pCamera->SetPosition(0.0f, 0.0f);
+//			pCamera->SetPosition(0.0f, 0.0f);
 			cViewport.SetCamera(pCamera);
 
-			pImgGround = (ISceneObject *)gScene->GetChildByName("Ground");
-			this->CreateEntity((Image *)gScene->GetChildByName("Panda"), 0, -300);
+			ISceneObject *obj = gScene->GetChildByName("Ground");
+//			obj->SetZ(33333);
+			pGround->SetUserData(obj);
+			this->CreateBody((Image *)gScene->GetChildByName("Panda"), 0.0f, 0.0f);
 		}
 		break;
 	}
@@ -214,63 +211,41 @@ void Box2DSample::OnJobAborted(const EventJob *ev)
 	Delete(job);
 }
 
-void Box2DSample::UpdateEntities()
+void Box2DSample::DestroyPhysics()
 {
-	PhysicsEntityVectorIterator it = vEntities.begin();
-	PhysicsEntityVectorIterator end = vEntities.end();
-	for (; it != end; ++it)
+	for (b2Body *b = pWorld->GetBodyList(); b; b = b->GetNext())
 	{
-		PhysicsEntity *obj = (*it);
-		b2Vec2 p = obj->pBody->GetPosition();
-		f32 a = obj->pBody->GetAngle() * RAD2DEG;
-		obj->pImage->SetPosition(p.x * M2PIX, p.y * M2PIX);
-		obj->pImage->SetRotation(a);
+		ISceneObject *obj = (ISceneObject *)b->GetUserData();
+		if (obj != NULL)
+		{
+			gScene->Remove(obj);
+			Delete(obj);
+			pWorld->DestroyBody(b);
+		}
 	}
 }
 
-void Box2DSample::DestroyEntities()
-{
-	PhysicsEntityVectorIterator it = vEntities.begin();
-	PhysicsEntityVectorIterator end = vEntities.end();
-	for (; it != end; ++it)
-	{
-		PhysicsEntity *obj = (*it);
-
-		gScene->Remove(obj->pImage);
-		Delete(obj->pImage);
-		pWorld->DestroyBody(obj->pBody);
-		Delete(obj);
-	}
-
-	PhysicsEntityVector().swap(vEntities);
-}
-
-void Box2DSample::CreateEntity(Image *img, f32 x, f32 y)
+void Box2DSample::CreateBody(Image *img, f32 x, f32 y)
 {
 	if (!img)
 		return;
-
-	Log(">Create at %f, %f -> %f, %f", x, y, x * PIX2M, y * PIX2M);
-	PhysicsEntity *obj = New(PhysicsEntity());
-	obj->pImage = img;
 
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(x * PIX2M, y * PIX2M);
 	bodyDef.angle = 0;
-	obj->pBody = pWorld->CreateBody(&bodyDef);
+	bodyDef.userData = img;
+	b2Body *b = pWorld->CreateBody(&bodyDef);
 
 	b2PolygonShape boxShape;
-	boxShape.SetAsBox(38 * PIX2M, 38 * PIX2M);
+	boxShape.SetAsBox(1.0f * PIX2M, 1.0f * PIX2M);
 
 	b2FixtureDef fixDef;
 	fixDef.shape = &boxShape;
-	fixDef.density = 1;
+	fixDef.density = 1.0f;
 	fixDef.restitution = 0.75f;
-	obj->pBody->CreateFixture(&fixDef);
+	b->CreateFixture(&fixDef);
 
 	img->SetPosition(x, y);
 	gScene->Add(img);
-
-	vEntities.push_back(obj);
 }

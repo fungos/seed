@@ -180,15 +180,7 @@ bool OGLES1RendererDevice::Initialize()
 
 	glScissor(0, 0, w, h);
 	glViewport(0, 0, w, h);
-
-	glFrontFace(GL_CW); // defino os vertices em sentido horario
-	glDisable(GL_CULL_FACE); // desabilita back face culling
-
-	glEnable(GL_TEXTURE_2D);
-	glEnable(GL_BLEND);
-
 	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
 	glClearStencil(0);
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 #endif
@@ -636,7 +628,6 @@ void OGLES1RendererDevice::UploadData(void *userData)
 
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
-
 	}
 }
 
@@ -670,10 +661,18 @@ int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const
 	return types[type];
 }
 
+void OGLES1RendererDevice::DestroyHardwareBuffer(IHardwareBuffer *buf) const
+{
+	if (buf->iBuffer)
+	{
+		glDeleteBuffers(1, &buf->iBuffer);
+		buf->iBuffer = 0;
+	}
+}
+
 void OGLES1RendererDevice::BackbufferFill(const Color &color) const
 {
 	GL_TRACE("BEGIN BackbufferFill")
-	//glPushAttrib(GL_TEXTURE_BIT | GL_ENABLE_BIT | GL_CURRENT_BIT | GL_COLOR_BUFFER_BIT);
 	const GLfloat vertices[] = {0.0f, 0.0f, 0.0f, pScreen->GetHeight(), pScreen->GetWidth(), 0.0f, pScreen->GetWidth(), pScreen->GetHeight()};
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -693,8 +692,6 @@ void OGLES1RendererDevice::BackbufferFill(const Color &color) const
 
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-
-	//glPopAttrib();
 	GL_TRACE("END BackbufferFill")
 }
 
@@ -924,22 +921,19 @@ void OGLES1RendererDevice::Enable2D() const
 	glLoadIdentity();
 
 #if defined(_OPENGL_ES1)
-	glOrthof(0.0f, pScreen->GetWidth(), pScreen->GetHeight(), 0.0f, -SEED_MAX_PRIORITY, 0);
+	glOrthof(0.0f, pScreen->GetWidth(), pScreen->GetHeight(), 0, SEED_MAX_PRIORITY, -SEED_MAX_PRIORITY);
 #else
-	glOrtho(0.0f, pScreen->GetWidth(), pScreen->GetHeight(), 0.0f, -SEED_MAX_PRIORITY, 0);
+	glOrtho(0.0f, pScreen->GetWidth(), pScreen->GetHeight(), 0, SEED_MAX_PRIORITY, -SEED_MAX_PRIORITY);
 #endif
 
 	glMatrixMode(GL_MODELVIEW);
 	glPushMatrix();
 	glLoadIdentity();
-	glScalef(1.0f, 1.0f, -1.0f);
 
-	// Save previous Renderer state
-	//glPushAttrib(GL_DEPTH_BUFFER_BIT);
-	glDisable(GL_DEPTH_TEST);
-	//glAlphaFunc(GL_GREATER, 0.1f); /* Blending alpha png fudido, arrumar per-texture */
+//	glEnable(GL_DEPTH_TEST);
+//	glDepthFunc(GL_ALWAYS);
+//	glAlphaFunc(GL_GREATER, 0.1f);
 	glEnable(GL_ALPHA_TEST);
-
 	glFrontFace(GL_CW);
 	glDisable(GL_CULL_FACE);
 	glEnable(GL_TEXTURE_2D);
@@ -952,9 +946,6 @@ void OGLES1RendererDevice::Disable2D() const
 {
 	GL_TRACE("BEGIN Disable2D")
 #if !defined(BUILD_QT)
-	// Restore previous Renderer state
-	//glPopAttrib();
-
 	glMatrixMode(GL_MODELVIEW);
 	glPopMatrix();
 

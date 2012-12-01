@@ -73,4 +73,6 @@
 	#include "api/ogl/oglES1RendererDevice.h"
 #endif
 
+#include "interface/IHardwareBuffer.h"
+
 #endif // __RENDERER_DEVICE_H__

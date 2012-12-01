@@ -90,6 +90,7 @@ ParticleEmitter::ParticleEmitter()
 
 ParticleEmitter::~ParticleEmitter()
 {
+	pRendererDevice->DestroyHardwareBuffer(&cVertexBuffer);
 	this->Unload();
 }
 

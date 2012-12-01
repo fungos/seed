@@ -69,58 +69,6 @@ namespace Seed {
 
 class ITexture;
 
-namespace OpenGL { class OGLES1RendererDevice; }
-
-template <eBufferTarget T> struct SEED_CORE_API HardwareBuffer : public IHardwareBuffer
-{
-	friend class OpenGL::OGLES1RendererDevice;
-	public:
-		HardwareBuffer()
-			: pData(NULL)
-			, iBuffer(0)
-			, nTarget(T)
-			, nUsage(BufferUsageNeverChange)
-			, nElemType(ElementTypeByte)
-			, iLength(0)
-			, bUpdated(false)
-		{}
-
-		~HardwareBuffer() {}
-
-		inline void SetData(void *data, u32 len)
-		{
-			iLength = len;
-			pData = data;
-			bUpdated = true;
-		}
-
-		inline void Configure(eBufferUsage u = BufferUsageNeverChange, eElementType e = ElementTypeByte)
-		{
-			nUsage = u;
-			nElemType = e;
-		}
-
-		inline int GetData(void *data = NULL)
-		{
-			if (data)
-				data = pData;
-
-			return iLength;
-		}
-
-	protected:
-		void *pData;
-		u32 iBuffer;
-		eBufferTarget nTarget;
-		eBufferUsage nUsage;
-		eElementType nElemType;
-		u32 iLength;
-		bool bUpdated;
-};
-
-struct VertexBuffer : public HardwareBuffer<BufferTargetArray> {};
-struct ElementBuffer : public HardwareBuffer<BufferTargetElementArray> {};
-
 namespace OpenGL {
 
 /// OpenGL ES 1.1 and OpenGL 1.5+ Rendering device
@@ -136,6 +84,12 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void Begin() const;
 		virtual void End() const;
 
+		// Generic operations
+		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const;
+		virtual void UploadData(void *userData);
+		virtual void BackbufferClear(const Color &color) const;
+		virtual void BackbufferFill(const Color &color) const;
+
 		// IRendererDevice
 		virtual void TextureUnload(ITexture *tex);
 		virtual void TextureRequest(ITexture *texture);
@@ -144,10 +98,8 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void TextureDataUpdate(ITexture *texture);
 		virtual void SetTextureParameters(ITexture *texture) const;
 
-		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const;
-		virtual void UploadData(void *userData);
-		virtual void BackbufferClear(const Color &color) const;
-		virtual void BackbufferFill(const Color &color) const;
+		// HardwareBuffer
+		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const;
 
 		// Render to Texture support
 		virtual u32 CreateFrameBuffer(ITexture *texture = NULL);

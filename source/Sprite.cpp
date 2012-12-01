@@ -76,6 +76,7 @@ Sprite::Sprite()
 
 Sprite::~Sprite()
 {
+	pRendererDevice->DestroyHardwareBuffer(&cVertexBuffer);
 	this->Unload();
 }
 
