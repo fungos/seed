@@ -231,18 +231,9 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 			case SDL_MOUSEMOTION:
 			{
-				f32 x, y;
-				x = iX = (f32)event.motion.x;
-				y = iY = (f32)event.motion.y;
-
-//				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(iX, iY));
-//				if (viewport)
-//				{
-//					fw = (viewport->GetWidth());
-//					fh = (viewport->GetHeight());
-//					x = (iX - viewport->GetX());
-//					y = (iY - viewport->GetY());
-//				}
+				u32 x, y;
+				x = iX = event.motion.x;
+				y = iY = event.motion.y;
 
 				EventInputPointer ev(0, 0, 0, 0, x, y);
 				this->SendEventPointerMove(&ev);
@@ -255,15 +246,6 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 				x = iX = event.motion.x;
 				y = iY = event.motion.y;
 
-//				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(iX, iY));
-//				if (viewport)
-//				{
-//					fw = (viewport->GetWidth());
-//					fh = (viewport->GetHeight());
-//					x = (iX - viewport->GetX());
-//					y = (iY - viewport->GetY());
-//				}
-
 				const EventInputPointer ev(0, 0, 0, this->ConvertButtonFlags(event.button.button), x, y);
 				this->SendEventPointerRelease(&ev);
 			}
@@ -272,17 +254,8 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 			case SDL_MOUSEBUTTONDOWN:
 			{
 				u32 x, y;
-				x = iX = (f32)event.motion.x;
-				y = iY = (f32)event.motion.y;
-
-//				Viewport *viewport = static_cast<Viewport*>(pViewManager->GetViewportAt(iX, iY));
-//				if (viewport)
-//				{
-//					fw = (viewport->GetWidth());
-//					fh = (viewport->GetHeight());
-//					x = (iX - viewport->GetX());
-//					y = (iY - viewport->GetY());
-//				}
+				x = iX = event.motion.x;
+				y = iY = event.motion.y;
 
 				const EventInputPointer ev(0, this->ConvertButtonFlags(event.button.button), 0, 0, x, y);
 				this->SendEventPointerPress(&ev);

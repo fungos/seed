@@ -39,15 +39,15 @@ namespace Seed {
 class SEED_CORE_API EventInputPointer : public IEventInput
 {
 	public:
-		EventInputPointer(u32 j, u32 pressed, u32 hold, u32 released, f32 x, f32 y);
+		EventInputPointer(u32 j, u32 pressed, u32 hold, u32 released, u32 x, u32 y);
 		virtual ~EventInputPointer();
 
 		u32 GetJoystick() const;
 		u32 GetPressed()  const;
 		u32 GetReleased() const;
 		u32 GetHold() 	 const;
-		f32 GetX() 		 const;
-		f32 GetY() 		 const;
+		u32 GetX() 		 const;
+		u32 GetY() 		 const;
 
 		// IObject
 		virtual const String GetClassName() const;
@@ -57,8 +57,8 @@ class SEED_CORE_API EventInputPointer : public IEventInput
 		u32 iPressed;
 		u32 iHold;
 		u32 iReleased;
-		f32 fX;
-		f32 fY;
+		u32 iX;
+		u32 iY;
 
 	private:
 		SEED_DISABLE_COPY(EventInputPointer);

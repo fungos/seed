@@ -1,0 +1,17 @@
+{
+	sType: SceneNode
+	sName: MainScene
+	aObjects: [
+		{
+			sType: Image
+			sName: Panda
+			sResource: seed.jpg
+		}
+		{
+			sType: Camera
+			sName: MainCamera
+			sProjection: Orthogonal
+			cPosition: {x: -400, y: -300}
+		}
+	]
+}
