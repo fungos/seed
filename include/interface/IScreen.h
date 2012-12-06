@@ -79,7 +79,7 @@ class SEED_CORE_API IScreen : public IModule
 		virtual bool IsRequired() const;
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 
 	protected:
 		bool		bFading;

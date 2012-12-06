@@ -53,7 +53,7 @@ Job *EventJob::GetJob() const
 	return pJob;
 }
 
-const String EventJob::GetObjectName() const
+const String EventJob::GetClassName() const
 {
 	return "EventJob";
 }

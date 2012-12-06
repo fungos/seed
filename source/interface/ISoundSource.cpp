@@ -83,7 +83,7 @@ bool ISoundSource::Load(Reader &reader, ResourceManager *res)
 bool ISoundSource::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteString("sResource", pSound->GetFilename().c_str());
 		writer.WriteF32("fVolume", fVolume);
@@ -198,7 +198,7 @@ void ISoundSource::Render(const Matrix4f &worldTransform)
 	UNUSED(worldTransform);
 }
 
-const String ISoundSource::GetObjectName() const
+const String ISoundSource::GetClassName() const
 {
 	return "SoundSource";
 }

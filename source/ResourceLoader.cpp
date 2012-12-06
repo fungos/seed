@@ -219,7 +219,7 @@ void ResourceLoader::SendEventQueueEmpty(const EventResourceLoader *ev)
 	}
 }
 
-const String ResourceLoader::GetObjectName() const
+const String ResourceLoader::GetClassName() const
 {
 	return "ResourceLoader";
 }

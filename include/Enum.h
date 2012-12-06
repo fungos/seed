@@ -63,6 +63,8 @@ enum eObjectType
 	// System
 	TypeFile,
 	TypeConfiguration,
+	TypeViewport,
+	TypePresentation,
 	TypeInterfaceModule,
 	TypeInterfaceRenderable,
 	TypeInterfaceBaseApp,

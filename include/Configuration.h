@@ -123,7 +123,7 @@ class SEED_CORE_API Configuration : public IObject
 		eReaderType GetReaderType() const;
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
 		bool bDebugSprite;

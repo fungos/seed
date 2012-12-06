@@ -92,7 +92,7 @@ int IMusic::GetObjectType() const
 	return Seed::TypeMusic;
 }
 
-const String IMusic::GetObjectName() const
+const String IMusic::GetClassName() const
 {
 	return "IMusic";
 }

@@ -52,6 +52,7 @@
 #include <EventSystem.h>
 #include <EventMovie.h>
 #include <EventJob.h>
+#include <EventPresentation.h>
 
 #include <File.h>
 #include <FileSystem.h>
@@ -75,6 +76,7 @@
 #include <interface/IEventFileSystemListener.h>
 #include <interface/IEventMovieListener.h>
 #include <interface/IEventJobListener.h>
+#include <interface/IEventPresentationListener.h>
 #include <interface/IObject.h>
 #include <interface/ISceneObject.h>
 
@@ -86,6 +88,7 @@
 #include <Particle.h>
 #include <ParticleEmitter.h>
 #include <Point.h>
+#include <Presentation.h>
 
 #include <Rand.h>
 #include <ResourceManager.h>

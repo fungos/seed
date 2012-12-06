@@ -93,7 +93,7 @@ bool Animation::Write(Writer &writer)
 	bool ret = false;
 
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteBool("bAnimated", bAnimated);
 		writer.WriteU32("iFps", iFps);
@@ -127,7 +127,7 @@ FrameVector *Animation::GetFrames()
 	return &vFrames;
 }
 
-const String Animation::GetObjectName() const
+const String Animation::GetClassName() const
 {
 	return "Animation";
 }

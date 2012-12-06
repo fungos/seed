@@ -99,7 +99,7 @@ class SEED_CORE_API IRendererDevice : public IModule
 		virtual bool IsRequired() const;
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 
 	private:
 		SEED_DISABLE_COPY(IRendererDevice);

@@ -28,51 +28,30 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_MANAGER_H__
-#define __RENDERER_MANAGER_H__
-
-#include "interface/IModule.h"
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
-#include "Container.h"
+#include "interface/IEventPresentationListener.h"
+#include "EventJob.h"
 
 namespace Seed {
 
-class Renderer;
-
-/// Renderer Manager
-class SEED_CORE_API RendererManager : public IModule, public IUpdatable
+IEventPresentationListener::IEventPresentationListener()
 {
-	SEED_SINGLETON_DECLARE(RendererManager)
-	DECLARE_CONTAINER_TYPE(Vector, Renderer)
-	public:
-		virtual void Add(Renderer *renderer);
-		virtual void Remove(Renderer *renderer);
+}
 
-		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+IEventPresentationListener::~IEventPresentationListener()
+{
+}
 
-		virtual void Disable();
-		virtual void Enable();
+void IEventPresentationListener::OnPresentationLoaded(const EventPresentation *ev)
+{
+	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
+}
 
-		// IUpdatable
-		virtual bool Update(f32 dt);
-
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
-
-	private:
-		SEED_DISABLE_COPY(RendererManager);
-
-		RendererVector vRenderer;
-		bool bEnabled;
-};
-
-#define pRendererManager RendererManager::GetInstance()
+void IEventPresentationListener::OnPresentationAborted(const EventPresentation *ev)
+{
+	UNUSED(ev);
+	SEED_ABSTRACT_METHOD;
+}
 
 } // namespace
 
-#endif // __RENDERER_MANAGER_H__

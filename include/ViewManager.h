@@ -65,7 +65,7 @@ class SEED_CORE_API ViewManager : public IModule
 		virtual void Enable();
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
 	private:

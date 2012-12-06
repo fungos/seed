@@ -47,7 +47,8 @@ enum eEventId
 	EventIdResourceLoader,
 	EventIdFileSystem,
 	EventIdMovie,
-	EventIdJob
+	EventIdJob,
+	EventIdPresentation
 };
 
 /// Base Event
@@ -63,6 +64,7 @@ class SEED_CORE_API IEvent : public IObject
 			TypeResource		= 4,
 			TypeMovie			= 5,
 			TypeJob				= 6,
+			TypePresentation	= 7,
 			TypeUser			= 0x1000
 		};
 
@@ -78,7 +80,7 @@ class SEED_CORE_API IEvent : public IObject
 
 		// IObject
 		virtual int GetObjectType() const;
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 
 	protected:
 		eType 	iType;

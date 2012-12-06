@@ -62,7 +62,7 @@ class SEED_CORE_API JobManager : public IModule, public IUpdatable
 		virtual bool Update(f32 dt);
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
 	private:

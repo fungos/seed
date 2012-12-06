@@ -33,18 +33,21 @@
 
 #include "Defines.h"
 #include "Rect.h"
+#include "interface/IObject.h"
 
 namespace Seed {
 
 class Renderer;
 class Camera;
+class Presentation;
 
 /// Viewport Interface
 /**
 Interface for working with viewports.
 */
-class SEED_CORE_API Viewport
+class SEED_CORE_API Viewport : public IObject
 {
+	friend class Presentation;
 	public:
 		Viewport();
 		virtual ~Viewport();
@@ -70,7 +73,11 @@ class SEED_CORE_API Viewport
 		virtual bool Contains(u32 x, u32 y);
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
+		virtual int GetObjectType() const;
+
+	protected:
+		String		sCameraNameToAttach;
 
 	private:
 		Renderer	*pRenderer;

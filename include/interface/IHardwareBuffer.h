@@ -28,51 +28,73 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_MANAGER_H__
-#define __RENDERER_MANAGER_H__
+#ifndef __IHARDWAREBUFFER_H__
+#define __IHARDWAREBUFFER_H__
 
-#include "interface/IModule.h"
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
-#include "Container.h"
+#include "Defines.h"
+#include "Enum.h"
 
 namespace Seed {
 
-class Renderer;
-
-/// Renderer Manager
-class SEED_CORE_API RendererManager : public IModule, public IUpdatable
+struct SEED_CORE_API IHardwareBuffer
 {
-	SEED_SINGLETON_DECLARE(RendererManager)
-	DECLARE_CONTAINER_TYPE(Vector, Renderer)
-	public:
-		virtual void Add(Renderer *renderer);
-		virtual void Remove(Renderer *renderer);
+	IHardwareBuffer()
+		: iBuffer(0)
+	{}
 
-		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+	~IHardwareBuffer()
+	{}
 
-		virtual void Disable();
-		virtual void Enable();
-
-		// IUpdatable
-		virtual bool Update(f32 dt);
-
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
-
-	private:
-		SEED_DISABLE_COPY(RendererManager);
-
-		RendererVector vRenderer;
-		bool bEnabled;
+	u32 iBuffer;
 };
 
-#define pRendererManager RendererManager::GetInstance()
+template <eBufferTarget T> struct SEED_CORE_API HardwareBuffer : public IHardwareBuffer
+{
+	public:
+		HardwareBuffer()
+			: pData(NULL)
+			, nTarget(T)
+			, nUsage(BufferUsageNeverChange)
+			, nElemType(ElementTypeByte)
+			, iLength(0)
+			, bUpdated(false)
+		{}
+
+		~HardwareBuffer()
+		{}
+
+		inline void SetData(void *data, u32 len)
+		{
+			iLength = len;
+			pData = data;
+			bUpdated = true;
+		}
+
+		inline void Configure(eBufferUsage u = BufferUsageNeverChange, eElementType e = ElementTypeByte)
+		{
+			nUsage = u;
+			nElemType = e;
+		}
+
+		inline int GetData(void *data = NULL)
+		{
+			if (data)
+				data = pData;
+
+			return iLength;
+		}
+
+		void *pData;
+		eBufferTarget nTarget;
+		eBufferUsage nUsage;
+		eElementType nElemType;
+		u32 iLength;
+		bool bUpdated;
+};
+
+struct VertexBuffer : public HardwareBuffer<BufferTargetArray> {};
+struct ElementBuffer : public HardwareBuffer<BufferTargetElementArray> {};
 
 } // namespace
 
-#endif // __RENDERER_MANAGER_H__
+#endif // __IHARDWAREBUFFER_H__

@@ -58,6 +58,7 @@ void SceneManager::Reset()
 void SceneManager::Add(ISceneObject *obj)
 {
 	vObject += obj;
+	vObject.Unique();
 }
 
 void SceneManager::Remove(ISceneObject *obj)

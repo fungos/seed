@@ -57,11 +57,11 @@ bool ModuleManager::Add(IModule *obj)
 	{
 		if (obj->IsRequired())
 		{
-			Info(TAG "CRITICAL: Module '%s' failed to initialize.", obj->GetObjectName().c_str());
+			Info(TAG "CRITICAL: Module '%s' failed to initialize.", obj->GetClassName().c_str());
 		}
 		else
 		{
-			Info(TAG "WARNING: Module '%s' failed to initalize.", obj->GetObjectName().c_str());
+			Info(TAG "WARNING: Module '%s' failed to initalize.", obj->GetClassName().c_str());
 			ret = true; // we can continue as this module isn't critical.
 		}
 	}
@@ -129,6 +129,7 @@ bool ModuleManager::Shutdown()
 	for (s32 i = len; i >= 0; i--)
 	{
 		IModule *obj = vModule[i];
+		Info(TAG "Terminating module %s.", obj->GetClassName().c_str());
 		ret = ret && (obj->Shutdown() || !obj->IsRequired());
 	}
 
@@ -144,7 +145,7 @@ void ModuleManager::Print()
 	for (; it != end; ++it)
 	{
 		IModule *obj = (*it);
-		Info(TAG "\tModule: %s.", obj->GetObjectName().c_str());
+		Info(TAG "\tModule: %s.", obj->GetClassName().c_str());
 	}
 }
 

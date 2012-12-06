@@ -52,7 +52,7 @@ ResourceGroup *EventResourceLoader::GetGroup() const
 	return pGroup;
 }
 
-const String EventResourceLoader::GetObjectName() const
+const String EventResourceLoader::GetClassName() const
 {
 	return "EventResourceLoader";
 }

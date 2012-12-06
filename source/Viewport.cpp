@@ -63,7 +63,6 @@ Renderer *Viewport::GetRenderer() const
 void Viewport::SetCamera(Camera *camera)
 {
 	pCamera = camera;
-	pCamera->SetView(Rect4f(iX, iY, iWidth, iHeight));
 }
 
 Camera *Viewport::GetCamera() const
@@ -119,6 +118,7 @@ void Viewport::Render()
 {
 	if (pRenderer && pCamera)
 	{
+		pCamera->SetView(Rect4f(iX, iY, iWidth, iHeight));
 		pRendererDevice->SetViewport(iX, iY, iWidth, iHeight);
 		pRenderer->Render(pCamera);
 	}
@@ -129,9 +129,14 @@ bool Viewport::Contains(u32 x, u32 y)
 	return (x >= iX && x <= iX + iWidth && y >= iY && y <= iY + iHeight);
 }
 
-const String Viewport::GetObjectName() const
+const String Viewport::GetClassName() const
 {
 	return "Viewport";
+}
+
+int Viewport::GetObjectType() const
+{
+	return Seed::TypeViewport;
 }
 
 } // namespace

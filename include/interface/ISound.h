@@ -51,7 +51,7 @@ class SEED_CORE_API ISound : public IResource
 
 		// IObject
 		virtual int GetObjectType() const;
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 
 	private:
 		SEED_DISABLE_COPY(ISound);

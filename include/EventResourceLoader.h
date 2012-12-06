@@ -49,7 +49,7 @@ class SEED_CORE_API EventResourceLoader : public IEvent
 		ResourceGroup *GetGroup() const;
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 
 	protected:
 		ResourceGroup *pGroup;

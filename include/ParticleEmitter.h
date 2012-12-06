@@ -148,7 +148,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListe
 		virtual bool Unload();
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
 	private:

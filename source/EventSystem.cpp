@@ -60,7 +60,7 @@ Seed::eLanguage EventSystem::GetLanguageNew() const
 	return this->nNewLang;
 }
 
-const String EventSystem::GetObjectName() const
+const String EventSystem::GetClassName() const
 {
 	return "EventSystem";
 }

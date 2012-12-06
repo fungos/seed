@@ -89,7 +89,7 @@ class SEED_CORE_API Timeline : public IDataObject
 		virtual bool Unload();
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
 	private:

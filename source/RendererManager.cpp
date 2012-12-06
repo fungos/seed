@@ -103,6 +103,7 @@ bool RendererManager::Update(f32 dt)
 void RendererManager::Add(Renderer *renderer)
 {
 	vRenderer += renderer;
+	vRenderer.Unique();
 }
 
 void RendererManager::Remove(Renderer *renderer)
@@ -134,7 +135,7 @@ void RendererManager::Enable()
 	}
 }
 
-const String RendererManager::GetObjectName() const
+const String RendererManager::GetClassName() const
 {
 	return "RendererManager";
 }

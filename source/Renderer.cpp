@@ -60,7 +60,7 @@ struct SEED_CORE_API VisibleObjectDescendingPrioritySort
 
 
 Renderer::Renderer()
-	: vScenes()
+	: pScene(NULL)
 	, vRenderables()
 	, vVisibleRenderables()
 {
@@ -68,9 +68,6 @@ Renderer::Renderer()
 
 Renderer::~Renderer()
 {
-	vScenes.clear();
-	SceneNodeVector().swap(vScenes);
-
 	vRenderables.clear();
 	RenderableVector().swap(vRenderables);
 
@@ -96,19 +93,13 @@ bool Renderer::Update(f32 dt)
 	UNUSED(dt);
 	SEED_FUNCTION_PROFILER;
 
-	if (!IModule::IsEnabled())
+	if (!IModule::IsEnabled() || !pScene)
 		return false;
 
 	vRenderables.clear();
 
-	SceneNodeVector v(vScenes);
-
-	SceneNodeVectorIterator sit = v.begin();
-	SceneNodeVectorIterator send = v.end();
-	for (; sit != send; ++sit)
-	{
-		this->PushChildNodes((*sit), v);
-	}
+	SceneNodeVector v;
+	v.push_back(pScene);
 
 	SceneNodeVectorIterator it = v.begin();
 	SceneNodeVectorIterator end = v.end();
@@ -135,7 +126,7 @@ bool Renderer::Update(f32 dt)
 void Renderer::Render(Camera *camera)
 {
 	SEED_FUNCTION_PROFILER;
-	if (pRendererDevice && pRendererDevice->IsEnabled() && IModule::IsEnabled())
+	if (pScene && pRendererDevice && pRendererDevice->IsEnabled() && IModule::IsEnabled())
 	{
 		this->Culler(camera);
 
@@ -160,16 +151,10 @@ void Renderer::Culler(Camera *camera)
 		ISceneObject *obj = const_cast<ISceneObject *>(*it);
 		SEED_ASSERT(obj);
 
-//		fprintf(stdout, "Check %s\n", obj->sName.c_str());
 		if (camera->Contains(obj, visible.mWorldTransform))
 		{
 			visible.pObj = obj;
 			vVisibleRenderables.push_back(visible);
-//			fprintf(stdout, "+ %s IN\n", obj->sName.c_str());
-		}
-		else
-		{
-//			fprintf(stdout, "- %s OUT\n", obj->sName.c_str());
 		}
 	}
 
@@ -207,17 +192,17 @@ void Renderer::End() const
 	pRendererDevice->End();
 }
 
-void Renderer::Add(SceneNode *node)
+void Renderer::SetScene(SceneNode *node)
 {
-	vScenes += node;
+	pScene = node;
 }
 
-void Renderer::Remove(SceneNode *node)
+SceneNode *Renderer::GetScene() const
 {
-	vScenes -= node;
+	return pScene;
 }
 
-const String Renderer::GetObjectName() const
+const String Renderer::GetClassName() const
 {
 	return "Renderer";
 }

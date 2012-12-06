@@ -62,6 +62,12 @@
 														return this->size(); \
 													} \
 													\
+													void Unique() \
+													{ \
+														sort(this->begin(), this->end()); \
+														this->erase(unique(this->begin(), this->end()), this->end()); \
+													} \
+													\
 											};
 
 namespace Seed

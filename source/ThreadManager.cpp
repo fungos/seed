@@ -120,7 +120,7 @@ void ThreadManager::Enable()
 	bEnabled = true;
 }
 
-const String ThreadManager::GetObjectName() const
+const String ThreadManager::GetClassName() const
 {
 	return "ThreadManager";
 }

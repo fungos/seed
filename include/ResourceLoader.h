@@ -85,7 +85,7 @@ class SEED_CORE_API ResourceLoader : public IModule, public IUpdatable, public T
 		virtual bool Reset();
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 
 	protected:
 		void SendEventGroupLoaded(const EventResourceLoader *ev);

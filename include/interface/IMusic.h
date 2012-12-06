@@ -76,7 +76,7 @@ class SEED_CORE_API IMusic : public IResource
 
 		// IObject
 		virtual int GetObjectType() const;
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 
 	protected:
 		virtual void Play();

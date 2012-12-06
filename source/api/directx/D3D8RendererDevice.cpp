@@ -629,7 +629,7 @@ void D3D8RendererDevice::Update()
 	}
 }
 
-const String D3D8RendererDevice::GetObjectName() const
+const String D3D8RendererDevice::GetClassName() const
 {
 	return "D3D8RendererDevice";
 }

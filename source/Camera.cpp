@@ -33,6 +33,7 @@
 #include "Log.h"
 #include "Enum.h"
 #include "interface/ITexture.h"
+#include "Screen.h"
 #include <algorithm>
 
 #define TAG "[Camera] "
@@ -72,9 +73,10 @@ bool Camera::Contains(ITransformable *obj, Matrix4f &worldMatrix)
 	return ret;
 }
 
-void Camera::SetView(const Rect4f &rectangle)
+void Camera::SetView(const Rect4f &rect)
 {
-	rViewArea = rectangle;
+	rViewArea = rect;
+	rBoundingBox = Rect4f(0.0f, 0.0f, pScreen->GetWidth(), pScreen->GetHeight());
 }
 
 void Camera::Update(f32 delta)
@@ -159,7 +161,7 @@ bool Camera::IsInView(ITransformable *obj, Matrix4f &worldTransform)
 	f32 ox = op.getX();
 	f32 oy = op.getY();
 	Rect4f box(ox, oy, obj->GetWidth(), obj->GetHeight());
-	return rViewArea.Intersect(ox, oy, box.CircleRadius());
+	return rBoundingBox.Intersect(ox, oy, box.CircleRadius());
 }
 
 bool Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)
@@ -167,7 +169,7 @@ bool Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)
 	return true;
 }
 
-const String Camera::GetObjectName() const
+const String Camera::GetClassName() const
 {
 	return "Camera";
 }
@@ -185,7 +187,6 @@ bool Camera::Unload()
 bool Camera::Load(Reader &reader, ResourceManager *res)
 {
 	UNUSED(res);
-
 	bool ret = false;
 
 	if (this->Unload())
@@ -211,7 +212,7 @@ bool Camera::Load(Reader &reader, ResourceManager *res)
 bool Camera::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteString("sProjection", nProjection == Seed::Orthogonal ? "Orthogonal" : "Perspective");
 

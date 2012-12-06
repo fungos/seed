@@ -28,51 +28,28 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_MANAGER_H__
-#define __RENDERER_MANAGER_H__
+#ifndef __IEVENTPRESENTATIONLISTENER_H__
+#define __IEVENTPRESENTATIONLISTENER_H__
 
-#include "interface/IModule.h"
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
-#include "Container.h"
+#include "interface/IEventListener.h"
 
 namespace Seed {
 
-class Renderer;
+class EventPresentation;
 
-/// Renderer Manager
-class SEED_CORE_API RendererManager : public IModule, public IUpdatable
+class SEED_CORE_API IEventPresentationListener : public IEventListener
 {
-	SEED_SINGLETON_DECLARE(RendererManager)
-	DECLARE_CONTAINER_TYPE(Vector, Renderer)
 	public:
-		virtual void Add(Renderer *renderer);
-		virtual void Remove(Renderer *renderer);
+		IEventPresentationListener();
+		virtual ~IEventPresentationListener();
 
-		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
-
-		virtual void Disable();
-		virtual void Enable();
-
-		// IUpdatable
-		virtual bool Update(f32 dt);
-
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual void OnPresentationLoaded(const EventPresentation *ev);
+		virtual void OnPresentationAborted(const EventPresentation *ev);
 
 	private:
-		SEED_DISABLE_COPY(RendererManager);
-
-		RendererVector vRenderer;
-		bool bEnabled;
+		SEED_DISABLE_COPY(IEventPresentationListener);
 };
-
-#define pRendererManager RendererManager::GetInstance()
 
 } // namespace
 
-#endif // __RENDERER_MANAGER_H__
+#endif // __IEVENTPRESENTATIONLISTENER_H__

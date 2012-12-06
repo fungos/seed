@@ -139,7 +139,7 @@ const String &File::GetName() const
 	return sFilename;
 }
 
-const String File::GetObjectName() const
+const String File::GetClassName() const
 {
 	return "File";
 }
@@ -164,7 +164,7 @@ FileLoader::~FileLoader()
 
 bool FileLoader::Run()
 {
-	Log("Job Run %s", sFilename.c_str());
+//	Log("Job Run %s", sFilename.c_str());
 	cMutex.Lock();
 	bool run = (nState == JobRunning);
 	cMutex.Unlock();
@@ -177,7 +177,7 @@ bool FileLoader::Run()
 		cMutex.Lock();
 		nState = JobCompleted;
 		cMutex.Unlock();
-		Log("Job Run completed %s", sFilename.c_str());
+//		Log("Job Run completed %s", sFilename.c_str());
 	}
 
 	return false;

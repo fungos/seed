@@ -579,7 +579,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 bool Timeline::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
 
 		writer.WriteS32("iPriority", iPriority);
@@ -605,7 +605,7 @@ bool Timeline::Write(Writer &writer)
 	return true;
 }
 
-const String Timeline::GetObjectName() const
+const String Timeline::GetClassName() const
 {
 	return "Timeline";
 }

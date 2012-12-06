@@ -28,51 +28,37 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_MANAGER_H__
-#define __RENDERER_MANAGER_H__
-
-#include "interface/IModule.h"
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
-#include "Container.h"
+#include "EventPresentation.h"
+#include "Presentation.h"
+#include "Renderer.h"
 
 namespace Seed {
 
-class Renderer;
-
-/// Renderer Manager
-class SEED_CORE_API RendererManager : public IModule, public IUpdatable
+EventPresentation::EventPresentation(Presentation *p, Renderer *r)
+	: IEvent(TypePresentation, EventIdPresentation)
+	, pPresentation(p)
+	, pRenderer(r)
 {
-	SEED_SINGLETON_DECLARE(RendererManager)
-	DECLARE_CONTAINER_TYPE(Vector, Renderer)
-	public:
-		virtual void Add(Renderer *renderer);
-		virtual void Remove(Renderer *renderer);
+}
 
-		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+EventPresentation::~EventPresentation()
+{
+}
 
-		virtual void Disable();
-		virtual void Enable();
+Presentation *EventPresentation::GetPresentation() const
+{
+	return pPresentation;
+}
 
-		// IUpdatable
-		virtual bool Update(f32 dt);
+Renderer *EventPresentation::GetRenderer() const
+{
+	return pRenderer;
+}
 
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
-
-	private:
-		SEED_DISABLE_COPY(RendererManager);
-
-		RendererVector vRenderer;
-		bool bEnabled;
-};
-
-#define pRendererManager RendererManager::GetInstance()
+const String EventPresentation::GetClassName() const
+{
+	return "EventPresentation";
+}
 
 } // namespace
 
-#endif // __RENDERER_MANAGER_H__

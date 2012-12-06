@@ -214,7 +214,7 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 		virtual bool IsRequired() const;
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 
 		void SendEventReset(const EventSystem *ev);
 		void SendEventShutdown(const EventSystem *ev);

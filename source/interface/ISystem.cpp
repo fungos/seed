@@ -227,7 +227,7 @@ bool ISystem::IsRequired() const
 	return true;
 }
 
-const String ISystem::GetObjectName() const
+const String ISystem::GetClassName() const
 {
 	return "System";
 }

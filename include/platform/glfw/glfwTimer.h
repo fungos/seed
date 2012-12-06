@@ -80,7 +80,7 @@ class SEED_CORE_API Timer : public IModule
 			return true;
 		}
 
-		const String GetObjectName() const override
+		const String GetClassName() const override
 		{
 			return "Timer";
 		}

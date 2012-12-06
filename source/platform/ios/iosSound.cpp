@@ -66,8 +66,6 @@ namespace Seed { namespace iOS {
 
 IResource *SoundResourceLoader(const String &filename, ResourceManager *res)
 {
-	UNUSED(res);
-
 	Sound *sound = New(Sound());
 	sound->Load(filename, res);
 	return sound;

@@ -28,51 +28,43 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_MANAGER_H__
-#define __RENDERER_MANAGER_H__
+#ifndef __EVENTPRESENTATION_H__
+#define __EVENTPRESENTATION_H__
 
-#include "interface/IModule.h"
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
-#include "Container.h"
+#include "interface/IEvent.h"
 
 namespace Seed {
 
+class Presentation;
 class Renderer;
 
-/// Renderer Manager
-class SEED_CORE_API RendererManager : public IModule, public IUpdatable
+class SEED_CORE_API EventPresentation: public IEvent
 {
-	SEED_SINGLETON_DECLARE(RendererManager)
-	DECLARE_CONTAINER_TYPE(Vector, Renderer)
 	public:
-		virtual void Add(Renderer *renderer);
-		virtual void Remove(Renderer *renderer);
+		EventPresentation(Presentation *p, Renderer *r);
+		virtual ~EventPresentation();
 
-		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		/// Get the presentation that emitted the event on load successful.
+		Presentation *GetPresentation() const;
 
-		virtual void Disable();
-		virtual void Enable();
-
-		// IUpdatable
-		virtual bool Update(f32 dt);
+		/**
+		 * In case of loading error, return the renderer that failed to load.
+		 * But Renderer will be NULL in case of success, so you shouldn't use
+		 * ev->GetRenderer() inside OnPresentationLoaded().
+		 */
+		Renderer *GetRenderer() const;
 
 		// IObject
 		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+
+	protected:
+		Presentation	*pPresentation;
+		Renderer		*pRenderer;
 
 	private:
-		SEED_DISABLE_COPY(RendererManager);
-
-		RendererVector vRenderer;
-		bool bEnabled;
+		SEED_DISABLE_COPY(EventPresentation);
 };
-
-#define pRendererManager RendererManager::GetInstance()
 
 } // namespace
 
-#endif // __RENDERER_MANAGER_H__
+#endif // __EVENTPRESENTATION_H__

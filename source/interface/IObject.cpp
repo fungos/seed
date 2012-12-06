@@ -33,6 +33,7 @@
 namespace Seed {
 
 IObject::IObject()
+	: sName()
 {
 }
 

@@ -77,7 +77,7 @@ ResourceManager *IGameApp::GetResourceManager()
 	return &cResourceManager;
 }
 
-const String IGameApp::GetObjectName() const
+const String IGameApp::GetClassName() const
 {
 	return "IGameApp";
 }

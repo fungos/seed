@@ -49,8 +49,6 @@ namespace Seed { namespace iOS {
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 {
-	UNUSED(res);
-
 	Texture *image = New(Texture());
 	image->Load(filename, res);
 
@@ -103,7 +101,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		//#else
 		//this->LoadPVRTC(filename.c_str());
 		//#endif // ENABLE_NATIVE_PVRTC_FORMAT
-		
+
 		bLoaded = true;
 	}
 	else

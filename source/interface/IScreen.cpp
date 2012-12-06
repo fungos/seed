@@ -100,7 +100,7 @@ bool IScreen::IsRequired() const
 	return true;
 }
 
-const String IScreen::GetObjectName() const
+const String IScreen::GetClassName() const
 {
 	return "Screen";
 }

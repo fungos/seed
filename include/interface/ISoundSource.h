@@ -89,7 +89,7 @@ class SEED_CORE_API ISoundSource : public ISceneObject
 		virtual void Render(const Matrix4f &worldTransform);
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
 	protected:

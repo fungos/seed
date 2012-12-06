@@ -23,7 +23,7 @@
 #define SEED_VERSION_MAJOR			1			// Release version (final trunk)
 #define SEED_VERSION_STRING			"%d.%d.%d"	//"1.1.1"
 #define SEED_NAME					"Seed SDK"
-#define SEED_COPYRIGHT				"Copyright (c) 2008-2009 Seed Framework Team\n"
+#define SEED_COPYRIGHT				"Copyright (c) 2008-2009 Seed Framework Team"
 
 #define SEED_MESSAGE		SEED_NAME " " SEED_VERSION_STRING " [" SEED_PLATFORM_NAME " " SEED_TYPE " " SEED_LICENSE "]\n" SEED_COPYRIGHT
 

@@ -115,7 +115,7 @@ bool Frame::Write(Writer &writer)
 	bool ret = false;
 
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteString("sTexture", sTexture.c_str());
 		if (iFps)
@@ -158,7 +158,7 @@ bool Frame::Unload()
 	return true;
 }
 
-const String Frame::GetObjectName() const
+const String Frame::GetClassName() const
 {
 	return "Frame";
 }

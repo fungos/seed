@@ -8,13 +8,6 @@
 //#define PIX2M		0.03125f	// Cocos2D
 #define M2PIX		(1.0f / PIX2M)
 
-SceneNode *gScene;
-
-enum
-{
-	kJobLoadScene
-};
-
 class Box2DQueryCallback : public b2QueryCallback
 {
 	public:
@@ -31,6 +24,9 @@ Box2DSample::Box2DSample()
 	: pWorld(NULL)
 	, pGround(NULL)
 	, pPick(NULL)
+	, cPres()
+	, pScene(NULL)
+	, pCamera(NULL)
 	, iId(0)
 {
 }
@@ -41,22 +37,8 @@ Box2DSample::~Box2DSample()
 
 bool Box2DSample::Initialize()
 {
-	/* ------- Rendering Initialization ------- */
-	cRenderer.Add(&cScene);
-
-	cViewport.SetHeight(pScreen->GetHeight());
-	cViewport.SetWidth(pScreen->GetWidth());
-	cViewport.SetRenderer(&cRenderer);
-
-	pViewManager->Add(&cViewport);
-	pRendererManager->Add(&cRenderer);
-	pSceneManager->Add(&cScene);
-	gScene = &cScene;
-	/* ------- Rendering Initialization ------- */
-
-	pJobManager->Add(New(FileLoader("box2d_sample.scene", kJobLoadScene, this)));
+	cPres.Load("box2d_sample.config", this);
 	pWorld = New(b2World(b2Vec2(0.0f, 10.0f)));
-
 	{
 		b2BodyDef bodyDef;
 		bodyDef.type = b2_staticBody;
@@ -73,17 +55,11 @@ bool Box2DSample::Initialize()
 		pGround->CreateFixture(&fixDef);
 	}
 
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
-
 	return true;
 }
 
 bool Box2DSample::Update(f32 dt)
 {
-	UNUSED(dt)
-
 	pWorld->Step(dt, 8, 3);
 	pWorld->ClearForces();
 
@@ -98,7 +74,6 @@ bool Box2DSample::Update(f32 dt)
 			obj->SetRotation(a);
 		}
 	}
-
 	return true;
 }
 
@@ -107,23 +82,13 @@ bool Box2DSample::Shutdown()
 	this->DestroyPhysics();
 	Delete(pWorld);
 
+	cPres.Unload();
+
 	pInput->RemovePointerListener(this);
 	pInput->RemoveKeyboardListener(this);
 	pSystem->RemoveListener(this);
 
-	pSceneManager->Reset();
-	pRendererManager->Reset();
-	pViewManager->Reset();
-	gScene->Unload();
-
-	IGameApp::Shutdown();
-
-	return true;
-}
-
-bool Box2DSample::Reset()
-{
-	return true;
+	return IGameApp::Shutdown();
 }
 
 void Box2DSample::OnSystemShutdown(const EventSystem *ev)
@@ -177,38 +142,27 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 		p.setY(ev->GetY());
 		p += pCamera->GetPosition();
 		Log(">Click at %f, %f", ev->GetX(), ev->GetY());
-		this->CreateBody(img, p.getX(), p.getY());
+//		this->CreateBody(img, p.getX(), p.getY());
+		this->CreateBody(img, 0.0f, 0.0f);
+		pScene->Add(img);
 	}
 }
 
-void Box2DSample::OnJobCompleted(const EventJob *ev)
+void Box2DSample::OnPresentationLoaded(const EventPresentation *ev)
 {
-	switch (ev->GetName())
-	{
-		case kJobLoadScene:
-		{
-			FileLoader *job = (FileLoader *)ev->GetJob();
-			Reader r(job->pFile);
-			gScene->Load(r);
-			Delete(job);
+	UNUSED(ev)
 
-			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
-//			pCamera->SetPosition(0.0f, 0.0f);
-			cViewport.SetCamera(pCamera);
+	pScene = cPres.GetRendererByName("MainRenderer")->GetScene();
+	pCamera = (Camera *)pScene->GetChildByName("MainCamera");
 
-			ISceneObject *obj = gScene->GetChildByName("Ground");
-//			obj->SetZ(33333);
-			pGround->SetUserData(obj);
-			this->CreateBody((Image *)gScene->GetChildByName("Panda"), 0.0f, 0.0f);
-		}
-		break;
-	}
-}
+	ISceneObject *obj = pScene->GetChildByName("Ground");
+	pGround->SetUserData(obj);
 
-void Box2DSample::OnJobAborted(const EventJob *ev)
-{
-	Job *job = ev->GetJob();
-	Delete(job);
+	this->CreateBody((Image *)pScene->GetChildByName("Panda"), 0.0f, 0.0f);
+
+	pSystem->AddListener(this);
+	pInput->AddKeyboardListener(this);
+	pInput->AddPointerListener(this);
 }
 
 void Box2DSample::DestroyPhysics()
@@ -218,7 +172,7 @@ void Box2DSample::DestroyPhysics()
 		ISceneObject *obj = (ISceneObject *)b->GetUserData();
 		if (obj != NULL)
 		{
-			gScene->Remove(obj);
+			pScene->Remove(obj);
 			Delete(obj);
 			pWorld->DestroyBody(b);
 		}
@@ -238,7 +192,7 @@ void Box2DSample::CreateBody(Image *img, f32 x, f32 y)
 	b2Body *b = pWorld->CreateBody(&bodyDef);
 
 	b2PolygonShape boxShape;
-	boxShape.SetAsBox(1.0f * PIX2M, 1.0f * PIX2M);
+	boxShape.SetAsBox(38.0f * PIX2M, 38.0f * PIX2M);
 
 	b2FixtureDef fixDef;
 	fixDef.shape = &boxShape;
@@ -246,6 +200,5 @@ void Box2DSample::CreateBody(Image *img, f32 x, f32 y)
 	fixDef.restitution = 0.75f;
 	b->CreateFixture(&fixDef);
 
-	img->SetPosition(x, y);
-	gScene->Add(img);
+	img->SetPosition(x, y, 10.0f);
 }

@@ -18,7 +18,6 @@ class ImageSample : public IGameApp,
 
 		virtual bool Initialize();
 		virtual bool Update(f32 dt);
-		virtual bool Reset();
 		virtual bool Shutdown();
 
 		// IEventSystemListener

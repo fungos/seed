@@ -66,7 +66,6 @@ bool Keyframe::Unload()
 bool Keyframe::Load(Reader &reader, ResourceManager *res)
 {
 	UNUSED(res);
-
 	bool ret = false;
 
 	if (this->Unload())
@@ -141,7 +140,7 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 bool Keyframe::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteS32("iFrame", iFrame);
 		writer.WriteS32("iGoto", iFrameToJump);
@@ -192,7 +191,7 @@ bool Keyframe::Write(Writer &writer)
 	return true;
 }
 
-const String Keyframe::GetObjectName() const
+const String Keyframe::GetClassName() const
 {
 	return "Keyframe";
 }

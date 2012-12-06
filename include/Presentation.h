@@ -28,51 +28,64 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_MANAGER_H__
-#define __RENDERER_MANAGER_H__
+#ifndef __PRESENTATION_H__
+#define __PRESENTATION_H__
 
-#include "interface/IModule.h"
-#include "interface/IUpdatable.h"
-#include "Singleton.h"
+#include "interface/IDataObject.h"
+#include "ResourceManager.h"
 #include "Container.h"
+#include "Mutex.h"
 
 namespace Seed {
 
+class Viewport;
+class Camera;
 class Renderer;
+class SceneNode;
+class RendererSceneLoader;
+class IEventPresentationListener;
 
-/// Renderer Manager
-class SEED_CORE_API RendererManager : public IModule, public IUpdatable
+DECLARE_CONTAINER_TYPE(Vector, SceneNode)
+DECLARE_CONTAINER_TYPE(Vector, Viewport)
+DECLARE_CONTAINER_TYPE(Vector, Renderer)
+
+class SEED_CORE_API Presentation : public IDataObject
 {
-	SEED_SINGLETON_DECLARE(RendererManager)
-	DECLARE_CONTAINER_TYPE(Vector, Renderer)
+	friend class RendererSceneLoader;
 	public:
-		virtual void Add(Renderer *renderer);
-		virtual void Remove(Renderer *renderer);
+		Presentation();
+		virtual ~Presentation();
 
-		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		bool Load(const String &filename, IEventPresentationListener *listener, ResourceManager *res = pResourceManager);
 
-		virtual void Disable();
-		virtual void Enable();
+		Renderer *GetRendererByName(const String &name);
+		Viewport *GetViewportByName(const String &name);
 
-		// IUpdatable
-		virtual bool Update(f32 dt);
+		// IDataObject
+		virtual bool Write(Writer &writer);
+		virtual bool Unload();
 
 		// IObject
 		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
-	private:
-		SEED_DISABLE_COPY(RendererManager);
+	protected:
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 
+	private:
+		SEED_DISABLE_COPY(Presentation);
+		void SceneLoaded(RendererSceneLoader *ldr);
+		void SceneAborted(RendererSceneLoader *ldr);
+
+		IEventPresentationListener *pListener;
+		ResourceManager *pRes;
+		ViewportVector vViewport;
 		RendererVector vRenderer;
-		bool bEnabled;
+		SceneNodeVector vScenes;
+		bool *pFinished;
 };
 
-#define pRendererManager RendererManager::GetInstance()
 
 } // namespace
 
-#endif // __RENDERER_MANAGER_H__
+#endif // __PRESENTATION_H__

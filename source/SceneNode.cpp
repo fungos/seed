@@ -123,10 +123,7 @@ ISceneObject *SceneNode::GetChildByName(String name)
 
 bool SceneNode::Load(Reader &reader, ResourceManager *res)
 {
-	SEED_ASSERT(res);
-
 	bool ret = false;
-
 	if (this->Unload())
 	{
 		sName = reader.ReadString("sName", "node");
@@ -151,7 +148,7 @@ bool SceneNode::Load(Reader &reader, ResourceManager *res)
 bool SceneNode::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
 
 		writer.OpenArray("aObjects");
@@ -199,7 +196,7 @@ void SceneNode::Reset()
 	ISceneObjectVector().swap(vChild);
 }
 
-const String SceneNode::GetObjectName() const
+const String SceneNode::GetClassName() const
 {
 	return "SceneNode";
 }

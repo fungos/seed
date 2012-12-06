@@ -54,7 +54,7 @@ class SEED_CORE_API Camera : public ISceneObject
 
 		virtual void SetProjection(eProjection type);
 		virtual bool Contains(ITransformable *obj, Matrix4f &worldMatrix);
-		virtual void SetView(const Rect4f &rectangle);
+		virtual void SetView(const Rect4f &rect);
 
 		/// Set a texture as render target, must be a valid and initialized texture.
 		/**
@@ -74,7 +74,7 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual bool Unload();
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
 		SEED_DISABLE_COPY(Camera);
@@ -87,7 +87,8 @@ class SEED_CORE_API Camera : public ISceneObject
 		ITexture	*pTexture;
 		sVertex		aMesh[4];
 		eProjection nProjection;
-		Rect4f		rViewArea;
+		Rect4f		rViewArea; // Used to check input area
+		Rect4f		rBoundingBox; // Used to check boundaries in world
 		Matrix4f	mInverse;
 };
 

@@ -66,7 +66,7 @@ class SEED_CORE_API Cartridge : public ICartridge
 		virtual bool Write(u32 dest, const void *src, u32 len);
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 
 	private:
 		SEED_DISABLE_COPY(Cartridge);

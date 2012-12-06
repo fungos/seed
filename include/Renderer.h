@@ -41,6 +41,7 @@ class ISceneObject;
 class ISceneNode;
 class ITexture;
 class Camera;
+class Presentation;
 
 struct VisibleObject
 {
@@ -66,6 +67,7 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 	typedef RenderableVector::iterator RenderableVectorIterator;
 	typedef RenderableVector::const_iterator ConstRenderableVectorIterator;
 
+	friend class Presentation;
 	public:
 		Renderer();
 		virtual ~Renderer();
@@ -75,18 +77,18 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 		virtual void Begin() const;
 		virtual void End() const;
 
-		void Add(SceneNode *node);
-		void Remove(SceneNode *node);
+		void SetScene(SceneNode *node);
+		SceneNode *GetScene() const;
 
 		// IUpdatable
-		//virtual bool Reset();
 		virtual bool Update(f32 delta);
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 
 	protected:
-		SceneNodeVector vScenes;
+		String sSceneToAttach;
+		SceneNode *pScene;
 		RenderableVector vRenderables;
 		VisibleVector vVisibleRenderables;
 

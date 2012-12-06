@@ -146,7 +146,7 @@ bool JobManager::Update(f32 dt)
 
 Job *JobManager::Add(Job *job)
 {
-	Log(TAG "Job created");
+//	Log(TAG "Job created");
 	job->Create();
 	vJob += job;
 
@@ -157,7 +157,7 @@ void JobManager::Remove(Job *job)
 {
 	vJob -= job;
 	job->Destroy();
-	Log(TAG "Job destroyed");
+//	Log(TAG "Job destroyed");
 }
 
 void JobManager::Disable()
@@ -170,7 +170,7 @@ void JobManager::Enable()
 	bEnabled = true;
 }
 
-const String JobManager::GetObjectName() const
+const String JobManager::GetClassName() const
 {
 	return "JobManager";
 }

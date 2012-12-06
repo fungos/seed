@@ -91,6 +91,7 @@ bool ViewManager::Shutdown()
 void ViewManager::Add(Viewport *view)
 {
 	vViewport += view;
+	vViewport.Unique();
 }
 
 void ViewManager::Remove(Viewport *view)
@@ -159,7 +160,7 @@ Viewport *ViewManager::GetViewportAt(u32 x, u32 y)
 	return ret;
 }
 
-const String ViewManager::GetObjectName() const
+const String ViewManager::GetClassName() const
 {
 	return "ViewManager";
 }

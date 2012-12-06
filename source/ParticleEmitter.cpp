@@ -586,7 +586,7 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 bool ParticleEmitter::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteString("sSprite", sSprite.c_str());
 
@@ -675,7 +675,7 @@ void ParticleEmitter::OnJobAborted(const EventJob *ev)
 	Delete(job);
 }
 
-const String ParticleEmitter::GetObjectName() const
+const String ParticleEmitter::GetClassName() const
 {
 	return "ParticleEmitter";
 }

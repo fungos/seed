@@ -222,7 +222,7 @@ eReaderType Configuration::GetReaderType() const
 	return iReaderType;
 }
 
-const String Configuration::GetObjectName() const
+const String Configuration::GetClassName() const
 {
 	return "Configuration";
 }

@@ -60,7 +60,7 @@ u32 EventMovie::GetFrame() const
 	return iFrame;
 }
 
-const String EventMovie::GetObjectName() const
+const String EventMovie::GetClassName() const
 {
 	return "EventMovie";
 }

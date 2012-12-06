@@ -46,7 +46,6 @@ class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, pu
 
 		virtual bool IsNode() const;
 
-		String  sName;
 		bool	bMarkForDeletion;
 
 	private:

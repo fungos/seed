@@ -45,8 +45,10 @@ class SEED_CORE_API IObject
 		IObject();
 		virtual ~IObject();
 
-		virtual const String GetObjectName() const = 0;
+		virtual const String GetClassName() const = 0;
 		virtual int GetObjectType() const = 0;
+
+		String sName;
 
 	private:
 		SEED_DISABLE_COPY(IObject);

@@ -218,6 +218,7 @@ bool Image::Load(Reader &reader, ResourceManager *res)
 
 bool Image::Unload()
 {
+	pRendererDevice->DestroyHardwareBuffer(&cVertexBuffer);
 	if (!bDynamic)
 		sRelease(pTexture);
 	pTexture = NULL;
@@ -231,7 +232,7 @@ bool Image::Write(Writer &writer)
 	if (ret)
 	{
 		writer.OpenNode();
-			writer.WriteString("sType", this->GetObjectName().c_str());
+			writer.WriteString("sType", this->GetClassName().c_str());
 			writer.WriteString("sName", sName.c_str());
 			writer.WriteString("sResource", sFilename.c_str());
 
@@ -248,7 +249,7 @@ int Image::GetObjectType() const
 	return Seed::TypeImage;
 }
 
-const String Image::GetObjectName() const
+const String Image::GetClassName() const
 {
 	return "Image";
 }

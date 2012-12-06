@@ -90,7 +90,7 @@ bool FileSystem::IsRequired() const
 	return true;
 }
 
-const String FileSystem::GetObjectName() const
+const String FileSystem::GetClassName() const
 {
 	return "FileSystem";
 }

@@ -218,12 +218,6 @@ void Sprite::operator-=(Animation *anim)
 	vAnimations -= anim;
 }
 
-//void Sprite::Initialize()
-//{
-//	this->ReconfigureAnimation();
-//	bInitialized = true;
-//}
-
 void Sprite::ReconfigureAnimation()
 {
 	bLoop = pAnimation->bLoop;
@@ -555,7 +549,7 @@ ITexture *Sprite::GetTexture() const
 	return pFrameTexture;
 }
 
-const String Sprite::GetObjectName() const
+const String Sprite::GetClassName() const
 {
 	return "Sprite";
 }
@@ -639,7 +633,7 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 bool Sprite::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteS32("iAnimation", this->GetAnimation());
 

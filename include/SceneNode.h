@@ -75,7 +75,7 @@ class SEED_CORE_API SceneNode : public ISceneObject
 		virtual void Reset();
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
 	private:

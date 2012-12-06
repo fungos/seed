@@ -197,7 +197,7 @@ void ISoundSystem::Resume()
 	bPaused = false;
 }
 
-const String ISoundSystem::GetObjectName() const
+const String ISoundSystem::GetClassName() const
 {
 	return "SoundSystem";
 }

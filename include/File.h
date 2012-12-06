@@ -55,7 +55,7 @@ class SEED_CORE_API File : public IObject
 		virtual bool Unload();
 
 		// IObject
-		virtual const String GetObjectName() const;
+		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
 	protected:

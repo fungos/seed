@@ -160,7 +160,7 @@ void ResourceManager::Unload(Seed::eObjectType resourceType)
 
 		if (res->GetObjectType() == resourceType)
 		{
-			LOG(TAG "Unloading %s %s.", res->GetObjectName().c_str(), (*it).first.c_str());
+			LOG(TAG "Unloading %s %s.", res->GetClassName().c_str(), (*it).first.c_str());
 			res->Unload();
 		}
 	}
@@ -176,7 +176,7 @@ void ResourceManager::Reload(Seed::eObjectType resourceType)
 
 		if (res->GetObjectType() == resourceType)
 		{
-			LOG(TAG "Reloading %s %s.", res->GetObjectName().c_str(), (*it).first.c_str());
+			LOG(TAG "Reloading %s %s.", res->GetClassName().c_str(), (*it).first.c_str());
 			res->Load(res->sFilename, res->pRes);
 		}
 	}
@@ -240,7 +240,7 @@ void ResourceManager::PrintUsedMemoryByResource()
 	{
 		IResource *res = (*it).second;
 
-		Dbg(TAG "Resource: %s Memory: %d References: %d Type: %s", res->sFilename.c_str(), res->GetUsedMemory(), res->GetReferenceCount(), res->GetObjectName().c_str());
+		Dbg(TAG "Resource: %s Memory: %d References: %d Type: %s", res->sFilename.c_str(), res->GetUsedMemory(), res->GetReferenceCount(), res->GetClassName().c_str());
 		total += res->GetUsedMemory();
 	}
 
@@ -275,7 +275,7 @@ void ResourceManager::Print()
 		IResource *res = (*it).second;
 		const String name = (*it).first;
 
-		Log(TAG "\t%s [%s] [%d]", name.c_str(), res->GetObjectName().c_str(), res->GetReferenceCount());
+		Log(TAG "\t%s [%s] [%d]", name.c_str(), res->GetClassName().c_str(), res->GetReferenceCount());
 		cnt++;
 	}
 

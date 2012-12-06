@@ -180,7 +180,7 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 bool Movie::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetObjectName().c_str());
+		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
 
 		ITransformable::Serialize(writer);
@@ -199,7 +199,7 @@ bool Movie::Write(Writer &writer)
 	return true;
 }
 
-const String Movie::GetObjectName() const
+const String Movie::GetClassName() const
 {
 	return "Movie";
 }

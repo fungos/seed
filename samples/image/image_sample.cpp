@@ -22,7 +22,10 @@ ImageSample::~ImageSample()
 bool ImageSample::Initialize()
 {
 	/* ------- Rendering Initialization ------- */
-	cRenderer.Add(&cScene);
+	cRenderer.SetScene(&cScene);
+
+	cViewport.sName = "MainView";
+	cRenderer.sName = "MainRenderer";
 
 	cViewport.SetHeight(pScreen->GetHeight());
 	cViewport.SetWidth(pScreen->GetWidth());
@@ -44,8 +47,6 @@ bool ImageSample::Initialize()
 
 bool ImageSample::Update(f32 dt)
 {
-	UNUSED(dt)
-
 	if (pImage)
 	{
 		fElapsed += dt;
@@ -74,11 +75,6 @@ bool ImageSample::Shutdown()
 
 	IGameApp::Shutdown();
 
-	return true;
-}
-
-bool ImageSample::Reset()
-{
 	return true;
 }
 

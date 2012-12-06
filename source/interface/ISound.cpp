@@ -45,7 +45,7 @@ int ISound::GetObjectType() const
 	return Seed::TypeSound;
 }
 
-const String ISound::GetObjectName() const
+const String ISound::GetClassName() const
 {
 	return "ISound";
 }
