@@ -27,7 +27,7 @@ bool TestBase::Initialize()
 
 	/* ------- Rendering Initialization ------- */
 	cScene.SetZ(0);
-	cRenderer.Add(&cScene);
+	cRenderer.SetScene(&cScene);
 
 	cViewport.SetHeight(pScreen->GetHeight());
 	cViewport.SetWidth(pScreen->GetWidth());
