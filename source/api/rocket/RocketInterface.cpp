@@ -240,9 +240,12 @@ size_t RocketInterface::Read(void *buffer, size_t size, Rocket::Core::FileHandle
 {
 	FilePtr *fp = (FilePtr *)file;
 	void *ptr = &(fp->pFile->GetData())[fp->iOffset];
-	memcpy(buffer, ptr, size);
 
-	return size;
+	size_t rlen = size > fp->pFile->GetSize() ? fp->pFile->GetSize() : size;
+	fp->iOffset += rlen;
+	memcpy(buffer, ptr, rlen);
+
+	return rlen;
 }
 
 bool RocketInterface::Seek(Rocket::Core::FileHandle file, long offset, int origin)
