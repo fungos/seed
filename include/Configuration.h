@@ -107,6 +107,9 @@ class SEED_CORE_API Configuration : public IObject
 		 */
 		const String &GetPublisherName() const;
 
+		bool IsCursorEnabled() const;
+		void EnableCursor(bool b);
+
 		void SetCanHaveMultipleInstances(bool enable);
 		bool GetCanHaveMultipleInstances() const;
 
@@ -146,6 +149,7 @@ class SEED_CORE_API Configuration : public IObject
 		bool bMultipleInstances;
 		bool bWarningMultipleInstances;
 		bool bFullScreen;
+		bool bShowCursor;
 };
 
 #define pConfiguration Configuration::GetInstance()

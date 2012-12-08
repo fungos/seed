@@ -162,13 +162,6 @@ bool Screen::Initialize()
 		return false;
 
 	Info(TAG "Video resolution is %dx%dx%d.", iWidth, iHeight, iBPP);
-
-#if defined(DEBUG)
-	SDL_ShowCursor(1);
-#else
-	SDL_ShowCursor(0);
-#endif // DEBUG
-
 	Log(TAG "Initialization completed.");
 	return true;
 }
@@ -361,6 +354,20 @@ void Screen::SetupOpenGL()
 	//SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
 }
 
+
+void Screen::EnableCursor(bool b)
+{
+	pConfiguration->EnableCursor(b);
+	SDL_ShowCursor(b);
+}
+
+void Screen::ToggleCursor()
+{
+	bool b = !pConfiguration->IsCursorEnabled();
+	pConfiguration->EnableCursor(b);
+	SDL_ShowCursor(b);
+}
+
 void Screen::ToggleFullscreen()
 {
 	// destroy opengl textures
@@ -376,6 +383,7 @@ void Screen::ToggleFullscreen()
 	pResourceManager->Unload(Seed::TypeTexture);
 	pRendererDevice->Shutdown();
 	this->InitializeVideo();
+	this->EnableCursor(pConfiguration->IsCursorEnabled());
 	pRendererDevice->Initialize();
 	pResourceManager->Reload(Seed::TypeTexture);
 

@@ -60,7 +60,7 @@ ResourceManager::~ResourceManager()
 {
 	if (mapResources.size())
 	{
-		LOG(TAG "WARNING: Some resources still allocated in '%s'.", sName.c_str());
+		Log(TAG "WARNING: Some resources still allocated in '%s'.", sName.c_str());
 		this->Print();
 	}
 
@@ -86,11 +86,11 @@ IResource *ResourceManager::Get(const String &filename, Seed::eObjectType resour
 
 	if (mapResources.find(filename) == mapResources.end())
 	{
-		LOG(TAG "Resource %s not found in '%s'.", filename.c_str(), sName.c_str());
+		Log(TAG "Resource %s not found in '%s'.", filename.c_str(), sName.c_str());
 		LoaderMapIterator it = mapLoaders.find(resourceType);
 		if (it == mapLoaders.end())
 		{
-			LOG(TAG "Resource loader for %s not found.", filename.c_str());
+			Log(TAG "Resource loader for %s not found.", filename.c_str());
 			return NULL;
 		}
 
@@ -160,7 +160,7 @@ void ResourceManager::Unload(Seed::eObjectType resourceType)
 
 		if (res->GetObjectType() == resourceType)
 		{
-			LOG(TAG "Unloading %s %s.", res->GetClassName().c_str(), (*it).first.c_str());
+			Log(TAG "Unloading %s %s.", res->GetClassName().c_str(), (*it).first.c_str());
 			res->Unload();
 		}
 	}
@@ -176,7 +176,7 @@ void ResourceManager::Reload(Seed::eObjectType resourceType)
 
 		if (res->GetObjectType() == resourceType)
 		{
-			LOG(TAG "Reloading %s %s.", res->GetClassName().c_str(), (*it).first.c_str());
+			Log(TAG "Reloading %s %s.", res->GetClassName().c_str(), (*it).first.c_str());
 			res->Load(res->sFilename, res->pRes);
 		}
 	}

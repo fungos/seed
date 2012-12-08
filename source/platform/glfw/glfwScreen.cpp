@@ -136,13 +136,6 @@ bool Screen::Initialize()
 		return false;
 
 	Info(TAG "Video resolution is %dx%dx%d.", iWidth, iHeight, iBPP);
-
-#if defined(DEBUG)
-	glfwEnable(GLFW_MOUSE_CURSOR);
-#else
-	glfwDisable(GLFW_MOUSE_CURSOR);
-#endif // DEBUG
-
 	Log(TAG "Initialization completed.");
 	return true;
 }
@@ -160,7 +153,6 @@ bool Screen::InitializeVideo()
 	}
 
 	glfwOpenWindowHint(GLFW_WINDOW_NO_RESIZE, GL_TRUE);
-
 	glfwSwapInterval(1); // v-sync on
 
 #if defined(WIN32)
@@ -249,6 +241,24 @@ void Screen::SwapSurfaces()
 	glfwSwapBuffers();
 }
 
+void Screen::EnableCursor(bool b)
+{
+	pConfiguration->EnableCursor(b);
+	if (b)
+		glfwEnable(GLFW_MOUSE_CURSOR);
+	else
+		glfwDisable(GLFW_MOUSE_CURSOR);
+}
+
+void Screen::ToggleCursor()
+{
+	pConfiguration->EnableCursor(!pConfiguration->IsCursorEnabled());
+	if (pConfiguration->IsCursorEnabled())
+		glfwEnable(GLFW_MOUSE_CURSOR);
+	else
+		glfwDisable(GLFW_MOUSE_CURSOR);
+}
+
 void Screen::ToggleFullscreen()
 {
 	// destroy opengl textures
@@ -263,6 +273,7 @@ void Screen::ToggleFullscreen()
 	pResourceManager->Unload(Seed::TypeTexture);
 	pRendererDevice->Shutdown();
 	this->InitializeVideo();
+	this->EnableCursor(pConfiguration->IsCursorEnabled());
 	pRendererDevice->Initialize();
 	pResourceManager->Reload(Seed::TypeTexture);
 

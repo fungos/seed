@@ -62,6 +62,8 @@ class SEED_CORE_API Screen : public IScreen
 		virtual void FadeIn();
 		virtual void CancelFade();
 
+		virtual void EnableCursor(bool b);
+		virtual void ToggleCursor();
 		virtual void ToggleFullscreen();
 		virtual bool HasWindowedMode() const;
 		virtual bool IsFullscreen() const;

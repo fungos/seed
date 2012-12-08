@@ -13,7 +13,7 @@ HEADERS += \
 
 OTHER_FILES += ../bin/pres_app.config \
 	../bin/frame03.png \
-	../bin/splash.jpg \
+	../bin/seed.png \
 	../bin/pres_sample.scene \
 	../bin/pres1_sample.scene \
 	../bin/pres_sample.config

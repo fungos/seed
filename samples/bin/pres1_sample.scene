@@ -5,7 +5,7 @@
 		{
 			sType: Image
 			sName: Panda
-			sResource: seed.jpg
+			sResource: seed.png
 		}
 		{
 			sType: Camera

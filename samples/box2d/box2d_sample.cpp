@@ -141,7 +141,7 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 		p.setX(ev->GetX());
 		p.setY(ev->GetY());
 		p += pCamera->GetPosition();
-		Log(">Click at %f, %f", ev->GetX(), ev->GetY());
+		Log(">Click at %d, %d", ev->GetX(), ev->GetY());
 //		this->CreateBody(img, p.getX(), p.getY());
 		this->CreateBody(img, 0.0f, 0.0f);
 		pScene->Add(img);

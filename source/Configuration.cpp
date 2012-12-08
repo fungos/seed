@@ -53,6 +53,7 @@ Configuration::Configuration()
 	, bMultipleInstances(false)
 	, bWarningMultipleInstances(false)
 	, bFullScreen(false)
+	, bShowCursor(false)
 {
 }
 
@@ -70,6 +71,7 @@ void Configuration::Load(const String &file)
 		bMultipleInstances = r.ReadBool("bMultipleInstances", false);
 		bWarningMultipleInstances = r.ReadBool("bWarningMultipleInstances", false);
 		bFullScreen = r.ReadBool("bFullScreen", false);
+		bShowCursor = r.ReadBool("bShowCursor", false);
 
 		String renderer = r.ReadString("sRendererDevice", "auto");
 		std::transform(renderer.begin(), renderer.end(), renderer.begin(), ::tolower);
@@ -155,6 +157,16 @@ const String &Configuration::GetApplicationTitle() const
 void Configuration::SetApplicationDescription(const String &desc)
 {
 	sDescription = desc;
+}
+
+bool Configuration::IsCursorEnabled() const
+{
+	return bShowCursor;
+}
+
+void Configuration::EnableCursor(bool b)
+{
+	bShowCursor = b;
 }
 
 const String &Configuration::GetPublisherName() const

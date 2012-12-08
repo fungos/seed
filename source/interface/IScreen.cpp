@@ -50,6 +50,16 @@ bool IScreen::IsFading() const
 	return bFading;
 }
 
+void IScreen::EnableCursor(bool b)
+{
+	SEED_ABSTRACT_METHOD;
+}
+
+void IScreen::ToggleCursor()
+{
+	SEED_ABSTRACT_METHOD;
+}
+
 void IScreen::ToggleFullscreen()
 {
 	SEED_ABSTRACT_METHOD;

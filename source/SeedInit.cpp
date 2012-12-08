@@ -182,6 +182,7 @@ bool Initialize()
 	ret = ret && pModuleManager->Add(pFileSystem);
 	pConfiguration->Load(Private::sConfigFile);
 	pFileSystem->Prepare();
+	pScreen->EnableCursor(pConfiguration->IsCursorEnabled());
 
 	ret = ret && pModuleManager->Add(pSystem);
 	ret = ret && pModuleManager->Add(pTimer);

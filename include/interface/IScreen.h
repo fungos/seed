@@ -64,6 +64,12 @@ class SEED_CORE_API IScreen : public IModule
 		/// Verify if a fade is being done.
 		virtual bool IsFading() const;
 
+		/// Force cursor on/off
+		virtual void EnableCursor(bool b);
+
+		/// Change between cursor on/off
+		virtual void ToggleCursor();
+
 		/// Change between fullscreen and windowed for platforms that supports it
 		virtual void ToggleFullscreen();
 
