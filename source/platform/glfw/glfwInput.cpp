@@ -168,8 +168,20 @@ bool Input::Initialize()
 	return r;
 }
 
+static int _glfwSpecialKeys[70] = {
+	KeyNone, KeyEscape, KeyF1, KeyF2, KeyF3, KeyF4, KeyF5, KeyF6, KeyF7, KeyF8, KeyF9, KeyF10, KeyF11, KeyF12, KeyF13, KeyF14, KeyF15,
+	KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, // F16-F25
+	KeyUp, KeyDown, KeyLeft, KeyRight, KeyShiftLeft, KeyShiftRight, KeyControlLeft, KeyControlRight, KeyAltLeft, KeyAltRight, KeyTab,
+	KeyEnter, KeyBackspace, KeyInsert, KeyDelete, KeyPageUp, KeyPageDown, KeyHome, KeyEnd, KeyPad0, KeyPad1, KeyPad2, KeyPad3, KeyPad4,
+	KeyPad5, KeyPad6, KeyPad7, KeyPad8, KeyPad9, KeyPadDivide, KeyPadMultiply, KeyPadMinus, KeyPadPlus, KeyPadPeriod, KeyPadEquals,
+	KeyPadEnter, KeyNumLock, KeyCapsLock, KeyScrollLock, KeyPause, KeyMetaLeft, KeyMetaRight, KeyMenu
+};
+
 void Input::OnKeyCb(int key, int action)
 {
+	if (key > GLFW_KEY_LAST)
+		return;
+
 	if (action == GLFW_PRESS)
 	{
 		switch (key)
@@ -221,6 +233,9 @@ void Input::OnKeyCb(int key, int action)
 			default:
 			break;
 		}
+
+		if (key >= GLFW_KEY_SPECIAL)
+			key = _glfwSpecialKeys[key-GLFW_KEY_SPECIAL];
 
 		EventInputKeyboard ev(key, nModifiers, key, key);
 		this->SendEventKeyboardPress(&ev);
@@ -276,6 +291,9 @@ void Input::OnKeyCb(int key, int action)
 			default:
 			break;
 		}
+
+		if (key >= GLFW_KEY_SPECIAL)
+			key = _glfwSpecialKeys[key-GLFW_KEY_SPECIAL];
 
 		EventInputKeyboard ev(key, nModifiers, key, key);
 		this->SendEventKeyboardRelease(&ev);
