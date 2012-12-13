@@ -37,9 +37,11 @@
 
 #include "File.h"
 #include "RendererDevice.h"
+#include "interface/ISceneObject.h"
 #include <Rocket/Core/RenderInterface.h>
 #include <Rocket/Core/FileInterface.h>
 #include <Rocket/Core/SystemInterface.h>
+#include <Rocket/Core/Context.h>
 
 namespace Seed { namespace RocketGui {
 
@@ -49,11 +51,17 @@ struct FilePtr
 	long iOffset;
 };
 
-class SEED_CORE_API RocketInterface : public Rocket::Core::RenderInterface, public Rocket::Core::FileInterface, public Rocket::Core::SystemInterface
+class SEED_CORE_API RocketInterface :
+					public Rocket::Core::RenderInterface,
+					public Rocket::Core::FileInterface,
+					public Rocket::Core::SystemInterface,
+					public ISceneObject
 {
 	public:
 		RocketInterface();
 		virtual ~RocketInterface();
+
+		virtual void SetCurrentContext(Rocket::Core::Context *ctx);
 
 		// Rocket::Core::RenderInterface
 		virtual void RenderGeometry(Rocket::Core::Vertex *vertices, int num_vertices, int *indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f &translation);
@@ -62,7 +70,7 @@ class SEED_CORE_API RocketInterface : public Rocket::Core::RenderInterface, publ
 		virtual void ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHandle geometry);
 		virtual void EnableScissorRegion(bool enable);
 		virtual void SetScissorRegion(int x, int y, int width, int height);
-		virtual bool LoadTexture(Rocket::Core::TextureHandle& texture_handle, Rocket::Core::Vector2i &texture_dimensions, const Rocket::Core::String &source);
+		virtual bool LoadTexture(Rocket::Core::TextureHandle &texture_handle, Rocket::Core::Vector2i &texture_dimensions, const Rocket::Core::String &source);
 		virtual bool GenerateTexture(Rocket::Core::TextureHandle &texture_handle, const Rocket::Core::byte *source, const Rocket::Core::Vector2i &source_dimensions);
 		virtual void ReleaseTexture(Rocket::Core::TextureHandle texture_handle);
 		virtual float GetHorizontalTexelOffset();
@@ -77,7 +85,20 @@ class SEED_CORE_API RocketInterface : public Rocket::Core::RenderInterface, publ
 
 		// Rocket::Core::SystemInterface
 		virtual float GetElapsedTime();
-		virtual bool LogMessage(Rocket::Core::Log::Type type, const Rocket::Core::String& message);
+		virtual bool LogMessage(Rocket::Core::Log::Type type, const Rocket::Core::String &message);
+
+		// IDataObject
+		virtual bool Load(Reader &, ResourceManager *) { return true; }
+		virtual bool Write(Writer &) { return true; }
+		virtual bool Unload() { return true; }
+
+		// IRenderable
+		virtual void Render(const Matrix4f &worldTransform);
+		virtual void Update(f32 delta);
+
+		// IObject
+		virtual const String GetClassName() const;
+		virtual int GetObjectType() const;
 
 	private:
 		SEED_DISABLE_COPY(RocketInterface);
@@ -85,6 +106,7 @@ class SEED_CORE_API RocketInterface : public Rocket::Core::RenderInterface, publ
 	private:
 		VertexBuffer cVertexBuffer;
 		ElementBuffer cElementBuffer;
+		Rocket::Core::Context *pCurrent;
 };
 
 }} // namespace

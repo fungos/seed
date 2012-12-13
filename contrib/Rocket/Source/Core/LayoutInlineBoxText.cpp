@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -139,7 +139,7 @@ void LayoutInlineBoxText::operator delete(void* chunk)
 // Returns the box's element as a text element.
 ElementText* LayoutInlineBoxText::GetTextElement()
 {
-	return static_cast< ElementText* >(element);
+	return dynamic_cast< ElementText* >(element);
 }
 
 // Builds a box for the first word of the element.

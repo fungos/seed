@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -211,7 +211,7 @@ Element* Factory::InstanceElement(Element* parent, const String& instancer_name,
 
 	if (instancer)
 	{
-		Element* element = instancer->InstanceElement(parent, tag, attributes);
+		Element* element = instancer->InstanceElement(parent, tag, attributes);		
 
 		// Process the generic attributes and bind any events
 		if (element)
@@ -276,10 +276,10 @@ bool Factory::InstanceElementText(Element* parent, const String& text)
 		}
 
 		// Assign the element its text value.
-		ElementText* text_element = static_cast< ElementText* >(element);
+		ElementText* text_element = dynamic_cast< ElementText* >(element);
 		if (text_element == NULL)
 		{
-			Log::Message(Log::LT_ERROR, "Failed to instance text element '%s', was expecting a derivative of ElementText.", translated_data.CString());
+			Log::Message(Log::LT_ERROR, "Failed to instance text element '%s'. Found type '%s', was expecting a derivative of ElementText.", translated_data.CString(), typeid(element).name());
 			element->RemoveReference();
 			return false;
 		}
@@ -312,10 +312,10 @@ ElementDocument* Factory::InstanceDocumentStream(Rocket::Core::Context* context,
 		return NULL;
 	}
 
-	ElementDocument* document = static_cast< ElementDocument* >(element);
+	ElementDocument* document = dynamic_cast< ElementDocument* >(element);
 	if (!document)
 	{
-		Log::Message(Log::LT_ERROR, "Failed to instance document element, was expecting derivative of ElementDocument.");
+		Log::Message(Log::LT_ERROR, "Failed to instance document element. Found type '%s', was expecting derivative of ElementDocument.", typeid(element).name());
 		return NULL;
 	}
 

@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -63,7 +63,7 @@ ElementDocument::~ElementDocument()
 }
 
 void ElementDocument::ProcessHeader(const DocumentHeader* document_header)
-{
+{	
 	// Store the source address that we came from
 	source_url = document_header->source;
 
@@ -74,7 +74,7 @@ void ElementDocument::ProcessHeader(const DocumentHeader* document_header)
 	// Merge in any templates, note a merge may cause more templates to merge
 	for (size_t i = 0; i < header.template_resources.size(); i++)
 	{
-		Template* merge_template = TemplateCache::LoadTemplate(URL(header.template_resources[i]).GetURL());
+		Template* merge_template = TemplateCache::LoadTemplate(URL(header.template_resources[i]).GetURL());	
 
 		if (merge_template)
 			header.MergeHeader(*merge_template->GetHeader());
@@ -96,9 +96,9 @@ void ElementDocument::ProcessHeader(const DocumentHeader* document_header)
 
 	// Combine any inline sheets.
 	if (header.rcss_inline.size() > 0)
-	{
+	{			
 		for (size_t i = 0;i < header.rcss_inline.size(); i++)
-		{
+		{			
 			StyleSheet* new_sheet = new StyleSheet();
 			StreamMemory* stream = new StreamMemory((const byte*) header.rcss_inline[i].CString(), header.rcss_inline[i].Length());
 			stream->SetSourceURL(document_header->source);
@@ -119,7 +119,7 @@ void ElementDocument::ProcessHeader(const DocumentHeader* document_header)
 				new_sheet->RemoveReference();
 
 			stream->RemoveReference();
-		}
+		}		
 	}
 
 	// If a style sheet is available, set it on the document and release it.
@@ -266,14 +266,14 @@ ElementText* ElementDocument::CreateTextNode(const String& text)
 	}
 
 	// Cast up
-	ElementText* element_text = static_cast< ElementText* >(element);
+	ElementText* element_text = dynamic_cast< ElementText* >(element);
 	if (!element_text)
 	{
 		Log::Message(Log::LT_ERROR, "Failed to create text element, instancer didn't return a derivative of ElementText.");
 		element->RemoveReference();
 		return NULL;
 	}
-
+	
 	// Set the text
 	element_text->SetText(text);
 
@@ -303,7 +303,7 @@ void ElementDocument::_UpdateLayout()
 
 	LayoutEngine layout_engine;
 	layout_engine.FormatElement(this, containing_block);
-
+	
 	lock_layout--;
 }
 
@@ -338,14 +338,14 @@ void ElementDocument::UpdatePosition()
 
 	SetOffset(position, NULL);
 }
-
+	
 void ElementDocument::LockLayout(bool lock)
 {
 	if (lock)
 		lock_layout++;
 	else
 		lock_layout--;
-
+	
 	ROCKET_ASSERT(lock_layout >= 0);
 }
 

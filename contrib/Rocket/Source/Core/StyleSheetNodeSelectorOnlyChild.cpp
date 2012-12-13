@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -57,7 +57,7 @@ bool StyleSheetNodeSelectorOnlyChild::IsApplicable(const Element* element, int R
 			continue;
 
 		// Skip the child if it is trivial.
-		if (static_cast< const ElementText* >(element) != NULL ||
+		if (dynamic_cast< const ElementText* >(element) != NULL ||
 			child->GetProperty< int >(DISPLAY) == DISPLAY_NONE)
 			continue;
 
