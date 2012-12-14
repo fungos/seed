@@ -67,3 +67,5 @@ glfw {
 } else:sdl {
 	DEFINES += BUILD_SDL
 }
+
+#LIBS += -L../../../libRocket/Build -lRocketCore -lRocketControls -lRocketDebugger

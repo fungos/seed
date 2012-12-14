@@ -38,6 +38,8 @@
 #include "File.h"
 #include "RendererDevice.h"
 #include "interface/ISceneObject.h"
+#include "interface/IEventInputPointerListener.h"
+#include "interface/IEventInputKeyboardListener.h"
 #include <Rocket/Core/RenderInterface.h>
 #include <Rocket/Core/FileInterface.h>
 #include <Rocket/Core/SystemInterface.h>
@@ -55,6 +57,8 @@ class SEED_CORE_API RocketInterface :
 					public Rocket::Core::RenderInterface,
 					public Rocket::Core::FileInterface,
 					public Rocket::Core::SystemInterface,
+					public IEventInputPointerListener,
+					public IEventInputKeyboardListener,
 					public ISceneObject
 {
 	public:
@@ -87,6 +91,15 @@ class SEED_CORE_API RocketInterface :
 		virtual float GetElapsedTime();
 		virtual bool LogMessage(Rocket::Core::Log::Type type, const Rocket::Core::String &message);
 
+		// IEventInputPointerListener
+		virtual void OnInputPointerPress(const EventInputPointer *ev);
+		virtual void OnInputPointerRelease(const EventInputPointer *ev);
+		virtual void OnInputPointerMove(const EventInputPointer *ev);
+
+		// IEventInputKeyboardListener
+		virtual void OnInputKeyboardPress(const EventInputKeyboard *ev);
+		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
+
 		// IDataObject
 		virtual bool Load(Reader &, ResourceManager *) { return true; }
 		virtual bool Write(Writer &) { return true; }
@@ -107,6 +120,7 @@ class SEED_CORE_API RocketInterface :
 		VertexBuffer cVertexBuffer;
 		ElementBuffer cElementBuffer;
 		Rocket::Core::Context *pCurrent;
+		u32 iModifierState;
 };
 
 }} // namespace

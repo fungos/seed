@@ -38,6 +38,7 @@
 #include "RendererDevice.h"
 #include "Screen.h"
 #include "Texture.h"
+#include "contrib/soil/SOIL.h"
 
 #include "api/rocket/RocketInterface.h"
 
@@ -47,6 +48,7 @@ namespace Seed { namespace RocketGui {
 
 RocketInterface::RocketInterface()
 	: pCurrent(NULL)
+	, iModifierState(0)
 {
 	cVertexBuffer.Configure(BufferUsageEveryFrameChange);
 	cElementBuffer.Configure(BufferUsageEveryFrameChange, ElementTypeInt);
@@ -65,7 +67,7 @@ RocketInterface::~RocketInterface()
 void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_vertices, int *indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f &translation)
 {
 	Matrix4f transform = Matrix4f::identity();
-	Vector3f t(translation.x, translation.y, 0.0f);
+	Vector3f t(translation.x + this->GetHorizontalTexelOffset(), translation.y + this->GetVerticalTexelOffset(), 0.0f);
 	transform.setTranslation(t);
 
 	sVertex *vert = NewArray(sVertex, num_vertices);
@@ -91,6 +93,7 @@ void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_ver
 	packet.pElementBuffer = &cElementBuffer;
 	packet.pVertexBuffer = &cVertexBuffer;
 	packet.pTransform = &transform;
+	packet.nMeshType = Seed::Triangles;
 	pRendererDevice->UploadData(&packet);
 
 	DeleteArray(vert);
@@ -128,6 +131,7 @@ Rocket::Core::CompiledGeometryHandle RocketInterface::CompileGeometry(Rocket::Co
 	packet->pVertexBuffer->SetData(vert, num_vertices);
 
 	packet->pTexture = (Texture *)texture;
+	packet->nMeshType = Seed::Triangles;
 
 	return (Rocket::Core::CompiledGeometryHandle)packet;
 }
@@ -137,7 +141,7 @@ void RocketInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandl
 	RendererPacket *packet = (RendererPacket *)geometry;
 
 	Matrix4f transform = Matrix4f::identity();
-	Vector3f t(translation.x, translation.y, 0.0f);
+	Vector3f t(translation.x + this->GetHorizontalTexelOffset(), translation.y + this->GetVerticalTexelOffset(), 0.0f);
 	transform.setTranslation(t);
 	packet->pTransform = &transform;
 
@@ -179,11 +183,10 @@ void RocketInterface::SetScissorRegion(int x, int y, int width, int height)
 bool RocketInterface::LoadTexture(Rocket::Core::TextureHandle &texture_handle, Rocket::Core::Vector2i &texture_dimensions, const Rocket::Core::String &source)
 {
 	Texture *t = static_cast<Texture *>(pResourceManager->Get(source.CString(), Seed::TypeTexture));
-
+	t->SetFilter(Seed::TextureFilterTypeMin, Seed::TextureFilterLinear);
+	t->SetFilter(Seed::TextureFilterTypeMag, Seed::TextureFilterLinear);
 	texture_dimensions.x = t->GetWidth();
 	texture_dimensions.y = t->GetHeight();
-	pRendererDevice->TextureRequest(t);
-
 	texture_handle = (Rocket::Core::TextureHandle)t;
 
 	return true;
@@ -194,8 +197,9 @@ bool RocketInterface::GenerateTexture(Rocket::Core::TextureHandle &texture_handl
 	Texture *t = New(Texture());
 	u32 w = source_dimensions.x;
 	u32 h = source_dimensions.y;
-	t->Load(w, h, (Color *)source, w, h);
-	//pRendererDevice->TextureRequest(t);
+	t->Load("[RocketDynamicTexture]", w, h, (Color *)source, w, h, true);
+	t->SetFilter(Seed::TextureFilterTypeMin, Seed::TextureFilterLinear);
+	t->SetFilter(Seed::TextureFilterTypeMag, Seed::TextureFilterLinear);
 
 	texture_handle = (Rocket::Core::TextureHandle)t;
 
@@ -285,6 +289,58 @@ bool RocketInterface::LogMessage(Rocket::Core::Log::Type type, const Rocket::Cor
 	Log(TAG "%s", message.CString());
 
 	return true;
+}
+
+void RocketInterface::OnInputPointerPress(const EventInputPointer *ev)
+{
+	u32 btn = 0;
+
+	switch (ev->GetPressed())
+	{
+		case ButtonLeft: break;
+		case ButtonRight: btn = 1; break;
+		case ButtonMiddle: btn = 2; break;
+		case ButtonUp: pCurrent->ProcessMouseWheel(-1, iModifierState); return;
+		case ButtonDown: pCurrent->ProcessMouseWheel(1, iModifierState); return;
+		default: break;
+	}
+
+	pCurrent->ProcessMouseButtonDown(btn, iModifierState);
+}
+
+void RocketInterface::OnInputPointerRelease(const EventInputPointer *ev)
+{
+	u32 btn = 0;
+
+	switch (ev->GetPressed())
+	{
+		case ButtonLeft: break;
+		case ButtonRight: btn = 1; break;
+		case ButtonMiddle: btn = 2; break;
+		default: break;
+	}
+
+	pCurrent->ProcessMouseButtonUp(btn, iModifierState);
+}
+
+void RocketInterface::OnInputPointerMove(const EventInputPointer *ev)
+{
+	pCurrent->ProcessMouseMove(ev->GetX(), ev->GetY(), iModifierState);
+}
+
+void RocketInterface::OnInputKeyboardPress(const EventInputKeyboard *ev)
+{
+	Rocket::Core::Input::KeyIdentifier key = (Rocket::Core::Input::KeyIdentifier)ev->GetKey().GetValue();
+	pCurrent->ProcessKeyDown(key, iModifierState);
+
+	// FIXME: Do full key->text processing
+	pCurrent->ProcessTextInput(key);
+}
+
+void RocketInterface::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+{
+	Rocket::Core::Input::KeyIdentifier key = (Rocket::Core::Input::KeyIdentifier)ev->GetKey().GetValue();
+	pCurrent->ProcessKeyUp(key, iModifierState);
 }
 
 void RocketInterface::Render(const Matrix4f &worldTransform)

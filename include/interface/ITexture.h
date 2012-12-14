@@ -124,11 +124,15 @@ class SEED_CORE_API ITexture : public IResource
 
 		The buffer MUST BE 32bits aligned and each scanline must be 32bits aligned (stride, pitch)
 
+		\param desc Textual description of the buffer for debug purposes
 		\param width Width of the texture
 		\param height Height of the texture
 		\param buffer Buffer to texture pixels
+		\param copy If texture should copy pixel buffer, normally used when the buffer will be destroyed
+					after the Load request, but as texture loading is async we can keep a copy temporary
+					until the renderer finishes the loading process, then it will be destroyed too.
 		*/
-		virtual bool Load(u32 width, u32 height, Color *buffer, u32 atlasWidth = 0, u32 atlasHeight = 0) = 0;
+		virtual bool Load(const String &desc, u32 width, u32 height, Color *buffer, u32 atlasWidth = 0, u32 atlasHeight = 0, bool copy = false) = 0;
 
 		/// Update the internal state of a dynamic texture with a new buffer (texture created by the user)
 		/**
@@ -139,6 +143,11 @@ class SEED_CORE_API ITexture : public IResource
 		By using dynamic textures, the Seed MAY keep a internal buffer or pointer to your buffer that will
 		be used, so be sure to keep your buffer alive until this texture is not needed.
 		Keep the Width and Height unchanged, otherwise you must do a Load again.
+
+		NOTE: Update should not be used with temporary buffers (ie. buffers that need be free'd just after Update
+			  request. THIS WILL CRASH. Keep your buffer alive!
+
+		NOTE2: To be safe, before destruction do a Update(NULL).
 		*/
 		virtual void Update(Color *buffer) = 0;
 

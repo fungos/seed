@@ -23,6 +23,10 @@
 		</style>
 	</head>
 	<body template="window">
-		This is a sample.
+		This is a GUI sample using libRocket and Seed Framework!<br /><br />
+		Yeah, it works and now we are free of hand made gui.<br /><br />
+		- Press F1 to list loaded resources on console<br />
+		- Press F2 to activate garbage collection<br />
+		- Press F12 to enable rocket debugger<br />
 	</body>
 </rml>

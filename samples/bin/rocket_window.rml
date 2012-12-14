@@ -1,12 +1,13 @@
 <template name="window" content="content">
 <head>
+	<link type="text/rcss" href="rocket.rcss"/>
 	<link type="text/rcss" href="rocket_invader.rcss"/>
 </head>
 <body class="window">
 	<div id="title_bar">
 		<handle move_target="#document">
 			<div id="icon"></div>
-			<span id="title">Title</span>
+			<span id="title">About</span>
 		</handle>
 	</div>
 	<div id="window">

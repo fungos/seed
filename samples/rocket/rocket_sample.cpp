@@ -74,6 +74,8 @@ bool RocketSample::Initialize()
 		pDoc->Show();
 
 	pI->SetCurrentContext(pContext);
+	pInput->AddKeyboardListener(pI);
+	pInput->AddPointerListener(pI);
 
 	return true;
 }
@@ -97,6 +99,8 @@ bool RocketSample::Update(f32 dt)
 
 bool RocketSample::Shutdown()
 {
+	pInput->RemovePointerListener(pI);
+	pInput->RemoveKeyboardListener(pI);
 	Delete(pI);
 
 	pInput->RemovePointerListener(this);
@@ -127,6 +131,8 @@ void RocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->Print();
 	else if (k == Seed::KeyF2)
 		pResourceManager->GarbageCollect();
+	else if (k == Seed::KeyF12)
+		Rocket::Debugger::SetVisible(!Rocket::Debugger::IsVisible());
 }
 
 void RocketSample::OnInputPointerRelease(const EventInputPointer *ev)

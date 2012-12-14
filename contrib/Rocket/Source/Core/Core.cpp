@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -53,7 +53,7 @@ typedef std::map< String, Context* > ContextMap;
 static ContextMap contexts;
 
 #ifndef ROCKET_VERSION
-	#define ROCKET_VERSION "custom"
+	#define ROCKET_VERSION "1.2.1-Seed" // bc8b334d2f477f250a885de68c9f621e297faf1c
 #endif
 
 /**
@@ -78,13 +78,13 @@ bool Initialise()
 {
 	// Check for valid interfaces, or install default interfaces as appropriate.
 	if (system_interface == NULL)
-	{	
+	{
 		Log::Message(Log::LT_ERROR, "No system interface set!");
 		return false;
 	}
 
 	if (file_interface == NULL)
-	{		
+	{
 #ifndef ROCKET_NO_FILE_INTERFACE_DEFAULT
 		file_interface = &file_interface_default;
 		file_interface->AddReference();
@@ -145,7 +145,7 @@ void Shutdown()
 
 	if (system_interface != NULL)
 		system_interface->RemoveReference();
-	
+
 	render_interface = NULL;
 	file_interface = NULL;
 	system_interface = NULL;
