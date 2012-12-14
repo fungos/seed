@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -195,7 +195,7 @@ void LayoutLineBox::CloseInlineBox(LayoutInlineBox* inline_box)
 // Attempts to add a new element to this line box.
 LayoutInlineBox* LayoutLineBox::AddElement(Element* element, const Box& box)
 {
-	if (static_cast< ElementText* >(element) != NULL)
+	if (dynamic_cast< ElementText* >(element) != NULL)
 		return AddBox(new LayoutInlineBoxText(element));
 	else
 		return AddBox(new LayoutInlineBox(element, box));

@@ -46,15 +46,19 @@
 namespace Seed { namespace RocketGui {
 
 RocketInterface::RocketInterface()
+	: pCurrent(NULL)
 {
 	cVertexBuffer.Configure(BufferUsageEveryFrameChange);
 	cElementBuffer.Configure(BufferUsageEveryFrameChange, ElementTypeInt);
+	this->SetWidth(pScreen->GetWidth());
+	this->SetHeight(pScreen->GetHeight());
 }
 
 RocketInterface::~RocketInterface()
 {
 	pRendererDevice->DestroyHardwareBuffer(&cVertexBuffer);
 	pRendererDevice->DestroyHardwareBuffer(&cElementBuffer);
+	pCurrent = NULL;
 }
 
 // Rocket::Core::RenderInterface
@@ -191,7 +195,7 @@ bool RocketInterface::GenerateTexture(Rocket::Core::TextureHandle &texture_handl
 	u32 w = source_dimensions.x;
 	u32 h = source_dimensions.y;
 	t->Load(w, h, (Color *)source, w, h);
-	pRendererDevice->TextureRequest(t);
+	//pRendererDevice->TextureRequest(t);
 
 	texture_handle = (Rocket::Core::TextureHandle)t;
 
@@ -281,6 +285,35 @@ bool RocketInterface::LogMessage(Rocket::Core::Log::Type type, const Rocket::Cor
 	Log(TAG "%s", message.CString());
 
 	return true;
+}
+
+void RocketInterface::Render(const Matrix4f &worldTransform)
+{
+	UNUSED(worldTransform)
+	if (pCurrent)
+		pCurrent->Render();
+}
+
+void RocketInterface::Update(f32 delta)
+{
+	UNUSED(delta)
+	if (pCurrent)
+		pCurrent->Update();
+}
+
+const String RocketInterface::GetClassName() const
+{
+	return "RocketInterface";
+}
+
+int RocketInterface::GetObjectType() const
+{
+	return TypeRocketInterface;
+}
+
+void RocketInterface::SetCurrentContext(Rocket::Core::Context *ctx)
+{
+	pCurrent = ctx;
 }
 
 }} // namespace

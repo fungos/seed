@@ -4,9 +4,7 @@ libRocket 1.2.1 bc8b334d2f477f250a885de68c9f621e297faf1c
 
 - In the all Header.h added "#define STATIC_LIB";
 - Added [#pragma GCC diagnostic ignored "-Wswitch"] in all Header.h;
-- Replace all "dynamic_cast" to "static_cast" because of -fno-rtti;
 - Removed Core/Python and Controls/Python as we doesn't use Python;
-- Removed use of typeid;
 - Renamed Core/Stream.cpp to Core/RocketStream.cpp (qmake);
 - Renamed Core/WidgetSlider.cpp to Core/RocketWidgetSlider.cpp (qmake);
 - Renamed Debugger/Geometry.cpp to Debugger/DebugGeometry.cpp (qmake);

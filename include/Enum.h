@@ -59,6 +59,7 @@ enum eObjectType
 	TypeRendererManager,
 	TypeJobManager,
 	TypeThreadManager,
+	TypeRocketInterface,
 
 	// System
 	TypeFile,

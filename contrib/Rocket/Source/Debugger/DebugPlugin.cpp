@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- *
+ * 
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -106,7 +106,7 @@ bool Plugin::SetContext(Core::Context* context)
 		if (element == NULL)
 			return false;
 
-		hook_element = static_cast< ElementContextHook* >(element);
+		hook_element = dynamic_cast< ElementContextHook* >(element);
 		if (hook_element == NULL)
 		{
 			element->RemoveReference();
@@ -333,7 +333,7 @@ bool Plugin::LoadMenuElement()
 bool Plugin::LoadInfoElement()
 {
 	Core::Factory::RegisterElementInstancer("debug-info", new Core::ElementInstancerGeneric< ElementInfo >())->RemoveReference();
-	info_element = static_cast< ElementInfo* >(host_context->CreateDocument("debug-info"));
+	info_element = dynamic_cast< ElementInfo* >(host_context->CreateDocument("debug-info"));
 	if (info_element == NULL)
 		return false;
 
@@ -354,7 +354,7 @@ bool Plugin::LoadInfoElement()
 bool Plugin::LoadLogElement()
 {
 	Core::Factory::RegisterElementInstancer("debug-log", new Core::ElementInstancerGeneric< ElementLog >())->RemoveReference();
-	log_element = static_cast< ElementLog* >(host_context->CreateDocument("debug-log"));
+	log_element = dynamic_cast< ElementLog* >(host_context->CreateDocument("debug-log"));
 	if (log_element == NULL)
 		return false;
 
@@ -371,7 +371,7 @@ bool Plugin::LoadLogElement()
 
 	// Make the system interface; this will trap the log messages for us.
 	log_hook = new SystemInterface(log_element);
-
+	
 	return true;
 }
 
