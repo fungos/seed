@@ -241,7 +241,7 @@ size_t RocketInterface::Read(void *buffer, size_t size, Rocket::Core::FileHandle
 	FilePtr *fp = (FilePtr *)file;
 	void *ptr = &(fp->pFile->GetData())[fp->iOffset];
 
-	size_t rlen = size > fp->pFile->GetSize() ? fp->pFile->GetSize() : size;
+	size_t rlen = (fp->iOffset + size) > fp->pFile->GetSize() ? (fp->pFile->GetSize() - fp->iOffset) : size;
 	fp->iOffset += rlen;
 	memcpy(buffer, ptr, rlen);
 
