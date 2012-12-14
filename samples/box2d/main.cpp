@@ -2,5 +2,5 @@
 
 int main(int argc, const char **argv)
 {
-	return SeedRun<Box2DSample>(argc, argv);
+	return SeedRun<Box2DSample>(argc, argv, "box2d_app.config");
 }

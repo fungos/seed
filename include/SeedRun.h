@@ -32,10 +32,10 @@ int SeedRun(int argc, const char **argv)
 #else
 
 template <class T>
-int SeedRun(int argc, const char **argv)
+int SeedRun(int argc, const char **argv, const char *config = "app.config")
 {
 	T app;
-	Seed::SetGameApp(&app, argc, argv);
+	Seed::SetGameApp(&app, argc, argv, config);
 	if (Seed::Initialize())
 	{
 		while (!pSystem->IsShuttingDown())

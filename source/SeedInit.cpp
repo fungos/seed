@@ -113,12 +113,12 @@ void CommandLineParse(int argc, const char **argv)
 	}
 }
 
-void SetGameApp(IGameApp *app, int argc, const char **argv)
+void SetGameApp(IGameApp *app, int argc, const char **argv, const char *config)
 {
 	Private::iArgc = argc;
 	Private::pcArgv = argv;
 	Private::pApplication = app;
-	Private::sConfigFile = "app.config";
+	Private::sConfigFile = config;
 	Private::bDisableSound = false;
 
 #if defined(EMSCRIPTEN)

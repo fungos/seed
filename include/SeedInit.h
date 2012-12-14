@@ -56,7 +56,7 @@ namespace Seed {
 	\param argc Command line argument count.
 	\param argv A pointer to the command line arguments.
 	*/
-	SEED_CORE_API void SetGameApp(IGameApp *app, int argc, const char **argv);
+	SEED_CORE_API void SetGameApp(IGameApp *app, int argc, const char **argv, const char *config = "app.config");
 
 	/// Displays a output message by using IGameApp::WriteOut implementation.
 	/**
