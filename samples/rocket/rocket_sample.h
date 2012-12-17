@@ -23,6 +23,9 @@ class RocketSample : public IGameApp,
 		virtual bool Update(f32 dt);
 		virtual bool Shutdown();
 
+		bool InitializeGUI();
+		void ReleaseGUI();
+
 		// IEventSystemListener
 		virtual void OnSystemShutdown(const EventSystem *ev);
 

@@ -52,6 +52,7 @@ bool IScreen::IsFading() const
 
 void IScreen::EnableCursor(bool b)
 {
+	UNUSED(b)
 	SEED_ABSTRACT_METHOD;
 }
 

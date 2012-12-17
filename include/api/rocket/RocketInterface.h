@@ -35,8 +35,9 @@
 
 #if SEED_USE_ROCKET_GUI == 1
 
-#include "File.h"
 #include "RendererDevice.h"
+#include "File.h"
+#include "Texture.h"
 #include "interface/ISceneObject.h"
 #include "interface/IEventInputPointerListener.h"
 #include "interface/IEventInputKeyboardListener.h"
@@ -51,6 +52,12 @@ struct FilePtr
 {
 	File *pFile;
 	long iOffset;
+};
+
+struct TexturePtr
+{
+	ITexture *pTex;
+	bool bDynamic;
 };
 
 class SEED_CORE_API RocketInterface :

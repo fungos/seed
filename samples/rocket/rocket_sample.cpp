@@ -15,6 +15,9 @@ RocketSample::RocketSample()
 	, fElapsed(0.0f)
 	, fDir(1.0f)
 	, bRotate(false)
+	, pI(NULL)
+	, pContext(NULL)
+	, pDoc(NULL)
 {
 }
 
@@ -45,39 +48,7 @@ bool RocketSample::Initialize()
 	pInput->AddKeyboardListener(this);
 	pInput->AddPointerListener(this);
 
-	pI = New(RocketInterface());
-	Rocket::Core::SetRenderInterface(pI);
-	Rocket::Core::SetFileInterface(pI);
-	Rocket::Core::SetSystemInterface(pI);
-	Rocket::Core::Initialise();
-	Rocket::Controls::Initialise();
-
-	pContext = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(pScreen->GetWidth(), pScreen->GetHeight()));
-	if (pContext == NULL)
-	{
-		Rocket::Core::Shutdown();
-		return false;
-	}
-
-	Rocket::Core::String fonts[4];
-	fonts[0] = "Delicious-Roman.otf";
-	fonts[1] = "Delicious-Italic.otf";
-	fonts[2] = "Delicious-Bold.otf";
-	fonts[3] = "Delicious-BoldItalic.otf";
-
-	for (unsigned int i = 0; i < sizeof(fonts) / sizeof(Rocket::Core::String); i++)
-		Rocket::Core::FontDatabase::LoadFontFace(fonts[i]);
-
-	Rocket::Debugger::Initialise(pContext);
-	pDoc = pContext->LoadDocument("rocket_menu.rml");
-	if (pDoc != NULL)
-		pDoc->Show();
-
-	pI->SetCurrentContext(pContext);
-	pInput->AddKeyboardListener(pI);
-	pInput->AddPointerListener(pI);
-
-	return true;
+	return this->InitializeGUI();
 }
 
 bool RocketSample::Update(f32 dt)
@@ -99,9 +70,7 @@ bool RocketSample::Update(f32 dt)
 
 bool RocketSample::Shutdown()
 {
-	pInput->RemovePointerListener(pI);
-	pInput->RemoveKeyboardListener(pI);
-	Delete(pI);
+	this->ReleaseGUI();
 
 	pInput->RemovePointerListener(this);
 	pInput->RemoveKeyboardListener(this);
@@ -191,4 +160,57 @@ void RocketSample::OnJobAborted(const EventJob *ev)
 {
 	Job *job = ev->GetJob();
 	Delete(job);
+}
+
+bool RocketSample::InitializeGUI()
+{
+	pI = New(RocketInterface());
+	pI->sName = "RocketGUI";
+	Rocket::Core::SetRenderInterface(pI);
+	Rocket::Core::SetFileInterface(pI);
+	Rocket::Core::SetSystemInterface(pI);
+	Rocket::Core::Initialise();
+	Rocket::Controls::Initialise();
+
+	pContext = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(pScreen->GetWidth(), pScreen->GetHeight()));
+	if (pContext == NULL)
+	{
+		Rocket::Core::Shutdown();
+		return false;
+	}
+
+	Rocket::Core::String fonts[4];
+	fonts[0] = "Delicious-Roman.otf";
+	fonts[1] = "Delicious-Italic.otf";
+	fonts[2] = "Delicious-Bold.otf";
+	fonts[3] = "Delicious-BoldItalic.otf";
+
+	for (unsigned int i = 0; i < sizeof(fonts) / sizeof(Rocket::Core::String); i++)
+		Rocket::Core::FontDatabase::LoadFontFace(fonts[i]);
+
+	Rocket::Debugger::Initialise(pContext);
+	pDoc = pContext->LoadDocument("rocket_menu.rml");
+	if (pDoc != NULL)
+		pDoc->Show();
+
+	pI->SetCurrentContext(pContext);
+	pInput->AddKeyboardListener(pI);
+	pInput->AddPointerListener(pI);
+
+	return true;
+}
+
+void RocketSample::ReleaseGUI()
+{
+	pInput->RemovePointerListener(pI);
+	pInput->RemoveKeyboardListener(pI);
+
+	pContext->UnloadAllDocuments();
+	pDoc->RemoveReference();
+	pContext->RemoveReference();
+
+	Rocket::Core::Shutdown();
+
+	gScene->Remove(pI);
+	Delete(pI);
 }

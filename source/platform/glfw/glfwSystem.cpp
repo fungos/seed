@@ -74,6 +74,7 @@ System::System()
 
 System::~System()
 {
+	glfwTerminate();
 }
 
 bool System::Reset()
@@ -110,8 +111,6 @@ bool System::Shutdown()
 {
 	bShutdown = true;
 	Log(TAG "Terminating...");
-
-	glfwTerminate();
 
 	return true;
 }

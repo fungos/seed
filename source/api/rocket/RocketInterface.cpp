@@ -89,11 +89,13 @@ void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_ver
 	cVertexBuffer.SetData(vert, num_vertices);
 
 	RendererPacket packet;
-	packet.pTexture = (Texture *)texture;
 	packet.pElementBuffer = &cElementBuffer;
 	packet.pVertexBuffer = &cVertexBuffer;
 	packet.pTransform = &transform;
 	packet.nMeshType = Seed::Triangles;
+	TexturePtr *tex = (TexturePtr *)texture;
+	packet.pTexture = tex->pTex;
+
 	pRendererDevice->UploadData(&packet);
 
 	DeleteArray(vert);
@@ -130,7 +132,8 @@ Rocket::Core::CompiledGeometryHandle RocketInterface::CompileGeometry(Rocket::Co
 	packet->pVertexBuffer->Configure(BufferUsageNeverChange);
 	packet->pVertexBuffer->SetData(vert, num_vertices);
 
-	packet->pTexture = (Texture *)texture;
+	TexturePtr *tex = (TexturePtr *)texture;
+	packet->pTexture = tex->pTex;
 	packet->nMeshType = Seed::Triangles;
 
 	return (Rocket::Core::CompiledGeometryHandle)packet;
@@ -152,11 +155,11 @@ void RocketInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHand
 {
 	RendererPacket *packet = (RendererPacket *)geometry;
 
-	sVertex *vert = NULL;
-	packet->pVertexBuffer->GetData(vert);
+	void *vert = NULL;
+	packet->pVertexBuffer->GetData(&vert);
 
-	int *elems = NULL;
-	packet->pElementBuffer->GetData(elems);
+	void *elems = NULL;
+	packet->pElementBuffer->GetData(&elems);
 
 	// inverse order freeing
 	pRendererDevice->DestroyHardwareBuffer(packet->pVertexBuffer);
@@ -164,8 +167,11 @@ void RocketInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHand
 	pRendererDevice->DestroyHardwareBuffer(packet->pElementBuffer);
 	Delete(packet->pElementBuffer);
 
-	DeleteArray(vert);
-	Free(elems);
+	sVertex *v = (sVertex *)vert;
+	DeleteArray(v);
+
+	int *e = (int *)elems;
+	Free(e);
 
 	Delete(packet);
 }
@@ -187,7 +193,12 @@ bool RocketInterface::LoadTexture(Rocket::Core::TextureHandle &texture_handle, R
 	t->SetFilter(Seed::TextureFilterTypeMag, Seed::TextureFilterLinear);
 	texture_dimensions.x = t->GetWidth();
 	texture_dimensions.y = t->GetHeight();
-	texture_handle = (Rocket::Core::TextureHandle)t;
+
+	TexturePtr *tex = New(TexturePtr());
+	tex->pTex = t;
+	tex->bDynamic = false;
+
+	texture_handle = (Rocket::Core::TextureHandle)tex;
 
 	return true;
 }
@@ -201,16 +212,27 @@ bool RocketInterface::GenerateTexture(Rocket::Core::TextureHandle &texture_handl
 	t->SetFilter(Seed::TextureFilterTypeMin, Seed::TextureFilterLinear);
 	t->SetFilter(Seed::TextureFilterTypeMag, Seed::TextureFilterLinear);
 
-	texture_handle = (Rocket::Core::TextureHandle)t;
+	TexturePtr *tex = New(TexturePtr());
+	tex->pTex = t;
+	tex->bDynamic = true;
+	texture_handle = (Rocket::Core::TextureHandle)tex;
 
 	return true;
 }
 
 void RocketInterface::ReleaseTexture(Rocket::Core::TextureHandle texture_handle)
 {
-	Texture *t = (Texture *)texture_handle;
-	pRendererDevice->TextureRequestAbort(t);
-	Delete(t);
+	TexturePtr *tex = (TexturePtr *)texture_handle;
+	if (tex->bDynamic)
+	{
+		Delete(tex->pTex);
+	}
+	else
+	{
+		sRelease(tex->pTex);
+	}
+
+	Delete(tex);
 }
 
 float RocketInterface::GetHorizontalTexelOffset()
