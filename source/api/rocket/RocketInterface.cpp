@@ -210,8 +210,6 @@ void RocketInterface::ReleaseTexture(Rocket::Core::TextureHandle texture_handle)
 {
 	Texture *t = (Texture *)texture_handle;
 	pRendererDevice->TextureRequestAbort(t);
-	pRendererDevice->TextureUnload(t);
-
 	Delete(t);
 }
 
