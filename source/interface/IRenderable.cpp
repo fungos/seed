@@ -166,7 +166,7 @@ String IRenderable::GetBlendingName() const
 
 void IRenderable::Unserialize(Reader &reader)
 {
-	bVisible = reader.ReadBool("bVisible");
+	bVisible = reader.ReadBool("bVisible", true);
 	if (reader.SelectNode("cColor"))
 	{
 		cColor.r = reader.ReadU32("r", 255);
