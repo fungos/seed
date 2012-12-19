@@ -205,6 +205,8 @@ void Box2DSample::OnPresentationLoaded(const EventPresentation *ev)
 	pCamera = (Camera *)pScene->GetChildByName("MainCamera");
 
 	ISceneObject *obj = pScene->GetChildByName("Ground");
+	obj->SetPosition(pGround->GetPosition().x * M2PIX, pGround->GetPosition().y * M2PIX);
+	obj->SetVisible(true);
 	pGround->SetUserData(obj);
 
 	this->CreateBody((Image *)pScene->GetChildByName("Panda"), 0.0f, 0.0f);
