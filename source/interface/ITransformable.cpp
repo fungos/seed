@@ -617,7 +617,7 @@ f32 ITransformable::GetY() const
 
 f32 ITransformable::GetZ() const
 {
-	u32 prio = vPos.getZ();
+	f32 prio = vPos.getZ();
 
 	if (pParent)
 		prio += pParent->GetZ();

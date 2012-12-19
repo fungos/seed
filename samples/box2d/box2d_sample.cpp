@@ -1,11 +1,10 @@
 #include "box2d_sample.h"
+#include <sstream>
 
 #define DEG2RAD		0.0174532925199432957f
 #define RAD2DEG		57.295779513082320876f
 
 #define PIX2M		0.01f
-//#define PIX2M		0.0234375f	// PvM
-//#define PIX2M		0.03125f	// Cocos2D
 #define M2PIX		(1.0f / PIX2M)
 
 class Box2DQueryCallback : public b2QueryCallback
@@ -24,6 +23,7 @@ Box2DSample::Box2DSample()
 	: pWorld(NULL)
 	, pGround(NULL)
 	, pPick(NULL)
+	, pMouseJoint(NULL)
 	, cPres()
 	, pScene(NULL)
 	, pCamera(NULL)
@@ -47,7 +47,7 @@ bool Box2DSample::Initialize()
 		pGround = pWorld->CreateBody(&bodyDef);
 
 		b2PolygonShape boxShape;
-		boxShape.SetAsBox(200.0f * PIX2M, 10.0f * PIX2M);
+		boxShape.SetAsBox(400.0f * PIX2M, 10.0f * PIX2M);
 
 		b2FixtureDef fixDef;
 		fixDef.shape = &boxShape;
@@ -109,41 +109,90 @@ void Box2DSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->GarbageCollect();
 }
 
+void Box2DSample::OnInputPointerPress(const EventInputPointer *ev)
+{
+	Vector3f p;
+	p.setX(ev->GetX());
+	p.setY(ev->GetY());
+	p += pCamera->GetPosition();
+
+	if (ev->GetPressed() == Seed::ButtonLeft)
+	{
+		f32 mx = p.getX() * PIX2M;
+		f32 my = p.getY() * PIX2M;
+
+		b2AABB aabb;
+		aabb.lowerBound.Set(mx - 0.001f, my - 0.001f);
+		aabb.upperBound.Set(mx + 0.001f, my + 0.001f);
+
+		Box2DQueryCallback cb;
+		pWorld->QueryAABB(&cb, aabb);
+
+		if (cb.vFound.size())
+		{
+			pPick = cb.vFound[0];
+			Log("Picking an object, found %d objects - using first object", cb.vFound.size());
+		}
+		else
+		{
+			pPick = NULL;
+		}
+
+		if (pPick)
+		{
+			b2MouseJointDef def;
+			def.bodyA = pGround;
+			def.bodyB = pPick;
+			def.target.Set(p.getX() * PIX2M, p.getY() * PIX2M);
+			def.collideConnected = true;
+			def.maxForce = 300.0f * pPick->GetMass();
+			pMouseJoint = (b2MouseJoint *)pWorld->CreateJoint((b2JointDef *)&def);
+			pPick->SetAwake(true);
+		}
+	}
+}
+
+void Box2DSample::OnInputPointerMove(const EventInputPointer *ev)
+{
+	Vector3f p;
+	p.setX(ev->GetX());
+	p.setY(ev->GetY());
+	p += pCamera->GetPosition();
+
+	if (pPick)
+	{
+		b2Vec2 v;
+		v.Set(p.getX() * PIX2M, p.getY() * PIX2M);
+		pMouseJoint->SetTarget(v);
+	}
+}
+
 void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 {
+	Vector3f p;
+	p.setX(ev->GetX());
+	p.setY(ev->GetY());
+	p += pCamera->GetPosition();
+
 	if (ev->GetReleased() == Seed::ButtonLeft)
 	{
-//		f32 mx = ev->GetX();
-//		f32 my = ev->GetY();
-//		mx *= PIX2M;
-//		my *= PIX2M;
-//		b2AABB aabb;
-//		aabb.lowerBound.Set(mx - 0.001f, my - 0.001f);
-//		aabb.upperBound.Set(mx + 0.001f, my + 0.001f);
-
-//		Box2DQueryCallback cb;
-//		pWorld->QueryAABB(&cb, aabb);
-
-//		if (cb.vFound.size())
-//			pPick = cb.vFound[0];
-
-//		if (pPick)
-//			Log("Found %d", cb.vFound.size());
-//		else
-//			Log("Not Found");
+		if (pPick)
+		{
+			pWorld->DestroyJoint(pMouseJoint);
+			pMouseJoint = NULL;
+			pPick = NULL;
+		}
 	}
 	else if (ev->GetReleased() == Seed::ButtonRight)
 	{
 		Image *img = New(Image("frame03.png"));
-		img->sName = "Image" + iId++;
+		img->bMarkForDeletion = true;
 
-		Vector3f p;
-		p.setX(ev->GetX());
-		p.setY(ev->GetY());
-		p += pCamera->GetPosition();
-		Log(">Click at %d, %d", ev->GetX(), ev->GetY());
-//		this->CreateBody(img, p.getX(), p.getY());
-		this->CreateBody(img, 0.0f, 0.0f);
+		std::stringstream ss;
+		ss << "Image_" << iId++;
+		img->sName = ss.str();
+
+		this->CreateBody(img, p.getX(), p.getY());
 		pScene->Add(img);
 	}
 }
@@ -200,5 +249,5 @@ void Box2DSample::CreateBody(Image *img, f32 x, f32 y)
 	fixDef.restitution = 0.75f;
 	b->CreateFixture(&fixDef);
 
-	img->SetPosition(x, y, 10.0f);
+	img->SetPosition(x, y, 0.0f - iId);
 }

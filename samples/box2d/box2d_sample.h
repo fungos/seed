@@ -26,7 +26,9 @@ class Box2DSample : public IGameApp,
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
 
 		// IEventInputPointerListener
+		virtual void OnInputPointerPress(const EventInputPointer *ev);
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
+		virtual void OnInputPointerMove(const EventInputPointer *ev);
 
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
@@ -41,6 +43,7 @@ class Box2DSample : public IGameApp,
 		b2World		*pWorld;
 		b2Body		*pGround;
 		b2Body		*pPick;
+		b2MouseJoint *pMouseJoint;
 
 		Presentation cPres;
 		SceneNode	*pScene;

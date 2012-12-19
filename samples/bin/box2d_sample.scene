@@ -6,11 +6,13 @@
 			sType: Image
 			sName: Panda
 			sResource: frame03.png
+			bVisible: false
 		}
 		{
 			sType: Image
 			sName: Ground
 			sResource: ground.png
+			bVisible: false
 		}
 		{
 			sType: Camera
