@@ -342,7 +342,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 	GL_TRACE("END SetBlendingOperation")
 }
 
-void OGLES1RendererDevice::SetTextureParameters(ITexture *texture) const
+void OGLES1RendererDevice::SetTextureParameters(const ITexture *texture) const
 {
 	GL_TRACE("BEGIN SetTextureParameters")
 	SEED_ASSERT(texture);
@@ -522,7 +522,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	SEED_ASSERT(packet->pTransform);
 	SEED_ASSERT(packet->pVertexBuffer);
 
-	ITexture *texture = packet->pTexture;
+	const ITexture *texture = packet->pTexture;
 	VertexBuffer *vbo = (VertexBuffer *)packet->pVertexBuffer;
 	ElementBuffer *ebo = (ElementBuffer *)packet->pElementBuffer;
 	Vector3f pivot = packet->vPivot;
@@ -614,8 +614,11 @@ void OGLES1RendererDevice::UploadData(void *userData)
 			pRendererDevice->DrawCircle(op.getX(), op.getY(), packet->fRadius, Color(255, 0, 255, 255));
 		}
 
-		glPointSize(5.0f);
-		glDrawArrays(GL_POINTS, 0, vbo->iLength);
+//		glPointSize(5.0f);
+//		if (!ebo)
+//			glDrawArrays(GL_POINTS, 0, vbo->iLength);
+//		else
+//			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
 
 		glPointSize(7.0f);
 		glBegin(GL_POINTS);

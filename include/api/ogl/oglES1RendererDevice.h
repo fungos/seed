@@ -96,7 +96,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void TextureRequestAbort(ITexture *texture);
 		virtual void TextureRequestProcess() const;
 		virtual void TextureDataUpdate(ITexture *texture);
-		virtual void SetTextureParameters(ITexture *texture) const;
+		virtual void SetTextureParameters(const ITexture *texture) const;
 
 		// HardwareBuffer
 		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const;

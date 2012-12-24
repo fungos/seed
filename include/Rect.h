@@ -39,10 +39,10 @@ namespace Seed {
 template <class TYPE> class Rect
 {
 	public:
-		TYPE x1;
-		TYPE y1;
-		TYPE x2;
-		TYPE y2;
+		TYPE x1; // u0
+		TYPE y1; // v0
+		TYPE x2; // u1
+		TYPE y2; // v1
 
 	public:
 		Rect(TYPE mx = 0, TYPE my = 0, TYPE mwidth = 0, TYPE mheight = 0)
@@ -157,10 +157,10 @@ template <class TYPE> class Rect
 			if (left1 < left2) over_left = left2;
 			else over_left = left1;
 
-			rectDst.x      = over_left;
-			rectDst.y      = over_top;
-			rectDst.width  = (TYPE)(over_right - over_left);
-			rectDst.height = (TYPE)(over_bottom - over_top);
+			rectDst.x1 = over_left;
+			rectDst.y1 = over_top;
+			rectDst.x2 = (TYPE)(over_right - over_left);
+			rectDst.y2 = (TYPE)(over_bottom - over_top);
 
 			if (bottom1 < top2) return(false);
 			if (top1 > bottom2) return(false);

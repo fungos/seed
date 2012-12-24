@@ -28,64 +28,83 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_NODE_H__
-#define __SCENE_NODE_H__
-
-#include "interface/ISceneObject.h"
-#include "Container.h"
+#include "map/IMetadataObject.h"
+#include "Screen.h"
 
 namespace Seed {
 
-ISceneObject *FactorySceneNode();
-
-DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
-
-/// Scene Node
-class SEED_CORE_API SceneNode : public ISceneObject
+IMetadataObject::IMetadataObject()
+	: sType("")
+	, sProperties("")
+	, cArea()
 {
-	friend class Renderer;
-	public:
-		SceneNode();
-		virtual ~SceneNode();
+}
 
-		virtual bool IsNode() const;
+IMetadataObject::~IMetadataObject()
+{
+}
 
-		// IRenderable
-		virtual void Update(f32 dt);
-		virtual void Render(const Matrix4f &worldTransform);
+void IMetadataObject::SetPosition(f32 x, f32 y)
+{
+	#warning FIXME
+	ITransformable::SetPosition(x / static_cast<f32>(pScreen->GetWidth()), y / static_cast<f32>(pScreen->GetHeight()));
+	cArea.x1 = x;
+	cArea.y1 = y;
+}
 
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
-		virtual ISceneObject *GetChildByName(String name);
+void IMetadataObject::SetWidth(f32 w)
+{
+	#warning FIXME
+	ITransformable::SetWidth(w / static_cast<f32>(pScreen->GetWidth()));
+	cArea.x2 = w;
+}
 
-		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
+void IMetadataObject::SetHeight(f32 h)
+{
+	#warning FIXME
+	ITransformable::SetHeight(h / static_cast<f32>(pScreen->GetHeight()));
+	cArea.y2 = h;
+}
 
-		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
-		 * so if you want to keep some object loaded, remove it from the scene before
-		 * calling a parent's Unload.
-		 */
-		virtual bool Unload();
+const Rect4f &IMetadataObject::GetBoundingBox() const
+{
+	return cArea;
+}
 
-		/*! Reset will not unload/delete any children, it is just to clear the current node children
-		 * as if you're removing one by one.
-		 */
-		virtual void Reset();
+bool IMetadataObject::CheckHit(const Rect4f &area, Rect4f &overlap) const
+{
+	#warning CHECK THIS
+	return area.GetOverlappedRect(cArea, overlap);
+}
 
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+void IMetadataObject::SetName(const String &name)
+{
+	sName = name;
+}
 
-	private:
-		SEED_DISABLE_COPY(SceneNode);
+String IMetadataObject::GetName() const
+{
+	return sName;
+}
 
-	protected:
-		ISceneObjectVector vChild;
-};
+void IMetadataObject::SetType(const String &type)
+{
+	sType = type;
+}
+
+String IMetadataObject::GetType() const
+{
+	return sType;
+}
+
+void IMetadataObject::LoadProperties(const String &prop)
+{
+	sProperties = prop;
+}
+
+String IMetadataObject::GetProperties() const
+{
+	return sProperties;
+}
 
 } // namespace
-
-#endif // __SCENE_NODE_H__

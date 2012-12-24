@@ -44,7 +44,6 @@ IUpdatable::~IUpdatable()
 bool IUpdatable::Update(f32 dt)
 {
 	UNUSED(dt);
-	SEED_ABSTRACT_METHOD;
 	return true;
 }
 

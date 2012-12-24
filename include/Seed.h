@@ -83,6 +83,14 @@
 #include <Music.h>
 #include <Mutex.h>
 
+#include <map/GameMap.h>
+#include <map/IMapLayer.h>
+#include <map/IMetadataObject.h>
+#include <map/MapLayerMetadata.h>
+#include <map/MapLayerMosaic.h>
+#include <map/MapLayerTiled.h>
+#include <map/Tile.h>
+
 #include <Number.h>
 
 #include <Particle.h>

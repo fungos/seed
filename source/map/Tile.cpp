@@ -28,64 +28,46 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_NODE_H__
-#define __SCENE_NODE_H__
-
-#include "interface/ISceneObject.h"
-#include "Container.h"
+#include "map/Tile.h"
 
 namespace Seed {
 
-ISceneObject *FactorySceneNode();
-
-DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
-
-/// Scene Node
-class SEED_CORE_API SceneNode : public ISceneObject
+Tile::Tile()
+	: iType(0)
 {
-	friend class Renderer;
-	public:
-		SceneNode();
-		virtual ~SceneNode();
+}
 
-		virtual bool IsNode() const;
+Tile::~Tile()
+{
+}
 
-		// IRenderable
-		virtual void Update(f32 dt);
-		virtual void Render(const Matrix4f &worldTransform);
+u32 Tile::GetType() const
+{
+	return iType;
+}
 
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
-		virtual ISceneObject *GetChildByName(String name);
+void Tile::SetType(u32 type)
+{
+	iType = type;
+}
 
-		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
 
-		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
-		 * so if you want to keep some object loaded, remove it from the scene before
-		 * calling a parent's Unload.
-		 */
-		virtual bool Unload();
+/**/
 
-		/*! Reset will not unload/delete any children, it is just to clear the current node children
-		 * as if you're removing one by one.
-		 */
-		virtual void Reset();
+TileSprite::TileSprite()
+	: pTile(NULL)
+{
+}
 
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+TileSprite::~TileSprite()
+{
+}
 
-	private:
-		SEED_DISABLE_COPY(SceneNode);
-
-	protected:
-		ISceneObjectVector vChild;
-};
+void TileSprite::SetTile(const Tile *tile)
+{
+	pTile = tile;
+	this->SetAnimation(tile->GetType());
+}
 
 } // namespace
 
-#endif // __SCENE_NODE_H__

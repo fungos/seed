@@ -28,64 +28,70 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_NODE_H__
-#define __SCENE_NODE_H__
+#ifndef __GAMEMAP_H__
+#define __GAMEMAP_H__
 
-#include "interface/ISceneObject.h"
-#include "Container.h"
+#include "SceneNode.h"
+#include "interface/IResource.h"
+#include "Point.h"
 
 namespace Seed {
 
-ISceneObject *FactorySceneNode();
+class IMapLayer;
+class TileSet;
 
-DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
+DECLARE_CONTAINER_TYPE(Vector, IMapLayer)
+DECLARE_CONTAINER_TYPE(Vector, TileSet)
 
-/// Scene Node
-class SEED_CORE_API SceneNode : public ISceneObject
+ISceneObject *FactoryGameMap();
+
+class GameMap : public ISceneObject
 {
-	friend class Renderer;
 	public:
-		SceneNode();
-		virtual ~SceneNode();
+		GameMap();
+		virtual ~GameMap();
 
-		virtual bool IsNode() const;
+		virtual IMapLayer *GetLayerAt(u32 index);
+		virtual IMapLayer *GetLayerByName(const String &name);
 
-		// IRenderable
+		virtual int GetLayerCount();
+
+		// SceneNode
 		virtual void Update(f32 dt);
 		virtual void Render(const Matrix4f &worldTransform);
 
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
-		virtual ISceneObject *GetChildByName(String name);
-
-		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 		virtual bool Write(Writer &writer);
-
-		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
-		 * so if you want to keep some object loaded, remove it from the scene before
-		 * calling a parent's Unload.
-		 */
 		virtual bool Unload();
-
-		/*! Reset will not unload/delete any children, it is just to clear the current node children
-		 * as if you're removing one by one.
-		 */
-		virtual void Reset();
+		virtual void Reset(); // call Unload
 
 		// IObject
 		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
-	private:
-		SEED_DISABLE_COPY(SceneNode);
-
 	protected:
-		ISceneObjectVector vChild;
+		u32 AddLayerTiled();
+		u32 AddLayerMetadata();
+		u32 AddLayerMosaic();
+		bool LoadTiled(Reader &reader, ResourceManager *res);
+
+	private:
+		enum eLayerType
+		{
+			LayerTypeTiled,
+			LayerTypeMetadata,
+			LayerTypeMosaic,
+			LayerTypeMax
+		};
+
+		SceneNode cMapLayers;
+		IMapLayerVector vLayers;
+		TileSetVector vTileSets;
+
+		Point2u ptMapSize;
+		Point2u ptTileSize;
 };
 
 } // namespace
 
-#endif // __SCENE_NODE_H__
+#endif // __MAP_H__

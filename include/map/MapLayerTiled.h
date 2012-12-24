@@ -28,64 +28,61 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_NODE_H__
-#define __SCENE_NODE_H__
+#ifndef __MAPLAYERTILED_H__
+#define __MAPLAYERTILED_H__
 
-#include "interface/ISceneObject.h"
-#include "Container.h"
+#include "Point.h"
+#include "map/IMapLayer.h"
+#include "interface/ITexture.h"
+#include "RendererDevice.h"
 
 namespace Seed {
 
-ISceneObject *FactorySceneNode();
+class Tile;
+class TileSet;
+class GameMap;
+class Image;
 
-DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
-
-/// Scene Node
-class SEED_CORE_API SceneNode : public ISceneObject
+class MapLayerTiled : public IMapLayer
 {
-	friend class Renderer;
+	friend class GameMap;
+
 	public:
-		SceneNode();
-		virtual ~SceneNode();
+		MapLayerTiled();
+		virtual ~MapLayerTiled();
 
-		virtual bool IsNode() const;
+		virtual void SetMapSize(Point2u mapSize);
+		virtual void SetTileSize(Point2u tileSize);
+		virtual void SetTileSet(TileSet *tileSet);
+		virtual void SetTileData(Reader &reader, u32 len);
 
-		// IRenderable
-		virtual void Update(f32 dt);
+		// IMapLayer
+		virtual MapLayerTiled *AsTiled();
+
+		// SceneNode
+		virtual void Update(f32 delta);
 		virtual void Render(const Matrix4f &worldTransform);
 
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
-		virtual ISceneObject *GetChildByName(String name);
-
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-
-		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
-		 * so if you want to keep some object loaded, remove it from the scene before
-		 * calling a parent's Unload.
-		 */
 		virtual bool Unload();
 
-		/*! Reset will not unload/delete any children, it is just to clear the current node children
-		 * as if you're removing one by one.
-		 */
-		virtual void Reset();
-
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
-
 	private:
-		SEED_DISABLE_COPY(SceneNode);
+		Tile		 *pTiles;
+		u32			 *pTileData;
+		sVertex		 *pVertex;
+		u32			 *pElements;
+		TileSet		 *pTileSet;
+		VertexBuffer  cVertexBuffer;
+		ElementBuffer cElementBuffer;
 
-	protected:
-		ISceneObjectVector vChild;
+		u32		iDataLen;
+		Point2u ptTileSize;
+		Point2u ptMapSize;
+
+		bool	bRebuildMesh;
+		bool	bResizeMap;
 };
 
 } // namespace
 
-#endif // __SCENE_NODE_H__
+#endif // __MAPLAYERTILED_H__

@@ -12,7 +12,6 @@ extern SceneNode *gScene;
 class RocketSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventInputPointerListener,
 					public IEventJobListener
 {
 	public:
@@ -20,7 +19,6 @@ class RocketSample : public IGameApp,
 		virtual ~RocketSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
 		virtual bool Shutdown();
 
 		bool InitializeGUI();
@@ -32,9 +30,6 @@ class RocketSample : public IGameApp,
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
 
-		// IEventInputPointerListener
-		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-
 		// IEventJobListener
 		virtual void OnJobCompleted(const EventJob *ev);
 		virtual void OnJobAborted(const EventJob *ev);
@@ -43,19 +38,10 @@ class RocketSample : public IGameApp,
 		SEED_DISABLE_COPY(RocketSample);
 
 	protected:
-		ISceneObject *pImage;
-		f32			fElapsed;
-		f32			fDir;
-		bool		bRotate;
-
 		SceneNode	cScene;
 		Viewport	cViewport;
 		Camera		*pCamera;
 		Renderer	cRenderer;
-
-		Vector3f	vFrom;
-		Vector3f	vCurrent;
-		Vector3f	vTo;
 
 		RocketInterface *pI;
 		Rocket::Core::Context *pContext;

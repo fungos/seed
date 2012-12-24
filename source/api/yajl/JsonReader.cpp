@@ -165,6 +165,17 @@ u32 JsonReader::ReadU32(const char *key, u32 value) const
 	return ret;
 }
 
+u32 JsonReader::GetU32(u32 value) const
+{
+	u32 ret = value;
+
+	yajl_val v = pCurNode;
+	if (v && YAJL_IS_INTEGER(v))
+		ret = (u32)YAJL_GET_INTEGER(v);
+
+	return ret;
+}
+
 s32 JsonReader::ReadS32(const char *key, s32 value) const
 {
 	s32 ret = value;

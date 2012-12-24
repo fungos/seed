@@ -28,64 +28,44 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_NODE_H__
-#define __SCENE_NODE_H__
+#ifndef __IMETADATAOBJECT_H__
+#define __IMETADATAOBJECT_H__
 
-#include "interface/ISceneObject.h"
-#include "Container.h"
+#include "Defines.h"
+#include "Rect.h"
+#include "SceneNode.h"
 
 namespace Seed {
 
-ISceneObject *FactorySceneNode();
-
-DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
-
-/// Scene Node
-class SEED_CORE_API SceneNode : public ISceneObject
+class IMetadataObject : public SceneNode
 {
-	friend class Renderer;
 	public:
-		SceneNode();
-		virtual ~SceneNode();
+		IMetadataObject();
+		virtual ~IMetadataObject();
 
-		virtual bool IsNode() const;
+		virtual void SetPosition(f32 x, f32 y);
+		virtual void SetWidth(f32 w);
+		virtual void SetHeight(f32 h);
 
-		// IRenderable
-		virtual void Update(f32 dt);
-		virtual void Render(const Matrix4f &worldTransform);
+		virtual const Rect4f &GetBoundingBox() const;
+		virtual bool CheckHit(const Rect4f &area, Rect4f &overlap) const;
 
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
-		virtual ISceneObject *GetChildByName(String name);
+		void SetName(const String &name);
+		String GetName() const;
 
-		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
+		void SetType(const String &type);
+		String GetType() const;
 
-		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
-		 * so if you want to keep some object loaded, remove it from the scene before
-		 * calling a parent's Unload.
-		 */
-		virtual bool Unload();
-
-		/*! Reset will not unload/delete any children, it is just to clear the current node children
-		 * as if you're removing one by one.
-		 */
-		virtual void Reset();
-
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
-
-	private:
-		SEED_DISABLE_COPY(SceneNode);
+		void LoadProperties(const String &prop);
+		String GetProperties() const;
 
 	protected:
-		ISceneObjectVector vChild;
+		String sType;
+		String sProperties;
+
+		Rect4f cArea;
 };
 
 } // namespace
 
-#endif // __SCENE_NODE_H__
+#endif // __IMETADATAOBJECT_H__

@@ -60,7 +60,7 @@ class SEED_CORE_API IRendererDevice : public IModule
 		virtual void TextureRequestProcess() const;
 		virtual void TextureDataUpdate(ITexture *texture);
 		virtual void TextureUnload(ITexture *tex);
-		virtual void SetTextureParameters(ITexture *texture) const;
+		virtual void SetTextureParameters(const ITexture *texture) const;
 
 		// HardwareBuffer
 		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const;

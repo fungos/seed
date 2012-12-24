@@ -28,64 +28,42 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_NODE_H__
-#define __SCENE_NODE_H__
-
-#include "interface/ISceneObject.h"
-#include "Container.h"
+#include "map/IMapLayer.h"
 
 namespace Seed {
 
-ISceneObject *FactorySceneNode();
-
-DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
-
-/// Scene Node
-class SEED_CORE_API SceneNode : public ISceneObject
+IMapLayer::IMapLayer()
+	: fOpacity(1.0f)
 {
-	friend class Renderer;
-	public:
-		SceneNode();
-		virtual ~SceneNode();
+}
 
-		virtual bool IsNode() const;
+IMapLayer::~IMapLayer()
+{
+}
 
-		// IRenderable
-		virtual void Update(f32 dt);
-		virtual void Render(const Matrix4f &worldTransform);
+MapLayerTiled *IMapLayer::AsTiled()
+{
+	return NULL;
+}
 
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
-		virtual ISceneObject *GetChildByName(String name);
+MapLayerMosaic *IMapLayer::AsMosaic()
+{
+	return NULL;
+}
 
-		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
+MapLayerMetadata *IMapLayer::AsMetadata()
+{
+	return NULL;
+}
 
-		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
-		 * so if you want to keep some object loaded, remove it from the scene before
-		 * calling a parent's Unload.
-		 */
-		virtual bool Unload();
+void IMapLayer::SetOpacity(f32 opacity)
+{
+	fOpacity = opacity;
+}
 
-		/*! Reset will not unload/delete any children, it is just to clear the current node children
-		 * as if you're removing one by one.
-		 */
-		virtual void Reset();
-
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
-
-	private:
-		SEED_DISABLE_COPY(SceneNode);
-
-	protected:
-		ISceneObjectVector vChild;
-};
+f32 IMapLayer::GetOpacity() const
+{
+	return fOpacity;
+}
 
 } // namespace
-
-#endif // __SCENE_NODE_H__

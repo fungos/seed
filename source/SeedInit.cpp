@@ -56,6 +56,7 @@
 #include "Profiler.h"
 #include "Configuration.h"
 #include "ThreadManager.h"
+#include "map/GameMap.h"
 
 #include "Sprite.h"
 #include "Image.h"
@@ -237,6 +238,7 @@ bool Initialize()
 	SceneObjectFactory::Register("SoundSource", FactorySoundSource);
 	SceneObjectFactory::Register("Camera", FactoryCamera);
 	SceneObjectFactory::Register("SceneNode", FactorySceneNode);
+	SceneObjectFactory::Register("GameMap", FactoryGameMap);
 
 	Private::bInitialized = true;
 

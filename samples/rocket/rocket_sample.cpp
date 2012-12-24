@@ -11,11 +11,7 @@ enum
 };
 
 RocketSample::RocketSample()
-	: pImage(NULL)
-	, fElapsed(0.0f)
-	, fDir(1.0f)
-	, bRotate(false)
-	, pI(NULL)
+	: pI(NULL)
 	, pContext(NULL)
 	, pDoc(NULL)
 {
@@ -46,33 +42,14 @@ bool RocketSample::Initialize()
 	pJobManager->Add(New(FileLoader("rocket_sample.scene", kJobLoadScene, this)));
 	pSystem->AddListener(this);
 	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
 
 	return this->InitializeGUI();
-}
-
-bool RocketSample::Update(f32 dt)
-{
-	if (pImage)
-	{
-		fElapsed += dt;
-		if (fElapsed > 1.0f)
-			fElapsed = 1.0f;
-
-		vCurrent = ((1.f - fElapsed) * vFrom) + (fElapsed * vTo);
-		pImage->SetPosition(vCurrent);
-		if (bRotate)
-			pImage->SetRotation(pImage->GetRotation() + fDir);
-	}
-
-	return true;
 }
 
 bool RocketSample::Shutdown()
 {
 	this->ReleaseGUI();
 
-	pInput->RemovePointerListener(this);
 	pInput->RemoveKeyboardListener(this);
 	pSystem->RemoveListener(this);
 
@@ -104,34 +81,6 @@ void RocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		Rocket::Debugger::SetVisible(!Rocket::Debugger::IsVisible());
 }
 
-void RocketSample::OnInputPointerRelease(const EventInputPointer *ev)
-{
-	if (ev->GetReleased() == Seed::ButtonLeft)
-	{
-		if (pImage)
-			vFrom = pImage->GetPosition();
-
-		vTo.setX(ev->GetX());
-		vTo.setY(ev->GetY());
-		vTo += pCamera->GetPosition();
-		fElapsed = 0.0f;
-	}
-	else if (ev->GetReleased() == Seed::ButtonRight)
-	{
-		bRotate = !bRotate;
-	}
-	else if (ev->GetReleased() == Seed::ButtonUp)
-	{
-		fDir = 1.0f;
-		bRotate = true;
-	}
-	else if (ev->GetReleased() == Seed::ButtonDown)
-	{
-		fDir = -1.0f;
-		bRotate = true;
-	}
-}
-
 void RocketSample::OnJobCompleted(const EventJob *ev)
 {
 	switch (ev->GetName())
@@ -145,10 +94,6 @@ void RocketSample::OnJobCompleted(const EventJob *ev)
 
 			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
 			cViewport.SetCamera(pCamera);
-
-			pImage = (ISceneObject *)gScene->GetChildByName("Panda");
-			if (pImage)
-				vFrom = vCurrent = pImage->GetPosition();
 
 			gScene->Add(pI);
 		}

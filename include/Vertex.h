@@ -76,7 +76,7 @@ enum ePacketFlags
 struct RendererPacket
 {
 	const Matrix4f			*pTransform;
-	ITexture				*pTexture;
+	const ITexture			*pTexture;
 	VertexBuffer			*pVertexBuffer;
 	ElementBuffer			*pElementBuffer;
 	Color					cColor;

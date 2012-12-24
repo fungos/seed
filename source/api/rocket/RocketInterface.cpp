@@ -94,7 +94,8 @@ void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_ver
 	packet.pTransform = &transform;
 	packet.nMeshType = Seed::Triangles;
 	TexturePtr *tex = (TexturePtr *)texture;
-	packet.pTexture = tex->pTex;
+	if (tex)
+		packet.pTexture = tex->pTex;
 
 	pRendererDevice->UploadData(&packet);
 
@@ -133,7 +134,8 @@ Rocket::Core::CompiledGeometryHandle RocketInterface::CompileGeometry(Rocket::Co
 	packet->pVertexBuffer->SetData(vert, num_vertices);
 
 	TexturePtr *tex = (TexturePtr *)texture;
-	packet->pTexture = tex->pTex;
+	if (tex)
+		packet->pTexture = tex->pTex;
 	packet->nMeshType = Seed::Triangles;
 
 	return (Rocket::Core::CompiledGeometryHandle)packet;

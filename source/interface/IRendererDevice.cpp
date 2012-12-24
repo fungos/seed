@@ -53,7 +53,7 @@ void IRendererDevice::TextureDataUpdate(ITexture *tex)
 	SEED_ABSTRACT_METHOD;
 }
 
-void IRendererDevice::SetTextureParameters(ITexture *texture) const
+void IRendererDevice::SetTextureParameters(const ITexture *texture) const
 {
 	UNUSED(texture);
 	SEED_ABSTRACT_METHOD;

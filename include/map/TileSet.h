@@ -28,64 +28,47 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_NODE_H__
-#define __SCENE_NODE_H__
+#ifndef __TILESET_H__
+#define __TILESET_H__
 
-#include "interface/ISceneObject.h"
-#include "Container.h"
+#include "interface/IDataObject.h"
+#include "ResourceManager.h"
+#include "Point.h"
+#include "Rect.h"
 
 namespace Seed {
 
-ISceneObject *FactorySceneNode();
+class ITexture;
 
-DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
-
-/// Scene Node
-class SEED_CORE_API SceneNode : public ISceneObject
+class TileSet : public IDataObject
 {
-	friend class Renderer;
 	public:
-		SceneNode();
-		virtual ~SceneNode();
+		TileSet();
+		virtual ~TileSet();
 
-		virtual bool IsNode() const;
-
-		// IRenderable
-		virtual void Update(f32 dt);
-		virtual void Render(const Matrix4f &worldTransform);
-
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
-		virtual ISceneObject *GetChildByName(String name);
+		u32 GetFirstTileId() const;
+		const Rect4f *GetTileUV(u32 tileId) const;
+		const ITexture *GetTexture() const;
 
 		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 		virtual bool Write(Writer &writer);
-
-		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
-		 * so if you want to keep some object loaded, remove it from the scene before
-		 * calling a parent's Unload.
-		 */
 		virtual bool Unload();
-
-		/*! Reset will not unload/delete any children, it is just to clear the current node children
-		 * as if you're removing one by one.
-		 */
-		virtual void Reset();
 
 		// IObject
 		virtual const String GetClassName() const;
 		virtual int GetObjectType() const;
 
 	private:
-		SEED_DISABLE_COPY(SceneNode);
+		ITexture *pTexture;
+		Rect4f  *pTileUV;
 
-	protected:
-		ISceneObjectVector vChild;
+		u32		iFirstId;
+		u32		iMargin;
+		u32		iSpacing;
+		Point2u ptTileSize;
 };
 
 } // namespace
 
-#endif // __SCENE_NODE_H__
+#endif // __TILESET_H__

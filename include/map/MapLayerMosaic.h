@@ -28,64 +28,80 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_NODE_H__
-#define __SCENE_NODE_H__
+#ifndef __MAPLAYERMOSAIC_H__
+#define __MAPLAYERMOSAIC_H__
 
-#include "interface/ISceneObject.h"
-#include "Container.h"
+#include "map/IMapLayer.h"
+#include "Point.h"
 
 namespace Seed {
 
-ISceneObject *FactorySceneNode();
+class Sprite;
 
-DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
+DECLARE_CONTAINER_TYPE(Vector, Sprite)
 
-/// Scene Node
-class SEED_CORE_API SceneNode : public ISceneObject
+struct LayerMosaicHeader {
+
+};
+
+class MapLayerMosaic : public IMapLayer
 {
-	friend class Renderer;
 	public:
-		SceneNode();
-		virtual ~SceneNode();
+		MapLayerMosaic();
+		virtual ~MapLayerMosaic();
 
-		virtual bool IsNode() const;
+		virtual void Initialize(Point2u tileSize, u32 count, const LayerMosaicHeader *data);
+		virtual void Reset();
 
-		// IRenderable
-		virtual void Update(f32 dt);
-		virtual void Render(const Matrix4f &worldTransform);
+		virtual Point2i ViewAt(Point2i pos);
+
+		virtual void SetWrap(bool b);
+		virtual bool GetWrap() const;
+
+		virtual u32 GetObjectCount() const;
+		virtual Sprite *GetObject(u32 at);
+
+		/// Called to instantiate each metadata object.
+		/*! For each object in a metadata layer, this method will be called to construct
+			a customized metadata object. You should override this method to instantiate your
+			own custom objects. When overriding this method, do not call the base method, as
+			it will instantiate a new object and may leak.
+
+			\param entry a struct of Layer Object basic information.
+			\return An instance of a custom object from IMetadataObject type.
+		*/
+		virtual Sprite *CreateSprite(const LayerMosaicHeader *entry, u32 prio);
+
+		// IMapLayer
+		virtual MapLayerMosaic *AsMosaic();
 
 		virtual void Add(ISceneObject *obj);
 		virtual void Remove(ISceneObject *obj);
 		virtual u32 Size() const;
 		virtual ISceneObject *GetChildAt(u32 i);
-		virtual ISceneObject *GetChildByName(String name);
 
-		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-
-		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
-		 * so if you want to keep some object loaded, remove it from the scene before
-		 * calling a parent's Unload.
-		 */
-		virtual bool Unload();
-
-		/*! Reset will not unload/delete any children, it is just to clear the current node children
-		 * as if you're removing one by one.
-		 */
-		virtual void Reset();
-
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		// SceneNode
+		virtual void Update(f32 delta);
+		virtual void Render(const Matrix4f &worldTransform);
 
 	private:
-		SEED_DISABLE_COPY(SceneNode);
+		SceneNode cScene;
+		SpriteVector vObjects;
+		Point2u ptiTileSize;
 
-	protected:
-		ISceneObjectVector vChild;
+		s32 iPosX;
+		s32 iPosY;
+		s32 iOffsetX;
+		s32 iOffsetY;
+
+		u32 iMapWidth;
+		u32 iMapHeight;
+		u32 iViewWidth;
+		u32 iViewHeight;
+
+		bool bWrap;
 };
 
 } // namespace
 
-#endif // __SCENE_NODE_H__
+#endif // __MAPLAYERMOSAIC_H__

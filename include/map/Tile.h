@@ -28,64 +28,38 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SCENE_NODE_H__
-#define __SCENE_NODE_H__
+#ifndef __TILE_H__
+#define __TILE_H__
 
-#include "interface/ISceneObject.h"
-#include "Container.h"
+#include "Sprite.h"
 
 namespace Seed {
 
-ISceneObject *FactorySceneNode();
-
-DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
-
-/// Scene Node
-class SEED_CORE_API SceneNode : public ISceneObject
+class Tile
 {
-	friend class Renderer;
 	public:
-		SceneNode();
-		virtual ~SceneNode();
+		Tile();
+		~Tile();
 
-		virtual bool IsNode() const;
-
-		// IRenderable
-		virtual void Update(f32 dt);
-		virtual void Render(const Matrix4f &worldTransform);
-
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
-		virtual ISceneObject *GetChildByName(String name);
-
-		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-
-		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
-		 * so if you want to keep some object loaded, remove it from the scene before
-		 * calling a parent's Unload.
-		 */
-		virtual bool Unload();
-
-		/*! Reset will not unload/delete any children, it is just to clear the current node children
-		 * as if you're removing one by one.
-		 */
-		virtual void Reset();
-
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		u32 GetType() const;
+		void SetType(u32 type);
 
 	private:
-		SEED_DISABLE_COPY(SceneNode);
+		u32 iType;
+};
 
-	protected:
-		ISceneObjectVector vChild;
+class TileSprite : public Sprite
+{
+	public:
+		TileSprite();
+		virtual ~TileSprite();
+
+		void SetTile(const Tile *tile);
+
+	private:
+		const Tile *pTile;
 };
 
 } // namespace
 
-#endif // __SCENE_NODE_H__
+#endif // __TILE_H__

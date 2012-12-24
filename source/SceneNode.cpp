@@ -66,7 +66,7 @@ void SceneNode::Update(f32 dt)
 		(*it)->Update(dt);
 	}
 
-	bTransformationChanged = false;
+	this->UpdateTransform();
 }
 
 void SceneNode::Render(const Matrix4f &worldTransform)

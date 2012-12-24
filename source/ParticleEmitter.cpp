@@ -281,7 +281,7 @@ void ParticleEmitter::Update(f32 deltaTime)
 		MoveEverything(vPos);
 
 	vPrevLocation = location;
-	ITransformable::UpdateTransform();
+	this->UpdateTransform();
 
 	if (pTemplate)
 	{
