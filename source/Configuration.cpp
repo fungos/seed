@@ -33,6 +33,7 @@
 #include "Reader.h"
 #include "Log.h"
 #include "ResourceManager.h"
+#include "SeedInit.h"
 #include <algorithm>
 
 namespace Seed {
@@ -72,6 +73,14 @@ void Configuration::Load(const String &file)
 		bWarningMultipleInstances = r.ReadBool("bWarningMultipleInstances", false);
 		bFullScreen = r.ReadBool("bFullScreen", false);
 		bShowCursor = r.ReadBool("bShowCursor", false);
+
+		// Overwritten by command line
+		if (!Private::bDisableResourceLoader)
+			Private::bDisableResourceLoader = r.ReadBool("bDisableResourceLoader", false);
+		if (!Private::bDisableThread)
+			Private::bDisableThread = r.ReadBool("bDisableThread", false);
+		if (!Private::bDisableSound)
+			Private::bDisableSound = r.ReadBool("bDisableSound", false);
 
 		String renderer = r.ReadString("sRendererDevice", "auto");
 		std::transform(renderer.begin(), renderer.end(), renderer.begin(), ::tolower);

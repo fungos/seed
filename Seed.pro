@@ -203,7 +203,6 @@ SOURCES += source/Viewport.cpp \
     source/map/MapLayerMetadata.cpp \
     source/map/MapLayerMosaic.cpp \
     source/map/MapLayerTiled.cpp \
-    source/map/Tile.cpp \
     source/map/TileSet.cpp
 
 OTHER_FILES += \
@@ -259,5 +258,4 @@ HEADERS += include/*.h \
     include/map/MapLayerMetadata.h \
     include/map/MapLayerMosaic.h \
     include/map/MapLayerTiled.h \
-    include/map/Tile.h \
     include/map/TileSet.h

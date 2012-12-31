@@ -40,6 +40,8 @@ class TileSample : public IGameApp,
 		Vector3f		vDir;
 		float			fSpeed;
 		bool			bLoaded;
+
+		GameMap			*pMap;
 };
 
 #endif // _TILESAMPLE_H_

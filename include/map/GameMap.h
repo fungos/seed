@@ -51,23 +51,26 @@ class GameMap : public ISceneObject
 		GameMap();
 		virtual ~GameMap();
 
-		virtual IMapLayer *GetLayerAt(u32 index);
-		virtual IMapLayer *GetLayerByName(const String &name);
+		IMapLayer *GetLayerAt(u32 index);
+		IMapLayer *GetLayerByName(const String &name);
 
-		virtual int GetLayerCount();
+		TileSet *GetTileSet(const String &name);
+
+		int GetLayerCount() const;
+		const String &GetProperty(const String &property) const;
 
 		// SceneNode
-		virtual void Update(f32 dt);
-		virtual void Render(const Matrix4f &worldTransform);
+		virtual void Update(f32 dt) override;
+		virtual void Render(const Matrix4f &worldTransform) override;
 
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-		virtual bool Unload();
-		virtual void Reset(); // call Unload
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
+		virtual void Reset() override; // call Unload
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	protected:
 		u32 AddLayerTiled();
@@ -87,6 +90,7 @@ class GameMap : public ISceneObject
 		SceneNode cMapLayers;
 		IMapLayerVector vLayers;
 		TileSetVector vTileSets;
+		Map<String, String> mProperties;
 
 		Point2u ptMapSize;
 		Point2u ptTileSize;

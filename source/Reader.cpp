@@ -121,6 +121,11 @@ u32 Reader::GetU32(u32 value) const
 	return pOpaque->GetU32(value);
 }
 
+const char *Reader::GetKey(u32 atPos) const
+{
+	return pOpaque->GetKey(atPos);
+}
+
 f32 Reader::ReadF32(const char *key, f32 value) const
 {
 	return pOpaque->ReadF32(key, value);

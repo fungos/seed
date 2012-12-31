@@ -34,9 +34,7 @@
 namespace Seed {
 
 IMetadataObject::IMetadataObject()
-	: sType("")
-	, sProperties("")
-	, cArea()
+	: cArea()
 {
 }
 
@@ -75,36 +73,6 @@ bool IMetadataObject::CheckHit(const Rect4f &area, Rect4f &overlap) const
 {
 	#warning CHECK THIS
 	return area.GetOverlappedRect(cArea, overlap);
-}
-
-void IMetadataObject::SetName(const String &name)
-{
-	sName = name;
-}
-
-String IMetadataObject::GetName() const
-{
-	return sName;
-}
-
-void IMetadataObject::SetType(const String &type)
-{
-	sType = type;
-}
-
-String IMetadataObject::GetType() const
-{
-	return sType;
-}
-
-void IMetadataObject::LoadProperties(const String &prop)
-{
-	sProperties = prop;
-}
-
-String IMetadataObject::GetProperties() const
-{
-	return sProperties;
 }
 
 } // namespace

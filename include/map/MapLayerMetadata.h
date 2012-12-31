@@ -32,27 +32,12 @@
 #define __MAPLAYERMETADATA_H__
 
 #include "map/IMapLayer.h"
-#include "Rect.h"
-#include "Point.h"
 
 namespace Seed {
 
 class IMetadataObject;
 
-struct CollisionData
-{
-	IMetadataObject *obj;
-	Rect4f overlap;
-};
-
-//typedef Array<CollisionData, MAX_COLLISION> CollisionDataArray;
-//typedef CollisionDataArray* CollisionDataArrayPtr;
-
 DECLARE_CONTAINER_TYPE(Vector, IMetadataObject)
-
-struct LayerObjectHeader {
-
-};
 
 class MapLayerMetadata : public IMapLayer
 {
@@ -60,39 +45,21 @@ class MapLayerMetadata : public IMapLayer
 		MapLayerMetadata();
 		virtual ~MapLayerMetadata();
 
-		virtual void Initialize(Point2u tileSize, u32 count, const LayerObjectHeader *data);
-		virtual void Reset();
-
-		virtual Point2i ViewAt(Point2i pos);
-
-		/// Called to instantiate each metadata object.
-		/*! For each object in a metadata layer, this method will be called to construct
-			a customized metadata object. You should override this method to instantiate your
-			own custom objects. When overriding this method, do not call the base method, as
-			it will instantiate a new object and may leak.
-
-			\param entry a struct of Layer Object basic information.
-			\return An instance of a custom object from IMetadataObject type.
-		*/
-		virtual IMetadataObject *CreateObject(const LayerObjectHeader *entry);
+		void LoadData(Reader &reader, u32 len);
 
 		// IMapLayer
-		virtual MapLayerMetadata *AsMetadata();
-
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
+		virtual MapLayerMetadata *AsMetadata() override;
 
 		// SceneNode
-		virtual void Update(f32 delta);
-		virtual void Render(const Matrix4f &worldTransform);
+//		virtual void Update(f32 delta) override;
+		virtual void Render(const Matrix4f &worldTransform) override;
+
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+//		virtual bool Unload() override;
 
 	private:
-		SceneNode cScene;
 		IMetadataObjectVector vObjects;
-		u32 iObjects;
-		Point2u ptiTileSize;
 };
 
 } // namespace

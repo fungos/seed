@@ -12,7 +12,6 @@
 			sType: Image
 			sName: Player
 			sResource: frame03.png
-			cPosition: {x: 100, y: 100}
 		}
 		{
 			sType: GameMap

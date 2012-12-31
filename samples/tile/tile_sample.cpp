@@ -28,6 +28,14 @@ bool TileSample::Update(f32 dt)
 	if (bLoaded)
 	{
 		pPlayer->AddPosition(vDir);
+
+		/*
+		   Really ugly, you should cache the tiled layer and the tileset to do this,
+		   but shows how to access the current tile (player position) properties
+		*/
+		String prop = pMap->GetTileSet("Desert")->GetTileProperty(pMap->GetLayerByName("Ground")->AsTiled()->GetTileAt(pPlayer->GetPosition()), "type");
+		if (prop != "")
+			Log("Stepping at tile with property type: %s", prop.c_str());
 	}
 
 	return true;
@@ -108,8 +116,17 @@ void TileSample::OnPresentationLoaded(const EventPresentation *ev)
 	pCamera = cPres.GetViewportByName("MainView")->GetCamera();
 
 	pPlayer = (ISceneObject *)gScene->GetChildByName("Player");
+
+	pMap = (GameMap *)gScene->GetChildByName("Map");
 	pCamera->SetParent(pPlayer);
 	vDir = Vector3f(0.0f, 0.0f, 0.0f);
+
+	/* How to read the various properties in a tiled map */
+	String mapName = pMap->GetProperty("map_name");
+	String layerVelocity = pMap->GetLayerByName("Ground")->GetProperty("velocity");
+	String type = pMap->GetTileSet("Desert")->GetProperty("terrain_type");
+	String tileProp1 = pMap->GetTileSet("Desert")->GetTileProperty(1, "type");
+	String tileProp30 = pMap->GetTileSet("Desert")->GetTileProperty(30, "type");
 
 	pSystem->AddListener(this);
 	pInput->AddKeyboardListener(this);

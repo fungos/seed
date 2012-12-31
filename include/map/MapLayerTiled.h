@@ -51,23 +51,25 @@ class MapLayerTiled : public IMapLayer
 		MapLayerTiled();
 		virtual ~MapLayerTiled();
 
-		virtual void SetMapSize(Point2u mapSize);
-		virtual void SetTileSize(Point2u tileSize);
-		virtual void SetTileSet(TileSet *tileSet);
-		virtual void SetTileData(Reader &reader, u32 len);
+		void SetMapSize(Point2u mapSize);
+		void SetTileSize(Point2u tileSize);
+		void SetTileSet(TileSet *tileSet);
+		void LoadData(Reader &reader, u32 len);
+
+		u32 GetTileAt(Vector3f pos) const;
 
 		// IMapLayer
-		virtual MapLayerTiled *AsTiled();
+		virtual MapLayerTiled *AsTiled() override;
 
 		// SceneNode
-		virtual void Update(f32 delta);
-		virtual void Render(const Matrix4f &worldTransform);
+		virtual void Update(f32 delta) override;
+		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Unload();
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Unload() override;
 
 	private:
-		Tile		 *pTiles;
 		u32			 *pTileData;
 		sVertex		 *pVertex;
 		u32			 *pElements;
@@ -78,6 +80,7 @@ class MapLayerTiled : public IMapLayer
 		u32		iDataLen;
 		Point2u ptTileSize;
 		Point2u ptMapSize;
+		Point2f ptMapSizeHalf;
 
 		bool	bRebuildMesh;
 		bool	bResizeMap;

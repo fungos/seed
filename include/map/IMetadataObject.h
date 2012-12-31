@@ -50,19 +50,7 @@ class IMetadataObject : public SceneNode
 		virtual const Rect4f &GetBoundingBox() const;
 		virtual bool CheckHit(const Rect4f &area, Rect4f &overlap) const;
 
-		void SetName(const String &name);
-		String GetName() const;
-
-		void SetType(const String &type);
-		String GetType() const;
-
-		void LoadProperties(const String &prop);
-		String GetProperties() const;
-
 	protected:
-		String sType;
-		String sProperties;
-
 		Rect4f cArea;
 };
 

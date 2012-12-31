@@ -36,87 +36,29 @@ namespace Seed {
 
 MapLayerMetadata::MapLayerMetadata()
 	: vObjects()
-	, ptiTileSize(0, 0)
 {
-	cScene.SetParent(this);
 }
 
 MapLayerMetadata::~MapLayerMetadata()
 {
-	this->Reset();
 }
 
-void MapLayerMetadata::Reset()
+bool MapLayerMetadata::Load(Reader &reader, ResourceManager *res)
 {
-	IMetadataObjectVectorIterator it = vObjects.begin();
-	IMetadataObjectVectorIterator end = vObjects.end();
-	for (; it != end; ++it)
-	{
-		IMetadataObject *obj = (*it);
-		Delete(obj);
-	}
+	UNUSED(res)
 
-	IMetadataObjectVector().swap(vObjects);
-	cScene.Reset();
+	this->Unload();
+
+	u32 len = reader.SelectArray("objects");
+	this->LoadData(reader, len);
+	reader.UnselectArray();
+
+	return true;
 }
 
-void MapLayerMetadata::Initialize(Point2u tileSize, u32 count, const LayerObjectHeader *data)
+void MapLayerMetadata::LoadData(Reader &reader, u32 len)
 {
-	ptiTileSize = tileSize;
-	for (u32 i = 0; i < count; i++)
-	{
-		vObjects += this->CreateObject(&data[i]);
-	}
-}
 
-IMetadataObject *MapLayerMetadata::CreateObject(const LayerObjectHeader *entry)
-{
-	#warning FIXME
-//	String type = ""; // Str(entry->iTypeId);
-	IMetadataObject *obj = NULL;
-
-//	bool physics = false;
-//	if (type == "trigger")
-//	{
-//		obj = New(TriggerObject());
-//	}
-//	else if (type == "spawner")
-//	{
-//		obj = New(SpawnerObject());
-//	}
-//	else
-//	{
-//		obj = New(CollisionObject(world));
-//		physics = true;
-//	}
-
-//	obj->SetNameId(entry->iNameId);
-//	obj->SetTypeId(entry->iTypeId);
-//	obj->LoadProperties(entry->iPropertiesId);
-//	obj->SetPosition(entry->fPosX * ptiTileSize.x, entry->fPosY * ptiTileSize.y);
-//	obj->SetWidth(entry->fWidth * ptiTileSize.x);
-//	obj->SetHeight(entry->fHeight * ptiTileSize.y);
-
-//	if (physics)
-//	{
-//		((CollisionObject*)obj)->CreateStaticBody(obj->GetX(), obj->GetY() + obj->GetHeight(), obj->GetWidth(), obj->GetHeight());
-//	}
-
-	cScene.Add(obj);
-
-	return obj;
-}
-
-Point2i MapLayerMetadata::ViewAt(Point2i pos)
-{
-	cScene.SetPosition(-pos.x / static_cast<f32>(pScreen->GetWidth()), -pos.y / static_cast<f32>(pScreen->GetHeight()));
-
-	return pos;
-}
-
-void MapLayerMetadata::Update(f32 dt)
-{
-	cScene.Update(dt);
 }
 
 void MapLayerMetadata::Render(const Matrix4f &worldTransform)
@@ -133,26 +75,6 @@ void MapLayerMetadata::Render(const Matrix4f &worldTransform)
 MapLayerMetadata *MapLayerMetadata::AsMetadata()
 {
 	return this;
-}
-
-void MapLayerMetadata::Add(ISceneObject *obj)
-{
-
-}
-
-void MapLayerMetadata::Remove(ISceneObject *obj)
-{
-
-}
-
-u32 MapLayerMetadata::Size() const
-{
-	return cScene.Size();
-}
-
-ISceneObject *MapLayerMetadata::GetChildAt(u32 i)
-{
-	return cScene.GetChildAt(i);
 }
 
 } // namespace

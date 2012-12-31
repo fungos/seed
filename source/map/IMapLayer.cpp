@@ -33,12 +33,19 @@
 namespace Seed {
 
 IMapLayer::IMapLayer()
-	: fOpacity(1.0f)
+	: mProperties()
+	, fOpacity(1.0f)
 {
 }
 
 IMapLayer::~IMapLayer()
 {
+	Map<String, String>().swap(mProperties);
+}
+
+const String &IMapLayer::GetProperty(const String &property) const
+{
+	return mProperties.at(property);
 }
 
 MapLayerTiled *IMapLayer::AsTiled()

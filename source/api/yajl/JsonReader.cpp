@@ -176,6 +176,14 @@ u32 JsonReader::GetU32(u32 value) const
 	return ret;
 }
 
+const char *JsonReader::GetKey(u32 atPos) const
+{
+	if (YAJL_IS_OBJECT(pCurNode) && pCurNode->u.object.len > atPos)
+		return  pCurNode->u.object.keys[atPos];
+
+	return NULL;
+}
+
 s32 JsonReader::ReadS32(const char *key, s32 value) const
 {
 	s32 ret = value;

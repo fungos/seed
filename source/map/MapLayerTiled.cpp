@@ -29,20 +29,17 @@
 */
 
 #include "map/MapLayerTiled.h"
-#include "map/Tile.h"
 #include "map/TileSet.h"
 #include "Screen.h"
 #include "ResourceManager.h"
 #include "Image.h"
 
-#define TILE(x, y)		pTiles[(x) + (ptMapSize.y * (y))]
-#define TILE_DATA(x, y) pTileData[(x) + (ptMapSize.y * (y))]
+#define TILE(x, y) pTileData[(x) + (ptMapSize.y * (y))]
 
 namespace Seed {
 
 MapLayerTiled::MapLayerTiled()
-	: pTiles(NULL)
-	, pTileData(NULL)
+	: pTileData(NULL)
 	, pVertex(NULL)
 	, pElements(NULL)
 	, pTileSet(NULL)
@@ -51,6 +48,7 @@ MapLayerTiled::MapLayerTiled()
 	, iDataLen(0)
 	, ptTileSize(0, 0)
 	, ptMapSize(0, 0)
+	, ptMapSizeHalf(0.0f, 0.0f)
 	, bRebuildMesh(false)
 {
 	cVertexBuffer.Configure(BufferUsageNeverChange);
@@ -67,7 +65,6 @@ MapLayerTiled::~MapLayerTiled()
 
 bool MapLayerTiled::Unload()
 {
-	DeleteArray(pTiles);
 	Free(pElements)
 	Free(pVertex);
 	Free(pTileData);
@@ -76,17 +73,47 @@ bool MapLayerTiled::Unload()
 	return true;
 }
 
-void MapLayerTiled::SetTileData(Reader &reader, u32 len)
+bool MapLayerTiled::Load(Reader &reader, ResourceManager *res)
+{
+	UNUSED(res)
+
+	this->Unload();
+
+	u32 len = reader.SelectArray("data");
+	this->LoadData(reader, len);
+	reader.UnselectArray();
+
+	this->SetPosition(reader.ReadU32("x", 0), reader.ReadU32("y", 0));
+	this->SetVisible(reader.ReadBool("visible", true));
+	this->SetOpacity(reader.ReadF32("opacity", 1.0f));
+	this->SetMapSize(Point2u(reader.ReadU32("width", 0), reader.ReadU32("height", 0)));
+	this->sName = reader.ReadString("name", "TiledLayer-NoName");
+
+	if (reader.SelectNode("properties"))
+	{
+		u32 k = 0;
+		while (1)
+		{
+			const char *key = reader.GetKey(k++);
+			if (!key)
+				break;
+
+			mProperties[key] = reader.ReadString(key, "");
+		}
+		reader.UnselectNode();
+	}
+
+	return true;
+}
+
+void MapLayerTiled::LoadData(Reader &reader, u32 len)
 {
 	if (len > 0)
 	{
 		if (iDataLen != len)
 		{
-			DeleteArray(pTiles);
 			Free(pTileData);
-
 			pTileData = (u32 *)Alloc(sizeof(u32) * len);
-			pTiles = NewArray(Tile, ptMapSize.x * ptMapSize.y);
 		}
 
 		for (u32 i = 0; i < len; i++)
@@ -94,21 +121,10 @@ void MapLayerTiled::SetTileData(Reader &reader, u32 len)
 			reader.SelectNext();
 			pTileData[i] = reader.GetU32(0);
 		}
-
-		for (u32 y = 0; y < ptMapSize.y; y++)
-		{
-			for (u32 x = 0; x < ptMapSize.x; x++)
-			{
-				TILE(x, y).SetType(TILE_DATA(x, y));
-			}
-		}
 	}
 
 	if (!len)
-	{
-		DeleteArray(pTiles);
 		Free(pTileData);
-	}
 
 	iDataLen = len;
 	bRebuildMesh = true;
@@ -139,18 +155,18 @@ void MapLayerTiled::Update(f32 dt)
 
 		f32 halfTileW = ptTileSize.x * 0.5f;
 		f32 halfTileH = ptTileSize.y * 0.5f;
-		f32 halfW = ptMapSize.x * 0.5f;
-		f32 halfH = ptMapSize.y * 0.5f;
+		ptMapSizeHalf.x = ptMapSize.x * 0.5f;
+		ptMapSizeHalf.y = ptMapSize.y * 0.5f;
 
 		u32 v = 0;
 		u32 e = 0;
 		u32 i = 0;
 		Color c(255, 255, 255, 255);
 
-		f32 curY = -halfH;
+		f32 curY = -ptMapSizeHalf.x;
 		for (u32 y = 0; y < ptMapSize.y; y++)
 		{
-			f32 curX = -halfW;
+			f32 curX = -ptMapSizeHalf.y;
 			for (u32 x = 0; x < ptMapSize.x; x++)
 			{
 				const Rect4f *uv = pTileSet->GetTileUV(pTileData[i]);
@@ -239,6 +255,14 @@ void MapLayerTiled::SetMapSize(Point2u mapSize)
 	ptMapSize = mapSize;
 	bRebuildMesh = true;
 	bResizeMap = true;
+}
+
+u32 MapLayerTiled::GetTileAt(Vector3f pos) const
+{
+	u32 x = static_cast<u32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
+	u32 y = static_cast<u32>((pos.getY() / ptTileSize.y) + ptMapSizeHalf.y);
+
+	return TILE(x, y);
 }
 
 MapLayerTiled *MapLayerTiled::AsTiled()

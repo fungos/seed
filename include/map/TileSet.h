@@ -50,18 +50,23 @@ class TileSet : public IDataObject
 		const Rect4f *GetTileUV(u32 tileId) const;
 		const ITexture *GetTexture() const;
 
+		const String &GetProperty(const String &property) const;
+		const String &GetTileProperty(u32 tileId, const String &property) const;
+
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-		virtual bool Unload();
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	private:
 		ITexture *pTexture;
-		Rect4f  *pTileUV;
+		Rect4f	 *pTileUV;
+		Map<String, String> mProperties;
+		Map<u32, Map<String, String> > mTileProperties;
 
 		u32		iFirstId;
 		u32		iMargin;

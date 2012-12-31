@@ -48,9 +48,14 @@ class IMapLayer : public SceneNode
 		virtual void SetOpacity(f32 opacity);
 		virtual f32 GetOpacity() const;
 
+		virtual const String &GetProperty(const String &property) const;
+
 		virtual MapLayerTiled *AsTiled();
 		virtual MapLayerMosaic *AsMosaic();
 		virtual MapLayerMetadata *AsMetadata();
+
+	protected:
+		Map<String, String> mProperties;
 
 	private:
 		SEED_DISABLE_COPY(IMapLayer);

@@ -44,7 +44,10 @@ ISceneObject *FactoryGameMap()
 }
 
 GameMap::GameMap()
-	: vLayers()
+	: cMapLayers()
+	, vLayers()
+	, vTileSets()
+	, mProperties()
 	, ptMapSize(0, 0)
 	, ptTileSize(0, 0)
 {
@@ -90,6 +93,20 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 	ptTileSize.y = reader.ReadU32("tileheight", 32);
 
 //	String ori = reader.ReadString("orientation", "");
+//	u32 version = reader.ReadU32("version", 1);
+	if (reader.SelectNode("properties"))
+	{
+		u32 k = 0;
+		while (1)
+		{
+			const char *key = reader.GetKey(k++);
+			if (!key)
+				break;
+
+			mProperties[key] = reader.ReadString(key, "");
+		}
+		reader.UnselectNode();
+	}
 
 	u32 tileSetCount = reader.SelectArray("tilesets");
 	for (u32 i = 0; i < tileSetCount; i++)
@@ -116,31 +133,22 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 			MapLayerTiled *tiled = vLayers[layerId]->AsTiled();
 			if (tiled)
 			{
+				tiled->Load(reader, res);
 				tiled->SetTileSize(ptTileSize);
-
-				u32 len = reader.SelectArray("data");
-				tiled->SetTileData(reader, len);
-				reader.UnselectArray();
-				tiled->SetOpacity(reader.ReadF32("opacity", 1.0f));
-				tiled->SetMapSize(Point2u(reader.ReadU32("width", 0), reader.ReadU32("height", 0)));
-				tiled->sName = reader.ReadString("name", "TiledLayer-NoName");
 				tiled->SetTileSet(vTileSets.at(0));
 				tiled->SetPosition(-100, -100);
 				tiled->Update(0.0f);
 			}
 		}
-//		else if (type == "objectslayer")
-//		{
-//			layerId = this->AddLayerMetadata();
-//			MapLayerMetadata *data = vLayers.at(layerId)->AsMetadata();
-//			layer = data;
-//			if (data)
-//			{
-//				const u32 *ptru = static_cast<const u32 *>((void *)&ptr[layers[i].iDataIndex]);
-//				const LayerObjectHeader *ptrd = static_cast<const LayerObjectHeader *>((void *)&ptru[1]);
-//				data->Initialize(ptiTileSize, ptru[0], ptrd);
-//			}
-//		}
+		else if (type == "objectgroup")
+		{
+			layerId = this->AddLayerMetadata();
+			MapLayerMetadata *data = vLayers[layerId]->AsMetadata();
+			if (data)
+			{
+				data->Load(reader, res);
+			}
+		}
 //		else if (type == "mosaiclayer")
 //		{
 //			layerId = this->AddLayerMosaic();
@@ -274,9 +282,33 @@ IMapLayer *GameMap::GetLayerByName(const String &name)
 	return map;
 }
 
-int GameMap::GetLayerCount()
+TileSet *GameMap::GetTileSet(const String &name)
+{
+	TileSet *ts = NULL;
+
+	TileSetVectorIterator it = vTileSets.begin();
+	TileSetVectorIterator end = vTileSets.end();
+	for (; it != end; ++it)
+	{
+		TileSet *obj = (*it);
+		if (obj->sName == name)
+		{
+			ts = obj;
+			break;
+		}
+	}
+
+	return ts;
+}
+
+int GameMap::GetLayerCount() const
 {
 	return vLayers.Size();
+}
+
+const String &GameMap::GetProperty(const String &property) const
+{
+	return mProperties.at(property);
 }
 
 const String GameMap::GetClassName() const

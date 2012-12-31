@@ -6,6 +6,7 @@
 				"height":40,
 				"name":"Ground",
 				"opacity":1,
+				"properties":{"velocity":"slow"},
 				"type":"tilelayer",
 				"visible":true,
 				"width":40,
@@ -14,7 +15,7 @@
 			}
 	],
 	"orientation":"orthogonal",
-	"properties": {},
+	"properties":{"map_name":"Tiled Sample"},
 	"tileheight":32,
 	"tilesets":[
 				{
@@ -24,10 +25,14 @@
 					"imagewidth":265,
 					"margin":1,
 					"name":"Desert",
-					"properties":{},
+					"properties":{"terrain_type":"desert"},
 					"spacing":1,
 					"tileheight":32,
-					"tilewidth":32
+					"tilewidth":32,
+					"tileproperties": {
+						"0":{"type":"corner"},
+						"29":{"type":"empty"}
+					}
 				}
 	],
 	"tilewidth":32,

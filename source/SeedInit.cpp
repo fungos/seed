@@ -75,6 +75,7 @@ namespace Private
 	const char	**pcArgv;
 	bool		bDisableSound;
 	bool		bDisableThread;
+	bool		bDisableResourceLoader;
 	String		sConfigFile;
 	f32			fCurrentTime;
 }
@@ -95,6 +96,10 @@ int CommandLineParameter(const char **argv, int pos)
 	else if (!strcasecmp(param, "--no-thread"))
 	{
 		Private::bDisableThread = true;
+	}
+	else if (!strcasecmp(param, "--no-resourceloader"))
+	{
+		Private::bDisableResourceLoader = true;
 	}
 	else if (!strcasecmp(param, "--config"))
 	{
@@ -124,8 +129,10 @@ void SetGameApp(IGameApp *app, int argc, const char **argv, const char *config)
 
 #if defined(EMSCRIPTEN)
 	Private::bDisableThread = true;
+	Private::bDisableResourceLoader = true;
 #else
 	Private::bDisableThread = false;
+	Private::bDisableResourceLoader = false;
 #endif
 	pResourceManager = app->GetResourceManager();
 
@@ -185,6 +192,11 @@ bool Initialize()
 	pFileSystem->Prepare();
 	pScreen->EnableCursor(pConfiguration->IsCursorEnabled());
 
+	Info(SEED_TAG "Options: ");
+	Info(SEED_TAG "\tSound: %s", Private::bDisableSound ? "No" : "Yes");
+	Info(SEED_TAG "\tThread: %s", Private::bDisableThread ? "No" : "Yes");
+	Info(SEED_TAG "\tResourceLoader: %s", Private::bDisableResourceLoader ? "No" : "Yes");
+
 	ret = ret && pModuleManager->Add(pSystem);
 	ret = ret && pModuleManager->Add(pTimer);
 	ret = ret && pModuleManager->Add(pCartridge);
@@ -197,7 +209,7 @@ bool Initialize()
 		ret = ret && pModuleManager->Add(pSoundSystem);
 
 #if (SEED_USE_THREAD == 1)
-	if (!Private::bDisableThread)
+	if (!Private::bDisableThread || !Private::bDisableResourceLoader)
 		ret = ret && pModuleManager->Add(pResourceLoader);
 #else
 	ret = ret && pModuleManager->Add(pThreadManager);
@@ -213,7 +225,7 @@ bool Initialize()
 #endif
 
 #if (SEED_USE_THREAD == 1)
-	if (!Private::bDisableThread)
+	if (!Private::bDisableThread || !Private::bDisableResourceLoader)
 		pUpdater->Add(pResourceLoader);
 #else
 	pUpdater->Add(pThreadManager);

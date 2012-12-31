@@ -89,7 +89,7 @@
 #include <map/MapLayerMetadata.h>
 #include <map/MapLayerMosaic.h>
 #include <map/MapLayerTiled.h>
-#include <map/Tile.h>
+#include <map/TileSet.h>
 
 #include <Number.h>
 

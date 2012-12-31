@@ -36,6 +36,8 @@ namespace Seed {
 TileSet::TileSet()
 	: pTexture(NULL)
 	, pTileUV(NULL)
+	, mProperties()
+	, mTileProperties()
 	, iFirstId(1)
 	, iMargin(0)
 	, iSpacing(0)
@@ -61,7 +63,47 @@ bool TileSet::Load(Reader &reader, ResourceManager *res)
 		ptTileSize.x = reader.ReadU32("tileheight", 32);
 		ptTileSize.y = reader.ReadU32("tilewidth", 32);
 
-		#warning FIXME properties
+		if (reader.SelectNode("properties"))
+		{
+			u32 k = 0;
+			while (1)
+			{
+				const char *key = reader.GetKey(k++);
+				if (!key)
+					break;
+
+				mProperties[key] = reader.ReadString(key, "");
+			}
+			reader.UnselectNode();
+		}
+
+		if (reader.SelectNode("tileproperties"))
+		{
+			u32 k = 0;
+			while (1)
+			{
+				const char *key = reader.GetKey(k++);
+				if (!key)
+					break;
+
+				if (reader.SelectNode(key))
+				{
+					u32 kv = atoi(key) + iFirstId;
+					u32 ks = 0;
+					while (1)
+					{
+						const char *keyStr = reader.GetKey(ks++);
+						if (!keyStr)
+							break;
+
+						mTileProperties[kv][keyStr] = reader.ReadString(keyStr, "");
+					}
+
+					reader.UnselectNode();
+				}
+			}
+			reader.UnselectNode();
+		}
 
 		u32 texW = reader.ReadU32("imagewidth", 0);
 		u32 texH = reader.ReadU32("imageheight", 0);
@@ -113,6 +155,8 @@ bool TileSet::Write(Writer &writer)
 
 bool TileSet::Unload()
 {
+	Map<u32, Map<String, String> >().swap(mTileProperties);
+	Map<String, String>().swap(mProperties);
 	DeleteArray(pTileUV);
 	sRelease(pTexture);
 	return true;
@@ -135,6 +179,20 @@ const Rect4f *TileSet::GetTileUV(u32 tileId) const
 const ITexture *TileSet::GetTexture() const
 {
 	return this->pTexture;
+}
+
+const String &TileSet::GetProperty(const String &property) const
+{
+	return mProperties.at(property);
+}
+
+const String &TileSet::GetTileProperty(u32 tileId, const String &property) const
+{
+	static String empty; /* ugly bastard */
+	if (mTileProperties.find(tileId) != mTileProperties.end())
+		return mTileProperties.at(tileId).at(property);
+
+	return empty;
 }
 
 const String TileSet::GetClassName() const
