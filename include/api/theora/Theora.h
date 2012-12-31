@@ -149,11 +149,11 @@ class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 		virtual void PlayToFrame(u32 frame);
 
 		// IRenderable
-		virtual void Update(f32 delta);
-		virtual void Render();
+		virtual void Update(f32 delta) override;
+		virtual void Render() override;
 
 		// Thread
-		virtual bool Run();
+		virtual bool Run() override;
 
 	protected:
 		bool WaitFrameRate();

@@ -53,24 +53,24 @@ class SEED_CORE_API Image : public ISceneObject
 		bool Load(const String &filename, ResourceManager *res = pResourceManager);
 
 		// IRenderable
-		virtual void Update(f32 delta);
-		virtual void Render(const Matrix4f &worldTransform);
+		virtual void Update(f32 delta) override;
+		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-		virtual bool Unload();
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
 
 		// IObject
-		virtual int GetObjectType() const;
-		virtual const String GetClassName() const;
+		virtual int GetObjectType() const override;
+		virtual const String GetClassName() const override;
 
 	private:
+		SEED_DISABLE_COPY(Image);
+
 		void UpdateCoords();
 
 	protected:
-		SEED_DISABLE_COPY(Image);
-
 		ITexture		*pTexture;
 		ResourceManager *pRes;
 		String			sFilename;

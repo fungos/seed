@@ -47,12 +47,12 @@ class SEED_CORE_API FileSystem : public IModule
 		const char *GetWriteableDirectory() const;
 
 		// IModule
-		virtual bool Initialize();
-		virtual bool Shutdown();
-		virtual bool IsRequired() const;
+		virtual bool Initialize() override;
+		virtual bool Shutdown() override;
+		virtual bool IsRequired() const override;
 
 		// IObject
-		virtual const String GetClassName() const;
+		virtual const String GetClassName() const override;
 
 	private:
 		SEED_DISABLE_COPY(FileSystem);

@@ -45,17 +45,10 @@ class Screen : public IScreen
 {
 	SEED_SINGLETON_DECLARE(Screen)
 	public:
-		void ApplyFade();
 		virtual void Update();
-
-		// IScreen
-		virtual void FadeOut();
-		virtual void FadeIn();
-		virtual void CancelFade();
 
 		// IModule
 		virtual bool Initialize();
-		virtual bool Reset();
 		virtual bool Shutdown();
 
 		void Resize(int w, int h);
@@ -66,17 +59,7 @@ class Screen : public IScreen
 	private:
 		SEED_DISABLE_COPY(Screen);
 
-		void SwapSurfaces();
-
 	private:
-		enum eFadeType
-		{
-			FADE_IN = 1,
-			FADE_OUT
-		};
-
-		s32			iFadeStatus;
-		eFadeType	fadeType;
 		GLint		iModeHeight;
 		GLint		iModeWidth;
 };

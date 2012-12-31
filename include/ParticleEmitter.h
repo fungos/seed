@@ -135,28 +135,26 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListe
 		virtual void SetParticlesFollowEmitter(bool bFollow);
 
 		// IEventJobListener
-		virtual void OnJobCompleted(const EventJob *ev);
-		virtual void OnJobAborted(const EventJob *ev);
+		virtual void OnJobCompleted(const EventJob *ev) override;
+		virtual void OnJobAborted(const EventJob *ev) override;
 
 		// IRenderable
-		virtual void Update(f32 delta);
-		virtual void Render(const Matrix4f &worldTransform);
+		virtual void Update(f32 delta) override;
+		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-		virtual bool Unload();
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	private:
 		SEED_DISABLE_COPY(ParticleEmitter);
-
 		void MoveEverything(const Vector3f &pos);
 
-	private:
 		ResourceManager			*pRes;
 		Particle				*arParticles;
 		ITexture				*pTexture;

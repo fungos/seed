@@ -39,7 +39,7 @@ class IMetadataObject;
 
 DECLARE_CONTAINER_TYPE(Vector, IMetadataObject)
 
-class MapLayerMetadata : public IMapLayer
+class SEED_CORE_API MapLayerMetadata : public IMapLayer
 {
 	public:
 		MapLayerMetadata();
@@ -59,6 +59,8 @@ class MapLayerMetadata : public IMapLayer
 //		virtual bool Unload() override;
 
 	private:
+		SEED_DISABLE_COPY(MapLayerMetadata);
+
 		IMetadataObjectVector vObjects;
 };
 

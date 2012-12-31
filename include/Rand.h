@@ -41,16 +41,15 @@ class SEED_CORE_API Rand
 {
 	SEED_SINGLETON_DECLARE(Rand)
 	public:
-		virtual void Initialize(u32 seed = 0);
-		virtual u32 Get(u32 max);
-		virtual f32 Get(f32 max);
-		virtual u32 Get(u32 min, u32 max);
-		virtual f32 Get(f32 min, f32 max);
+		void Initialize(u32 seed = 0);
+		u32 Get(u32 max);
+		f32 Get(f32 max);
+		u32 Get(u32 min, u32 max);
+		f32 Get(f32 min, f32 max);
 
 	private:
 		SEED_DISABLE_COPY(Rand);
 
-	private:
 		u32 iSeed;
 };
 

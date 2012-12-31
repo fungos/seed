@@ -99,31 +99,30 @@ class SEED_CORE_API RocketInterface :
 		virtual bool LogMessage(Rocket::Core::Log::Type type, const Rocket::Core::String &message);
 
 		// IEventInputPointerListener
-		virtual void OnInputPointerPress(const EventInputPointer *ev);
-		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-		virtual void OnInputPointerMove(const EventInputPointer *ev);
+		virtual void OnInputPointerPress(const EventInputPointer *ev) override;
+		virtual void OnInputPointerRelease(const EventInputPointer *ev) override;
+		virtual void OnInputPointerMove(const EventInputPointer *ev) override;
 
 		// IEventInputKeyboardListener
-		virtual void OnInputKeyboardPress(const EventInputKeyboard *ev);
-		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
+		virtual void OnInputKeyboardPress(const EventInputKeyboard *ev) override;
+		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
 
 		// IDataObject
-		virtual bool Load(Reader &, ResourceManager *) { return true; }
-		virtual bool Write(Writer &) { return true; }
-		virtual bool Unload() { return true; }
+		virtual bool Load(Reader &, ResourceManager *) override { return true; }
+		virtual bool Write(Writer &) override { return true; }
+		virtual bool Unload() override { return true; }
 
 		// IRenderable
-		virtual void Render(const Matrix4f &worldTransform);
-		virtual void Update(f32 delta);
+		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Update(f32 delta) override;
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	private:
 		SEED_DISABLE_COPY(RocketInterface);
 
-	private:
 		VertexBuffer cVertexBuffer;
 		ElementBuffer cElementBuffer;
 		Rocket::Core::Context *pCurrent;

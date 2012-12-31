@@ -54,14 +54,17 @@ class SEED_CORE_API Job : public Thread
 		eJobState GetState() const;
 
 		// Thread
-		virtual bool Run();
-		virtual void Create(s32 priority = 31);
+		virtual bool Run() override;
+		virtual void Create(s32 priority = 31) override;
 
 	protected:
 		IEventJobListener *pListener;
 		Mutex cMutex;
 		eJobState nState;
 		u32 iName;
+
+	private:
+		SEED_DISABLE_COPY(Job);
 };
 
 } // namespace

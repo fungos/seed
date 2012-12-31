@@ -89,7 +89,7 @@ class SEED_CORE_API EventInputKeyboard : public IEventInput
 		bool IsLetter() const;
 
 		// IObject
-		virtual const String GetClassName() const;
+		virtual const String GetClassName() const override;
 
 	protected:
 		//u32 iKey;

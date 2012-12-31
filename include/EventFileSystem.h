@@ -42,16 +42,16 @@ class SEED_CORE_API EventFileSystem : public IEvent
 		EventFileSystem();
 		virtual ~EventFileSystem();
 
-		virtual const String GetClassName() const;
-
 		void SetFile(const String &filename);
 		const String &GetFile();
 
-	private:
-		String sFilename;
+		// IObject
+		virtual const String GetClassName() const override;
 
 	private:
 		SEED_DISABLE_COPY(EventFileSystem);
+
+		String sFilename;
 };
 
 } // namespace

@@ -62,12 +62,12 @@ class SEED_CORE_API Presentation : public IDataObject
 		Viewport *GetViewportByName(const String &name);
 
 		// IDataObject
-		virtual bool Write(Writer &writer);
-		virtual bool Unload();
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	protected:
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);

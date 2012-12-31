@@ -43,6 +43,7 @@ Viewport::Viewport()
 	, iY(0)
 	, iWidth(0)
 	, iHeight(0)
+	, sCameraNameToAttach()
 {
 }
 

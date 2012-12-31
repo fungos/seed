@@ -50,43 +50,43 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 	SEED_SINGLETON_DECLARE(Input)
 	public:
 		// IInput
-		virtual Seed::eInputButton GetButtonCode(u32 button) const;
-		virtual u32 ConvertButtonFlags(u32 flags);
+		virtual Seed::eInputButton GetButtonCode(u32 button) const override;
+		virtual u32 ConvertButtonFlags(u32 flags) override;
 
-		virtual bool IsJoystick() const;
-		virtual bool IsPointer() const;
-		virtual bool IsKeyboard() const;
+		virtual bool IsJoystick() const override;
+		virtual bool IsPointer() const override;
+		virtual bool IsKeyboard() const override;
 
 		// IInputJoystick
-		virtual u32 GetMaximumJoysticks() const;
+		virtual u32 GetMaximumJoysticks() const override;
 
 		// IInputKeyboard
 
 		// IInputPointer
-		virtual bool IsPointerEnabled(u16 joystick = 0) const;
-		virtual bool IsHold(u32 button, u16 joystick = 0) const;
-		virtual bool IsPressed(u32 button, u16 joystick = 0) const;
-		virtual bool IsReleased(u32 button, u16 joystick = 0) const;
+		virtual bool IsPointerEnabled(u16 joystick = 0) const override;
+		virtual bool IsHold(u32 button, u16 joystick = 0) const override;
+		virtual bool IsPressed(u32 button, u16 joystick = 0) const override;
+		virtual bool IsReleased(u32 button, u16 joystick = 0) const override;
 
-		virtual f32 GetX(u16 joystick = 0) const;
-		virtual f32 GetY(u16 joystick = 0) const;
-		virtual f32 GetRelativeX(u16 joystick = 0) const;
-		virtual f32 GetRelativeY(u16 joystick = 0) const;
-		virtual f32 GetOrientation(u16 joystick = 0) const;
-		virtual f32 GetDistance(u16 joystick = 0) const;
+		virtual f32 GetX(u16 joystick = 0) const override;
+		virtual f32 GetY(u16 joystick = 0) const override;
+		virtual f32 GetRelativeX(u16 joystick = 0) const override;
+		virtual f32 GetRelativeY(u16 joystick = 0) const override;
+		virtual f32 GetOrientation(u16 joystick = 0) const override;
+		virtual f32 GetDistance(u16 joystick = 0) const override;
 
-		virtual u32 GetSensitivity(u16 joystick = 0) const;
-		virtual u32 GetMaximumSensitivity(u16 joystick = 0) const;
-		virtual u32 GetMaximumPointers() const;
-		virtual void SetSensitivity(u32 sens, u16 joystick = 0);
+		virtual u32 GetSensitivity(u16 joystick = 0) const override;
+		virtual u32 GetMaximumSensitivity(u16 joystick = 0) const override;
+		virtual u32 GetMaximumPointers() const override;
+		virtual void SetSensitivity(u32 sens, u16 joystick = 0) override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(f32 dt) override;
 
 		// IModule
-		virtual bool Initialize();
-		virtual bool Shutdown();
-		virtual bool Reset();
+		virtual bool Initialize() override;
+		virtual bool Shutdown() override;
+		virtual bool Reset() override;
 
 	private:
 		SEED_DISABLE_COPY(Input);

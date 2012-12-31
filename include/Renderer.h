@@ -81,10 +81,10 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 		SceneNode *GetScene() const;
 
 		// IUpdatable
-		virtual bool Update(f32 delta);
+		virtual bool Update(f32 delta) override;
 
 		// IObject
-		virtual const String GetClassName() const;
+		virtual const String GetClassName() const override;
 
 	protected:
 		String sSceneToAttach;
@@ -93,13 +93,13 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 		VisibleVector vVisibleRenderables;
 
 	private:
+		SEED_DISABLE_COPY(Renderer);
+
 		void RenderObjects(const VisibleVector &vec) const;
 		void PushChildNodes(SceneNode *, SceneNodeVector &vec);
 
 		void Sort(VisibleVector &vec);
 		void Culler(Camera *camera);
-
-		SEED_DISABLE_COPY(Renderer);
 };
 
 } // namespace

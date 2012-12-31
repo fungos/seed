@@ -37,7 +37,7 @@
 
 namespace Seed {
 
-class IMetadataObject : public SceneNode
+class SEED_CORE_API IMetadataObject : public SceneNode
 {
 	public:
 		IMetadataObject();
@@ -52,6 +52,9 @@ class IMetadataObject : public SceneNode
 
 	protected:
 		Rect4f cArea;
+
+	private:
+		SEED_DISABLE_COPY(IMetadataObject);
 };
 
 } // namespace

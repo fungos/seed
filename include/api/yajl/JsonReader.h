@@ -52,23 +52,23 @@ class SEED_CORE_API JsonReader : public IReader
 		JsonReader &operator=(const JsonReader &other);
 
 		// IReader
-		virtual bool Load(const void *data);
-		virtual bool Load(IReader &reader);
-		virtual const char *ReadString(const char *key, const char *value) const;
-		virtual u32 ReadU32(const char *key, u32 value) const;
-		virtual s32 ReadS32(const char *key, s32 value) const;
-		virtual f32 ReadF32(const char *key, f32 value) const;
-		virtual bool ReadBool(const char *key, bool value) const;
+		virtual bool Load(const void *data) override;
+		virtual bool Load(IReader &reader) override;
+		virtual const char *ReadString(const char *key, const char *value) const override;
+		virtual u32 ReadU32(const char *key, u32 value) const override;
+		virtual s32 ReadS32(const char *key, s32 value) const override;
+		virtual f32 ReadF32(const char *key, f32 value) const override;
+		virtual bool ReadBool(const char *key, bool value) const override;
 
-		virtual u32 GetU32(u32 value) const;
-		virtual const char *GetKey(u32 atPos) const;
+		virtual u32 GetU32(u32 value) const override;
+		virtual const char *GetKey(u32 atPos) const override;
 
-		virtual bool IsNode(const char *key) const;
-		virtual u32 SelectArray(const char *key);
-		virtual void UnselectArray();
-		virtual void SelectNext();
-		virtual bool SelectNode(const char *key);
-		virtual void UnselectNode();
+		virtual bool IsNode(const char *key) const override;
+		virtual u32 SelectArray(const char *key) override;
+		virtual void UnselectArray() override;
+		virtual void SelectNext() override;
+		virtual bool SelectNode(const char *key) override;
+		virtual void UnselectNode() override;
 
 	private:
 		JsonReader(const yajl_val node);

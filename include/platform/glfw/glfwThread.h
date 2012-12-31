@@ -47,17 +47,16 @@ class SEED_CORE_API Thread : public IThread
 		Thread();
 		virtual ~Thread();
 
-		virtual void Create(s32 priority = 31);
-		virtual void Destroy();
+		virtual void Create(s32 priority = 31) override;
+		virtual void Destroy() override;
 
-		virtual bool Run();
+		virtual bool Run() override;
 
 	private:
 		SEED_DISABLE_COPY(Thread);
 
-	private:
 		bool		bRunning;
-		GLFWthread 	iThread;
+		GLFWthread  iThread;
 };
 
 }} // namespace

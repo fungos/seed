@@ -52,7 +52,6 @@ class SEED_CORE_API Updater
 	private:
 		SEED_DISABLE_COPY(Updater);
 
-	private:
 		IUpdatableVector vUpdatable;
 		f32 fAccumulator;
 };

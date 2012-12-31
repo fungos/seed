@@ -55,7 +55,7 @@ class SEED_CORE_API EventPresentation: public IEvent
 		Renderer *GetRenderer() const;
 
 		// IObject
-		virtual const String GetClassName() const;
+		virtual const String GetClassName() const override;
 
 	protected:
 		Presentation	*pPresentation;

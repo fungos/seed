@@ -45,19 +45,18 @@ class SEED_CORE_API SceneManager : public IUpdatable
 	SEED_SINGLETON_DECLARE(SceneManager)
 	DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
 	public:
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
+		void Add(ISceneObject *obj);
+		void Remove(ISceneObject *obj);
 
-		virtual void Reset();
+		void Reset();
 
 		// IUpdatable
 		/// Scene Manager is responsible for doing Update in all IRenderables, so IRenderables cannot be IUpdatables.
-		virtual bool Update(f32 delta);
+		virtual bool Update(f32 delta) override;
 
 	private:
 		SEED_DISABLE_COPY(SceneManager);
 
-	private:
 		ISceneObjectVector vObject;
 };
 

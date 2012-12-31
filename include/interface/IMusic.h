@@ -71,12 +71,12 @@ class SEED_CORE_API IMusic : public IResource
 		virtual bool IsPlaying() const;
 
 		// IResource
-		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual bool Unload();
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager) override;
+		virtual bool Unload() override;
 
 		// IObject
-		virtual int GetObjectType() const;
-		virtual const String GetClassName() const;
+		virtual int GetObjectType() const override;
+		virtual const String GetClassName() const override;
 
 	protected:
 		virtual void Play();

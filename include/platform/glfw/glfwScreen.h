@@ -37,16 +37,6 @@
 #include "Singleton.h"
 #include "glfw/glfw.h"
 
-#define FADE_OUT_COLOR	0xff
-#define FADE_OUT_SOLID	0xff
-#define FADE_OUT_TRANS	0x00
-
-#if defined(DEBUG)
-#define FADE_INCREMENT	0x20
-#else
-#define FADE_INCREMENT	0x04
-#endif // DEBUG
-
 namespace Seed { namespace GLFW {
 
 /// GLFW Screen Module
@@ -54,25 +44,18 @@ class SEED_CORE_API Screen : public IScreen
 {
 	SEED_SINGLETON_DECLARE(Screen)
 	public:
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
-
-		virtual void FadeOut();
-		virtual void FadeIn();
-		virtual void CancelFade();
-
-		virtual void EnableCursor(bool b);
-		virtual void ToggleCursor();
-		virtual void ToggleFullscreen();
-		virtual bool HasWindowedMode() const;
-		virtual bool IsFullscreen() const;
-
-		void SwapSurfaces();
-		void ApplyFade();
-
 		// IScreen
-		virtual void Update();
+		virtual void EnableCursor(bool b) override;
+		virtual void ToggleCursor() override;
+		virtual void ToggleFullscreen() override;
+		virtual bool HasWindowedMode() const override;
+		virtual bool IsFullscreen() const override;
+		virtual void Update() override;
+
+		// IModule
+		virtual bool Initialize() override;
+		virtual bool Reset() override;
+		virtual bool Shutdown() override;
 
 		// HACK - test
 		int iHandle;
@@ -82,21 +65,14 @@ class SEED_CORE_API Screen : public IScreen
 
 		bool InitializeVideo();
 		void Prepare();
+		void SwapSurfaces();
 
 #if defined(DEBUG)
 		void PrintVideoMode();
 #endif // DEBUG
 
 	private:
-		enum eFadeType
-		{
-			FADE_IN = 1,
-			FADE_OUT
-		};
-
 		bool		bFullScreen;
-		int			iFadeStatus;
-		eFadeType	fadeType;
 		int			iBPP;
 		int			iFlags;
 };

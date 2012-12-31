@@ -52,42 +52,40 @@ class SEED_CORE_API Viewport : public IObject
 		Viewport();
 		virtual ~Viewport();
 
-		virtual void Render();
+		void Render();
 
-		virtual void SetRenderer(Renderer *renderer);
-		virtual Renderer *GetRenderer() const;
+		void SetRenderer(Renderer *renderer);
+		Renderer *GetRenderer() const;
 
-		virtual void SetCamera(Camera *camera);
-		virtual Camera *GetCamera() const;
+		void SetCamera(Camera *camera);
+		Camera *GetCamera() const;
 
-		virtual void SetArea(const Rect4u &rect);
-		virtual void SetPosition(u32 x, u32 y);
-		virtual void SetWidth(u32 w);
-		virtual void SetHeight(u32 h);
+		void SetArea(const Rect4u &rect);
+		void SetPosition(u32 x, u32 y);
+		void SetWidth(u32 w);
+		void SetHeight(u32 h);
 
-		virtual u32 GetX() const;
-		virtual u32 GetY() const;
-		virtual u32 GetWidth() const;
-		virtual u32 GetHeight() const;
+		u32 GetX() const;
+		u32 GetY() const;
+		u32 GetWidth() const;
+		u32 GetHeight() const;
 
-		virtual bool Contains(u32 x, u32 y);
+		bool Contains(u32 x, u32 y);
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	protected:
-		String		sCameraNameToAttach;
-
-	private:
 		Renderer	*pRenderer;
 		Camera		*pCamera;
 
-	protected:
 		u32		iX;
 		u32		iY;
 		u32		iWidth;
 		u32		iHeight;
+
+		String	sCameraNameToAttach;
 
 	private:
 		SEED_DISABLE_COPY(Viewport);

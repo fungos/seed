@@ -46,32 +46,31 @@ class SEED_CORE_API ViewManager : public IModule
 	SEED_SINGLETON_DECLARE(ViewManager)
 	DECLARE_CONTAINER_TYPE(Vector, Viewport)
 	public:
-		virtual void Add(Viewport *view);
-		virtual void Remove(Viewport *view);
+		void Add(Viewport *view);
+		void Remove(Viewport *view);
 
-		virtual void Render();
+		void Render();
 
-		virtual Renderer *GetCurrentRenderer() const;
-		virtual Viewport *GetCurrentViewport() const;
+		Renderer *GetCurrentRenderer() const;
+		Viewport *GetCurrentViewport() const;
 
-		virtual Viewport *GetViewportAt(u32 x, u32 y);
+		Viewport *GetViewportAt(u32 x, u32 y);
 
 		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		virtual bool Initialize() override;
+		virtual bool Reset() override;
+		virtual bool Shutdown() override;
 
-		virtual void Disable();
-		virtual void Enable();
+		virtual void Disable() override;
+		virtual void Enable() override;
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	private:
 		SEED_DISABLE_COPY(ViewManager);
 
-	private:
 		ViewportVector vViewport;
 		Viewport *pCurrentViewport;
 		bool bEnabled;

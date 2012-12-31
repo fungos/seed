@@ -40,7 +40,7 @@ namespace Seed {
 
 class ITexture;
 
-class TileSet : public IDataObject
+class SEED_CORE_API TileSet : public IDataObject
 {
 	public:
 		TileSet();
@@ -63,6 +63,8 @@ class TileSet : public IDataObject
 		virtual int GetObjectType() const override;
 
 	private:
+		SEED_DISABLE_COPY(TileSet);
+
 		ITexture *pTexture;
 		Rect4f	 *pTileUV;
 		Map<String, String> mProperties;

@@ -43,7 +43,7 @@ class TileSet;
 class GameMap;
 class Image;
 
-class MapLayerTiled : public IMapLayer
+class SEED_CORE_API MapLayerTiled : public IMapLayer
 {
 	friend class GameMap;
 
@@ -70,6 +70,8 @@ class MapLayerTiled : public IMapLayer
 		virtual bool Unload() override;
 
 	private:
+		SEED_DISABLE_COPY(MapLayerTiled);
+
 		u32			 *pTileData;
 		sVertex		 *pVertex;
 		u32			 *pElements;

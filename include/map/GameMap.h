@@ -45,7 +45,7 @@ DECLARE_CONTAINER_TYPE(Vector, TileSet)
 
 ISceneObject *FactoryGameMap();
 
-class GameMap : public ISceneObject
+class SEED_CORE_API GameMap : public ISceneObject
 {
 	public:
 		GameMap();
@@ -79,6 +79,8 @@ class GameMap : public ISceneObject
 		bool LoadTiled(Reader &reader, ResourceManager *res);
 
 	private:
+		SEED_DISABLE_COPY(GameMap);
+
 		enum eLayerType
 		{
 			LayerTypeTiled,

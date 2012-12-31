@@ -39,7 +39,7 @@ class MapLayerTiled;
 class MapLayerMosaic;
 class MapLayerMetadata;
 
-class IMapLayer : public SceneNode
+class SEED_CORE_API IMapLayer : public SceneNode
 {
 	public:
 		IMapLayer();
@@ -59,6 +59,7 @@ class IMapLayer : public SceneNode
 
 	private:
 		SEED_DISABLE_COPY(IMapLayer);
+
 		f32 fOpacity;
 };
 

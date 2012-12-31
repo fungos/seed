@@ -45,54 +45,54 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 {
 	SEED_SINGLETON_DECLARE(RendererDevice)
 	public:
-		virtual void Begin() const;
-		virtual void End() const;
+		virtual void Begin() const override;
+		virtual void End() const override;
 
 		// Generic operations
-		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const;
-		virtual void UploadData(void *userData);
-		virtual void BackbufferClear(const Color &color = Color(0, 0, 0, 0)) const;
-		virtual void BackbufferFill(const Color &color = Color(0, 0, 0, 0)) const;
+		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const override;
+		virtual void UploadData(void *userData) override;
+		virtual void BackbufferClear(const Color &color = Color(0, 0, 0, 0)) const override;
+		virtual void BackbufferFill(const Color &color = Color(0, 0, 0, 0)) const override;
 
 		// IRendererDevice
-		virtual void TextureUnload(ITexture *tex);
-		virtual void TextureRequest(ITexture *texture);
-		virtual void TextureRequestAbort(ITexture *texture);
-		virtual void TextureRequestProcess() const;
-		virtual void TextureDataUpdate(ITexture *texture);
+		virtual void TextureUnload(ITexture *tex) override;
+		virtual void TextureRequest(ITexture *texture) override;
+		virtual void TextureRequestAbort(ITexture *texture) override;
+		virtual void TextureRequestProcess() const override;
+		virtual void TextureDataUpdate(ITexture *texture) override;
 
 		// HardwareBuffer
-		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const;
+		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const override;
 
 		// Render to Texture support
-		virtual u32 CreateFrameBuffer(ITexture *texture = NULL);
-		virtual void ActivateFrameBuffer(u32 buffer = 0);
-		virtual void DestroyFrameBuffer(u32 buffer);
-		virtual u32 CreateDepthBuffer(u32 w, u32 h);
-		virtual void ActivateDepthBuffer(u32 buffer = 0);
-		virtual void DestroyDepthBuffer(u32 buffer);
+		virtual u32 CreateFrameBuffer(ITexture *texture = NULL) override;
+		virtual void ActivateFrameBuffer(u32 buffer = 0) override;
+		virtual void DestroyFrameBuffer(u32 buffer) override;
+		virtual u32 CreateDepthBuffer(u32 w, u32 h) override;
+		virtual void ActivateDepthBuffer(u32 buffer = 0) override;
+		virtual void DestroyDepthBuffer(u32 buffer) override;
 		/// Attach a depth buffer to the active frame buffer
-		virtual void AttachDepthBuffer(u32 buffer);
-		virtual bool CheckFrameBufferStatus() const;
+		virtual void AttachDepthBuffer(u32 buffer) override;
+		virtual bool CheckFrameBufferStatus() const override;
 
-		virtual void EnableScissor(bool b) const;
-		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const;
-		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
-		virtual f32 GetHorizontalTexelOffset() const;
-		virtual f32 GetVerticalTexelOffset() const;
-		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
-		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const;
-		virtual void Enable2D() const;
-		virtual void Disable2D() const;
+		virtual void EnableScissor(bool b) const override;
+		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const override;
+		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const override;
+		virtual f32 GetHorizontalTexelOffset() const override;
+		virtual f32 GetVerticalTexelOffset() const override;
+		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const override;
+		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const override;
+		virtual void Enable2D() const override;
+		virtual void Disable2D() const override;
 
-		virtual bool NeedPowerOfTwoTextures() const;
+		virtual bool NeedPowerOfTwoTextures() const override;
 
-		virtual void Update();
+		virtual void Update() override;
 
 		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		virtual bool Initialize() override;
+		virtual bool Reset() override;
+		virtual bool Shutdown() override;
 
 	private:
 		SEED_DISABLE_COPY(RendererDevice);

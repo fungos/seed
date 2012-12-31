@@ -44,7 +44,7 @@ struct LayerMosaicHeader {
 
 };
 
-class MapLayerMosaic : public IMapLayer
+class SEED_CORE_API MapLayerMosaic : public IMapLayer
 {
 	public:
 		MapLayerMosaic();
@@ -85,6 +85,8 @@ class MapLayerMosaic : public IMapLayer
 		virtual void Render(const Matrix4f &worldTransform);
 
 	private:
+		SEED_DISABLE_COPY(MapLayerMosaic);
+
 		SceneNode cScene;
 		SpriteVector vObjects;
 		Point2u ptiTileSize;

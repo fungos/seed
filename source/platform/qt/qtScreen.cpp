@@ -64,8 +64,6 @@ Screen::~Screen()
 bool Screen::Reset()
 {
 	IModule::Reset();
-	iFadeStatus = 0;
-
 	return true;
 }
 
@@ -77,6 +75,8 @@ bool Screen::Initialize()
 	if (!pScene)
 		pScene = New(Scene(iWidth, iHeight));
 
+	bFading = false;
+	iFadeStatus = 16;
 	this->Reset();
 	this->CreateHardwareSurfaces();
 
@@ -92,6 +92,9 @@ bool Screen::Initialize()
 bool Screen::Shutdown()
 {
 	Log(TAG "Terminating...");
+
+	bFading = false;
+	iFadeStatus = 16;
 	bool r = this->Reset();
 
 	Delete(pScene);
@@ -106,36 +109,6 @@ void Screen::Update()
 {
 	//IScreen::Update(); // abstract
 	this->pScene->update();
-}
-
-void Screen::FadeOut()
-{
-	if (bFading)
-		return;
-
-	bFading		= true;
-	fadeType	= FADE_OUT;
-	iFadeStatus	= FADE_OUT_TRANS;
-}
-
-void Screen::FadeIn()
-{
-	if (bFading)
-		return;
-
-	bFading		= true;
-	fadeType	= FADE_IN;
-	iFadeStatus	= FADE_OUT_SOLID;
-}
-
-void Screen::CancelFade()
-{
-	bFading		= false;
-	iFadeStatus	= FADE_OUT_TRANS;
-}
-
-void Screen::SwapSurfaces()
-{
 }
 
 void Screen::CreateHardwareSurfaces()
@@ -162,82 +135,6 @@ void Screen::ToggleFullscreen()
 	// change video mode
 	// reconfigure opengl context
 	// reload textures
-}
-
-void Screen::ApplyFade()
-{
-	if (this->bFading == false)
-		return;
-
-	if (fadeType == FADE_IN)
-	{
-		iFadeStatus -= FADE_INCREMENT;
-
-		if (iFadeStatus <= FADE_OUT_TRANS)
-		{
-			bFading = false;
-			iFadeStatus = FADE_OUT_TRANS;
-		}
-	}
-	else
-	{
-		iFadeStatus += FADE_INCREMENT;
-
-		if (iFadeStatus >= FADE_OUT_SOLID)
-		{
-			bFading = false;
-			iFadeStatus = FADE_OUT_SOLID;
-		}
-	}
-
-	glMatrixMode(GL_MODELVIEW);
-	glPushMatrix();
-	glLoadIdentity();
-
-	glMatrixMode(GL_PROJECTION);
-	glPushMatrix();
-	glLoadIdentity();
-
-	glBegin(GL_QUADS);
-		glVertex3i(-1, -1, -1);
-		glVertex3i(1, -1, -1);
-		glVertex3i(1, 1, -1);
-		glVertex3i(-1, 1, -1);
-	glEnd();
-
-	glPopMatrix();
-
-	glMatrixMode(GL_MODELVIEW);
-	glPopMatrix();
-
-
-	u8 c = static_cast<u8>(iFadeStatus & 0xff);
-
-	const GLfloat vertices[] =
-	{
-		0.0f, 0.0f,
-		0.0f, 1.0f,
-		1.0f, 0.0f,
-		1.0f, 1.0f,
-	};
-
-	glVertexPointer(2, GL_FLOAT, 0, vertices);
-	glEnableClientState(GL_VERTEX_ARRAY);
-
-	glColor4ub(255, 255, 0, c);
-	glDisableClientState(GL_COLOR_ARRAY);
-
-	glDisable(GL_TEXTURE_2D);
-	glEnable(GL_BLEND);
-
-	//glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-	glPushMatrix();
-		glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-	glPopMatrix();
-
-	glEnable(GL_TEXTURE_2D);
 }
 
 void *Screen::GetSurface() const

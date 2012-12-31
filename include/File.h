@@ -51,12 +51,12 @@ class SEED_CORE_API File : public IObject
 		u8 *GetData() const;
 		const String &GetName() const;
 
-		virtual bool Load(const String &filename);
-		virtual bool Unload();
+		bool Load(const String &filename);
+		bool Unload();
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	protected:
 		bool Check() const;
@@ -77,10 +77,13 @@ class SEED_CORE_API FileLoader : public Job
 		FileLoader(const String &filename, u32 name, IEventJobListener *listener);
 		virtual ~FileLoader();
 
-		virtual bool Run();
+		virtual bool Run() override;
 
 		const String sFilename;
 		File *pFile;
+
+	private:
+		SEED_DISABLE_COPY(FileLoader);
 };
 
 } // namespace

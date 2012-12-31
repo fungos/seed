@@ -50,40 +50,40 @@ class SEED_CORE_API SceneNode : public ISceneObject
 
 		virtual bool IsNode() const;
 
-		// IRenderable
-		virtual void Update(f32 dt);
-		virtual void Render(const Matrix4f &worldTransform);
-
 		virtual void Add(ISceneObject *obj);
 		virtual void Remove(ISceneObject *obj);
 		virtual u32 Size() const;
 		virtual ISceneObject *GetChildAt(u32 i);
 		virtual ISceneObject *GetChildByName(String name);
 
+		// IRenderable
+		virtual void Update(f32 dt) override;
+		virtual void Render(const Matrix4f &worldTransform) override;
+
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Write(Writer &writer) override;
 
 		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
 		 * so if you want to keep some object loaded, remove it from the scene before
 		 * calling a parent's Unload.
 		 */
-		virtual bool Unload();
+		virtual bool Unload() override;
 
 		/*! Reset will not unload/delete any children, it is just to clear the current node children
 		 * as if you're removing one by one.
 		 */
-		virtual void Reset();
+		virtual void Reset() override;
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
-
-	private:
-		SEED_DISABLE_COPY(SceneNode);
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	protected:
 		ISceneObjectVector vChild;
+
+	private:
+		SEED_DISABLE_COPY(SceneNode);
 };
 
 } // namespace

@@ -49,16 +49,16 @@ class SEED_CORE_API JsonWriter: public IWriter
 		virtual ~JsonWriter();
 
 		// IWriter
-		virtual bool Save(const String &file);
-		virtual void WriteString(const char *key, const char *value) const;
-		virtual void WriteU32(const char *key, u32 value) const;
-		virtual void WriteS32(const char *key, s32 value) const;
-		virtual void WriteF32(const char *key, f32 value) const;
-		virtual void WriteBool(const char *key, bool value) const;
-		virtual void OpenArray(const char *key);
-		virtual void CloseArray();
-		virtual void OpenNode(const char *key = "");
-		virtual void CloseNode();
+		virtual bool Save(const String &file) override;
+		virtual void WriteString(const char *key, const char *value) const override;
+		virtual void WriteU32(const char *key, u32 value) const override;
+		virtual void WriteS32(const char *key, s32 value) const override;
+		virtual void WriteF32(const char *key, f32 value) const override;
+		virtual void WriteBool(const char *key, bool value) const override;
+		virtual void OpenArray(const char *key) override;
+		virtual void CloseArray() override;
+		virtual void OpenNode(const char *key = "") override;
+		virtual void CloseNode() override;
 
 	private:
 		SEED_DISABLE_COPY(JsonWriter);

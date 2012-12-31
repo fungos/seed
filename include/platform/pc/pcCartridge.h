@@ -55,18 +55,18 @@ class SEED_CORE_API Cartridge : public ICartridge
 {
 	SEED_SINGLETON_DECLARE(Cartridge)
 	public:
+		// ICartridge
+		virtual bool Prepare(eCartridgeSize size) override;
+		virtual bool Read(u32 src, void *dest, u32 len) override;
+		virtual bool Write(u32 dest, const void *src, u32 len) override;
+
 		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
-
-		virtual bool Prepare(eCartridgeSize size);
-
-		virtual bool Read(u32 src, void *dest, u32 len);
-		virtual bool Write(u32 dest, const void *src, u32 len);
+		virtual bool Initialize() override;
+		virtual bool Reset() override;
+		virtual bool Shutdown() override;
 
 		// IObject
-		virtual const String GetClassName() const;
+		virtual const String GetClassName() const override;
 
 	private:
 		SEED_DISABLE_COPY(Cartridge);

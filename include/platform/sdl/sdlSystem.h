@@ -46,42 +46,41 @@ class SEED_CORE_API System : public ISystem
 	SEED_SINGLETON_DECLARE(System)
 	public:
 		// ISystem
-		virtual void GoToMenu();
-		virtual void Sleep();
-		virtual void OnHomeCalled();
-		virtual void WaitForRetrace();
-		virtual void HangUp();
-		virtual void GoToDataManager();
+		virtual void GoToMenu() override;
+		virtual void Sleep() override;
+		virtual void OnHomeCalled() override;
+		virtual void WaitForRetrace() override;
+		virtual void HangUp() override;
+		virtual void GoToDataManager() override;
 
-		virtual bool IsShuttingDown() const;
-		virtual bool IsResetting() const;
-		virtual bool IsSleeping() const;
+		virtual bool IsShuttingDown() const override;
+		virtual bool IsResetting() const override;
+		virtual bool IsSleeping() const override;
 
-		virtual void DisableHome();
-		virtual void EnableHome();
-		virtual bool IsHomeEnabled() const;
-		virtual bool IsHomeRunning() const;
-		virtual bool InitializeHome();
+		virtual void DisableHome() override;
+		virtual void EnableHome() override;
+		virtual bool IsHomeEnabled() const override;
+		virtual bool IsHomeRunning() const override;
+		virtual bool InitializeHome() override;
 
-		virtual void EnableDefaultCursor(bool b);
+		virtual void EnableDefaultCursor(bool b) override;
 
-		virtual const char *GetUsername() const;
-		virtual const char *GetHomeFolder() const;
-		virtual const char *GetApplicationDataFolder() const;
-		virtual const char *GetSaveGameFolder() const;
+		virtual const char *GetUsername() const override;
+		virtual const char *GetHomeFolder() const override;
+		virtual const char *GetApplicationDataFolder() const override;
+		virtual const char *GetSaveGameFolder() const override;
 
 		// IModule
-		virtual bool Initialize();
-		virtual bool Shutdown();
-		virtual bool Reset();
+		virtual bool Initialize() override;
+		virtual bool Shutdown() override;
+		virtual bool Reset() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(f32 dt) override;
 
 	private:
 		SEED_DISABLE_COPY(System);
 
-	private:
 		u64		iLastFrameTime;
 		u64		iFpsTime;
 		f32		fElapsedTime;

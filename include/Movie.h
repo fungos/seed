@@ -55,22 +55,21 @@ class SEED_CORE_API Movie : public SceneNode
 		void Reset();
 
 		// IRenderable
-		virtual void Update(f32 delta);
-		virtual void Render(const Matrix4f &);
+		virtual void Update(f32 delta) override;
+		virtual void Render(const Matrix4f &) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-		virtual bool Unload();
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	private:
 		SEED_DISABLE_COPY(Movie);
 
-	private:
 		f32				fElapsedTime;
 		TimelineVector	vTimelines;
 		bool			bPlaying;
