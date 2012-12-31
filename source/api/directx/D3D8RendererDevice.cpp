@@ -50,10 +50,8 @@ namespace Seed { namespace DirectX {
 
 D3D8RendererDevice::D3D8RendererDevice()
 	: bLost(false)
+	, vTexture()
 {
-	Log(TAG "Initializing...");
-	ITextureVector().swap(vTexture);
-	Log(TAG "Initialization completed.");
 }
 
 D3D8RendererDevice::~D3D8RendererDevice()
@@ -203,6 +201,7 @@ bool D3D8RendererDevice::Initialize()
 
 bool D3D8RendererDevice::Reset()
 {
+	#warning FIXME - mutex lock guard here (?)
 	ITextureVector().swap(vTexture);
 
 	HWND hWnd = (HWND)pScreen->iHandle;
@@ -239,6 +238,7 @@ bool D3D8RendererDevice::Shutdown()
 {
 	bool ret = IRendererDevice::Shutdown();
 
+	#warning FIXME - mutex lock guard here (?)
 	ITextureVector().swap(vTexture);
 
 	int objects = 0;
@@ -346,16 +346,19 @@ void D3D8RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &colo
 
 void D3D8RendererDevice::TextureRequestAbort(ITexture *texture)
 {
+	#warning FIXME - mutex lock guard here
 	vTexture -= texture;
 }
 
 void D3D8RendererDevice::TextureRequest(ITexture *texture)
 {
+	#warning FIXME - mutex lock guard here
 	vTexture += texture;
 }
 
 void D3D8RendererDevice::TextureRequestProcess() const
 {
+	#warning FIXME - mutex lock guard here
 	ITextureVector::iterator it = vTexture.begin();
 	ITextureVector::iterator end = vTexture.end();
 	for (; it != end; ++it)

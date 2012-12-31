@@ -187,8 +187,7 @@ void Texture::PutPixel(u32 x, u32 y, const Color &px)
 #if !defined(ENABLE_NATIVE_PVRTC_FORMAT)
 	if (pData || pixelFormat != kTexture2DPixelFormat_RGB565 || pixelFormat != kTexture2DPixelFormat_A8)
 	{
-		const Color *data1 = static_cast<const Color *>(pData);
-		Color *data = const_cast<Color *>(data1);
+		Color *data = static_cast<Color *>(pData);
 		data[(y * iWidth) + x] = px; // ja deve ser arrumado em relacao ao atlas
 	}
 	else

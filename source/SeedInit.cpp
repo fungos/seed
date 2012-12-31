@@ -72,7 +72,7 @@ namespace Private
 	IGameApp	*pApplication;
 	bool		bInitialized;
 	int			iArgc;
-	const char	**pcArgv;
+	char		**pcArgv;
 	bool		bDisableSound;
 	bool		bDisableThread;
 	bool		bDisableResourceLoader;
@@ -84,7 +84,7 @@ ResourceManager *pResourceManager = NULL;
 
 #define MAX_FRAME_DELTA ((1.0f / 60.0f) * 5.0f)
 
-int CommandLineParameter(const char **argv, int pos)
+int CommandLineParameter(char **argv, int pos)
 {
 	const char *param = argv[pos];
 	int consume = 1;
@@ -110,7 +110,7 @@ int CommandLineParameter(const char **argv, int pos)
 	return consume;
 }
 
-void CommandLineParse(int argc, const char **argv)
+void CommandLineParse(int argc, char **argv)
 {
 	int i = 0;
 	while (i < argc)
@@ -119,7 +119,7 @@ void CommandLineParse(int argc, const char **argv)
 	}
 }
 
-void SetGameApp(IGameApp *app, int argc, const char **argv, const char *config)
+void SetGameApp(IGameApp *app, int argc, char **argv, const char *config)
 {
 	Private::iArgc = argc;
 	Private::pcArgv = argv;

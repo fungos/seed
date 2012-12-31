@@ -54,7 +54,6 @@ Screen::Screen()
 	, bFullScreen(false)
 	, iBPP(32)
 	, iFlags(0)
-	, videoInfo(NULL)
 {
 }
 
@@ -78,9 +77,9 @@ bool Screen::Reset()
 	return true;
 }
 
-void Screen::Prepare()
+bool Screen::Prepare()
 {
-	videoInfo = const_cast<SDL_VideoInfo *>(SDL_GetVideoInfo());
+	const SDL_VideoInfo *videoInfo = SDL_GetVideoInfo();
 	if (videoInfo)
 	{
 		Info(TAG "SDL Video Info:");
@@ -131,6 +130,8 @@ void Screen::Prepare()
 
 	if (bFullScreen)
 		iFlags |= SDL_FULLSCREEN;
+
+	return (videoInfo != NULL);
 }
 
 bool Screen::Initialize()
@@ -148,8 +149,7 @@ bool Screen::Initialize()
 		return false;
 	}
 
-	this->Prepare();
-	if (!videoInfo)
+	if (!this->Prepare())
 	{
 		Log(TAG "ERROR: You must set up a video mode!");
 		return false;
@@ -280,7 +280,6 @@ bool Screen::Shutdown()
 	iWidth		= 0;
 	iBPP		= 32;
 	iFlags		= 0;
-	videoInfo	= NULL;
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);

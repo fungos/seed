@@ -65,9 +65,9 @@ IEvent::eType IEvent::GetEventType()
 	return iType;
 }
 
-void IEvent::Consume() const
+void IEvent::Consume()
 {
-	this->bConsumed = true;
+	bConsumed = true;
 }
 
 bool IEvent::IsConsumed() const

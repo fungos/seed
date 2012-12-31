@@ -159,8 +159,6 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxSize);
 	Info(TAG "OpenGL Maximum Texture Size: %d", maxSize);
 
-	this->Reset();
-
 	Log(TAG "Initialization completed.");
 }
 
@@ -193,6 +191,7 @@ bool OGLES1RendererDevice::Initialize()
 
 bool OGLES1RendererDevice::Reset()
 {
+	#warning FIXME - mutex lock guard here (?)
 	ITextureVector().swap(vTexture);
 	return true;
 }
@@ -200,6 +199,7 @@ bool OGLES1RendererDevice::Reset()
 bool OGLES1RendererDevice::Shutdown()
 {
 	this->Disable2D();
+	this->Reset();
 	return IRendererDevice::Shutdown();
 }
 
@@ -367,16 +367,20 @@ void OGLES1RendererDevice::SetTextureParameters(const ITexture *texture) const
 
 void OGLES1RendererDevice::TextureRequestAbort(ITexture *texture)
 {
+	#warning FIXME - mutex lock guard here
 	vTexture -= texture;
 }
 
 void OGLES1RendererDevice::TextureRequest(ITexture *texture)
 {
+	#warning FIXME - mutex lock guard here
 	vTexture += texture;
 }
 
 void OGLES1RendererDevice::TextureRequestProcess() const
 {
+	#warning FIXME - mutex lock guard here
+
 	GL_TRACE("BEGIN TextureRequestProcess")
 	ITextureVector::iterator it = vTexture.begin();
 	ITextureVector::iterator end = vTexture.end();

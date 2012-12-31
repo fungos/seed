@@ -72,7 +72,7 @@ class SEED_CORE_API Screen : public IScreen
 		SEED_DISABLE_COPY(Screen);
 
 		bool InitializeVideo();
-		void Prepare();
+		bool Prepare();
 		void SetupOpenGL();
 
 #if defined(DEBUG)
@@ -83,7 +83,6 @@ class SEED_CORE_API Screen : public IScreen
 		bool		bFullScreen;
 		int			iBPP;
 		int			iFlags;
-		SDL_VideoInfo *videoInfo;
 };
 
 #define pScreen Seed::SDL::Screen::GetInstance()

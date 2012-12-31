@@ -75,7 +75,7 @@ class SEED_CORE_API IEvent : public IObject
 
 		u32 GetId() const;
 		eType GetEventType();
-		void Consume() const;
+		void Consume();
 		bool IsConsumed() const;
 
 		// IObject
@@ -85,9 +85,9 @@ class SEED_CORE_API IEvent : public IObject
 	protected:
 		SEED_DISABLE_COPY(IEvent);
 
-		eType 	iType;
-		u32 	iId;
-		mutable bool	bConsumed;
+		eType	iType;
+		u32		iId;
+		bool	bConsumed;
 };
 
 } // namespace

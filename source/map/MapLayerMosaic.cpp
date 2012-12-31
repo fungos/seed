@@ -117,8 +117,8 @@ void MapLayerMosaic::Update(f32 dt)
 
 void MapLayerMosaic::Render(const Matrix4f &worldTransform)
 {
-	SpriteVectorIterator it = vObjects.begin();
-	SpriteVectorIterator end = vObjects.end();
+	ConstSpriteVectorIterator it = vObjects.begin();
+	ConstSpriteVectorIterator end = vObjects.end();
 	for (; it != end; ++it)
 	{
 		Sprite *obj = (*it);
