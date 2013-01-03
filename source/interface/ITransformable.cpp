@@ -777,6 +777,11 @@ void ITransformable::UpdateBoundingCircle()
 	fBoundingCircleRadius = static_cast<f32>(sqrt(vBoundingBox.getX() * vBoundingBox.getX() + vBoundingBox.getY() * vBoundingBox.getY()) / 2.0f);
 }
 
+Rect4f ITransformable::GetBoundingBox() const
+{
+	return Rect4f(this->GetX(), this->GetY(), vBoundingBox.getX(), vBoundingBox.getY());
+}
+
 void ITransformable::Unserialize(Reader &reader)
 {
 	this->SetRotation(reader.ReadF32("fRotation", 0.0f));

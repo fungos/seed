@@ -73,7 +73,7 @@ Sprite *MapLayerMosaic::CreateSprite(const LayerMosaicHeader *entry, u32 prio)
 {
 	Sprite *obj = NULL;
 
-	#warning FIXME
+	#warning TODO - rewrite
 //	obj = New(SpriteInstantiable());
 //	obj->Load(_F(entry->iSpriteFileId));
 //	//obj->SetPosition(entry->fPosX * ptiTileSize.x, entry->fPosY * ptiTileSize.y);

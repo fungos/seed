@@ -83,25 +83,11 @@ bool MapLayerTiled::Load(Reader &reader, ResourceManager *res)
 	this->LoadData(reader, len);
 	reader.UnselectArray();
 
-	this->SetPosition(reader.ReadU32("x", 0), reader.ReadU32("y", 0));
-	this->SetVisible(reader.ReadBool("visible", true));
-	this->SetOpacity(reader.ReadF32("opacity", 1.0f));
+	// map size is in tiles and is only important to tile based maps, so we read it here
 	this->SetMapSize(Point2u(reader.ReadU32("width", 0), reader.ReadU32("height", 0)));
-	this->sName = reader.ReadString("name", "TiledLayer-NoName");
-
-	if (reader.SelectNode("properties"))
-	{
-		u32 k = 0;
-		while (1)
-		{
-			const char *key = reader.GetKey(k++);
-			if (!key)
-				break;
-
-			mProperties[key] = reader.ReadString(key, "");
-		}
-		reader.UnselectNode();
-	}
+	// read the generic map info in base class
+	this->ReadMapLayer(reader);
+	this->ReadProperties(reader);
 
 	return true;
 }
@@ -259,8 +245,13 @@ void MapLayerTiled::SetMapSize(Point2u mapSize)
 
 u32 MapLayerTiled::GetTileAt(Vector3f pos) const
 {
-	u32 x = static_cast<u32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
-	u32 y = static_cast<u32>((pos.getY() / ptTileSize.y) + ptMapSizeHalf.y);
+	s32 x = static_cast<s32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
+	s32 y = static_cast<s32>((pos.getY() / ptTileSize.y) + ptMapSizeHalf.y);
+
+	if (x < 0)
+		x = 0;
+	if (y < 0)
+		y = 0;
 
 	return TILE(x, y);
 }

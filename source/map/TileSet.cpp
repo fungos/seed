@@ -149,7 +149,8 @@ bool TileSet::Load(Reader &reader, ResourceManager *res)
 
 bool TileSet::Write(Writer &writer)
 {
-	#warning Implement TileSet write
+	UNUSED(writer)
+	#warning IMPL - TileSet::Write(Writer &writer)
 	return true;
 }
 

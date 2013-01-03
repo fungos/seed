@@ -43,18 +43,35 @@ class SEED_CORE_API IMetadataObject : public SceneNode
 		IMetadataObject();
 		virtual ~IMetadataObject();
 
-		virtual void SetPosition(f32 x, f32 y);
-		virtual void SetWidth(f32 w);
-		virtual void SetHeight(f32 h);
-
-		virtual const Rect4f &GetBoundingBox() const;
+		virtual const f32 *GetVertices() const;
+		virtual const String &GetProperty(const String &property) const;
 		virtual bool CheckHit(const Rect4f &area, Rect4f &overlap) const;
 
+		// IRenderable
+		virtual void Render(const Matrix4f &worldTransform) override;
+
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res) override;
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
+
 	protected:
-		Rect4f cArea;
+		void ReadProperties(Reader &reader);
+		void ReadVertices(Reader &reader, u32 size);
 
 	private:
 		SEED_DISABLE_COPY(IMetadataObject);
+
+		enum eMetaType {
+			kMetaTypeRect,
+			kMetaTypePolygon,
+			kMetaTypePolyline
+		};
+
+		Map<String, String> mProperties;
+		f32					*pVertices;
+		eMetaType			nType;
+		Rect4f				rBox;
 };
 
 } // namespace

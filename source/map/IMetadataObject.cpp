@@ -30,49 +30,190 @@
 
 #include "map/IMetadataObject.h"
 #include "Screen.h"
+#include "RendererDevice.h"
+#include "MathUtil.h"
 
 namespace Seed {
 
 IMetadataObject::IMetadataObject()
-	: cArea()
+	: mProperties()
+	, pVertices(NULL)
+	, nType(kMetaTypeRect)
 {
 }
 
 IMetadataObject::~IMetadataObject()
 {
+	this->Unload();
 }
 
-void IMetadataObject::SetPosition(f32 x, f32 y)
+bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 {
-	#warning FIXME
-	ITransformable::SetPosition(x / static_cast<f32>(pScreen->GetWidth()), y / static_cast<f32>(pScreen->GetHeight()));
-	cArea.x1 = x;
-	cArea.y1 = y;
+	UNUSED(res)
+	bool ret = false;
+
+	if (this->Unload())
+	{
+		f32 height = reader.ReadF32("height", 0.0f);
+		f32 width = reader.ReadF32("width", 0.0f);
+		f32 x = reader.ReadF32("x", 0.0f);
+		f32 y = reader.ReadF32("y", 0.0f);
+		sName = reader.ReadString("name", "IMetadataObject");
+//		String type = reader.ReadBool("type", "");
+		this->SetVisible(reader.ReadBool("visible", false));
+		this->ReadProperties(reader);
+
+		u32 len = reader.SelectArray("polygon");
+		if (len)
+		{
+			nType = kMetaTypePolygon;
+			this->ReadVertices(reader, len);
+		}
+		else
+		{
+			len = reader.SelectArray("polyline");
+			if (len)
+			{
+				nType = kMetaTypePolyline;
+				this->ReadVertices(reader, len);
+			}
+			else // rect
+			{
+				Delete(pVertices);
+				pVertices = (f32 *)Alloc(sizeof(f32) * 8);
+
+				pVertices[0] = 0.0f;
+				pVertices[1] = 0.0f;
+				pVertices[2] = width;
+				pVertices[3] = 0.0f;
+				pVertices[4] = width;
+				pVertices[5] = height;
+				pVertices[6] = 0.0f;
+				pVertices[7] = height;
+
+				rBox = Rect4f(0.0f, 0.0f, width, height);
+			}
+		}
+
+		this->SetPosition(x, y);
+		this->SetWidth(rBox.Width());
+		this->SetHeight(rBox.Height());
+
+		ret = true;
+	}
+
+	return ret;
 }
 
-void IMetadataObject::SetWidth(f32 w)
+bool IMetadataObject::Write(Writer &writer)
 {
-	#warning FIXME
-	ITransformable::SetWidth(w / static_cast<f32>(pScreen->GetWidth()));
-	cArea.x2 = w;
+	UNUSED(writer)
+	#warning IMPL - IMetadataObject::Write(Writer &writer)
+	return true;
 }
 
-void IMetadataObject::SetHeight(f32 h)
+bool IMetadataObject::Unload()
 {
-	#warning FIXME
-	ITransformable::SetHeight(h / static_cast<f32>(pScreen->GetHeight()));
-	cArea.y2 = h;
+	Delete(pVertices);
+	Map<String, String>().swap(mProperties);
+
+	return true;
 }
 
-const Rect4f &IMetadataObject::GetBoundingBox() const
+void IMetadataObject::Render(const Matrix4f &worldTransform)
 {
-	return cArea;
+	UNUSED(worldTransform)
+
+	#warning IMPL - Renderizar os meta objetos em coord de mundo
+
+	switch (nType)
+	{
+		case kMetaTypeRect:
+		{
+//			f32 x = this->GetX();
+//			f32 y = this->GetY();
+//			f32 z = this->GetZ();
+//			f32 w = this->GetWidth();
+//			f32 h = this->GetHeight();
+
+//			Vector3f t = worldTransform.getTranslation();
+//			x = t.getX() - x;
+//			y = t.getY() - y;
+
+//			pRendererDevice->DrawRect(x, y, w + x, h + y, Color(255, 0, 255, 255));
+		}
+		break;
+
+		default:
+		break;
+	}
+}
+
+void IMetadataObject::ReadVertices(Reader &reader, u32 size)
+{
+	if (!size)
+		return;
+
+	Delete(pVertices);
+	pVertices = (f32 *)Alloc(sizeof(f32) * size * 2); // POD
+
+	f32 x = 0.0f;
+	f32 y = 0.0f;
+	f32 minX = 999999.f;
+	f32 minY = 999999.f;
+	f32 maxX = -999999.f;
+	f32 maxY = -999999.f;
+
+	for (u32 i = 0, p = 0; i < size; i++)
+	{
+		reader.SelectNext();
+
+		x = reader.ReadF32("x", 0.0f);
+		y = reader.ReadF32("y", 0.0f);
+
+		minX = std::min(x, minX);
+		minY = std::min(y, minY);
+		maxX = std::max(x, maxX);
+		maxY = std::max(y, maxY);
+
+		pVertices[p++] = x;
+		pVertices[p++] = y;
+	}
+
+	rBox = Rect4f(minX, minY, maxX - minX, maxY - minY);
+}
+
+void IMetadataObject::ReadProperties(Reader &reader)
+{
+	if (reader.SelectNode("properties"))
+	{
+		u32 k = 0;
+		while (1)
+		{
+			const char *key = reader.GetKey(k++);
+			if (!key)
+				break;
+
+			mProperties[key] = reader.ReadString(key, "");
+		}
+		reader.UnselectNode();
+	}
+}
+
+const f32 *IMetadataObject::GetVertices() const
+{
+	return pVertices;
+}
+
+const String &IMetadataObject::GetProperty(const String &property) const
+{
+	return mProperties.at(property);
 }
 
 bool IMetadataObject::CheckHit(const Rect4f &area, Rect4f &overlap) const
 {
-	#warning CHECK THIS
-	return area.GetOverlappedRect(cArea, overlap);
+	#warning FIXME - Implementar em coordenadas de mundo
+	return area.GetOverlappedRect(rBox, overlap);
 }
 
 } // namespace

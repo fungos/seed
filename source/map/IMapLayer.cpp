@@ -43,6 +43,31 @@ IMapLayer::~IMapLayer()
 	Map<String, String>().swap(mProperties);
 }
 
+void IMapLayer::ReadProperties(Reader &reader)
+{
+	if (reader.SelectNode("properties"))
+	{
+		u32 k = 0;
+		while (1)
+		{
+			const char *key = reader.GetKey(k++);
+			if (!key)
+				break;
+
+			mProperties[key] = reader.ReadString(key, "");
+		}
+		reader.UnselectNode();
+	}
+}
+
+void IMapLayer::ReadMapLayer(Reader &reader)
+{
+	this->SetPosition(reader.ReadU32("x", 0), reader.ReadU32("y", 0));
+	this->SetVisible(reader.ReadBool("visible", true));
+	this->SetOpacity(reader.ReadF32("opacity", 1.0f));
+	sName = reader.ReadString("name", "IMapLayer");
+}
+
 const String &IMapLayer::GetProperty(const String &property) const
 {
 	return mProperties.at(property);

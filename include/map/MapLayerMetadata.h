@@ -53,6 +53,7 @@ class SEED_CORE_API MapLayerMetadata : public IMapLayer
 		// SceneNode
 //		virtual void Update(f32 delta) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Reset() override;
 
 		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
@@ -61,7 +62,9 @@ class SEED_CORE_API MapLayerMetadata : public IMapLayer
 	private:
 		SEED_DISABLE_COPY(MapLayerMetadata);
 
-		IMetadataObjectVector vObjects;
+//		SceneNode cObjects;
+//		IMetadataObjectVector vObjects;
+		ResourceManager *pRes;
 };
 
 } // namespace

@@ -93,6 +93,8 @@ class SEED_CORE_API IRendererDevice : public IModule
 		// Debugging
 		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
 		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const;
+//		virtual void DrawPolygon(f32 *vertices, const Color &color) const;
+//		virtual void DrawLine(f32 x1, f32 y1, f32 x2, f32 y2, const Color &color) const;
 
 		// Other
 		virtual void Update();

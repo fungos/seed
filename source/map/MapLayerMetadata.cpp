@@ -35,39 +35,76 @@
 namespace Seed {
 
 MapLayerMetadata::MapLayerMetadata()
-	: vObjects()
+	: pRes(NULL)
 {
 }
 
 MapLayerMetadata::~MapLayerMetadata()
 {
+	this->Reset();
+}
+
+void MapLayerMetadata::Reset()
+{
+//	IMetadataObjectVectorIterator it = vObjects.begin();
+//	IMetadataObjectVectorIterator end = vObjects.end();
+//	for (; it != end; ++it)
+//	{
+//		Delete(*it);
+//	}
+
+//	IMetadataObjectVector().swap(vObjects);
+
+	IMapLayer::Unload(); // to clear them
+	pRes = NULL;
 }
 
 bool MapLayerMetadata::Load(Reader &reader, ResourceManager *res)
 {
-	UNUSED(res)
+	bool ret = false;
 
-	this->Unload();
+	if (this->Unload())
+	{
+		pRes = res;
+		u32 len = reader.SelectArray("objects");
+		this->LoadData(reader, len);
+		reader.UnselectArray();
 
-	u32 len = reader.SelectArray("objects");
-	this->LoadData(reader, len);
-	reader.UnselectArray();
+		this->ReadProperties(reader);
 
-	return true;
+		ret = true;
+	}
+
+	return ret;
 }
 
 void MapLayerMetadata::LoadData(Reader &reader, u32 len)
 {
+	for (u32 i = 0; i < len; i++)
+	{
+		reader.SelectNext();
 
+		IMetadataObject *obj = New(IMetadataObject());
+		obj->Load(reader, pRes);
+		obj->bMarkForDeletion = true;
+		this->Add(obj);
+	}
 }
 
 void MapLayerMetadata::Render(const Matrix4f &worldTransform)
 {
-	IMetadataObjectVectorIterator it = vObjects.begin();
-	IMetadataObjectVectorIterator end = vObjects.end();
+//	IMetadataObjectVectorIterator it = vObjects.begin();
+//	IMetadataObjectVectorIterator end = vObjects.end();
+//	for (; it != end; ++it)
+//	{
+//		IMetadataObject *obj = (*it);
+//		obj->Render(worldTransform);
+//	}
+	ISceneObjectVectorIterator it = vChild.begin();
+	ISceneObjectVectorIterator end = vChild.end();
 	for (; it != end; ++it)
 	{
-		IMetadataObject *obj = (*it);
+		ISceneObject *obj = (*it);
 		obj->Render(worldTransform);
 	}
 }

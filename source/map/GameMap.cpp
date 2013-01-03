@@ -173,7 +173,8 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 
 bool GameMap::Write(Writer &writer)
 {
-	#warning Implement map writing
+	UNUSED(writer)
+	#warning IMPL - GameMap::Write(Writer &writer)
 	return true;
 }
 

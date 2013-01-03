@@ -35,6 +35,7 @@
 #include "MathUtil.h"
 #include "Reader.h"
 #include "Writer.h"
+#include "Rect.h"
 
 namespace Seed {
 
@@ -124,7 +125,8 @@ class SEED_CORE_API ITransformable
 		virtual bool ContainsPoint(const Vector3f &pos) const;
 
 		virtual void UpdateTransform();
-		void UpdateBoundingCircle();
+		virtual void UpdateBoundingCircle();
+		virtual Rect4f GetBoundingBox() const;
 
 		/// Set a parent for this transformable
 		/**

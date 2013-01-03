@@ -55,6 +55,9 @@ class SEED_CORE_API IMapLayer : public SceneNode
 		virtual MapLayerMetadata *AsMetadata();
 
 	protected:
+		void ReadProperties(Reader &reader);
+		void ReadMapLayer(Reader &reader);
+
 		Map<String, String> mProperties;
 
 	private:
