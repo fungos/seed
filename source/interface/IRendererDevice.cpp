@@ -220,6 +220,14 @@ void IRendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color) c
 	SEED_ABSTRACT_METHOD;
 }
 
+void IRendererDevice::DrawLines(f32 *points, u32 len, const Color &color) const
+{
+	UNUSED(points);
+	UNUSED(len);
+	UNUSED(color);
+	SEED_ABSTRACT_METHOD;
+}
+
 void IRendererDevice::Enable2D() const
 {
 	SEED_ABSTRACT_METHOD;

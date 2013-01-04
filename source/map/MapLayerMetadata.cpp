@@ -34,8 +34,9 @@
 
 namespace Seed {
 
-MapLayerMetadata::MapLayerMetadata()
+MapLayerMetadata::MapLayerMetadata(Point2u tileSize)
 	: pRes(NULL)
+	, ptTileSize(tileSize)
 {
 }
 
@@ -66,11 +67,25 @@ bool MapLayerMetadata::Load(Reader &reader, ResourceManager *res)
 	if (this->Unload())
 	{
 		pRes = res;
+
+		f32 h = reader.ReadF32("height", 0.0f);
+		f32 w = reader.ReadF32("width", 0.0f);
+		ptMapSize.x = h * ptTileSize.x;
+		ptMapSize.y = w * ptTileSize.y;
+		ptHalfSize.x = ptMapSize.x * 0.5f;
+		ptHalfSize.y = ptMapSize.y * 0.5f;
+
+		this->ReadMapLayer(reader);
+		this->ReadProperties(reader);
+		this->SetWidth(ptMapSize.x);
+		this->SetHeight(ptMapSize.y);
+
+		// overwrite readmaplayer x,y - I don't know if these values are used anyway
+		this->SetPosition(-ptHalfSize.x - (ptTileSize.x * 0.5f), -ptHalfSize.y - (ptTileSize.y * 0.5f));
+
 		u32 len = reader.SelectArray("objects");
 		this->LoadData(reader, len);
 		reader.UnselectArray();
-
-		this->ReadProperties(reader);
 
 		ret = true;
 	}
@@ -93,13 +108,6 @@ void MapLayerMetadata::LoadData(Reader &reader, u32 len)
 
 void MapLayerMetadata::Render(const Matrix4f &worldTransform)
 {
-//	IMetadataObjectVectorIterator it = vObjects.begin();
-//	IMetadataObjectVectorIterator end = vObjects.end();
-//	for (; it != end; ++it)
-//	{
-//		IMetadataObject *obj = (*it);
-//		obj->Render(worldTransform);
-//	}
 	ISceneObjectVectorIterator it = vChild.begin();
 	ISceneObjectVectorIterator end = vChild.end();
 	for (; it != end; ++it)

@@ -38,7 +38,11 @@ namespace Seed {
 IMetadataObject::IMetadataObject()
 	: mProperties()
 	, pVertices(NULL)
+	, pCached(NULL)
+	, iVertices(0)
+	, ptOffset(0.0f, 0.0f)
 	, nType(kMetaTypeRect)
+	, rBox()
 {
 }
 
@@ -59,7 +63,7 @@ bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 		f32 x = reader.ReadF32("x", 0.0f);
 		f32 y = reader.ReadF32("y", 0.0f);
 		sName = reader.ReadString("name", "IMetadataObject");
-//		String type = reader.ReadBool("type", "");
+//		String type = reader.ReadString("type", "");
 		this->SetVisible(reader.ReadBool("visible", false));
 		this->ReadProperties(reader);
 
@@ -68,6 +72,7 @@ bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 		{
 			nType = kMetaTypePolygon;
 			this->ReadVertices(reader, len);
+			reader.UnselectArray();
 		}
 		else
 		{
@@ -76,11 +81,14 @@ bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 			{
 				nType = kMetaTypePolyline;
 				this->ReadVertices(reader, len);
+				reader.UnselectArray();
 			}
 			else // rect
 			{
-				Delete(pVertices);
+				Free(pCached);
+				Free(pVertices);
 				pVertices = (f32 *)Alloc(sizeof(f32) * 8);
+				pCached = (f32 *)Alloc(sizeof(f32) * 8);
 
 				pVertices[0] = 0.0f;
 				pVertices[1] = 0.0f;
@@ -90,6 +98,7 @@ bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 				pVertices[5] = height;
 				pVertices[6] = 0.0f;
 				pVertices[7] = height;
+				iVertices = 4;
 
 				rBox = Rect4f(0.0f, 0.0f, width, height);
 			}
@@ -114,7 +123,9 @@ bool IMetadataObject::Write(Writer &writer)
 
 bool IMetadataObject::Unload()
 {
-	Delete(pVertices);
+	iVertices = 0;
+	Free(pCached);
+	Free(pVertices);
 	Map<String, String>().swap(mProperties);
 
 	return true;
@@ -126,21 +137,35 @@ void IMetadataObject::Render(const Matrix4f &worldTransform)
 
 	#warning IMPL - Renderizar os meta objetos em coord de mundo
 
+	Vector3f t = worldTransform.getTranslation();
+	f32 x = this->GetX();
+	f32 y = this->GetY();
+	f32 w = this->GetWidth();
+	f32 h = this->GetHeight();
+
 	switch (nType)
 	{
 		case kMetaTypeRect:
 		{
-//			f32 x = this->GetX();
-//			f32 y = this->GetY();
-//			f32 z = this->GetZ();
-//			f32 w = this->GetWidth();
-//			f32 h = this->GetHeight();
+			x = x + t.getX();
+			y = y + t.getY();
+			pRendererDevice->DrawRect(x, y, w + x, h + y, Color(255, 0, 255, 255));
+		}
+		break;
 
-//			Vector3f t = worldTransform.getTranslation();
-//			x = t.getX() - x;
-//			y = t.getY() - y;
+		case kMetaTypePolygon:
+		case kMetaTypePolyline:
+		{
+			for (u32 i = 0; i < iVertices * 2; i += 2)
+			{
+				pCached[i + 0] = pVertices[i + 0] + x + t.getX();
+				pCached[i + 1] = pVertices[i + 1] + y + t.getY();
+			}
+			pRendererDevice->DrawLines(pCached, iVertices, Color(255, 0, 255, 255));
 
-//			pRendererDevice->DrawRect(x, y, w + x, h + y, Color(255, 0, 255, 255));
+			x = x + t.getX() + ptOffset.x;
+			y = y + t.getY() + ptOffset.y;
+			pRendererDevice->DrawRect(x, y, w + x, h + y, Color(255, 0, 255, 255));
 		}
 		break;
 
@@ -154,8 +179,11 @@ void IMetadataObject::ReadVertices(Reader &reader, u32 size)
 	if (!size)
 		return;
 
-	Delete(pVertices);
+	Free(pCached);
+	Free(pVertices);
+	iVertices = size;
 	pVertices = (f32 *)Alloc(sizeof(f32) * size * 2); // POD
+	pCached = (f32 *)Alloc(sizeof(f32) * size * 2);
 
 	f32 x = 0.0f;
 	f32 y = 0.0f;
@@ -180,6 +208,8 @@ void IMetadataObject::ReadVertices(Reader &reader, u32 size)
 		pVertices[p++] = y;
 	}
 
+	ptOffset.x = minX;
+	ptOffset.y = minY;
 	rBox = Rect4f(minX, minY, maxX - minX, maxY - minY);
 }
 

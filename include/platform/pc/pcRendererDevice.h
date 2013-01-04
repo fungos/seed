@@ -80,13 +80,18 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const override;
 		virtual f32 GetHorizontalTexelOffset() const override;
 		virtual f32 GetVerticalTexelOffset() const override;
-		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const override;
-		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const override;
 		virtual void Enable2D() const override;
 		virtual void Disable2D() const override;
 
+		// Features
 		virtual bool NeedPowerOfTwoTextures() const override;
 
+		// Debugging
+		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const override;
+		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const override;
+		virtual void DrawLines(f32 *points, u32 len, const Color &color) const override;
+
+		// Other
 		virtual void Update() override;
 
 		// IModule

@@ -314,6 +314,11 @@ void RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color) co
 	pApiDevice->DrawCircle(x, y, radius, color);
 }
 
+void RendererDevice::DrawLines(f32 *points, u32 len, const Color &color) const
+{
+	pApiDevice->DrawLines(points, len, color);
+}
+
 void RendererDevice::Enable2D() const
 {
 	pApiDevice->Enable2D();
