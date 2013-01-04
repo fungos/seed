@@ -133,10 +133,6 @@ bool IMetadataObject::Unload()
 
 void IMetadataObject::Render(const Matrix4f &worldTransform)
 {
-	UNUSED(worldTransform)
-
-	#warning IMPL - Renderizar os meta objetos em coord de mundo
-
 	Vector3f t = worldTransform.getTranslation();
 	f32 x = this->GetX();
 	f32 y = this->GetY();
