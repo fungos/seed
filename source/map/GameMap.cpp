@@ -142,7 +142,7 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 		}
 		else if (type == "objectgroup")
 		{
-			layerId = this->AddLayerMetadata();
+			layerId = this->AddLayerMetadata(ptTileSize);
 			MapLayerMetadata *data = vLayers[layerId]->AsMetadata();
 			if (data)
 			{
@@ -235,11 +235,11 @@ u32 GameMap::AddLayerTiled()
 	return layerId;
 }
 
-u32 GameMap::AddLayerMetadata()
+u32 GameMap::AddLayerMetadata(Point2u tileSize)
 {
 	u32 layerId = vLayers.Size();
 
-	MapLayerMetadata *layer = New(MapLayerMetadata());
+	MapLayerMetadata *layer = New(MapLayerMetadata(tileSize));
 	vLayers += layer;
 	layer->bMarkForDeletion = true;
 	cMapLayers.Add(layer);

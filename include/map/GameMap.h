@@ -74,11 +74,11 @@ class SEED_CORE_API GameMap : public ISceneObject
 
 	protected:
 		u32 AddLayerTiled();
-		u32 AddLayerMetadata();
+		u32 AddLayerMetadata(Point2u tileSize);
 		u32 AddLayerMosaic();
 		bool LoadTiled(Reader &reader, ResourceManager *res);
 
-	private:
+	protected:
 		SEED_DISABLE_COPY(GameMap);
 
 		enum eLayerType

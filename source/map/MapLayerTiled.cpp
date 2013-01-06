@@ -77,19 +77,25 @@ bool MapLayerTiled::Load(Reader &reader, ResourceManager *res)
 {
 	UNUSED(res)
 
-	this->Unload();
+	bool ret = false;
 
-	u32 len = reader.SelectArray("data");
-	this->LoadData(reader, len);
-	reader.UnselectArray();
+	if (this->Unload())
+	{
+		u32 len = reader.SelectArray("data");
+		this->LoadData(reader, len);
+		reader.UnselectArray();
 
-	// map size is in tiles and is only important to tile based maps, so we read it here
-	this->SetMapSize(Point2u(reader.ReadU32("width", 0), reader.ReadU32("height", 0)));
-	// read the generic map info in base class
-	this->ReadMapLayer(reader);
-	this->ReadProperties(reader);
+		// map size is in tiles and is only important to tile based maps, so we read it here
+		this->SetMapSize(Point2u(reader.ReadU32("width", 0), reader.ReadU32("height", 0)));
 
-	return true;
+		// read the generic map info in base class
+		this->ReadMapLayer(reader);
+		this->ReadProperties(reader);
+
+		ret = true;
+	}
+
+	return ret;
 }
 
 void MapLayerTiled::LoadData(Reader &reader, u32 len)

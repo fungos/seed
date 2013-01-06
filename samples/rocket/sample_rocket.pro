@@ -9,7 +9,8 @@ SOURCES += main.cpp \
 	rocket_sample.cpp
 
 HEADERS += \
-	image_sample.h
+	image_sample.h \
+    rocket_sample.h
 
 OTHER_FILES += ../bin/rocket_app.config \
 	../bin/frame03.png \
