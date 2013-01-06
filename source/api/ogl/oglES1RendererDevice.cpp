@@ -919,6 +919,32 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &col
 	GL_TRACE("END DrawRect")
 }
 
+void OGLES1RendererDevice::DrawLines(f32 *points, u32 len, const Color &color) const
+{
+	GL_TRACE("BEGIN DrawLines")
+	GLfloat *vertices = points;
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+
+	glColor4ub(color.r, color.g, color.b, color.a);
+	glVertexPointer(2, GL_FLOAT, 0, vertices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+	glPushMatrix();
+		glLoadIdentity();
+		glDrawArrays(GL_LINE_LOOP, 0, len);
+	glPopMatrix();
+	glEnable(GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
+
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	GL_TRACE("END DrawLines")
+}
+
 void OGLES1RendererDevice::Enable2D() const
 {
 	GL_TRACE("BEGIN Enable2D")

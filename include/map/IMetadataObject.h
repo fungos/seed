@@ -34,6 +34,7 @@
 #include "Defines.h"
 #include "Rect.h"
 #include "SceneNode.h"
+#include "Point.h"
 
 namespace Seed {
 
@@ -70,6 +71,9 @@ class SEED_CORE_API IMetadataObject : public SceneNode
 
 		Map<String, String> mProperties;
 		f32					*pVertices;
+		f32					*pCached;
+		u32					iVertices;
+		Point2f				ptOffset;
 		eMetaType			nType;
 		Rect4f				rBox;
 };

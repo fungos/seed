@@ -116,12 +116,16 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void EnableScissor(bool b) const override;
 		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const override;
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const override;
-		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const override;
-		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const override;
 		virtual void Enable2D() const override;
 		virtual void Disable2D() const override;
 
+		// Features
 		virtual bool NeedPowerOfTwoTextures() const override;
+
+		// Debugging
+		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const override;
+		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const override;
+		virtual void DrawLines(f32 *points, u32 len, const Color &color) const override;
 
 		// IModule
 		virtual bool Initialize() override;

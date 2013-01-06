@@ -32,6 +32,7 @@
 #define __MAPLAYERMETADATA_H__
 
 #include "map/IMapLayer.h"
+#include "Point.h"
 
 namespace Seed {
 
@@ -42,7 +43,7 @@ DECLARE_CONTAINER_TYPE(Vector, IMetadataObject)
 class SEED_CORE_API MapLayerMetadata : public IMapLayer
 {
 	public:
-		MapLayerMetadata();
+		MapLayerMetadata(Point2u tileSize);
 		virtual ~MapLayerMetadata();
 
 		void LoadData(Reader &reader, u32 len);
@@ -62,9 +63,10 @@ class SEED_CORE_API MapLayerMetadata : public IMapLayer
 	private:
 		SEED_DISABLE_COPY(MapLayerMetadata);
 
-//		SceneNode cObjects;
-//		IMetadataObjectVector vObjects;
 		ResourceManager *pRes;
+		Point2u ptTileSize;
+		Point2f ptMapSize;
+		Point2f ptHalfSize;
 };
 
 } // namespace
