@@ -77,6 +77,7 @@ namespace Private
 	bool		bDisableThread;
 	bool		bDisableResourceLoader;
 	String		sConfigFile;
+	String		sWorkDir;
 	f32			fCurrentTime;
 }
 
@@ -104,6 +105,11 @@ int CommandLineParameter(char **argv, int pos)
 	else if (!strcasecmp(param, "--config"))
 	{
 		Private::sConfigFile = argv[pos + 1];
+		consume++;
+	}
+	else if (!strcasecmp(param, "--workdir"))
+	{
+		Private::sWorkDir = argv[pos + 1];
 		consume++;
 	}
 

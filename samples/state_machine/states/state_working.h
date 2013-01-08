@@ -2,21 +2,21 @@
 #define _STATE_WORKING_H
 
 #include <Seed.h>
-#include "data/agent_data.h"
-
 using namespace Seed;
+
+class AgentData;
 
 class StateWorking : public StateMachineState
 {
-    public:
-        StateWorking(IObject *agentData);
-        virtual ~StateWorking();
-        virtual void OnStart(AgentData *);
-        virtual void OnUpdate(f32);
-        virtual void OnStop(AgentData *);
+	public:
+		StateWorking(AgentData *agentData);
+		virtual ~StateWorking();
+		virtual void OnStart(AgentData *);
+		virtual void OnUpdate(f32);
+		virtual void OnStop(AgentData *);
 
-    private:
-        IObject   *pAgentData;
+	private:
+		AgentData *pAgentData;
 };
 
 #endif // _STATE_WORKING_H

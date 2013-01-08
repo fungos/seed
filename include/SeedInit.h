@@ -126,6 +126,7 @@ namespace Seed {
 		SEED_CORE_API extern bool		bDisableThread;
 		SEED_CORE_API extern bool		bDisableResourceLoader;
 		SEED_CORE_API extern String		sConfigFile;
+		SEED_CORE_API extern String		sWorkDir;
 
 		/// Last frame time
 		SEED_CORE_API extern f32 fCurrentTime;
