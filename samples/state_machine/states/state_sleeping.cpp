@@ -1,30 +1,27 @@
 #include "state_sleeping.h"
+#include "data/agent_data.h"
 
-StateSleeping::StateSleeping(IObject *agentData)
-    : pAgentData(agentData)
+StateSleeping::StateSleeping(AgentData *agentData)
+	: pAgentData(agentData)
 {
-
 }
 
 StateSleeping::~StateSleeping()
 {
-
 }
 
 void StateSleeping::OnStart(IObject *)
 {
-    Log("I'm sleepy ...");
+	Log("I'm sleepy ...");
 }
 
 void StateSleeping::OnUpdate(f32)
 {
-    dynamic_cast<AgentData *>(pAgentData)->SetFatigue(
-                dynamic_cast<AgentData *>(pAgentData)->GetFatigue() - 1);
-
-    Log("ZzzZZZzzz ... %d", dynamic_cast<AgentData *>(pAgentData)->GetFatigue());
+	pAgentData->SetFatigue(pAgentData->GetFatigue() - 1);
+	Log("ZzzZZZzzz ... %d", pAgentData->GetFatigue());
 }
 
 void StateSleeping::OnStop(IObject *)
 {
-    Log("TRIIIIIIIIIMMMMMMMMMM ...");
+	Log("TRIIIIIIIIIMMMMMMMMMM ...");
 }
