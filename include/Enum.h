@@ -104,6 +104,7 @@ enum eRendererDeviceType
 {
 	RendererDeviceAuto,
 	RendererDeviceOpenGLES1,
+    RendererDeviceOpenGLES2,
 	RendererDeviceOpenGL1x,
 	RendererDeviceOpenGL2x,
 	RendererDeviceOpenGL3x,

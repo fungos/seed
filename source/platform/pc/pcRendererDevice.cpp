@@ -150,6 +150,14 @@ bool RendererDevice::Initialize()
 		break;
 #endif
 
+#if defined(SEED_ENABLE_OGLES2)
+        case RendererDeviceOpenGLES2:
+        {
+            Info(TAG "Creating renderer device OpenGLES 2");
+            pApiDevice = New(Seed::OpenGL::OGLES2RendererDevice());
+        }
+        break;
+#else
 		case RendererDeviceOpenGLES1:
 		case RendererDeviceOpenGL1x:
 		default:
@@ -157,7 +165,8 @@ bool RendererDevice::Initialize()
 			Info(TAG "Creating renderer device OpenGL 1.5/ES 1");
 			pApiDevice = New(Seed::OpenGL::OGLES1RendererDevice());
 		}
-		break;
+        break;
+#endif
 	}
 
 	bool ret = pApiDevice->Initialize();

@@ -1,7 +1,7 @@
 TARGET = seed
 TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
-DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
+DEFINES += SEED_BUILD SEED_ENABLE_PROFILER SEED_ENABLE_OGLES2
 CONFIG += glfw
 
 #TARGET_EXT = .bc
@@ -203,7 +203,8 @@ SOURCES += source/Viewport.cpp \
     source/map/MapLayerMetadata.cpp \
     source/map/MapLayerMosaic.cpp \
     source/map/MapLayerTiled.cpp \
-    source/map/TileSet.cpp
+    source/map/TileSet.cpp \
+    source/api/ogl/oglES2RendererDevice.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -258,4 +259,5 @@ HEADERS += include/*.h \
     include/map/MapLayerMetadata.h \
     include/map/MapLayerMosaic.h \
     include/map/MapLayerTiled.h \
-    include/map/TileSet.h
+    include/map/TileSet.h \
+    include/api/ogl/oglES2RendererDevice.h
