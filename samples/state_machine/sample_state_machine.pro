@@ -6,16 +6,20 @@ CONFIG += glfw
 INCLUDEPATH += ../../include ../../contrib
 
 SOURCES += main.cpp \
-	tile_sample.cpp
+	state_machine_sample.cpp \
+	data/agent_data.cpp \
+	states/state_working.cpp \
+	states/state_sleeping.cpp
 
 HEADERS += \
-	tile_sample.h
+	state_machine_sample.h \
+	data/agent_data.h \
+	states/state_working.h \
+	states/state_sleeping.h
 
-OTHER_FILES += ../bin/tile_app.config \
-	../bin/tile_map.png \
-	../bin/tile_map.json \
-	../bin/tile_sample.scene \
-	../bin/tile_sample.config
+OTHER_FILES += ../bin/frame03.png \
+	../bin/state_machine_sample.scene \
+	../bin/state_machine_sample.config
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../bin

@@ -44,6 +44,10 @@ macx {
 	LIBS += -lseed -lseedcontrib -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit
 	CONFIG -= sdl
 	CONFIG += glfw
+
+	APP_QML_FILES.files = $$OTHER_FILES
+	APP_QML_FILES.path = Contents/Resources
+	QMAKE_BUNDLE_DATA += APP_QML_FILES
 }
 
 win32 {
