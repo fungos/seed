@@ -35,10 +35,12 @@
 #include "Singleton.h"
 #include "Reader.h"
 #include "Container.h"
+#include "interface/IEventJobListener.h"
 
 namespace Seed {
 
 class ISceneObject;
+class EventJob;
 
 typedef ISceneObject *(*pSceneObjectFactoryFunc)();
 
@@ -61,6 +63,19 @@ class SEED_CORE_API SceneObjectFactory
 		SEED_DISABLE_COPY(SceneObjectFactory);
 
 		static FactoryMap mapFactory;
+};
+
+class SEED_CORE_API SceneObjectFactoryJobLoader : public IEventJobListener
+{
+	public:
+		SceneObjectFactoryJobLoader(ISceneObject *obj);
+		virtual ~SceneObjectFactoryJobLoader();
+
+		// IEventJobListener
+		virtual void OnJobCompleted(const EventJob *ev);
+		virtual void OnJobAborted(const EventJob *ev);
+
+		ISceneObject *pObj;
 };
 
 #define pSceneObjectFactory SceneObjectFactory::GetInstance()

@@ -174,6 +174,7 @@ bool FileLoader::Run()
 	{
 		pFile = New(File(sFilename));
 		pFile->GetData();
+		Log("[FileJob] Loading file %s (%d bytes)", sFilename.c_str(), pFile->GetSize());
 
 		cMutex.Lock();
 		nState = JobCompleted;

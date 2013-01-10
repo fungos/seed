@@ -18,15 +18,15 @@
 			"aFrames": [
 				{
 					"sName": "frame 1",
-					"sTexture": "frame01.png"
+					"sResource": "frame01.png"
 				},
 				{
 					"sName": "frame 2",
-					"sTexture": "frame02.png"
+					"sResource": "frame02.png"
 				},
 				{
 					"sName": "frame 3",
-					"sTexture": "frame03.png"
+					"sResource": "frame03.png"
 				}
 			]
 		}

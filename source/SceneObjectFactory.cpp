@@ -32,6 +32,8 @@
 #include "Log.h"
 #include "interface/ISceneObject.h"
 #include "SoundSource.h"
+#include "JobManager.h"
+#include "EventJob.h"
 
 #define TAG		"[SceneObjectFactory] "
 
@@ -92,7 +94,20 @@ ISceneObject *SceneObjectFactory::Load(Reader &reader, ResourceManager *res) con
 	ISceneObject *obj = this->Create(type);
 	SEED_ASSERT_MSG(obj != NULL, "Object type invalid.");
 
-	obj->Load(reader, res);
+	String include = reader.ReadString("sInclude", "");
+	if (include != "")
+	{
+		#warning FIXME - Find a way to guarantee that all jobs finished before finishing scene loading
+		// TODO: it is possible that scene will finish loading before it's dependencies,
+		// and then presentation can fire the completed event before all scene elements
+		// are loaded, trying to access them from there can cause crash. How to guarantee
+		// that all scene async jobs are finished before triggering presentation complete?
+		pJobManager->Add(New(FileLoader(include, 0, new SceneObjectFactoryJobLoader(obj))));
+	}
+	else
+	{
+		obj->Load(reader, res);
+	}
 
 	return obj;
 }
@@ -112,6 +127,33 @@ ISceneObject *SceneObjectFactory::Create(const String &objectType) const
 	obj->bMarkForDeletion = true;
 
 	return obj;
+}
+
+SceneObjectFactoryJobLoader::SceneObjectFactoryJobLoader(ISceneObject *obj)
+	: pObj(obj)
+{
+}
+
+SceneObjectFactoryJobLoader::~SceneObjectFactoryJobLoader()
+{
+}
+
+void SceneObjectFactoryJobLoader::OnJobCompleted(const EventJob *ev)
+{
+	FileLoader *job = (FileLoader *)ev->GetJob();
+	Reader r(job->pFile);
+	this->pObj->Load(r);
+	Delete(job);
+
+	// http://www.parashift.com/c++-faq-lite/delete-this.html
+	delete this;
+}
+
+void SceneObjectFactoryJobLoader::OnJobAborted(const EventJob *ev)
+{
+	Job *job = ev->GetJob();
+	Delete(job);
+	delete this;
 }
 
 } // namespace

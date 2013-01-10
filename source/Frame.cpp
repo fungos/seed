@@ -72,7 +72,7 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 	{
 		sName = reader.ReadString("sName", "frame");
 
-		sTexture = reader.ReadString("sTexture", "default");
+		sTexture = reader.ReadString("sResource", "default");
 		pTexture = static_cast<ITexture *>(res->Get(sTexture, Seed::TypeTexture));
 
 		if (reader.SelectNode("cBoundary"))
@@ -117,7 +117,7 @@ bool Frame::Write(Writer &writer)
 	writer.OpenNode();
 		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
-		writer.WriteString("sTexture", sTexture.c_str());
+		writer.WriteString("sResource", sTexture.c_str());
 		if (iFps)
 			writer.WriteU32("iFps", iFps);
 
