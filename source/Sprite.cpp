@@ -323,12 +323,12 @@ u32 Sprite::GetAnimationCount() const
 	return (u32)vAnimations.Size();
 }
 
-u32 Sprite::GetAnimation() const
+u32 Sprite::GetCurrentAnimation() const
 {
 	return iCurrentAnimation;
 }
 
-const String Sprite::GetAnimationName() const
+const String Sprite::GetCurrentAnimationName() const
 {
 	String ret;
 	if (pAnimation)
@@ -635,7 +635,7 @@ bool Sprite::Write(Writer &writer)
 	writer.OpenNode();
 		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
-		writer.WriteS32("iAnimation", this->GetAnimation());
+		writer.WriteS32("iAnimation", this->GetCurrentAnimation());
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);

@@ -83,8 +83,8 @@ class SEED_CORE_API Sprite : public ISceneObject
 		virtual bool IsFinished() const;
 		virtual void NextFrame();
 		virtual void PreviousFrame();
-		virtual u32  GetAnimation() const;
-		virtual const String GetAnimationName() const;
+		virtual u32  GetCurrentAnimation() const;
+		virtual const String GetCurrentAnimationName() const;
 		virtual u32 GetAnimationCount() const;
 		virtual u32  GetFrameCount() const;
 		virtual u32  GetCurrentFrame() const;

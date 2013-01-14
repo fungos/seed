@@ -78,7 +78,7 @@ bool  File::Unload()
 bool File::Open()
 {
 	bool ret = true;
-	SEED_ASSERT_MSG(sFilename.length(), TAG "Error: No filename was given to open file!");
+	SEED_ASSERT_MSG(sFilename.length(), "Error: No filename was given to open file!");
 	pHandle = PHYSFS_openRead(sFilename.c_str());
 	if (!pHandle)
 	{
@@ -106,7 +106,7 @@ bool File::Check() const
 	bool ret = true;
 	if (!pHandle)
 	{
-		Log(TAG, "Error: Invalid handle, open the file before call this function");
+		Log(TAG "Error: Invalid handle, open the file before call this function");
 		ret = false;
 	}
 
