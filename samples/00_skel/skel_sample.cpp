@@ -36,7 +36,7 @@ void SkelSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void ImageSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+void SkelSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	Key k = ev->GetKey();
 
