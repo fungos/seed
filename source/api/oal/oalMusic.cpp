@@ -157,13 +157,15 @@ bool Music::Unload()
 	if (!bLoaded)
 		return true;
 
+	pSoundSystem->StopMusic(0, this);
 	eState = Seed::MusicStopped;
 	eFormat = AL_FORMAT_MONO16;
 	fVolume = 1.0f;
 
-	pSoundSystem->StopMusic(0, this);
 	if (iSource)
 	{
+		alSourceStop(iSource);
+
 		int queued = 0;
 		AL_CHECK(alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued));
 

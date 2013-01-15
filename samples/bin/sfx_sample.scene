@@ -1,0 +1,21 @@
+{
+	sType: SceneNode
+	sName: Main
+	aObjects: [
+		{
+			sType: Camera
+			sName: MainCamera
+			sProjection: Orthogonal
+			cPosition: {x: -400, y: -300}
+		}
+		{
+			sType: SoundSource
+			sName: audio
+			cPosition: {x: 0, y: 0, z: 0}
+			bAutoplay: true
+			bLoop: true
+			fVolume: 1.0
+			sResource: sfx.ogg
+		}
+	]
+}
