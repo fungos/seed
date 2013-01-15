@@ -40,7 +40,7 @@
 #define TAG "[Music] "
 
 #if defined(DEBUG)
-#define AL_CHECK(x)	x; if (alGetError() != AL_NO_ERROR) { fprintf(stdout, TAG "Error %d", alGetError()); SEED_ASSERT_MSG(false, "Crashing."); }
+#define AL_CHECK(x)	x; { if (ALenum _e = alGetError() != AL_NO_ERROR) { fprintf(stdout, TAG "Error %d - ", _e); SEED_ASSERT_MSG(false, "Crashing."); }}
 #else
 #define AL_CHECK(x)	x;
 #endif
