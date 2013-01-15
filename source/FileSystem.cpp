@@ -58,7 +58,8 @@ bool FileSystem::Initialize()
 	Info(TAG "Executable: %s", Seed::Private::pcArgv[0]);
 	FS_CHECK(PHYSFS_init(Seed::Private::pcArgv[0]));
 	FS_CHECK(PHYSFS_setSaneConfig(".", "", "zip", false, false));
-	FS_CHECK(PHYSFS_addToSearchPath(Seed::Private::sWorkDir.c_str(), 0));
+	if (Seed::Private::sWorkDir != "")
+		FS_CHECK(PHYSFS_addToSearchPath(Seed::Private::sWorkDir.c_str(), 0));
 	Info(TAG "Using working directory as: %s", PHYSFS_getBaseDir());
 	return true;
 }
