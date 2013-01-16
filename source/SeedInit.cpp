@@ -195,6 +195,8 @@ bool Initialize()
 
 	ret = ret && pModuleManager->Add(pFileSystem);
 	pConfiguration->Load(Private::sConfigFile);
+	if (Private::sWorkDir != "")
+		pConfiguration->SetWorkingDirectory(Private::sWorkDir); // cli has priority
 	pFileSystem->Prepare();
 	pScreen->EnableCursor(pConfiguration->IsCursorEnabled());
 
