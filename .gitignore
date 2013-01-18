@@ -42,3 +42,7 @@ tests/bin/tests
 *.ogg
 *__Debug/
 *__Release/
+/visual/vs2012/contrib/Debug/
+/visual/vs2012/seed/Debug/
+/visual/vs2012/seed/seed.sdf
+/visual/vs2012/seed/seed.v11.suo
