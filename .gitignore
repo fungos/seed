@@ -46,3 +46,10 @@ tests/bin/tests
 /visual/vs2012/seed/Debug/
 /visual/vs2012/seed/seed.sdf
 /visual/vs2012/seed/seed.v11.suo
+/visual/vs2012/Debug/
+/visual/vs2012/seed.opensdf
+/visual/vs2012/seed.sdf
+/visual/vs2012/seed.suo
+/visual/vs2012/seed.v11.suo
+/visual/vs2012/contrib/*.user
+/visual/vs2012/seed/*.user

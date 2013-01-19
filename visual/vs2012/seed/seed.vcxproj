@@ -10,6 +10,115 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\Animation.cpp" />
+    <ClCompile Include="..\..\..\source\Camera.cpp" />
+    <ClCompile Include="..\..\..\source\Checksum.cpp" />
+    <ClCompile Include="..\..\..\source\Configuration.cpp" />
+    <ClCompile Include="..\..\..\source\EventFileSystem.cpp" />
+    <ClCompile Include="..\..\..\source\EventInputJoystick.cpp" />
+    <ClCompile Include="..\..\..\source\EventInputKeyboard.cpp" />
+    <ClCompile Include="..\..\..\source\EventInputMotion.cpp" />
+    <ClCompile Include="..\..\..\source\EventInputPointer.cpp" />
+    <ClCompile Include="..\..\..\source\EventJob.cpp" />
+    <ClCompile Include="..\..\..\source\EventMovie.cpp" />
+    <ClCompile Include="..\..\..\source\EventPresentation.cpp" />
+    <ClCompile Include="..\..\..\source\EventResourceLoader.cpp" />
+    <ClCompile Include="..\..\..\source\EventSystem.cpp" />
+    <ClCompile Include="..\..\..\source\File.cpp" />
+    <ClCompile Include="..\..\..\source\FileSystem.cpp" />
+    <ClCompile Include="..\..\..\source\Frame.cpp" />
+    <ClCompile Include="..\..\..\source\Image.cpp" />
+    <ClCompile Include="..\..\..\source\interface\ICartridge.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IDataObject.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEvent.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventFileSystemListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventInput.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventInputJoystickListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventInputKeyboardListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventInputMotionListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventInputPointerListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventJobListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventMovieListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventPresentationListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventResourceLoaderListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IEventSystemListener.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IGameApp.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IInput.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IInputJoystick.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IInputKeyboard.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IInputMotion.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IInputPointer.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IModule.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IMusic.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IMutex.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IObject.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IReader.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IRenderable.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IRendererDevice.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IResource.cpp" />
+    <ClCompile Include="..\..\..\source\interface\ISceneObject.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IScreen.cpp" />
+    <ClCompile Include="..\..\..\source\interface\ISound.cpp" />
+    <ClCompile Include="..\..\..\source\interface\ISoundSource.cpp" />
+    <ClCompile Include="..\..\..\source\interface\ISoundSystem.cpp" />
+    <ClCompile Include="..\..\..\source\interface\ISystem.cpp" />
+    <ClCompile Include="..\..\..\source\interface\ITexture.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IThread.cpp" />
+    <ClCompile Include="..\..\..\source\interface\ITransformable.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IUpdatable.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IVideo.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IWriter.cpp" />
+    <ClCompile Include="..\..\..\source\Job.cpp" />
+    <ClCompile Include="..\..\..\source\JobManager.cpp" />
+    <ClCompile Include="..\..\..\source\Key.cpp" />
+    <ClCompile Include="..\..\..\source\Keyframe.cpp" />
+    <ClCompile Include="..\..\..\source\LeakReport.cpp" />
+    <ClCompile Include="..\..\..\source\map\GameMap.cpp" />
+    <ClCompile Include="..\..\..\source\map\IMapLayer.cpp" />
+    <ClCompile Include="..\..\..\source\map\IMetadataObject.cpp" />
+    <ClCompile Include="..\..\..\source\map\MapLayerMetadata.cpp" />
+    <ClCompile Include="..\..\..\source\map\MapLayerMosaic.cpp" />
+    <ClCompile Include="..\..\..\source\map\MapLayerTiled.cpp" />
+    <ClCompile Include="..\..\..\source\map\TileSet.cpp" />
+    <ClCompile Include="..\..\..\source\ModuleManager.cpp" />
+    <ClCompile Include="..\..\..\source\Movie.cpp" />
+    <ClCompile Include="..\..\..\source\Particle.cpp" />
+    <ClCompile Include="..\..\..\source\ParticleEmitter.cpp" />
+    <ClCompile Include="..\..\..\source\platform\pc\pcCartridge.cpp" />
+    <ClCompile Include="..\..\..\source\platform\pc\pcLog.cpp" />
+    <ClCompile Include="..\..\..\source\platform\pc\pcRendererDevice.cpp" />
+    <ClCompile Include="..\..\..\source\platform\pc\seed_win32.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlInput.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlMutex.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlScreen.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlSystem.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlTexture.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlThread.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlTimer.cpp" />
+    <ClCompile Include="..\..\..\source\Presentation.cpp" />
+    <ClCompile Include="..\..\..\source\Profiler.cpp" />
+    <ClCompile Include="..\..\..\source\Rand.cpp" />
+    <ClCompile Include="..\..\..\source\Reader.cpp" />
+    <ClCompile Include="..\..\..\source\Renderer.cpp" />
+    <ClCompile Include="..\..\..\source\RendererManager.cpp" />
+    <ClCompile Include="..\..\..\source\ResourceGroup.cpp" />
+    <ClCompile Include="..\..\..\source\ResourceLoader.cpp" />
+    <ClCompile Include="..\..\..\source\ResourceManager.cpp" />
+    <ClCompile Include="..\..\..\source\SaveSystem.cpp" />
+    <ClCompile Include="..\..\..\source\SceneManager.cpp" />
+    <ClCompile Include="..\..\..\source\SceneNode.cpp" />
+    <ClCompile Include="..\..\..\source\SceneObjectFactory.cpp" />
+    <ClCompile Include="..\..\..\source\SeedInit.cpp" />
+    <ClCompile Include="..\..\..\source\Sprite.cpp" />
+    <ClCompile Include="..\..\..\source\ThreadManager.cpp" />
+    <ClCompile Include="..\..\..\source\Timeline.cpp" />
+    <ClCompile Include="..\..\..\source\Updater.cpp" />
+    <ClCompile Include="..\..\..\source\ViewManager.cpp" />
+    <ClCompile Include="..\..\..\source\Viewport.cpp" />
+    <ClCompile Include="..\..\..\source\Writer.cpp" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{86AE299C-0A83-4BBF-9718-41E7D1F04071}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
@@ -39,15 +148,18 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>$(ProjectDir)..\..\..\include\;$(ProjectDir)..\..\..\contrib\;$(ProjectDir)..\..\..\contrib\windows\;$(IncludePath)</IncludePath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;BUILD_SDL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4521</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

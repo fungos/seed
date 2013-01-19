@@ -1496,7 +1496,10 @@ static int locateInStringList(const char *str,
 
 static void enumFilesCallback(void *data, const char *origdir, const char *str)
 {
+#ifndef _MSC_VER	//SEED BCS
 	(void)origdir;
+#endif
+
 	PHYSFS_uint32 pos;
 	void *ptr;
 	char *newstr;
