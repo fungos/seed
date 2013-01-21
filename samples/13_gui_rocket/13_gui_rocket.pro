@@ -14,6 +14,7 @@ HEADERS += \
 
 OTHER_FILES += \
 	../bin/rocket_app.config \
+	../bin/rocket_sample.config \
 	../bin/rocket_sample.scene \
 	../bin/rocket_invader.rcss \
 	../bin/rocket_invader.png \

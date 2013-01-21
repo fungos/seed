@@ -7,12 +7,10 @@
 using namespace Seed;
 using namespace Seed::RocketGui;
 
-extern SceneNode *gScene;
-
 class RocketSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventJobListener
+					public IEventPresentationListener
 {
 	public:
 		RocketSample();
@@ -20,6 +18,10 @@ class RocketSample : public IGameApp,
 
 		virtual bool Initialize();
 		virtual bool Shutdown();
+
+		bool LoadGUI(const String &doc);
+		bool ReloadGUI();
+		bool UnloadGUI();
 
 		bool InitializeGUI();
 		void ReleaseGUI();
@@ -30,22 +32,21 @@ class RocketSample : public IGameApp,
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
 
-		// IEventJobListener
-		virtual void OnJobCompleted(const EventJob *ev);
-		virtual void OnJobAborted(const EventJob *ev);
+		// IEventPresentationListener
+		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	private:
 		SEED_DISABLE_COPY(RocketSample);
 
 	protected:
-		SceneNode	cScene;
-		Viewport	cViewport;
-		Camera		*pCamera;
-		Renderer	cRenderer;
-
+		SceneNode *pScene;
 		RocketInterface *pI;
 		Rocket::Core::Context *pContext;
 		Rocket::Core::ElementDocument *pDoc;
+		Presentation cPres;
+
+		String sDocument;
+		bool bLoaded;
 };
 
 #endif // _ROCKET_SAMPLE_H_

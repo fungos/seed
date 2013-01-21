@@ -3,17 +3,14 @@
 #include <Rocket/Debugger.h>
 #include <Rocket/Controls.h>
 
-SceneNode *gScene;
-
-enum
-{
-	kJobLoadScene
-};
-
 RocketSample::RocketSample()
-	: pI(NULL)
+	: pScene(NULL)
+	, pI(NULL)
 	, pContext(NULL)
 	, pDoc(NULL)
+	, cPres()
+	, sDocument("")
+	, bLoaded(false)
 {
 }
 
@@ -23,40 +20,17 @@ RocketSample::~RocketSample()
 
 bool RocketSample::Initialize()
 {
-	/* ------- Rendering Initialization ------- */
-	cRenderer.SetScene(&cScene);
-
-	cViewport.sName = "MainView";
-	cRenderer.sName = "MainRenderer";
-
-	cViewport.SetHeight(pScreen->GetHeight());
-	cViewport.SetWidth(pScreen->GetWidth());
-	cViewport.SetRenderer(&cRenderer);
-
-	pViewManager->Add(&cViewport);
-	pRendererManager->Add(&cRenderer);
-	pSceneManager->Add(&cScene);
-	gScene = &cScene;
-	/* ------- Rendering Initialization ------- */
-
-	pJobManager->Add(New(FileLoader("rocket_sample.scene", kJobLoadScene, this)));
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-
-	return this->InitializeGUI();
+	IGameApp::Initialize();
+	return cPres.Load("rocket_sample.config", this);
 }
 
 bool RocketSample::Shutdown()
 {
 	this->ReleaseGUI();
+	cPres.Unload();
 
 	pInput->RemoveKeyboardListener(this);
 	pSystem->RemoveListener(this);
-
-	pSceneManager->Reset();
-	pRendererManager->Reset();
-	pViewManager->Reset();
-	gScene->Unload();
 
 	return IGameApp::Shutdown();
 }
@@ -77,34 +51,57 @@ void RocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->Print();
 	else if (k == Seed::KeyF2)
 		pResourceManager->GarbageCollect();
+	else if (k == Seed::KeyF5)
+		this->ReloadGUI();
 	else if (k == Seed::KeyF12)
 		Rocket::Debugger::SetVisible(!Rocket::Debugger::IsVisible());
 }
 
-void RocketSample::OnJobCompleted(const EventJob *ev)
+void RocketSample::OnPresentationLoaded(const EventPresentation *ev)
 {
-	switch (ev->GetName())
-	{
-		case kJobLoadScene:
-		{
-			FileLoader *job = (FileLoader *)ev->GetJob();
-			Reader r(job->pFile);
-			gScene->Load(r);
-			Delete(job);
+	UNUSED(ev)
+	pScene = cPres.GetRendererByName("MainRenderer")->GetScene();
 
-			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
-			cViewport.SetCamera(pCamera);
+	pSystem->AddListener(this);
+	pInput->AddKeyboardListener(this);
 
-			gScene->Add(pI);
-		}
-		break;
-	}
+	this->InitializeGUI();
 }
 
-void RocketSample::OnJobAborted(const EventJob *ev)
+bool RocketSample::UnloadGUI()
 {
-	Job *job = ev->GetJob();
-	Delete(job);
+	Log("Unloading GUI Document");
+	if (pDoc)
+	{
+		pDoc->Hide();
+		pContext->UnloadDocument(pDoc);
+		pDoc->RemoveReference();
+		pDoc = NULL;
+	}
+
+	bLoaded = false;
+	return true;
+}
+
+bool RocketSample::ReloadGUI()
+{
+	return this->LoadGUI(sDocument);
+}
+
+bool RocketSample::LoadGUI(const String &doc)
+{
+	if (this->UnloadGUI())
+	{
+		Log("Loading GUI Document");
+		pDoc = pContext->LoadDocument(doc.c_str());
+		if (pDoc != NULL)
+			pDoc->Show();
+
+		sDocument = doc;
+		bLoaded = true;
+	}
+
+	return bLoaded;
 }
 
 bool RocketSample::InitializeGUI()
@@ -134,15 +131,12 @@ bool RocketSample::InitializeGUI()
 		Rocket::Core::FontDatabase::LoadFontFace(fonts[i]);
 
 	Rocket::Debugger::Initialise(pContext);
-	pDoc = pContext->LoadDocument("rocket_menu.rml");
-	if (pDoc != NULL)
-		pDoc->Show();
-
 	pI->SetCurrentContext(pContext);
 	pInput->AddKeyboardListener(pI);
 	pInput->AddPointerListener(pI);
+	pScene->Add(pI);
 
-	return true;
+	return this->LoadGUI("rocket_menu.rml");
 }
 
 void RocketSample::ReleaseGUI()
@@ -155,7 +149,8 @@ void RocketSample::ReleaseGUI()
 	pContext->RemoveReference();
 
 	Rocket::Core::Shutdown();
+	bLoaded = false;
 
-	gScene->Remove(pI);
+	pScene->Remove(pI);
 	Delete(pI);
 }
