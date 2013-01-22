@@ -142,7 +142,7 @@ class SEED_CORE_API StateMachine
 			Vector<StateMachineTransition *>().swap(vTransitions);
 		}
 
-		eReturnCode Initialize(StateMachineState *state, IObject *userData)
+		eReturnCode Initialize(StateMachineState *state, IObject *userData = NULL)
 		{
 			if (!state)
 				return StateNotFound; //invalid state
@@ -180,7 +180,7 @@ class SEED_CORE_API StateMachine
 			return pCurrentState;
 		}
 
-		inline eReturnCode OnEvent(StateMachineEvent *evt, IObject *pUserData)
+		inline eReturnCode OnEvent(StateMachineEvent *evt, IObject *pUserData = NULL)
 		{
 			unsigned int i = 0;
 
