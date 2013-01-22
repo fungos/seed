@@ -37,6 +37,8 @@
 #include "Texture.h"
 #include "Vertex.h"
 
+
+
 #if defined(BUILD_SDL)
 #undef NO_SDL_GLEXT
 #define NO_SDL_GLEXT	1
@@ -119,6 +121,10 @@
 
 #define TAG "[OGLES1RendererDevice] "
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 namespace Seed { namespace OpenGL {
 
 OGLES1RendererDevice::OGLES1RendererDevice()
@@ -191,7 +197,7 @@ bool OGLES1RendererDevice::Initialize()
 
 bool OGLES1RendererDevice::Reset()
 {
-	#warning FIXME - mutex lock guard here (?)
+	//#warning FIXME - mutex lock guard here (?)
 	ITextureVector().swap(vTexture);
 	return true;
 }
@@ -367,19 +373,19 @@ void OGLES1RendererDevice::SetTextureParameters(const ITexture *texture) const
 
 void OGLES1RendererDevice::TextureRequestAbort(ITexture *texture)
 {
-	#warning FIXME - mutex lock guard here
+	//#warning FIXME - mutex lock guard here
 	vTexture -= texture;
 }
 
 void OGLES1RendererDevice::TextureRequest(ITexture *texture)
 {
-	#warning FIXME - mutex lock guard here
+	//#warning FIXME - mutex lock guard here
 	vTexture += texture;
 }
 
 void OGLES1RendererDevice::TextureRequestProcess() const
 {
-	#warning FIXME - mutex lock guard here
+	//#warning FIXME - mutex lock guard here
 
 	GL_TRACE("BEGIN TextureRequestProcess")
 	ITextureVector::iterator it = vTexture.begin();

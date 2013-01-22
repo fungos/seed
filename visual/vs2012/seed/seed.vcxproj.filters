@@ -1,0 +1,287 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="api">
+      <UniqueIdentifier>{d9b9c3f0-60e8-47c8-9319-d24e03baa273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="interface">
+      <UniqueIdentifier>{dbdf8337-09e7-4640-b79c-37fee7496438}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="map">
+      <UniqueIdentifier>{8f7f80ab-dfff-4b99-8342-47e9da84960c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform">
+      <UniqueIdentifier>{152b018c-daaa-4c3a-9b17-0e929c534f59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\sdl">
+      <UniqueIdentifier>{85962d45-cc65-4931-b864-3a149bbe7854}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\pc">
+      <UniqueIdentifier>{e5f16140-1343-43a9-b73b-b1690b622012}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\oal">
+      <UniqueIdentifier>{2de3250f-8ca7-4c4a-b0b0-ce6fe1d86cfd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\gl">
+      <UniqueIdentifier>{30b90917-6f93-463a-bcb6-7fef5778ad13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\yajl">
+      <UniqueIdentifier>{3aaf6bc0-591f-4239-8982-bce0fee1821c}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\Animation.cpp" />
+    <ClCompile Include="..\..\..\source\Camera.cpp" />
+    <ClCompile Include="..\..\..\source\Checksum.cpp" />
+    <ClCompile Include="..\..\..\source\Configuration.cpp" />
+    <ClCompile Include="..\..\..\source\EventFileSystem.cpp" />
+    <ClCompile Include="..\..\..\source\EventInputJoystick.cpp" />
+    <ClCompile Include="..\..\..\source\EventInputKeyboard.cpp" />
+    <ClCompile Include="..\..\..\source\EventInputMotion.cpp" />
+    <ClCompile Include="..\..\..\source\EventInputPointer.cpp" />
+    <ClCompile Include="..\..\..\source\EventJob.cpp" />
+    <ClCompile Include="..\..\..\source\EventMovie.cpp" />
+    <ClCompile Include="..\..\..\source\EventPresentation.cpp" />
+    <ClCompile Include="..\..\..\source\EventResourceLoader.cpp" />
+    <ClCompile Include="..\..\..\source\EventSystem.cpp" />
+    <ClCompile Include="..\..\..\source\File.cpp" />
+    <ClCompile Include="..\..\..\source\FileSystem.cpp" />
+    <ClCompile Include="..\..\..\source\Frame.cpp" />
+    <ClCompile Include="..\..\..\source\Image.cpp" />
+    <ClCompile Include="..\..\..\source\Job.cpp" />
+    <ClCompile Include="..\..\..\source\JobManager.cpp" />
+    <ClCompile Include="..\..\..\source\Key.cpp" />
+    <ClCompile Include="..\..\..\source\Keyframe.cpp" />
+    <ClCompile Include="..\..\..\source\LeakReport.cpp" />
+    <ClCompile Include="..\..\..\source\ModuleManager.cpp" />
+    <ClCompile Include="..\..\..\source\Movie.cpp" />
+    <ClCompile Include="..\..\..\source\Particle.cpp" />
+    <ClCompile Include="..\..\..\source\ParticleEmitter.cpp" />
+    <ClCompile Include="..\..\..\source\Presentation.cpp" />
+    <ClCompile Include="..\..\..\source\Profiler.cpp" />
+    <ClCompile Include="..\..\..\source\Rand.cpp" />
+    <ClCompile Include="..\..\..\source\Reader.cpp" />
+    <ClCompile Include="..\..\..\source\Renderer.cpp" />
+    <ClCompile Include="..\..\..\source\RendererManager.cpp" />
+    <ClCompile Include="..\..\..\source\ResourceGroup.cpp" />
+    <ClCompile Include="..\..\..\source\ResourceLoader.cpp" />
+    <ClCompile Include="..\..\..\source\ResourceManager.cpp" />
+    <ClCompile Include="..\..\..\source\SaveSystem.cpp" />
+    <ClCompile Include="..\..\..\source\SceneManager.cpp" />
+    <ClCompile Include="..\..\..\source\SceneNode.cpp" />
+    <ClCompile Include="..\..\..\source\SceneObjectFactory.cpp" />
+    <ClCompile Include="..\..\..\source\SeedInit.cpp" />
+    <ClCompile Include="..\..\..\source\Sprite.cpp" />
+    <ClCompile Include="..\..\..\source\ThreadManager.cpp" />
+    <ClCompile Include="..\..\..\source\Timeline.cpp" />
+    <ClCompile Include="..\..\..\source\Updater.cpp" />
+    <ClCompile Include="..\..\..\source\ViewManager.cpp" />
+    <ClCompile Include="..\..\..\source\Viewport.cpp" />
+    <ClCompile Include="..\..\..\source\Writer.cpp" />
+    <ClCompile Include="..\..\..\source\interface\ICartridge.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IDataObject.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEvent.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventFileSystemListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventInput.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventInputJoystickListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventInputKeyboardListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventInputMotionListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventInputPointerListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventJobListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventMovieListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventPresentationListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventResourceLoaderListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IEventSystemListener.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IGameApp.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IInput.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IInputJoystick.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IInputKeyboard.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IInputMotion.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IInputPointer.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IModule.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IMusic.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IMutex.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IObject.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IReader.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IRenderable.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IRendererDevice.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IResource.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\ISceneObject.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IScreen.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\ISound.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\ISoundSource.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\ISoundSystem.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\ISystem.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\ITexture.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IThread.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\ITransformable.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IUpdatable.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IVideo.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IWriter.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\map\GameMap.cpp">
+      <Filter>map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\map\IMapLayer.cpp">
+      <Filter>map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\map\IMetadataObject.cpp">
+      <Filter>map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\map\MapLayerMetadata.cpp">
+      <Filter>map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\map\MapLayerMosaic.cpp">
+      <Filter>map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\map\MapLayerTiled.cpp">
+      <Filter>map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\map\TileSet.cpp">
+      <Filter>map</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlInput.cpp">
+      <Filter>platform\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlMutex.cpp">
+      <Filter>platform\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlScreen.cpp">
+      <Filter>platform\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlSystem.cpp">
+      <Filter>platform\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlTexture.cpp">
+      <Filter>platform\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlThread.cpp">
+      <Filter>platform\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlTimer.cpp">
+      <Filter>platform\sdl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\pc\pcCartridge.cpp">
+      <Filter>platform\pc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\pc\pcLog.cpp">
+      <Filter>platform\pc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\pc\pcRendererDevice.cpp">
+      <Filter>platform\pc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\pc\seed_win32.cpp">
+      <Filter>platform\pc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\oal\oalMusic.cpp">
+      <Filter>api\oal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\oal\oalSound.cpp">
+      <Filter>api\oal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\oal\oalSoundSource.cpp">
+      <Filter>api\oal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\oal\oalSoundSystem.cpp">
+      <Filter>api\oal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\oal\vorbis_util.cpp">
+      <Filter>api\oal</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES1RendererDevice.cpp">
+      <Filter>api\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\yajl\JsonReader.cpp">
+      <Filter>api\yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\yajl\JsonWriter.cpp">
+      <Filter>api\yajl</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

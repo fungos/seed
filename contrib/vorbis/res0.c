@@ -392,7 +392,9 @@ static int local_book_besterror(codebook *book,int *a){
 
 static int _encodepart(oggpack_buffer *opb,int *vec, int n,
 					   codebook *book,long *acc){
+#ifndef _MSC_VER
   (void)acc;
+#endif
   int i,bits=0;
   int dim=book->dim;
   int step=n/dim;
@@ -542,8 +544,10 @@ static int _01forward(oggpack_buffer *opb,
 									codebook *,long *),
 					  int submap){
   long i,j,k,s;
+#ifndef _MSC_VER
   (void)vb;
   (void)submap;
+#endif
   vorbis_look_residue0 *look=(vorbis_look_residue0 *)vl;
   vorbis_info_residue0 *info=look->info;
 

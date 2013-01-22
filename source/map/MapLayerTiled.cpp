@@ -65,7 +65,7 @@ MapLayerTiled::~MapLayerTiled()
 
 bool MapLayerTiled::Unload()
 {
-	Free(pElements)
+	Free(pElements);
 	Free(pVertex);
 	Free(pTileData);
 	pTileSet = NULL;
@@ -127,8 +127,8 @@ void MapLayerTiled::Update(f32 dt)
 	UNUSED(dt)
 	if (bRebuildMesh && pTileSet && pTileData)
 	{
-		this->SetWidth(ptMapSize.x * ptTileSize.x);
-		this->SetHeight(ptMapSize.y * ptTileSize.y);
+		this->SetWidth(static_cast<f32>(ptMapSize.x * ptTileSize.x));
+		this->SetHeight(static_cast<f32>(ptMapSize.y * ptTileSize.y));
 
 		u32 vertexAmount = ptMapSize.x * ptMapSize.y * 4;
 		u32 elementAmount = ptMapSize.x * ptMapSize.y * 6;

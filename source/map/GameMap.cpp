@@ -165,8 +165,8 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 	}
 	reader.UnselectArray();
 
-	this->SetWidth(ptMapSize.x * ptTileSize.x);
-	this->SetHeight(ptMapSize.y * ptTileSize.y);
+	this->SetWidth(static_cast<f32>(ptMapSize.x * ptTileSize.x));
+	this->SetHeight(static_cast<f32>(ptMapSize.y * ptTileSize.y));
 
 	return true;
 }
@@ -174,7 +174,7 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 bool GameMap::Write(Writer &writer)
 {
 	UNUSED(writer)
-	#warning IMPL - GameMap::Write(Writer &writer)
+	//#pragma warning "IMPL - GameMap::Write(Writer &writer)"
 	return true;
 }
 

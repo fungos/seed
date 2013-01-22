@@ -42,3 +42,14 @@ tests/bin/tests
 *.ogg
 *__Debug/
 *__Release/
+/visual/vs2012/Debug/
+/visual/vs2012/Sample_00_skel/Debug/
+/visual/vs2012/contrib/Debug/
+/visual/vs2012/Sample_00_skel/Sample_00_skel.vcxproj.user
+/visual/vs2012/Sample_01_presentation/Debug/
+/visual/vs2012/Sample_01_presentation/Sample_01_presentation.vcxproj.user
+/visual/vs2012/seed.opensdf
+/visual/vs2012/seed.sdf
+/visual/vs2012/seed.v11.suo
+/visual/vs2012/seed/Debug/
+/visual/vs2012/seed/seed.vcxproj.user

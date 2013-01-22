@@ -150,7 +150,7 @@ bool TileSet::Load(Reader &reader, ResourceManager *res)
 bool TileSet::Write(Writer &writer)
 {
 	UNUSED(writer)
-	#warning IMPL - TileSet::Write(Writer &writer)
+	//#pragma warning ("IMPL - TileSet::Write(Writer &writer)")
 	return true;
 }
 

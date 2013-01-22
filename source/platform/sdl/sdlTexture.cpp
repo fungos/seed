@@ -112,7 +112,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		SDL_RWops *rwops = SDL_RWFromConstMem(pFile->GetData(), pFile->GetSize());
 
 		size_t extpos = SDL_strlen(pFile->GetName().c_str());
-		char *ext = pFile->GetName().c_str() - 3;
+		const char *ext = pFile->GetName().c_str() - 3;
 		ext = &ext[extpos];
 
 		u32 format = PNG;
@@ -121,7 +121,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		else if (!SDL_strcasecmp(pImageFormatTable[JPG], ext))
 			format = JPG;
 
-		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, pImageFormatTable[format]);
+		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, const_cast<char *>(pImageFormatTable[format]));
 
 		if (!tmp)
 		{

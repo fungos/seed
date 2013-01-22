@@ -336,13 +336,13 @@ bool Input::IsPointerEnabled(u16 joystick) const
 f32 Input::GetX(u16 joystick) const
 {
 	UNUSED(joystick);
-	return iX;
+	return static_cast<f32>(iX);
 }
 
 f32 Input::GetY(u16 joystick) const
 {
 	UNUSED(joystick);
-	return iY;
+	return static_cast<f32>(iY);
 }
 
 f32 Input::GetRelativeX(u16 joystick) const

@@ -121,7 +121,7 @@ bool Screen::Prepare()
 		else
 		{
 			Log(TAG "Error: Failed to auto detect video mode.");
-			return;
+			return false;
 		}
 	}
 

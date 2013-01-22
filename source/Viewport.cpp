@@ -119,8 +119,8 @@ void Viewport::Render()
 {
 	if (pRenderer && pCamera)
 	{
-		pCamera->SetView(Rect4f(iX, iY, iWidth, iHeight));
-		pRendererDevice->SetViewport(iX, iY, iWidth, iHeight);
+		pCamera->SetView(Rect4f(static_cast<f32>(iX), static_cast<f32>(iY), static_cast<f32>(iWidth), static_cast<f32>(iHeight)));
+		pRendererDevice->SetViewport(static_cast<f32>(iX), static_cast<f32>(iY), static_cast<f32>(iWidth), static_cast<f32>(iHeight));
 		pRenderer->Render(pCamera);
 	}
 }

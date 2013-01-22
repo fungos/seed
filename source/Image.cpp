@@ -144,8 +144,8 @@ void Image::UpdateCoords()
 {
 	iWidth = pTexture->GetWidth();
 	iHeight = pTexture->GetHeight();
-	ITransformable::SetWidth(pTexture->GetWidth()); // set normalized width
-	ITransformable::SetHeight(pTexture->GetHeight()); // set normalized height
+	ITransformable::SetWidth(static_cast<f32>(pTexture->GetWidth())); // set normalized width
+	ITransformable::SetHeight(static_cast<f32>(pTexture->GetHeight())); // set normalized height
 
 	f32 rInvWidth = 1.0f / pTexture->GetAtlasWidth(); // full width from image, not only frame area
 	f32 rInvHeight = 1.0f / pTexture->GetAtlasHeight(); // full height from image, not only frame area

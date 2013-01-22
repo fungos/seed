@@ -117,7 +117,7 @@ bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 bool IMetadataObject::Write(Writer &writer)
 {
 	UNUSED(writer)
-	#warning IMPL - IMetadataObject::Write(Writer &writer)
+	//#pragma warning "IMPL - IMetadataObject::Write(Writer &writer)"
 	return true;
 }
 
@@ -238,7 +238,7 @@ const String &IMetadataObject::GetProperty(const String &property) const
 
 bool IMetadataObject::CheckHit(const Rect4f &area, Rect4f &overlap) const
 {
-	#warning FIXME - Implementar em coordenadas de mundo
+	//#warning FIXME - Implementar em coordenadas de mundo
 	return area.GetOverlappedRect(rBox, overlap);
 }
 

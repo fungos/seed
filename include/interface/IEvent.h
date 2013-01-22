@@ -81,10 +81,11 @@ class SEED_CORE_API IEvent : public IObject
 		// IObject
 		virtual int GetObjectType() const override;
 		virtual const String GetClassName() const override;
-
-	protected:
+	
+	private:
 		SEED_DISABLE_COPY(IEvent);
 
+	protected:
 		eType	iType;
 		u32		iId;
 		bool	bConsumed;

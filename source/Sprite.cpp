@@ -238,8 +238,8 @@ void Sprite::ReconfigureFrame()
 {
 	SEED_ASSERT(pFrameTexture);
 
-	ITransformable::SetWidth(pFrame->iWidth);
-	ITransformable::SetHeight(pFrame->iHeight);
+	ITransformable::SetWidth(static_cast<f32>(pFrame->iWidth));
+	ITransformable::SetHeight(static_cast<f32>(pFrame->iHeight));
 
 	f32 u0, u1, v0, v1;
 

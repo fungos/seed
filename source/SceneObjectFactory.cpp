@@ -97,7 +97,7 @@ ISceneObject *SceneObjectFactory::Load(Reader &reader, ResourceManager *res) con
 	String include = reader.ReadString("sInclude", "");
 	if (include != "")
 	{
-		#warning FIXME - Find a way to guarantee that all jobs finished before finishing scene loading
+		//#warning FIXME - Find a way to guarantee that all jobs finished before finishing scene loading
 		// TODO: it is possible that scene will finish loading before it's dependencies,
 		// and then presentation can fire the completed event before all scene elements
 		// are loaded, trying to access them from there can cause crash. How to guarantee
