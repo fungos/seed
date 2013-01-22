@@ -55,9 +55,9 @@ div#title_bar span
 	font-size: 22;
 	font-weight: bold;
 
-	/*outline-font-effect: outline;
+	outline-font-effect: outline;
 	outline-width: 2px;
-	outline-color: black;*/
+	outline-color: black;
 
 	background-decorator: tiled-horizontal;
 	background-left-image: rocket_invader.png 147px 0px 229px 85px;

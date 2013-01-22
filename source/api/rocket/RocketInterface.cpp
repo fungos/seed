@@ -93,6 +93,7 @@ void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_ver
 	packet.pVertexBuffer = &cVertexBuffer;
 	packet.pTransform = &transform;
 	packet.nMeshType = Seed::Triangles;
+	packet.nBlendMode = Seed::BlendModulate;
 	TexturePtr *tex = (TexturePtr *)texture;
 	if (tex)
 		packet.pTexture = tex->pTex;
@@ -137,6 +138,7 @@ Rocket::Core::CompiledGeometryHandle RocketInterface::CompileGeometry(Rocket::Co
 	if (tex)
 		packet->pTexture = tex->pTex;
 	packet->nMeshType = Seed::Triangles;
+	packet->nBlendMode = Seed::BlendModulate;
 
 	return (Rocket::Core::CompiledGeometryHandle)packet;
 }
