@@ -12,7 +12,7 @@
 			sType: SoundSource
 			sName: audio
 			cPosition: {x: 0, y: 0, z: 0}
-			bAutoplay: true
+			bAutoPlay: true
 			bLoop: true
 			fVolume: 1.0
 			sResource: sfx.ogg
