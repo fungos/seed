@@ -25,7 +25,7 @@ bool SpriteSample::Initialize()
 
 bool SpriteSample::Update(f32 dt)
 {
-	#warning FIXME - Find a way to guarantee that all jobs finished before finishing scene loading (SceneObjectFactory.cpp)
+	//#warning FIXME - Find a way to guarantee that all jobs finished before finishing scene loading (SceneObjectFactory.cpp)
 	if (!pSprite && cPres.GetRendererByName("MainRenderer")->GetScene())
 		pSprite = (Sprite *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
 
