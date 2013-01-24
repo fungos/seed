@@ -23,7 +23,7 @@
 		</style>
 	</head>
 	<body template="window" onload="load">
-		<button id="menu">Resume</button>
+		<button id="game">Resume</button>
 		<button id="menu">Quit to main menu</button>
 	</body>
 </rml>
