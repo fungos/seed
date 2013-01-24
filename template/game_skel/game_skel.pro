@@ -14,25 +14,32 @@ HEADERS += \
 	game.h
 
 OTHER_FILES += \
-	bin/app.config \
-	bin/game.config \
-	bin/empty.scene \
-	bin/game.scene \
-	bin/mainmenu.rml \
-	bin/rocket_invader.png \
-	bin/Delicious-Bold.otf \
-	bin/Delicious-Italic.otf \
-	bin/Delicious-Roman.otf \
-	bin/Delicious-BoldItalic.otf \
-	bin/window.rml \
-	bin/gameplay.rml \
-	bin/common.rcss \
-	bin/window.rcss \
-	bin/credits.rml \
-	bin/options.rml \
-	bin/game.rml \
-	bin/gamepause.rml \
-	bin/frame03.png
+#Configs
+	resources/configs/app.config \
+	resources/configs/game.config \
+#Fonts
+	resources/fonts/Delicious-Roman.otf \
+	resources/fonts/Delicious-Italic.otf \
+	resources/fonts/Delicious-Bold.otf \
+	resources/fonts/Delicious-BoldItalic.otf \
+#Scenes
+	resources/scenes/empty.scene \
+	resources/scenes/game.scene \
+#Textures
+	resources/textures/rocket_invader.png \
+	resources/textures/frame03.png \
+#UIs
+    #Styles
+	resources/uis/styles/common.rcss \
+	resources/uis/styles/window.rcss \
+    #Views
+	resources/uis/views/mainmenu.rml \
+	resources/uis/views/window.rml \
+	resources/uis/views/gameplay.rml \
+	resources/uis/views/credits.rml \
+	resources/uis/views/options.rml \
+	resources/uis/views/game.rml \
+	resources/uis/views/gamepause.rml
 
 CONFIG(debug, debug|release) {
 	DESTDIR = bin
