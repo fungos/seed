@@ -40,6 +40,16 @@ class Options : public StateMachineState
 		virtual void OnStop(IObject *);
 };
 
+class GamePause : public StateMachineState
+{
+	public:
+		GamePause();
+		virtual ~GamePause();
+		virtual void OnStart(IObject *);
+		virtual void OnUpdate(f32);
+		virtual void OnStop(IObject *);
+};
+
 class Game;
 class GameState : public StateMachineState
 {
@@ -107,12 +117,14 @@ class GameFlow : public IGameApp,
 		Options				cOptions;
 		Credits				cCredits;
 		GameState			cGame;
+		GamePause			cGamePause;
 
 		// State Machine Events
 		StateMachineEvent	cOnMenu;
 		StateMachineEvent	cOnOptions;
 		StateMachineEvent	cOnCredits;
 		StateMachineEvent	cOnGame;
+		StateMachineEvent	cOnGamePause;
 
 		// State Machine transitions
 		StateMachineTransition cMenuToGame;
@@ -120,7 +132,9 @@ class GameFlow : public IGameApp,
 		StateMachineTransition cMenuToCredits;
 		StateMachineTransition cOptionsToMenu;
 		StateMachineTransition cCreditsToMenu;
-		StateMachineTransition cGameToMenu;
+		StateMachineTransition cGameToGamePause;
+		StateMachineTransition cGamePauseToGame;
+		StateMachineTransition cGamePauseToMenu;
 
 		// GUI
 		RocketInterface			*pRocket;

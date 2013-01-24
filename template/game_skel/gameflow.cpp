@@ -30,7 +30,10 @@ bool GameFlow::Initialize()
 	cMenuToCredits.Initialize(&cMenu, &cOnCredits, &cCredits);
 	cOptionsToMenu.Initialize(&cOptions, &cOnMenu, &cMenu);
 	cCreditsToMenu.Initialize(&cCredits, &cOnMenu, &cMenu);
-	cGameToMenu.Initialize(&cGame, &cOnMenu, &cMenu);
+
+	cGameToGamePause.Initialize(&cGame, &cOnGamePause, &cGamePause);
+	cGamePauseToGame.Initialize(&cGamePause, &cOnGame, &cGame);
+	cGamePauseToMenu.Initialize(&cGamePause, &cOnMenu, &cMenu);
 
 	// Create the State Machine.
 	cFlow.RegisterTransition(&cMenuToGame);
@@ -38,7 +41,9 @@ bool GameFlow::Initialize()
 	cFlow.RegisterTransition(&cMenuToCredits);
 	cFlow.RegisterTransition(&cOptionsToMenu);
 	cFlow.RegisterTransition(&cCreditsToMenu);
-	cFlow.RegisterTransition(&cGameToMenu);
+	cFlow.RegisterTransition(&cGameToGamePause);
+	cFlow.RegisterTransition(&cGamePauseToGame);
+	cFlow.RegisterTransition(&cGamePauseToMenu);
 
 	IGameApp::Initialize();
 
@@ -78,8 +83,10 @@ void GameFlow::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	Key k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == Seed::KeyEscape && cFlow.GetCurrentState() == &cMenu)
 		pSystem->Shutdown();
+	if (k == Seed::KeyEscape && cFlow.GetCurrentState() == &cGame)
+		cFlow.OnEvent(&cOnGamePause);
 	else if (k == Seed::KeyF1)
 		pResourceManager->Print();
 	else if (k == Seed::KeyF2)
@@ -297,6 +304,34 @@ void Options::OnStop(IObject *data)
 {
 	UNUSED(data)
 	Log("Exiting Options State");
+}
+
+// GamePause
+GamePause::GamePause()
+{
+}
+
+GamePause::~GamePause()
+{
+}
+
+void GamePause::OnStart(IObject *data)
+{
+	UNUSED(data)
+	Log("Entering GamePause State");
+
+	gFlow->LoadGUI("gamepause.rml");
+}
+
+void GamePause::OnUpdate(f32 dt)
+{
+	UNUSED(dt)
+}
+
+void GamePause::OnStop(IObject *data)
+{
+	UNUSED(data)
+	Log("Exiting GamePause State");
 }
 
 

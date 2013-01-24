@@ -25,11 +25,13 @@ OTHER_FILES += \
 	bin/Delicious-Roman.otf \
 	bin/Delicious-BoldItalic.otf \
 	bin/window.rml \
+	bin/gameplay.rml \
 	bin/common.rcss \
 	bin/window.rcss \
 	bin/credits.rml \
 	bin/options.rml \
 	bin/game.rml \
+	bin/gamepause.rml \
 	bin/frame03.png
 
 CONFIG(debug, debug|release) {
