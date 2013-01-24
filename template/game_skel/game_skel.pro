@@ -5,13 +5,23 @@ CONFIG += glfw
 
 INCLUDEPATH += ../../include ../../contrib
 
-SOURCES += main.cpp \
-	gameflow.cpp \
-	game.cpp
+SOURCES += source/main.cpp \
+	source/gameflow.cpp \
+    source/states/credits_state.cpp \
+    source/states/main_menu_state.cpp \
+    source/states/options_state.cpp \
+    source/states/game_pause_state.cpp \
+    source/states/game_state.cpp \
+    source/scenes/game_scene.cpp
 
 HEADERS += \
-	gameflow.h \
-	game.h
+	source/gameflow.h \
+    source/states/main_menu_state.h \
+    source/states/credits_state.h \
+    source/states/options_state.h \
+    source/states/game_pause_state.h \
+    source/states/game_state.h \
+    source/scenes/game_scene.h
 
 OTHER_FILES += \
 #Configs
@@ -89,3 +99,21 @@ glfw {
 } else:sdl {
 	DEFINES += BUILD_SDL
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

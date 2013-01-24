@@ -4,73 +4,24 @@
 #include <api/rocket/RocketInterface.h>
 #include <Rocket/Core.h>
 #include <Seed.h>
+
+#include "states/main_menu_state.h"
+#include "states/options_state.h"
+#include "states/credits_state.h"
+#include "states/game_state.h"
+#include "states/game_pause_state.h"
+
 using namespace Seed;
 using namespace Seed::RocketGui;
 
 class GameFlow;
 extern GameFlow *gFlow;
 
-class MainMenu : public StateMachineState
-{
-	public:
-		MainMenu();
-		virtual ~MainMenu();
-		virtual void OnStart(IObject *);
-		virtual void OnUpdate(f32);
-		virtual void OnStop(IObject *);
-};
-
-class Credits : public StateMachineState
-{
-	public:
-		Credits();
-		virtual ~Credits();
-		virtual void OnStart(IObject *);
-		virtual void OnUpdate(f32);
-		virtual void OnStop(IObject *);
-};
-
-class Options : public StateMachineState
-{
-	public:
-		Options();
-		virtual ~Options();
-		virtual void OnStart(IObject *);
-		virtual void OnUpdate(f32);
-		virtual void OnStop(IObject *);
-};
-
-class GamePause : public StateMachineState
-{
-	public:
-		GamePause();
-		virtual ~GamePause();
-		virtual void OnStart(IObject *);
-		virtual void OnUpdate(f32);
-		virtual void OnStop(IObject *);
-};
-
-class Game;
-class GameState : public StateMachineState
-{
-	public:
-		GameState();
-		virtual ~GameState();
-		virtual void OnStart(IObject *);
-		virtual void OnUpdate(f32);
-		virtual void OnStop(IObject *);
-		void LateStop();
-
-		SceneNode cScene;
-		Game *pGame;
-		bool bDoStop;
-};
-
 class GameFlow : public IGameApp,
-							public IEventSystemListener,
-							public IEventInputKeyboardListener,
-							public IEventPresentationListener,
-							public Rocket::Core::EventListener
+		    public IEventSystemListener,
+		    public IEventInputKeyboardListener,
+		    public IEventPresentationListener,
+		    public Rocket::Core::EventListener
 {
 	public:
 		GameFlow();
@@ -113,11 +64,11 @@ class GameFlow : public IGameApp,
 		StateMachine		cFlow;
 
 		// State Machine states
-		MainMenu			cMenu;
-		Options				cOptions;
-		Credits				cCredits;
+		MainMenuState			cMenu;
+		OptionsState			cOptions;
+		CreditsState				cCredits;
 		GameState			cGame;
-		GamePause			cGamePause;
+		GamePauseState			cGamePause;
 
 		// State Machine Events
 		StateMachineEvent	cOnMenu;

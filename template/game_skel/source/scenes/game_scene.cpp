@@ -1,29 +1,29 @@
-#include "game.h"
-#include "gameflow.h"
+#include "game_scene.h"
+#include "../gameflow.h"
 
 enum
 {
 	kJobLoadScene
 };
 
-Game::Game(SceneNode *parent)
+GameScene::GameScene(SceneNode *parent)
 	: pPlayer(NULL)
 	, pScene(parent)
 {
 }
 
-Game::~Game()
+GameScene::~GameScene()
 {
 }
 
-bool Game::Initialize()
+bool GameScene::Initialize()
 {
 	gFlow->AddScene(pScene);
 	pJobManager->Add(New(FileLoader("game.scene", kJobLoadScene, this)));
 	return true;
 }
 
-bool Game::Update(f32 dt)
+bool GameScene::Update(f32 dt)
 {
 	UNUSED(dt)
 
@@ -35,7 +35,7 @@ bool Game::Update(f32 dt)
 	return true;
 }
 
-bool Game::Shutdown()
+bool GameScene::Shutdown()
 {
 	gFlow->RemoveScene(pScene);
 	pScene->Unload();
@@ -46,12 +46,12 @@ bool Game::Shutdown()
 	return true;
 }
 
-void Game::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+void GameScene::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	Key k = ev->GetKey();
 }
 
-void Game::OnJobCompleted(const EventJob *ev)
+void GameScene::OnJobCompleted(const EventJob *ev)
 {
 	switch (ev->GetName())
 	{
@@ -68,7 +68,7 @@ void Game::OnJobCompleted(const EventJob *ev)
 	}
 }
 
-void Game::OnJobAborted(const EventJob *ev)
+void GameScene::OnJobAborted(const EventJob *ev)
 {
 	Job *job = ev->GetJob();
 	Delete(job);

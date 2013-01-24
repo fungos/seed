@@ -4,12 +4,12 @@
 #include <Seed.h>
 using namespace Seed;
 
-class Game : public IEventInputKeyboardListener,
+class GameScene : public IEventInputKeyboardListener,
 			 public IEventJobListener
 {
 	public:
-		Game(SceneNode *parent);
-		virtual ~Game();
+		GameScene(SceneNode *parent);
+		virtual ~GameScene();
 
 		virtual bool Initialize();
 		virtual bool Update(f32 dt);
@@ -23,10 +23,10 @@ class Game : public IEventInputKeyboardListener,
 		virtual void OnJobAborted(const EventJob *ev);
 
 	private:
-		SEED_DISABLE_COPY(Game);
+		SEED_DISABLE_COPY(GameScene);
 
 		ISceneObject	*pPlayer;
-		SceneNode		*pScene;
+		SceneNode	*pScene;
 };
 
 #endif // _GAMEFLOW_H_
