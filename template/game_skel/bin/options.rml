@@ -18,11 +18,13 @@
 
 			div#content
 			{
-				text-align: left;
+				text-align: center;
 			}
 		</style>
 	</head>
 	<body template="window" onload="load">
+		<input type="checkbox" id="soundFX"/> Sound FX <br/>
+		<input type="checkbox" id="music"/ >Music <br/>
 		<button id="menu">Back</button>
 	</body>
 </rml>

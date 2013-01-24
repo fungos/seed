@@ -311,10 +311,11 @@ dataselect selectbox option:hover
 input.radio,
 input.checkbox
 {
-	width: 30px;
-	height: 30px;
-
-	vertical-align: -11px;
+	display:inline-block;
+	width:30px;
+	height:30px;
+	margin:-1px 4px 0 0;
+	vertical-align:middle;
 }
 
 input.radio
