@@ -14,7 +14,7 @@
 			cPosition: {x: 0, y: 0, z: 0}
 			bAutoPlay: true
 			bLoop: true
-			fVolume: 1.0
+			fVolume: 0.5
 			sResource: sfx.ogg
 		}
 	]
