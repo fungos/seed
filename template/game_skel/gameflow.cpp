@@ -339,7 +339,7 @@ void GameState::OnStop(IObject *data)
 
 /*
 We need this because we will mess with the SceneGraph from an unexpected event (ie. user input)
-and the Renderer may be trasversing the graph, so we need be sure that the destruction will happen
+and the Renderer may be traversing the graph, so we need be sure that the destruction will happen
 inside an update.
 */
 void GameState::LateStop()
