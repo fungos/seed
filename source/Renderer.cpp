@@ -100,6 +100,7 @@ bool Renderer::Update(f32 dt)
 
 	SceneNodeVector v;
 	v.push_back(pScene);
+	this->PushChildNodes(pScene, v);
 
 	SceneNodeVectorIterator it = v.begin();
 	SceneNodeVectorIterator end = v.end();
@@ -169,6 +170,7 @@ void Renderer::RenderObjects(const VisibleVector &vec) const
 	for (; it != end; ++it)
 	{
 		const VisibleObject *obj = &(*it);
+//		Log("Obj: %s Z: %f", obj->pObj->sName.c_str(), obj->pObj->GetZ());
 		obj->pObj->Render(obj->mWorldTransform);
 	}
 }

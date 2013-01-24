@@ -30,10 +30,37 @@ class Credits : public StateMachineState
 		virtual void OnStop(IObject *);
 };
 
+class Options : public StateMachineState
+{
+	public:
+		Options();
+		virtual ~Options();
+		virtual void OnStart(IObject *);
+		virtual void OnUpdate(f32);
+		virtual void OnStop(IObject *);
+};
+
+class Game;
+class GameState : public StateMachineState
+{
+	public:
+		GameState();
+		virtual ~GameState();
+		virtual void OnStart(IObject *);
+		virtual void OnUpdate(f32);
+		virtual void OnStop(IObject *);
+		void LateStop();
+
+		SceneNode cScene;
+		Game *pGame;
+		bool bDoStop;
+};
+
 class GameFlow : public IGameApp,
 							public IEventSystemListener,
 							public IEventInputKeyboardListener,
-							public IEventPresentationListener
+							public IEventPresentationListener,
+							public Rocket::Core::EventListener
 {
 	public:
 		GameFlow();
@@ -42,6 +69,9 @@ class GameFlow : public IGameApp,
 		virtual bool Initialize();
 		virtual bool Update(f32 dt);
 		virtual bool Shutdown();
+
+		void AddScene(SceneNode *node);
+		void RemoveScene(SceneNode *node);
 
 		// GUI
 		bool LoadGUI(const String &doc);
@@ -59,6 +89,9 @@ class GameFlow : public IGameApp,
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
+		// Rocket::Core::EventListener
+		virtual void ProcessEvent(Rocket::Core::Event &ev);
+
 	private:
 		SEED_DISABLE_COPY(GameFlow);
 
@@ -71,9 +104,9 @@ class GameFlow : public IGameApp,
 
 		// State Machine states
 		MainMenu			cMenu;
-		StateMachineState	cOptions;
+		Options				cOptions;
 		Credits				cCredits;
-		StateMachineState	cGame;
+		GameState			cGame;
 
 		// State Machine Events
 		StateMachineEvent	cOnMenu;

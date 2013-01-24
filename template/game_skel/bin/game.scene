@@ -1,0 +1,11 @@
+{
+	sType: SceneNode
+	sName: GameScene
+	aObjects: [
+		{
+			sType: Image
+			sName: Player
+			sResource: frame03.png
+		}
+	]
+}

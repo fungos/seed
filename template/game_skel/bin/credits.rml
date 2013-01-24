@@ -1,6 +1,6 @@
 <rml>
 	<head>
-		<title>Main Menu</title>
+		<title>Credits</title>
 		<link type="text/template" href="window.rml" />
 		<style>
 			body
@@ -23,9 +23,6 @@
 		</style>
 	</head>
 	<body template="window" onload="load">
-		<button id="game">Start Game</button><br />
-		<button id="options">Options</button><br />
-		<button id="credits">Credits</button><br />
-		<button id="exit">Exit</button>
+		<button id="menu">Back</button>
 	</body>
 </rml>

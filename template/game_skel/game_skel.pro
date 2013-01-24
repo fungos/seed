@@ -6,24 +6,31 @@ CONFIG += glfw
 INCLUDEPATH += ../../include ../../contrib
 
 SOURCES += main.cpp \
-	gameflow.cpp
+	gameflow.cpp \
+	game.cpp
 
 HEADERS += \
-	gameflow.h
+	gameflow.h \
+	game.h
 
 OTHER_FILES += \
 	bin/app.config \
 	bin/game.config \
-	bin/flow.scene \
+	bin/empty.scene \
+	bin/game.scene \
 	bin/mainmenu.rml \
 	bin/rocket_invader.png \
 	bin/Delicious-Bold.otf \
 	bin/Delicious-Italic.otf \
 	bin/Delicious-Roman.otf \
 	bin/Delicious-BoldItalic.otf \
-    bin/window.rml \
-    bin/common.rcss \
-    bin/window.rcss
+	bin/window.rml \
+	bin/common.rcss \
+	bin/window.rcss \
+	bin/credits.rml \
+	bin/options.rml \
+	bin/game.rml \
+	bin/frame03.png
 
 CONFIG(debug, debug|release) {
 	DESTDIR = bin

@@ -1,4 +1,5 @@
 #include "gameflow.h"
+#include "game.h"
 
 #include <Rocket/Debugger.h>
 #include <Rocket/Controls.h>
@@ -47,12 +48,17 @@ bool GameFlow::Initialize()
 bool GameFlow::Update(f32 dt)
 {
 	cFlow.Update(dt);
-
+	cGame.LateStop();
 	return true;
 }
 
 bool GameFlow::Shutdown()
 {
+	if (cFlow.GetCurrentState() == &cGame)
+	{
+		cGame.OnStop(NULL);
+	}
+
 	pInput->RemoveKeyboardListener(this);
 	pSystem->RemoveListener(this);
 
@@ -169,24 +175,72 @@ bool GameFlow::InitializeGUI()
 	pRocket->SetCurrentContext(pContext);
 	pInput->AddKeyboardListener(pRocket);
 	pInput->AddPointerListener(pRocket);
+	pRocket->SetZ(-1000.0f);
 	pScene->Add(pRocket);
+
+	pContext->AddEventListener("load", this);
+	pContext->AddEventListener("click", this);
 
 	return true;
 }
 
 void GameFlow::ReleaseGUI()
 {
+	pContext->RemoveEventListener("load", this);
+	pContext->RemoveEventListener("click", this);
+
 	pInput->RemovePointerListener(pRocket);
 	pInput->RemoveKeyboardListener(pRocket);
 
 	pContext->UnloadAllDocuments();
-	pDoc->RemoveReference();
+
+	if (pDoc)
+	{
+		pDoc->RemoveReference();
+		pDoc = NULL;
+	}
+
 	pContext->RemoveReference();
 
 	Rocket::Core::Shutdown();
 
 	pScene->Remove(pRocket);
 	Delete(pRocket);
+}
+
+void GameFlow::ProcessEvent(Rocket::Core::Event &ev)
+{
+	if (ev.GetType() == "load")
+	{
+
+	}
+	else if (ev.GetType() == "click")
+	{
+		Rocket::Core::String eid = ev.GetTargetElement()->GetId().ToLower();
+		if (eid.Empty())
+			return;
+
+		if (eid == "exit")
+			pSystem->Shutdown();
+		else if (eid == "credits")
+			cFlow.OnEvent(&cOnCredits);
+		else if (eid == "menu")
+			cFlow.OnEvent(&cOnMenu);
+		else if (eid == "options")
+			cFlow.OnEvent(&cOnOptions);
+		else if (eid == "game")
+			cFlow.OnEvent(&cOnGame);
+	}
+}
+
+void GameFlow::AddScene(SceneNode *node)
+{
+	pScene->Add(node);
+}
+
+void GameFlow::RemoveScene(SceneNode *node)
+{
+	pScene->Remove(node);
 }
 
 // MainMenu
@@ -215,10 +269,87 @@ void MainMenu::OnStop(IObject *data)
 {
 	UNUSED(data)
 	Log("Exiting MainMenu State");
-
-	gFlow->UnloadGUI();
 }
 
+// Options
+Options::Options()
+{
+}
+
+Options::~Options()
+{
+}
+
+void Options::OnStart(IObject *data)
+{
+	UNUSED(data)
+	Log("Entering Options State");
+
+	gFlow->LoadGUI("options.rml");
+}
+
+void Options::OnUpdate(f32 dt)
+{
+	UNUSED(dt)
+}
+
+void Options::OnStop(IObject *data)
+{
+	UNUSED(data)
+	Log("Exiting Options State");
+}
+
+
+// GameState
+GameState::GameState()
+	: cScene()
+	, pGame(NULL)
+	, bDoStop(false)
+{
+}
+
+GameState::~GameState()
+{
+}
+
+void GameState::OnStart(IObject *data)
+{
+	UNUSED(data)
+	Log("Entering Game State");
+	bDoStop = false;
+
+	gFlow->LoadGUI("game.rml");
+	pGame = New(Game(&cScene));
+	pGame->Initialize();
+	cScene.SetVisible(true);
+}
+
+void GameState::OnUpdate(f32 dt)
+{
+	pGame->Update(dt);
+}
+
+void GameState::OnStop(IObject *data)
+{
+	UNUSED(data)
+	Log("Exiting Game State");
+	bDoStop = true;
+	cScene.SetVisible(false);
+}
+
+/*
+We need this because we will mess with the SceneGraph from an unexpected event (ie. user input)
+and the Renderer may be trasversing the graph, so we need be sure that the destruction will happen
+inside an update.
+*/
+void GameState::LateStop()
+{
+	if (bDoStop && pGame)
+	{
+		pGame->Shutdown();
+		Delete(pGame);
+	}
+}
 
 // Credits
 Credits::Credits()
@@ -246,6 +377,4 @@ void Credits::OnStop(IObject *data)
 {
 	UNUSED(data)
 	Log("Exiting Credits State");
-
-	gFlow->UnloadGUI();
 }
