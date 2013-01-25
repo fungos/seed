@@ -42,16 +42,16 @@ OTHER_FILES += \
 	resources/textures/frame03.png \
 #UIs
     #Styles
-	resources/uis/styles/common.rcss \
-	resources/uis/styles/window.rcss \
+	resources/gui/styles/common.rcss \
+	resources/gui/styles/window.rcss \
     #Views
-	resources/uis/views/mainmenu.rml \
-	resources/uis/views/window.rml \
-	resources/uis/views/gameplay.rml \
-	resources/uis/views/credits.rml \
-	resources/uis/views/options.rml \
-	resources/uis/views/game.rml \
-	resources/uis/views/gamepause.rml
+	resources/gui/views/mainmenu.rml \
+	resources/gui/views/window.rml \
+	resources/gui/views/gameplay.rml \
+	resources/gui/views/credits.rml \
+	resources/gui/views/options.rml \
+	resources/gui/views/game.rml \
+	resources/gui/views/gamepause.rml
 
 CONFIG(debug, debug|release) {
 	DESTDIR = bin
