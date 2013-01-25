@@ -56,7 +56,7 @@ bool SoundSource::OnLoadFinished()
 	ALenum err = 0;
 	if (iSource)
 		alDeleteSources(1, &iSource);
-
+	
 	alGenSources(1, &iSource);
 	err = alGetError();
 	if (err != AL_NO_ERROR)

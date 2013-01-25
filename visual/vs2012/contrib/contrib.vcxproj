@@ -1050,6 +1050,7 @@
     <ClCompile Include="..\..\..\contrib\freetype\src\base\fttype1.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\base\ftwinfnt.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\base\ftxf86.c" />
+    <ClCompile Include="..\..\..\contrib\freetype\src\bdf\bdf.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\bzip2\ftbzip2.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\cache\ftcache.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\cff\cff.c" />
