@@ -8,6 +8,7 @@ GameFlow *gFlow = NULL;
 
 GameFlow::GameFlow()
 	: pScene(NULL)
+	, pGameData(NULL)
 	, pRocket(NULL)
 	, pContext(NULL)
 	, pDoc(NULL)
@@ -23,6 +24,9 @@ GameFlow::~GameFlow()
 bool GameFlow::Initialize()
 {
 	bool init = cPres.Load("game.config", this);
+
+	// Create the State Machine Data
+	pGameData = New(GameData());
 
 	// Create the transitions
 	cMenuToGame.Initialize(&cMenu, &cOnGame, &cGame);
@@ -70,6 +74,8 @@ bool GameFlow::Shutdown()
 	this->ReleaseGUI();
 	cPres.Unload();
 
+	Delete(pGameData);
+
 	return IGameApp::Shutdown();
 }
 
@@ -86,7 +92,7 @@ void GameFlow::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 	if (k == Seed::KeyEscape && cFlow.GetCurrentState() == &cMenu)
 		pSystem->Shutdown();
 	if (k == Seed::KeyEscape && cFlow.GetCurrentState() == &cGame)
-		cFlow.OnEvent(&cOnGamePause);
+		cFlow.OnEvent(&cOnGamePause, pGameData);
 	else if (k == Seed::KeyF1)
 		pResourceManager->Print();
 	else if (k == Seed::KeyF2)
@@ -232,11 +238,11 @@ void GameFlow::ProcessEvent(Rocket::Core::Event &ev)
 		else if (eid == "credits")
 			cFlow.OnEvent(&cOnCredits);
 		else if (eid == "menu")
-			cFlow.OnEvent(&cOnMenu);
+			cFlow.OnEvent(&cOnMenu, pGameData);
 		else if (eid == "options")
-			cFlow.OnEvent(&cOnOptions);
+			cFlow.OnEvent(&cOnOptions, pGameData);
 		else if (eid == "game")
-			cFlow.OnEvent(&cOnGame);
+			cFlow.OnEvent(&cOnGame, pGameData);
 	}
 }
 

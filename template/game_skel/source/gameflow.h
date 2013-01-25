@@ -10,6 +10,7 @@
 #include "states/credits_state.h"
 #include "states/game_state.h"
 #include "states/game_pause_state.h"
+#include "data/game_data.h"
 
 using namespace Seed;
 using namespace Seed::RocketGui;
@@ -86,6 +87,9 @@ class GameFlow : public IGameApp,
 		StateMachineTransition cGameToGamePause;
 		StateMachineTransition cGamePauseToGame;
 		StateMachineTransition cGamePauseToMenu;
+
+		// State Machine data
+		GameData *pGameData;
 
 		// GUI
 		RocketInterface			*pRocket;

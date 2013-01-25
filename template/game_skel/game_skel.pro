@@ -12,7 +12,8 @@ SOURCES += source/main.cpp \
     source/states/options_state.cpp \
     source/states/game_pause_state.cpp \
     source/states/game_state.cpp \
-    source/scenes/game_scene.cpp
+    source/scenes/game_scene.cpp \
+    source/data/game_data.cpp
 
 HEADERS += \
 	source/gameflow.h \
@@ -21,7 +22,8 @@ HEADERS += \
     source/states/options_state.h \
     source/states/game_pause_state.h \
     source/states/game_state.h \
-    source/scenes/game_scene.h
+    source/scenes/game_scene.h \
+    source/data/game_data.h
 
 OTHER_FILES += \
 #Configs
@@ -99,6 +101,8 @@ glfw {
 } else:sdl {
 	DEFINES += BUILD_SDL
 }
+
+
 
 
 
