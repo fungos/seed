@@ -1,0 +1,18 @@
+<rml>
+	<head>
+		<title>Game</title>
+		<link type="text/template" href="gameplay.rml" />
+		<style>
+			body
+			{
+				width: 100%;
+				height: 100%;
+				margin: auto;
+			}
+		</style>
+	</head>
+	<body template="gameplay" onload="load">
+		<span>Points:</span>
+		<span> 100</span>
+	</body>
+</rml>
