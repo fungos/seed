@@ -14,7 +14,7 @@ void MainMenuState::OnStart(IObject *data)
 	UNUSED(data)
 	Log("Entering MainMenu State");
 
-	gFlow->LoadGUI("mainmenu.rml");
+	gFlow->LoadGUI("gui/views/mainmenu.rml");
 }
 
 void MainMenuState::OnUpdate(f32 dt)

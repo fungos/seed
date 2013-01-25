@@ -23,7 +23,7 @@ GameFlow::~GameFlow()
 
 bool GameFlow::Initialize()
 {
-	bool init = cPres.Load("game.config", this);
+	bool init = cPres.Load("configs/game.config", this);
 
 	// Create the State Machine Data
 	pGameData = New(GameData());
@@ -176,10 +176,10 @@ bool GameFlow::InitializeGUI()
 	}
 
 	Rocket::Core::String fonts[4];
-	fonts[0] = "Delicious-Roman.otf";
-	fonts[1] = "Delicious-Italic.otf";
-	fonts[2] = "Delicious-Bold.otf";
-	fonts[3] = "Delicious-BoldItalic.otf";
+	fonts[0] = "fonts/Delicious-Roman.otf";
+	fonts[1] = "fonts/Delicious-Italic.otf";
+	fonts[2] = "fonts/Delicious-Bold.otf";
+	fonts[3] = "fonts/Delicious-BoldItalic.otf";
 
 	for (unsigned int i = 0; i < sizeof(fonts) / sizeof(Rocket::Core::String); i++)
 		Rocket::Core::FontDatabase::LoadFontFace(fonts[i]);

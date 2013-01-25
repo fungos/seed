@@ -19,7 +19,7 @@ void GameState::OnStart(IObject *data)
 	Log("Entering Game State");
 	bDoStop = false;
 
-	gFlow->LoadGUI("game.rml");
+	gFlow->LoadGUI("gui/views/game.rml");
 	pGame = New(GameScene(&cScene));
 	pGame->Initialize();
 	cScene.SetVisible(true);

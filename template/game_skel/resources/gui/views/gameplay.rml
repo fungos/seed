@@ -1,7 +1,7 @@
 <template name="gameplay" content="content">
 <head>
-	<link type="text/rcss" href="common.rcss"/>
-	<link type="text/rcss" href="window.rcss"/>
+	<link type="text/rcss" href="/gui/styles/common.rcss"/>
+	<link type="text/rcss" href="/gui/styles/window.rcss"/>
 </head>
 <body>
 	<div>

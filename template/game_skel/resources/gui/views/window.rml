@@ -1,7 +1,7 @@
 <template name="window" content="content">
 <head>
-	<link type="text/rcss" href="common.rcss"/>
-	<link type="text/rcss" href="window.rcss"/>
+	<link type="text/rcss" href="/gui/styles/common.rcss"/>
+	<link type="text/rcss" href="/gui/styles/window.rcss"/>
 </head>
 <body class="window">
 	<div id="title_bar">

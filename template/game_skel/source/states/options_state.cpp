@@ -14,7 +14,7 @@ void OptionsState::OnStart(IObject *data)
 	UNUSED(data)
 	Log("Entering Options State");
 
-	gFlow->LoadGUI("options.rml");
+	gFlow->LoadGUI("gui/views/options.rml");
 }
 
 void OptionsState::OnUpdate(f32 dt)

@@ -14,7 +14,7 @@ void GamePauseState::OnStart(IObject *data)
 	UNUSED(data)
 	Log("Entering GamePause State");
 
-	gFlow->LoadGUI("gamepause.rml");
+	gFlow->LoadGUI("gui/views/gamepause.rml");
 }
 
 void GamePauseState::OnUpdate(f32 dt)

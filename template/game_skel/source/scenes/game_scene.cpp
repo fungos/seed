@@ -19,7 +19,7 @@ GameScene::~GameScene()
 bool GameScene::Initialize()
 {
 	gFlow->AddScene(pScene);
-	pJobManager->Add(New(FileLoader("game.scene", kJobLoadScene, this)));
+	pJobManager->Add(New(FileLoader("scenes/game.scene", kJobLoadScene, this)));
 	return true;
 }
 

@@ -14,7 +14,7 @@ void CreditsState::OnStart(IObject *data)
 	UNUSED(data)
 	Log("Entering Credits State");
 
-	gFlow->LoadGUI("credits.rml");
+	gFlow->LoadGUI("gui/views/credits.rml");
 }
 
 void CreditsState::OnUpdate(f32 dt)
