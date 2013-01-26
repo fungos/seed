@@ -42,6 +42,8 @@
 
 #include "api/rocket/RocketInterface.h"
 
+#include <Rocket/Core/Factory.h>
+
 #define TAG "[API::Rocket] "
 
 namespace Seed { namespace RocketGui {
@@ -54,6 +56,10 @@ RocketInterface::RocketInterface()
 	cElementBuffer.Configure(BufferUsageEveryFrameChange, ElementTypeInt);
 	this->SetWidth(pScreen->GetWidth());
 	this->SetHeight(pScreen->GetHeight());
+
+	RocketEventInstancer *inst = new RocketEventInstancer();
+	Rocket::Core::Factory::RegisterEventListenerInstancer(inst);
+	inst->RemoveReference();
 }
 
 RocketInterface::~RocketInterface()
@@ -394,6 +400,73 @@ int RocketInterface::GetObjectType() const
 void RocketInterface::SetCurrentContext(Rocket::Core::Context *ctx)
 {
 	pCurrent = ctx;
+}
+
+
+
+RocketEventInstancer::RocketEventInstancer()
+{
+}
+
+RocketEventInstancer::~RocketEventInstancer()
+{
+}
+
+Rocket::Core::EventListener *RocketEventInstancer::InstanceEventListener(const Rocket::Core::String &value, Rocket::Core::Element *element)
+{
+	UNUSED(element)
+	return new RocketEvent(value);
+}
+
+void RocketEventInstancer::Release()
+{
+	delete this;
+}
+
+DECLARE_CONTAINER_TYPE(Vector, IRocketEventListener)
+IRocketEventListenerVector RocketEventManager::vListeners;
+
+void RocketEventManager::AddListener(IRocketEventListener *listener)
+{
+	vListeners += listener;
+}
+
+void RocketEventManager::RemoveListener(IRocketEventListener *listener)
+{
+	vListeners -= listener;
+}
+
+void RocketEventManager::SendEvent(Rocket::Core::Event &event, const Rocket::Core::String &value)
+{
+	IRocketEventListenerVectorIterator it = vListeners.begin();
+	IRocketEventListenerVectorIterator end = vListeners.end();
+
+	for (; it != end; ++it)
+	{
+		IRocketEventListener *obj = (*it);
+		obj->OnGuiEvent(event, value);
+	}
+}
+
+
+RocketEvent::RocketEvent(const Rocket::Core::String &value)
+	: sValue(value)
+{
+}
+
+RocketEvent::~RocketEvent()
+{
+}
+
+void RocketEvent::ProcessEvent(Rocket::Core::Event &event)
+{
+	RocketEventManager::SendEvent(event, sValue);
+}
+
+void RocketEvent::OnDetach(Rocket::Core::Element *element)
+{
+	UNUSED(element)
+	delete this;
 }
 
 }} // namespace
