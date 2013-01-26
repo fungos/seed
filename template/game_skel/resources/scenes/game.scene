@@ -5,7 +5,7 @@
 		{
 			sType: Image
 			sName: Player
-			sResource: frame03.png
+			sResource: textures/frame03.png
 		}
 	]
 }
