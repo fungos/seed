@@ -130,7 +130,7 @@ class SEED_CORE_API LeakReport
 		PointerInfo arInfo[SEED_LEAK_MAX];
 };
 
-#define pLeakReport LeakReport::GetInstance()
+#define pLeakReport Seed::LeakReport::GetInstance()
 
 } // namespace
 

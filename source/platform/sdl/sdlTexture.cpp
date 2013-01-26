@@ -217,8 +217,10 @@ bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32
 {
 	if (buffer)
 	{
+#ifndef _MSC_VER
 		SEED_ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
 		SEED_ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
+#endif
 	}
 
 	if (this->Unload())
