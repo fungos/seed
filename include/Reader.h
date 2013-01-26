@@ -65,7 +65,7 @@ class SEED_CORE_API Reader : public IReader
 		virtual void UnselectNode() override;
 
 	private:
-		SEED_DISABLE_COPY(Reader);
+		Reader operator=(const Reader &rhs);
 
 		void Init();
 		IReader	*pOpaque;

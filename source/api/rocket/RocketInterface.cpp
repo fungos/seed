@@ -438,8 +438,11 @@ void RocketEventManager::RemoveListener(IRocketEventListener *listener)
 
 void RocketEventManager::SendEvent(Rocket::Core::Event &event, const Rocket::Core::String &value)
 {
-	IRocketEventListenerVectorIterator it = vListeners.begin();
-	IRocketEventListenerVectorIterator end = vListeners.end();
+	//make a copy to avoid problem with events that modify vListeners during OnGuiEvent
+	IRocketEventListenerVector listeners = vListeners;
+
+	IRocketEventListenerVectorIterator it = listeners.begin();
+	IRocketEventListenerVectorIterator end = listeners.end();
 
 	for (; it != end; ++it)
 	{
