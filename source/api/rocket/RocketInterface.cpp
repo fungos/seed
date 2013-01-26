@@ -181,7 +181,7 @@ void RocketInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHand
 	DeleteArray(v);
 
 	int *e = (int *)elems;
-	Free(e);
+	sFree(e);
 
 	Delete(packet);
 }

@@ -255,7 +255,7 @@ bool Presentation::Write(Writer &writer)
 
 bool Presentation::Unload()
 {
-	Free(pFinished);
+	sFree(pFinished);
 
 	{
 		ViewportVectorIterator it = vViewport.begin();

@@ -76,7 +76,7 @@ void Texture::Reset()
 	this->UnloadTexture();
 
 	if (bCopy)
-		Free(pData)
+		sFree(pData)
 	else if (pData)
 		SOIL_free_image_data(pData);
 	pData = NULL;
@@ -187,7 +187,7 @@ void Texture::Close()
 	ITexture::Close();
 
 	if (bCopy)
-		Free(pData);
+		sFree(pData);
 
 	bCopy = false;
 }
@@ -207,7 +207,7 @@ bool Texture::Unload()
 		this->UnloadTexture();
 
 	if (bCopy)
-		Free(pData);
+		sFree(pData);
 
 	if (pData)
 		SOIL_free_image_data(pData);

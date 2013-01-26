@@ -85,8 +85,8 @@ bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 			}
 			else // rect
 			{
-				Free(pCached);
-				Free(pVertices);
+				sFree(pCached);
+				sFree(pVertices);
 				pVertices = (f32 *)Alloc(sizeof(f32) * 8);
 				pCached = (f32 *)Alloc(sizeof(f32) * 8);
 
@@ -124,8 +124,8 @@ bool IMetadataObject::Write(Writer &writer)
 bool IMetadataObject::Unload()
 {
 	iVertices = 0;
-	Free(pCached);
-	Free(pVertices);
+	sFree(pCached);
+	sFree(pVertices);
 	Map<String, String>().swap(mProperties);
 
 	return true;
@@ -175,8 +175,8 @@ void IMetadataObject::ReadVertices(Reader &reader, u32 size)
 	if (!size)
 		return;
 
-	Free(pCached);
-	Free(pVertices);
+	sFree(pCached);
+	sFree(pVertices);
 	iVertices = size;
 	pVertices = (f32 *)Alloc(sizeof(f32) * size * 2); // POD
 	pCached = (f32 *)Alloc(sizeof(f32) * size * 2);

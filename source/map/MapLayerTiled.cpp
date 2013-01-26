@@ -65,9 +65,9 @@ MapLayerTiled::~MapLayerTiled()
 
 bool MapLayerTiled::Unload()
 {
-	Free(pElements);
-	Free(pVertex);
-	Free(pTileData);
+	sFree(pElements);
+	sFree(pVertex);
+	sFree(pTileData);
 	pTileSet = NULL;
 
 	return true;
@@ -104,7 +104,7 @@ void MapLayerTiled::LoadData(Reader &reader, u32 len)
 	{
 		if (iDataLen != len)
 		{
-			Free(pTileData);
+			sFree(pTileData);
 			pTileData = (u32 *)Alloc(sizeof(u32) * len);
 		}
 
@@ -116,7 +116,7 @@ void MapLayerTiled::LoadData(Reader &reader, u32 len)
 	}
 
 	if (!len)
-		Free(pTileData);
+		sFree(pTileData);
 
 	iDataLen = len;
 	bRebuildMesh = true;
@@ -135,8 +135,8 @@ void MapLayerTiled::Update(f32 dt)
 
 		if (bResizeMap)
 		{
-			Free(pElements);
-			Free(pVertex);
+			sFree(pElements);
+			sFree(pVertex);
 
 			pVertex = (sVertex *)Alloc(sizeof(sVertex) * vertexAmount);
 			pElements = (u32 *)Alloc(sizeof(u32) * elementAmount);

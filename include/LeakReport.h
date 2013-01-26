@@ -46,7 +46,7 @@
 #define NewArray(T, L)			pLeakReport->LogNew((new T[L]), #T, __FILE__, __LINE__, __FUNC__)
 #define DeleteArray(ptr)		{ if (ptr) pLeakReport->LogDelete(ptr, true); ptr = NULL; }
 #define Alloc(S)				malloc(S)
-#define Free(ptr)				{ if (ptr) free(ptr); ptr = NULL; }
+#define sFree(ptr)				{ if (ptr) free(ptr); ptr = NULL; }
 
 #define LeakReportPrint			pLeakReport->Print();
 

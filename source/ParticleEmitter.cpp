@@ -99,7 +99,7 @@ bool ParticleEmitter::Unload()
 	iParticlesAmount = 0;
 	DeleteArray(arParticles);
 	Delete(pTemplate);
-	Free(pVertex);
+	sFree(pVertex);
 
 	fInterval = 0.0f;
 	iAnimation = 0;
