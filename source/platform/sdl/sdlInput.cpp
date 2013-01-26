@@ -210,14 +210,14 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 			case SDL_KEYDOWN:
 			{
-				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, 0); // key.which deprecated
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode, event.key.which); // key.which deprecated
 				this->SendEventKeyboardPress(&ev);
 			}
 			break;
 
 			case SDL_KEYUP:
 			{
-				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, 0); // key.which deprecated
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode, event.key.which); // key.which deprecated
 				this->SendEventKeyboardRelease(&ev);
 			}
 			break;
@@ -421,9 +421,14 @@ void Input::SetSensitivity(u32 sens, u16 joystick)
 
 Seed::eKey Input::GetKeyCode(u32 key) const
 {
-	Seed::eKey k = static_cast<Seed::eKey>(key);
+	if(key >= 'a' && key <= 'z')
+		return static_cast<Seed::eKey>(Seed::KeyA + (key - 'a'));
+	else
+	{
+		Seed::eKey k = static_cast<Seed::eKey>(key);
 
-	return k;
+		return k;
+	}
 }
 
 Seed::eModifier Input::GetModifierCode(u32 mod) const

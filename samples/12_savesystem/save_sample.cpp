@@ -41,6 +41,14 @@ SaveSample::~SaveSample()
 {
 }
 
+#ifndef strlcpy
+inline void strlcpy(char *dest, const char *src, size_t len)
+{
+	strncpy(dest, src, len);
+	dest[len-1] = 0;	
+}
+#endif
+
 bool SaveSample::Initialize()
 {
 	IGameApp::Initialize();
@@ -57,7 +65,8 @@ bool SaveSample::Initialize()
 
 		for (u32 i = 0; i < MY_GAME_RANKING_SIZE; i++)
 		{
-			strlcpy(shared.arEntries[i].pcName, "Player 1", MY_GAME_NAME_LEN);
+			strlcpy(shared.arEntries[i].pcName, "Player 1", MY_GAME_NAME_LEN);			
+
 			shared.arEntries[i].iTime = shared.arEntries[i].iScore = 100 - (i * 10);
 		}
 		Log("Save file created.");

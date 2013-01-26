@@ -32,6 +32,9 @@
     <Filter Include="api\yajl">
       <UniqueIdentifier>{3aaf6bc0-591f-4239-8982-bce0fee1821c}</UniqueIdentifier>
     </Filter>
+    <Filter Include="api\rocket">
+      <UniqueIdentifier>{e317d4a3-b234-4c38-9133-1c54b863c496}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Animation.cpp" />
@@ -282,6 +285,9 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\yajl\JsonWriter.cpp">
       <Filter>api\yajl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\rocket\RocketInterface.cpp">
+      <Filter>api\rocket</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

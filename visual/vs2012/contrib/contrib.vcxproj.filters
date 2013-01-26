@@ -4161,6 +4161,9 @@
     <ClCompile Include="..\..\..\contrib\yajl\yajl_version.c">
       <Filter>yajl</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\contrib\freetype\src\bdf\bdf.c">
+      <Filter>freetype\src\bdf</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\contrib\bullet\BulletMultiThreaded\SpuNarrowPhaseCollisionTask\readme.txt">
