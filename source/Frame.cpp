@@ -77,10 +77,10 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 
 		if (reader.SelectNode("cBoundary"))
 		{
-			iX = reader.ReadU32("y", 0);
-			iY = reader.ReadU32("x", 0);
-			iWidth = reader.ReadU32("width", pTexture->GetWidth());
-			iHeight = reader.ReadU32("height", pTexture->GetHeight());
+            iX = reader.ReadU32("iX", 0);
+            iY = reader.ReadU32("iY", 0);
+            iWidth = reader.ReadU32("iWidth", pTexture->GetWidth());
+            iHeight = reader.ReadU32("iHeight", pTexture->GetHeight());
 			reader.UnselectNode();
 		}
 		else
