@@ -240,10 +240,12 @@ void Screen::ToggleFullscreen()
 	bFullScreen = !bFullScreen;
 	iFlags ^= GLFW_FULLSCREEN;
 	iFlags ^= GLFW_WINDOW;
+	pConfiguration->SetFullScreen(bFullScreen);
 
 	pResourceManager->Unload(Seed::TypeTexture);
 	pRendererDevice->Shutdown();
-	this->InitializeVideo();
+	pScreen->Shutdown();
+	pScreen->Initialize();
 	this->EnableCursor(pConfiguration->IsCursorEnabled());
 	pRendererDevice->Initialize();
 	pResourceManager->Reload(Seed::TypeTexture);
