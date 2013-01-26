@@ -73,3 +73,7 @@ tests/bin/tests
 /visual/vs2012/Sample_12_savesystem/Sample_12_savesystem.vcxproj.user
 /visual/vs2012/Sample_13_gui_rocket/Debug/
 /visual/vs2012/Sample_13_gui_rocket/Sample_13_gui_rocket.vcxproj.user
+/visual/vs2012/Release/
+/visual/vs2012/seed/Release/
+/visual/vs2012/contrib/Release/
+/visual/vs2012/contrib/contrib.vcxproj.user
