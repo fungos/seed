@@ -104,6 +104,7 @@ Sprite::Sprite(const Sprite &other)
 	cVertex[1] = other.cVertex[1];
 	cVertex[2] = other.cVertex[2];
 	cVertex[3] = other.cVertex[3];
+	cVertexBuffer.SetData(cVertex, 4);
 
 	// ITransformable
 	pParent = other.pParent;
