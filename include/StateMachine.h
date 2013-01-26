@@ -76,9 +76,9 @@ class SEED_CORE_API StateMachineState
 {
 	public:
 		virtual ~StateMachineState() {}
-		virtual void OnStart(IObject *) {}
+		virtual void OnStart(void *) {}
 		virtual void OnUpdate(f32) {}
-		virtual void OnStop(IObject *) {}
+		virtual void OnStop(void *) {}
 };
 
 /// State Machine Transition
@@ -142,7 +142,7 @@ class SEED_CORE_API StateMachine
 			Vector<StateMachineTransition *>().swap(vTransitions);
 		}
 
-		eReturnCode Initialize(StateMachineState *state, IObject *userData = NULL)
+		eReturnCode Initialize(StateMachineState *state, void *userData = NULL)
 		{
 			if (!state)
 				return StateNotFound; //invalid state
@@ -180,7 +180,7 @@ class SEED_CORE_API StateMachine
 			return pCurrentState;
 		}
 
-		inline eReturnCode OnEvent(StateMachineEvent *evt, IObject *pUserData = NULL)
+		inline eReturnCode OnEvent(StateMachineEvent *evt, void *pUserData = NULL)
 		{
 			unsigned int i = 0;
 

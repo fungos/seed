@@ -144,6 +144,7 @@ Sprite &Sprite::operator=(const Sprite &other)
 		cVertex[1] = other.cVertex[1];
 		cVertex[2] = other.cVertex[2];
 		cVertex[3] = other.cVertex[3];
+		cVertexBuffer.SetData(cVertex, 4);
 
 		bInitialized = other.bInitialized;
 		bChanged = other.bChanged;
