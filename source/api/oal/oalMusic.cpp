@@ -162,24 +162,26 @@ bool Music::Unload()
 	eFormat = AL_FORMAT_MONO16;
 	fVolume = 1.0f;
 
+	alGetError();
 	if (iSource)
 	{
 		alSourceStop(iSource);
+		alGetError();
 
 		int queued = 0;
-		AL_CHECK(alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued));
+		/*AL_CHECK*/(alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued));
 
 		while (queued--)
 		{
 			ALuint buffer;
-			AL_CHECK(alSourceUnqueueBuffers(iSource, 1, &buffer));
+			/*AL_CHECK*/(alSourceUnqueueBuffers(iSource, 1, &buffer));
 		}
 
-		AL_CHECK(alDeleteSources(1, &iSource));
+		/*AL_CHECK*/(alDeleteSources(1, &iSource));
 		iSource = 0;
 	}
 
-	AL_CHECK(alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers));
+	/*AL_CHECK*/(alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers));
 	memset(iBuffers, '\0', sizeof(iBuffers));
 
 	ov_clear(&oggStream);
