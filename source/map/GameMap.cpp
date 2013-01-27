@@ -136,7 +136,7 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 				tiled->Load(reader, res);
 				tiled->SetTileSize(ptTileSize);
 				tiled->SetTileSet(vTileSets.at(0));
-				tiled->SetPosition(-100, -100);
+				//tiled->SetPosition(-100, -100);
 				tiled->Update(0.0f);
 			}
 		}

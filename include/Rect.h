@@ -159,14 +159,14 @@ template <class TYPE> class Rect
 
 			rectDst.x1 = over_left;
 			rectDst.y1 = over_top;
-			rectDst.x2 = (TYPE)(over_right - over_left);
-			rectDst.y2 = (TYPE)(over_bottom - over_top);
+			rectDst.x2 = over_right;
+			rectDst.y2 = over_bottom;
 
-			if (bottom1 < top2) return(false);
-			if (top1 > bottom2) return(false);
+			if (bottom1 < top2) return false;
+			if (top1 > bottom2) return false;
 
-			if (right1 < left2) return(false);
-			if (left1 > right2) return(false);
+			if (right1 < left2) return false;
+			if (left1 > right2) return false;
 
 			return true;
 		}
