@@ -81,7 +81,7 @@ void Texture::Reset()
 	this->UnloadTexture();
 
 	if (bCopy)
-		Free(pData);
+		sFree(pData);
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);
@@ -263,7 +263,7 @@ void Texture::Close()
 	ITexture::Close();
 
 	if (bCopy)
-		Free(pData);
+		sFree(pData);
 
 	bCopy = false;
 }
@@ -285,7 +285,7 @@ bool Texture::Unload()
 		this->UnloadTexture();
 
 	if (bCopy)
-		Free(pData);
+		sFree(pData);
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);

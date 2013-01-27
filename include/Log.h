@@ -45,7 +45,7 @@ extern SEED_CORE_API void Info(const char *pMessage, ...);
 		#define Log(...) {}
 		#define Dbg(...) {}
 	#else
-		#define Log {}
+		inline void Log(const char *, ...) {}
 		#define Dbg {}
 	#endif // __GNUC__ || _WII_
 #endif // DEBUG
