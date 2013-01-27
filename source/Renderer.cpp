@@ -150,10 +150,12 @@ void Renderer::Culler(Camera *camera)
 	for (; it != end; ++it)
 	{
 		ISceneObject *obj = (*it);
+//		Log("Culling: %s", obj->sName.c_str());
 		SEED_ASSERT(obj);
 
 		if (camera->Contains(obj, visible.mWorldTransform))
 		{
+//			Log("Passed");
 			visible.pObj = obj;
 			vVisibleRenderables.push_back(visible);
 		}

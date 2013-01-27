@@ -75,6 +75,8 @@ class SEED_CORE_API SceneNode : public ISceneObject
 		 */
 		virtual void Reset() override;
 
+		void Dump(u32 level = 0);
+
 		// IObject
 		virtual const String GetClassName() const override;
 		virtual int GetObjectType() const override;
