@@ -45,8 +45,8 @@ Animation::Animation()
 	, iIndex(0)
 	, iFrames(0)
 	, iAnimationId(0)
-	, bAnimated(true)
-	, bLoop(true)
+	, bAnimated(false)
+	, bLoop(false)
 {
 }
 
@@ -62,8 +62,8 @@ bool Animation::Load(Reader &reader, ResourceManager *res)
 	if (this->Unload())
 	{
 		sName = reader.ReadString("sName", "animation");
-		bAnimated = reader.ReadBool("bAnimated", true);
-		bLoop = reader.ReadBool("bLoop", true);
+		bAnimated = reader.ReadBool("bAnimated", false);
+		bLoop = reader.ReadBool("bLoop", false);
 		iFps = reader.ReadU32("iFps", 60);
 		iFrames = reader.SelectArray("aFrames");
 
