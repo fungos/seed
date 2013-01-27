@@ -174,6 +174,7 @@ bool SceneNode::Unload()
 	for (; it != end; ++it)
 	{
 		ISceneObject *obj = (*it);
+//		Log("Unloading scene node %s.", obj->sName.c_str());
 		obj->Unload();
 		if (obj->bMarkForDeletion)
 			Delete(obj);
@@ -182,6 +183,22 @@ bool SceneNode::Unload()
 	ISceneObjectVector().swap(vChild);
 
 	return ret;
+}
+
+void SceneNode::Dump(u32 level)
+{
+	ISceneObjectVectorIterator it = vChild.begin();
+	ISceneObjectVectorIterator end = vChild.end();
+	for (; it != end; ++it)
+	{
+		ISceneObject *obj = (*it);
+
+		for (u32 i = 0; i < level + 1; i++) fprintf(stdout, "-");
+		Log(" %s", obj->sName.c_str());
+
+		if (obj->IsNode())
+			(static_cast<SceneNode *>(obj))->Dump(level + 1);
+	}
 }
 
 void SceneNode::Reset()
