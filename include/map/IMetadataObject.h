@@ -45,7 +45,7 @@ class SEED_CORE_API IMetadataObject : public SceneNode
 		virtual ~IMetadataObject();
 
 		virtual const f32 *GetVertices() const;
-		virtual const String &GetProperty(const String &property) const;
+		virtual const String GetProperty(const String &property) const;
 		virtual bool CheckHit(const Rect4f &area, Rect4f &overlap) const;
 
 		// IRenderable
