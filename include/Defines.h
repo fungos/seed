@@ -74,7 +74,11 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define SEED_EXTRA_API
 #endif
 
+#ifdef _MSC_VER
+#define UNUSED(var)
+#else
 #define UNUSED(var)						(void)var;
+#endif
 
 typedef std::string String;
 

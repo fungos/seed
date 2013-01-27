@@ -57,7 +57,7 @@ class SEED_CORE_API GameMap : public ISceneObject
 		TileSet *GetTileSet(const String &name);
 
 		int GetLayerCount() const;
-		const String &GetProperty(const String &property) const;
+		const String GetProperty(const String &property) const;
 
 		// SceneNode
 		virtual void Update(f32 dt) override;

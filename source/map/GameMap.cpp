@@ -307,9 +307,11 @@ int GameMap::GetLayerCount() const
 	return vLayers.Size();
 }
 
-const String &GameMap::GetProperty(const String &property) const
+const String GameMap::GetProperty(const String &property) const
 {
-	return mProperties.at(property);
+	Map<String, String>::const_iterator it = mProperties.find(property);
+
+	return mProperties.end() == it ? "" : it->second;
 }
 
 const String GameMap::GetClassName() const
