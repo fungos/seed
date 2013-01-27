@@ -141,7 +141,7 @@ class SEED_CORE_API LeakReport
 #define NewArray(T, L)			new T[L]
 #define DeleteArray(ptr)		{ if (ptr) delete []ptr; ptr = NULL; }
 #define Alloc(S)				malloc(S)
-#define Free(ptr)				free(ptr)
+#define sFree(ptr)				{ free(ptr); ptr = NULL;}
 
 #define LeakReportPrint
 

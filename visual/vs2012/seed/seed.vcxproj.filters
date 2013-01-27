@@ -290,4 +290,7 @@
       <Filter>api\rocket</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\Container.h" />
+  </ItemGroup>
 </Project>
