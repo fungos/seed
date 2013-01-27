@@ -234,7 +234,7 @@ const f32 *IMetadataObject::GetVertices() const
 const String IMetadataObject::GetProperty(const String &property) const
 {
 	Map<String, String>::const_iterator it = mProperties.find(property);
-	return it == mProperties.end() ? "" : it->second;	
+	return it == mProperties.end() ? "" : it->second;
 }
 
 bool IMetadataObject::CheckHit(const Rect4f &area, Rect4f &overlap) const

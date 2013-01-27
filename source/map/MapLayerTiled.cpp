@@ -155,10 +155,10 @@ void MapLayerTiled::Update(f32 dt)
 		u32 i = 0;
 		Color c(255, 255, 255, 255);
 
-		f32 curY = -ptMapSizeHalf.x;
+		f32 curY = -ptMapSizeHalf.y;
 		for (u32 y = 0; y < ptMapSize.y; y++)
 		{
-			f32 curX = -ptMapSizeHalf.y;
+			f32 curX = -ptMapSizeHalf.x;
 			for (u32 x = 0; x < ptMapSize.x; x++)
 			{
 				const Rect4f *uv = pTileSet->GetTileUV(pTileData[i]);

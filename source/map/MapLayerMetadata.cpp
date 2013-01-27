@@ -70,8 +70,8 @@ bool MapLayerMetadata::Load(Reader &reader, ResourceManager *res)
 
 		f32 h = reader.ReadF32("height", 0.0f);
 		f32 w = reader.ReadF32("width", 0.0f);
-		ptMapSize.x = h * ptTileSize.x;
-		ptMapSize.y = w * ptTileSize.y;
+		ptMapSize.x = w * ptTileSize.x;
+		ptMapSize.y = h * ptTileSize.y;
 		ptHalfSize.x = ptMapSize.x * 0.5f;
 		ptHalfSize.y = ptMapSize.y * 0.5f;
 
