@@ -51,7 +51,7 @@ MapLayerTiled::MapLayerTiled()
 	, ptMapSizeHalf(0.0f, 0.0f)
 	, bRebuildMesh(false)
 {
-	cVertexBuffer.Configure(BufferUsageNeverChange);
+	cVertexBuffer.Configure(BufferUsageNeverChange, ElementTypeInt);
 	cElementBuffer.Configure(BufferUsageNeverChange, ElementTypeInt);
 }
 
