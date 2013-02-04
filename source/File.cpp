@@ -115,6 +115,7 @@ bool File::Check() const
 
 u8 *File::GetData() const
 {
+	#warning FIXME - mutex lock guard here
 	if (pData)
 		return pData;
 

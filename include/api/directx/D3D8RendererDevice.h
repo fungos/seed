@@ -67,35 +67,64 @@ class SEED_CORE_API D3D8RendererDevice : public IRendererDevice
 		D3D8RendererDevice();
 		virtual ~D3D8RendererDevice();
 
-		virtual void Begin() const;
-		virtual void End() const;
+		// Generic operations
+		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const override;
+		virtual void UploadData(void *userData) override;
+		virtual void BackbufferClear(const Color &color) const override;
+		virtual void BackbufferFill(const Color &color) const override;
 
-		// IRendererDevice
-		virtual void TextureUnload(ITexture *texture);
-		virtual void TextureRequest(ITexture *texture);
-		virtual void TextureRequestAbort(ITexture *texture);
-		virtual void TextureRequestProcess() const;
-		virtual void TextureDataUpdate(ITexture *texture);
+		// Texturing operations
+		virtual void TextureRequest(ITexture *texture) override;
+		virtual void TextureRequestAbort(ITexture *texture) override;
+		virtual void TextureRequestProcess() const override;
+		virtual void TextureDataUpdate(ITexture *texture) override;
+		virtual void TextureUnload(ITexture *texture) override;
+		virtual void SetTextureParameters(const ITexture *texture) const override;
 
-		virtual void SetBlendingOperation(eBlendMode mode, const Color &color) const;
-		virtual void UploadData(void *userData);
-		virtual void BackbufferClear(const Color &color) const;
-		virtual void BackbufferFill(const Color &color) const;
+		// HardwareBuffer
+		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const override;
 
-		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
-		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
-		virtual void Enable2D() const;
-		virtual void Disable2D() const;
+		// Render to Texture support
+		virtual u32 CreateFrameBuffer(ITexture *texture = NULL) override;
+		virtual void ActivateFrameBuffer(u32 buffer = 0) override;
+		virtual void DestroyFrameBuffer(u32 buffer) override;
+		virtual u32 CreateDepthBuffer(u32 w, u32 h) override;
+		virtual void ActivateDepthBuffer(u32 buffer = 0) override;
+		virtual void DestroyDepthBuffer(u32 buffer) override;
+		/// Attach a depth buffer to the active frame buffer
+		virtual void AttachDepthBuffer(u32 buffer) override;
+		virtual bool CheckFrameBufferStatus() const override;
 
-		virtual void Update();
+		// Support
+		virtual void EnableScissor(bool b) const override;
+		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const override;
+		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const override;
+		virtual f32 GetHorizontalTexelOffset() const override;
+		virtual f32 GetVerticalTexelOffset() const override;
+		virtual void Enable2D() const override;
+		virtual void Disable2D() const override;
+		virtual void Begin() const override;
+		virtual void End() const override;
+
+		// Features
+		virtual bool NeedPowerOfTwoTextures() const override;
+
+		// Debugging
+		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const override;
+		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const override;
+		virtual void DrawLines(f32 *points, u32 len, const Color &color) const override;
+//		virtual void DrawPolygon(f32 *vertices, const Color &color) const override;
+
+		// Other
+		virtual void Update() override;
 
 		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		virtual bool Initialize() override;
+		virtual bool Reset() override;
+		virtual bool Shutdown() override;
 
 		// IObject
-		virtual const String GetClassName() const;
+		virtual const String GetClassName() const override;
 
 	protected:
 		mutable ITextureVector vTexture;

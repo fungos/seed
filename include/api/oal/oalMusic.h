@@ -65,16 +65,16 @@ class SEED_CORE_API Music : public IMusic
 		virtual ~Music();
 
 		// IMusic
-		virtual void Reset();
-		virtual bool Update(f32 dt);
-		virtual const void *GetData() const;
+		virtual void Reset() override;
+		virtual bool Update(f32 dt) override;
+		virtual const void *GetData() const override;
 
-		virtual void SetVolume(f32 vol);
-		virtual void UpdateVolume();
+		virtual void SetVolume(f32 vol) override;
+		virtual void UpdateVolume() override;
 
 		// IResouce
-		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual bool Unload();
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager) override;
+		virtual bool Unload() override;
 
 	protected:
 		virtual bool DoStream(ALuint buffer);
@@ -82,7 +82,6 @@ class SEED_CORE_API Music : public IMusic
 	private:
 		SEED_DISABLE_COPY(Music);
 
-	private:
 		File			*pFile;
 		ALuint			iBuffers[OPENAL_MUSIC_BUFFERS];
 		ALuint			iSource;

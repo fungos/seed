@@ -55,16 +55,17 @@ class SEED_CORE_API SoundSystem : public ISoundSystem
 {
 	SEED_SINGLETON_DECLARE(SoundSystem)
 	public:
-		virtual void Pause();
-		virtual void Resume();
+		// ISoundSystem
+		virtual void Pause() override;
+		virtual void Resume() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(f32 dt) override;
 
 		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		virtual bool Initialize() override;
+		virtual bool Reset() override;
+		virtual bool Shutdown() override;
 
 	private:
 		SEED_DISABLE_COPY(SoundSystem);

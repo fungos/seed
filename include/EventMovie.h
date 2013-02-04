@@ -51,15 +51,14 @@ class SEED_CORE_API EventMovie : public IEvent
 		virtual u32 GetFrame() const;
 
 		// IObject
-		virtual const String GetClassName() const;
-
-	private:
-		const Timeline	*pTimeline;
-		const Keyframe	*pKeyframe;
-		u32				iFrame;
+		virtual const String GetClassName() const override;
 
 	private:
 		SEED_DISABLE_COPY(EventMovie);
+
+		const Timeline	*pTimeline;
+		const Keyframe	*pKeyframe;
+		u32				iFrame;
 };
 
 } // namespace

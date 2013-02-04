@@ -58,9 +58,9 @@ class SEED_CORE_API SceneObjectFactory
 		static void Unregister(const String &type);
 
 	private:
-		static FactoryMap mapFactory;
-
 		SEED_DISABLE_COPY(SceneObjectFactory);
+
+		static FactoryMap mapFactory;
 };
 
 #define pSceneObjectFactory SceneObjectFactory::GetInstance()

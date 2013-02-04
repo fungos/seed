@@ -64,17 +64,17 @@ class SEED_CORE_API Sound : public ISound
 		void Reset();
 
 		// IResource
-		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual bool Unload();
-		virtual u32 GetUsedMemory() const;
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager) override;
+		virtual bool Unload() override;
+		virtual u32 GetUsedMemory() const override;
 
 	protected:
-		virtual const void *GetData() const;
+		// ISound
+		virtual const void *GetData() const override;
 
 	private:
 		SEED_DISABLE_COPY(Sound);
 
-	private:
 		ALuint	iBuffer;
 		u32		iSize;
 };

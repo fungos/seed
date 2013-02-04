@@ -50,10 +50,8 @@ namespace Seed { namespace DirectX {
 
 D3D8RendererDevice::D3D8RendererDevice()
 	: bLost(false)
+	, vTexture()
 {
-	Log(TAG "Initializing...");
-	ITextureVector().swap(vTexture);
-	Log(TAG "Initialization completed.");
 }
 
 D3D8RendererDevice::~D3D8RendererDevice()
@@ -203,6 +201,7 @@ bool D3D8RendererDevice::Initialize()
 
 bool D3D8RendererDevice::Reset()
 {
+	#warning FIXME - mutex lock guard here (?)
 	ITextureVector().swap(vTexture);
 
 	HWND hWnd = (HWND)pScreen->iHandle;
@@ -239,6 +238,7 @@ bool D3D8RendererDevice::Shutdown()
 {
 	bool ret = IRendererDevice::Shutdown();
 
+	#warning FIXME - mutex lock guard here (?)
 	ITextureVector().swap(vTexture);
 
 	int objects = 0;
@@ -346,16 +346,19 @@ void D3D8RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &colo
 
 void D3D8RendererDevice::TextureRequestAbort(ITexture *texture)
 {
+	#warning FIXME - mutex lock guard here
 	vTexture -= texture;
 }
 
 void D3D8RendererDevice::TextureRequest(ITexture *texture)
 {
+	#warning FIXME - mutex lock guard here
 	vTexture += texture;
 }
 
 void D3D8RendererDevice::TextureRequestProcess() const
 {
+	#warning FIXME - mutex lock guard here
 	ITextureVector::iterator it = vTexture.begin();
 	ITextureVector::iterator end = vTexture.end();
 	for (; it != end; ++it)
@@ -426,6 +429,11 @@ void D3D8RendererDevice::TextureDataUpdate(ITexture *texture)
 	}
 }
 
+void D3D8RendererDevice::SetTextureParameters(const ITexture *texture) const
+{
+	#warning IMPL - D3D8RendererDevice::SetTextureParameters(const ITexture *texture)
+}
+
 void D3D8RendererDevice::UploadData(void *userData)
 {
 	RendererPacket *packet = static_cast<RendererPacket *>(userData);
@@ -492,6 +500,21 @@ void D3D8RendererDevice::BackbufferFill(const Color &color)
 	mDevice->DrawPrimitiveUP(D3DPT_TRIANGLESTRIP, 2, &quad, sizeof(sVertex));
 }
 
+void D3D8RendererDevice::DestroyHardwareBuffer(IHardwareBuffer *buf) const
+{
+	#warning IMPL - D3D8RendererDevice::DestroyHardwareBuffer(IHardwareBuffer *buf)
+}
+
+void D3D8RendererDevice::EnableScissor(bool b) const
+{
+	#warning IMPL - D3D8RendererDevice::EnableScissor(bool b)
+}
+
+void D3D8RendererDevice::SetScissor(f32 x, f32 y, f32 w, f32 h) const
+{
+	#warning IMPL - D3D8RendererDevice::SetScissor(f32 x, f32 y, f32 w, f32 h)
+}
+
 void D3D8RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
 	D3DVIEWPORT8 vp;
@@ -502,6 +525,21 @@ void D3D8RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 	vp.MinZ = 0.0;
 	vp.MaxZ = 0.0f;
 	mDevice->SetViewport(&vp);
+}
+
+f32 D3D8RendererDevice::GetHorizontalTexelOffset() const
+{
+	return 0;
+}
+
+f32 D3D8RendererDevice::GetVerticalTexelOffset() const
+{
+	return 0;
+}
+
+bool D3D8RendererDevice::NeedPowerOfTwoTextures() const
+{
+	return false;
 }
 
 void D3D8RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill) const
@@ -548,6 +586,17 @@ void D3D8RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color
 
 	mDevice->DrawPrimitiveUP(D3DPT_LINESTRIP, 4, &quad, sizeof(sVertex));
 }
+
+void D3D8RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const
+{
+	#warning IMPL - D3D8RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color)
+}
+
+void D3D8RendererDevice::DrawLines(f32 *points, u32 len, const Color &color) const
+{
+	#warning IMPL - D3D8RendererDevice::DrawLines(f32 *points, u32 len, const Color &color)
+}
+
 
 // FIXME: Viewport aspect ratio...
 void D3D8RendererDevice::Enable2D() const
@@ -627,6 +676,46 @@ void D3D8RendererDevice::Update()
 			break;
 		}
 	}
+}
+
+u32 D3D8RendererDevice::CreateFrameBuffer(ITexture *texture)
+{
+	#warning IMPL - D3D8RendererDevice::CreateFrameBuffer(ITexture *texture)
+}
+
+void D3D8RendererDevice::ActivateFrameBuffer(u32 buffer)
+{
+	#warning IMPL - D3D8RendererDevice::ActivateFrameBuffer(u32 buffer)
+}
+
+void D3D8RendererDevice::DestroyFrameBuffer(u32 buffer)
+{
+	#warning IMPL - D3D8RendererDevice::DestroyFrameBuffer(u32 buffer)
+}
+
+u32 D3D8RendererDevice::CreateDepthBuffer(u32 w, u32 h)
+{
+	#warning IMPL - D3D8RendererDevice::CreateDepthBuffer(u32 w, u32 h)
+}
+
+void D3D8RendererDevice::ActivateDepthBuffer(u32 buffer)
+{
+	#warning IMPL - D3D8RendererDevice::ActivateDepthBuffer(u32 buffer)
+}
+
+void D3D8RendererDevice::DestroyDepthBuffer(u32 buffer)
+{
+	#warning IMPL - D3D8RendererDevice::DestroyDepthBuffer(u32 buffer)
+}
+
+void D3D8RendererDevice::AttachDepthBuffer(u32 buffer)
+{
+	#warning IMPL - D3D8RendererDevice::AttachDepthBuffer(u32 buffer)
+}
+
+bool D3D8RendererDevice::CheckFrameBufferStatus() const
+{
+	#warning IMPL - D3D8RendererDevice::CheckFrameBufferStatus()
 }
 
 const String D3D8RendererDevice::GetClassName() const

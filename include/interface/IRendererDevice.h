@@ -60,7 +60,7 @@ class SEED_CORE_API IRendererDevice : public IModule
 		virtual void TextureRequestProcess() const;
 		virtual void TextureDataUpdate(ITexture *texture);
 		virtual void TextureUnload(ITexture *tex);
-		virtual void SetTextureParameters(ITexture *texture) const;
+		virtual void SetTextureParameters(const ITexture *texture) const;
 
 		// HardwareBuffer
 		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const;
@@ -93,6 +93,8 @@ class SEED_CORE_API IRendererDevice : public IModule
 		// Debugging
 		virtual void DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill = false) const;
 		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const;
+		virtual void DrawLines(f32 *points, u32 len, const Color &color) const;
+//		virtual void DrawPolygon(f32 *vertices, const Color &color) const;
 
 		// Other
 		virtual void Update();

@@ -30,14 +30,22 @@
 
 #include "interface/IScreen.h"
 #include "Log.h"
+#include "RendererDevice.h"
+
+#define FADE_OUT_COLOR	0xff
+#define FADE_OUT_SOLID	0xff
+#define FADE_OUT_TRANS	0x00
+#define FADE_INCREMENT	0x04
 
 namespace Seed {
 
 IScreen::IScreen()
-	: bFading(false)
-	, fAspectRatio(1.0f)
+	: fAspectRatio(1.0f)
 	, iHeight(0)
 	, iWidth(0)
+	, iFadeStatus(0)
+	, nFadeType(kFadeIn)
+	, bFading(false)
 {
 }
 
@@ -52,6 +60,7 @@ bool IScreen::IsFading() const
 
 void IScreen::EnableCursor(bool b)
 {
+	UNUSED(b)
 	SEED_ABSTRACT_METHOD;
 }
 
@@ -97,12 +106,58 @@ f32 IScreen::GetAspectRatio() const
 	return fAspectRatio;
 }
 
-void IScreen::FadeIn()
-{
-}
-
 void IScreen::FadeOut()
 {
+	if (bFading)
+		return;
+
+	bFading = true;
+	nFadeType = kFadeOut;
+	iFadeStatus = FADE_OUT_TRANS;
+}
+
+void IScreen::FadeIn()
+{
+	if (bFading)
+		return;
+
+	bFading = true;
+	nFadeType = kFadeIn;
+	iFadeStatus = FADE_OUT_SOLID;
+}
+
+void IScreen::CancelFade()
+{
+	bFading = false;
+	iFadeStatus = FADE_OUT_TRANS;
+}
+
+void IScreen::ApplyFade()
+{
+	if (bFading == false)
+		return;
+
+	if (nFadeType == kFadeIn)
+	{
+		iFadeStatus -= FADE_INCREMENT;
+		if (iFadeStatus <= FADE_OUT_TRANS)
+		{
+			bFading = false;
+			iFadeStatus = FADE_OUT_TRANS;
+		}
+	}
+	else
+	{
+		iFadeStatus += FADE_INCREMENT;
+		if (iFadeStatus >= FADE_OUT_SOLID)
+		{
+			bFading = false;
+			iFadeStatus = FADE_OUT_SOLID;
+		}
+	}
+
+	u8 c = static_cast<u8>(iFadeStatus & 0xff);
+	pRendererDevice->BackbufferFill(Color(0u, 0u, 0u, c));
 }
 
 bool IScreen::IsRequired() const

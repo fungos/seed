@@ -42,7 +42,7 @@
 
 namespace Seed { namespace SDL {
 
-const char *const pImageFormatTable[] = {"TGA", "PNG", "JPG"};
+const char *pImageFormatTable[] = {"TGA", "PNG", "JPG"};
 enum eImageFormat
 {
 	TGA,
@@ -65,6 +65,7 @@ Texture::Texture()
 	, iPitch(0)
 	, iAtlasWidth(0)
 	, iAtlasHeight(0)
+	, bCopy(false)
 {
 }
 
@@ -78,6 +79,9 @@ void Texture::Reset()
 	ITexture::Reset();
 
 	this->UnloadTexture();
+
+	if (bCopy)
+		Free(pData);
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);
@@ -108,7 +112,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		SDL_RWops *rwops = SDL_RWFromConstMem(pFile->GetData(), pFile->GetSize());
 
 		size_t extpos = SDL_strlen(pFile->GetName().c_str());
-		char *ext = const_cast<char *>(pFile->GetName().c_str()) - 3;
+		char *ext = pFile->GetName().c_str() - 3;
 		ext = &ext[extpos];
 
 		u32 format = PNG;
@@ -117,7 +121,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		else if (!SDL_strcasecmp(pImageFormatTable[JPG], ext))
 			format = JPG;
 
-		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, const_cast<char *>(pImageFormatTable[format]));
+		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, pImageFormatTable[format]);
 
 		if (!tmp)
 		{
@@ -198,9 +202,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		iBytesPerPixel = pSurface->format->BytesPerPixel;
 		iPitch = pSurface->pitch;
 		pData = pSurface->pixels;
-
 		pRendererDevice->TextureRequest(this);
-
 		bLoaded = true;
 	}
 	else
@@ -211,7 +213,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 	return bLoaded;
 }
 
-bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight)
+bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight, bool copy)
 {
 	if (buffer)
 	{
@@ -221,7 +223,8 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 
 	if (this->Unload())
 	{
-		sFilename = "[dynamic sdl texture]";
+		bCopy = copy;
+		sFilename = desc;
 
 		iWidth = iAtlasWidth = width;
 		iHeight = iAtlasHeight = height;
@@ -232,9 +235,18 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 		if (atlasHeight)
 			iAtlasHeight = atlasHeight;
 
-		iBytesPerPixel = 4; // FIXME: parametized?
+		iBytesPerPixel = sizeof(Color); // FIXME: parametized?
 		iPitch = ROUND_UP(width, 32); // FIXME: parametized?
-		pData = buffer;
+
+		if (copy)
+		{
+			pData = (u8 *)Alloc(iAtlasWidth * iAtlasHeight * iBytesPerPixel);
+			memcpy(pData, buffer, iAtlasWidth * iAtlasHeight * iBytesPerPixel);
+		}
+		else
+		{
+			pData = buffer;
+		}
 
 		pRendererDevice->TextureRequest(this);
 
@@ -244,18 +256,34 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 	return bLoaded;
 }
 
+void Texture::Close()
+{
+	ITexture::Close();
+
+	if (bCopy)
+		Free(pData);
+
+	bCopy = false;
+}
+
 void Texture::Update(Color *data)
 {
 	//this->UnloadTexture();
 	//pRendererDevice->TextureRequest(this, &iTextureId);
 	pData = data;
-	pRendererDevice->TextureDataUpdate(this);
+	if (data)
+		pRendererDevice->TextureDataUpdate(this);
 }
 
 bool Texture::Unload()
 {
+	ITexture::Unload();
+
 	if (bLoaded)
 		this->UnloadTexture();
+
+	if (bCopy)
+		Free(pData);
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);

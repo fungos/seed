@@ -71,13 +71,11 @@ class SEED_CORE_API ResourceManager
 
 	private:
 		SEED_DISABLE_COPY(ResourceManager);
-
 		void Add(const String &filename, IResource *res);
 		void Remove(const String &filename);
 
 	private:
 		const String sName;
-
 		ResourceMap mapResources;
 		static LoaderMap mapLoaders;
 };

@@ -45,7 +45,7 @@ class SEED_CORE_API EventJob: public IEvent
 		Job *GetJob() const;
 		u32 GetName() const;
 
-		virtual const String GetClassName() const;
+		virtual const String GetClassName() const override;
 
 	protected:
 		Job *pJob;

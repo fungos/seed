@@ -154,7 +154,7 @@ bool ITexture::Load(const String &filename, ResourceManager *res)
 		pRes = res;
 		sFilename = filename;
 
-		#warning "Move to async file loading"
+		#warning TODO - Move to async file loading
 		pFile = New(File(filename));
 		ret = (pFile->GetData() != NULL);
 	}
@@ -162,13 +162,15 @@ bool ITexture::Load(const String &filename, ResourceManager *res)
 	return ret;
 }
 
-bool ITexture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight)
+bool ITexture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight, bool copy)
 {
+	UNUSED(desc)
 	UNUSED(width)
 	UNUSED(height)
 	UNUSED(buffer)
 	UNUSED(atlasWidth)
 	UNUSED(atlasHeight)
+	UNUSED(copy)
 
 	SEED_ABSTRACT_METHOD
 	return true;

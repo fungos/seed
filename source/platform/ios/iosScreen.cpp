@@ -39,16 +39,6 @@
 #include <CoreGraphics/CoreGraphics.h>
 #include "platform/ios/iosView.h"
 
-#define FADE_OUT_COLOR  0xff
-#define FADE_OUT_SOLID  0xff
-#define FADE_OUT_TRANS	0x00
-
-#if defined(DEBUG)
-#define FADE_INCREMENT	0x10
-#else
-#define FADE_INCREMENT	0x10
-#endif // DEBUG
-
 #define TAG "[Screen] "
 
 namespace Seed { namespace iOS {
@@ -57,8 +47,6 @@ SEED_SINGLETON_DEFINE(Screen);
 
 Screen::Screen()
 	: IScreen()
-	, iFadeStatus(0)
-	, fadeType(FADE_IN)
 	, iModeHeight(0)
 	, iModeWidth(0)
 {
@@ -70,25 +58,16 @@ Screen::~Screen()
 	this->Reset();
 }
 
-bool Screen::Reset()
-{
-	bFading    	= false;
-	iFadeStatus 	= FADE_OUT_TRANS;
-
-	return true;
-}
-
 bool Screen::Initialize()
 {
 	Log(TAG "Initializing...");
-
 	CGRect screenBounds = [[UIScreen mainScreen] bounds];
 	iWidth = iModeWidth = screenBounds.size.width;
 	iHeight = iModeHeight = screenBounds.size.height;
 
+	bFading = false;
+	iFadeStatus = 16;
 	this->Reset();
-
-
 	Log(TAG "Initialization completed.");
 
 	return true;
@@ -97,51 +76,16 @@ bool Screen::Initialize()
 bool Screen::Shutdown()
 {
 	Log(TAG "Terminating...");
-
-	bool r = this->Reset();
-
+	iFadeStatus = 0;
+	nFadeType	= kFadeIn;
+	bFading = false;
 	Log(TAG "Terminated.");
 
-	return r;
+	return true;
 }
 
 void Screen::Update()
 {
-	//this->SwapSurfaces();
-}
-
-void Screen::FadeOut()
-{
-	if (bFading)
-		return;
-
-	bFading		= true;
-	fadeType	= FADE_OUT;
-	iFadeStatus	= FADE_OUT_TRANS;
-}
-
-void Screen::FadeIn()
-{
-	if (bFading)
-		return;
-
-	bFading		= true;
-	fadeType	= FADE_IN;
-	iFadeStatus	= FADE_OUT_SOLID;
-}
-
-void Screen::CancelFade()
-{
-	if (!bFading)
-		return;
-
-	bFading		= false;
-	iFadeStatus	= FADE_OUT_TRANS;
-}
-
-void Screen::SwapSurfaces()
-{
-	//glFlush();
 }
 
 void Screen::Resize(int w, int h)
@@ -164,36 +108,6 @@ void Screen::Resize(int w, int h)
 	fAspectRatio = (f32)iHeight / (f32)iWidth;
 
 	Info(TAG "Video resolution is %dx%d.", iModeWidth, iModeHeight);
-}
-
-void Screen::ApplyFade()
-{
-	if (bFading == false)
-		return;
-
-	if (fadeType == FADE_IN)
-	{
-		iFadeStatus -= FADE_INCREMENT;
-
-		if (iFadeStatus <= FADE_OUT_TRANS)
-		{
-			bFading = false;
-			iFadeStatus = FADE_OUT_TRANS;
-		}
-	}
-	else
-	{
-		iFadeStatus += FADE_INCREMENT;
-
-		if (iFadeStatus >= FADE_OUT_SOLID)
-		{
-			bFading = false;
-			iFadeStatus = FADE_OUT_SOLID;
-		}
-	}
-
-	u8 c = static_cast<u8>(iFadeStatus & 0xff);
-	pRendererDevice->BackbufferFill(Color(0u, 0u, 0u, c));
 }
 
 }} // namespace

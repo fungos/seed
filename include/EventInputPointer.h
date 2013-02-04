@@ -50,7 +50,7 @@ class SEED_CORE_API EventInputPointer : public IEventInput
 		u32 GetY() 		 const;
 
 		// IObject
-		virtual const String GetClassName() const;
+		virtual const String GetClassName() const override;
 
 	protected:
 		u32 iJoystick;

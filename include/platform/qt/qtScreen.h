@@ -60,16 +60,10 @@ class Screen : public IScreen
 {
 	SEED_SINGLETON_DECLARE(Screen)
 	public:
-		virtual void FadeOut();
-		virtual void FadeIn();
-		virtual void CancelFade();
-
 		virtual u32 GetHeight() const;
 		virtual u32 GetWidth() const;
 		virtual void ToggleFullscreen();
-		void SwapSurfaces();
 		void *GetSurface() const;
-		void ApplyFade();
 
 		// IScreen
 		virtual void Update();
@@ -95,17 +89,9 @@ class Screen : public IScreen
 #endif // DEBUG
 
 	private:
-		enum eFadeType
-		{
-			FADE_IN = 1,
-			FADE_OUT
-		};
-
 		u32			iHeight;
 		u32			iWidth;
 		u32			iFlags;
-		eFadeType	fadeType;
-		s16			iFadeStatus;
 		u8			iBPP;
 		bool		bFullScreen;
 };

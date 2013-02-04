@@ -617,7 +617,7 @@ f32 ITransformable::GetY() const
 
 f32 ITransformable::GetZ() const
 {
-	u32 prio = vPos.getZ();
+	f32 prio = vPos.getZ();
 
 	if (pParent)
 		prio += pParent->GetZ();
@@ -775,6 +775,11 @@ void ITransformable::UpdateTransform()
 void ITransformable::UpdateBoundingCircle()
 {
 	fBoundingCircleRadius = static_cast<f32>(sqrt(vBoundingBox.getX() * vBoundingBox.getX() + vBoundingBox.getY() * vBoundingBox.getY()) / 2.0f);
+}
+
+Rect4f ITransformable::GetBoundingBox() const
+{
+	return Rect4f(this->GetX(), this->GetY(), vBoundingBox.getX(), vBoundingBox.getY());
 }
 
 void ITransformable::Unserialize(Reader &reader)

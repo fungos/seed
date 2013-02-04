@@ -1,0 +1,23 @@
+{
+	sType: SceneNode
+	sName: MainScene
+	aObjects: [
+		{
+			sType: Camera
+			sName: MainCamera
+			sProjection: Orthogonal
+			cPosition: {x: -400, y: -300}
+		}
+		{
+			sType: Image
+			sName: Player
+			sResource: frame03.png
+		}
+		{
+			sType: GameMap
+			sName: Map
+			sResource: tile_map.json
+			cPosition: {z: 200}
+		}
+	]
+}

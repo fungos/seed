@@ -66,7 +66,7 @@ void SceneNode::Update(f32 dt)
 		(*it)->Update(dt);
 	}
 
-	bTransformationChanged = false;
+	this->UpdateTransform();
 }
 
 void SceneNode::Render(const Matrix4f &worldTransform)
@@ -76,6 +76,7 @@ void SceneNode::Render(const Matrix4f &worldTransform)
 
 void SceneNode::Add(ISceneObject *obj)
 {
+	SEED_ASSERT_MSG(obj, "Cannot add null child to a scene.");
 	vChild += obj;
 	obj->SetParent(this);
 }

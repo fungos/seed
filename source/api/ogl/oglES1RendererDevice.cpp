@@ -159,8 +159,6 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxSize);
 	Info(TAG "OpenGL Maximum Texture Size: %d", maxSize);
 
-	this->Reset();
-
 	Log(TAG "Initialization completed.");
 }
 
@@ -193,6 +191,7 @@ bool OGLES1RendererDevice::Initialize()
 
 bool OGLES1RendererDevice::Reset()
 {
+	#warning FIXME - mutex lock guard here (?)
 	ITextureVector().swap(vTexture);
 	return true;
 }
@@ -200,6 +199,7 @@ bool OGLES1RendererDevice::Reset()
 bool OGLES1RendererDevice::Shutdown()
 {
 	this->Disable2D();
+	this->Reset();
 	return IRendererDevice::Shutdown();
 }
 
@@ -342,7 +342,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 	GL_TRACE("END SetBlendingOperation")
 }
 
-void OGLES1RendererDevice::SetTextureParameters(ITexture *texture) const
+void OGLES1RendererDevice::SetTextureParameters(const ITexture *texture) const
 {
 	GL_TRACE("BEGIN SetTextureParameters")
 	SEED_ASSERT(texture);
@@ -367,16 +367,20 @@ void OGLES1RendererDevice::SetTextureParameters(ITexture *texture) const
 
 void OGLES1RendererDevice::TextureRequestAbort(ITexture *texture)
 {
+	#warning FIXME - mutex lock guard here
 	vTexture -= texture;
 }
 
 void OGLES1RendererDevice::TextureRequest(ITexture *texture)
 {
+	#warning FIXME - mutex lock guard here
 	vTexture += texture;
 }
 
 void OGLES1RendererDevice::TextureRequestProcess() const
 {
+	#warning FIXME - mutex lock guard here
+
 	GL_TRACE("BEGIN TextureRequestProcess")
 	ITextureVector::iterator it = vTexture.begin();
 	ITextureVector::iterator end = vTexture.end();
@@ -522,7 +526,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	SEED_ASSERT(packet->pTransform);
 	SEED_ASSERT(packet->pVertexBuffer);
 
-	ITexture *texture = packet->pTexture;
+	const ITexture *texture = packet->pTexture;
 	VertexBuffer *vbo = (VertexBuffer *)packet->pVertexBuffer;
 	ElementBuffer *ebo = (ElementBuffer *)packet->pElementBuffer;
 	Vector3f pivot = packet->vPivot;
@@ -614,8 +618,11 @@ void OGLES1RendererDevice::UploadData(void *userData)
 			pRendererDevice->DrawCircle(op.getX(), op.getY(), packet->fRadius, Color(255, 0, 255, 255));
 		}
 
-		glPointSize(5.0f);
-		glDrawArrays(GL_POINTS, 0, vbo->iLength);
+//		glPointSize(5.0f);
+//		if (!ebo)
+//			glDrawArrays(GL_POINTS, 0, vbo->iLength);
+//		else
+//			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
 
 		glPointSize(7.0f);
 		glBegin(GL_POINTS);
@@ -910,6 +917,32 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &col
 	glEnableClientState(GL_COLOR_ARRAY);
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	GL_TRACE("END DrawRect")
+}
+
+void OGLES1RendererDevice::DrawLines(f32 *points, u32 len, const Color &color) const
+{
+	GL_TRACE("BEGIN DrawLines")
+	GLfloat *vertices = points;
+
+	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	glDisableClientState(GL_COLOR_ARRAY);
+
+	glColor4ub(color.r, color.g, color.b, color.a);
+	glVertexPointer(2, GL_FLOAT, 0, vertices);
+	glEnableClientState(GL_VERTEX_ARRAY);
+
+	glDisable(GL_TEXTURE_2D);
+	glDisable(GL_BLEND);
+	glPushMatrix();
+		glLoadIdentity();
+		glDrawArrays(GL_LINE_LOOP, 0, len);
+	glPopMatrix();
+	glEnable(GL_BLEND);
+	glEnable(GL_TEXTURE_2D);
+
+	glEnableClientState(GL_COLOR_ARRAY);
+	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	GL_TRACE("END DrawLines")
 }
 
 void OGLES1RendererDevice::Enable2D() const

@@ -113,7 +113,17 @@ s32 Reader::ReadS32(const char *key, s32 value) const
 
 u32 Reader::ReadU32(const char *key, u32 value) const
 {
-	return (u32)pOpaque->ReadS32(key, value);
+	return pOpaque->ReadU32(key, value);
+}
+
+u32 Reader::GetU32(u32 value) const
+{
+	return pOpaque->GetU32(value);
+}
+
+const char *Reader::GetKey(u32 atPos) const
+{
+	return pOpaque->GetKey(atPos);
 }
 
 f32 Reader::ReadF32(const char *key, f32 value) const

@@ -98,17 +98,17 @@ class SEED_CORE_API Sprite : public ISceneObject
 //		virtual void Initialize();
 
 		// ISceneObject
-		virtual void Update(f32 delta);
-		virtual void Render(const Matrix4f &worldTransform);
+		virtual void Update(f32 delta) override;
+		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-		virtual bool Unload();
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	protected:
 		virtual void ReconfigureAnimation();

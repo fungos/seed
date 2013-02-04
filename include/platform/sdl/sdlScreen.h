@@ -37,16 +37,6 @@
 #include "Singleton.h"
 #include <SDL/SDL.h>
 
-#define FADE_OUT_COLOR  0xff
-#define FADE_OUT_SOLID  0xff
-#define FADE_OUT_TRANS	0x00
-
-#if defined(DEBUG)
-#define FADE_INCREMENT	0x20
-#else
-#define FADE_INCREMENT	0x04
-#endif // DEBUG
-
 namespace Seed { namespace SDL {
 
 /// SDL Screen Module
@@ -54,30 +44,27 @@ class SEED_CORE_API Screen : public IScreen
 {
 	SEED_SINGLETON_DECLARE(Screen)
 	public:
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
-
-		virtual void FadeOut();
-		virtual void FadeIn();
-		virtual void CancelFade();
-
-		virtual void EnableCursor(bool b);
-		virtual void ToggleCursor();
-		virtual void ToggleFullscreen();
-		virtual bool HasWindowedMode() const;
-		virtual bool IsFullscreen() const;
-
-		void SwapSurfaces();
-		void ApplyFade();
+		// IScreen
+		virtual void EnableCursor(bool b) override;
+		virtual void ToggleCursor() override;
+		virtual void ToggleFullscreen() override;
+		virtual bool HasWindowedMode() const override;
+		virtual bool IsFullscreen() const override;
 
 		// IScreen
-		virtual void Update();
+		virtual void Update() override;
+
+		// IModule
+		virtual bool Initialize() override;
+		virtual bool Reset() override;
+		virtual bool Shutdown() override;
 
 		// HACK - for win32 dx
 		int iHandle;
 
 	protected:
+		void SwapSurfaces();
+
 		int		surfaceSize;
 		SDL_Surface *pSurface;
 
@@ -85,7 +72,7 @@ class SEED_CORE_API Screen : public IScreen
 		SEED_DISABLE_COPY(Screen);
 
 		bool InitializeVideo();
-		void Prepare();
+		bool Prepare();
 		void SetupOpenGL();
 
 #if defined(DEBUG)
@@ -93,18 +80,9 @@ class SEED_CORE_API Screen : public IScreen
 #endif // DEBUG
 
 	private:
-		enum eFadeType
-		{
-			FADE_IN = 1,
-			FADE_OUT
-		};
-
 		bool		bFullScreen;
-		int 		iFadeStatus;
-		eFadeType 	fadeType;
 		int			iBPP;
 		int			iFlags;
-		SDL_VideoInfo *videoInfo;
 };
 
 #define pScreen Seed::SDL::Screen::GetInstance()

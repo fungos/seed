@@ -60,6 +60,7 @@ Texture::Texture()
 	, iPitch(0)
 	, iAtlasWidth(0)
 	, iAtlasHeight(0)
+	, bCopy(false)
 {
 }
 
@@ -74,7 +75,9 @@ void Texture::Reset()
 
 	this->UnloadTexture();
 
-	if (pData)
+	if (bCopy)
+		Free(pData)
+	else if (pData)
 		SOIL_free_image_data(pData);
 	pData = NULL;
 
@@ -82,6 +85,8 @@ void Texture::Reset()
 	iPitch = 0;
 	iAtlasWidth = 0;
 	iAtlasHeight = 0;
+
+	bCopy = false;
 }
 
 bool Texture::Load(const String &filename, ResourceManager *res)
@@ -130,9 +135,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 
 		iBytesPerPixel = channels;
 		iPitch = ROUND_UP(iAtlasWidth, 32);
-
 		pRendererDevice->TextureRequest(this);
-
 		bLoaded = true;
 	}
 	else
@@ -143,11 +146,12 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 	return bLoaded;
 }
 
-bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight)
+bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight, bool copy)
 {
 	if (this->Unload())
 	{
-		sFilename = "[dynamic sdl texture]";
+		bCopy = copy;
+		sFilename = desc;
 
 		iWidth = iAtlasWidth = width;
 		iHeight = iAtlasHeight = height;
@@ -158,9 +162,17 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 		if (atlasHeight)
 			iAtlasHeight = atlasHeight;
 
-		iBytesPerPixel = 4; // FIXME: parametized?
+		iBytesPerPixel = sizeof(Color); // FIXME: parametized?
 		iPitch = ROUND_UP(width, 32); // FIXME: parametized?
-		pData = static_cast<u8 *>((void *)buffer);
+		if (copy)
+		{
+			pData = (u8 *)Alloc(iAtlasWidth * iAtlasHeight * iBytesPerPixel);
+			memcpy(pData, buffer, iAtlasWidth * iAtlasHeight * iBytesPerPixel);
+		}
+		else
+		{
+			pData = static_cast<u8 *>((void *)buffer);
+		}
 
 		pRendererDevice->TextureRequest(this);
 
@@ -170,22 +182,39 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 	return bLoaded;
 }
 
+void Texture::Close()
+{
+	ITexture::Close();
+
+	if (bCopy)
+		Free(pData);
+
+	bCopy = false;
+}
+
 void Texture::Update(Color *data)
 {
 	pData = static_cast<u8 *>((void *)data);
-	pRendererDevice->TextureDataUpdate(this);
+	if (data)
+		pRendererDevice->TextureDataUpdate(this);
 }
 
 bool Texture::Unload()
 {
+	ITexture::Unload();
+
 	if (bLoaded)
 		this->UnloadTexture();
+
+	if (bCopy)
+		Free(pData);
 
 	if (pData)
 		SOIL_free_image_data(pData);
 
 	pData = NULL;
 	bLoaded = false;
+	bCopy = false;
 
 	return true;
 }

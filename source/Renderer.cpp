@@ -148,7 +148,7 @@ void Renderer::Culler(Camera *camera)
 	VisibleObject visible;
 	for (; it != end; ++it)
 	{
-		ISceneObject *obj = const_cast<ISceneObject *>(*it);
+		ISceneObject *obj = (*it);
 		SEED_ASSERT(obj);
 
 		if (camera->Contains(obj, visible.mWorldTransform))

@@ -75,20 +75,19 @@ class SEED_CORE_API IEvent : public IObject
 
 		u32 GetId() const;
 		eType GetEventType();
-		void Consume() const;
+		void Consume();
 		bool IsConsumed() const;
 
 		// IObject
-		virtual int GetObjectType() const;
-		virtual const String GetClassName() const;
+		virtual int GetObjectType() const override;
+		virtual const String GetClassName() const override;
 
 	protected:
-		eType 	iType;
-		u32 	iId;
-		mutable bool	bConsumed;
-
-	private:
 		SEED_DISABLE_COPY(IEvent);
+
+		eType	iType;
+		u32		iId;
+		bool	bConsumed;
 };
 
 } // namespace

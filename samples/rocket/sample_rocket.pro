@@ -9,7 +9,12 @@ SOURCES += main.cpp \
 	rocket_sample.cpp
 
 HEADERS += \
+<<<<<<< HEAD
 	image_sample.h
+=======
+	image_sample.h \
+    rocket_sample.h
+>>>>>>> a9580b74bf80685c754dd1f7b36da15e51452b9b
 
 OTHER_FILES += ../bin/rocket_app.config \
 	../bin/frame03.png \
@@ -49,6 +54,13 @@ macx {
 	LIBS += -lseed -lseedcontrib -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit
 	CONFIG -= sdl
 	CONFIG += glfw
+<<<<<<< HEAD
+=======
+
+	APP_QML_FILES.files = $$OTHER_FILES
+	APP_QML_FILES.path = Contents/Resources
+	QMAKE_BUNDLE_DATA += APP_QML_FILES
+>>>>>>> a9580b74bf80685c754dd1f7b36da15e51452b9b
 }
 
 win32 {
@@ -67,3 +79,8 @@ glfw {
 } else:sdl {
 	DEFINES += BUILD_SDL
 }
+<<<<<<< HEAD
+=======
+
+#LIBS += -L../../../libRocket/Build -lRocketCore -lRocketControls -lRocketDebugger
+>>>>>>> a9580b74bf80685c754dd1f7b36da15e51452b9b

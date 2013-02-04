@@ -58,8 +58,6 @@ SEED_SINGLETON_DEFINE(Screen)
 Screen::Screen()
 	: iHandle(0)
 	, bFullScreen(false)
-	, iFadeStatus(0)
-	, fadeType(FADE_IN)
 	, iBPP(32)
 	, iFlags(0)
 {
@@ -130,7 +128,6 @@ bool Screen::Initialize()
 
 	bFading = false;
 	iFadeStatus = 16;
-
 	this->Prepare();
 	if (!this->InitializeVideo())
 		return false;
@@ -191,7 +188,7 @@ bool Screen::Shutdown()
 	Log(TAG "Terminating...");
 
 	iFadeStatus = 0;
-	fadeType	= FADE_IN;
+	nFadeType	= kFadeIn;
 	iHeight		= 0;
 	iWidth		= 0;
 	iBPP		= 32;
@@ -208,32 +205,6 @@ void Screen::Update()
 {
 	this->SwapSurfaces();
 	pRendererDevice->Update();
-}
-
-void Screen::FadeOut()
-{
-	if (bFading)
-		return;
-
-	bFading		= true;
-	fadeType	= FADE_OUT;
-	iFadeStatus	= FADE_OUT_TRANS;
-}
-
-void Screen::FadeIn()
-{
-	if (bFading)
-		return;
-
-	bFading		= true;
-	fadeType	= FADE_IN;
-	iFadeStatus	= FADE_OUT_SOLID;
-}
-
-void Screen::CancelFade()
-{
-	bFading		= false;
-	iFadeStatus	= FADE_OUT_TRANS;
 }
 
 void Screen::SwapSurfaces()
@@ -300,36 +271,6 @@ bool Screen::HasWindowedMode() const
 bool Screen::IsFullscreen() const
 {
 	return bFullScreen;
-}
-
-void Screen::ApplyFade()
-{
-	if (bFading == false)
-		return;
-
-	if (fadeType == FADE_IN)
-	{
-		iFadeStatus -= FADE_INCREMENT;
-
-		if (iFadeStatus <= FADE_OUT_TRANS)
-		{
-			bFading = false;
-			iFadeStatus = FADE_OUT_TRANS;
-		}
-	}
-	else
-	{
-		iFadeStatus += FADE_INCREMENT;
-
-		if (iFadeStatus >= FADE_OUT_SOLID)
-		{
-			bFading = false;
-			iFadeStatus = FADE_OUT_SOLID;
-		}
-	}
-
-	u8 c = static_cast<u8>(iFadeStatus & 0xff);
-	pRendererDevice->BackbufferFill(Color(0u, 0u, 0u, c));
 }
 
 }} // namespace

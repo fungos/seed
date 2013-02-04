@@ -52,6 +52,15 @@ class SEED_CORE_API IScreen : public IModule
 		/// Start fade in
 		virtual void FadeIn();
 
+		/// Verify if a fade is being done.
+		virtual bool IsFading() const;
+
+		/// Should not be used - internal only
+		virtual void ApplyFade() override;
+
+		/// Cancel current fade
+		virtual void CancelFade() override;
+
 		/// Get the screen heigth
 		virtual u32 GetHeight() const;
 
@@ -60,9 +69,6 @@ class SEED_CORE_API IScreen : public IModule
 
 		/// Get the aspect ratio
 		virtual f32 GetAspectRatio() const;
-
-		/// Verify if a fade is being done.
-		virtual bool IsFading() const;
 
 		/// Force cursor on/off
 		virtual void EnableCursor(bool b);
@@ -88,10 +94,19 @@ class SEED_CORE_API IScreen : public IModule
 		virtual const String GetClassName() const;
 
 	protected:
-		bool		bFading;
+		enum eFadeType
+		{
+			kFadeIn = 1,
+			kFadeOut
+		};
+
 		f32			fAspectRatio;
 		u32			iHeight;
 		u32			iWidth;
+
+		s32			iFadeStatus;
+		eFadeType	nFadeType;
+		bool		bFading;
 
 	private:
 		SEED_DISABLE_COPY(IScreen);

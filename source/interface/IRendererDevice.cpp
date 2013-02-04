@@ -53,7 +53,7 @@ void IRendererDevice::TextureDataUpdate(ITexture *tex)
 	SEED_ABSTRACT_METHOD;
 }
 
-void IRendererDevice::SetTextureParameters(ITexture *texture) const
+void IRendererDevice::SetTextureParameters(const ITexture *texture) const
 {
 	UNUSED(texture);
 	SEED_ABSTRACT_METHOD;
@@ -216,6 +216,14 @@ void IRendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color) c
 	UNUSED(x);
 	UNUSED(y);
 	UNUSED(radius);
+	UNUSED(color);
+	SEED_ABSTRACT_METHOD;
+}
+
+void IRendererDevice::DrawLines(f32 *points, u32 len, const Color &color) const
+{
+	UNUSED(points);
+	UNUSED(len);
 	UNUSED(color);
 	SEED_ABSTRACT_METHOD;
 }

@@ -11,6 +11,7 @@
 			sType: Image
 			sName: Ground
 			sResource: ground.png
+			bVisible: false
 		}
 		{
 			sType: Camera

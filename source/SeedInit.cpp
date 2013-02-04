@@ -56,6 +56,7 @@
 #include "Profiler.h"
 #include "Configuration.h"
 #include "ThreadManager.h"
+#include "map/GameMap.h"
 
 #include "Sprite.h"
 #include "Image.h"
@@ -71,10 +72,12 @@ namespace Private
 	IGameApp	*pApplication;
 	bool		bInitialized;
 	int			iArgc;
-	const char	**pcArgv;
+	char		**pcArgv;
 	bool		bDisableSound;
 	bool		bDisableThread;
+	bool		bDisableResourceLoader;
 	String		sConfigFile;
+	String		sWorkDir;
 	f32			fCurrentTime;
 }
 
@@ -82,7 +85,7 @@ ResourceManager *pResourceManager = NULL;
 
 #define MAX_FRAME_DELTA ((1.0f / 60.0f) * 5.0f)
 
-int CommandLineParameter(const char **argv, int pos)
+int CommandLineParameter(char **argv, int pos)
 {
 	const char *param = argv[pos];
 	int consume = 1;
@@ -95,16 +98,25 @@ int CommandLineParameter(const char **argv, int pos)
 	{
 		Private::bDisableThread = true;
 	}
+	else if (!strcasecmp(param, "--no-resourceloader"))
+	{
+		Private::bDisableResourceLoader = true;
+	}
 	else if (!strcasecmp(param, "--config"))
 	{
 		Private::sConfigFile = argv[pos + 1];
+		consume++;
+	}
+	else if (!strcasecmp(param, "--workdir"))
+	{
+		Private::sWorkDir = argv[pos + 1];
 		consume++;
 	}
 
 	return consume;
 }
 
-void CommandLineParse(int argc, const char **argv)
+void CommandLineParse(int argc, char **argv)
 {
 	int i = 0;
 	while (i < argc)
@@ -113,18 +125,20 @@ void CommandLineParse(int argc, const char **argv)
 	}
 }
 
-void SetGameApp(IGameApp *app, int argc, const char **argv)
+void SetGameApp(IGameApp *app, int argc, char **argv, const char *config)
 {
 	Private::iArgc = argc;
 	Private::pcArgv = argv;
 	Private::pApplication = app;
-	Private::sConfigFile = "app.config";
+	Private::sConfigFile = config;
 	Private::bDisableSound = false;
 
 #if defined(EMSCRIPTEN)
 	Private::bDisableThread = true;
+	Private::bDisableResourceLoader = true;
 #else
 	Private::bDisableThread = false;
+	Private::bDisableResourceLoader = false;
 #endif
 	pResourceManager = app->GetResourceManager();
 
@@ -184,6 +198,11 @@ bool Initialize()
 	pFileSystem->Prepare();
 	pScreen->EnableCursor(pConfiguration->IsCursorEnabled());
 
+	Info(SEED_TAG "Options: ");
+	Info(SEED_TAG "\tSound: %s", Private::bDisableSound ? "No" : "Yes");
+	Info(SEED_TAG "\tThread: %s", Private::bDisableThread ? "No" : "Yes");
+	Info(SEED_TAG "\tResourceLoader: %s", Private::bDisableResourceLoader ? "No" : "Yes");
+
 	ret = ret && pModuleManager->Add(pSystem);
 	ret = ret && pModuleManager->Add(pTimer);
 	ret = ret && pModuleManager->Add(pCartridge);
@@ -196,7 +215,7 @@ bool Initialize()
 		ret = ret && pModuleManager->Add(pSoundSystem);
 
 #if (SEED_USE_THREAD == 1)
-	if (!Private::bDisableThread)
+	if (!Private::bDisableThread || !Private::bDisableResourceLoader)
 		ret = ret && pModuleManager->Add(pResourceLoader);
 #else
 	ret = ret && pModuleManager->Add(pThreadManager);
@@ -212,7 +231,7 @@ bool Initialize()
 #endif
 
 #if (SEED_USE_THREAD == 1)
-	if (!Private::bDisableThread)
+	if (!Private::bDisableThread || !Private::bDisableResourceLoader)
 		pUpdater->Add(pResourceLoader);
 #else
 	pUpdater->Add(pThreadManager);
@@ -237,6 +256,7 @@ bool Initialize()
 	SceneObjectFactory::Register("SoundSource", FactorySoundSource);
 	SceneObjectFactory::Register("Camera", FactoryCamera);
 	SceneObjectFactory::Register("SceneNode", FactorySceneNode);
+	SceneObjectFactory::Register("GameMap", FactoryGameMap);
 
 	Private::bInitialized = true;
 

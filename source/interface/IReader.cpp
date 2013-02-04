@@ -81,6 +81,17 @@ u32 IReader::ReadU32(const char *key, u32 value) const
 	return value;
 }
 
+u32 IReader::GetU32(u32 value) const
+{
+	return value;
+}
+
+const char *IReader::GetKey(u32 atPos) const
+{
+	UNUSED(atPos)
+	return false;
+}
+
 s32 IReader::ReadS32(const char *key, s32 value) const
 {
 	UNUSED(key)
@@ -115,7 +126,7 @@ void IReader::UnselectArray()
 
 bool IReader::IsNode(const char *key) const
 {
-    UNUSED(key)
+	UNUSED(key)
 	return false;
 }
 

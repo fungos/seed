@@ -49,14 +49,13 @@ class SEED_CORE_API EventSystem : public IEvent
 		virtual Seed::eLanguage GetLanguageNew() const;
 
 		// IObject
-		virtual const String GetClassName() const;
-
-	private:
-		Seed::eLanguage nCurrentLang;
-		Seed::eLanguage nNewLang;
+		virtual const String GetClassName() const override;
 
 	private:
 		SEED_DISABLE_COPY(EventSystem);
+
+		Seed::eLanguage nCurrentLang;
+		Seed::eLanguage nNewLang;
 };
 
 } // namespace

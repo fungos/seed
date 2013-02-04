@@ -52,24 +52,25 @@ class SEED_CORE_API Texture : public ITexture
 		virtual ~Texture();
 
 		// ITexture
-		virtual const void *GetData() const;
-		virtual void PutPixel(u32 x, u32 y, const Color &px);
-		virtual Color GetPixel(u32 x, u32 y) const;
-		virtual u8 GetPixelAlpha(u32 x, u32 y) const;
+		virtual const void *GetData() const override;
+		virtual void PutPixel(u32 x, u32 y, const Color &px) override;
+		virtual Color GetPixel(u32 x, u32 y) const override;
+		virtual u8 GetPixelAlpha(u32 x, u32 y) const override;
 
-		virtual u32 GetBytesPerPixel() const;
+		virtual u32 GetBytesPerPixel() const override;
 
-		virtual void Update(Color *buffer);
-		virtual void Reset();
-		virtual bool Load(u32 width, u32 height, Color *buffer = NULL, u32 atlasWidth = 0, u32 atlasHeight = 0); // O que acontece no Reload?
+		virtual void Update(Color *buffer) override;
+		virtual void Reset() override;
+		virtual bool Load(const String &desc, u32 width, u32 height, Color *buffer = NULL, u32 atlasWidth = 0, u32 atlasHeight = 0, bool copy = false) override; // O que acontece no Reload?
+		virtual void Close() override;
 
-		virtual u32 GetAtlasWidth() const;
-		virtual u32 GetAtlasHeight() const;
+		virtual u32 GetAtlasWidth() const override;
+		virtual u32 GetAtlasHeight() const override;
 
 		// IResource
-		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual bool Unload();
-		virtual u32 GetUsedMemory() const;
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager) override;
+		virtual bool Unload() override;
+		virtual u32 GetUsedMemory() const override;
 
 	protected:
 		void UnloadTexture();
@@ -77,7 +78,6 @@ class SEED_CORE_API Texture : public ITexture
 	private:
 		SEED_DISABLE_COPY(Texture);
 
-	private:
 		u8 *pData;
 
 		u32 iBytesPerPixel;
@@ -85,6 +85,8 @@ class SEED_CORE_API Texture : public ITexture
 
 		u32 iAtlasWidth;
 		u32 iAtlasHeight;
+
+		bool bCopy;
 };
 
 }} // namespace

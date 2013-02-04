@@ -5,7 +5,7 @@
 
 #include <emscripten/emscripten.h>
 template <class T>
-int SeedRun(int argc, const char **argv)
+int SeedRun(int argc, char **argv)
 {
 	T app;
 	Seed::SetGameApp(&app, argc, argv);
@@ -19,23 +19,23 @@ int SeedRun(int argc, const char **argv)
 #include <platform/ios/iosView.h>
 
 template <class T>
-int SeedRun(int argc, const char **argv)
+int SeedRun(int argc, char **argv)
 {
 	T app;
 	Seed::SetGameApp(&app, argc, argv);
 	@autoreleasepool
 	{
-		return UIApplicationMain(argc, const_cast<char **>(argv), nil, NSStringFromClass([AppDelegate class]));
+		return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
 	}
 }
 
 #else
 
 template <class T>
-int SeedRun(int argc, const char **argv)
+int SeedRun(int argc, char **argv, const char *config = "app.config")
 {
 	T app;
-	Seed::SetGameApp(&app, argc, argv);
+	Seed::SetGameApp(&app, argc, argv, config);
 	if (Seed::Initialize())
 	{
 		while (!pSystem->IsShuttingDown())

@@ -112,7 +112,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 	return bLoaded;
 }
 
-bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight)
+bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atlasHeight, bool copy)
 {
 	SEED_ASSERT(buffer);
 	SEED_ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
@@ -120,7 +120,7 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 
 	if (this->Unload())
 	{
-		sFilename = "[dynamic texture]";
+		sFilename = desc;
 
 		iWidth = iAtlasWidth = width;
 		iHeight = iAtlasHeight = height;
@@ -131,13 +131,21 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 		if (atlasHeight)
 			iAtlasHeight = atlasHeight;
 
-		iBytesPerPixel = 4; // FIXME: parametized?
+		iBytesPerPixel = sizeof(Color); // FIXME: parametized?
 		iPitch = ROUND_UP(width, 32); // FIXME: parametized?
-		pData = buffer;
+
+		if (copy)
+		{
+			pData = (u8 *)Alloc(iAtlasWidth * iAtlasHeight * iBytesPerPixel);
+			memcpy(pData, buffer, iAtlasWidth * iAtlasHeight * iBytesPerPixel);
+		}
+		else
+		{
+			pData = buffer;
+		}
+
 		pixelFormat = kTexture2DPixelFormat_RGBA8888;
-
 		pRendererDevice->TextureRequest(this);
-
 		bLoaded = true;
 	}
 
@@ -147,13 +155,13 @@ bool Texture::Load(u32 width, u32 height, Color *buffer, u32 atlasWidth, u32 atl
 void Texture::Update(Color *data)
 {
 	pData = data;
-	pRendererDevice->TextureDataUpdate(this);
+	if (data)
+		pRendererDevice->TextureDataUpdate(this);
 }
 
 bool Texture::Unload()
 {
 	this->UnloadTexture();
-
 	bLoaded = false;
 
 	return true;
@@ -179,8 +187,7 @@ void Texture::PutPixel(u32 x, u32 y, const Color &px)
 #if !defined(ENABLE_NATIVE_PVRTC_FORMAT)
 	if (pData || pixelFormat != kTexture2DPixelFormat_RGB565 || pixelFormat != kTexture2DPixelFormat_A8)
 	{
-		const Color *data1 = static_cast<const Color *>(pData);
-		Color *data = const_cast<Color *>(data1);
+		Color *data = static_cast<Color *>(pData);
 		data[(y * iWidth) + x] = px; // ja deve ser arrumado em relacao ao atlas
 	}
 	else

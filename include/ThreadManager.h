@@ -48,23 +48,23 @@ class SEED_CORE_API ThreadManager : public IModule, public IUpdatable
 	SEED_SINGLETON_DECLARE(ThreadManager)
 	DECLARE_CONTAINER_TYPE(Vector, IThread)
 	public:
-		virtual void Add(IThread *thread);
-		virtual void Remove(IThread *thread);
+		void Add(IThread *thread);
+		void Remove(IThread *thread);
 
 		// IModule
-		virtual bool Initialize();
-		virtual bool Reset();
-		virtual bool Shutdown();
+		virtual bool Initialize() override;
+		virtual bool Reset() override;
+		virtual bool Shutdown() override;
 
-		virtual void Disable();
-		virtual void Enable();
+		virtual void Disable() override;
+		virtual void Enable() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(f32 dt) override;
 
 		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
 	private:
 		SEED_DISABLE_COPY(ThreadManager);

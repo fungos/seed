@@ -44,14 +44,13 @@ class SEED_CORE_API Mutex : public IMutex
 		Mutex();
 		virtual ~Mutex();
 
-		virtual void Lock();
-		virtual void Unlock();
+		virtual void Lock() override;
+		virtual void Unlock() override;
 
 	private:
 		SEED_DISABLE_COPY(Mutex);
 
-	private:
-		SDL_mutex		*pMutex;
+		SDL_mutex *pMutex;
 };
 
 }} // namespace

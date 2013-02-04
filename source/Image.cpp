@@ -97,13 +97,6 @@ void Image:: Update(f32 delta)
 		vert[3].cVertex = Vector3f(x2, y2, z);
 
 		this->UpdateTransform();
-
-		Vector4f tmp;
-		for (u32 i = 0; i < 4; i++)
-		{
-			tmp = mTransform * Vector4f(vert[i].cVertex, 1.0f);
-			vert[i].cVertex = tmp.getXYZ();
-		}
 	}
 }
 
