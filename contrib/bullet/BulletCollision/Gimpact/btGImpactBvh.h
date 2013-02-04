@@ -25,10 +25,10 @@ subject to the following restrictions:
 */
 
 
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include "btBoxCollision.h"
-#include "btTriangleShapeEx.h"
+#include <bullet/btBoxCollision.h>
+#include <bullet/btTriangleShapeEx.h>
 
 
 

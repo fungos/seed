@@ -19,14 +19,14 @@ subject to the following restrictions:
 #include <assert.h>
 
 
-#include "PlatformDefinitions.h"
+#include <bullet/PlatformDefinitions.h>
 
 #include <stdlib.h>
 
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
 
-#include "SpuSampleTask/SpuSampleTask.h"
+#include <bullet/SpuSampleTask/SpuSampleTask.h>
 
 
 //just add your commands here, try to keep them globally unique for debugging purposes
@@ -75,7 +75,7 @@ public:
 
 #if defined(USE_LIBSPE2) && defined(__SPU__)
 ////////////////////MAIN/////////////////////////////
-#include "../SpuLibspe2Support.h"
+#include <bullet/../SpuLibspe2Support.h>
 #include <spu_intrinsics.h>
 #include <spu_mfcio.h>
 #include <SpuFakeDma.h>

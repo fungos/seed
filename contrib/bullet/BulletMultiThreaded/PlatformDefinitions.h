@@ -2,18 +2,18 @@
 #define BT_TYPE_DEFINITIONS_H
 
 ///This file provides some platform/compiler checks for common definitions
-#include "LinearMath/btScalar.h"
-#include "LinearMath/btMinMax.h"
+#include <bullet/LinearMath/btScalar.h>
+#include <bullet/LinearMath/btMinMax.h>
 
 #ifdef PFX_USE_FREE_VECTORMATH
-#include "physics_effects/base_level/base/pfx_vectormath_include.win32.h"
+#include <bullet/physics_effects/base_level/base/pfx_vectormath_include.win32.h>
 typedef Vectormath::Aos::Vector3    vmVector3;
 typedef Vectormath::Aos::Quat       vmQuat;
 typedef Vectormath::Aos::Matrix3    vmMatrix3;
 typedef Vectormath::Aos::Transform3 vmTransform3;
 typedef Vectormath::Aos::Point3     vmPoint3;
 #else
-#include "vectormath/vmInclude.h"
+#include <bullet/vectormath/vmInclude.h>
 #endif//PFX_USE_FREE_VECTORMATH
 
 
@@ -91,7 +91,7 @@ typedef union
 #endif
 
 /* Included here because we need uint*_t typedefs */
-#include "PpuAddressSpace.h"
+#include <bullet/PpuAddressSpace.h>
 
 #endif //BT_TYPE_DEFINITIONS_H
 

@@ -16,8 +16,8 @@ subject to the following restrictions:
 #ifndef _BT_POOL_ALLOCATOR_H
 #define _BT_POOL_ALLOCATOR_H
 
-#include "btScalar.h"
-#include "btAlignedAllocator.h"
+#include <bullet/btScalar.h>
+#include <bullet/btAlignedAllocator.h>
 
 ///The btPoolAllocator class allows to efficiently allocate a large pool of objects, instead of dynamically allocating them separately.
 class btPoolAllocator

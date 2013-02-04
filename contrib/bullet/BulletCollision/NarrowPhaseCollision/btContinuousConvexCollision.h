@@ -17,8 +17,8 @@ subject to the following restrictions:
 #ifndef BT_CONTINUOUS_COLLISION_CONVEX_CAST_H
 #define BT_CONTINUOUS_COLLISION_CONVEX_CAST_H
 
-#include "btConvexCast.h"
-#include "btSimplexSolverInterface.h"
+#include <bullet/btConvexCast.h>
+#include <bullet/btSimplexSolverInterface.h>
 class btConvexPenetrationDepthSolver;
 class btConvexShape;
 class btStaticPlaneShape;

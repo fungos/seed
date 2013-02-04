@@ -15,23 +15,23 @@ subject to the following restrictions:
 #ifndef __SPU_COLLISION_SHAPES_H
 #define __SPU_COLLISION_SHAPES_H
 
-#include "../SpuDoubleBuffer.h"
+#include <bullet/../SpuDoubleBuffer.h>
 
-#include "BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
-#include "BulletCollision/CollisionShapes/btConvexInternalShape.h"
-#include "BulletCollision/CollisionShapes/btCylinderShape.h"
-#include "BulletCollision/CollisionShapes/btStaticPlaneShape.h"
+#include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h>
+#include <bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btCylinderShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h>
 
-#include "BulletCollision/CollisionShapes/btOptimizedBvh.h"
-#include "BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h"
-#include "BulletCollision/CollisionShapes/btSphereShape.h"
+#include <bullet/BulletCollision/CollisionShapes/btOptimizedBvh.h>
+#include <bullet/BulletCollision/CollisionShapes/btTriangleIndexVertexArray.h>
+#include <bullet/BulletCollision/CollisionShapes/btSphereShape.h>
 
-#include "BulletCollision/CollisionShapes/btCapsuleShape.h"
+#include <bullet/BulletCollision/CollisionShapes/btCapsuleShape.h>
 
-#include "BulletCollision/CollisionShapes/btConvexShape.h"
-#include "BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h"
-#include "BulletCollision/CollisionShapes/btConvexHullShape.h"
-#include "BulletCollision/CollisionShapes/btCompoundShape.h"
+#include <bullet/BulletCollision/CollisionShapes/btConvexShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btBvhTriangleMeshShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btConvexHullShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btCompoundShape.h>
 
 #define MAX_NUM_SPU_CONVEX_POINTS 128 //@fallback to PPU if a btConvexHullShape has more than MAX_NUM_SPU_CONVEX_POINTS points
 #define MAX_SPU_COMPOUND_SUBSHAPES 16 //@fallback on PPU if compound has more than MAX_SPU_COMPOUND_SUBSHAPES child shapes

@@ -16,29 +16,29 @@ subject to the following restrictions:
 #ifndef BULLET_DYNAMICS_COMMON_H
 #define BULLET_DYNAMICS_COMMON_H
 
-///Common headerfile includes for Bullet Dynamics, including Collision Detection
-#include "btBulletCollisionCommon.h"
+///Common headerfile include <bullets for Bullet Dynamics, including Collision Detection
+#include <bullet/btBulletCollisionCommon.h>
 
-#include "BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
+#include <bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
 
-#include "BulletDynamics/Dynamics/btSimpleDynamicsWorld.h"
-#include "BulletDynamics/Dynamics/btRigidBody.h"
+#include <bullet/BulletDynamics/Dynamics/btSimpleDynamicsWorld.h>
+#include <bullet/BulletDynamics/Dynamics/btRigidBody.h>
 
-#include "BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btHingeConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btConeTwistConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btSliderConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btUniversalConstraint.h"
-#include "BulletDynamics/ConstraintSolver/btHinge2Constraint.h"
-#include "BulletDynamics/ConstraintSolver/btGearConstraint.h"
+#include <bullet/BulletDynamics/ConstraintSolver/btPoint2PointConstraint.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btHingeConstraint.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btConeTwistConstraint.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btGeneric6DofConstraint.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btSliderConstraint.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btGeneric6DofSpringConstraint.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btUniversalConstraint.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btHinge2Constraint.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btGearConstraint.h>
 
-#include "BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
+#include <bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h>
 
 
 ///Vehicle simulation, with wheel contact simulated by raycasts
-#include "BulletDynamics/Vehicle/btRaycastVehicle.h"
+#include <bullet/BulletDynamics/Vehicle/btRaycastVehicle.h>
 
 
 

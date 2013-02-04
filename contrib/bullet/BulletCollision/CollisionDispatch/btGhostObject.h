@@ -17,11 +17,11 @@ subject to the following restrictions:
 #define BT_GHOST_OBJECT_H
 
 
-#include "btCollisionObject.h"
-#include "BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h"
-#include "LinearMath/btAlignedAllocator.h"
-#include "BulletCollision/BroadphaseCollision/btOverlappingPairCache.h"
-#include "btCollisionWorld.h"
+#include <bullet/btCollisionObject.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCallback.h>
+#include <bullet/LinearMath/btAlignedAllocator.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btOverlappingPairCache.h>
+#include <bullet/btCollisionWorld.h>
 
 class btConvexShape;
 

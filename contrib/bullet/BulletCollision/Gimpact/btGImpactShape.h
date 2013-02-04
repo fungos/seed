@@ -25,19 +25,19 @@ subject to the following restrictions:
 #ifndef GIMPACT_SHAPE_H
 #define GIMPACT_SHAPE_H
 
-#include "BulletCollision/CollisionShapes/btCollisionShape.h"
-#include "BulletCollision/CollisionShapes/btTriangleShape.h"
-#include "BulletCollision/CollisionShapes/btStridingMeshInterface.h"
-#include "BulletCollision/CollisionShapes/btCollisionMargin.h"
-#include "BulletCollision/CollisionDispatch/btCollisionWorld.h"
-#include "BulletCollision/CollisionShapes/btConcaveShape.h"
-#include "BulletCollision/CollisionShapes/btTetrahedronShape.h"
-#include "LinearMath/btVector3.h"
-#include "LinearMath/btTransform.h"
-#include "LinearMath/btMatrix3x3.h"
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btTriangleShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btStridingMeshInterface.h>
+#include <bullet/BulletCollision/CollisionShapes/btCollisionMargin.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionWorld.h>
+#include <bullet/BulletCollision/CollisionShapes/btConcaveShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btTetrahedronShape.h>
+#include <bullet/LinearMath/btVector3.h>
+#include <bullet/LinearMath/btTransform.h>
+#include <bullet/LinearMath/btMatrix3x3.h>
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include "btGImpactQuantizedBvh.h" // box tree class
+#include <bullet/btGImpactQuantizedBvh.h> // box tree class
 
 
 //! declare Quantized trees, (you can change to float based trees)
@@ -1130,7 +1130,7 @@ public:
 
 	virtual const char*	getName()const
 	{
-		return "GImpactMesh";
+		return "GImpactMe.h>;
 	}
 
 	virtual void rayTest(const btVector3& rayFrom, const btVector3& rayTo, btCollisionWorld::RayResultCallback& resultCallback)  const;

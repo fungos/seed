@@ -18,8 +18,8 @@ subject to the following restrictions:
 #ifndef BT_BVH_TRIANGLE_MATERIAL_MESH_SHAPE_H
 #define BT_BVH_TRIANGLE_MATERIAL_MESH_SHAPE_H
 
-#include "btBvhTriangleMeshShape.h"
-#include "btMaterial.h"
+#include <bullet/btBvhTriangleMeshShape.h>
+#include <bullet/btMaterial.h>
 
 ///The BvhTriangleMaterialMeshShape extends the btBvhTriangleMeshShape. Its main contribution is the interface into a material array, which allows per-triangle friction and restitution.
 ATTRIBUTE_ALIGNED16(class) btMultimaterialTriangleMeshShape : public btBvhTriangleMeshShape

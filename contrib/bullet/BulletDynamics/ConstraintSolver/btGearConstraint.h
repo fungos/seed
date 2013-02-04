@@ -18,7 +18,7 @@ subject to the following restrictions:
 #ifndef BT_GEAR_CONSTRAINT_H
 #define BT_GEAR_CONSTRAINT_H
 
-#include "BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+#include <bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h>
 ///The btGeatConstraint will couple the angular velocity for two bodies around given local axis and ratio.
 ///See Bullet/Demos/ConstraintDemo for an example use.
 class btGearConstraint : public btTypedConstraint

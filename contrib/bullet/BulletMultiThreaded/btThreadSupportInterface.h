@@ -18,8 +18,8 @@ subject to the following restrictions:
 
 
 #include <LinearMath/btScalar.h> //for ATTRIBUTE_ALIGNED16
-#include "PlatformDefinitions.h"
-#include "PpuAddressSpace.h"
+#include <bullet/PlatformDefinitions.h>
+#include <bullet/PpuAddressSpace.h>
 
 class btBarrier {
 public:

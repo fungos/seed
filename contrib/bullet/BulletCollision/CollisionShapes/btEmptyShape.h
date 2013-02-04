@@ -4,8 +4,8 @@ Copyright (c) 2003-2009 Erwin Coumans  http://bulletphysics.org
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -16,12 +16,12 @@ subject to the following restrictions:
 #ifndef BT_EMPTY_SHAPE_H
 #define BT_EMPTY_SHAPE_H
 
-#include "btConcaveShape.h"
+#include <bullet/BulletCollision/CollisionShapes/btConcaveShape.h>
 
-#include "LinearMath/btVector3.h"
-#include "LinearMath/btTransform.h"
-#include "LinearMath/btMatrix3x3.h"
-#include "btCollisionMargin.h"
+#include <bullet/LinearMath/btVector3.h>
+#include <bullet/LinearMath/btTransform.h>
+#include <bullet/LinearMath/btMatrix3x3.h>
+#include <bullet/BulletCollision/CollisionShapes/btCollisionMargin.h>
 
 
 
@@ -32,7 +32,7 @@ ATTRIBUTE_ALIGNED16(class) btEmptyShape	: public btConcaveShape
 {
 public:
 	BT_DECLARE_ALIGNED_ALLOCATOR();
-	
+
 	btEmptyShape();
 
 	virtual ~btEmptyShape();
@@ -46,13 +46,13 @@ public:
 	{
 		m_localScaling = scaling;
 	}
-	virtual const btVector3& getLocalScaling() const 
+	virtual const btVector3& getLocalScaling() const
 	{
 		return m_localScaling;
 	}
 
 	virtual void	calculateLocalInertia(btScalar mass,btVector3& inertia) const;
-	
+
 	virtual const char*	getName()const
 	{
 		return "Empty";

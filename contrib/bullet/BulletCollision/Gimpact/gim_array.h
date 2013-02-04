@@ -32,7 +32,7 @@ email: projectileman@yahoo.com
 -----------------------------------------------------------------------------
 */
 
-#include "gim_memory.h"
+#include <bullet/gim_memory.h>
 
 
 #define GIM_ARRAY_GROW_INCREMENT 2

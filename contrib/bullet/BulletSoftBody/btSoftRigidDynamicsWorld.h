@@ -16,8 +16,8 @@ subject to the following restrictions:
 #ifndef BT_SOFT_RIGID_DYNAMICS_WORLD_H
 #define BT_SOFT_RIGID_DYNAMICS_WORLD_H
 
-#include "BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h"
-#include "btSoftBody.h"
+#include <bullet/BulletDynamics/Dynamics/btDiscreteDynamicsWorld.h>
+#include <bullet/btSoftBody.h>
 
 typedef	btAlignedObjectArray<btSoftBody*> btSoftBodyArray;
 

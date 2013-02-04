@@ -13,17 +13,17 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "LinearMath/btScalar.h"
-#include "PlatformDefinitions.h"
+#include <bullet/LinearMath/btScalar.h>
+#include <bullet/PlatformDefinitions.h>
 
 #ifdef USE_WIN32_THREADING  //platform specific defines are defined in PlatformDefinitions.h
 
 #ifndef BT_WIN32_THREAD_SUPPORT_H
 #define BT_WIN32_THREAD_SUPPORT_H
 
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include "btThreadSupportInterface.h"
+#include <bullet/btThreadSupportInterface.h>
 
 
 typedef void (*Win32ThreadFunc)(void* userPtr,void* lsMemory);

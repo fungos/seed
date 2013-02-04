@@ -23,8 +23,8 @@ subject to the following restrictions:
 
 #include <stdlib.h>
 #include <stdio.h>
-//#include "SpuNarrowPhaseCollisionTask/SpuGatheringCollisionTask.h"
-#include "PlatformDefinitions.h"
+//#include <bullet/SpuNarrowPhaseCollisionTask/SpuGatheringCollisionTask.h>
+#include <bullet/PlatformDefinitions.h>
 
 
 //extern struct SpuGatherAndProcessPairsTaskDesc;
@@ -67,10 +67,10 @@ __attribute__ ((aligned (128)))
 
 #ifndef __SPU__
 
-#include "LinearMath/btAlignedObjectArray.h"
-#include "SpuCollisionTaskProcess.h"
-#include "SpuSampleTaskProcess.h"
-#include "btThreadSupportInterface.h"
+#include <bullet/LinearMath/btAlignedObjectArray.h>
+#include <bullet/SpuCollisionTaskProcess.h>
+#include <bullet/SpuSampleTaskProcess.h>
+#include <bullet/btThreadSupportInterface.h>
 #include <libspe2.h>
 #include <pthread.h>
 #include <sched.h>

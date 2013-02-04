@@ -29,7 +29,7 @@ subject to the following restrictions:
 
 //----------------------------------------------------------------------------------------
 
-#include "btGpu3DGridBroadphaseSharedTypes.h"
+#include <bullet/btGpu3DGridBroadphaseSharedTypes.h>
 
 //----------------------------------------------------------------------------------------
 

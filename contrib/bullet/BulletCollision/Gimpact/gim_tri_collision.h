@@ -33,8 +33,8 @@ email: projectileman@yahoo.com
 -----------------------------------------------------------------------------
 */
 
-#include "gim_box_collision.h"
-#include "gim_clip_polygon.h"
+#include <bullet/gim_box_collision.h>
+#include <bullet/gim_clip_polygon.h>
 
 
 

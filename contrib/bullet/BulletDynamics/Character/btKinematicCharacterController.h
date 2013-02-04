@@ -17,11 +17,11 @@ subject to the following restrictions:
 #ifndef BT_KINEMATIC_CHARACTER_CONTROLLER_H
 #define BT_KINEMATIC_CHARACTER_CONTROLLER_H
 
-#include "LinearMath/btVector3.h"
+#include <bullet/LinearMath/btVector3.h>
 
-#include "btCharacterControllerInterface.h"
+#include <bullet/btCharacterControllerInterface.h>
 
-#include "BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
+#include <bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h>
 
 
 class btCollisionShape;

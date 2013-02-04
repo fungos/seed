@@ -25,7 +25,7 @@ subject to the following restrictions:
 #include <math.h>
 
 
-#include "../PlatformDefinitions.h"
+#include <bullet/../PlatformDefinitions.h>
 
 
 

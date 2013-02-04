@@ -30,10 +30,10 @@
 #ifndef BT_AOS_VECTORMATH_BULLET_CONVERT_H
 #define BT_AOS_VECTORMATH_BULLET_CONVERT_H
 
-#include "PlatformDefinitions.h"
-#include "LinearMath/btVector3.h"
-#include "LinearMath/btQuaternion.h"
-#include "LinearMath/btMatrix3x3.h"
+#include <bullet/PlatformDefinitions.h>
+#include <bullet/LinearMath/btVector3.h>
+#include <bullet/LinearMath/btQuaternion.h>
+#include <bullet/LinearMath/btMatrix3x3.h>
 
 inline Vectormath::Aos::Vector3	getVmVector3(const btVector3& bulletVec)
 {

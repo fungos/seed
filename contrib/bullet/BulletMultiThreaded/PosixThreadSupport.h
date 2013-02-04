@@ -17,8 +17,8 @@ subject to the following restrictions:
 #define BT_POSIX_THREAD_SUPPORT_H
 
 
-#include "LinearMath/btScalar.h"
-#include "PlatformDefinitions.h"
+#include <bullet/LinearMath/btScalar.h>
+#include <bullet/PlatformDefinitions.h>
 
 #ifdef USE_PTHREADS //platform specifc defines are defined in PlatformDefinitions.h
 
@@ -30,9 +30,9 @@ subject to the following restrictions:
 
 
 
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include "btThreadSupportInterface.h"
+#include <bullet/btThreadSupportInterface.h>
 
 
 typedef void (*PosixThreadFunc)(void* userPtr,void* lsMemory);

@@ -17,13 +17,13 @@ subject to the following restrictions:
 #ifndef __BT_PARALLEL_CONSTRAINT_SOLVER_H
 #define __BT_PARALLEL_CONSTRAINT_SOLVER_H
 
-#include "BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h"
+#include <bullet/BulletDynamics/ConstraintSolver/btSequentialImpulseConstraintSolver.h>
 
 
 
 
-#include "LinearMath/btScalar.h"
-#include "PlatformDefinitions.h"
+#include <bullet/LinearMath/btScalar.h>
+#include <bullet/PlatformDefinitions.h>
 
 
 #define PFX_MAX_SOLVER_PHASES 64
@@ -130,7 +130,7 @@ ATTRIBUTE_ALIGNED16(struct) PfxSolverBody {
 
 
 #ifdef __PPU__
-#include "SpuDispatch/BulletPE2ConstraintSolverSpursSupport.h"
+#include <bullet/SpuDispatch/BulletPE2ConstraintSolverSpursSupport.h>
 #endif
 
 static SIMD_FORCE_INLINE vmVector3 btReadVector3(const double* p)

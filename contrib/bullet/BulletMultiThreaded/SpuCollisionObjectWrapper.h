@@ -16,8 +16,8 @@ subject to the following restrictions:
 #ifndef BT_SPU_COLLISION_OBJECT_WRAPPER_H
 #define BT_SPU_COLLISION_OBJECT_WRAPPER_H
 
-#include "PlatformDefinitions.h"
-#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
+#include <bullet/PlatformDefinitions.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionObject.h>
 
 ATTRIBUTE_ALIGNED16(class) SpuCollisionObjectWrapper
 {

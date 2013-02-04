@@ -34,7 +34,7 @@ email: projectileman@yahoo.com
 -----------------------------------------------------------------------------
 */
 
-#include "gim_memory.h"
+#include <bullet/gim_memory.h>
 
 ///Macros for sorting.
 //! Prototype for comparators

@@ -16,7 +16,7 @@ subject to the following restrictions:
 #ifndef BT_SOFT_BODY_HELPERS_H
 #define BT_SOFT_BODY_HELPERS_H
 
-#include "btSoftBody.h"
+#include <bullet/btSoftBody.h>
 
 //
 // Helpers

@@ -31,7 +31,7 @@
 #define _VECTORMATH_VECIDX_AOS_H
 
 
-#include "floatInVec.h"
+#include <bullet/floatInVec.h>
 
 namespace Vectormath {
 namespace Aos {

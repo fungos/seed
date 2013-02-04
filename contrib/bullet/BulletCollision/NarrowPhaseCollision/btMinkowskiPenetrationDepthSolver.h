@@ -16,7 +16,7 @@ subject to the following restrictions:
 #ifndef BT_MINKOWSKI_PENETRATION_DEPTH_SOLVER_H
 #define BT_MINKOWSKI_PENETRATION_DEPTH_SOLVER_H
 
-#include "btConvexPenetrationDepthSolver.h"
+#include <bullet/btConvexPenetrationDepthSolver.h>
 
 ///MinkowskiPenetrationDepthSolver implements bruteforce penetration depth estimation.
 ///Implementation is based on sampling the depth using support mapping, and using GJK step to get the witness points.

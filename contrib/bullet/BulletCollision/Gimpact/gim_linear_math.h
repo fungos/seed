@@ -35,8 +35,8 @@ email: projectileman@yahoo.com
 */
 
 
-#include "gim_math.h"
-#include "gim_geom_types.h"
+#include <bullet/gim_math.h>
+#include <bullet/gim_geom_types.h>
 
 
 

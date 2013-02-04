@@ -18,7 +18,7 @@ subject to the following restrictions:
 #ifndef BT_VORONOI_SIMPLEX_SOLVER_H
 #define BT_VORONOI_SIMPLEX_SOLVER_H
 
-#include "btSimplexSolverInterface.h"
+#include <bullet/btSimplexSolverInterface.h>
 
 
 

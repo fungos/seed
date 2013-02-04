@@ -25,7 +25,7 @@ subject to the following restrictions:
 
 //----------------------------------------------------------------------------------------
 
-#include "btGpuUtilsSharedDefs.h"
+#include <bullet/btGpuUtilsSharedDefs.h>
 
 //----------------------------------------------------------------------------------------
 

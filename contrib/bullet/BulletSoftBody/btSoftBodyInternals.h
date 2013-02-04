@@ -17,15 +17,15 @@ subject to the following restrictions:
 #ifndef _BT_SOFT_BODY_INTERNALS_H
 #define _BT_SOFT_BODY_INTERNALS_H
 
-#include "btSoftBody.h"
+#include <bullet/btSoftBody.h>
 
 
-#include "LinearMath/btQuickprof.h"
-#include "LinearMath/btPolarDecomposition.h"
-#include "BulletCollision/BroadphaseCollision/btBroadphaseInterface.h"
-#include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
-#include "BulletCollision/CollisionShapes/btConvexInternalShape.h"
-#include "BulletCollision/NarrowPhaseCollision/btGjkEpa2.h"
+#include <bullet/LinearMath/btQuickprof.h>
+#include <bullet/LinearMath/btPolarDecomposition.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h>
+#include <bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h>
+#include <bullet/BulletCollision/NarrowPhaseCollision/btGjkEpa2.h>
 #include <string.h> //for memset
 //
 // btSymMatrix

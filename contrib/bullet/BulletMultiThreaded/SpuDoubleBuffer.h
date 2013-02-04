@@ -17,8 +17,8 @@ subject to the following restrictions:
 #ifndef BT_DOUBLE_BUFFER_H
 #define BT_DOUBLE_BUFFER_H
 
-#include "SpuFakeDma.h"
-#include "LinearMath/btScalar.h"
+#include <bullet/SpuFakeDma.h>
+#include <bullet/LinearMath/btScalar.h>
 
 
 ///DoubleBuffer

@@ -23,14 +23,14 @@ subject to the following restrictions:
 
 
 
-#include "../SpuDoubleBuffer.h"
+#include <bullet/../SpuDoubleBuffer.h>
 
 
-#include "LinearMath/btTransform.h"
+#include <bullet/LinearMath/btTransform.h>
 
 
-#include "BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
-#include "BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h"
+#include <bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h>
+#include <bullet/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h>
 
 class btCollisionShape;
 

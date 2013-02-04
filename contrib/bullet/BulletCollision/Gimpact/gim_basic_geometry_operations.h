@@ -36,7 +36,7 @@ email: projectileman@yahoo.com
 */
 
 
-#include "gim_linear_math.h"
+#include <bullet/gim_linear_math.h>
 
 
 

@@ -34,10 +34,10 @@ email: projectileman@yahoo.com
 */
 
 
-#include "gim_array.h"
-#include "gim_radixsort.h"
-#include "gim_box_collision.h"
-#include "gim_tri_collision.h"
+#include <bullet/gim_array.h>
+#include <bullet/gim_radixsort.h>
+#include <bullet/gim_box_collision.h>
+#include <bullet/gim_tri_collision.h>
 
 
 

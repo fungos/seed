@@ -1882,9 +1882,9 @@ inline void print( const Transform3 & tfrm, const char * name );
 } // namespace Aos
 } // namespace Vectormath
 
-#include "vec_aos.h"
-#include "quat_aos.h"
-#include "mat_aos.h"
+#include <bullet/vec_aos.h>
+#include <bullet/quat_aos.h>
+#include <bullet/mat_aos.h>
 
 #endif
 

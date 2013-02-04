@@ -18,11 +18,11 @@ subject to the following restrictions:
 #ifndef BT_SIMPLEX_SOLVER_INTERFACE_H
 #define BT_SIMPLEX_SOLVER_INTERFACE_H
 
-#include "LinearMath/btVector3.h"
+#include <bullet/LinearMath/btVector3.h>
 
 #define NO_VIRTUAL_INTERFACE 1
 #ifdef NO_VIRTUAL_INTERFACE
-#include "btVoronoiSimplexSolver.h"
+#include <bullet/btVoronoiSimplexSolver.h>
 #define btSimplexSolverInterface btVoronoiSimplexSolver
 #else
 

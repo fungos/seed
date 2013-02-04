@@ -19,7 +19,7 @@ subject to the following restrictions:
 #define __BOXBOXDISTANCE_H__
 
 
-#include "Box.h"
+#include <bullet/Box.h>
 
 
 //---------------------------------------------------------------------------

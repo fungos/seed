@@ -32,9 +32,9 @@ email: projectileman@yahoo.com
 
 -----------------------------------------------------------------------------
 */
-#include "gim_geometry.h"
-#include "gim_radixsort.h"
-#include "gim_array.h"
+#include <bullet/gim_geometry.h>
+#include <bullet/gim_radixsort.h>
+#include <bullet/gim_array.h>
 
 
 /**

@@ -13,16 +13,16 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "LinearMath/btScalar.h"
-#include "PlatformDefinitions.h"
+#include <bullet/LinearMath/btScalar.h>
+#include <bullet/PlatformDefinitions.h>
 
 
 #ifndef BT_SEQUENTIAL_THREAD_SUPPORT_H
 #define BT_SEQUENTIAL_THREAD_SUPPORT_H
 
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include "btThreadSupportInterface.h"
+#include <bullet/btThreadSupportInterface.h>
 
 typedef void (*SequentialThreadFunc)(void* userPtr,void* lsMemory);
 typedef void* (*SequentiallsMemorySetupFunc)();

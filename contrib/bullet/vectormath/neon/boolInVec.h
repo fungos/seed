@@ -108,7 +108,7 @@ inline const boolInVec select(boolInVec vec0, boolInVec vec1, boolInVec select_v
 // boolInVec implementation
 //
 
-#include "floatInVec.h"
+#include <bullet/floatInVec.h>
 
 namespace Vectormath {
 

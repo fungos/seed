@@ -18,24 +18,24 @@ subject to the following restrictions:
 
 #include <assert.h>
 
-#include "LinearMath/btScalar.h"
+#include <bullet/LinearMath/btScalar.h>
 
-#include "PlatformDefinitions.h"
-#include "LinearMath/btAlignedObjectArray.h"
-#include "SpuNarrowPhaseCollisionTask/SpuGatheringCollisionTask.h" // for definitions processCollisionTask and createCollisionLocalStoreMemory
+#include <bullet/PlatformDefinitions.h>
+#include <bullet/LinearMath/btAlignedObjectArray.h>
+#include <bullet/SpuNarrowPhaseCollisionTask/SpuGatheringCollisionTask.h> // for definitions processCollisionTask and createCollisionLocalStoreMemory
 
-#include "btThreadSupportInterface.h"
+#include <bullet/btThreadSupportInterface.h>
 
 
-//#include "SPUAssert.h"
+//#include <bullet/SPUAssert.h>
 #include <string.h>
 
 
-#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
-#include "BulletCollision/CollisionShapes/btCollisionShape.h"
-#include "BulletCollision/CollisionShapes/btConvexShape.h"
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionObject.h>
+#include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btConvexShape.h>
 
-#include "LinearMath/btAlignedAllocator.h"
+#include <bullet/LinearMath/btAlignedAllocator.h>
 
 #include <stdio.h>
 

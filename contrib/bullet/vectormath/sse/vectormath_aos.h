@@ -360,9 +360,9 @@ static VECTORMATH_FORCE_INLINE void sincosf4(vec_float4 x, vec_float4* s, vec_fl
     *c = vec_sel((vec_float4)vec_xor(toM128(0x80000000),(vec_uint4)*c),*c,cosMask);    
 }
 
-#include "vecidx_aos.h"
-#include "floatInVec.h"
-#include "boolInVec.h"
+#include <bullet/vecidx_aos.h>
+#include <bullet/floatInVec.h>
+#include <bullet/boolInVec.h>
 
 #ifdef _VECTORMATH_DEBUG
 #include <stdio.h>
@@ -2540,8 +2540,8 @@ VECTORMATH_FORCE_INLINE void print( const Transform3 & tfrm, const char * name )
 } // namespace Aos
 } // namespace Vectormath
 
-#include "vec_aos.h"
-#include "quat_aos.h"
-#include "mat_aos.h"
+#include <bullet/vec_aos.h>
+#include <bullet/quat_aos.h>
+#include <bullet/mat_aos.h>
 
 #endif

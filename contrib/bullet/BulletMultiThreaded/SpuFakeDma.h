@@ -17,8 +17,8 @@ subject to the following restrictions:
 #define BT_FAKE_DMA_H
 
 
-#include "PlatformDefinitions.h"
-#include "LinearMath/btScalar.h"
+#include <bullet/PlatformDefinitions.h>
+#include <bullet/LinearMath/btScalar.h>
 
 
 #ifdef __SPU__

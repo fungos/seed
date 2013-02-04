@@ -19,13 +19,13 @@ subject to the following restrictions:
 
 #include <stdlib.h>
 #ifdef PFX_USE_FREE_VECTORMATH
-#include "vecmath/vmInclude.h"
+#include <bullet/vecmath/vmInclude.h>
 #else
-#include "vectormath/vmInclude.h"
+#include <bullet/vectormath/vmInclude.h>
 #endif //PFX_USE_FREE_VECTORMATH
 
 
-#include "PlatformDefinitions.h"
+#include <bullet/PlatformDefinitions.h>
 
 
 static inline vmVector3 read_Vector3(const float* p)

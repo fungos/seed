@@ -13,8 +13,8 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "BulletMultiThreaded/GpuSoftBodySolvers/Shared/btSoftBodySolverData.h"
-#include "btSoftBodySolverBuffer_OpenCL.h"
+#include <bullet/BulletMultiThreaded/GpuSoftBodySolvers/Shared/btSoftBodySolverData.h>
+#include <bullet/btSoftBodySolverBuffer_OpenCL.h>
 
 
 #ifndef BT_SOFT_BODY_SOLVER_LINK_DATA_OPENCL_SIMDAWARE_H

@@ -2,18 +2,18 @@
 #ifndef __VM_INCLUDE_H
 #define __VM_INCLUDE_H
 
-#include "LinearMath/btScalar.h"
+#include <bullet/LinearMath/btScalar.h>
 
 #if defined (USE_SYSTEM_VECTORMATH) || defined (__CELLOS_LV2__)
 	#include <vectormath_aos.h>
 #else //(USE_SYSTEM_VECTORMATH)
 	#if defined (BT_USE_SSE) 
-		#include "sse/vectormath_aos.h"
+		#include <bullet/sse/vectormath_aos.h>
 	#else //all other platforms
         #if defined (BT_USE_NEON)
-            #include "neon/vectormath_aos.h"
+            #include <bullet/neon/vectormath_aos.h>
         #else
-            #include "scalar/vectormath_aos.h"
+            #include <bullet/scalar/vectormath_aos.h>
         #endif
 	#endif //(BT_USE_SSE) && defined (_WIN32)
 #endif //(USE_SYSTEM_VECTORMATH)

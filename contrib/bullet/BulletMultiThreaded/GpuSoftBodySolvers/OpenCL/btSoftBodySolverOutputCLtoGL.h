@@ -16,7 +16,7 @@ subject to the following restrictions:
 #ifndef BT_SOFT_BODY_SOLVER_OUTPUT_CL_TO_GL_H
 #define BT_SOFT_BODY_SOLVER_OUTPUT_CL_TO_GL_H
 
-#include "btSoftBodySolver_OpenCL.h"
+#include <bullet/btSoftBodySolver_OpenCL.h>
 
 /** 
  * Class to manage movement of data from a solver to a given target.

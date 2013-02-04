@@ -24,23 +24,23 @@ subject to the following restrictions:
 #ifndef BT_GIMPACT_BVH_CONCAVE_COLLISION_ALGORITHM_H
 #define BT_GIMPACT_BVH_CONCAVE_COLLISION_ALGORITHM_H
 
-#include "BulletCollision/CollisionDispatch/btActivatingCollisionAlgorithm.h"
-#include "BulletCollision/BroadphaseCollision/btDispatcher.h"
-#include "BulletCollision/BroadphaseCollision/btBroadphaseInterface.h"
-#include "BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
+#include <bullet/BulletCollision/CollisionDispatch/btActivatingCollisionAlgorithm.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btDispatcher.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseInterface.h>
+#include <bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h>
 class btDispatcher;
-#include "BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
-#include "BulletCollision/CollisionDispatch/btCollisionCreateFunc.h"
-#include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h>
 
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include "btGImpactShape.h"
-#include "BulletCollision/CollisionShapes/btStaticPlaneShape.h"
-#include "BulletCollision/CollisionShapes/btCompoundShape.h"
-#include "BulletCollision/CollisionDispatch/btConvexConvexAlgorithm.h"
-#include "LinearMath/btIDebugDraw.h"
-#include "BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
+#include <bullet/btGImpactShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btCompoundShape.h>
+#include <bullet/BulletCollision/CollisionDispatch/btConvexConvexAlgorithm.h>
+#include <bullet/LinearMath/btIDebugDraw.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h>
 
 
 //! Collision Algorithm for GImpact Shapes

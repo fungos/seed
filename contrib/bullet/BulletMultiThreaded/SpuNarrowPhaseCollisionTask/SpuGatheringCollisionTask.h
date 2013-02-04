@@ -16,7 +16,7 @@ subject to the following restrictions:
 #ifndef SPU_GATHERING_COLLISION_TASK_H
 #define SPU_GATHERING_COLLISION_TASK_H
 
-#include "../PlatformDefinitions.h"
+#include <bullet/../PlatformDefinitions.h>
 //#define DEBUG_SPU_COLLISION_DETECTION 1
 
 
@@ -50,7 +50,7 @@ void*	createCollisionLocalStoreMemory();
 void deleteCollisionLocalStoreMemory();
 
 #if defined(USE_LIBSPE2) && defined(__SPU__)
-#include "../SpuLibspe2Support.h"
+#include <bullet/../SpuLibspe2Support.h>
 #include <spu_intrinsics.h>
 #include <spu_mfcio.h>
 #include <SpuFakeDma.h>

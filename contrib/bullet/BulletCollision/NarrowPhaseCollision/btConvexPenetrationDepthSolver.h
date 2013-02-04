@@ -19,7 +19,7 @@ subject to the following restrictions:
 
 class btStackAlloc;
 class btVector3;
-#include "btSimplexSolverInterface.h"
+#include <bullet/btSimplexSolverInterface.h>
 class btConvexShape;
 class btTransform;
 

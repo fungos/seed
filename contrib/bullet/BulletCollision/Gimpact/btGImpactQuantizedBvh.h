@@ -24,8 +24,8 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include "btGImpactBvh.h"
-#include "btQuantization.h"
+#include <bullet/btGImpactBvh.h>
+#include <bullet/btQuantization.h>
 
 
 

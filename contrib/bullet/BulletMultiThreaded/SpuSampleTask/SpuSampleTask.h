@@ -16,12 +16,12 @@ subject to the following restrictions:
 #ifndef SPU_SAMPLE_TASK_H
 #define SPU_SAMPLE_TASK_H
 
-#include "../PlatformDefinitions.h"
-#include "LinearMath/btScalar.h"
-#include "LinearMath/btVector3.h"
-#include "LinearMath/btMatrix3x3.h"
+#include <bullet/../PlatformDefinitions.h>
+#include <bullet/LinearMath/btScalar.h>
+#include <bullet/LinearMath/btVector3.h>
+#include <bullet/LinearMath/btMatrix3x3.h>
 
-#include "LinearMath/btAlignedAllocator.h"
+#include <bullet/LinearMath/btAlignedAllocator.h>
 
 
 enum

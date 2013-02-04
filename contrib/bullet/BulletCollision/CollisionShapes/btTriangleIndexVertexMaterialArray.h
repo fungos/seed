@@ -18,7 +18,7 @@ subject to the following restrictions:
 #ifndef BT_MULTIMATERIAL_TRIANGLE_INDEX_VERTEX_ARRAY_H
 #define BT_MULTIMATERIAL_TRIANGLE_INDEX_VERTEX_ARRAY_H
 
-#include "btTriangleIndexVertexArray.h"
+#include <bullet/btTriangleIndexVertexArray.h>
 
 
 ATTRIBUTE_ALIGNED16( struct)	btMaterialProperties

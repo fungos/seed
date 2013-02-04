@@ -17,10 +17,10 @@ subject to the following restrictions:
 #ifndef BT_RB_DYN_BODY_H__
 #define BT_RB_DYN_BODY_H__
 
-#include "vectormath/vmInclude.h"
+#include <bullet/vectormath/vmInclude.h>
 using namespace Vectormath::Aos;
 
-#include "TrbStateVec.h"
+#include <bullet/TrbStateVec.h>
 
 class CollObject;
 

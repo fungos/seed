@@ -20,9 +20,9 @@ subject to the following restrictions:
 
 //----------------------------------------------------------------------------------------
 
-#include "BulletCollision/BroadphaseCollision/btSimpleBroadphase.h"
+#include <bullet/BulletCollision/BroadphaseCollision/btSimpleBroadphase.h>
 
-#include "btGpu3DGridBroadphaseSharedTypes.h"
+#include <bullet/btGpu3DGridBroadphaseSharedTypes.h>
 
 //----------------------------------------------------------------------------------------
 

@@ -15,7 +15,7 @@ subject to the following restrictions:
 #ifndef BT_SPU_GATHERING_COLLISION__DISPATCHER_H
 #define BT_SPU_GATHERING_COLLISION__DISPATCHER_H
 
-#include "BulletCollision/CollisionDispatch/btCollisionDispatcher.h"
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h>
 
 
 ///Tuning value to optimized SPU utilization 
