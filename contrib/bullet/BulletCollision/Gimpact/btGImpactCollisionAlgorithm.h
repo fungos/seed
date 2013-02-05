@@ -35,7 +35,7 @@ class btDispatcher;
 
 #include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include <bullet/btGImpactShape.h>
+#include <bullet/BulletCollision/Gimpact/btGImpactShape.h>
 #include <bullet/BulletCollision/CollisionShapes/btStaticPlaneShape.h>
 #include <bullet/BulletCollision/CollisionShapes/btCompoundShape.h>
 #include <bullet/BulletCollision/CollisionDispatch/btConvexConvexAlgorithm.h>
@@ -55,7 +55,7 @@ class btGImpactCollisionAlgorithm : public btActivatingCollisionAlgorithm
 {
 protected:
 	btCollisionAlgorithm * m_convex_algorithm;
-    btPersistentManifold * m_manifoldPtr;
+	btPersistentManifold * m_manifoldPtr;
 	btManifoldResult* m_resultOut;
 	const btDispatcherInfo * m_dispatchInfo;
 	int m_triface0;
@@ -261,38 +261,38 @@ public:
 
 
 		/// Accessor/Mutator pairs for Part and triangleID
-    void 	setFace0(int value) 
-    { 
-    	m_triface0 = value; 
-    }
-    int getFace0() 
-    { 
-    	return m_triface0; 
-    }
-    void setFace1(int value) 
-    { 
-    	m_triface1 = value; 
-    }
-    int getFace1() 
-    { 
-    	return m_triface1; 
-    }
-    void setPart0(int value) 
-    { 
-    	m_part0 = value; 
-    }
-    int getPart0() 
-    { 
-    	return m_part0; 
-    }
-    void setPart1(int value) 
-    { 
-    	m_part1 = value; 
+	void 	setFace0(int value)
+	{
+		m_triface0 = value;
+	}
+	int getFace0()
+	{
+		return m_triface0;
+	}
+	void setFace1(int value)
+	{
+		m_triface1 = value;
+	}
+	int getFace1()
+	{
+		return m_triface1;
+	}
+	void setPart0(int value)
+	{
+		m_part0 = value;
+	}
+	int getPart0()
+	{
+		return m_part0;
+	}
+	void setPart1(int value)
+	{
+		m_part1 = value;
 		}
-    int getPart1() 
-    { 
-    	return m_part1; 
-    }
+	int getPart1()
+	{
+		return m_part1;
+	}
 
 };
 

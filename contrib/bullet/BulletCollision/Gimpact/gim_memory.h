@@ -15,14 +15,14 @@ email: projectileman@yahoo.com
  This library is free software; you can redistribute it and/or
  modify it under the terms of EITHER:
    (1) The GNU Lesser General Public License as published by the Free
-       Software Foundation; either version 2.1 of the License, or (at
-       your option) any later version. The text of the GNU Lesser
-       General Public License is included with this library in the
-       file GIMPACT-LICENSE-LGPL.TXT.
+	   Software Foundation; either version 2.1 of the License, or (at
+	   your option) any later version. The text of the GNU Lesser
+	   General Public License is included with this library in the
+	   file GIMPACT-LICENSE-LGPL.TXT.
    (2) The BSD-style license that is included with this library in
-       the file GIMPACT-LICENSE-BSD.TXT.
+	   the file GIMPACT-LICENSE-BSD.TXT.
    (3) The zlib/libpng license that is included with this library in
-       the file GIMPACT-LICENSE-ZLIB.TXT.
+	   the file GIMPACT-LICENSE-ZLIB.TXT.
 
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -33,7 +33,7 @@ email: projectileman@yahoo.com
 */
 
 
-#include <bullet/gim_math.h>
+#include <bullet/BulletCollision/Gimpact/gim_math.h>
 #include <string.h>
 
 #ifdef PREFETCH
@@ -55,35 +55,35 @@ email: projectileman@yahoo.com
 ///Functions for manip packed arrays of numbers
 #define GIM_COPY_ARRAYS(dest_array,source_array,element_count)\
 {\
-    for (GUINT _i_=0;_i_<element_count ;++_i_)\
-    {\
-    	dest_array[_i_] = source_array[_i_];\
-    }\
+	for (GUINT _i_=0;_i_<element_count ;++_i_)\
+	{\
+		dest_array[_i_] = source_array[_i_];\
+	}\
 }\
 
 #define GIM_COPY_ARRAYS_1(dest_array,source_array,element_count,copy_macro)\
 {\
-    for (GUINT _i_=0;_i_<element_count ;++_i_)\
-    {\
-    	copy_macro(dest_array[_i_],source_array[_i_]);\
-    }\
+	for (GUINT _i_=0;_i_<element_count ;++_i_)\
+	{\
+		copy_macro(dest_array[_i_],source_array[_i_]);\
+	}\
 }\
 
 
 #define GIM_ZERO_ARRAY(array,element_count)\
 {\
-    for (GUINT _i_=0;_i_<element_count ;++_i_)\
-    {\
-    	array[_i_] = 0;\
-    }\
+	for (GUINT _i_=0;_i_<element_count ;++_i_)\
+	{\
+		array[_i_] = 0;\
+	}\
 }\
 
 #define GIM_CONSTANT_ARRAY(array,element_count,constant)\
 {\
-    for (GUINT _i_=0;_i_<element_count ;++_i_)\
-    {\
-    	array[_i_] = constant;\
-    }\
+	for (GUINT _i_=0;_i_<element_count ;++_i_)\
+	{\
+		array[_i_] = constant;\
+	}\
 }\
 
 
@@ -118,7 +118,7 @@ void gim_free(void *ptr);
 
 
 #if defined (_WIN32) && !defined(__MINGW32__) && !defined(__CYGWIN__)
-    #define GIM_SIMD_MEMORY 1
+	#define GIM_SIMD_MEMORY 1
 #endif
 
 //! SIMD POINTER INTEGER
@@ -132,27 +132,27 @@ inline void gim_simd_memcpy(void * dst, const void * src, size_t copysize)
 #ifdef GIM_SIMD_MEMORY
 /*
 //'long long int' is incompatible with visual studio 6...
-    //copy words
-    SIMD_T * ui_src_ptr = (SIMD_T *)src;
-    SIMD_T * ui_dst_ptr = (SIMD_T *)dst;
-    while(copysize>=SIMD_T_SIZE)
-    {
-        *(ui_dst_ptr++) = *(ui_src_ptr++);
-        copysize-=SIMD_T_SIZE;
-    }
-    if(copysize==0) return;
+	//copy words
+	SIMD_T * ui_src_ptr = (SIMD_T *)src;
+	SIMD_T * ui_dst_ptr = (SIMD_T *)dst;
+	while(copysize>=SIMD_T_SIZE)
+	{
+		*(ui_dst_ptr++) = *(ui_src_ptr++);
+		copysize-=SIMD_T_SIZE;
+	}
+	if(copysize==0) return;
 */
 
-    char * c_src_ptr = (char *)src;
-    char * c_dst_ptr = (char *)dst;
-    while(copysize>0)
-    {
-        *(c_dst_ptr++) = *(c_src_ptr++);
-        copysize--;
-    }
-    return;
+	char * c_src_ptr = (char *)src;
+	char * c_dst_ptr = (char *)dst;
+	while(copysize>0)
+	{
+		*(c_dst_ptr++) = *(c_src_ptr++);
+		copysize--;
+	}
+	return;
 #else
-    memcpy(dst,src,copysize);
+	memcpy(dst,src,copysize);
 #endif
 }
 

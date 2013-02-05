@@ -4,8 +4,8 @@ Copyright (c) 2003-2006 Erwin Coumans  http://continuousphysics.com/Bullet/
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -15,7 +15,7 @@ subject to the following restrictions:
 #ifndef __SPU_COLLISION_SHAPES_H
 #define __SPU_COLLISION_SHAPES_H
 
-#include <bullet/../SpuDoubleBuffer.h>
+#include <bullet/BulletMultiThreaded/SpuDoubleBuffer.h>
 
 #include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h>
 #include <bullet/BulletCollision/CollisionShapes/btConvexInternalShape.h>
@@ -72,7 +72,7 @@ ATTRIBUTE_ALIGNED16(struct) bvhMeshShape_LocalStoreMemory
 
 	ATTRIBUTE_ALIGNED16(btTriangleIndexVertexArray	gTriangleMeshInterfaceStorage);
 	btTriangleIndexVertexArray*	gTriangleMeshInterfacePtr;
-	///only a single mesh part for now, we can add support for multiple parts, but quantized trees don't support this at the moment 
+	///only a single mesh part for now, we can add support for multiple parts, but quantized trees don't support this at the moment
 	ATTRIBUTE_ALIGNED16(btIndexedMesh	gIndexMesh);
 	#define MAX_SPU_SUBTREE_HEADERS 32
 	//1024
@@ -97,7 +97,7 @@ void dmaCompoundSubShapes (CompoundShape_LocalStoreMemory* compoundShapeLocation
 #define USE_BRANCHFREE_TEST 1
 #ifdef USE_BRANCHFREE_TEST
 SIMD_FORCE_INLINE unsigned int spuTestQuantizedAabbAgainstQuantizedAabb(unsigned short int* aabbMin1,unsigned short int* aabbMax1,const unsigned short int* aabbMin2,const unsigned short int* aabbMax2)
-{		
+{
 #if defined(__CELLOS_LV2__) && defined (__SPU__)
 	vec_ushort8 vecMin = {aabbMin1[0],aabbMin2[0],aabbMin1[2],aabbMin2[2],aabbMin1[1],aabbMin2[1],0,0};
 	vec_ushort8 vecMax = {aabbMax2[0],aabbMax1[0],aabbMax2[2],aabbMax1[2],aabbMax2[1],aabbMax1[1],0,0};

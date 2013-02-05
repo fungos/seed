@@ -17,14 +17,14 @@ email: projectileman@yahoo.com
  This library is free software; you can redistribute it and/or
  modify it under the terms of EITHER:
    (1) The GNU Lesser General Public License as published by the Free
-       Software Foundation; either version 2.1 of the License, or (at
-       your option) any later version. The text of the GNU Lesser
-       General Public License is included with this library in the
-       file GIMPACT-LICENSE-LGPL.TXT.
+	   Software Foundation; either version 2.1 of the License, or (at
+	   your option) any later version. The text of the GNU Lesser
+	   General Public License is included with this library in the
+	   file GIMPACT-LICENSE-LGPL.TXT.
    (2) The BSD-style license that is included with this library in
-       the file GIMPACT-LICENSE-BSD.TXT.
+	   the file GIMPACT-LICENSE-BSD.TXT.
    (3) The zlib/libpng license that is included with this library in
-       the file GIMPACT-LICENSE-ZLIB.TXT.
+	   the file GIMPACT-LICENSE-ZLIB.TXT.
 
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -35,8 +35,8 @@ email: projectileman@yahoo.com
 */
 
 
-#include <bullet/gim_math.h>
-#include <bullet/gim_geom_types.h>
+#include <bullet/BulletCollision/Gimpact/gim_math.h>
+#include <bullet/BulletCollision/Gimpact/gim_geom_types.h>
 
 
 
@@ -91,9 +91,9 @@ email: projectileman@yahoo.com
 /// VECTOR SWAP
 #define VEC_SWAP(b,a)				\
 {  \
-    GIM_SWAP_NUMBERS((b)[0],(a)[0]);\
-    GIM_SWAP_NUMBERS((b)[1],(a)[1]);\
-    GIM_SWAP_NUMBERS((b)[2],(a)[2]);\
+	GIM_SWAP_NUMBERS((b)[0],(a)[0]);\
+	GIM_SWAP_NUMBERS((b)[1],(a)[1]);\
+	GIM_SWAP_NUMBERS((b)[2],(a)[2]);\
 }\
 
 /// Vector difference
@@ -230,90 +230,90 @@ email: projectileman@yahoo.com
 /// Vector length
 #define VEC_LENGTH_2(a,l)\
 {\
-    GREAL _pp = VEC_DOT_2(a,a);\
-    GIM_SQRT(_pp,l);\
+	GREAL _pp = VEC_DOT_2(a,a);\
+	GIM_SQRT(_pp,l);\
 }\
 
 
 /// Vector length
 #define VEC_LENGTH(a,l)\
 {\
-    GREAL _pp = VEC_DOT(a,a);\
-    GIM_SQRT(_pp,l);\
+	GREAL _pp = VEC_DOT(a,a);\
+	GIM_SQRT(_pp,l);\
 }\
 
 
 /// Vector length
 #define VEC_LENGTH_4(a,l)\
 {\
-    GREAL _pp = VEC_DOT_4(a,a);\
-    GIM_SQRT(_pp,l);\
+	GREAL _pp = VEC_DOT_4(a,a);\
+	GIM_SQRT(_pp,l);\
 }\
 
 /// Vector inv length
 #define VEC_INV_LENGTH_2(a,l)\
 {\
-    GREAL _pp = VEC_DOT_2(a,a);\
-    GIM_INV_SQRT(_pp,l);\
+	GREAL _pp = VEC_DOT_2(a,a);\
+	GIM_INV_SQRT(_pp,l);\
 }\
 
 
 /// Vector inv length
 #define VEC_INV_LENGTH(a,l)\
 {\
-    GREAL _pp = VEC_DOT(a,a);\
-    GIM_INV_SQRT(_pp,l);\
+	GREAL _pp = VEC_DOT(a,a);\
+	GIM_INV_SQRT(_pp,l);\
 }\
 
 
 /// Vector inv length
 #define VEC_INV_LENGTH_4(a,l)\
 {\
-    GREAL _pp = VEC_DOT_4(a,a);\
-    GIM_INV_SQRT(_pp,l);\
+	GREAL _pp = VEC_DOT_4(a,a);\
+	GIM_INV_SQRT(_pp,l);\
 }\
 
 
 
 /// distance between two points
 #define VEC_DISTANCE(_len,_va,_vb) {\
-    vec3f _tmp_;				\
-    VEC_DIFF(_tmp_, _vb, _va);			\
-    VEC_LENGTH(_tmp_,_len);			\
+	vec3f _tmp_;				\
+	VEC_DIFF(_tmp_, _vb, _va);			\
+	VEC_LENGTH(_tmp_,_len);			\
 }\
 
 
 /// Vector length
 #define VEC_CONJUGATE_LENGTH(a,l)\
 {\
-    GREAL _pp = 1.0 - a[0]*a[0] - a[1]*a[1] - a[2]*a[2];\
-    GIM_SQRT(_pp,l);\
+	GREAL _pp = 1.0 - a[0]*a[0] - a[1]*a[1] - a[2]*a[2];\
+	GIM_SQRT(_pp,l);\
 }\
 
 
 /// Vector length
 #define VEC_NORMALIZE(a) {	\
-    GREAL len;\
-    VEC_INV_LENGTH(a,len); \
-    if(len<G_REAL_INFINITY)\
-    {\
-        a[0] *= len;				\
-        a[1] *= len;				\
-        a[2] *= len;				\
-    }						\
+	GREAL len;\
+	VEC_INV_LENGTH(a,len); \
+	if(len<G_REAL_INFINITY)\
+	{\
+		a[0] *= len;				\
+		a[1] *= len;				\
+		a[2] *= len;				\
+	}						\
 }\
 
 /// Set Vector size
 #define VEC_RENORMALIZE(a,newlen) {	\
-    GREAL len;\
-    VEC_INV_LENGTH(a,len); \
-    if(len<G_REAL_INFINITY)\
-    {\
-        len *= newlen;\
-        a[0] *= len;				\
-        a[1] *= len;				\
-        a[2] *= len;				\
-    }						\
+	GREAL len;\
+	VEC_INV_LENGTH(a,len); \
+	if(len<G_REAL_INFINITY)\
+	{\
+		len *= newlen;\
+		a[0] *= len;				\
+		a[1] *= len;				\
+		a[2] *= len;				\
+	}						\
 }\
 
 /// Vector cross
@@ -352,8 +352,8 @@ email: projectileman@yahoo.com
 	GREAL scalar = VEC_DOT(v, n);			\
 	scalar/= VEC_DOT(n, n); \
 	vp[0] = (scalar) * (n)[0];			\
-    vp[1] = (scalar) * (n)[1];			\
-    vp[2] = (scalar) * (n)[2];			\
+	vp[1] = (scalar) * (n)[1];			\
+	vp[2] = (scalar) * (n)[2];			\
 }\
 
 
@@ -363,8 +363,8 @@ email: projectileman@yahoo.com
 	GREAL scalar = VEC_DOT(v, n);			\
 	scalar = VEC_DOT(n, n)/scalar; \
 	vp[0] = (scalar) * (n)[0];			\
-    vp[1] = (scalar) * (n)[1];			\
-    vp[2] = (scalar) * (n)[2];			\
+	vp[1] = (scalar) * (n)[1];			\
+	vp[2] = (scalar) * (n)[2];			\
 }\
 
 
@@ -398,7 +398,7 @@ Takes two vectors a, b, blends them together with s <=1 */
 #define VEC_MAYOR_COORD(vec, maxc)\
 {\
 	GREAL A[] = {fabs(vec[0]),fabs(vec[1]),fabs(vec[2])};\
-    maxc =  A[0]>A[1]?(A[0]>A[2]?0:2):(A[1]>A[2]?1:2);\
+	maxc =  A[0]>A[1]?(A[0]>A[2]?0:2):(A[1]>A[2]?1:2);\
 }\
 
 //! Finds the 2 smallest cartesian coordinates from a vector
@@ -1010,9 +1010,9 @@ Last column is added as the position
 								\
    /* if matrix not singular, and not orthonormal, then renormalize */ \
    if ((det!=1.0f) && (det != 0.0f)) {				\
-      det = 1.0f / det;						\
-      p[0] *= det;						\
-      p[1] *= det;						\
+	  det = 1.0f / det;						\
+	  p[0] *= det;						\
+	  p[1] *= det;						\
    }								\
 }\
 
@@ -1029,17 +1029,17 @@ Last column is added as the position
    GREAL len;							\
 								\
    /* do nothing if off-diagonals are zero and diagonals are 	\
-    * equal */							\
+	* equal */							\
    if ((m[0][1] != 0.0) || (m[1][0] != 0.0) || (m[0][0] != m[1][1])) { \
-      p[0] = m[1][1]*v[0] - m[1][0]*v[1];			\
-      p[1] = - m[0][1]*v[0] + m[0][0]*v[1];			\
+	  p[0] = m[1][1]*v[0] - m[1][0]*v[1];			\
+	  p[1] = - m[0][1]*v[0] + m[0][0]*v[1];			\
 								\
-      len = p[0]*p[0] + p[1]*p[1];				\
-      GIM_INV_SQRT(len,len);					\
-      p[0] *= len;						\
-      p[1] *= len;						\
+	  len = p[0]*p[0] + p[1]*p[1];				\
+	  GIM_INV_SQRT(len,len);					\
+	  p[0] *= len;						\
+	  p[1] *= len;						\
    } else {							\
-      VEC_COPY_2 (p, v);					\
+	  VEC_COPY_2 (p, v);					\
    }								\
 }\
 
@@ -1209,15 +1209,15 @@ Last column is added as the position
    for (__k=j; __k<3; __k++) __jj[__k] = __k+1;				\
 								\
    (fac) = m[__ii[0]][__jj[0]] * (m[__ii[1]][__jj[1]]*m[__ii[2]][__jj[2]] 	\
-                            - m[__ii[1]][__jj[2]]*m[__ii[2]][__jj[1]]); \
+							- m[__ii[1]][__jj[2]]*m[__ii[2]][__jj[1]]); \
    (fac) -= m[__ii[0]][__jj[1]] * (m[__ii[1]][__jj[0]]*m[__ii[2]][__jj[2]]	\
-                             - m[__ii[1]][__jj[2]]*m[__ii[2]][__jj[0]]);\
+							 - m[__ii[1]][__jj[2]]*m[__ii[2]][__jj[0]]);\
    (fac) += m[__ii[0]][__jj[2]] * (m[__ii[1]][__jj[0]]*m[__ii[2]][__jj[1]]	\
-                             - m[__ii[1]][__jj[1]]*m[__ii[2]][__jj[0]]);\
+							 - m[__ii[1]][__jj[1]]*m[__ii[2]][__jj[0]]);\
 								\
    __k = i+j;							\
    if ( __k != (__k/2)*2) {						\
-      (fac) = -(fac);						\
+	  (fac) = -(fac);						\
    }								\
 }\
 
@@ -1280,9 +1280,9 @@ Last column is added as the position
    int i,j;							\
 								\
    for (i=0; i<4; i++) {					\
-      for (j=0; j<4; j++) {					\
-         COFACTOR_4X4_IJ (a[i][j], m, i, j);			\
-      }								\
+	  for (j=0; j<4; j++) {					\
+		 COFACTOR_4X4_IJ (a[i][j], m, i, j);			\
+	  }								\
    }								\
 }\
 
@@ -1330,9 +1330,9 @@ Last column is added as the position
    char _i_,_j_;							\
 								\
    for (_i_=0; _i_<4; _i_++) {					\
-      for (_j_=0; _j_<4; _j_++) {					\
-         COFACTOR_4X4_IJ (a[_j_][_i_], m, _i_, _j_);			\
-      }								\
+	  for (_j_=0; _j_<4; _j_++) {					\
+		 COFACTOR_4X4_IJ (a[_j_][_i_], m, _i_, _j_);			\
+	  }								\
    }								\
 }\
 
@@ -1378,10 +1378,10 @@ Last column is added as the position
 {								\
    char _i_,_j_; \
    for (_i_=0; _i_<4; _i_++) {					\
-      for (_j_=0; _j_<4; _j_++) {					\
-         COFACTOR_4X4_IJ (a[_j_][_i_], m, _i_, _j_);			\
-         a[_j_][_i_] *= s;						\
-      }								\
+	  for (_j_=0; _j_<4; _j_++) {					\
+		 COFACTOR_4X4_IJ (a[_j_][_i_], m, _i_, _j_);			\
+		 a[_j_][_i_] *= s;						\
+	  }								\
    }								\
 }\
 
@@ -1429,111 +1429,111 @@ Last column is added as the position
 //! Get the triple(3) row of a transform matrix
 #define MAT_GET_ROW(mat,vec3,rowindex)\
 {\
-    vec3[0] = mat[rowindex][0];\
-    vec3[1] = mat[rowindex][1];\
-    vec3[2] = mat[rowindex][2]; \
+	vec3[0] = mat[rowindex][0];\
+	vec3[1] = mat[rowindex][1];\
+	vec3[2] = mat[rowindex][2]; \
 }\
 
 //! Get the tuple(2) row of a transform matrix
 #define MAT_GET_ROW2(mat,vec2,rowindex)\
 {\
-    vec2[0] = mat[rowindex][0];\
-    vec2[1] = mat[rowindex][1];\
+	vec2[0] = mat[rowindex][0];\
+	vec2[1] = mat[rowindex][1];\
 }\
 
 
 //! Get the quad (4) row of a transform matrix
 #define MAT_GET_ROW4(mat,vec4,rowindex)\
 {\
-    vec4[0] = mat[rowindex][0];\
-    vec4[1] = mat[rowindex][1];\
-    vec4[2] = mat[rowindex][2];\
-    vec4[3] = mat[rowindex][3];\
+	vec4[0] = mat[rowindex][0];\
+	vec4[1] = mat[rowindex][1];\
+	vec4[2] = mat[rowindex][2];\
+	vec4[3] = mat[rowindex][3];\
 }\
 
 //! Get the triple(3) col of a transform matrix
 #define MAT_GET_COL(mat,vec3,colindex)\
 {\
-    vec3[0] = mat[0][colindex];\
-    vec3[1] = mat[1][colindex];\
-    vec3[2] = mat[2][colindex]; \
+	vec3[0] = mat[0][colindex];\
+	vec3[1] = mat[1][colindex];\
+	vec3[2] = mat[2][colindex]; \
 }\
 
 //! Get the tuple(2) col of a transform matrix
 #define MAT_GET_COL2(mat,vec2,colindex)\
 {\
-    vec2[0] = mat[0][colindex];\
-    vec2[1] = mat[1][colindex];\
+	vec2[0] = mat[0][colindex];\
+	vec2[1] = mat[1][colindex];\
 }\
 
 
 //! Get the quad (4) col of a transform matrix
 #define MAT_GET_COL4(mat,vec4,colindex)\
 {\
-    vec4[0] = mat[0][colindex];\
-    vec4[1] = mat[1][colindex];\
-    vec4[2] = mat[2][colindex];\
-    vec4[3] = mat[3][colindex];\
+	vec4[0] = mat[0][colindex];\
+	vec4[1] = mat[1][colindex];\
+	vec4[2] = mat[2][colindex];\
+	vec4[3] = mat[3][colindex];\
 }\
 
 //! Get the triple(3) col of a transform matrix
 #define MAT_GET_X(mat,vec3)\
 {\
-    MAT_GET_COL(mat,vec3,0);\
+	MAT_GET_COL(mat,vec3,0);\
 }\
 
 //! Get the triple(3) col of a transform matrix
 #define MAT_GET_Y(mat,vec3)\
 {\
-    MAT_GET_COL(mat,vec3,1);\
+	MAT_GET_COL(mat,vec3,1);\
 }\
 
 //! Get the triple(3) col of a transform matrix
 #define MAT_GET_Z(mat,vec3)\
 {\
-    MAT_GET_COL(mat,vec3,2);\
+	MAT_GET_COL(mat,vec3,2);\
 }\
 
 
 //! Get the triple(3) col of a transform matrix
 #define MAT_SET_X(mat,vec3)\
 {\
-    mat[0][0] = vec3[0];\
-    mat[1][0] = vec3[1];\
-    mat[2][0] = vec3[2];\
+	mat[0][0] = vec3[0];\
+	mat[1][0] = vec3[1];\
+	mat[2][0] = vec3[2];\
 }\
 
 //! Get the triple(3) col of a transform matrix
 #define MAT_SET_Y(mat,vec3)\
 {\
-    mat[0][1] = vec3[0];\
-    mat[1][1] = vec3[1];\
-    mat[2][1] = vec3[2];\
+	mat[0][1] = vec3[0];\
+	mat[1][1] = vec3[1];\
+	mat[2][1] = vec3[2];\
 }\
 
 //! Get the triple(3) col of a transform matrix
 #define MAT_SET_Z(mat,vec3)\
 {\
-    mat[0][2] = vec3[0];\
-    mat[1][2] = vec3[1];\
-    mat[2][2] = vec3[2];\
+	mat[0][2] = vec3[0];\
+	mat[1][2] = vec3[1];\
+	mat[2][2] = vec3[2];\
 }\
 
 
 //! Get the triple(3) col of a transform matrix
 #define MAT_GET_TRANSLATION(mat,vec3)\
 {\
-    vec3[0] = mat[0][3];\
-    vec3[1] = mat[1][3];\
-    vec3[2] = mat[2][3]; \
+	vec3[0] = mat[0][3];\
+	vec3[1] = mat[1][3];\
+	vec3[2] = mat[2][3]; \
 }\
 
 //! Set the triple(3) col of a transform matrix
 #define MAT_SET_TRANSLATION(mat,vec3)\
 {\
-    mat[0][3] = vec3[0];\
-    mat[1][3] = vec3[1];\
-    mat[2][3] = vec3[2]; \
+	mat[0][3] = vec3[0];\
+	mat[1][3] = vec3[1];\
+	mat[2][3] = vec3[2]; \
 }\
 
 

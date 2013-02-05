@@ -25,7 +25,7 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include <bullet/btBoxCollision.h>
+#include <bullet/BulletCollision/Gimpact/btBoxCollision.h>
 
 
 
@@ -55,16 +55,16 @@ SIMD_FORCE_INLINE void bt_closest_point_on_segment(
 	btVector3 & cp, const btVector3 & v,
 	const btVector3  &e1,const btVector3 &e2)
 {
-    btVector3 n = e2-e1;
-    cp = v - e1;
+	btVector3 n = e2-e1;
+	cp = v - e1;
 	btScalar _scalar = cp.dot(n)/n.dot(n);
 	if(_scalar <0.0f)
 	{
-	    cp = e1;
+		cp = e1;
 	}
 	else if(_scalar >1.0f)
 	{
-	    cp = e2;
+		cp = e2;
 	}
 	else
 	{
@@ -95,7 +95,7 @@ SIMD_FORCE_INLINE int bt_line_plane_collision(
 	if(btFabs(_dotdir)<PLANEDIREPSILON)
 	{
 		tparam = tmax;
-	    return 0;
+		return 0;
 	}
 
 	btScalar _dis = bt_distance_point_plane(plane,vPoint);
@@ -126,78 +126,78 @@ SIMD_FORCE_INLINE void bt_segment_collision(
 	btVector3 & vPointA,
 	btVector3 & vPointB)
 {
-    btVector3 AD = vA2 - vA1;
-    btVector3 BD = vB2 - vB1;
-    btVector3 N = AD.cross(BD);
-    btScalar tp = N.length2();
+	btVector3 AD = vA2 - vA1;
+	btVector3 BD = vB2 - vB1;
+	btVector3 N = AD.cross(BD);
+	btScalar tp = N.length2();
 
-    btVector4 _M;//plane
+	btVector4 _M;//plane
 
-    if(tp<SIMD_EPSILON)//ARE PARALELE
-    {
-    	//project B over A
-    	bool invert_b_order = false;
-    	_M[0] = vB1.dot(AD);
-    	_M[1] = vB2.dot(AD);
+	if(tp<SIMD_EPSILON)//ARE PARALELE
+	{
+		//project B over A
+		bool invert_b_order = false;
+		_M[0] = vB1.dot(AD);
+		_M[1] = vB2.dot(AD);
 
-    	if(_M[0]>_M[1])
-    	{
-    		invert_b_order  = true;
-    		BT_SWAP_NUMBERS(_M[0],_M[1]);
-    	}
-    	_M[2] = vA1.dot(AD);
-    	_M[3] = vA2.dot(AD);
-    	//mid points
-    	N[0] = (_M[0]+_M[1])*0.5f;
-    	N[1] = (_M[2]+_M[3])*0.5f;
+		if(_M[0]>_M[1])
+		{
+			invert_b_order  = true;
+			BT_SWAP_NUMBERS(_M[0],_M[1]);
+		}
+		_M[2] = vA1.dot(AD);
+		_M[3] = vA2.dot(AD);
+		//mid points
+		N[0] = (_M[0]+_M[1])*0.5f;
+		N[1] = (_M[2]+_M[3])*0.5f;
 
-    	if(N[0]<N[1])
-    	{
-    		if(_M[1]<_M[2])
-    		{
-    			vPointB = invert_b_order?vB1:vB2;
-    			vPointA = vA1;
-    		}
-    		else if(_M[1]<_M[3])
-    		{
-    			vPointB = invert_b_order?vB1:vB2;
-    			bt_closest_point_on_segment(vPointA,vPointB,vA1,vA2);
-    		}
-    		else
-    		{
-    			vPointA = vA2;
-    			bt_closest_point_on_segment(vPointB,vPointA,vB1,vB2);
-    		}
-    	}
-    	else
-    	{
-    		if(_M[3]<_M[0])
-    		{
-    			vPointB = invert_b_order?vB2:vB1;
-    			vPointA = vA2;
-    		}
-    		else if(_M[3]<_M[1])
-    		{
-    			vPointA = vA2;
-    			bt_closest_point_on_segment(vPointB,vPointA,vB1,vB2);
-    		}
-    		else
-    		{
-    			vPointB = invert_b_order?vB1:vB2;
-    			bt_closest_point_on_segment(vPointA,vPointB,vA1,vA2);
-    		}
-    	}
-    	return;
-    }
+		if(N[0]<N[1])
+		{
+			if(_M[1]<_M[2])
+			{
+				vPointB = invert_b_order?vB1:vB2;
+				vPointA = vA1;
+			}
+			else if(_M[1]<_M[3])
+			{
+				vPointB = invert_b_order?vB1:vB2;
+				bt_closest_point_on_segment(vPointA,vPointB,vA1,vA2);
+			}
+			else
+			{
+				vPointA = vA2;
+				bt_closest_point_on_segment(vPointB,vPointA,vB1,vB2);
+			}
+		}
+		else
+		{
+			if(_M[3]<_M[0])
+			{
+				vPointB = invert_b_order?vB2:vB1;
+				vPointA = vA2;
+			}
+			else if(_M[3]<_M[1])
+			{
+				vPointA = vA2;
+				bt_closest_point_on_segment(vPointB,vPointA,vB1,vB2);
+			}
+			else
+			{
+				vPointB = invert_b_order?vB1:vB2;
+				bt_closest_point_on_segment(vPointA,vPointB,vA1,vA2);
+			}
+		}
+		return;
+	}
 
-    N = N.cross(BD);
-    _M.setValue(N[0],N[1],N[2],vB1.dot(N));
+	N = N.cross(BD);
+	_M.setValue(N[0],N[1],N[2],vB1.dot(N));
 
 	// get point A as the plane collision point
-    bt_line_plane_collision(_M,AD,vA1,vPointA,tp,btScalar(0), btScalar(1));
+	bt_line_plane_collision(_M,AD,vA1,vPointA,tp,btScalar(0), btScalar(1));
 
-    /*Closest point on segment*/
-    vPointB = vPointA - vB1;
+	/*Closest point on segment*/
+	vPointB = vPointA - vB1;
 	tp = vPointB.dot(BD);
 	tp/= BD.dot(BD);
 	tp = BT_CLAMP(tp,0.0f,1.0f);

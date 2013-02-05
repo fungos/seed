@@ -20,7 +20,7 @@ subject to the following restrictions:
 #include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h>
 #include <bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h>
 class btPersistentManifold;
-#include <bullet/btCollisionDispatcher.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h>
 
 #include <bullet/LinearMath/btVector3.h>
 
@@ -58,13 +58,13 @@ public:
 	{
 		int	m_numPerturbationIterations;
 		int m_minimumPointsPerturbationThreshold;
-			
-		CreateFunc() 
+
+		CreateFunc()
 			: m_numPerturbationIterations(1),
 			m_minimumPointsPerturbationThreshold(0)
 		{
 		}
-		
+
 		virtual	btCollisionAlgorithm* CreateCollisionAlgorithm(btCollisionAlgorithmConstructionInfo& ci, const btCollisionObjectWrapper* body0Wrap,const btCollisionObjectWrapper* body1Wrap)
 		{
 			void* mem = ci.m_dispatcher1->allocateCollisionAlgorithm(sizeof(btConvexPlaneCollisionAlgorithm));

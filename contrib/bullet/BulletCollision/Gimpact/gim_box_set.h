@@ -16,14 +16,14 @@ email: projectileman@yahoo.com
  This library is free software; you can redistribute it and/or
  modify it under the terms of EITHER:
    (1) The GNU Lesser General Public License as published by the Free
-       Software Foundation; either version 2.1 of the License, or (at
-       your option) any later version. The text of the GNU Lesser
-       General Public License is included with this library in the
-       file GIMPACT-LICENSE-LGPL.TXT.
+	   Software Foundation; either version 2.1 of the License, or (at
+	   your option) any later version. The text of the GNU Lesser
+	   General Public License is included with this library in the
+	   file GIMPACT-LICENSE-LGPL.TXT.
    (2) The BSD-style license that is included with this library in
-       the file GIMPACT-LICENSE-BSD.TXT.
+	   the file GIMPACT-LICENSE-BSD.TXT.
    (3) The zlib/libpng license that is included with this library in
-       the file GIMPACT-LICENSE-ZLIB.TXT.
+	   the file GIMPACT-LICENSE-ZLIB.TXT.
 
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -34,31 +34,31 @@ email: projectileman@yahoo.com
 */
 
 
-#include <bullet/gim_array.h>
-#include <bullet/gim_radixsort.h>
-#include <bullet/gim_box_collision.h>
-#include <bullet/gim_tri_collision.h>
+#include <bullet/BulletCollision/Gimpact/gim_array.h>
+#include <bullet/BulletCollision/Gimpact/gim_radixsort.h>
+#include <bullet/BulletCollision/Gimpact/gim_box_collision.h>
+#include <bullet/BulletCollision/Gimpact/gim_tri_collision.h>
 
 
 
 //! Overlapping pair
 struct GIM_PAIR
 {
-    GUINT m_index1;
-    GUINT m_index2;
-    GIM_PAIR()
-    {}
+	GUINT m_index1;
+	GUINT m_index2;
+	GIM_PAIR()
+	{}
 
-    GIM_PAIR(const GIM_PAIR & p)
-    {
-    	m_index1 = p.m_index1;
-    	m_index2 = p.m_index2;
+	GIM_PAIR(const GIM_PAIR & p)
+	{
+		m_index1 = p.m_index1;
+		m_index2 = p.m_index2;
 	}
 
 	GIM_PAIR(GUINT index1, GUINT index2)
-    {
-    	m_index1 = index1;
-    	m_index2 = index2;
+	{
+		m_index1 = index1;
+		m_index2 = index2;
 	}
 };
 
@@ -117,15 +117,15 @@ struct GIM_BOX_TREE_NODE
 
 	GIM_BOX_TREE_NODE()
 	{
-	    m_left = 0;
-	    m_right = 0;
-	    m_escapeIndex = 0;
-	    m_data = 0;
+		m_left = 0;
+		m_right = 0;
+		m_escapeIndex = 0;
+		m_data = 0;
 	}
 
 	SIMD_FORCE_INLINE bool is_leaf_node() const
 	{
-	    return  (!m_left && !m_right);
+		return  (!m_left && !m_right);
 	}
 };
 

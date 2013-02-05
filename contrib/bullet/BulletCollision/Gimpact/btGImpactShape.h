@@ -37,7 +37,7 @@ subject to the following restrictions:
 #include <bullet/LinearMath/btMatrix3x3.h>
 #include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include <bullet/btGImpactQuantizedBvh.h> // box tree class
+#include <bullet/BulletCollision/Gimpact/btGImpactQuantizedBvh.h> // box tree class
 
 
 //! declare Quantized trees, (you can change to float based trees)
@@ -78,28 +78,28 @@ public:
 class btGImpactShapeInterface : public btConcaveShape
 {
 protected:
-    btAABB m_localAABB;
-    bool m_needs_update;
-    btVector3  localScaling;
-    btGImpactBoxSet m_box_set;// optionally boxset
+	btAABB m_localAABB;
+	bool m_needs_update;
+	btVector3  localScaling;
+	btGImpactBoxSet m_box_set;// optionally boxset
 
 	//! use this function for perfofm refit in bounding boxes
-    //! use this function for perfofm refit in bounding boxes
-    virtual void calcLocalAABB()
-    {
+	//! use this function for perfofm refit in bounding boxes
+	virtual void calcLocalAABB()
+	{
 		lockChildShapes();
-    	if(m_box_set.getNodeCount() == 0)
-    	{
-    		m_box_set.buildSet();
-    	}
-    	else
-    	{
-    		m_box_set.update();
-    	}
-    	unlockChildShapes();
+		if(m_box_set.getNodeCount() == 0)
+		{
+			m_box_set.buildSet();
+		}
+		else
+		{
+			m_box_set.update();
+		}
+		unlockChildShapes();
 
-    	m_localAABB = m_box_set.getGlobalBox();
-    }
+		m_localAABB = m_box_set.getGlobalBox();
+	}
 
 
 public:
@@ -119,30 +119,30 @@ public:
 		will does nothing.
 	\post if m_needs_update == true, then it calls calcLocalAABB();
 	*/
-    SIMD_FORCE_INLINE void updateBound()
-    {
-    	if(!m_needs_update) return;
-    	calcLocalAABB();
-    	m_needs_update  = false;
-    }
+	SIMD_FORCE_INLINE void updateBound()
+	{
+		if(!m_needs_update) return;
+		calcLocalAABB();
+		m_needs_update  = false;
+	}
 
-    //! If the Bounding box is not updated, then this class attemps to calculate it.
-    /*!
-    \post Calls updateBound() for update the box set.
-    */
-    void getAabb(const btTransform& t,btVector3& aabbMin,btVector3& aabbMax) const
-    {
-        btAABB transformedbox = m_localAABB;
-        transformedbox.appy_transform(t);
-        aabbMin = transformedbox.m_min;
-        aabbMax = transformedbox.m_max;
-    }
+	//! If the Bounding box is not updated, then this class attemps to calculate it.
+	/*!
+	\post Calls updateBound() for update the box set.
+	*/
+	void getAabb(const btTransform& t,btVector3& aabbMin,btVector3& aabbMax) const
+	{
+		btAABB transformedbox = m_localAABB;
+		transformedbox.appy_transform(t);
+		aabbMin = transformedbox.m_min;
+		aabbMax = transformedbox.m_max;
+	}
 
-    //! Tells to this object that is needed to refit the box set
-    virtual void postUpdate()
-    {
-    	m_needs_update = true;
-    }
+	//! Tells to this object that is needed to refit the box set
+	virtual void postUpdate()
+	{
+		m_needs_update = true;
+	}
 
 	//! Obtains the local box, which is the global calculated box of the total of subshapes
 	SIMD_FORCE_INLINE const btAABB & getLocalBox()
@@ -151,12 +151,12 @@ public:
 	}
 
 
-    virtual int	getShapeType() const
-    {
-        return GIMPACT_SHAPE_PROXYTYPE;
-    }
+	virtual int	getShapeType() const
+	{
+		return GIMPACT_SHAPE_PROXYTYPE;
+	}
 
-    /*!
+	/*!
 	\post You must call updateBound() for update the box set.
 	*/
 	virtual void	setLocalScaling(const btVector3& scaling)
@@ -172,17 +172,17 @@ public:
 
 
 	virtual void setMargin(btScalar margin)
-    {
-    	m_collisionMargin = margin;
-    	int i = getNumChildShapes();
-    	while(i--)
-    	{
+	{
+		m_collisionMargin = margin;
+		int i = getNumChildShapes();
+		while(i--)
+		{
 			btCollisionShape* child = getChildShape(i);
 			child->setMargin(margin);
-    	}
+		}
 
 		m_needs_update = true;
-    }
+	}
 
 
 	//! Subshape member functions
@@ -243,16 +243,16 @@ public:
 
 
 	//! Retrieves the bound from a child
-    /*!
-    */
-    virtual void getChildAabb(int child_index,const btTransform& t,btVector3& aabbMin,btVector3& aabbMax) const
-    {
-        btAABB child_aabb;
-        getPrimitiveManager()->get_primitive_box(child_index,child_aabb);
-        child_aabb.appy_transform(t);
-        aabbMin = child_aabb.m_min;
-        aabbMax = child_aabb.m_max;
-    }
+	/*!
+	*/
+	virtual void getChildAabb(int child_index,const btTransform& t,btVector3& aabbMin,btVector3& aabbMax) const
+	{
+		btAABB child_aabb;
+		getPrimitiveManager()->get_primitive_box(child_index,child_aabb);
+		child_aabb.appy_transform(t);
+		aabbMin = child_aabb.m_min;
+		aabbMax = child_aabb.m_max;
+	}
 
 	//! Gets the children
 	virtual btCollisionShape* getChildShape(int index) = 0;
@@ -276,7 +276,7 @@ public:
 	//! virtual method for ray collision
 	virtual void rayTest(const btVector3& rayFrom, const btVector3& rayTo, btCollisionWorld::RayResultCallback& resultCallback)  const
 	{
-        (void) rayFrom; (void) rayTo; (void) resultCallback;
+		(void) rayFrom; (void) rayTo; (void) resultCallback;
 	}
 
 	//! Function for retrieve triangles.
@@ -285,7 +285,7 @@ public:
 	*/
 	virtual void	processAllTriangles(btTriangleCallback* callback,const btVector3& aabbMin,const btVector3& aabbMax) const
 	{
-        (void) callback; (void) aabbMin; (void) aabbMax;
+		(void) callback; (void) aabbMin; (void) aabbMax;
 	}
 
 	//!@}
@@ -309,7 +309,7 @@ public:
 
 
 		CompoundPrimitiveManager(const CompoundPrimitiveManager& compound)
-            : btPrimitiveManagerBase()
+			: btPrimitiveManagerBase()
 		{
 			m_compoundShape = compound.m_compoundShape;
 		}
@@ -352,7 +352,7 @@ public:
 		virtual void get_primitive_triangle(int prim_index,btPrimitiveTriangle & triangle) const
 		{
 			btAssert(0);
-            (void) prim_index; (void) triangle;
+			(void) prim_index; (void) triangle;
 		}
 
 	};
@@ -369,7 +369,7 @@ public:
 
 	btGImpactCompoundShape(bool children_has_transform = true)
 	{
-        (void) children_has_transform;
+		(void) children_has_transform;
 		m_primitive_manager.m_compoundShape = this;
 		m_box_set.setPrimitiveManager(&m_primitive_manager);
 	}
@@ -434,20 +434,20 @@ public:
 	}
 
 	//! Retrieves the bound from a child
-    /*!
-    */
-    virtual void getChildAabb(int child_index,const btTransform& t,btVector3& aabbMin,btVector3& aabbMax) const
-    {
+	/*!
+	*/
+	virtual void getChildAabb(int child_index,const btTransform& t,btVector3& aabbMin,btVector3& aabbMax) const
+	{
 
-    	if(childrenHasTransform())
-    	{
-    		m_childShapes[child_index]->getAabb(t*m_childTransforms[child_index],aabbMin,aabbMax);
-    	}
-    	else
-    	{
-    		m_childShapes[child_index]->getAabb(t,aabbMin,aabbMax);
-    	}
-    }
+		if(childrenHasTransform())
+		{
+			m_childShapes[child_index]->getAabb(t*m_childTransforms[child_index],aabbMin,aabbMax);
+		}
+		else
+		{
+			m_childShapes[child_index]->getAabb(t,aabbMin,aabbMax);
+		}
+	}
 
 
 	//! Gets the children transform
@@ -483,13 +483,13 @@ public:
 
 	virtual void getBulletTriangle(int prim_index,btTriangleShapeEx & triangle) const
 	{
-        (void) prim_index; (void) triangle;
+		(void) prim_index; (void) triangle;
 		btAssert(0);
 	}
 
 	virtual void getBulletTetrahedron(int prim_index,btTetrahedronShapeEx & tetrahedron) const
 	{
-        (void) prim_index; (void) tetrahedron;
+		(void) prim_index; (void) tetrahedron;
 		btAssert(0);
 	}
 
@@ -557,8 +557,8 @@ public:
 			numfaces = 0;
 		}
 
- 		TrimeshPrimitiveManager(const TrimeshPrimitiveManager & manager)
-            : btPrimitiveManagerBase()
+		TrimeshPrimitiveManager(const TrimeshPrimitiveManager & manager)
+			: btPrimitiveManagerBase()
 		{
 			m_meshInterface = manager.m_meshInterface;
 			m_part = manager.m_part;
@@ -756,7 +756,7 @@ public:
 	//! Gets the children
 	virtual btCollisionShape* getChildShape(int index)
 	{
-        (void) index;
+		(void) index;
 		btAssert(0);
 		return NULL;
 	}
@@ -766,7 +766,7 @@ public:
 	//! Gets the child
 	virtual const btCollisionShape* getChildShape(int index) const
 	{
-        (void) index;
+		(void) index;
 		btAssert(0);
 		return NULL;
 	}
@@ -774,7 +774,7 @@ public:
 	//! Gets the children transform
 	virtual btTransform	getChildTransform(int index) const
 	{
-        (void) index;
+		(void) index;
 		btAssert(0);
 		return btTransform();
 	}
@@ -785,8 +785,8 @@ public:
 	*/
 	virtual void setChildTransform(int index, const btTransform & transform)
 	{
-        (void) index;
-        (void) transform;
+		(void) index;
+		(void) transform;
 		btAssert(0);
 	}
 
@@ -840,8 +840,8 @@ public:
 
 	virtual void getBulletTetrahedron(int prim_index,btTetrahedronShapeEx & tetrahedron) const
 	{
-        (void) prim_index;
-        (void) tetrahedron;
+		(void) prim_index;
+		(void) tetrahedron;
 		btAssert(0);
 	}
 
@@ -858,31 +858,31 @@ public:
 	}
 
 	SIMD_FORCE_INLINE void setMargin(btScalar margin)
-    {
-    	m_primitive_manager.m_margin = margin;
-    	postUpdate();
-    }
+	{
+		m_primitive_manager.m_margin = margin;
+		postUpdate();
+	}
 
-    SIMD_FORCE_INLINE btScalar getMargin() const
-    {
-    	return m_primitive_manager.m_margin;
-    }
+	SIMD_FORCE_INLINE btScalar getMargin() const
+	{
+		return m_primitive_manager.m_margin;
+	}
 
-    virtual void	setLocalScaling(const btVector3& scaling)
-    {
-    	m_primitive_manager.m_scale = scaling;
-    	postUpdate();
-    }
+	virtual void	setLocalScaling(const btVector3& scaling)
+	{
+		m_primitive_manager.m_scale = scaling;
+		postUpdate();
+	}
 
-    virtual const btVector3& getLocalScaling() const
-    {
-    	return m_primitive_manager.m_scale;
-    }
+	virtual const btVector3& getLocalScaling() const
+	{
+		return m_primitive_manager.m_scale;
+	}
 
-    SIMD_FORCE_INLINE int getPart() const
-    {
-    	return (int)m_primitive_manager.m_part;
-    }
+	SIMD_FORCE_INLINE int getPart() const
+	{
+		return (int)m_primitive_manager.m_part;
+	}
 
 	virtual void	processAllTriangles(btTriangleCallback* callback,const btVector3& aabbMin,const btVector3& aabbMax) const;
 };
@@ -912,16 +912,16 @@ protected:
 	}
 
 	//! use this function for perfofm refit in bounding boxes
-    virtual void calcLocalAABB()
-    {
-    	m_localAABB.invalidate();
-    	int i = m_mesh_parts.size();
-    	while(i--)
-    	{
-    		m_mesh_parts[i]->updateBound();
-    		m_localAABB.merge(m_mesh_parts[i]->getLocalBox());
-    	}
-    }
+	virtual void calcLocalAABB()
+	{
+		m_localAABB.invalidate();
+		int i = m_mesh_parts.size();
+		while(i--)
+		{
+			m_mesh_parts[i]->updateBound();
+			m_localAABB.merge(m_mesh_parts[i]->getLocalBox());
+		}
+	}
 
 public:
 	btGImpactMeshShape(btStridingMeshInterface * meshInterface)
@@ -933,11 +933,11 @@ public:
 	virtual ~btGImpactMeshShape()
 	{
 		int i = m_mesh_parts.size();
-    	while(i--)
-    	{
+		while(i--)
+		{
 			btGImpactMeshShapePart * part = m_mesh_parts[i];
 			delete part;
-    	}
+		}
 		m_mesh_parts.clear();
 	}
 
@@ -975,41 +975,41 @@ public:
 		localScaling = scaling;
 
 		int i = m_mesh_parts.size();
-    	while(i--)
-    	{
+		while(i--)
+		{
 			btGImpactMeshShapePart * part = m_mesh_parts[i];
 			part->setLocalScaling(scaling);
-    	}
+		}
 
 		m_needs_update = true;
 	}
 
 	virtual void setMargin(btScalar margin)
-    {
-    	m_collisionMargin = margin;
+	{
+		m_collisionMargin = margin;
 
 		int i = m_mesh_parts.size();
-    	while(i--)
-    	{
+		while(i--)
+		{
 			btGImpactMeshShapePart * part = m_mesh_parts[i];
 			part->setMargin(margin);
-    	}
+		}
 
 		m_needs_update = true;
-    }
+	}
 
 	//! Tells to this object that is needed to refit all the meshes
-    virtual void postUpdate()
-    {
+	virtual void postUpdate()
+	{
 		int i = m_mesh_parts.size();
-    	while(i--)
-    	{
+		while(i--)
+		{
 			btGImpactMeshShapePart * part = m_mesh_parts[i];
 			part->postUpdate();
-    	}
+		}
 
-    	m_needs_update = true;
-    }
+		m_needs_update = true;
+	}
 
 	virtual void	calculateLocalInertia(btScalar mass,btVector3& inertia) const;
 
@@ -1053,13 +1053,13 @@ public:
 
 	virtual void getBulletTriangle(int prim_index,btTriangleShapeEx & triangle) const
 	{
-        (void) prim_index; (void) triangle;
+		(void) prim_index; (void) triangle;
 		btAssert(0);
 	}
 
 	virtual void getBulletTetrahedron(int prim_index,btTetrahedronShapeEx & tetrahedron) const
 	{
-        (void) prim_index; (void) tetrahedron;
+		(void) prim_index; (void) tetrahedron;
 		btAssert(0);
 	}
 
@@ -1078,18 +1078,18 @@ public:
 
 
 	//! Retrieves the bound from a child
-    /*!
-    */
-    virtual void getChildAabb(int child_index,const btTransform& t,btVector3& aabbMin,btVector3& aabbMax) const
-    {
-        (void) child_index; (void) t; (void) aabbMin; (void) aabbMax;
-        btAssert(0);
-    }
+	/*!
+	*/
+	virtual void getChildAabb(int child_index,const btTransform& t,btVector3& aabbMin,btVector3& aabbMax) const
+	{
+		(void) child_index; (void) t; (void) aabbMin; (void) aabbMax;
+		btAssert(0);
+	}
 
 	//! Gets the children
 	virtual btCollisionShape* getChildShape(int index)
 	{
-        (void) index;
+		(void) index;
 		btAssert(0);
 		return NULL;
 	}
@@ -1098,7 +1098,7 @@ public:
 	//! Gets the child
 	virtual const btCollisionShape* getChildShape(int index) const
 	{
-        (void) index;
+		(void) index;
 		btAssert(0);
 		return NULL;
 	}
@@ -1106,7 +1106,7 @@ public:
 	//! Gets the children transform
 	virtual btTransform	getChildTransform(int index) const
 	{
-        (void) index;
+		(void) index;
 		btAssert(0);
 		return btTransform();
 	}
@@ -1117,7 +1117,7 @@ public:
 	*/
 	virtual void setChildTransform(int index, const btTransform & transform)
 	{
-        (void) index; (void) transform;
+		(void) index; (void) transform;
 		btAssert(0);
 	}
 
@@ -1130,7 +1130,7 @@ public:
 
 	virtual const char*	getName()const
 	{
-		return "GImpactMe.h>;
+		return "btGImpactMeshShape";
 	}
 
 	virtual void rayTest(const btVector3& rayFrom, const btVector3& rayTo, btCollisionWorld::RayResultCallback& resultCallback)  const;

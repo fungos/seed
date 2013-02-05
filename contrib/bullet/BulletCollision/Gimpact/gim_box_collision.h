@@ -16,14 +16,14 @@ email: projectileman@yahoo.com
  This library is free software; you can redistribute it and/or
  modify it under the terms of EITHER:
    (1) The GNU Lesser General Public License as published by the Free
-       Software Foundation; either version 2.1 of the License, or (at
-       your option) any later version. The text of the GNU Lesser
-       General Public License is included with this library in the
-       file GIMPACT-LICENSE-LGPL.TXT.
+	   Software Foundation; either version 2.1 of the License, or (at
+	   your option) any later version. The text of the GNU Lesser
+	   General Public License is included with this library in the
+	   file GIMPACT-LICENSE-LGPL.TXT.
    (2) The BSD-style license that is included with this library in
-       the file GIMPACT-LICENSE-BSD.TXT.
+	   the file GIMPACT-LICENSE-BSD.TXT.
    (3) The zlib/libpng license that is included with this library in
-       the file GIMPACT-LICENSE-ZLIB.TXT.
+	   the file GIMPACT-LICENSE-ZLIB.TXT.
 
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -32,7 +32,7 @@ email: projectileman@yahoo.com
 
 -----------------------------------------------------------------------------
 */
-#include <bullet/gim_basic_geometry_operations.h>
+#include <bullet/BulletCollision/Gimpact/gim_basic_geometry_operations.h>
 #include <bullet/LinearMath/btTransform.h>
 
 
@@ -135,7 +135,7 @@ email: projectileman@yahoo.com
 class GIM_BOX_BOX_TRANSFORM_CACHE
 {
 public:
-    btVector3  m_T1to0;//!< Transforms translation of model1 to model 0
+	btVector3  m_T1to0;//!< Transforms translation of model1 to model 0
 	btMatrix3x3 m_R1to0;//!< Transforms Rotation of model1 to model 0, equal  to R0' * R1
 	btMatrix3x3 m_AR;//!< Absolute value of m_R1to0
 
@@ -155,7 +155,7 @@ public:
 	GIM_BOX_BOX_TRANSFORM_CACHE(mat4f  trans1_to_0)
 	{
 		COPY_MATRIX_3X3(m_R1to0,trans1_to_0)
-        MAT_GET_TRANSLATION(trans1_to_0,m_T1to0)
+		MAT_GET_TRANSLATION(trans1_to_0,m_T1to0)
 		calc_absolute_matrix();
 	}
 
@@ -186,7 +186,7 @@ public:
 
 	SIMD_FORCE_INLINE btVector3 transform(const btVector3 & point)
 	{
-        return point.dot3(m_R1to0[0], m_R1to0[1], m_R1to0[2]) + m_T1to0;
+		return point.dot3(m_R1to0[0], m_R1to0[1], m_R1to0[2]) + m_T1to0;
 	}
 };
 
@@ -330,10 +330,10 @@ public:
 		// Compute new center
 		center = trans(center);
 
-        btVector3 textends = extends.dot3(trans.getBasis().getRow(0).absolute(), 
-                                          trans.getBasis().getRow(1).absolute(), 
-                                          trans.getBasis().getRow(2).absolute());
-        
+		btVector3 textends = extends.dot3(trans.getBasis().getRow(0).absolute(),
+										  trans.getBasis().getRow(1).absolute(),
+										  trans.getBasis().getRow(2).absolute());
+
 		m_min = center - textends;
 		m_max = center + textends;
 	}

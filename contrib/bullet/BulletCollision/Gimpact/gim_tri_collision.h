@@ -16,14 +16,14 @@ email: projectileman@yahoo.com
  This library is free software; you can redistribute it and/or
  modify it under the terms of EITHER:
    (1) The GNU Lesser General Public License as published by the Free
-       Software Foundation; either version 2.1 of the License, or (at
-       your option) any later version. The text of the GNU Lesser
-       General Public License is included with this library in the
-       file GIMPACT-LICENSE-LGPL.TXT.
+	   Software Foundation; either version 2.1 of the License, or (at
+	   your option) any later version. The text of the GNU Lesser
+	   General Public License is included with this library in the
+	   file GIMPACT-LICENSE-LGPL.TXT.
    (2) The BSD-style license that is included with this library in
-       the file GIMPACT-LICENSE-BSD.TXT.
+	   the file GIMPACT-LICENSE-BSD.TXT.
    (3) The zlib/libpng license that is included with this library in
-       the file GIMPACT-LICENSE-ZLIB.TXT.
+	   the file GIMPACT-LICENSE-ZLIB.TXT.
 
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -33,8 +33,8 @@ email: projectileman@yahoo.com
 -----------------------------------------------------------------------------
 */
 
-#include <bullet/gim_box_collision.h>
-#include <bullet/gim_clip_polygon.h>
+#include <bullet/BulletCollision/Gimpact/gim_box_collision.h>
+#include <bullet/BulletCollision/Gimpact/gim_clip_polygon.h>
 
 
 
@@ -44,10 +44,10 @@ email: projectileman@yahoo.com
 //! Structure for collision
 struct GIM_TRIANGLE_CONTACT_DATA
 {
-    GREAL m_penetration_depth;
-    GUINT m_point_count;
-    btVector4 m_separating_normal;
-    btVector3 m_points[MAX_TRI_CLIPPING];
+	GREAL m_penetration_depth;
+	GUINT m_point_count;
+	btVector4 m_separating_normal;
+	btVector3 m_points[MAX_TRI_CLIPPING];
 
 	SIMD_FORCE_INLINE void copy_from(const GIM_TRIANGLE_CONTACT_DATA& other)
 	{
@@ -70,16 +70,16 @@ struct GIM_TRIANGLE_CONTACT_DATA
 		copy_from(other);
 	}
 
-	
-	
 
-    //! classify points that are closer
-    template<typename DISTANCE_FUNC,typename CLASS_PLANE>
-    SIMD_FORCE_INLINE void mergepoints_generic(const CLASS_PLANE & plane,
-    				GREAL margin, const btVector3 * points, GUINT point_count, DISTANCE_FUNC distance_func)
-    {	
-    	m_point_count = 0;
-    	m_penetration_depth= -1000.0f;
+
+
+	//! classify points that are closer
+	template<typename DISTANCE_FUNC,typename CLASS_PLANE>
+	SIMD_FORCE_INLINE void mergepoints_generic(const CLASS_PLANE & plane,
+					GREAL margin, const btVector3 * points, GUINT point_count, DISTANCE_FUNC distance_func)
+	{
+		m_point_count = 0;
+		m_penetration_depth= -1000.0f;
 
 		GUINT point_indices[MAX_TRI_CLIPPING];
 
@@ -126,66 +126,66 @@ class GIM_TRIANGLE
 {
 public:
 	btScalar m_margin;
-    btVector3 m_vertices[3];
+	btVector3 m_vertices[3];
 
-    GIM_TRIANGLE():m_margin(0.1f)
-    {
-    }
+	GIM_TRIANGLE():m_margin(0.1f)
+	{
+	}
 
-    SIMD_FORCE_INLINE GIM_AABB get_box()  const
-    {
-    	return GIM_AABB(m_vertices[0],m_vertices[1],m_vertices[2],m_margin);
-    }
+	SIMD_FORCE_INLINE GIM_AABB get_box()  const
+	{
+		return GIM_AABB(m_vertices[0],m_vertices[1],m_vertices[2],m_margin);
+	}
 
-    SIMD_FORCE_INLINE void get_normal(btVector3 &normal)  const
-    {
-    	TRIANGLE_NORMAL(m_vertices[0],m_vertices[1],m_vertices[2],normal);
-    }
+	SIMD_FORCE_INLINE void get_normal(btVector3 &normal)  const
+	{
+		TRIANGLE_NORMAL(m_vertices[0],m_vertices[1],m_vertices[2],normal);
+	}
 
-    SIMD_FORCE_INLINE void get_plane(btVector4 &plane)  const
-    {
-    	TRIANGLE_PLANE(m_vertices[0],m_vertices[1],m_vertices[2],plane);;
-    }
+	SIMD_FORCE_INLINE void get_plane(btVector4 &plane)  const
+	{
+		TRIANGLE_PLANE(m_vertices[0],m_vertices[1],m_vertices[2],plane);;
+	}
 
-    SIMD_FORCE_INLINE void apply_transform(const btTransform & trans)
-    {
-    	m_vertices[0] = trans(m_vertices[0]);
-    	m_vertices[1] = trans(m_vertices[1]);
-    	m_vertices[2] = trans(m_vertices[2]);
-    }
+	SIMD_FORCE_INLINE void apply_transform(const btTransform & trans)
+	{
+		m_vertices[0] = trans(m_vertices[0]);
+		m_vertices[1] = trans(m_vertices[1]);
+		m_vertices[2] = trans(m_vertices[2]);
+	}
 
-    SIMD_FORCE_INLINE void get_edge_plane(GUINT edge_index,const btVector3 &triangle_normal,btVector4 &plane)  const
-    {
+	SIMD_FORCE_INLINE void get_edge_plane(GUINT edge_index,const btVector3 &triangle_normal,btVector4 &plane)  const
+	{
 		const btVector3 & e0 = m_vertices[edge_index];
 		const btVector3 & e1 = m_vertices[(edge_index+1)%3];
 		EDGE_PLANE(e0,e1,triangle_normal,plane);
-    }
+	}
 
-    //! Gets the relative transformation of this triangle
-    /*!
-    The transformation is oriented to the triangle normal , and aligned to the 1st edge of this triangle. The position corresponds to vertice 0:
-    - triangle normal corresponds to Z axis.
-    - 1st normalized edge corresponds to X axis,
+	//! Gets the relative transformation of this triangle
+	/*!
+	The transformation is oriented to the triangle normal , and aligned to the 1st edge of this triangle. The position corresponds to vertice 0:
+	- triangle normal corresponds to Z axis.
+	- 1st normalized edge corresponds to X axis,
 
-    */
-    SIMD_FORCE_INLINE void get_triangle_transform(btTransform & triangle_transform)  const
-    {
-    	btMatrix3x3 & matrix = triangle_transform.getBasis();
+	*/
+	SIMD_FORCE_INLINE void get_triangle_transform(btTransform & triangle_transform)  const
+	{
+		btMatrix3x3 & matrix = triangle_transform.getBasis();
 
-    	btVector3 zaxis;
-    	get_normal(zaxis);
-    	MAT_SET_Z(matrix,zaxis);
+		btVector3 zaxis;
+		get_normal(zaxis);
+		MAT_SET_Z(matrix,zaxis);
 
-    	btVector3 xaxis = m_vertices[1] - m_vertices[0];
-    	VEC_NORMALIZE(xaxis);
-    	MAT_SET_X(matrix,xaxis);
+		btVector3 xaxis = m_vertices[1] - m_vertices[0];
+		VEC_NORMALIZE(xaxis);
+		MAT_SET_X(matrix,xaxis);
 
-    	//y axis
-    	xaxis = zaxis.cross(xaxis);
-    	MAT_SET_Y(matrix,xaxis);
+		//y axis
+		xaxis = zaxis.cross(xaxis);
+		MAT_SET_Y(matrix,xaxis);
 
-    	triangle_transform.setOrigin(m_vertices[0]);
-    }
+		triangle_transform.setOrigin(m_vertices[0]);
+	}
 
 
 	//! Test triangles by finding separating axis
@@ -322,8 +322,8 @@ if 0.0<= u+v <=1.0 then they are inside of triangle
 		{
 			btVector3 dif1 = m_vertices[1] - m_vertices[0];
 			btVector3 dif2 = m_vertices[2] - m_vertices[0];
-    		VEC_CROSS(faceplane,dif1,dif2);
-    		faceplane[3] = m_vertices[0].dot(faceplane);
+			VEC_CROSS(faceplane,dif1,dif2);
+			faceplane[3] = m_vertices[0].dot(faceplane);
 		}
 
 		GUINT res = LINE_PLANE_COLLISION(faceplane,vDir,vPoint,pout,tparam, btScalar(0), tmax);
@@ -355,8 +355,8 @@ if 0.0<= u+v <=1.0 then they are inside of triangle
 		{
 			btVector3 dif1 = m_vertices[1] - m_vertices[0];
 			btVector3 dif2 = m_vertices[2] - m_vertices[0];
-    		VEC_CROSS(faceplane,dif1,dif2);
-    		faceplane[3] = m_vertices[0].dot(faceplane);
+			VEC_CROSS(faceplane,dif1,dif2);
+			faceplane[3] = m_vertices[0].dot(faceplane);
 		}
 
 		GUINT res = LINE_PLANE_COLLISION(faceplane,vDir,vPoint,pout,tparam, btScalar(0), tmax);

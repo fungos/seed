@@ -3,8 +3,8 @@ Copyright (c) 2003-2006 Gino van den Bergen / Erwin Coumans  http://continuousph
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -16,8 +16,8 @@ subject to the following restrictions:
 #ifndef _BT_POOL_ALLOCATOR_H
 #define _BT_POOL_ALLOCATOR_H
 
-#include <bullet/btScalar.h>
-#include <bullet/btAlignedAllocator.h>
+#include <bullet/LinearMath/btScalar.h>
+#include <bullet/LinearMath/btAlignedAllocator.h>
 
 ///The btPoolAllocator class allows to efficiently allocate a large pool of objects, instead of dynamically allocating them separately.
 class btPoolAllocator
@@ -37,15 +37,15 @@ public:
 		m_pool = (unsigned char*) btAlignedAlloc( static_cast<unsigned int>(m_elemSize*m_maxElements),16);
 
 		unsigned char* p = m_pool;
-        m_firstFree = p;
-        m_freeCount = m_maxElements;
-        int count = m_maxElements;
-        while (--count) {
-            *(void**)p = (p + m_elemSize);
-            p += m_elemSize;
-        }
-        *(void**)p = 0;
-    }
+		m_firstFree = p;
+		m_freeCount = m_maxElements;
+		int count = m_maxElements;
+		while (--count) {
+			*(void**)p = (p + m_elemSize);
+			p += m_elemSize;
+		}
+		*(void**)p = 0;
+	}
 
 	~btPoolAllocator()
 	{
@@ -73,10 +73,10 @@ public:
 		(void)size;
 		btAssert(!size || size<=m_elemSize);
 		btAssert(m_freeCount>0);
-        void* result = m_firstFree;
-        m_firstFree = *(void**)m_firstFree;
-        --m_freeCount;
-        return result;
+		void* result = m_firstFree;
+		m_firstFree = *(void**)m_firstFree;
+		--m_freeCount;
+		return result;
 	}
 
 	bool validPtr(void* ptr)
@@ -93,12 +93,12 @@ public:
 	void	freeMemory(void* ptr)
 	{
 		 if (ptr) {
-            btAssert((unsigned char*)ptr >= m_pool && (unsigned char*)ptr < m_pool + m_maxElements * m_elemSize);
+			btAssert((unsigned char*)ptr >= m_pool && (unsigned char*)ptr < m_pool + m_maxElements * m_elemSize);
 
-            *(void**)ptr = m_firstFree;
-            m_firstFree = ptr;
-            ++m_freeCount;
-        }
+			*(void**)ptr = m_firstFree;
+			m_firstFree = ptr;
+			++m_freeCount;
+		}
 	}
 
 	int	getElementSize() const

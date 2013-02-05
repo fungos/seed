@@ -5,16 +5,16 @@
 #include <bullet/LinearMath/btScalar.h>
 
 #if defined (USE_SYSTEM_VECTORMATH) || defined (__CELLOS_LV2__)
-	#include <vectormath_aos.h>
+	#include <vectormath/vectormath_aos.h>
 #else //(USE_SYSTEM_VECTORMATH)
-	#if defined (BT_USE_SSE) 
-		#include <bullet/sse/vectormath_aos.h>
+	#if defined (BT_USE_SSE)
+		#include <vectormath/sse/vectormath_aos.h>
 	#else //all other platforms
-        #if defined (BT_USE_NEON)
-            #include <bullet/neon/vectormath_aos.h>
-        #else
-            #include <bullet/scalar/vectormath_aos.h>
-        #endif
+		#if defined (BT_USE_NEON)
+			#include <vectormath/neon/vectormath_aos.h>
+		#else
+			#include <vectormath/scalar/cpp/vectormath_aos.h>
+		#endif
 	#endif //(BT_USE_SSE) && defined (_WIN32)
 #endif //(USE_SYSTEM_VECTORMATH)
 

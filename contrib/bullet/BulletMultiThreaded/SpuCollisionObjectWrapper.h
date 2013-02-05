@@ -4,8 +4,8 @@ Copyright (c) 2003-2007 Erwin Coumans  http://bulletphysics.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -16,7 +16,7 @@ subject to the following restrictions:
 #ifndef BT_SPU_COLLISION_OBJECT_WRAPPER_H
 #define BT_SPU_COLLISION_OBJECT_WRAPPER_H
 
-#include <bullet/PlatformDefinitions.h>
+#include <bullet/BulletMultiThreaded/PlatformDefinitions.h>
 #include <bullet/BulletCollision/CollisionDispatch/btCollisionObject.h>
 
 ATTRIBUTE_ALIGNED16(class) SpuCollisionObjectWrapper

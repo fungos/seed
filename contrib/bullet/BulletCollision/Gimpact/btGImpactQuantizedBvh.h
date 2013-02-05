@@ -24,8 +24,8 @@ subject to the following restrictions:
 3. This notice may not be removed or altered from any source distribution.
 */
 
-#include <bullet/btGImpactBvh.h>
-#include <bullet/btQuantization.h>
+#include <bullet/BulletCollision/Gimpact/btGImpactBvh.h>
+#include <bullet/BulletCollision/Gimpact/btQuantization.h>
 
 
 

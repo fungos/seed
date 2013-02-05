@@ -4,8 +4,8 @@ Copyright (c) 2003-2007 Erwin Coumans  http://bulletphysics.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -20,11 +20,11 @@ subject to the following restrictions:
 
 #include <bullet/LinearMath/btScalar.h>
 
-#include <bullet/PlatformDefinitions.h>
+#include <bullet/BulletMultiThreaded/PlatformDefinitions.h>
 #include <bullet/LinearMath/btAlignedObjectArray.h>
-#include <bullet/SpuNarrowPhaseCollisionTask/SpuGatheringCollisionTask.h> // for definitions processCollisionTask and createCollisionLocalStoreMemory
+#include <bullet/BulletMultiThreaded/SpuNarrowPhaseCollisionTask/SpuGatheringCollisionTask.h> // for definitions processCollisionTask and createCollisionLocalStoreMemory
 
-#include <bullet/btThreadSupportInterface.h>
+#include <bullet/BulletMultiThreaded/btThreadSupportInterface.h>
 
 
 //#include <bullet/SPUAssert.h>
@@ -64,7 +64,7 @@ class btDispatcher;
 //	uint16_t numPages;
 //	uint16_t taskId;
 //
-//	struct	CollisionTask_LocalStoreMemory*	m_lsMemory; 
+//	struct	CollisionTask_LocalStoreMemory*	m_lsMemory;
 //}
 //
 //#if  defined(__CELLOS_LV2__) || defined(USE_LIBSPE2)
@@ -121,9 +121,9 @@ class SpuCollisionTaskProcess
 
 public:
 	SpuCollisionTaskProcess(btThreadSupportInterface*	threadInterface, unsigned int maxNumOutstandingTasks);
-	
+
 	~SpuCollisionTaskProcess();
-	
+
 	///call initialize in the beginning of the frame, before addCollisionPairToTask
 	void initialize2(bool useEpa = false);
 

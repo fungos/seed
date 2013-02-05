@@ -12,6 +12,8 @@ TEMPLATE = lib
 #QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
 #QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj
 
+QMAKE_CXXFLAGS -= -fno-rtti
+
 CONFIG(debug, debug|release) {
 	DESTDIR = ../lib/debug
 	DEFINES += DEBUG
@@ -1723,45 +1725,45 @@ HEADERS += yajl/api/yajl_version.h \
 	bullet/BulletMultiThreaded/SpuNarrowPhaseCollisionTask/boxBoxDistance.h \
 	bullet/BulletMultiThreaded/SpuNarrowPhaseCollisionTask/Box.h \
 	bullet/BulletMultiThreaded/SpuSampleTask/SpuSampleTask.h \
-    bullet/BulletSoftBody/btSparseSDF.h \
-    bullet/BulletSoftBody/btSoftSoftCollisionAlgorithm.h \
-    bullet/BulletSoftBody/btSoftRigidDynamicsWorld.h \
-    bullet/BulletSoftBody/btSoftRigidCollisionAlgorithm.h \
-    bullet/BulletSoftBody/btSoftBodySolverVertexBuffer.h \
-    bullet/BulletSoftBody/btSoftBodySolvers.h \
-    bullet/BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h \
-    bullet/BulletSoftBody/btSoftBodyInternals.h \
-    bullet/BulletSoftBody/btSoftBodyHelpers.h \
-    bullet/BulletSoftBody/btSoftBodyData.h \
-    bullet/BulletSoftBody/btSoftBodyConcaveCollisionAlgorithm.h \
-    bullet/BulletSoftBody/btSoftBody.h \
-    bullet/BulletSoftBody/btDefaultSoftBodySolver.h \
-    bullet/LinearMath/btVector3.h \
-    bullet/LinearMath/btTransformUtil.h \
-    bullet/LinearMath/btTransform.h \
-    bullet/LinearMath/btStackAlloc.h \
-    bullet/LinearMath/btSerializer.h \
-    bullet/LinearMath/btScalar.h \
-    bullet/LinearMath/btRandom.h \
-    bullet/LinearMath/btQuickprof.h \
-    bullet/LinearMath/btQuaternion.h \
-    bullet/LinearMath/btQuadWord.h \
-    bullet/LinearMath/btPoolAllocator.h \
-    bullet/LinearMath/btPolarDecomposition.h \
-    bullet/LinearMath/btMotionState.h \
-    bullet/LinearMath/btMinMax.h \
-    bullet/LinearMath/btMatrix3x3.h \
-    bullet/LinearMath/btList.h \
-    bullet/LinearMath/btIDebugDraw.h \
-    bullet/LinearMath/btHashMap.h \
-    bullet/LinearMath/btGrahamScan2dConvexHull.h \
-    bullet/LinearMath/btGeometryUtil.h \
-    bullet/LinearMath/btDefaultMotionState.h \
-    bullet/LinearMath/btConvexHullComputer.h \
-    bullet/LinearMath/btConvexHull.h \
-    bullet/LinearMath/btAlignedObjectArray.h \
-    bullet/LinearMath/btAlignedAllocator.h \
-    bullet/LinearMath/btAabbUtil2.h
+	bullet/BulletSoftBody/btSparseSDF.h \
+	bullet/BulletSoftBody/btSoftSoftCollisionAlgorithm.h \
+	bullet/BulletSoftBody/btSoftRigidDynamicsWorld.h \
+	bullet/BulletSoftBody/btSoftRigidCollisionAlgorithm.h \
+	bullet/BulletSoftBody/btSoftBodySolverVertexBuffer.h \
+	bullet/BulletSoftBody/btSoftBodySolvers.h \
+	bullet/BulletSoftBody/btSoftBodyRigidBodyCollisionConfiguration.h \
+	bullet/BulletSoftBody/btSoftBodyInternals.h \
+	bullet/BulletSoftBody/btSoftBodyHelpers.h \
+	bullet/BulletSoftBody/btSoftBodyData.h \
+	bullet/BulletSoftBody/btSoftBodyConcaveCollisionAlgorithm.h \
+	bullet/BulletSoftBody/btSoftBody.h \
+	bullet/BulletSoftBody/btDefaultSoftBodySolver.h \
+	bullet/LinearMath/btVector3.h \
+	bullet/LinearMath/btTransformUtil.h \
+	bullet/LinearMath/btTransform.h \
+	bullet/LinearMath/btStackAlloc.h \
+	bullet/LinearMath/btSerializer.h \
+	bullet/LinearMath/btScalar.h \
+	bullet/LinearMath/btRandom.h \
+	bullet/LinearMath/btQuickprof.h \
+	bullet/LinearMath/btQuaternion.h \
+	bullet/LinearMath/btQuadWord.h \
+	bullet/LinearMath/btPoolAllocator.h \
+	bullet/LinearMath/btPolarDecomposition.h \
+	bullet/LinearMath/btMotionState.h \
+	bullet/LinearMath/btMinMax.h \
+	bullet/LinearMath/btMatrix3x3.h \
+	bullet/LinearMath/btList.h \
+	bullet/LinearMath/btIDebugDraw.h \
+	bullet/LinearMath/btHashMap.h \
+	bullet/LinearMath/btGrahamScan2dConvexHull.h \
+	bullet/LinearMath/btGeometryUtil.h \
+	bullet/LinearMath/btDefaultMotionState.h \
+	bullet/LinearMath/btConvexHullComputer.h \
+	bullet/LinearMath/btConvexHull.h \
+	bullet/LinearMath/btAlignedObjectArray.h \
+	bullet/LinearMath/btAlignedAllocator.h \
+	bullet/LinearMath/btAabbUtil2.h
 
 
 OTHER_FILES += \

@@ -27,9 +27,9 @@ subject to the following restrictions:
 
 #include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
 #include <bullet/BulletCollision/CollisionShapes/btTriangleShape.h>
-#include <bullet/btBoxCollision.h>
-#include <bullet/btClipPolygon.h>
-#include <bullet/btGeometryOperations.h>
+#include <bullet/BulletCollision/Gimpact/btBoxCollision.h>
+#include <bullet/BulletCollision/Gimpact/btClipPolygon.h>
+#include <bullet/BulletCollision/Gimpact/btGeometryOperations.h>
 
 
 #define MAX_TRI_CLIPPING 16
@@ -37,10 +37,10 @@ subject to the following restrictions:
 //! Structure for collision
 struct GIM_TRIANGLE_CONTACT
 {
-    btScalar m_penetration_depth;
-    int m_point_count;
-    btVector4 m_separating_normal;
-    btVector3 m_points[MAX_TRI_CLIPPING];
+	btScalar m_penetration_depth;
+	int m_point_count;
+	btVector4 m_separating_normal;
+	btVector3 m_points[MAX_TRI_CLIPPING];
 
 	SIMD_FORCE_INLINE void copy_from(const GIM_TRIANGLE_CONTACT& other)
 	{
@@ -63,9 +63,9 @@ struct GIM_TRIANGLE_CONTACT
 		copy_from(other);
 	}
 
-    //! classify points that are closer
-    void merge_points(const btVector4 & plane,
-    				btScalar margin, const btVector3 * points, int point_count);
+	//! classify points that are closer
+	void merge_points(const btVector4 & plane,
+					btScalar margin, const btVector3 * points, int point_count);
 
 };
 
@@ -99,13 +99,13 @@ public:
 	\pre this triangle must have its plane calculated.
 	*/
 	SIMD_FORCE_INLINE void get_edge_plane(int edge_index, btVector4 &plane)  const
-    {
+	{
 		const btVector3 & e0 = m_vertices[edge_index];
 		const btVector3 & e1 = m_vertices[(edge_index+1)%3];
 		bt_edge_plane(e0,e1,m_plane,plane);
-    }
+	}
 
-    void applyTransform(const btTransform& t)
+	void applyTransform(const btTransform& t)
 	{
 		m_vertices[0] = t(m_vertices[0]);
 		m_vertices[1] = t(m_vertices[1]);
@@ -117,13 +117,13 @@ public:
 	\pre clipped_points must have MAX_TRI_CLIPPING size, and this triangle must have its plane calculated.
 	\return the number of clipped points
 	*/
-    int clip_triangle(btPrimitiveTriangle & other, btVector3 * clipped_points );
+	int clip_triangle(btPrimitiveTriangle & other, btVector3 * clipped_points );
 
 	//! Find collision using the clipping method
 	/*!
 	\pre this triangle and other must have their triangles calculated
 	*/
-    bool find_triangle_collision_clip_method(btPrimitiveTriangle & other, GIM_TRIANGLE_CONTACT & contacts);
+	bool find_triangle_collision_clip_method(btPrimitiveTriangle & other, GIM_TRIANGLE_CONTACT & contacts);
 };
 
 
