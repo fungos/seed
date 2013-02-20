@@ -1,4 +1,4 @@
-#include "main_menu_state.h"
+#include "mainmenu_state.h"
 #include "../gameflow.h"
 
 MainMenuState::MainMenuState()
@@ -9,7 +9,7 @@ MainMenuState::~MainMenuState()
 {
 }
 
-void MainMenuState::OnStart(IObject *data)
+void MainMenuState::OnStart(void *data)
 {
 	UNUSED(data)
 	Log("Entering MainMenu State");
@@ -22,7 +22,7 @@ void MainMenuState::OnUpdate(f32 dt)
 	UNUSED(dt)
 }
 
-void MainMenuState::OnStop(IObject *data)
+void MainMenuState::OnStop(void *data)
 {
 	UNUSED(data)
 	Log("Exiting MainMenu State");

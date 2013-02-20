@@ -9,9 +9,9 @@ class MainMenuState : public StateMachineState
 	public:
 		MainMenuState();
 		virtual ~MainMenuState();
-		virtual void OnStart(IObject *);
+		virtual void OnStart(void *);
 		virtual void OnUpdate(f32);
-		virtual void OnStop(IObject *);
+		virtual void OnStop(void *);
 };
 
 #endif // _MAIN_MENU_H

@@ -13,7 +13,7 @@ GameState::~GameState()
 {
 }
 
-void GameState::OnStart(IObject *data)
+void GameState::OnStart(void *data)
 {
 	UNUSED(data)
 	Log("Entering Game State");
@@ -30,7 +30,7 @@ void GameState::OnUpdate(f32 dt)
 	pGame->Update(dt);
 }
 
-void GameState::OnStop(IObject *data)
+void GameState::OnStop(void *data)
 {
 	UNUSED(data)
 	Log("Exiting Game State");

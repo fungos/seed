@@ -421,12 +421,11 @@ void Input::SetSensitivity(u32 sens, u16 joystick)
 
 Seed::eKey Input::GetKeyCode(u32 key) const
 {
-	if(key >= 'a' && key <= 'z')
+	if (key >= 'a' && key <= 'z')
 		return static_cast<Seed::eKey>(Seed::KeyA + (key - 'a'));
 	else
 	{
 		Seed::eKey k = static_cast<Seed::eKey>(key);
-
 		return k;
 	}
 }

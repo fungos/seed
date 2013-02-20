@@ -9,7 +9,7 @@ OptionsState::~OptionsState()
 {
 }
 
-void OptionsState::OnStart(IObject *data)
+void OptionsState::OnStart(void *data)
 {
 	UNUSED(data)
 	Log("Entering Options State");
@@ -22,7 +22,7 @@ void OptionsState::OnUpdate(f32 dt)
 	UNUSED(dt)
 }
 
-void OptionsState::OnStop(IObject *data)
+void OptionsState::OnStop(void *data)
 {
 	UNUSED(data)
 	Log("Exiting Options State");

@@ -9,9 +9,9 @@ class GamePauseState : public StateMachineState
 	public:
 		GamePauseState();
 		virtual ~GamePauseState();
-		virtual void OnStart(IObject *);
+		virtual void OnStart(void *);
 		virtual void OnUpdate(f32);
-		virtual void OnStop(IObject *);
+		virtual void OnStop(void *);
 };
 
 #endif // _GAME_PAUSE_STATE_H

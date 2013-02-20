@@ -10,9 +10,9 @@ class GameState : public StateMachineState
 	public:
 		GameState();
 		virtual ~GameState();
-		virtual void OnStart(IObject *);
+		virtual void OnStart(void *);
 		virtual void OnUpdate(f32);
-		virtual void OnStop(IObject *);
+		virtual void OnStop(void *);
 		void LateStop();
 
 		SceneNode cScene;

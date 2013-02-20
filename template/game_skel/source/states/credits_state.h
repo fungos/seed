@@ -9,9 +9,9 @@ class CreditsState : public StateMachineState
 	public:
 		CreditsState();
 		virtual ~CreditsState();
-		virtual void OnStart(IObject *);
+		virtual void OnStart(void *);
 		virtual void OnUpdate(f32);
-		virtual void OnStop(IObject *);
+		virtual void OnStop(void *);
 };
 
 #endif // _CREDITS_STATE_H

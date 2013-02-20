@@ -9,9 +9,9 @@ class OptionsState : public StateMachineState
 	public:
 		OptionsState();
 		virtual ~OptionsState();
-		virtual void OnStart(IObject *);
+		virtual void OnStart(void *);
 		virtual void OnUpdate(f32);
-		virtual void OnStop(IObject *);
+		virtual void OnStop(void *);
 };
 
 #endif // _OPTIONS_STATE_H

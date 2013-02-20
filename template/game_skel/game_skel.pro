@@ -8,22 +8,22 @@ INCLUDEPATH += ../../include ../../contrib
 SOURCES += source/main.cpp \
 	source/gameflow.cpp \
     source/states/credits_state.cpp \
-    source/states/main_menu_state.cpp \
     source/states/options_state.cpp \
     source/states/game_pause_state.cpp \
     source/states/game_state.cpp \
     source/scenes/game_scene.cpp \
-    source/data/game_data.cpp
+    source/data/game_data.cpp \
+    source/states/mainmenu_state.cpp
 
 HEADERS += \
 	source/gameflow.h \
-    source/states/main_menu_state.h \
     source/states/credits_state.h \
     source/states/options_state.h \
     source/states/game_pause_state.h \
     source/states/game_state.h \
     source/scenes/game_scene.h \
-    source/data/game_data.h
+    source/data/game_data.h \
+    source/states/mainmenu_state.h
 
 OTHER_FILES_CONFIG = \
 #Configs

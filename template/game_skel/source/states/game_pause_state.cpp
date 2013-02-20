@@ -9,7 +9,7 @@ GamePauseState::~GamePauseState()
 {
 }
 
-void GamePauseState::OnStart(IObject *data)
+void GamePauseState::OnStart(void *data)
 {
 	UNUSED(data)
 	Log("Entering GamePause State");
@@ -22,7 +22,7 @@ void GamePauseState::OnUpdate(f32 dt)
 	UNUSED(dt)
 }
 
-void GamePauseState::OnStop(IObject *data)
+void GamePauseState::OnStop(void *data)
 {
 	UNUSED(data)
 	Log("Exiting GamePause State");

@@ -5,7 +5,7 @@
 #include <Rocket/Core.h>
 #include <Seed.h>
 
-#include "states/main_menu_state.h"
+#include "states/mainmenu_state.h"
 #include "states/options_state.h"
 #include "states/credits_state.h"
 #include "states/game_state.h"
@@ -19,10 +19,10 @@ class GameFlow;
 extern GameFlow *gFlow;
 
 class GameFlow : public IGameApp,
-		    public IEventSystemListener,
-		    public IEventInputKeyboardListener,
-		    public IEventPresentationListener,
-		    public Rocket::Core::EventListener
+				 public IEventSystemListener,
+				 public IEventInputKeyboardListener,
+				 public IEventPresentationListener,
+				 public Rocket::Core::EventListener
 {
 	public:
 		GameFlow();
@@ -65,11 +65,11 @@ class GameFlow : public IGameApp,
 		StateMachine		cFlow;
 
 		// State Machine states
-		MainMenuState			cMenu;
-		OptionsState			cOptions;
-		CreditsState				cCredits;
+		MainMenuState		cMenu;
+		OptionsState		cOptions;
+		CreditsState		cCredits;
 		GameState			cGame;
-		GamePauseState			cGamePause;
+		GamePauseState		cGamePause;
 
 		// State Machine Events
 		StateMachineEvent	cOnMenu;
