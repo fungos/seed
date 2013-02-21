@@ -495,6 +495,8 @@ void Sprite::Update(f32 delta)
 		cVertex[2].cColor = p;
 		cVertex[3].cColor = p;
 	}
+
+	cVertexBuffer.SetData(cVertex, 4);
 }
 
 void Sprite::Render(const Matrix4f &worldTransform)
