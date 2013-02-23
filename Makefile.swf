@@ -2,6 +2,7 @@
 BASECFLAGS = -D_THREAD_SAFE -DSDL `"$(call unixpath,$(FLASCC)/usr/bin/sdl-config)" --cflags` $(EXTRACFLAGS)
 BUILDDIR = build/fla
 DEBUG = TRUE
+CONFIG = flash
 
 #------- GENERIC CONFIG
 include contrib.in

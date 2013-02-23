@@ -2,6 +2,7 @@ EMSCRIPTEN = /Users/tquatro/Dev/emscripten
 CC=emcc
 CXX=em++
 BUILDDIR = build/js
+CONFIG = html5
 
 DEFS = -DSEED_BUILD -DSEED_ENABLE_PROFILER -DBUILD_SDL -DDEBUG -DEMSCRIPTEN -DUSE_API_NULL_OAL
 CFLAGS += -fno-rtti -fno-exceptions -Icontrib/ -Iinclude/

@@ -42,7 +42,6 @@ SEED  = source/Viewport.o \
 		source/interface/IVideo.o \
 		source/interface/IUpdatable.o \
 		source/interface/ITransformable.o \
-		source/interface/ITimer.o \
 		source/interface/IThread.o \
 		source/interface/ITexture.o \
 		source/interface/ISystem.o \
@@ -137,4 +136,16 @@ SEED  = source/Viewport.o \
 		source/Job.o \
 		source/JobManager.o \
 		source/ThreadManager.o \
-		source/interface/IEventJobListener.o
+		source/interface/IEventJobListener.o \
+		source/ThreadManager.o \
+		source/api/rocket/RocketInterface.o \
+		source/Presentation.o \
+		source/EventPresentation.o \
+		source/interface/IEventPresentationListener.o \
+		source/map/GameMap.o \
+		source/map/IMapLayer.o \
+		source/map/IMetadataObject.o \
+		source/map/MapLayerMetadata.o \
+		source/map/MapLayerMosaic.o \
+		source/map/MapLayerTiled.o \
+		source/map/TileSet.o
