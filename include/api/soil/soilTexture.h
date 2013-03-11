@@ -35,7 +35,7 @@
 
 #if defined(USE_API_SOIL)
 
-#include "soil/SOIL.h"
+#include "contrib/soil/SOIL.h"
 #include "File.h"
 #include "interface/ITexture.h"
 
