@@ -109,6 +109,7 @@ bool System::Update(f32 dt)
 {
 	UNUSED(dt);
 
+#if !defined(EMSCRIPTEN)
 	u8 state = SDL_GetAppState();
 	if ((state & SDL_APPACTIVE) != SDL_APPACTIVE || (state & SDL_APPINPUTFOCUS) != SDL_APPINPUTFOCUS)
 	{
@@ -130,7 +131,7 @@ bool System::Update(f32 dt)
 			this->SendEventSleep(&ev);
 		}
 	}
-
+#endif
 	this->WaitForRetrace();
 	return true;
 }

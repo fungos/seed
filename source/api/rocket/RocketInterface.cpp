@@ -38,7 +38,6 @@
 #include "RendererDevice.h"
 #include "Screen.h"
 #include "Texture.h"
-#include "contrib/soil/SOIL.h"
 
 #include "api/rocket/RocketInterface.h"
 

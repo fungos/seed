@@ -588,10 +588,11 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	if (ebo)
 		elemPtr = ebo->pData;
 
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &vbo->pData[0].cColor);
+	sVertex *data = static_cast<sVertex *>(vbo->pData);
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &data[0].cColor);
 	if (texture)
-		glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cCoords);
-	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cVertex);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &data[0].cCoords);
+	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &data[0].cVertex);
 #endif
 
 	if (!ebo)
