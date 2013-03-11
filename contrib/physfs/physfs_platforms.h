@@ -43,6 +43,9 @@
 #elif defined(unix)
 #  define PHYSFS_PLATFORM_UNIX
 #  define PHYSFS_PLATFORM_POSIX
+#elif defined(EMSCRIPTEN)
+#  define PHYSFS_PLATFORM_UNIX
+#  define PHYSFS_PLATFORM_POSIX
 #else
 #  error Unknown platform.
 #endif
