@@ -120,7 +120,7 @@ void Camera::Render(const Matrix4f &worldTransform)
 {
 	UNUSED(worldTransform)
 
-	//#warning IMPL - Camera::Render(const Matrix4f &worldTransform) - Camera representation
+	WARNING(IMPL - Camera::Render(const Matrix4f &worldTransform) - Camera representation)
 //	RendererPacket packet;
 //	packet.iSize = iNumVertices;
 //	packet.nMeshType = nMeshType;
@@ -172,7 +172,7 @@ bool Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)
 	UNUSED(obj)
 	UNUSED(worldTransform)
 
-	//#warning IMPL - Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)
+	WARNING(IMPL - Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform))
 
 	return true;
 }

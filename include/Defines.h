@@ -50,6 +50,11 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define override
 #endif
 
+#define STRINGIZE_HELPER(x) #x
+#define STRINGIZE(x) STRINGIZE_HELPER(x)
+#define DO_PRAGMA(x) _Pragma (#x)
+#define WARNING(desc) DO_PRAGMA(message (__FILE__ "(" STRINGIZE(__LINE__) ") : warning: " #desc));
+
 #define OV_EXCLUDE_STATIC_CALLBACKS
 
 #if defined(BUILD_SDL)

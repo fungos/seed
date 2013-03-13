@@ -197,7 +197,7 @@ bool OGLES1RendererDevice::Initialize()
 
 bool OGLES1RendererDevice::Reset()
 {
-	//#warning FIXME - mutex lock guard here (?)
+	WARNING(FIXME - mutex lock guard here (?))
 	ITextureVector().swap(vTexture);
 	return true;
 }
@@ -373,19 +373,19 @@ void OGLES1RendererDevice::SetTextureParameters(const ITexture *texture) const
 
 void OGLES1RendererDevice::TextureRequestAbort(ITexture *texture)
 {
-	//#warning FIXME - mutex lock guard here
+	WARNING(FIXME - mutex lock guard here)
 	vTexture -= texture;
 }
 
 void OGLES1RendererDevice::TextureRequest(ITexture *texture)
 {
-	//#warning FIXME - mutex lock guard here
+	WARNING(FIXME - mutex lock guard here)
 	vTexture += texture;
 }
 
 void OGLES1RendererDevice::TextureRequestProcess() const
 {
-	//#warning FIXME - mutex lock guard here
+	WARNING(FIXME - mutex lock guard here)
 
 	GL_TRACE("BEGIN TextureRequestProcess")
 	ITextureVector::iterator it = vTexture.begin();
