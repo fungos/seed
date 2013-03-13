@@ -32,7 +32,7 @@ subject to the following restrictions:
 
 #include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include <bullet/btThreadSupportInterface.h>
+#include <bullet/BulletMultiThreaded/btThreadSupportInterface.h>
 
 
 typedef void (*PosixThreadFunc)(void* userPtr,void* lsMemory);
