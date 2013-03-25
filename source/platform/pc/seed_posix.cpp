@@ -267,13 +267,13 @@ bool change_directory(const char *to)
 void print_system_info()
 {
 	Log(TAG "print_system_info not implemented for posix.");
-	#warning TODO - Must implement function print_system_info
+	WARNING(TODO - Must implement function print_system_info)
 }
 
 bool system_check_multiple_instance()
 {
 	Log(TAG "system_check_multiple_instance not implemented for posix");
-	#warning TODO - Must implement function system_check_multiple_instance
+	WARNING(TODO - Must implement function system_check_multiple_instance)
 	return true;
 }
 

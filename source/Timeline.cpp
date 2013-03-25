@@ -518,7 +518,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 		*/
 		if (reader.SelectNode("cObject"))
 		{
-			//#warning TODO - Use SceneObjectFactory here
+			WARNING(TODO - Use SceneObjectFactory here)
 			Reader r(reader);
 			Sprite *spt = New(Sprite);
 			spt->Load(r, res);
@@ -531,7 +531,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 			String object = reader.ReadString("sObject", "");
 			SEED_ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
 
-			//#warning TODO - Move to async file loading
+			WARNING(TODO - Move to async file loading)
 			File *f = New(File(object));
 			Reader r(f);
 

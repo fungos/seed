@@ -38,7 +38,6 @@
 #include "RendererDevice.h"
 #include "Screen.h"
 #include "Texture.h"
-#include "contrib/soil/SOIL.h"
 
 #include "api/rocket/RocketInterface.h"
 
@@ -259,7 +258,7 @@ float RocketInterface::GetVerticalTexelOffset()
 Rocket::Core::FileHandle RocketInterface::Open(const Rocket::Core::String &path)
 {
 	FilePtr *fp = New(FilePtr());
-	//#warning TODO - Move to async file loading
+	WARNING(TODO - Move to async file loading)
 	fp->pFile = New(File(path.CString()));
 	fp->pFile->GetData();
 	fp->iOffset = 0L;

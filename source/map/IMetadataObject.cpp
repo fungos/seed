@@ -239,7 +239,7 @@ const String IMetadataObject::GetProperty(const String &property) const
 
 bool IMetadataObject::CheckHit(const Rect4f &area, Rect4f &overlap) const
 {
-	//#warning FIXME - Implementar em coordenadas de mundo
+	WARNING(FIXME - Implementar em coordenadas de mundo)
 	return area.GetOverlappedRect(rBox, overlap);
 }
 

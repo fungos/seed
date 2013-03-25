@@ -50,6 +50,12 @@
 #include <SDL/SDL_syswm.h>
 #endif
 
+#if defined(EMSCRIPTEN)
+#define SDL_EVENT_KEY_WHICH 0
+#else
+#define SDL_EVENT_KEY_WHICH event.key.which
+#endif
+
 #define TAG "[Input] "
 
 namespace Seed { namespace SDL {
@@ -210,14 +216,14 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 			case SDL_KEYDOWN:
 			{
-				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode, event.key.which); // key.which deprecated
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode, SDL_EVENT_KEY_WHICH); // key.which deprecated
 				this->SendEventKeyboardPress(&ev);
 			}
 			break;
 
 			case SDL_KEYUP:
 			{
-				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode, event.key.which); // key.which deprecated
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode, SDL_EVENT_KEY_WHICH); // key.which deprecated
 				this->SendEventKeyboardRelease(&ev);
 			}
 			break;
