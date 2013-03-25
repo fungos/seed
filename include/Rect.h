@@ -109,9 +109,9 @@ template <class TYPE> class Rect
 			left2   = rect.x1;
 			right1  = this->x2;
 			right2  = rect.x2;
-			top1    = this->y;
-			top2    = rect.y;
-			bottom1 = this->y1;
+			top1    = this->y1;
+			top2    = rect.y1;
+			bottom1 = this->y2;
 			bottom2 = rect.y2;
 
 			if (bottom1 < top2) return(false);
@@ -241,7 +241,7 @@ template <class TYPE> class Rect
 
 		void Print()
 		{
-			Log("Rect info: x1 -> %d, y1 -> %d, x2 -> %d, y2 -> %d", x1, y1, x2, y2);
+			Log("Rect info: x1 -> %f, y1 -> %f, x2 -> %f, y2 -> %f", x1, y1, x2, y2);
 		}
 };
 
