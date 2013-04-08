@@ -50,16 +50,15 @@ class SEED_CORE_API Socket
 {
 	public:
 		Socket();
-		~Socket();
-		bool Open(unsigned short port);
-		void Close();
-		bool IsOpen() const;
-		bool Send(const Address &destination, const void *data, int size);
-		int Receive(Address &sender, void *data, int size);
+		virtual ~Socket();
+		virtual bool Open(unsigned short port);
+		virtual void Close();
+		virtual bool IsOpen() const;
+		virtual bool Send(const Address &destination, const void *data, int size);
+		virtual int Receive(Address &sender, void *data, int size);
 
 	private:
 		SEED_DISABLE_COPY(Socket);
-
 		Address cAddress;
 		bool bIsOpen;
 		int iHandle;

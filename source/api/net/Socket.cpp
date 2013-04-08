@@ -20,7 +20,7 @@ Socket::Socket()
 
 	if(iHandle <= 0)
 	{
-		Log(TAG "failed to create socket\n");
+		Log(TAG "failed to create socket");
 	}
 }
 
@@ -41,7 +41,7 @@ bool Socket::Open(unsigned short port)
 
 	if (bind(iHandle, (const sockaddr*) &address, sizeof(sockaddr_in)) < 0)
 	{
-		Log(TAG "failed to bind socket\n" );
+		Log(TAG "failed to bind socket" );
 		this->Close();
 		bIsOpen = false;
 	}
@@ -52,14 +52,14 @@ bool Socket::Open(unsigned short port)
 		DWORD nonBlocking = 1;
 		if (ioctlsocket(handle, FIONBIO, &nonBlocking ) != 0)
 		{
-			Log(TAG "failed to set non-blocking socket\n");
+			Log(TAG "failed to set non-blocking socket");
 			return false;
 		}
 		#elif defined(__APPLE_CC__) || defined(__linux__)
 		int nonBlocking = 1;
 		if (fcntl(iHandle, F_SETFL, O_NONBLOCK, nonBlocking ) == -1)
 		{
-			Log(TAG "failed to set non-blocking socket\n");
+			Log(TAG "failed to set non-blocking socket");
 			return false;
 		}
 		#endif
