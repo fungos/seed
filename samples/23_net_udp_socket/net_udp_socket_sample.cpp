@@ -30,7 +30,7 @@ bool NetUDPSocketSample::Update(f32 dt)
 {
 	UNUSED(dt)
 
-	cSocket.Send(Address(10, 0, 1, 4, iPort), &sPacketData, sizeof(sPacketData));
+	cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 
 	Address sender;
 	int bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
