@@ -5,8 +5,8 @@ NetUDPSocketSample::NetUDPSocketSample()
 	, bIsFirstPlayer(false)
 {
 	sPacketData.ball = VECTOR_ZERO;
-	sPacketData.player = VECTOR_ZERO;
-	sPacketData.enemyPlayer = VECTOR_ZERO;
+	sPacketData.player1 = VECTOR_ZERO;
+	sPacketData.player2 = VECTOR_ZERO;
 	sPacketData.bAssignedPlayer1 = false;
 	sPacketData.bAssignedPlayer2 = false;
 }
@@ -59,8 +59,8 @@ bool NetUDPSocketSample::Update(f32 dt)
 		sender.GetPort(), bytesRead);
 
 	Log("Ball position (x:%f, y:%f)", sPacketData.ball.x, sPacketData.ball.y);
-	Log("Player position (x:%f, y:%f)", sPacketData.player.x, sPacketData.player.y);
-	Log("Enemy player position (x:%f, y:%f)", sPacketData.enemyPlayer.x, sPacketData.enemyPlayer.y);
+	Log("Player1 position (x:%f, y:%f)", sPacketData.player1.x, sPacketData.player1.y);
+	Log("Player2 position (x:%f, y:%f)", sPacketData.player2.x, sPacketData.player2.y);
 
 	return true;
 }
@@ -93,8 +93,8 @@ void NetUDPSocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 	else if (k == Seed::KeyF2)
 		pResourceManager->GarbageCollect();
 	else if (k == Seed::KeyUp)
-		(bIsFirstPlayer) ? sPacketData.player += VECTOR_UP : sPacketData.enemyPlayer += VECTOR_UP;
+		(bIsFirstPlayer) ? sPacketData.player1 += VECTOR_UP : sPacketData.player2 += VECTOR_UP;
 	else if (k == Seed::KeyDown)
-		(bIsFirstPlayer) ? sPacketData.player += VECTOR_DOWN : sPacketData.enemyPlayer += VECTOR_DOWN;
+		(bIsFirstPlayer) ? sPacketData.player1 += VECTOR_DOWN : sPacketData.player2 += VECTOR_DOWN;
 }
 

@@ -45,8 +45,8 @@ class NetUDPSocketSample : public IGameApp,
 			bool bAssignedPlayer1;
 			bool bAssignedPlayer2;
 			b2Vec2 ball;
-			b2Vec2 player;
-			b2Vec2 enemyPlayer;
+			b2Vec2 player1;
+			b2Vec2 player2;
 		} sPacketData;
 };
 
