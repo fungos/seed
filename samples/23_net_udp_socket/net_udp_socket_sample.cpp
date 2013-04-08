@@ -7,6 +7,8 @@ NetUDPSocketSample::NetUDPSocketSample()
 	sPacketData.ball = VECTOR_ZERO;
 	sPacketData.player = VECTOR_ZERO;
 	sPacketData.enemyPlayer = VECTOR_ZERO;
+	sPacketData.bAssignedPlayer1 = false;
+	sPacketData.bAssignedPlayer2 = false;
 }
 
 NetUDPSocketSample::~NetUDPSocketSample()
@@ -33,21 +35,23 @@ bool NetUDPSocketSample::Update(f32 dt)
 	Address sender;
 	int bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
 
-	if (!bytesRead || sPacketData.bAssignedPlayer2 == false)
+	if (!bytesRead)
 	{
+		if(!sPacketData.bAssignedPlayer1)
+		{
+			sPacketData.bAssignedPlayer1 = true;
+			bIsFirstPlayer = true;
+		}
+
 		Log("Waiting for player connection ...");
 		return false;
 	}
-
-	if(!sPacketData.bAssignedPlayer1)
-	{
-		sPacketData.bAssignedPlayer1 = true;
-		bIsFirstPlayer = true;
-	}
 	else
 	{
-		sPacketData.bAssignedPlayer2 = true;
-		bIsFirstPlayer = false;
+		if(!sPacketData.bAssignedPlayer2)
+		{
+			sPacketData.bAssignedPlayer2 = true;
+		}
 	}
 
 	Log("received packet from %d.%d.%d.%d:%d (%d bytes)",
@@ -93,3 +97,4 @@ void NetUDPSocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 	else if (k == Seed::KeyDown)
 		(bIsFirstPlayer) ? sPacketData.player += VECTOR_DOWN : sPacketData.enemyPlayer += VECTOR_DOWN;
 }
+

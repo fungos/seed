@@ -2,9 +2,9 @@
 #define _NET_UDP_SOCKET_SAMPLE_H
 
 #include <Seed.h>
+#include <Box2D/Box2D.h>
 #include "api/net/Socket.h"
 #include "api/net/Address.h"
-#include <Box2D/Box2D.h>
 
 #define VECTOR_UP		b2Vec2(0, -1)
 #define VECTOR_DOWN		b2Vec2(0, 1)
