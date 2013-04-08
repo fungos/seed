@@ -107,7 +107,7 @@ int Socket::Receive(Address &sender, void *data, int size)
 	sockaddr_in from;
 	socklen_t fromLength = sizeof(from);
 
-	int receivedBytes = recvfrom(iHandle, (char*)data, size, 0, (sockaddr*)&from, &fromLength );
+	int receivedBytes = recvfrom(iHandle, (char*)data, size, 0, (sockaddr*)&from, &fromLength);
 
 	if(receivedBytes <= 0)
 		return 0;
