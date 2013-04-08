@@ -174,6 +174,8 @@ SOURCES += source/Viewport.cpp \
 	source/platform/sdl/sdlMutex.cpp \
 	source/platform/sdl/sdlInput.cpp \
 	source/api/yajl/JsonWriter.cpp \
+	source/api/net/Address.cpp \
+	source/api/net/Socket.cpp \
 	source/Writer.cpp \
 	source/interface/IWriter.cpp \
 	source/interface/IDataObject.cpp \
@@ -228,6 +230,7 @@ HEADERS += include/*.h \
 	include/api/ogl/*.h \
 	include/api/theora/*.h \
 	include/api/yajl/*.h \
+	include/api/net/*.h \
 	include/Writer.h \
 	include/interface/IWriter.h \
 	include/api/yajl/JsonWriter.h \

@@ -8,7 +8,7 @@
 	#include <vectormath/vectormath_aos.h>
 #else //(USE_SYSTEM_VECTORMATH)
 	#if defined (BT_USE_SSE)
-		#include <vectormath/sse/vectormath_aos.h>
+		#include <vectormath/sse/cpp/vectormath_aos.h>
 	#else //all other platforms
 		#if defined (BT_USE_NEON)
 			#include <vectormath/neon/vectormath_aos.h>
