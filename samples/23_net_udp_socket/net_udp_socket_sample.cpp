@@ -21,35 +21,38 @@ bool NetUDPSocketSample::Initialize()
 	// Create socket
 	cSocket.Open(iPort);
 
+	cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
+
+	Address sender;
+	int bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
+
+	while(!bytesRead)
+	{
+		Log("Waiting ...");
+	}
+
+	vEnemyPlayer = sPacketData.vRemotePlayer;
+	sPacketData.vRemotePlayer = vPlayer;
+
+
 	return IGameApp::Initialize();
 }
 
 bool NetUDPSocketSample::Update(f32 dt)
 {
 	UNUSED(dt)
-	cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 
 	Address sender;
-	int bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
+	cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
 
-	if(!bytesRead)
-	{
-		Log("Waiting ...");
-		return false;
-	}
-	else
-	{
-		vEnemyPlayer = sPacketData.vRemotePlayer;
-		sPacketData.vRemotePlayer = vPlayer;
-	}
-
-	Log("received packet from %d.%d.%d.%d:%d (%d bytes)",
-	sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
-	sender.GetPort(), bytesRead);
+	vEnemyPlayer = sPacketData.vRemotePlayer;
+	sPacketData.vRemotePlayer = vPlayer;
 
 	Log("Ball position (x:%f, y:%f)", sPacketData.ball.x, sPacketData.ball.y);
 	Log("Player position (x:%f, y:%f)", vPlayer.x,vPlayer.y);
 	Log("Enemy player position (x:%f, y:%f)", vEnemyPlayer.x, vEnemyPlayer.y);
+
+	cSocket.Send(Address(10, 0, 1, 4, iPort), &sPacketData, sizeof(sPacketData));
 
 	return true;
 }
