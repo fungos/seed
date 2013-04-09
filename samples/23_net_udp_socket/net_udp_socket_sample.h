@@ -37,16 +37,13 @@ class NetUDPSocketSample : public IGameApp,
 		SEED_DISABLE_COPY(NetUDPSocketSample);
 		Socket cSocket;
 		int iPort;
-		bool bIsFirstPlayer;
+		b2Vec2 vPlayer;
+		b2Vec2 vEnemyPlayer;
 
 		struct PacketData
 		{
-			int iID;
-			bool bAssignedPlayer1;
-			bool bAssignedPlayer2;
 			b2Vec2 ball;
-			b2Vec2 player1;
-			b2Vec2 player2;
+			b2Vec2 vRemotePlayer;
 		} sPacketData;
 };
 
