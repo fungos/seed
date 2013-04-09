@@ -22,16 +22,17 @@ bool NetUDPSocketSample::Initialize()
 	cSocket.Open(iPort);
 
 	int bytesRead = 0;
+	cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 
 	while(!bytesRead)
 	{
-		cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
-
 		Address sender;
 		bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
-
 		Log("Waiting ...");
 	}
+
+	if(bytesRead)
+		cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 
 	return IGameApp::Initialize();
 }
@@ -41,16 +42,13 @@ bool NetUDPSocketSample::Update(f32 dt)
 	UNUSED(dt)
 
 	Address sender;
-	cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
+	int bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
 
-	vEnemyPlayer = sPacketData.vRemotePlayer;
-	sPacketData.vRemotePlayer = vPlayer;
+	if(bytesRead)
+		vEnemyPlayer = sPacketData.vRemotePlayer;
 
-//	Log("Ball position (x:%f, y:%f)", sPacketData.ball.x, sPacketData.ball.y);
-//	Log("Player position (x:%f, y:%f)", vPlayer.x,vPlayer.y);
+	Log("Player position (x:%f, y:%f)", vPlayer.x,vPlayer.y);
 	Log("Enemy player position (x:%f, y:%f)", vEnemyPlayer.x, vEnemyPlayer.y);
-
-	cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 
 	return true;
 }
@@ -83,8 +81,16 @@ void NetUDPSocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 	else if (k == Seed::KeyF2)
 		pResourceManager->GarbageCollect();
 	else if (k == Seed::KeyUp)
+	{
 		vPlayer += VECTOR_UP;
+		sPacketData.vRemotePlayer = vPlayer;
+		cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
+	}
 	else if (k == Seed::KeyDown)
+	{
 		vPlayer += VECTOR_DOWN;
+		sPacketData.vRemotePlayer = vPlayer;
+		cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
+	}
 }
 
