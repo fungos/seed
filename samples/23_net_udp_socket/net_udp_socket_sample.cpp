@@ -4,6 +4,7 @@ NetUDPSocketSample::NetUDPSocketSample()
 	: iPort(3000)
 	, bIsFirstPlayer(false)
 {
+	sPacketData.iID = 0;
 	sPacketData.ball = VECTOR_ZERO;
 	sPacketData.player1 = VECTOR_ZERO;
 	sPacketData.player2 = VECTOR_ZERO;
@@ -35,32 +36,36 @@ bool NetUDPSocketSample::Update(f32 dt)
 	Address sender;
 	int bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
 
-	if (!bytesRead)
+	if (bytesRead)
 	{
-		if(!sPacketData.bAssignedPlayer1 && bIsFirstPlayer)
+		if(!sPacketData.bAssignedPlayer2)
 		{
+			Log("P2 Assigned");
+			sPacketData.bAssignedPlayer2 = true;
+		}
+
+		sPacketData.iID++;
+	}
+	else
+	{
+		if(sPacketData.iID > 1 && !bIsFirstPlayer)
+		{
+			Log("P1 Assigned");
 			sPacketData.bAssignedPlayer1 = true;
 			bIsFirstPlayer = true;
 		}
 
-		Log("Waiting for player connection ...");
+		//Log("Waiting for player connection ...");
 		return false;
 	}
-	else
-	{
-		if(!sPacketData.bAssignedPlayer2)
-		{
-			sPacketData.bAssignedPlayer2 = true;
-		}
-	}
 
-	Log("received packet from %d.%d.%d.%d:%d (%d bytes)",
-		sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
-		sender.GetPort(), bytesRead);
+//	Log("received packet from %d.%d.%d.%d:%d (%d bytes)",
+//		sender.GetA(), sender.GetB(), sender.GetC(), sender.GetD(),
+//		sender.GetPort(), bytesRead);
 
-	Log("Ball position (x:%f, y:%f)", sPacketData.ball.x, sPacketData.ball.y);
-	Log("Player1 position (x:%f, y:%f)", sPacketData.player1.x, sPacketData.player1.y);
-	Log("Player2 position (x:%f, y:%f)", sPacketData.player2.x, sPacketData.player2.y);
+//	Log("Ball position (x:%f, y:%f)", sPacketData.ball.x, sPacketData.ball.y);
+//	Log("Player1 position (x:%f, y:%f)", sPacketData.player1.x, sPacketData.player1.y);
+//	Log("Player2 position (x:%f, y:%f)", sPacketData.player2.x, sPacketData.player2.y);
 
 	return true;
 }
