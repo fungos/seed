@@ -46,8 +46,8 @@ bool NetUDPSocketSample::Update(f32 dt)
 	vEnemyPlayer = sPacketData.vRemotePlayer;
 	sPacketData.vRemotePlayer = vPlayer;
 
-	Log("Ball position (x:%f, y:%f)", sPacketData.ball.x, sPacketData.ball.y);
-	Log("Player position (x:%f, y:%f)", vPlayer.x,vPlayer.y);
+//	Log("Ball position (x:%f, y:%f)", sPacketData.ball.x, sPacketData.ball.y);
+//	Log("Player position (x:%f, y:%f)", vPlayer.x,vPlayer.y);
 	Log("Enemy player position (x:%f, y:%f)", vEnemyPlayer.x, vEnemyPlayer.y);
 
 	cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));

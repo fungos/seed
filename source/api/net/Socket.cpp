@@ -18,6 +18,13 @@ Socket::Socket()
 	// Creating a socket
 	iHandle = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
+	#if defined(_MSC_VER)
+	setsockopt(iHandle, SOL_SOCKET, SO_BROADCAST);
+	#elif defined(__APPLE_CC__) || defined(__linux__)
+	int optval = 1;
+	setsockopt(iHandle, SOL_SOCKET, SO_BROADCAST, &optval, sizeof(optval));
+	#endif
+
 	if(iHandle <= 0)
 	{
 		Log(TAG "failed to create socket");
@@ -39,14 +46,14 @@ bool Socket::Open(unsigned short port)
 	address.sin_addr.s_addr = INADDR_ANY;
 	address.sin_port = htons((unsigned short) port);
 
-	if (bind(iHandle, (const sockaddr*) &address, sizeof(sockaddr_in)) < 0)
-	{
-		Log(TAG "failed to bind socket" );
-		this->Close();
-		bIsOpen = false;
-	}
-	else
-	{
+//	if (bind(iHandle, (const sockaddr*) &address, sizeof(sockaddr_in)) < 0)
+//	{
+//		Log(TAG "failed to bind socket" );
+//		this->Close();
+//		bIsOpen = false;
+//	}
+//	else
+//	{
 		// Setting the socket as non-blocking
 		#if defined(_MSC_VER)
 		DWORD nonBlocking = 1;
@@ -65,7 +72,7 @@ bool Socket::Open(unsigned short port)
 		#endif
 
 		bIsOpen = true;
-	}
+//	}
 
 	return bIsOpen;
 }
