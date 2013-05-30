@@ -197,14 +197,14 @@ SOURCES += source/Viewport.cpp \
 	source/Presentation.cpp \
 	source/EventPresentation.cpp \
 	source/interface/IEventPresentationListener.cpp \
-    source/map/GameMap.cpp \
-    source/map/IMapLayer.cpp \
-    source/map/IMetadataObject.cpp \
-    source/map/MapLayerMetadata.cpp \
-    source/map/MapLayerMosaic.cpp \
-    source/map/MapLayerTiled.cpp \
-    source/map/TileSet.cpp \
-    source/api/ogl/oglES2RendererDevice.cpp
+	source/map/GameMap.cpp \
+	source/map/IMapLayer.cpp \
+	source/map/IMetadataObject.cpp \
+	source/map/MapLayerMetadata.cpp \
+	source/map/MapLayerMosaic.cpp \
+	source/map/MapLayerTiled.cpp \
+	source/map/TileSet.cpp \
+	source/api/ogl/oglES2RendererDevice.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -253,11 +253,11 @@ HEADERS += include/*.h \
 	include/Presentation.h \
 	include/interface/IEventPresentationListener.h \
 	include/EventPresentation.h \
-    include/map/GameMap.h \
-    include/map/IMapLayer.h \
-    include/map/IMetadataObject.h \
-    include/map/MapLayerMetadata.h \
-    include/map/MapLayerMosaic.h \
-    include/map/MapLayerTiled.h \
-    include/map/TileSet.h \
-    include/api/ogl/oglES2RendererDevice.h
+	include/map/GameMap.h \
+	include/map/IMapLayer.h \
+	include/map/IMetadataObject.h \
+	include/map/MapLayerMetadata.h \
+	include/map/MapLayerMosaic.h \
+	include/map/MapLayerTiled.h \
+	include/map/TileSet.h \
+	include/api/ogl/oglES2RendererDevice.h

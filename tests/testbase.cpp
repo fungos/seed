@@ -71,7 +71,7 @@ bool TestBase::Initialize()
 //		cScene.Add(&mvSample);
 //	}
 
-	pJobManager->Add(New(FileLoader("main.scene", kJobLoadScene, this)));
+	pJobManager->Add(New(FileLoader("scenes/main.scene", kJobLoadScene, this)));
 //	pJobManager->Add(New(FileLoader("anim.sprite", kJobLoadAnim, this)));
 //	pJobManager->Add(New(FileLoader("teste.emitter", kJobLoadEmitter, this)));
 //	cScene.Add(&sptLogo);

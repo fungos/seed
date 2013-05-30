@@ -32,12 +32,10 @@
 		D103F082163F133400267967 /* b2ContactSolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED47163F133400267967 /* b2ContactSolver.cpp */; };
 		D103F083163F133400267967 /* b2PolygonAndCircleContact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED49163F133400267967 /* b2PolygonAndCircleContact.cpp */; };
 		D103F084163F133400267967 /* b2PolygonContact.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED4B163F133400267967 /* b2PolygonContact.cpp */; };
-		D103F085163F133400267967 /* b2TOISolver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED4D163F133400267967 /* b2TOISolver.cpp */; };
 		D103F086163F133400267967 /* b2DistanceJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED50163F133400267967 /* b2DistanceJoint.cpp */; };
 		D103F087163F133400267967 /* b2FrictionJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED52163F133400267967 /* b2FrictionJoint.cpp */; };
 		D103F088163F133400267967 /* b2GearJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED54163F133400267967 /* b2GearJoint.cpp */; };
 		D103F089163F133400267967 /* b2Joint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED56163F133400267967 /* b2Joint.cpp */; };
-		D103F08A163F133400267967 /* b2LineJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED58163F133400267967 /* b2LineJoint.cpp */; };
 		D103F08B163F133400267967 /* b2MouseJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED5A163F133400267967 /* b2MouseJoint.cpp */; };
 		D103F08C163F133400267967 /* b2PrismaticJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED5C163F133400267967 /* b2PrismaticJoint.cpp */; };
 		D103F08D163F133400267967 /* b2PulleyJoint.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103ED5E163F133400267967 /* b2PulleyJoint.cpp */; };
@@ -207,8 +205,6 @@
 		D103ED4A163F133400267967 /* b2PolygonAndCircleContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2PolygonAndCircleContact.h; sourceTree = "<group>"; };
 		D103ED4B163F133400267967 /* b2PolygonContact.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2PolygonContact.cpp; sourceTree = "<group>"; };
 		D103ED4C163F133400267967 /* b2PolygonContact.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2PolygonContact.h; sourceTree = "<group>"; };
-		D103ED4D163F133400267967 /* b2TOISolver.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2TOISolver.cpp; sourceTree = "<group>"; };
-		D103ED4E163F133400267967 /* b2TOISolver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2TOISolver.h; sourceTree = "<group>"; };
 		D103ED50163F133400267967 /* b2DistanceJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2DistanceJoint.cpp; sourceTree = "<group>"; };
 		D103ED51163F133400267967 /* b2DistanceJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2DistanceJoint.h; sourceTree = "<group>"; };
 		D103ED52163F133400267967 /* b2FrictionJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2FrictionJoint.cpp; sourceTree = "<group>"; };
@@ -217,8 +213,6 @@
 		D103ED55163F133400267967 /* b2GearJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2GearJoint.h; sourceTree = "<group>"; };
 		D103ED56163F133400267967 /* b2Joint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2Joint.cpp; sourceTree = "<group>"; };
 		D103ED57163F133400267967 /* b2Joint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2Joint.h; sourceTree = "<group>"; };
-		D103ED58163F133400267967 /* b2LineJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2LineJoint.cpp; sourceTree = "<group>"; };
-		D103ED59163F133400267967 /* b2LineJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2LineJoint.h; sourceTree = "<group>"; };
 		D103ED5A163F133400267967 /* b2MouseJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2MouseJoint.cpp; sourceTree = "<group>"; };
 		D103ED5B163F133400267967 /* b2MouseJoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = b2MouseJoint.h; sourceTree = "<group>"; };
 		D103ED5C163F133400267967 /* b2PrismaticJoint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = b2PrismaticJoint.cpp; sourceTree = "<group>"; };
@@ -671,8 +665,6 @@
 				D103ED4A163F133400267967 /* b2PolygonAndCircleContact.h */,
 				D103ED4B163F133400267967 /* b2PolygonContact.cpp */,
 				D103ED4C163F133400267967 /* b2PolygonContact.h */,
-				D103ED4D163F133400267967 /* b2TOISolver.cpp */,
-				D103ED4E163F133400267967 /* b2TOISolver.h */,
 			);
 			path = Contacts;
 			sourceTree = "<group>";
@@ -688,8 +680,6 @@
 				D103ED55163F133400267967 /* b2GearJoint.h */,
 				D103ED56163F133400267967 /* b2Joint.cpp */,
 				D103ED57163F133400267967 /* b2Joint.h */,
-				D103ED58163F133400267967 /* b2LineJoint.cpp */,
-				D103ED59163F133400267967 /* b2LineJoint.h */,
 				D103ED5A163F133400267967 /* b2MouseJoint.cpp */,
 				D103ED5B163F133400267967 /* b2MouseJoint.h */,
 				D103ED5C163F133400267967 /* b2PrismaticJoint.cpp */,
@@ -1313,12 +1303,10 @@
 				D103F082163F133400267967 /* b2ContactSolver.cpp in Sources */,
 				D103F083163F133400267967 /* b2PolygonAndCircleContact.cpp in Sources */,
 				D103F084163F133400267967 /* b2PolygonContact.cpp in Sources */,
-				D103F085163F133400267967 /* b2TOISolver.cpp in Sources */,
 				D103F086163F133400267967 /* b2DistanceJoint.cpp in Sources */,
 				D103F087163F133400267967 /* b2FrictionJoint.cpp in Sources */,
 				D103F088163F133400267967 /* b2GearJoint.cpp in Sources */,
 				D103F089163F133400267967 /* b2Joint.cpp in Sources */,
-				D103F08A163F133400267967 /* b2LineJoint.cpp in Sources */,
 				D103F08B163F133400267967 /* b2MouseJoint.cpp in Sources */,
 				D103F08C163F133400267967 /* b2PrismaticJoint.cpp in Sources */,
 				D103F08D163F133400267967 /* b2PulleyJoint.cpp in Sources */,

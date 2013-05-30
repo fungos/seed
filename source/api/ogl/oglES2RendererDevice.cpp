@@ -46,9 +46,9 @@
 #if defined(BUILD_IOS)
 	#define PIXEL_FORMAT_32 GL_RGBA
 	#include "platform/ios/iosView.h"
-    #include <OpenGLES/ES2/gl.h>
-    #include <OpenGLES/ES2/glext.h>
-    #define _OPENGL_ES2		1
+	#include <OpenGLES/ES2/gl.h>
+	#include <OpenGLES/ES2/glext.h>
+	#define _OPENGL_ES2		1
 	#define GL_RGBA8 GL_RGBA8_OES
 	#ifndef GL_FRAMEBUFFER
 	#define GL_FRAMEBUFFER GL_FRAMEBUFFER_OES
@@ -88,7 +88,7 @@
 	#else
 		#define PIXEL_FORMAT_32 GL_BGRA
 	#endif
-    #define _OPENGL_2		1
+	#define _OPENGL_2		1
 	#if defined(__APPLE_CC__)
 		#include <OpenGL/gl.h>
 		#include <OpenGL/glext.h>

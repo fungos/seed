@@ -42,3 +42,7 @@ tests/bin/tests
 *.ogg
 *__Debug/
 *__Release/
+
+# Xcode user files #
+####################
+*.xcuserdatad/

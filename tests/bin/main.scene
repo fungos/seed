@@ -38,17 +38,17 @@
 						{
 							"sType": "Frame",
 							"sName": "frame 1",
-							"sTexture": "frame01.png"
+							"sTexture": "textures/frame01.png"
 						},
 						{
 							"sType": "Frame",
 							"sName": "frame 2",
-							"sTexture": "frame02.png"
+							"sTexture": "textures/frame02.png"
 						},
 						{
 							"sType": "Frame",
 							"sName": "frame 3",
-							"sTexture": "frame03.png"
+							"sTexture": "textures/frame03.png"
 						}
 					]
 				}
@@ -57,7 +57,7 @@
 		{
 			"sType": "ParticleEmitter",
 			"sName": "Particle Emitter 1",
-			"sSprite": "particles.sprite",
+			"sSprite": "particles/particles.sprite",
 			"fRotation": 0.0,
 			"cPosition": {
 				"x": 0.0,

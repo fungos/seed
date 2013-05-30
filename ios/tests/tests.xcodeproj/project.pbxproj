@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		D107B3BB16430AB800E4A951 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D107B3BA16430AB800E4A951 /* UIKit.framework */; };
-		D107B3BD16430AB800E4A951 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D107B3BC16430AB800E4A951 /* Foundation.framework */; };
 		D107B3BF16430AB800E4A951 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D107B3BE16430AB800E4A951 /* CoreGraphics.framework */; };
 		D107B3C116430AB800E4A951 /* GLKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D107B3C016430AB800E4A951 /* GLKit.framework */; };
 		D107B3C316430AB800E4A951 /* OpenGLES.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D107B3C216430AB800E4A951 /* OpenGLES.framework */; };
@@ -29,7 +28,6 @@
 		D142318D164D878B002A834E /* logo.sprite in Resources */ = {isa = PBXBuildFile; fileRef = D142316E164D878B002A834E /* logo.sprite */; };
 		D142318E164D878B002A834E /* logo.tga in Resources */ = {isa = PBXBuildFile; fileRef = D142316F164D878B002A834E /* logo.tga */; };
 		D142318F164D878B002A834E /* main.scene in Resources */ = {isa = PBXBuildFile; fileRef = D1423170164D878B002A834E /* main.scene */; };
-		D1423190164D878B002A834E /* main2.scene in Resources */ = {isa = PBXBuildFile; fileRef = D1423171164D878B002A834E /* main2.scene */; };
 		D1423191164D878B002A834E /* particle_00.tga in Resources */ = {isa = PBXBuildFile; fileRef = D1423172164D878B002A834E /* particle_00.tga */; };
 		D1423192164D878B002A834E /* particle_01.tga in Resources */ = {isa = PBXBuildFile; fileRef = D1423173164D878B002A834E /* particle_01.tga */; };
 		D1423193164D878B002A834E /* particle_02.tga in Resources */ = {isa = PBXBuildFile; fileRef = D1423174164D878B002A834E /* particle_02.tga */; };
@@ -54,8 +52,7 @@
 		D14231A6164D878B002A834E /* theme.ogg in Resources */ = {isa = PBXBuildFile; fileRef = D1423187164D878B002A834E /* theme.ogg */; };
 		D1C6EA50164C29EC00248DA0 /* testbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1C6EA4D164C29EC00248DA0 /* testbase.cpp */; };
 		D1C6EA54164C333D00248DA0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1C6EA53164C333D00248DA0 /* main.cpp */; };
-		D1C6EA55164C34C600248DA0 /* libseedcontrib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C6EA3F164C28A600248DA0 /* libseedcontrib.a */; };
-		D1C6EA56164C34CA00248DA0 /* libSeed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C6EA49164C28AA00248DA0 /* libSeed.a */; };
+		E24C5B3F1756E0D600149F5A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24C5B3D1756E0B300149F5A /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,12 +70,25 @@
 			remoteGlobalIDString = D103E433163F11CB00267967;
 			remoteInfo = Seed;
 		};
+		E24C5B391756DF5400149F5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1C6EA41164C28AA00248DA0 /* Seed.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D103E432163F11CB00267967;
+			remoteInfo = Seed;
+		};
+		E24C5B3B1756DF7500149F5A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D1C6EA37164C28A600248DA0 /* seedcontrib.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = D103ED03163F131600267967;
+			remoteInfo = seedcontrib;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		D107B3B616430AB800E4A951 /* tests.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = tests.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D107B3BA16430AB800E4A951 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
-		D107B3BC16430AB800E4A951 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		D107B3BE16430AB800E4A951 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		D107B3C016430AB800E4A951 /* GLKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLKit.framework; path = System/Library/Frameworks/GLKit.framework; sourceTree = SDKROOT; };
 		D107B3C216430AB800E4A951 /* OpenGLES.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGLES.framework; path = System/Library/Frameworks/OpenGLES.framework; sourceTree = SDKROOT; };
@@ -101,7 +111,6 @@
 		D142316E164D878B002A834E /* logo.sprite */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = logo.sprite; path = ../../tests/bin/logo.sprite; sourceTree = "<group>"; };
 		D142316F164D878B002A834E /* logo.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = logo.tga; path = ../../tests/bin/logo.tga; sourceTree = "<group>"; };
 		D1423170164D878B002A834E /* main.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main.scene; path = ../../tests/bin/main.scene; sourceTree = "<group>"; };
-		D1423171164D878B002A834E /* main2.scene */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = main2.scene; path = ../../tests/bin/main2.scene; sourceTree = "<group>"; };
 		D1423172164D878B002A834E /* particle_00.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = particle_00.tga; path = ../../tests/bin/particle_00.tga; sourceTree = "<group>"; };
 		D1423173164D878B002A834E /* particle_01.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = particle_01.tga; path = ../../tests/bin/particle_01.tga; sourceTree = "<group>"; };
 		D1423174164D878B002A834E /* particle_02.tga */ = {isa = PBXFileReference; lastKnownFileType = file; name = particle_02.tga; path = ../../tests/bin/particle_02.tga; sourceTree = "<group>"; };
@@ -129,6 +138,7 @@
 		D1C6EA4D164C29EC00248DA0 /* testbase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = testbase.cpp; path = ../../../tests/testbase.cpp; sourceTree = "<group>"; };
 		D1C6EA4E164C29EC00248DA0 /* testbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testbase.h; path = ../../../tests/testbase.h; sourceTree = "<group>"; };
 		D1C6EA53164C333D00248DA0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../tests/main.cpp; sourceTree = "<group>"; };
+		E24C5B3D1756E0B300149F5A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -140,12 +150,10 @@
 				D1423140164D82A8002A834E /* AVFoundation.framework in Frameworks */,
 				D142313E164D8298002A834E /* AudioToolbox.framework in Frameworks */,
 				D107B3BB16430AB800E4A951 /* UIKit.framework in Frameworks */,
-				D107B3BD16430AB800E4A951 /* Foundation.framework in Frameworks */,
+				E24C5B3F1756E0D600149F5A /* CoreFoundation.framework in Frameworks */,
 				D107B3BF16430AB800E4A951 /* CoreGraphics.framework in Frameworks */,
 				D107B3C116430AB800E4A951 /* GLKit.framework in Frameworks */,
 				D107B3C316430AB800E4A951 /* OpenGLES.framework in Frameworks */,
-				D1C6EA56164C34CA00248DA0 /* libSeed.a in Frameworks */,
-				D1C6EA55164C34C600248DA0 /* libseedcontrib.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -173,13 +181,13 @@
 		D107B3B916430AB800E4A951 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				E24C5B3D1756E0B300149F5A /* CoreFoundation.framework */,
 				D1C6EA41164C28AA00248DA0 /* Seed.xcodeproj */,
 				D1C6EA37164C28A600248DA0 /* seedcontrib.xcodeproj */,
 				D1423141164D82C8002A834E /* OpenAL.framework */,
 				D142313F164D82A8002A834E /* AVFoundation.framework */,
 				D142313D164D8298002A834E /* AudioToolbox.framework */,
 				D107B3BA16430AB800E4A951 /* UIKit.framework */,
-				D107B3BC16430AB800E4A951 /* Foundation.framework */,
 				D107B3BE16430AB800E4A951 /* CoreGraphics.framework */,
 				D107B3C016430AB800E4A951 /* GLKit.framework */,
 				D107B3C216430AB800E4A951 /* OpenGLES.framework */,
@@ -225,7 +233,6 @@
 				D142316E164D878B002A834E /* logo.sprite */,
 				D142316F164D878B002A834E /* logo.tga */,
 				D1423170164D878B002A834E /* main.scene */,
-				D1423171164D878B002A834E /* main2.scene */,
 				D1423172164D878B002A834E /* particle_00.tga */,
 				D1423173164D878B002A834E /* particle_01.tga */,
 				D1423174164D878B002A834E /* particle_02.tga */,
@@ -282,6 +289,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				E24C5B3C1756DF7500149F5A /* PBXTargetDependency */,
+				E24C5B3A1756DF5400149F5A /* PBXTargetDependency */,
 			);
 			name = tests;
 			productName = tests;
@@ -360,7 +369,6 @@
 				D142318D164D878B002A834E /* logo.sprite in Resources */,
 				D142318E164D878B002A834E /* logo.tga in Resources */,
 				D142318F164D878B002A834E /* main.scene in Resources */,
-				D1423190164D878B002A834E /* main2.scene in Resources */,
 				D1423191164D878B002A834E /* particle_00.tga in Resources */,
 				D1423192164D878B002A834E /* particle_01.tga in Resources */,
 				D1423193164D878B002A834E /* particle_02.tga in Resources */,
@@ -399,6 +407,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		E24C5B3A1756DF5400149F5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Seed;
+			targetProxy = E24C5B391756DF5400149F5A /* PBXContainerItemProxy */;
+		};
+		E24C5B3C1756DF7500149F5A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = seedcontrib;
+			targetProxy = E24C5B3B1756DF7500149F5A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		D107B3C716430AB800E4A951 /* InfoPlist.strings */ = {
@@ -448,6 +469,7 @@
 					BUILD_IOS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
@@ -480,6 +502,7 @@
 					BUILD_IOS,
 					RELEASE,
 				);
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
@@ -501,11 +524,15 @@
 		D107B3E616430AB900E4A951 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Marlus Costa (7CJ44SA2NC)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tests/tests-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "tests/tests-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "DEC1F7D2-6720-4F13-AC9F-D497900DA88E";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -513,11 +540,15 @@
 		D107B3E716430AB900E4A951 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CODE_SIGN_IDENTITY = "iPhone Developer: Marlus Costa (7CJ44SA2NC)";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tests/tests-Prefix.pch";
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = "tests/tests-Info.plist";
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "DEC1F7D2-6720-4F13-AC9F-D497900DA88E";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

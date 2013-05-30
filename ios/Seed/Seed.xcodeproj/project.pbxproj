@@ -70,7 +70,6 @@
 		D103F62C163F1CF500267967 /* ISystem.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5A0163F1CF500267967 /* ISystem.cpp */; };
 		D103F62D163F1CF500267967 /* ITexture.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5A1163F1CF500267967 /* ITexture.cpp */; };
 		D103F62E163F1CF500267967 /* IThread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5A2163F1CF500267967 /* IThread.cpp */; };
-		D103F62F163F1CF500267967 /* ITimer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5A3163F1CF500267967 /* ITimer.cpp */; };
 		D103F630163F1CF600267967 /* ITransformable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5A4163F1CF500267967 /* ITransformable.cpp */; };
 		D103F631163F1CF600267967 /* IUpdatable.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5A5163F1CF500267967 /* IUpdatable.cpp */; };
 		D103F632163F1CF600267967 /* IVideo.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D103F5A6163F1CF500267967 /* IVideo.cpp */; };
@@ -389,7 +388,6 @@
 		D103F5A0163F1CF500267967 /* ISystem.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ISystem.cpp; sourceTree = "<group>"; };
 		D103F5A1163F1CF500267967 /* ITexture.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ITexture.cpp; sourceTree = "<group>"; };
 		D103F5A2163F1CF500267967 /* IThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IThread.cpp; sourceTree = "<group>"; };
-		D103F5A3163F1CF500267967 /* ITimer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ITimer.cpp; sourceTree = "<group>"; };
 		D103F5A4163F1CF500267967 /* ITransformable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ITransformable.cpp; sourceTree = "<group>"; };
 		D103F5A5163F1CF500267967 /* IUpdatable.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IUpdatable.cpp; sourceTree = "<group>"; };
 		D103F5A6163F1CF500267967 /* IVideo.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IVideo.cpp; sourceTree = "<group>"; };
@@ -965,7 +963,6 @@
 				D103F5A0163F1CF500267967 /* ISystem.cpp */,
 				D103F5A1163F1CF500267967 /* ITexture.cpp */,
 				D103F5A2163F1CF500267967 /* IThread.cpp */,
-				D103F5A3163F1CF500267967 /* ITimer.cpp */,
 				D103F5A4163F1CF500267967 /* ITransformable.cpp */,
 				D103F5A5163F1CF500267967 /* IUpdatable.cpp */,
 				D103F5A6163F1CF500267967 /* IVideo.cpp */,
@@ -1174,7 +1171,6 @@
 				D103F62C163F1CF500267967 /* ISystem.cpp in Sources */,
 				D103F62D163F1CF500267967 /* ITexture.cpp in Sources */,
 				D103F62E163F1CF500267967 /* IThread.cpp in Sources */,
-				D103F62F163F1CF500267967 /* ITimer.cpp in Sources */,
 				D103F630163F1CF600267967 /* ITransformable.cpp in Sources */,
 				D103F631163F1CF600267967 /* IUpdatable.cpp in Sources */,
 				D103F632163F1CF600267967 /* IVideo.cpp in Sources */,

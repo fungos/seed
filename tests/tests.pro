@@ -20,17 +20,54 @@ SOURCES += main.cpp \
 HEADERS += \
 	testbase.h
 
-OTHER_FILES += \
-	bin/anim.sprite \
-	bin/sample.movie \
-	bin/logo.sprite \
-	bin/out.movie \
-	bin/out.sprite \
-	bin/particles.sprite \
-	bin/teste.emitter \
-	bin/app.config \
-	bin/main.scene \
-	bin/sound.sfx
+OTHER_FILES_CONFIG = \
+#Configs
+		bin/app.config
+
+OTHER_FILES_SCENE = \
+#Scenes
+		bin/main.scene
+
+OTHER_FILES_TEXTURE = \
+#Textures
+		bin/frame01.png \
+		bin/frame02.png \
+		bin/frame03.png \
+		bin/particle_00.tga \
+		bin/particle_01.tga \
+		bin/particle_02.tga \
+		bin/particle_03.tga \
+		bin/particle_04.tga \
+		bin/particle_05.tga \
+		bin/particle_06.tga \
+		bin/particle_07.tga \
+		bin/particle_08.tga \
+		bin/particle_09.tga \
+		bin/particle_10.tga \
+		bin/particle_11.tga \
+		bin/particle_12.tga \
+		bin/particle_13.tga \
+		bin/particle_14.tga \
+		bin/particle_15.tga
+
+OTHER_FILES_SOUND = \
+#Sounds
+		bin/sound.sfx
+
+OTHER_FILES_PARTICLE = \
+#Particles
+		bin/particles.sprite
+
+OTHER_FILES_MOVIE = \
+#Movies
+		bin/sample.movie
+
+OTHER_FILES += $${OTHER_FILES_CONFIG} \
+		$${OTHER_FILES_SCENE} \
+		$${OTHER_FILES_TEXTURE} \
+		$${OTHER_FILES_SOUND} \
+		$${OTHER_FILES_PARTICLE} \
+		$${OTHER_FILES_MOVIE}
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../tests/bin
@@ -58,6 +95,29 @@ macx {
 	LIBS += -lseed -lseedcontrib -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit
 	CONFIG -= sdl
 	CONFIG += glfw
+
+		#Configs
+		APP_CONFIG_FILES.files = $$OTHER_FILES_CONFIG
+		APP_CONFIG_FILES.path = Contents/Resources/configs
+		#Scenes
+		APP_SCENE_FILES.files = $$OTHER_FILES_SCENE
+		APP_SCENE_FILES.path = Contents/Resources/scenes
+		#Textures
+		APP_TEXTURE_FILES.files = $$OTHER_FILES_TEXTURE
+		APP_TEXTURE_FILES.path = Contents/Resources/textures
+		#Sounds
+		APP_SOUND_FILES.files = $$OTHER_FILES_SOUND
+		APP_SOUND_FILES.path = Contents/Resources/sounds
+		#Particles
+		APP_PARTICLE_FILES.files = $$OTHER_FILES_PARTICLE
+		APP_PARTICLE_FILES.path = Contents/Resources/particles
+		#Movies
+		APP_MOVIE_FILES.files = $$OTHER_FILES_MOVIE
+		APP_MOVIE_FILES.path = Contents/Resources/movies
+
+		QMAKE_BUNDLE_DATA += APP_CONFIG_FILES APP_SCENE_FILES APP_TEXTURE_FILES \
+						APP_GUI_TEXTURE_FILES APP_SOUND_FILES APP_PARTICLE_FILES \
+						APP_MOVIE_FILES
 }
 
 win32 {
