@@ -19,8 +19,8 @@ namespace Seed {
 
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
-@property (nonatomic, retain) UIWindow* window;
-@property (nonatomic, retain) ViewController* viewController;
+@property (strong, nonatomic) UIWindow* window;
+@property (strong, nonatomic) ViewController* viewController;
 @end
 
 #endif // BUILD_IOS

@@ -81,19 +81,26 @@ const char *iosGetHomePath()
 
 @implementation AppDelegate
 
+@synthesize window = _window;
+@synthesize viewController = _viewController;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    _window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    
     // Override point for customization after application launch.
-	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-	    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
+	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone)
+    {
+	    _viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
 		gPlatformIdentifier = 0;
-	} else {
-	    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPad" bundle:nil];
+	}
+    else
+    {
+	    _viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPad" bundle:nil];
 		gPlatformIdentifier = 1;
 	}
-	self.window.rootViewController = self.viewController;
-    [self.window makeKeyAndVisible];
+	_window.rootViewController = _viewController;
+    [_window makeKeyAndVisible];
     return YES;
 }
 
@@ -142,6 +149,8 @@ const char *iosGetHomePath()
 
 @implementation ViewController
 
+@synthesize context = _context;
+
 - (void)dealloc
 {
     [self tearDownGL];
@@ -157,18 +166,22 @@ const char *iosGetHomePath()
 {
     [super viewDidLoad];
     
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+    _context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 	gOpenGLVersion = 2;
-    if (!self.context) {
-		self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+    
+    if (!_context)
+    {
+		_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
 		gOpenGLVersion = 1;
-		if (!self.context) {
+		
+        if (!_context)
+        {
 			NSLog(@"Failed to create ES context");
 		}
     }
     
     GLKView *view = (GLKView *)self.view;
-    view.context = self.context;
+    view.context = _context;
     view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
     
     [self setupGL];
@@ -183,10 +196,10 @@ const char *iosGetHomePath()
         
         [self tearDownGL];
         
-        if ([EAGLContext currentContext] == self.context) {
+        if ([EAGLContext currentContext] == _context) {
             [EAGLContext setCurrentContext:nil];
         }
-        self.context = nil;
+        _context = nil;
     }
 	
     // Dispose of any resources that can be recreated.
@@ -194,13 +207,13 @@ const char *iosGetHomePath()
 
 - (void)setupGL
 {
-    [EAGLContext setCurrentContext: self.context];
+    [EAGLContext setCurrentContext: _context];
 	Seed::Initialize();
 }
 
 - (void)tearDownGL
 {
-    [EAGLContext setCurrentContext:self.context];
+    [EAGLContext setCurrentContext:_context];
 	Seed::Shutdown();
 }
 
@@ -219,4 +232,3 @@ const char *iosGetHomePath()
 @end
 
 #endif // BUILD_IOS
-
