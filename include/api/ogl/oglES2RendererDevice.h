@@ -78,8 +78,8 @@ class SEED_CORE_API OGLES2RendererDevice : public IRendererDevice
 
 	DECLARE_CONTAINER_TYPE(Vector, ITexture)
 	public:
-        OGLES2RendererDevice();
-        virtual ~OGLES2RendererDevice();
+		OGLES2RendererDevice();
+		virtual ~OGLES2RendererDevice();
 
 		virtual void Begin() const override;
 		virtual void End() const override;
@@ -136,7 +136,7 @@ class SEED_CORE_API OGLES2RendererDevice : public IRendererDevice
 		mutable ITextureVector vTexture;
 
 	private:
-        SEED_DISABLE_COPY(OGLES2RendererDevice);
+		SEED_DISABLE_COPY(OGLES2RendererDevice);
 
 		int GetOpenGLBufferUsageType(eBufferUsage usage) const;
 		int GetOpenGLBufferTargetType(eBufferTarget type) const;
@@ -151,7 +151,7 @@ class SEED_CORE_API OGLES2RendererDevice : public IRendererDevice
 }} // namespace
 
 #else // SEED_ENABLE_OGLES2
-    #error "Include 'RendererDevice.h' instead 'api/ogl/oglES2RendererDevice.h' directly. Or maybe you need set define SEED_ENABLE_OGLES2."
+	#error "Include 'RendererDevice.h' instead 'api/ogl/oglES2RendererDevice.h' directly. Or maybe you need set define SEED_ENABLE_OGLES2."
 #endif // SEED_ENABLE_OGLES2
 
 #endif // __OGLES2_RENDERER_DEVICE_H__

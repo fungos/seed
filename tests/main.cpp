@@ -2,6 +2,5 @@
 
 int main(int argc, char **argv)
 {
-	//return SeedRun<TestBase>(argc, argv, "configs/app.config");
-    return SeedRun<TestBase>(argc, argv);
+	return SeedRun<TestBase>(argc, argv);
 }

@@ -41,13 +41,13 @@ bool TestBase::Initialize()
 	/* ------- Rendering Initialization ------- */
 
 	/* ------- libRocket ------- */
-	pRocketInterface = New(Seed::RocketGui::RocketInterface());
+	/*pRocketInterface = New(Seed::RocketGui::RocketInterface());
 	Rocket::Core::SetFileInterface(pRocketInterface);
 	Rocket::Core::SetSystemInterface(pRocketInterface);
 	Rocket::Core::SetRenderInterface(pRocketInterface);
 
 	Rocket::Core::Initialise();
-	Rocket::Controls::Initialise();
+	Rocket::Controls::Initialise();*/
 	/* ------- libRocket ------- */
 
 	// Initialize the texture that will be our render target
@@ -143,8 +143,8 @@ bool TestBase::Shutdown()
 
 	pResourceManager->GarbageCollect();
 
-	Rocket::Core::Shutdown();
-	Delete(pRocketInterface);
+	//Rocket::Core::Shutdown();
+	//Delete(pRocketInterface);
 
 	pSceneManager->Reset();
 	pRendererManager->Reset();

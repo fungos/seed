@@ -52,7 +52,9 @@
 		D14231A6164D878B002A834E /* theme.ogg in Resources */ = {isa = PBXBuildFile; fileRef = D1423187164D878B002A834E /* theme.ogg */; };
 		D1C6EA50164C29EC00248DA0 /* testbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1C6EA4D164C29EC00248DA0 /* testbase.cpp */; };
 		D1C6EA54164C333D00248DA0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1C6EA53164C333D00248DA0 /* main.cpp */; };
-		E24C5B3F1756E0D600149F5A /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E24C5B3D1756E0B300149F5A /* CoreFoundation.framework */; };
+		E274E0F01757AF490035C537 /* libSeed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C6EA49164C28AA00248DA0 /* libSeed.a */; };
+		E274E0F11757AF7E0035C537 /* libseedcontrib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C6EA3F164C28A600248DA0 /* libseedcontrib.a */; };
+		E274E0F41757B1B70035C537 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E274E0F21757B1A70035C537 /* Foundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -138,7 +140,7 @@
 		D1C6EA4D164C29EC00248DA0 /* testbase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = testbase.cpp; path = ../../../tests/testbase.cpp; sourceTree = "<group>"; };
 		D1C6EA4E164C29EC00248DA0 /* testbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testbase.h; path = ../../../tests/testbase.h; sourceTree = "<group>"; };
 		D1C6EA53164C333D00248DA0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../tests/main.cpp; sourceTree = "<group>"; };
-		E24C5B3D1756E0B300149F5A /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		E274E0F21757B1A70035C537 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,11 +148,13 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E274E0F11757AF7E0035C537 /* libseedcontrib.a in Frameworks */,
+				E274E0F01757AF490035C537 /* libSeed.a in Frameworks */,
+				E274E0F41757B1B70035C537 /* Foundation.framework in Frameworks */,
 				D1423142164D82C8002A834E /* OpenAL.framework in Frameworks */,
 				D1423140164D82A8002A834E /* AVFoundation.framework in Frameworks */,
 				D142313E164D8298002A834E /* AudioToolbox.framework in Frameworks */,
 				D107B3BB16430AB800E4A951 /* UIKit.framework in Frameworks */,
-				E24C5B3F1756E0D600149F5A /* CoreFoundation.framework in Frameworks */,
 				D107B3BF16430AB800E4A951 /* CoreGraphics.framework in Frameworks */,
 				D107B3C116430AB800E4A951 /* GLKit.framework in Frameworks */,
 				D107B3C316430AB800E4A951 /* OpenGLES.framework in Frameworks */,
@@ -181,7 +185,7 @@
 		D107B3B916430AB800E4A951 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				E24C5B3D1756E0B300149F5A /* CoreFoundation.framework */,
+				E274E0F21757B1A70035C537 /* Foundation.framework */,
 				D1C6EA41164C28AA00248DA0 /* Seed.xcodeproj */,
 				D1C6EA37164C28A600248DA0 /* seedcontrib.xcodeproj */,
 				D1423141164D82C8002A834E /* OpenAL.framework */,
@@ -469,7 +473,7 @@
 					BUILD_IOS,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
@@ -502,7 +506,7 @@
 					BUILD_IOS,
 					RELEASE,
 				);
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				GCC_WARN_ABOUT_INVALID_OFFSETOF_MACRO = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_HIDDEN_VIRTUAL_FUNCTIONS = YES;
@@ -526,13 +530,23 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Marlus Costa (7CJ44SA2NC)";
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tests/tests-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					BUILD_IOS,
+					SEED_ENABLE_OGLES2,
+				);
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "tests/tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "DEC1F7D2-6720-4F13-AC9F-D497900DA88E";
+				SDKROOT = iphoneos5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -542,13 +556,17 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Marlus Costa (7CJ44SA2NC)";
+				GCC_ENABLE_OBJC_GC = supported;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tests/tests-Prefix.pch";
-				GCC_VERSION = com.apple.compilers.llvmgcc42;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "tests/tests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "DEC1F7D2-6720-4F13-AC9F-D497900DA88E";
+				SDKROOT = iphoneos5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
