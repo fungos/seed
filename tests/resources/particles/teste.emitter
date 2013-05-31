@@ -48,7 +48,7 @@
 
 	"iEmission": 15000,
 	"fLifetime": -1,
-	"sSprite": "particles.sprite",
+	"sSprite": "resources/particles/particles.sprite",
 	"sName": "Particle Emitter 1",
 	"sBlending": "Additive"
 }

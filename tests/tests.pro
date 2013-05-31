@@ -22,45 +22,45 @@ HEADERS += \
 
 OTHER_FILES_CONFIG = \
 #Configs
-		bin/app.config
+		resources/configs/app.config
 
 OTHER_FILES_SCENE = \
 #Scenes
-		bin/main.scene
+		resources/scenes/main.scene
 
 OTHER_FILES_TEXTURE = \
 #Textures
-		bin/frame01.png \
-		bin/frame02.png \
-		bin/frame03.png \
-		bin/particle_00.tga \
-		bin/particle_01.tga \
-		bin/particle_02.tga \
-		bin/particle_03.tga \
-		bin/particle_04.tga \
-		bin/particle_05.tga \
-		bin/particle_06.tga \
-		bin/particle_07.tga \
-		bin/particle_08.tga \
-		bin/particle_09.tga \
-		bin/particle_10.tga \
-		bin/particle_11.tga \
-		bin/particle_12.tga \
-		bin/particle_13.tga \
-		bin/particle_14.tga \
-		bin/particle_15.tga
+		resources/textures/frame01.png \
+		resources/textures/frame02.png \
+		resources/textures/frame03.png \
+		resources/textures/particle_00.tga \
+		resources/textures/particle_01.tga \
+		resources/textures/particle_02.tga \
+		resources/textures/particle_03.tga \
+		resources/textures/particle_04.tga \
+		resources/textures/particle_05.tga \
+		resources/textures/particle_06.tga \
+		resources/textures/particle_07.tga \
+		resources/textures/particle_08.tga \
+		resources/textures/particle_09.tga \
+		resources/textures/particle_10.tga \
+		resources/textures/particle_11.tga \
+		resources/textures/particle_12.tga \
+		resources/textures/particle_13.tga \
+		resources/textures/particle_14.tga \
+		resources/textures/particle_15.tga
 
 OTHER_FILES_SOUND = \
 #Sounds
-		bin/sound.sfx
+		resources/sounds/sound.sfx
 
 OTHER_FILES_PARTICLE = \
 #Particles
-		bin/particles.sprite
+		resources/particles/particles.sprite
 
 OTHER_FILES_MOVIE = \
 #Movies
-		bin/sample.movie
+		resources/movies/sample.movie
 
 OTHER_FILES += $${OTHER_FILES_CONFIG} \
 		$${OTHER_FILES_SCENE} \

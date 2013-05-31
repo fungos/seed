@@ -83,7 +83,7 @@ void ResourceManager::Reset()
 IResource *ResourceManager::Get(const String &filename, Seed::eObjectType resourceType)
 {
 	IResource *res = NULL;
-
+    
 	if (mapResources.find(filename) == mapResources.end())
 	{
 		Log(TAG "Resource %s not found in '%s'.", filename.c_str(), sName.c_str());
