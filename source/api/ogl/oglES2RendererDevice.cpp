@@ -609,7 +609,7 @@ void OGLES2RendererDevice::UploadData(void *userData)
 			glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, vbo->iLength);
 			glPopAttrib();
 		#else
-			glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
+			glDrawArrays(GL_LINE_STRIP, 0, vbo->iLength);
 		#endif
 
 		if (packet->fRadius)
@@ -618,17 +618,17 @@ void OGLES2RendererDevice::UploadData(void *userData)
 			pRendererDevice->DrawCircle(op.getX(), op.getY(), packet->fRadius, Color(255, 0, 255, 255));
 		}
 
-//		glPointSize(5.0f);
-//		if (!ebo)
-//			glDrawArrays(GL_POINTS, 0, vbo->iLength);
-//		else
-//			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
+		glPointSize(5.0f);
+		if (!ebo)
+			glDrawArrays(GL_POINTS, 0, vbo->iLength);
+		else
+			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
 
-		glPointSize(7.0f);
-		glBegin(GL_POINTS);
-			glColor3f(1.0f, 0.0f, 1.0f);
-			glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
-		glEnd();
+//		glPointSize(7.0f);
+//		glBegin(GL_POINTS);
+//			glColor3f(1.0f, 0.0f, 1.0f);
+//			glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
+//		glEnd();
 
 		Vector3f op = packet->pTransform->getTranslation();
 		pRendererDevice->DrawCircle(pivot.getX() + op.getX(), pivot.getY() + op.getY(), 3, Color(255, 0, 255, 255));

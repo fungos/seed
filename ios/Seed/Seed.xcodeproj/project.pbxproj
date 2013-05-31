@@ -1420,8 +1420,7 @@
 				DSTROOT = /tmp/Seed.dst;
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"$(inherited)",
-					BUILD_SEED,
-					BUILD_IOS,
+					SEED_ENABLE_OGLES2,
 				);
 				HEADER_SEARCH_PATHS = (
 					"\"$(SRCROOT)/../..\"",

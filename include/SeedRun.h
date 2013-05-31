@@ -19,10 +19,10 @@ int SeedRun(int argc, char **argv)
 #include <platform/ios/iosView.h>
 
 template <class T>
-int SeedRun(int argc, char **argv)
+int SeedRun(int argc, char **argv, const char *config = "app.config")
 {
 	T app;
-	Seed::SetGameApp(&app, argc, argv);
+	Seed::SetGameApp(&app, argc, argv, config);
 	@autoreleasepool
 	{
 		return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));

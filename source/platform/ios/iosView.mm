@@ -167,6 +167,7 @@ const char *iosGetHomePath()
 {
 	[super viewDidLoad];
 
+#if defined (SEED_ENABLE_OGLES2)
 	_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 	gOpenGLVersion = 2;
 
@@ -174,11 +175,15 @@ const char *iosGetHomePath()
 	{
 		_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
 		gOpenGLVersion = 1;
+	}
+#else
+	_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+	gOpenGLVersion = 1;
+#endif
 
-		if (!_context)
-		{
-			NSLog(@"Failed to create ES context");
-		}
+	if (!_context)
+	{
+		NSLog(@"Failed to create ES context");
 	}
 
 	GLKView *view = (GLKView *)self.view;

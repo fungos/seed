@@ -93,6 +93,8 @@ void Configuration::Load(const String &file)
 			iRendererDeviceType = Seed::RendererDeviceOpenGLAny;
 		else if (renderer == "ogles1" || renderer == "opengl es1")
 			iRendererDeviceType = Seed::RendererDeviceOpenGLES1;
+		else if (renderer == "ogles2" || renderer == "opengl es2")
+			iRendererDeviceType = Seed::RendererDeviceOpenGLES2;
 		else if (renderer == "ogl2" || renderer == "opengl 2.x")
 			iRendererDeviceType = Seed::RendererDeviceOpenGL2x;
 		else if (renderer == "ogl3" || renderer == "opengl 3.x")
