@@ -143,6 +143,17 @@
 		D1423154164D833F002A834E /* IEventJobListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1423153164D833F002A834E /* IEventJobListener.cpp */; };
 		D1B00ADA1642F634009211BF /* seed_posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD81642F634009211BF /* seed_posix.cpp */; };
 		D1B00ADB1642F634009211BF /* seed_win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD91642F634009211BF /* seed_win32.cpp */; };
+		E2229EEC1758DD3F00F26210 /* GameMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE51758DD3E00F26210 /* GameMap.cpp */; };
+		E2229EED1758DD3F00F26210 /* IMapLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE61758DD3E00F26210 /* IMapLayer.cpp */; };
+		E2229EEE1758DD3F00F26210 /* IMetadataObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE71758DD3E00F26210 /* IMetadataObject.cpp */; };
+		E2229EEF1758DD3F00F26210 /* MapLayerMetadata.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE81758DD3E00F26210 /* MapLayerMetadata.cpp */; };
+		E2229EF01758DD3F00F26210 /* MapLayerMosaic.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE91758DD3E00F26210 /* MapLayerMosaic.cpp */; };
+		E2229EF11758DD3F00F26210 /* MapLayerTiled.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EEA1758DD3E00F26210 /* MapLayerTiled.cpp */; };
+		E2229EF21758DD3F00F26210 /* TileSet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EEB1758DD3E00F26210 /* TileSet.cpp */; };
+		E2229EF41758DD5800F26210 /* IEventPresentationListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EF31758DD5800F26210 /* IEventPresentationListener.cpp */; };
+		E2229EF71758DD7900F26210 /* RocketInterface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EF61758DD7900F26210 /* RocketInterface.cpp */; };
+		E2229EFA1758DE3500F26210 /* EventPresentation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EF81758DE3300F26210 /* EventPresentation.cpp */; };
+		E2229EFB1758DE3500F26210 /* Presentation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EF91758DE3400F26210 /* Presentation.cpp */; };
 		E270C3C817583E8800A1C5FD /* oglES2RendererDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E270C3C717583E8800A1C5FD /* oglES2RendererDevice.cpp */; };
 /* End PBXBuildFile section */
 
@@ -230,7 +241,6 @@
 		D103F4F0163F1CE800267967 /* ISystem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISystem.h; sourceTree = "<group>"; };
 		D103F4F1163F1CE800267967 /* ITexture.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITexture.h; sourceTree = "<group>"; };
 		D103F4F2163F1CE800267967 /* IThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IThread.h; sourceTree = "<group>"; };
-		D103F4F3163F1CE800267967 /* ITimer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITimer.h; sourceTree = "<group>"; };
 		D103F4F4163F1CE800267967 /* ITransformable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ITransformable.h; sourceTree = "<group>"; };
 		D103F4F5163F1CE800267967 /* IUpdatable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IUpdatable.h; sourceTree = "<group>"; };
 		D103F4F6163F1CE800267967 /* IVideo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IVideo.h; sourceTree = "<group>"; };
@@ -470,6 +480,30 @@
 		D1423159164D8360002A834E /* IEventJobListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEventJobListener.h; sourceTree = "<group>"; };
 		D1B00AD81642F634009211BF /* seed_posix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_posix.cpp; sourceTree = "<group>"; };
 		D1B00AD91642F634009211BF /* seed_win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_win32.cpp; sourceTree = "<group>"; };
+		E2229ED41758DAC400F26210 /* oglES2RendererDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oglES2RendererDevice.h; sourceTree = "<group>"; };
+		E2229ED71758DB0100F26210 /* RocketInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RocketInterface.h; path = rocket/RocketInterface.h; sourceTree = "<group>"; };
+		E2229ED81758DB8400F26210 /* IEventPresentationListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEventPresentationListener.h; sourceTree = "<group>"; };
+		E2229ED91758DB9700F26210 /* IHardwareBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IHardwareBuffer.h; sourceTree = "<group>"; };
+		E2229EDB1758DBC600F26210 /* GameMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GameMap.h; path = map/GameMap.h; sourceTree = "<group>"; };
+		E2229EDC1758DBC600F26210 /* IMapLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IMapLayer.h; path = map/IMapLayer.h; sourceTree = "<group>"; };
+		E2229EDD1758DBC600F26210 /* IMetadataObject.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IMetadataObject.h; path = map/IMetadataObject.h; sourceTree = "<group>"; };
+		E2229EDE1758DBC600F26210 /* MapLayerMetadata.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapLayerMetadata.h; path = map/MapLayerMetadata.h; sourceTree = "<group>"; };
+		E2229EDF1758DBC600F26210 /* MapLayerMosaic.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapLayerMosaic.h; path = map/MapLayerMosaic.h; sourceTree = "<group>"; };
+		E2229EE01758DBC600F26210 /* MapLayerTiled.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MapLayerTiled.h; path = map/MapLayerTiled.h; sourceTree = "<group>"; };
+		E2229EE11758DBC600F26210 /* TileSet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TileSet.h; path = map/TileSet.h; sourceTree = "<group>"; };
+		E2229EE21758DCCC00F26210 /* EventPresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EventPresentation.h; sourceTree = "<group>"; };
+		E2229EE31758DCCC00F26210 /* Presentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Presentation.h; sourceTree = "<group>"; };
+		E2229EE51758DD3E00F26210 /* GameMap.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = GameMap.cpp; path = map/GameMap.cpp; sourceTree = "<group>"; };
+		E2229EE61758DD3E00F26210 /* IMapLayer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IMapLayer.cpp; path = map/IMapLayer.cpp; sourceTree = "<group>"; };
+		E2229EE71758DD3E00F26210 /* IMetadataObject.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IMetadataObject.cpp; path = map/IMetadataObject.cpp; sourceTree = "<group>"; };
+		E2229EE81758DD3E00F26210 /* MapLayerMetadata.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapLayerMetadata.cpp; path = map/MapLayerMetadata.cpp; sourceTree = "<group>"; };
+		E2229EE91758DD3E00F26210 /* MapLayerMosaic.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapLayerMosaic.cpp; path = map/MapLayerMosaic.cpp; sourceTree = "<group>"; };
+		E2229EEA1758DD3E00F26210 /* MapLayerTiled.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = MapLayerTiled.cpp; path = map/MapLayerTiled.cpp; sourceTree = "<group>"; };
+		E2229EEB1758DD3E00F26210 /* TileSet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = TileSet.cpp; path = map/TileSet.cpp; sourceTree = "<group>"; };
+		E2229EF31758DD5800F26210 /* IEventPresentationListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IEventPresentationListener.cpp; sourceTree = "<group>"; };
+		E2229EF61758DD7900F26210 /* RocketInterface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = RocketInterface.cpp; path = rocket/RocketInterface.cpp; sourceTree = "<group>"; };
+		E2229EF81758DE3300F26210 /* EventPresentation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventPresentation.cpp; sourceTree = "<group>"; };
+		E2229EF91758DE3400F26210 /* Presentation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Presentation.cpp; sourceTree = "<group>"; };
 		E270C3C717583E8800A1C5FD /* oglES2RendererDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oglES2RendererDevice.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -514,12 +548,17 @@
 		D103F4A3163F1CE800267967 /* include */ = {
 			isa = PBXGroup;
 			children = (
+				D103F4A6163F1CE800267967 /* api */,
+				D103F4CE163F1CE800267967 /* interface */,
+				E2229EDA1758DBB400F26210 /* map */,
+				D103F504163F1CE800267967 /* platform */,
+				E2229EE21758DCCC00F26210 /* EventPresentation.h */,
+				E2229EE31758DCCC00F26210 /* Presentation.h */,
 				D1423155164D8357002A834E /* EventJob.h */,
 				D1423156164D8357002A834E /* Job.h */,
 				D1423157164D8357002A834E /* JobManager.h */,
 				D1423158164D8357002A834E /* ThreadManager.h */,
 				D103F4A5163F1CE800267967 /* Animation.h */,
-				D103F4A6163F1CE800267967 /* api */,
 				D103F4B9163F1CE800267967 /* Camera.h */,
 				D103F4BA163F1CE800267967 /* Cartridge.h */,
 				D103F4BB163F1CE800267967 /* Checksum.h */,
@@ -541,7 +580,6 @@
 				D103F4CB163F1CE800267967 /* Frame.h */,
 				D103F4CC163F1CE800267967 /* Image.h */,
 				D103F4CD163F1CE800267967 /* Input.h */,
-				D103F4CE163F1CE800267967 /* interface */,
 				D103F4F8163F1CE800267967 /* Key.h */,
 				D103F4F9163F1CE800267967 /* Keyframe.h */,
 				D103F4FA163F1CE800267967 /* LeakReport.h */,
@@ -554,7 +592,6 @@
 				D103F501163F1CE800267967 /* Number.h */,
 				D103F502163F1CE800267967 /* Particle.h */,
 				D103F503163F1CE800267967 /* ParticleEmitter.h */,
-				D103F504163F1CE800267967 /* platform */,
 				D103F536163F1CE800267967 /* Point.h */,
 				D103F537163F1CE800267967 /* Profiler.h */,
 				D103F538163F1CE800267967 /* Rand.h */,
@@ -598,6 +635,7 @@
 		D103F4A6163F1CE800267967 /* api */ = {
 			isa = PBXGroup;
 			children = (
+				E2229ED61758DAED00F26210 /* rocket */,
 				D103F4A7163F1CE800267967 /* directx */,
 				D103F4AA163F1CE800267967 /* oal */,
 				D103F4B0163F1CE800267967 /* ogl */,
@@ -632,6 +670,7 @@
 		D103F4B0163F1CE800267967 /* ogl */ = {
 			isa = PBXGroup;
 			children = (
+				E2229ED41758DAC400F26210 /* oglES2RendererDevice.h */,
 				D103F4B1163F1CE800267967 /* oglES1RendererDevice.h */,
 			);
 			path = ogl;
@@ -665,6 +704,8 @@
 		D103F4CE163F1CE800267967 /* interface */ = {
 			isa = PBXGroup;
 			children = (
+				E2229ED91758DB9700F26210 /* IHardwareBuffer.h */,
+				E2229ED81758DB8400F26210 /* IEventPresentationListener.h */,
 				D1423159164D8360002A834E /* IEventJobListener.h */,
 				D103F4CF163F1CE800267967 /* .directory */,
 				D103F4D0163F1CE800267967 /* ICartridge.h */,
@@ -702,7 +743,6 @@
 				D103F4F0163F1CE800267967 /* ISystem.h */,
 				D103F4F1163F1CE800267967 /* ITexture.h */,
 				D103F4F2163F1CE800267967 /* IThread.h */,
-				D103F4F3163F1CE800267967 /* ITimer.h */,
 				D103F4F4163F1CE800267967 /* ITransformable.h */,
 				D103F4F5163F1CE800267967 /* IUpdatable.h */,
 				D103F4F6163F1CE800267967 /* IVideo.h */,
@@ -804,12 +844,17 @@
 		D103F559163F1CF500267967 /* source */ = {
 			isa = PBXGroup;
 			children = (
+				D103F55C163F1CF500267967 /* api */,
+				D103F57E163F1CF500267967 /* interface */,
+				E2229EE41758DD1100F26210 /* map */,
+				D103F5AF163F1CF500267967 /* platform */,
+				E2229EF81758DE3300F26210 /* EventPresentation.cpp */,
+				E2229EF91758DE3400F26210 /* Presentation.cpp */,
 				D142314A164D832E002A834E /* EventJob.cpp */,
 				D142314B164D832E002A834E /* Job.cpp */,
 				D142314C164D832E002A834E /* JobManager.cpp */,
 				D142314D164D832E002A834E /* ThreadManager.cpp */,
 				D103F55B163F1CF500267967 /* Animation.cpp */,
-				D103F55C163F1CF500267967 /* api */,
 				D103F56F163F1CF500267967 /* Camera.cpp */,
 				D103F570163F1CF500267967 /* Checksum.cpp */,
 				D103F571163F1CF500267967 /* Configuration.cpp */,
@@ -825,7 +870,6 @@
 				D103F57B163F1CF500267967 /* FileSystem.cpp */,
 				D103F57C163F1CF500267967 /* Frame.cpp */,
 				D103F57D163F1CF500267967 /* Image.cpp */,
-				D103F57E163F1CF500267967 /* interface */,
 				D103F5A8163F1CF500267967 /* Key.cpp */,
 				D103F5A9163F1CF500267967 /* Keyframe.cpp */,
 				D103F5AA163F1CF500267967 /* LeakReport.cpp */,
@@ -833,7 +877,6 @@
 				D103F5AC163F1CF500267967 /* Movie.cpp */,
 				D103F5AD163F1CF500267967 /* Particle.cpp */,
 				D103F5AE163F1CF500267967 /* ParticleEmitter.cpp */,
-				D103F5AF163F1CF500267967 /* platform */,
 				D103F5DD163F1CF500267967 /* Profiler.cpp */,
 				D103F5DE163F1CF500267967 /* Rand.cpp */,
 				D103F5DF163F1CF500267967 /* Reader.cpp */,
@@ -861,6 +904,7 @@
 		D103F55C163F1CF500267967 /* api */ = {
 			isa = PBXGroup;
 			children = (
+				E2229EF51758DD6800F26210 /* rocket */,
 				D103F55D163F1CF500267967 /* directx */,
 				D103F560163F1CF500267967 /* oal */,
 				D103F566163F1CF500267967 /* ogl */,
@@ -929,6 +973,7 @@
 		D103F57E163F1CF500267967 /* interface */ = {
 			isa = PBXGroup;
 			children = (
+				E2229EF31758DD5800F26210 /* IEventPresentationListener.cpp */,
 				D1423153164D833F002A834E /* IEventJobListener.cpp */,
 				D103F57F163F1CF500267967 /* .directory */,
 				D103F580163F1CF500267967 /* ICartridge.cpp */,
@@ -1058,6 +1103,50 @@
 				D103F5DC163F1CF500267967 /* sdlTimer.cpp */,
 			);
 			path = sdl;
+			sourceTree = "<group>";
+		};
+		E2229ED61758DAED00F26210 /* rocket */ = {
+			isa = PBXGroup;
+			children = (
+				E2229ED71758DB0100F26210 /* RocketInterface.h */,
+			);
+			name = rocket;
+			sourceTree = "<group>";
+		};
+		E2229EDA1758DBB400F26210 /* map */ = {
+			isa = PBXGroup;
+			children = (
+				E2229EDB1758DBC600F26210 /* GameMap.h */,
+				E2229EDC1758DBC600F26210 /* IMapLayer.h */,
+				E2229EDD1758DBC600F26210 /* IMetadataObject.h */,
+				E2229EDE1758DBC600F26210 /* MapLayerMetadata.h */,
+				E2229EDF1758DBC600F26210 /* MapLayerMosaic.h */,
+				E2229EE01758DBC600F26210 /* MapLayerTiled.h */,
+				E2229EE11758DBC600F26210 /* TileSet.h */,
+			);
+			name = map;
+			sourceTree = "<group>";
+		};
+		E2229EE41758DD1100F26210 /* map */ = {
+			isa = PBXGroup;
+			children = (
+				E2229EE51758DD3E00F26210 /* GameMap.cpp */,
+				E2229EE61758DD3E00F26210 /* IMapLayer.cpp */,
+				E2229EE71758DD3E00F26210 /* IMetadataObject.cpp */,
+				E2229EE81758DD3E00F26210 /* MapLayerMetadata.cpp */,
+				E2229EE91758DD3E00F26210 /* MapLayerMosaic.cpp */,
+				E2229EEA1758DD3E00F26210 /* MapLayerTiled.cpp */,
+				E2229EEB1758DD3E00F26210 /* TileSet.cpp */,
+			);
+			name = map;
+			sourceTree = "<group>";
+		};
+		E2229EF51758DD6800F26210 /* rocket */ = {
+			isa = PBXGroup;
+			children = (
+				E2229EF61758DD7900F26210 /* RocketInterface.cpp */,
+			);
+			name = rocket;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1248,6 +1337,17 @@
 				D1423151164D832E002A834E /* ThreadManager.cpp in Sources */,
 				D1423154164D833F002A834E /* IEventJobListener.cpp in Sources */,
 				E270C3C817583E8800A1C5FD /* oglES2RendererDevice.cpp in Sources */,
+				E2229EEC1758DD3F00F26210 /* GameMap.cpp in Sources */,
+				E2229EED1758DD3F00F26210 /* IMapLayer.cpp in Sources */,
+				E2229EEE1758DD3F00F26210 /* IMetadataObject.cpp in Sources */,
+				E2229EEF1758DD3F00F26210 /* MapLayerMetadata.cpp in Sources */,
+				E2229EF01758DD3F00F26210 /* MapLayerMosaic.cpp in Sources */,
+				E2229EF11758DD3F00F26210 /* MapLayerTiled.cpp in Sources */,
+				E2229EF21758DD3F00F26210 /* TileSet.cpp in Sources */,
+				E2229EF41758DD5800F26210 /* IEventPresentationListener.cpp in Sources */,
+				E2229EF71758DD7900F26210 /* RocketInterface.cpp in Sources */,
+				E2229EFA1758DE3500F26210 /* EventPresentation.cpp in Sources */,
+				E2229EFB1758DE3500F26210 /* Presentation.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1318,6 +1418,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DSTROOT = /tmp/Seed.dst;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					BUILD_SEED,
+					BUILD_IOS,
+				);
+				HEADER_SEARCH_PATHS = (
+					"\"$(SRCROOT)/../..\"",
+					"\"$(SRCROOT)/../../contrib\"",
+					"\"$(SRCROOT)/../../include\"",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_NAME = "$(TARGET_NAME)";

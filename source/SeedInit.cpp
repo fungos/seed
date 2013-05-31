@@ -256,7 +256,7 @@ bool Initialize()
 	SceneObjectFactory::Register("SoundSource", FactorySoundSource);
 	SceneObjectFactory::Register("Camera", FactoryCamera);
 	SceneObjectFactory::Register("SceneNode", FactorySceneNode);
-	//SceneObjectFactory::Register("GameMap", FactoryGameMap);
+	SceneObjectFactory::Register("GameMap", FactoryGameMap);
 
 	Private::bInitialized = true;
 
