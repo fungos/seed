@@ -609,7 +609,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 			glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, vbo->iLength);
 			glPopAttrib();
 		#else
-			glDrawArrays(GL_LINE_STRIP, 0, packet->pVertexBuffer->iLength);
+			glDrawArrays(GL_LINE_STRIP, 0, vbo->iLength);
 		#endif
 
 		if (packet->fRadius)

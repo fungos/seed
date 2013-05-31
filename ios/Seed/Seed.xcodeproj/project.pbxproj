@@ -143,6 +143,7 @@
 		D1423154164D833F002A834E /* IEventJobListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1423153164D833F002A834E /* IEventJobListener.cpp */; };
 		D1B00ADA1642F634009211BF /* seed_posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD81642F634009211BF /* seed_posix.cpp */; };
 		D1B00ADB1642F634009211BF /* seed_win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD91642F634009211BF /* seed_win32.cpp */; };
+		E270C3C817583E8800A1C5FD /* oglES2RendererDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E270C3C717583E8800A1C5FD /* oglES2RendererDevice.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -469,6 +470,7 @@
 		D1423159164D8360002A834E /* IEventJobListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEventJobListener.h; sourceTree = "<group>"; };
 		D1B00AD81642F634009211BF /* seed_posix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_posix.cpp; sourceTree = "<group>"; };
 		D1B00AD91642F634009211BF /* seed_win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_win32.cpp; sourceTree = "<group>"; };
+		E270C3C717583E8800A1C5FD /* oglES2RendererDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oglES2RendererDevice.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -893,6 +895,7 @@
 		D103F566163F1CF500267967 /* ogl */ = {
 			isa = PBXGroup;
 			children = (
+				E270C3C717583E8800A1C5FD /* oglES2RendererDevice.cpp */,
 				D103F567163F1CF500267967 /* oglES1RendererDevice.cpp */,
 			);
 			path = ogl;
@@ -1244,6 +1247,7 @@
 				D1423150164D832E002A834E /* JobManager.cpp in Sources */,
 				D1423151164D832E002A834E /* ThreadManager.cpp in Sources */,
 				D1423154164D833F002A834E /* IEventJobListener.cpp in Sources */,
+				E270C3C817583E8800A1C5FD /* oglES2RendererDevice.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
