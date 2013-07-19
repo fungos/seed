@@ -4086,6 +4086,7 @@
 					"\"$(SRCROOT)/../../contrib/flash/SDL/SDL_image/Xcode/Frameworks\"",
 					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.6.sdk/System/Library/Frameworks\"",
 				);
+				GCC_ENABLE_CPP_RTTI = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -4106,6 +4107,7 @@
 					"\"$(SRCROOT)/../../contrib/flash/SDL/SDL_image/Xcode/Frameworks\"",
 					"\"$(DEVELOPER_DIR)/SDKs/MacOSX10.6.sdk/System/Library/Frameworks\"",
 				);
+				GCC_ENABLE_CPP_RTTI = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
