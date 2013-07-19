@@ -148,8 +148,8 @@ OGLES2RendererDevice::OGLES2RendererDevice()
 #endif
 
 #if defined(_OPENGL_ES2)
-	pScreen->frameBuffer = 0;
-	pScreen->renderBuffer = 0;
+	pScreen->frameBuffer = 1;
+	pScreen->renderBuffer = 1;
 #endif
 
 	char *version = (char *)glGetString(GL_VERSION);
@@ -944,7 +944,7 @@ void OGLES2RendererDevice::DrawLines(f32 *points, u32 len, const Color &color) c
 	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
 	GL_TRACE("END DrawLines")
 }
-
+    
 void OGLES2RendererDevice::Enable2D() const
 {
 	GL_TRACE("BEGIN Enable2D")

@@ -15,13 +15,11 @@
 		D107B3D116430AB800E4A951 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = D107B3D016430AB800E4A951 /* Default.png */; };
 		D107B3D316430AB800E4A951 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D107B3D216430AB800E4A951 /* Default@2x.png */; };
 		D107B3D516430AB900E4A951 /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D107B3D416430AB800E4A951 /* Default-568h@2x.png */; };
-		D107B3DF16430AB900E4A951 /* ViewController_iPhone.xib in Resources */ = {isa = PBXBuildFile; fileRef = D107B3DD16430AB900E4A951 /* ViewController_iPhone.xib */; };
-		D107B3E216430AB900E4A951 /* ViewController_iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = D107B3E016430AB900E4A951 /* ViewController_iPad.xib */; };
 		D142313E164D8298002A834E /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D142313D164D8298002A834E /* AudioToolbox.framework */; };
 		D1423140164D82A8002A834E /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D142313F164D82A8002A834E /* AVFoundation.framework */; };
 		D1423142164D82C8002A834E /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D1423141164D82C8002A834E /* OpenAL.framework */; };
-		D1C6EA50164C29EC00248DA0 /* testbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1C6EA4D164C29EC00248DA0 /* testbase.cpp */; };
 		D1C6EA54164C333D00248DA0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1C6EA53164C333D00248DA0 /* main.cpp */; };
+		E2193A601787A64300B7E3AC /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E2193A5E1787A62C00B7E3AC /* QuartzCore.framework */; };
 		E254E86017583CFE002A7C07 /* configs in Resources */ = {isa = PBXBuildFile; fileRef = E254E85517583C55002A7C07 /* configs */; };
 		E254E86117583CFE002A7C07 /* movies in Resources */ = {isa = PBXBuildFile; fileRef = E254E85617583C55002A7C07 /* movies */; };
 		E254E86217583CFE002A7C07 /* particles in Resources */ = {isa = PBXBuildFile; fileRef = E254E85717583C55002A7C07 /* particles */; };
@@ -31,6 +29,9 @@
 		E274E0F01757AF490035C537 /* libSeed.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C6EA49164C28AA00248DA0 /* libSeed.a */; };
 		E274E0F11757AF7E0035C537 /* libseedcontrib.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D1C6EA3F164C28A600248DA0 /* libseedcontrib.a */; };
 		E274E0F41757B1B70035C537 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E274E0F21757B1A70035C537 /* Foundation.framework */; };
+		E289624C1759592400899A84 /* shaders in Resources */ = {isa = PBXBuildFile; fileRef = E289624B1759592400899A84 /* shaders */; };
+		E2C68E691798D20A00DE71C9 /* MainStoryboard.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = E2C68E671798D20A00DE71C9 /* MainStoryboard.storyboard */; };
+		E2D364E4175A6073006BCAB8 /* testbaseogles2.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2D364E2175A6073006BCAB8 /* testbaseogles2.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -76,16 +77,13 @@
 		D107B3D016430AB800E4A951 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
 		D107B3D216430AB800E4A951 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 		D107B3D416430AB800E4A951 /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
-		D107B3DE16430AB900E4A951 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPhone.xib; sourceTree = "<group>"; };
-		D107B3E116430AB900E4A951 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/ViewController_iPad.xib; sourceTree = "<group>"; };
 		D142313D164D8298002A834E /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		D142313F164D82A8002A834E /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		D1423141164D82C8002A834E /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
 		D1C6EA37164C28A600248DA0 /* seedcontrib.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = seedcontrib.xcodeproj; path = ../seedcontrib/seedcontrib.xcodeproj; sourceTree = "<group>"; };
 		D1C6EA41164C28AA00248DA0 /* Seed.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Seed.xcodeproj; path = ../Seed/Seed.xcodeproj; sourceTree = "<group>"; };
-		D1C6EA4D164C29EC00248DA0 /* testbase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = testbase.cpp; path = ../../../tests/testbase.cpp; sourceTree = "<group>"; };
-		D1C6EA4E164C29EC00248DA0 /* testbase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testbase.h; path = ../../../tests/testbase.h; sourceTree = "<group>"; };
 		D1C6EA53164C333D00248DA0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../../tests/main.cpp; sourceTree = "<group>"; };
+		E2193A5E1787A62C00B7E3AC /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		E254E85317583C15002A7C07 /* scenes */ = {isa = PBXFileReference; lastKnownFileType = folder; name = scenes; path = ../../tests/resources/scenes; sourceTree = "<group>"; };
 		E254E85517583C55002A7C07 /* configs */ = {isa = PBXFileReference; lastKnownFileType = folder; name = configs; path = ../../tests/resources/configs; sourceTree = "<group>"; };
 		E254E85617583C55002A7C07 /* movies */ = {isa = PBXFileReference; lastKnownFileType = folder; name = movies; path = ../../tests/resources/movies; sourceTree = "<group>"; };
@@ -93,6 +91,10 @@
 		E254E85817583C55002A7C07 /* sounds */ = {isa = PBXFileReference; lastKnownFileType = folder; name = sounds; path = ../../tests/resources/sounds; sourceTree = "<group>"; };
 		E254E85917583C55002A7C07 /* textures */ = {isa = PBXFileReference; lastKnownFileType = folder; name = textures; path = ../../tests/resources/textures; sourceTree = "<group>"; };
 		E274E0F21757B1A70035C537 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		E289624B1759592400899A84 /* shaders */ = {isa = PBXFileReference; lastKnownFileType = folder; name = shaders; path = ../../tests/resources/shaders; sourceTree = "<group>"; };
+		E2C68E681798D20A00DE71C9 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = en; path = en.lproj/MainStoryboard.storyboard; sourceTree = "<group>"; };
+		E2D364E2175A6073006BCAB8 /* testbaseogles2.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = testbaseogles2.cpp; path = ../../../tests/testbaseogles2.cpp; sourceTree = "<group>"; };
+		E2D364E3175A6073006BCAB8 /* testbaseogles2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testbaseogles2.h; path = ../../../tests/testbaseogles2.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -102,6 +104,7 @@
 			files = (
 				E274E0F11757AF7E0035C537 /* libseedcontrib.a in Frameworks */,
 				E274E0F01757AF490035C537 /* libSeed.a in Frameworks */,
+				E2193A601787A64300B7E3AC /* QuartzCore.framework in Frameworks */,
 				E274E0F41757B1B70035C537 /* Foundation.framework in Frameworks */,
 				D1423142164D82C8002A834E /* OpenAL.framework in Frameworks */,
 				D1423140164D82A8002A834E /* AVFoundation.framework in Frameworks */,
@@ -139,6 +142,7 @@
 			children = (
 				D1C6EA37164C28A600248DA0 /* seedcontrib.xcodeproj */,
 				D1C6EA41164C28AA00248DA0 /* Seed.xcodeproj */,
+				E2193A5E1787A62C00B7E3AC /* QuartzCore.framework */,
 				E274E0F21757B1A70035C537 /* Foundation.framework */,
 				D1423141164D82C8002A834E /* OpenAL.framework */,
 				D142313F164D82A8002A834E /* AVFoundation.framework */,
@@ -154,11 +158,10 @@
 		D107B3C416430AB800E4A951 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
+				E2C68E671798D20A00DE71C9 /* MainStoryboard.storyboard */,
+				E2D364E2175A6073006BCAB8 /* testbaseogles2.cpp */,
+				E2D364E3175A6073006BCAB8 /* testbaseogles2.h */,
 				D1C6EA53164C333D00248DA0 /* main.cpp */,
-				D1C6EA4D164C29EC00248DA0 /* testbase.cpp */,
-				D1C6EA4E164C29EC00248DA0 /* testbase.h */,
-				D107B3DD16430AB900E4A951 /* ViewController_iPhone.xib */,
-				D107B3E016430AB900E4A951 /* ViewController_iPad.xib */,
 				D107B3C516430AB800E4A951 /* Supporting Files */,
 			);
 			name = Sources;
@@ -197,6 +200,7 @@
 		E254E85F17583C62002A7C07 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				E289624B1759592400899A84 /* shaders */,
 				E254E85517583C55002A7C07 /* configs */,
 				E254E85617583C55002A7C07 /* movies */,
 				E254E85717583C55002A7C07 /* particles */,
@@ -291,14 +295,14 @@
 				D107B3D116430AB800E4A951 /* Default.png in Resources */,
 				D107B3D316430AB800E4A951 /* Default@2x.png in Resources */,
 				D107B3D516430AB900E4A951 /* Default-568h@2x.png in Resources */,
-				D107B3DF16430AB900E4A951 /* ViewController_iPhone.xib in Resources */,
-				D107B3E216430AB900E4A951 /* ViewController_iPad.xib in Resources */,
 				E254E86017583CFE002A7C07 /* configs in Resources */,
 				E254E86117583CFE002A7C07 /* movies in Resources */,
 				E254E86217583CFE002A7C07 /* particles in Resources */,
 				E254E86317583CFE002A7C07 /* sounds in Resources */,
 				E254E86417583CFE002A7C07 /* textures in Resources */,
 				E254E86517583CFE002A7C07 /* scenes in Resources */,
+				E289624C1759592400899A84 /* shaders in Resources */,
+				E2C68E691798D20A00DE71C9 /* MainStoryboard.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,8 +313,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D1C6EA50164C29EC00248DA0 /* testbase.cpp in Sources */,
 				D1C6EA54164C333D00248DA0 /* main.cpp in Sources */,
+				E2D364E4175A6073006BCAB8 /* testbaseogles2.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,20 +342,12 @@
 			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
-		D107B3DD16430AB900E4A951 /* ViewController_iPhone.xib */ = {
+		E2C68E671798D20A00DE71C9 /* MainStoryboard.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
-				D107B3DE16430AB900E4A951 /* en */,
+				E2C68E681798D20A00DE71C9 /* en */,
 			);
-			name = ViewController_iPhone.xib;
-			sourceTree = "<group>";
-		};
-		D107B3E016430AB900E4A951 /* ViewController_iPad.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				D107B3E116430AB900E4A951 /* en */,
-			);
-			name = ViewController_iPad.xib;
+			name = MainStoryboard.storyboard;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -389,6 +385,7 @@
 					"\"$(SRCROOT)/../../contrib\"",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -423,6 +420,7 @@
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				OTHER_LDFLAGS = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -434,7 +432,9 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Marlus Costa (7CJ44SA2NC)";
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tests/tests-Prefix.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = "$(inherited)";
@@ -442,10 +442,12 @@
 				INFOPLIST_FILE = "tests/tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "DEC1F7D2-6720-4F13-AC9F-D497900DA88E";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -455,17 +457,21 @@
 			buildSettings = {
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Marlus Costa (7CJ44SA2NC)";
-				GCC_ENABLE_OBJC_GC = supported;
+				GCC_C_LANGUAGE_STANDARD = "compiler-default";
+				GCC_ENABLE_OBJC_GC = unsupported;
+				GCC_INPUT_FILETYPE = sourcecode.cpp.objcpp;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "tests/tests-Prefix.pch";
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "tests/tests-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "DEC1F7D2-6720-4F13-AC9F-D497900DA88E";
 				SDKROOT = iphoneos5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "$(BUILT_PRODUCTS_DIR)/**";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

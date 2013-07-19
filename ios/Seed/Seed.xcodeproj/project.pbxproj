@@ -505,6 +505,7 @@
 		E2229EF81758DE3300F26210 /* EventPresentation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventPresentation.cpp; sourceTree = "<group>"; };
 		E2229EF91758DE3400F26210 /* Presentation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Presentation.cpp; sourceTree = "<group>"; };
 		E270C3C717583E8800A1C5FD /* oglES2RendererDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oglES2RendererDevice.cpp; sourceTree = "<group>"; };
+		E2D364E8175A6E87006BCAB8 /* Shaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shaders.h; path = platform/ios/Shaders.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1116,6 +1117,7 @@
 		E2229EDA1758DBB400F26210 /* map */ = {
 			isa = PBXGroup;
 			children = (
+				E2D364E8175A6E87006BCAB8 /* Shaders.h */,
 				E2229EDB1758DBC600F26210 /* GameMap.h */,
 				E2229EDC1758DBC600F26210 /* IMapLayer.h */,
 				E2229EDD1758DBC600F26210 /* IMetadataObject.h */,
