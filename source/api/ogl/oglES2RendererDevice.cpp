@@ -148,8 +148,8 @@ OGLES2RendererDevice::OGLES2RendererDevice()
 #endif
 
 #if defined(_OPENGL_ES2)
-	pScreen->frameBuffer = 1;
-	pScreen->renderBuffer = 1;
+	pScreen->frameBuffer = 0;
+	pScreen->renderBuffer = 0;
 #endif
 
 	char *version = (char *)glGetString(GL_VERSION);
@@ -183,7 +183,7 @@ bool OGLES2RendererDevice::Initialize()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 #endif
 
-	this->Enable2D();
+	//this->Enable2D();
 
 	GL_TRACE("END Initialize")
 	return ret;
@@ -214,31 +214,32 @@ void OGLES2RendererDevice::BackbufferClear(const Color &color) const
 void OGLES2RendererDevice::Begin() const
 {
 	GL_TRACE("BEGIN Begin")
+
 	this->TextureRequestProcess();
 
 #if defined(_OPENGL_ES2)
-	glBindFramebuffer(GL_FRAMEBUFFER, pScreen->frameBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, pScreen->renderBuffer);
+	//glBindFramebuffer(GL_FRAMEBUFFER, pScreen->frameBuffer);
+	//glBindRenderbuffer(GL_RENDERBUFFER, pScreen->renderBuffer);
 #endif
+    
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	//glEnableClientState(GL_COLOR_ARRAY);
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
-
-	glPushMatrix();
-	glLoadIdentity();
+	//glPushMatrix();
+	//glLoadIdentity();
 	GL_TRACE("END Begin")
 }
 
 void OGLES2RendererDevice::End() const
 {
 	GL_TRACE("BEGIN End")
-	glPopMatrix();
-	pScreen->ApplyFade();
+	//glPopMatrix();
+	//pScreen->ApplyFade();
 
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	//glDisableClientState(GL_COLOR_ARRAY);
+	//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	//glDisableClientState(GL_VERTEX_ARRAY);
 	GL_TRACE("END End");
 }
 

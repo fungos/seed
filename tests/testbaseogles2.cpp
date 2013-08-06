@@ -59,7 +59,7 @@ bool TestBaseOGLES2::Initialize()
 bool TestBaseOGLES2::Update(f32 dt)
 {
 	UNUSED(dt)
-	pRendererDevice->DrawRect(100, 100, 50, 50, Color(255, 0, 255, 255), true);
+	//pRendererDevice->DrawRect(100, 100, 50, 50, Color(255, 0, 255, 255), true);
 	return true;
 }
 
@@ -111,10 +111,10 @@ void TestBaseOGLES2::OnJobCompleted(const EventJob *ev)
 	{
 		case kJobLoadScene:
 		{
-			FileLoader *job = (FileLoader *)ev->GetJob();
+			/*FileLoader *job = (FileLoader *)ev->GetJob();
 			Reader r(job->pFile);
 			gScene->Load(r);
-			Delete(job);
+			Delete(job);*/
 		}
 		break;
 	}

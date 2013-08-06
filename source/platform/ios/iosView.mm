@@ -41,6 +41,7 @@
 #include "Screen.h"
 #include "Input.h"
 #include "EventInputPointer.h"
+#include <iostream>
 
 using namespace Seed;
 
@@ -242,27 +243,8 @@ const GLubyte Indices[] = {
 
 - (void)setupGL
 {
-	/*[EAGLContext setCurrentContext: _context];
-    
-    // Create default framebuffer object. The backing will be allocated for the current layer in -resizeFromLayer
-    glGenFramebuffers(1, &defaultFramebuffer);
-    glGenRenderbuffers(1, &colorRenderbuffer);
-    glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer);
-    glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
-    glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_RENDERBUFFER, colorRenderbuffer);
-    
-	Seed::Initialize();
-    // Allocate color buffer backing based on the current layer size
-    glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
-    [_context renderbufferStorage:GL_RENDERBUFFER fromDrawable: (CAEAGLLayer *)[[self view] layer]];
-	glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_WIDTH, &backingWidth);
-    glGetRenderbufferParameteriv(GL_RENDERBUFFER, GL_RENDERBUFFER_HEIGHT, &backingHeight);
-	
-    if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
-	{
-        NSLog(@"Failed to make complete framebuffer object %x", glCheckFramebufferStatus(GL_FRAMEBUFFER));
-    }*/
-    [EAGLContext setCurrentContext:self.context];
+    /*
+    [EAGLContext setCurrentContext:self.context]; 
     glEnable(GL_CULL_FACE);
     
     self.effect = [[GLKBaseEffect alloc] init];
@@ -303,7 +285,10 @@ const GLubyte Indices[] = {
     glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, TexCoord));
     
     // New line
-    glBindVertexArrayOES(0);
+    glBindVertexArrayOES(0);*/
+    
+    [EAGLContext setCurrentContext:self.context];
+    Seed::Initialize();
 }
 
 - (void)tearDownGL
@@ -334,7 +319,7 @@ const GLubyte Indices[] = {
 	gOpenGLVersion = 1;
 #endif
     
-	if (!_context /*|| ![self loadShaders]*/)
+	if (!_context)
 	{
 		NSLog(@"Failed to create ES context");
 	}
@@ -486,8 +471,6 @@ const GLubyte Indices[] = {
     
     glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
     [_context presentRenderbuffer:GL_RENDERBUFFER];
-    
-	//Seed::Render();
 
     GLenum err (glGetError());
     
@@ -507,7 +490,8 @@ const GLubyte Indices[] = {
         std::cerr << "GL_" << error.c_str() << std::endl;
         err = glGetError();
     }
-     */
+    
+    
     glClearColor(_curRed, 0.0, 0.0, 1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     
@@ -515,13 +499,37 @@ const GLubyte Indices[] = {
     
     glBindVertexArrayOES(_vertexArray);   
     glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
+    */
+       
+    Seed::Render();
+    
+    glClearColor(0.30f, 0.74f, 0.20f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT);
+         
+    GLenum err (glGetError());
+    
+    while (err != GL_NO_ERROR)
+    {
+        String error;
+        
+        switch (err)
+        {
+            case GL_INVALID_OPERATION:              error = "INVALID OPERATION";                break;
+            case GL_INVALID_ENUM:                   error = "INVALID_ENUM";                     break;
+            case GL_INVALID_VALUE:                  error = "INVALID_VALUE";                    break;
+            case GL_OUT_OF_MEMORY:                  error = "OUT_OF_MEMORY";                    break;
+            case GL_INVALID_FRAMEBUFFER_OPERATION:  error = "INVALID_FRAMEBUFFER_OPERATION";    break;
+        }
+        
+        std::cerr << "GL_" << error.c_str() << std::endl;
+        err = glGetError();
+    }
 }
 
 #pragma mark - GLKViewControllerDelegate
 
 - (void)update
-{
-	//Seed::Update();
+{       
     if (_increasing) {
         _curRed += 1.0 * self.timeSinceLastUpdate;
     } else {
@@ -535,16 +543,7 @@ const GLubyte Indices[] = {
         _curRed = 0.0;
         _increasing = YES;
     }
-    
-    float aspect = fabsf(self.view.bounds.size.width / self.view.bounds.size.height);
-    GLKMatrix4 projectionMatrix = GLKMatrix4MakePerspective(GLKMathDegreesToRadians(65.0f), aspect, 4.0f, 10.0f);    
-    self.effect.transform.projectionMatrix = projectionMatrix;
-    
-    GLKMatrix4 modelViewMatrix = GLKMatrix4MakeTranslation(0.0f, 0.0f, -6.0f);   
-    _rotation += 90 * self.timeSinceLastUpdate;
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(25), 1, 0, 0);
-    modelViewMatrix = GLKMatrix4Rotate(modelViewMatrix, GLKMathDegreesToRadians(_rotation), 0, 1, 0);    
-    self.effect.transform.modelviewMatrix = modelViewMatrix;
+  	//Seed::Update();
 }
 
 @end
