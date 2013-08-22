@@ -10,7 +10,7 @@ StateSleeping::~StateSleeping()
 {
 }
 
-void StateSleeping::OnStart(IObject *)
+void StateSleeping::OnStart(void *)
 {
 	Log("I'm sleepy ...");
 }
@@ -21,7 +21,7 @@ void StateSleeping::OnUpdate(f32)
 	Log("ZzzZZZzzz ... %d", pAgentData->GetFatigue());
 }
 
-void StateSleeping::OnStop(IObject *)
+void StateSleeping::OnStop(void *)
 {
 	Log("TRIIIIIIIIIMMMMMMMMMM ...");
 }

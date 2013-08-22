@@ -41,6 +41,9 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <fcntl.h>
+#if defined(__linux__)
+#include <unistd.h>
+#endif
 #endif
 
 namespace Seed { namespace Net

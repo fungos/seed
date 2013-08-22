@@ -24,14 +24,14 @@ bool NetUDPSocketSample::Initialize()
 	int bytesRead = 0;
 	cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 
-	while(!bytesRead)
+	while (!bytesRead)
 	{
 		Address sender;
 		bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
 		Log("Waiting ...");
 	}
 
-	if(bytesRead)
+	if (bytesRead)
 		cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 
 	return IGameApp::Initialize();
@@ -44,7 +44,7 @@ bool NetUDPSocketSample::Update(f32 dt)
 	Address sender;
 	int bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
 
-	if(bytesRead)
+	if (bytesRead)
 		vEnemyPlayer = sPacketData.vRemotePlayer;
 
 	Log("Player position (x:%f, y:%f)", vPlayer.x,vPlayer.y);

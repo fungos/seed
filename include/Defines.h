@@ -53,7 +53,12 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define STRINGIZE_HELPER(x) #x
 #define STRINGIZE(x) STRINGIZE_HELPER(x)
 #define DO_PRAGMA(x) _Pragma (#x)
+
+#if BUILD_MESSAGES == 1
 #define WARNING(desc) DO_PRAGMA(message (__FILE__ "(" STRINGIZE(__LINE__) ") : warning: " #desc));
+#else
+#define WARNING(desc)
+#endif
 
 #define OV_EXCLUDE_STATIC_CALLBACKS
 

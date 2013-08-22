@@ -11,9 +11,9 @@ class StateWorking : public StateMachineState
 	public:
 		StateWorking(AgentData *agentData);
 		virtual ~StateWorking();
-		virtual void OnStart(AgentData *);
+		virtual void OnStart(void *);
 		virtual void OnUpdate(f32);
-		virtual void OnStop(AgentData *);
+		virtual void OnStop(void *);
 
 	private:
 		AgentData *pAgentData;

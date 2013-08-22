@@ -98,6 +98,7 @@ bool BulletSample::Initialize()
 
 bool BulletSample::Update(f32 dt)
 {
+	UNUSED(dt)
 	pDynamicsWorld->stepSimulation(1.f/60.f,10);
 
 	//print positions of all objects
