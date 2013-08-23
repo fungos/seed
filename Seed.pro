@@ -204,7 +204,10 @@ SOURCES += source/Viewport.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
 	source/map/TileSet.cpp \
-	source/api/ogl/oglES2RendererDevice.cpp
+	source/api/ogl/oglES2RendererDevice.cpp \
+	source/interface/IShader.cpp \
+	source/api/glsl/glslES100Shader.cpp \
+	source/api/glsl/glslES120Shader.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -260,4 +263,24 @@ HEADERS += include/*.h \
 	include/map/MapLayerMosaic.h \
 	include/map/MapLayerTiled.h \
 	include/map/TileSet.h \
-	include/api/ogl/oglES2RendererDevice.h
+	include/api/ogl/oglES2RendererDevice.h \
+	include/interface/IShader.h \
+	include/Shader.h \
+	include/api/glsl/glslES100Shader.h \
+	include/api/glsl/glslES120Shader.h
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

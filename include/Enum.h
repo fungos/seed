@@ -104,7 +104,7 @@ enum eRendererDeviceType
 {
 	RendererDeviceAuto,
 	RendererDeviceOpenGLES1,
-    RendererDeviceOpenGLES2,
+	RendererDeviceOpenGLES2,
 	RendererDeviceOpenGL1x,
 	RendererDeviceOpenGL2x,
 	RendererDeviceOpenGL3x,
@@ -115,6 +115,14 @@ enum eRendererDeviceType
 	RendererDeviceDirectX10,
 	RendererDeviceDirectX11,
 	RendererDeviceDirectXAny
+};
+
+enum eShaderType
+{
+	Vertex,
+	Fragment,
+	Geometry,
+	Tesselation
 };
 
 enum eTextureCompression
