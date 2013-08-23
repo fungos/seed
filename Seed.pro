@@ -1,62 +1,21 @@
 TARGET = seed
 TEMPLATE = lib
+
 INCLUDEPATH += include/ contrib/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
+
 CONFIG += glfw
-
-#TARGET_EXT = .bc
-#QMAKE_EXT_OBJ = .bc
-#QMAKE_CXXFLAGS += -emit-llvm
-#QMAKE_CXX = clang++
-#QMAKE_CC = clang
-#QMAKE_LIB = llvm-ld -link-as-library -o
-#QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
-#QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj
-
-!editor {
-	CONFIG -= qt
-} else {
-	CONFIG += qt
-}
-
-win32 {
-	INCLUDEPATH += contrib/windows/
-	CONFIG -= glfw
-	CONFIG += sdl
-}
-
-macx {
-	!editor:!glfw {
-		message("Seed for OSX must use GLFW, disabling SDL.")
-		CONFIG -= sdl
-		CONFIG += glfw
-	}
-	INCLUDEPATH += contrib/osx/
-}
-
-unix {
-	DEFINES += LINUX
-	CONFIG += sdl
-}
-
-qt {
-	DEFINES += BUILD_QT
-	QT += opengl
-} else:glfw {
-	DEFINES += BUILD_GLFW
-} else:sdl {
-	DEFINES += BUILD_SDL
-}
+CONFIG += staticlib
 
 CONFIG(debug, debug|release) {
 	DESTDIR =../seed/lib/debug
-	DEFINES += DEBUG
 } else {
 	DESTDIR = ../seed/lib/release
-	DEFINES += RELEASE
 }
 
-CONFIG += staticlib
+
+include(compiler.pri)
+include(platform.pri)
 
 SOURCES += source/Viewport.cpp \
 	source/ViewManager.cpp \
