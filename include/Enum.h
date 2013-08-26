@@ -54,6 +54,7 @@ enum eObjectType
 	TypeCamera,
 	TypeGameMap,
 	TypeTileSet,
+	TypeShader,
 
 	// Managers
 	TypeViewManager,
@@ -119,10 +120,10 @@ enum eRendererDeviceType
 
 enum eShaderType
 {
-	Vertex,
-	Fragment,
-	Geometry,
-	Tesselation
+	ShaderTypeVertex,
+	ShaderTypeFragment,
+	ShaderTypeGeometry,
+	ShaderTypeTesselation
 };
 
 enum eTextureCompression

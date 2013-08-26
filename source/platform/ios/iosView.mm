@@ -131,74 +131,8 @@ const char *iosGetHomePath()
 
 @end
 
-typedef struct {
-    float Position[3];
-    float Color[4];
-    float TexCoord[2];
-} Vertex;
-
-const Vertex Vertices[] = {
-    // Front
-    {{1, -1, 1}, {1, 0, 0, 1}, {1, 0}},
-    {{1, 1, 1}, {0, 1, 0, 1}, {1, 1}},
-    {{-1, 1, 1}, {0, 0, 1, 1}, {0, 1}},
-    {{-1, -1, 1}, {0, 0, 0, 1}, {0, 0}},
-    // Back
-    {{1, 1, -1}, {1, 0, 0, 1}, {0, 1}},
-    {{-1, -1, -1}, {0, 1, 0, 1}, {1, 0}},
-    {{1, -1, -1}, {0, 0, 1, 1}, {0, 0}},
-    {{-1, 1, -1}, {0, 0, 0, 1}, {1, 1}},
-    // Left
-    {{-1, -1, 1}, {1, 0, 0, 1}, {1, 0}}, 
-    {{-1, 1, 1}, {0, 1, 0, 1}, {1, 1}},
-    {{-1, 1, -1}, {0, 0, 1, 1}, {0, 1}},
-    {{-1, -1, -1}, {0, 0, 0, 1}, {0, 0}},
-    // Right
-    {{1, -1, -1}, {1, 0, 0, 1}, {1, 0}},
-    {{1, 1, -1}, {0, 1, 0, 1}, {1, 1}},
-    {{1, 1, 1}, {0, 0, 1, 1}, {0, 1}},
-    {{1, -1, 1}, {0, 0, 0, 1}, {0, 0}},
-    // Top
-    {{1, 1, 1}, {1, 0, 0, 1}, {1, 0}},
-    {{1, 1, -1}, {0, 1, 0, 1}, {1, 1}},
-    {{-1, 1, -1}, {0, 0, 1, 1}, {0, 1}},
-    {{-1, 1, 1}, {0, 0, 0, 1}, {0, 0}},
-    // Bottom
-    {{1, -1, -1}, {1, 0, 0, 1}, {1, 0}},
-    {{1, -1, 1}, {0, 1, 0, 1}, {1, 1}},
-    {{-1, -1, 1}, {0, 0, 1, 1}, {0, 1}}, 
-    {{-1, -1, -1}, {0, 0, 0, 1}, {0, 0}}
-};
-
-const GLubyte Indices[] = {
-    // Front
-    0, 1, 2,
-    2, 3, 0,
-    // Back
-    4, 6, 5,
-    4, 5, 7,
-    // Left
-    8, 9, 10,
-    10, 11, 8,
-    // Right
-    12, 13, 14,
-    14, 15, 12,
-    // Top
-    16, 17, 18,
-    18, 19, 16,
-    // Bottom
-    20, 21, 22,
-    22, 23, 20
-};
-
 @interface ViewController()
 {
-    float _curRed;
-    BOOL _increasing;
-    GLuint _vertexBuffer;
-    GLuint _indexBuffer;   
-    GLuint _vertexArray;
-    float _rotation;
 }
 
 @property (strong, nonatomic) EAGLContext *context;
@@ -214,101 +148,54 @@ const GLubyte Indices[] = {
 
 - (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		// Custom initialization
+	}
+	return self;
 }
 
 - (void)didReceiveMemoryWarning
 {
 	[super didReceiveMemoryWarning];
-    
+
 	if ([self isViewLoaded] && ([[self view] window] == nil))
 	{
 		self.view = nil;
-        
+
 		[self tearDownGL];
-        
+
 		if ([EAGLContext currentContext] == _context)
 		{
 			[EAGLContext setCurrentContext:nil];
 		}
 		_context = nil;
 	}
-    
+
 	// Dispose of any resources that can be recreated.
 }
 
 - (void)setupGL
 {
-    /*
-    [EAGLContext setCurrentContext:self.context]; 
-    glEnable(GL_CULL_FACE);
-    
-    self.effect = [[GLKBaseEffect alloc] init];
-    
-    NSDictionary * options = [NSDictionary dictionaryWithObjectsAndKeys:
-                              [NSNumber numberWithBool:YES],
-                              GLKTextureLoaderOriginBottomLeft, 
-                              nil];
-    
-    NSError * error;    
-    NSString *path = [[NSBundle mainBundle] pathForResource:@"textures/frame03" ofType:@"png"];
-    GLKTextureInfo * info = [GLKTextureLoader textureWithContentsOfFile:path options:options error:&error];
-    if (info == nil) {
-        NSLog(@"Error loading file: %@", [error localizedDescription]);
-    }
-    self.effect.texture2d0.name = info.name;
-    self.effect.texture2d0.enabled = true;
-    
-    // New lines
-    glGenVertexArraysOES(1, &_vertexArray);
-    glBindVertexArrayOES(_vertexArray);
-    
-    // Old stuff
-    glGenBuffers(1, &_vertexBuffer);
-    glBindBuffer(GL_ARRAY_BUFFER, _vertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
-    
-    glGenBuffers(1, &_indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, _indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(Indices), Indices, GL_STATIC_DRAW);
-    
-    // New lines (were previously in draw)
-    glEnableVertexAttribArray(GLKVertexAttribPosition);        
-    glVertexAttribPointer(GLKVertexAttribPosition, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Position));
-    glEnableVertexAttribArray(GLKVertexAttribColor);
-    glVertexAttribPointer(GLKVertexAttribColor, 4, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, Color));
-    glEnableVertexAttribArray(GLKVertexAttribTexCoord0);
-    glVertexAttribPointer(GLKVertexAttribTexCoord0, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (const GLvoid *) offsetof(Vertex, TexCoord));
-    
-    // New line
-    glBindVertexArrayOES(0);*/
-    
-    [EAGLContext setCurrentContext:self.context];
-    Seed::Initialize();
+	[EAGLContext setCurrentContext:self.context];
+	Seed::Initialize();
 }
 
 - (void)tearDownGL
 {
 	[EAGLContext setCurrentContext:_context];
-       
-    glDeleteBuffers(1, &_vertexBuffer);
-    glDeleteBuffers(1, &_indexBuffer);
-    
+
 	Seed::Shutdown();
 }
 
 - (void)viewDidLoad
 {
 	[super viewDidLoad];
-    
+
 #if defined (SEED_ENABLE_OGLES2)
 	_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
 	gOpenGLVersion = 2;
-    
+
 	if (!_context)
 	{
 		_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
@@ -318,232 +205,72 @@ const GLubyte Indices[] = {
 	_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
 	gOpenGLVersion = 1;
 #endif
-    
+
 	if (!_context)
 	{
 		NSLog(@"Failed to create ES context");
 	}
-    
+
 	GLKView *view = (GLKView *)self.view;
 	view.context = _context;
 	//view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-    view.drawableMultisample = GLKViewDrawableMultisample4X;
-    
+	view.drawableMultisample = GLKViewDrawableMultisample4X;
+
 	[self setupGL];
 }
 
 - (void)viewDidUnload
 {
-    [super viewDidUnload];
-    
-    [self tearDownGL];
-    
-    if ([EAGLContext currentContext] == self.context) {
-        [EAGLContext setCurrentContext:nil];
-    }
-    self.context = nil;
+	[super viewDidUnload];
+
+	[self tearDownGL];
+
+	if ([EAGLContext currentContext] == self.context) {
+		[EAGLContext setCurrentContext:nil];
+	}
+	self.context = nil;
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    // Return YES for supported orientations
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+	// Return YES for supported orientations
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
-
-/*
-- (BOOL)loadShaders {
-	
-	GLuint vertShader, fragShader = 0;
-	NSString *vertShaderPathname, *fragShaderPathname;
-	
-	// create shader program
-	program = glCreateProgram();
-	
-	// create and compile vertex shader
-	vertShaderPathname = [[NSBundle mainBundle] pathForResource:@"shaders/simple" ofType:@"vsh"];
-	if (!compileShader(&vertShader, GL_VERTEX_SHADER, 1, vertShaderPathname)) {
-		destroyShaders(vertShader, fragShader, program);
-		return NO;
-	}
-	
-	// create and compile fragment shader
-	fragShaderPathname = [[NSBundle mainBundle] pathForResource:@"shaders/simple" ofType:@"fsh"];
-	if (!compileShader(&fragShader, GL_FRAGMENT_SHADER, 1, fragShaderPathname)) {
-		destroyShaders(vertShader, fragShader, program);
-		return NO;
-	}
-	
-	// attach vertex shader to program
-	glAttachShader(program, vertShader);
-	
-	// attach fragment shader to program
-	glAttachShader(program, fragShader);
-	
-	// bind attribute locations
-	// this needs to be done prior to linking
-	glBindAttribLocation(program, 0, "position");
-	glBindAttribLocation(program, 1, "color");
-	
-	// link program
-	if (!linkProgram(program)) {
-		destroyShaders(vertShader, fragShader, program);
-		return NO;
-	}
-	
-	// get uniform locations
-	uniforms[UNIFORM_MODELVIEW_PROJECTION_MATRIX] = glGetUniformLocation(program, "modelViewProjectionMatrix");
-	
-	// release vertex and fragment shaders
-	if (vertShader) {
-		glDeleteShader(vertShader);
-		vertShader = 0;
-	}
-	if (fragShader) {
-		glDeleteShader(fragShader);
-		fragShader = 0;
-	}
-	
-	return YES;
-}
- */
 
 #pragma mark - GLKViewDelegate
 
 - (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
 {
-    /*
-    // Replace the implementation of this method to do your own custom drawing
-    const GLfloat squareVertices[] = {
-        -0.5f, -0.5f,
-        0.5f,  -0.5f,
-        -0.5f,  0.5f,
-        0.5f,   0.5f,
-    };
-    const GLubyte squareColors[] = {
-        255, 255,   0, 255,
-        0,   255, 255, 255,
-        0,     0,   0,   0,
-        255,   0, 255, 255,
-    };
-	
-    [EAGLContext setCurrentContext:_context];
-    
-    glBindFramebuffer(GL_FRAMEBUFFER, defaultFramebuffer);
-    glViewport(0, 0, backingWidth, backingHeight);
-    
-    glClearColor(0.5f, 0.4f, 0.5f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-	
-	// use shader program
-	glUseProgram(program);
-	
-	// handle viewing matrices
-	GLfloat proj[16], modelview[16], modelviewProj[16];
-	// setup projection matrix (orthographic)
-	mat4f_LoadOrtho(-1.0f, 1.0f, -1.5f, 1.5f, -1.0f, 1.0f, proj);
-	// setup modelview matrix (rotate around z)
-	mat4f_LoadZRotation(rotz, modelview);
-	// projection matrix * modelview matrix
-	mat4f_MultiplyMat4f(proj, modelview, modelviewProj);
-	rotz += 3.0f * M_PI / 180.0f;
-	
-	// update uniform values
-	glUniformMatrix4fv(uniforms[UNIFORM_MODELVIEW_PROJECTION_MATRIX], 1, GL_FALSE, modelviewProj);
-	
-	// update attribute values
-	glVertexAttribPointer(ATTRIB_VERTEX, 2, GL_FLOAT, 0, 0, squareVertices);
-	glEnableVertexAttribArray(ATTRIB_VERTEX);
-	glVertexAttribPointer(ATTRIB_COLOR, 4, GL_UNSIGNED_BYTE, 1, 0, squareColors); //enable the normalized flag
-    glEnableVertexAttribArray(ATTRIB_COLOR);
-	
-	// Validate program before drawing. This is a good check, but only really necessary in a debug build.
-	// DEBUG macro must be defined in your debug configurations if that's not already the case.
-#if defined(DEBUG)
-	if (!validateProgram(program))
-	{
-		NSLog(@"Failed to validate program: %d", program);
-		return;
-	}
-#endif
-	
-	// draw
-    glDrawArrays(GL_TRIANGLE_STRIP, 0, 4);
-    
-    glBindRenderbuffer(GL_RENDERBUFFER, colorRenderbuffer);
-    [_context presentRenderbuffer:GL_RENDERBUFFER];
+	Seed::Render();
 
-    GLenum err (glGetError());
-    
-    while (err != GL_NO_ERROR)
-    {
-        String error;
-        
-        switch (err)
-        {
-            case GL_INVALID_OPERATION:              error = "INVALID OPERATION";                break;
-            case GL_INVALID_ENUM:                   error = "INVALID_ENUM";                     break;
-            case GL_INVALID_VALUE:                  error = "INVALID_VALUE";                    break;
-            case GL_OUT_OF_MEMORY:                  error = "OUT_OF_MEMORY";                    break;
-            case GL_INVALID_FRAMEBUFFER_OPERATION:  error = "INVALID_FRAMEBUFFER_OPERATION";    break;
-        }
-        
-        std::cerr << "GL_" << error.c_str() << std::endl;
-        err = glGetError();
-    }
-    
-    
-    glClearColor(_curRed, 0.0, 0.0, 1.0);
-    glClear(GL_COLOR_BUFFER_BIT);
-    
-    [self.effect prepareToDraw];    
-    
-    glBindVertexArrayOES(_vertexArray);   
-    glDrawElements(GL_TRIANGLES, sizeof(Indices)/sizeof(Indices[0]), GL_UNSIGNED_BYTE, 0);
-    */
-       
-    Seed::Render();
-    
-    glClearColor(0.30f, 0.74f, 0.20f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT);
-         
-    GLenum err (glGetError());
-    
-    while (err != GL_NO_ERROR)
-    {
-        String error;
-        
-        switch (err)
-        {
-            case GL_INVALID_OPERATION:              error = "INVALID OPERATION";                break;
-            case GL_INVALID_ENUM:                   error = "INVALID_ENUM";                     break;
-            case GL_INVALID_VALUE:                  error = "INVALID_VALUE";                    break;
-            case GL_OUT_OF_MEMORY:                  error = "OUT_OF_MEMORY";                    break;
-            case GL_INVALID_FRAMEBUFFER_OPERATION:  error = "INVALID_FRAMEBUFFER_OPERATION";    break;
-        }
-        
-        std::cerr << "GL_" << error.c_str() << std::endl;
-        err = glGetError();
-    }
+	glClearColor(0.30f, 0.74f, 0.20f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	GLenum err (glGetError());
+
+	while (err != GL_NO_ERROR)
+	{
+		String error;
+
+		switch (err)
+		{
+			case GL_INVALID_OPERATION:				error = "INVALID OPERATION";				break;
+			case GL_INVALID_ENUM:					error = "INVALID_ENUM";						break;
+			case GL_INVALID_VALUE:					error = "INVALID_VALUE";					break;
+			case GL_OUT_OF_MEMORY:					error = "OUT_OF_MEMORY";					break;
+			case GL_INVALID_FRAMEBUFFER_OPERATION:	error = "INVALID_FRAMEBUFFER_OPERATION";	break;
+		}
+
+		std::cerr << "GL_" << error.c_str() << std::endl;
+		err = glGetError();
+	}
 }
 
 #pragma mark - GLKViewControllerDelegate
 
 - (void)update
-{       
-    if (_increasing) {
-        _curRed += 1.0 * self.timeSinceLastUpdate;
-    } else {
-        _curRed -= 1.0 * self.timeSinceLastUpdate;
-    }
-    if (_curRed >= 1.0) {
-        _curRed = 1.0;
-        _increasing = NO;
-    }
-    if (_curRed <= 0.0) {
-        _curRed = 0.0;
-        _increasing = YES;
-    }
-  	//Seed::Update();
+{
+	Seed::Update();
 }
 
 @end

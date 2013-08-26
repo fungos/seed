@@ -29,10 +29,16 @@
 */
 
 #include "interface/IShader.h"
+#include "Enum.h"
 
 namespace Seed {
 
 IShader::IShader()
+	: pFile(NULL),
+	bLoaded(false),
+	bCompiled(false),
+	iShaderType(ShaderTypeVertex),
+	iShaderHandle(0)
 {
 }
 
@@ -40,13 +46,31 @@ IShader::~IShader()
 {
 }
 
-void IShader::Load(String name) const
+File* IShader::GetFile()
 {
-	UNUSED(name);
-	SEED_ABSTRACT_METHOD;
+	return pFile;
 }
 
-void IShader::Compile() const
+bool IShader::Load(const String &filename, ResourceManager *res)
+{
+	SEED_ASSERT(res);
+	pRes = res;
+
+	bool ret = false;
+	if (this->Unload())
+	{
+		pRes = res;
+		sFilename = filename;
+
+		#warning TODO - Move to async file loading
+		pFile = New(File(filename));
+		ret = (pFile->GetData() != NULL);
+	}
+
+	return ret;
+}
+
+void IShader::Compile()
 {
 	SEED_ABSTRACT_METHOD;
 }
@@ -56,9 +80,9 @@ u32 IShader::GetShaderHandle() const
 	SEED_ABSTRACT_METHOD;
 }
 
-void IShader::ToggleDebug() const
+int IShader::GetObjectType() const
 {
-	SEED_ABSTRACT_METHOD;
+	return Seed::TypeShader;
 }
 
 const String IShader::GetClassName() const

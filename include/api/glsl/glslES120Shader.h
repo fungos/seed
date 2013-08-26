@@ -41,16 +41,16 @@ namespace GLSL {
 class SEED_CORE_API GLSLES120Shader : public IShader
 {
 	public:
-		GLSLES120Shader();
+		GLSLES120Shader(eShaderType type);
 		virtual ~GLSLES120Shader();
 
 		// Common Operations
-		virtual void Load(String name) const override;
-		virtual void Compile() const override;
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
+		virtual void Compile() override;
 		virtual u32 GetShaderHandle() const override;
 
-		// Debbuging
-		virtual void ToggleDebug() const override;
+	private:
+		SEED_DISABLE_COPY(GLSLES120Shader);
 };
 
 }} // namespace

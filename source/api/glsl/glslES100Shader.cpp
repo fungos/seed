@@ -30,34 +30,60 @@
 
 #include "Shader.h"
 
+#if defined (BUILD_IOS) && !defined(SEED_ENABLE_OGLES2)
+
+#include <OpenGLES/ES1/gl.h>
+
+#define TAG "[Shader] "
+
 namespace Seed { namespace GLSL {
 
-GLSLES100Shader::GLSLES100Shader()
+GLSLES100Shader::GLSLES100Shader(eShaderType type)
 {
+	iShaderType = type;
+	bLoaded = false;
+	bCompiled = false;
+	switch (iShaderType)
+	{
+		case ShaderTypeVertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
+		case ShaderTypeFragment : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
+		case ShaderTypeGeometry : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
+		case ShaderTypeTesselation : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Tesselation shader not suported yet."); break; }
+	}
 }
 
 GLSLES100Shader::~GLSLES100Shader()
 {
 }
 
-void GLSLES100Shader::Load(String name) const
+bool GLSLES100Shader::Load(const String &filename, ResourceManager *res)
 {
+	if(IShader::Load(filename, res))
+	{
+		const char* shaderData = (const char*)pFile->GetData();
+		glShaderSource(iShaderHandle, 1, &shaderData, NULL);
+		bLoaded = true;
+	}
+	else
+		Log(TAG "ERROR: Could not find/load shader %s.", filename.c_str());
 
+	return bLoaded;
 }
 
-void GLSLES100Shader::Compile() const
+void GLSLES100Shader::Compile()
 {
-
+	if(bLoaded)
+	{
+		glCompileShader(iShaderHandle);
+		bCompiled = true;
+	}
 }
 
 u32 GLSLES100Shader::GetShaderHandle() const
 {
-
-}
-
-void GLSLES100Shader::ToggleDebug() const
-{
-
+	return iShaderHandle;
 }
 
 }} // namespace
+
+#endif // BUILD_IOS && !SEED_ENABLE_OGLES2

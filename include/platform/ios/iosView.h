@@ -21,18 +21,18 @@ namespace Seed {
 @interface ViewController : GLKViewController
 {
 @private
-    GLint program;
-    
-    // The pixel dimensions of the CAEAGLLayer
+	GLint program;
+
+	// The pixel dimensions of the CAEAGLLayer
 	GLint backingWidth;
 	GLint backingHeight;
-    
-    // The OpenGL names for the framebuffer and renderbuffer used to render to this view
+
+	// The OpenGL names for the framebuffer and renderbuffer used to render to this view
 	GLuint defaultFramebuffer, colorRenderbuffer;
-    
-   	GLfloat rotz;
+
+	GLfloat rotz;
 }
-    - (BOOL)loadShaders;
+	- (BOOL)loadShaders;
 @end
 
 #endif // BUILD_IOS

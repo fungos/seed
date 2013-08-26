@@ -45,12 +45,9 @@ class SEED_CORE_API GLSLES100Shader : public IShader
 		virtual ~GLSLES100Shader();
 
 		// Common Operations
-		virtual void Load(String name) const override;
-		virtual void Compile() const override;
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
+		virtual void Compile() override;
 		virtual u32 GetShaderHandle() const override;
-
-		// Debbuging
-		virtual void ToggleDebug() const override;
 
 	private:
 		SEED_DISABLE_COPY(GLSLES100Shader);

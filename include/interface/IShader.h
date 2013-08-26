@@ -33,39 +33,44 @@
 
 #include "Defines.h"
 #include "Enum.h"
-#include "interface/IObject.h"
+#include "interface/IResource.h"
+#include "File.h"
 
 namespace Seed {
 
-class SEED_CORE_API IShader : public IObject
+class SEED_CORE_API IShader : public IResource
 {
 	public:
 		IShader();
 		virtual ~IShader();
 
+		virtual File *GetFile();
 		// Common Operations
-		virtual void Load(String name) const;
-		virtual void Compile() const;
+		virtual void Compile();
 		virtual u32 GetShaderHandle() const;
 
 		// Debbuging
 		virtual void ToggleDebug() const;
 
+		// IResource
+		virtual bool Unload();
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
+
 		// IObject
+		virtual int GetObjectType() const;
 		virtual const String GetClassName() const;
 
 	protected:
-		String		sName;
-		String		sSource;
+		File		*pFile;
+		bool		bLoaded;
 		bool		bCompiled;
 		eShaderType	iShaderType;
 		u32			iShaderHandle;
-		bool		bDebugState;
 
 	private:
 		SEED_DISABLE_COPY(IShader);
 };
 
-}
+} // end namespace
 
 #endif // __ISHADER_H__
