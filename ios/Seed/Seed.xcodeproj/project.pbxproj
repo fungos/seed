@@ -143,6 +143,9 @@
 		D1423154164D833F002A834E /* IEventJobListener.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1423153164D833F002A834E /* IEventJobListener.cpp */; };
 		D1B00ADA1642F634009211BF /* seed_posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD81642F634009211BF /* seed_posix.cpp */; };
 		D1B00ADB1642F634009211BF /* seed_win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD91642F634009211BF /* seed_win32.cpp */; };
+		E218449A17CE81E1002A4457 /* IShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E218449917CE81E1002A4457 /* IShaderProgram.cpp */; };
+		E218449E17CE821B002A4457 /* glslES100ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E218449C17CE821B002A4457 /* glslES100ShaderProgram.cpp */; };
+		E218449F17CE821B002A4457 /* glslES120ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E218449D17CE821B002A4457 /* glslES120ShaderProgram.cpp */; };
 		E2229EEC1758DD3F00F26210 /* GameMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE51758DD3E00F26210 /* GameMap.cpp */; };
 		E2229EED1758DD3F00F26210 /* IMapLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE61758DD3E00F26210 /* IMapLayer.cpp */; };
 		E2229EEE1758DD3F00F26210 /* IMetadataObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE71758DD3E00F26210 /* IMetadataObject.cpp */; };
@@ -483,6 +486,13 @@
 		D1423159164D8360002A834E /* IEventJobListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEventJobListener.h; sourceTree = "<group>"; };
 		D1B00AD81642F634009211BF /* seed_posix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_posix.cpp; sourceTree = "<group>"; };
 		D1B00AD91642F634009211BF /* seed_win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_win32.cpp; sourceTree = "<group>"; };
+		E218449917CE81E1002A4457 /* IShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IShaderProgram.cpp; sourceTree = "<group>"; };
+		E218449C17CE821B002A4457 /* glslES100ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = glslES100ShaderProgram.cpp; path = glsl/glslES100ShaderProgram.cpp; sourceTree = "<group>"; };
+		E218449D17CE821B002A4457 /* glslES120ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = glslES120ShaderProgram.cpp; path = glsl/glslES120ShaderProgram.cpp; sourceTree = "<group>"; };
+		E21844A017CE8237002A4457 /* glslES100ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glslES100ShaderProgram.h; path = glsl/glslES100ShaderProgram.h; sourceTree = "<group>"; };
+		E21844A117CE8237002A4457 /* glslES120ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glslES120ShaderProgram.h; path = glsl/glslES120ShaderProgram.h; sourceTree = "<group>"; };
+		E21844A217CE825F002A4457 /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
+		E21844A317CE82A2002A4457 /* IShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IShaderProgram.h; sourceTree = "<group>"; };
 		E2229ED41758DAC400F26210 /* oglES2RendererDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oglES2RendererDevice.h; sourceTree = "<group>"; };
 		E2229ED71758DB0100F26210 /* RocketInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RocketInterface.h; path = rocket/RocketInterface.h; sourceTree = "<group>"; };
 		E2229ED81758DB8400F26210 /* IEventPresentationListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEventPresentationListener.h; sourceTree = "<group>"; };
@@ -623,6 +633,7 @@
 				D103F547163F1CE800267967 /* SeedInit.h */,
 				D103F548163F1CE800267967 /* SeedRun.h */,
 				E2CD935B17C7EBDA009AC79F /* Shader.h */,
+				E21844A217CE825F002A4457 /* ShaderProgram.h */,
 				D103F549163F1CE800267967 /* Singleton.h */,
 				D103F54A163F1CE800267967 /* Sound.h */,
 				D103F54B163F1CE800267967 /* SoundSource.h */,
@@ -717,6 +728,7 @@
 		D103F4CE163F1CE800267967 /* interface */ = {
 			isa = PBXGroup;
 			children = (
+				E21844A317CE82A2002A4457 /* IShaderProgram.h */,
 				E2CD935917C7EBC2009AC79F /* IShader.h */,
 				E2229ED91758DB9700F26210 /* IHardwareBuffer.h */,
 				E2229ED81758DB8400F26210 /* IEventPresentationListener.h */,
@@ -988,6 +1000,7 @@
 		D103F57E163F1CF500267967 /* interface */ = {
 			isa = PBXGroup;
 			children = (
+				E218449917CE81E1002A4457 /* IShaderProgram.cpp */,
 				E2CD935F17C7EC68009AC79F /* IShader.cpp */,
 				E2229EF31758DD5800F26210 /* IEventPresentationListener.cpp */,
 				D1423153164D833F002A834E /* IEventJobListener.cpp */,
@@ -1169,6 +1182,8 @@
 		E2CD935C17C7EBEC009AC79F /* glsl */ = {
 			isa = PBXGroup;
 			children = (
+				E21844A017CE8237002A4457 /* glslES100ShaderProgram.h */,
+				E21844A117CE8237002A4457 /* glslES120ShaderProgram.h */,
 				E2CD935D17C7EC03009AC79F /* glslES100Shader.h */,
 				E2CD935E17C7EC03009AC79F /* glslES120Shader.h */,
 			);
@@ -1178,6 +1193,8 @@
 		E2CD936117C7EC7C009AC79F /* glsl */ = {
 			isa = PBXGroup;
 			children = (
+				E218449C17CE821B002A4457 /* glslES100ShaderProgram.cpp */,
+				E218449D17CE821B002A4457 /* glslES120ShaderProgram.cpp */,
 				E2CD936217C7EC94009AC79F /* glslES100Shader.cpp */,
 				E2CD936317C7EC94009AC79F /* glslES120Shader.cpp */,
 			);
@@ -1386,6 +1403,9 @@
 				E2CD936017C7EC68009AC79F /* IShader.cpp in Sources */,
 				E2CD936417C7EC94009AC79F /* glslES100Shader.cpp in Sources */,
 				E2CD936517C7EC94009AC79F /* glslES120Shader.cpp in Sources */,
+				E218449A17CE81E1002A4457 /* IShaderProgram.cpp in Sources */,
+				E218449E17CE821B002A4457 /* glslES100ShaderProgram.cpp in Sources */,
+				E218449F17CE821B002A4457 /* glslES120ShaderProgram.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

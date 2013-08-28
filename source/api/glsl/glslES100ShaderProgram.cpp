@@ -28,47 +28,44 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __ISHADERPROGRAM_H__
-#define __ISHADERPROGRAM_H__
+#include "ShaderProgram.h"
 
-#include "Defines.h"
-#include "interface/IObject.h"
-#include "Container.h"
+#if defined (BUILD_IOS) && !defined(SEED_ENABLE_OGLES2)
 
-namespace Seed {
+#include <OpenGLES/ES1/gl.h>
 
-class IShader;
+#define TAG "[Shader] "
 
-DECLARE_CONTAINER_TYPE(Vector, IShader)
+namespace Seed { namespace GLSL {
 
-class SEED_CORE_API IShaderProgram : IObject
+GLSLES100ShaderProgram::GLSLES100ShaderProgram()
 {
-	public:
-		IShaderProgram();
-		virtual ~IShaderProgram();
+}
 
-		void Use();
-		void Unbind();
-		void AttachShader(IShader *shader);
-		void BindAttribute(u32 index, String attribName);
-		void Link();
-		inline u32 GetID() const { return iProgramId; }
+GLSLES100ShaderProgram::~GLSLES100ShaderProgram()
+{
+}
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+void GLSLES100ShaderProgram::Use()
+{
+}
 
-	private:
-		SEED_DISABLE_COPY(IShaderProgram);
+void GLSLES100ShaderProgram::Unbind()
+{
+}
 
-		bool					bLinked;
-		bool					bActive;
-		u32						iProgramId;
-		IShaderVector			vShaders;
-		Map<String, u32>		mAttributes;
+void GLSLES100ShaderProgram::AttachShader(Seed::IShader *shader)
+{
+}
 
-};
+void GLSLES100ShaderProgram::BindAttribute(u32 index, String attribName)
+{
+}
 
-} // end namespace
+void GLSLES100ShaderProgram::Link()
+{
+}
 
-#endif // __ISHADERPROGRAM_H__
+}} // namespace
+
+#endif // BUILD_IOS && !SEED_ENABLE_OGLES2

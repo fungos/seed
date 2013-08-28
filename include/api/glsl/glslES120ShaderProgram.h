@@ -28,47 +28,29 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __ISHADERPROGRAM_H__
-#define __ISHADERPROGRAM_H__
+
+#ifndef __GLSLES120SHADERPROGRAM_H__
+#define __GLSLES120SHADERPROGRAM_H__
 
 #include "Defines.h"
-#include "interface/IObject.h"
-#include "Container.h"
+#include "interface/IShaderProgram.h"
 
-namespace Seed {
+namespace Seed { namespace GLSL {
 
-class IShader;
-
-DECLARE_CONTAINER_TYPE(Vector, IShader)
-
-class SEED_CORE_API IShaderProgram : IObject
+class SEED_CORE_API GLSLES120ShaderProgram : public IShaderProgram
 {
 	public:
-		IShaderProgram();
-		virtual ~IShaderProgram();
+		GLSLES120ShaderProgram();
+		virtual ~GLSLES120ShaderProgram();
 
-		void Use();
-		void Unbind();
-		void AttachShader(IShader *shader);
-		void BindAttribute(u32 index, String attribName);
-		void Link();
-		inline u32 GetID() const { return iProgramId; }
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
-	private:
-		SEED_DISABLE_COPY(IShaderProgram);
-
-		bool					bLinked;
-		bool					bActive;
-		u32						iProgramId;
-		IShaderVector			vShaders;
-		Map<String, u32>		mAttributes;
+		virtual void Use() override;
+		virtual void Unbind() override;
+		virtual void AttachShader(IShader *shader) override;
+		virtual void BindAttribute(u32 index, String attribName) override;
+		virtual void Link() override;
 
 };
 
-} // end namespace
+}} // namespace
 
-#endif // __ISHADERPROGRAM_H__
+#endif // __GLSLES120SHADERPROGRAM_H__

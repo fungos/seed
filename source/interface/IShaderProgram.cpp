@@ -28,15 +28,15 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "ShaderProgram.h"
+#include "interface/IShaderProgram.h"
 #include "Enum.h"
 
-#define TAG		"[ShaderProgram]"
+#define TAG		"[IIShaderProgram]"
 
 namespace Seed
 {
 
-ShaderProgram::ShaderProgram()
+IShaderProgram::IShaderProgram()
 	: bLinked(false)
 	, bActive(false)
 	, iProgramId(0)
@@ -45,44 +45,44 @@ ShaderProgram::ShaderProgram()
 {
 }
 
-ShaderProgram::~ShaderProgram()
+IShaderProgram::~IShaderProgram()
 {
 }
 
-void ShaderProgram::Use()
-{
-	SEED_ABSTRACT_METHOD;
-}
-
-void ShaderProgram::Unbind()
+void IShaderProgram::Use()
 {
 	SEED_ABSTRACT_METHOD;
 }
 
-void ShaderProgram::AttachShader(IShader *shader)
+void IShaderProgram::Unbind()
+{
+	SEED_ABSTRACT_METHOD;
+}
+
+void IShaderProgram::AttachShader(IShader *shader)
 {
 	UNUSED(shader);
 	SEED_ABSTRACT_METHOD;
 }
 
-void ShaderProgram::BindAttribute(GLuint index, String attribName)
+void IShaderProgram::BindAttribute(u32 index, String attribName)
 {
 	UNUSED(index);
 	UNUSED(attribName);
 	SEED_ABSTRACT_METHOD;
 }
 
-void ShaderProgram::Link()
+void IShaderProgram::Link()
 {
 	SEED_ABSTRACT_METHOD;
 }
 
-const String ShaderProgram::GetClassName() const
+const String IShaderProgram::GetClassName() const
 {
 	return "IShaderProgram";
 }
 
-int ShaderProgram::GetObjectType() const
+int IShaderProgram::GetObjectType() const
 {
 	return Seed::TypeShaderProgram;
 }

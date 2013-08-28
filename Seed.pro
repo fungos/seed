@@ -208,7 +208,9 @@ SOURCES += source/Viewport.cpp \
 	source/interface/IShader.cpp \
 	source/api/glsl/glslES100Shader.cpp \
 	source/api/glsl/glslES120Shader.cpp \
-	source/interface/IShaderProgram.cpp
+	source/interface/IShaderProgram.cpp \
+	source/api/glsl/glslES100ShaderProgram.cpp \
+	source/api/glsl/glslES120ShaderProgram.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -269,7 +271,13 @@ HEADERS += include/*.h \
 	include/Shader.h \
 	include/api/glsl/glslES100Shader.h \
 	include/api/glsl/glslES120Shader.h \
-	include/interface/IShaderProgram.h
+	include/interface/IShaderProgram.h \
+	include/api/glsl/glslES100ShaderProgram.h \
+	include/api/glsl/glslES120ShaderProgram.h \
+	include/ShaderProgram.h
+
+
+
 
 
 
