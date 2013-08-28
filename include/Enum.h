@@ -55,6 +55,7 @@ enum eObjectType
 	TypeGameMap,
 	TypeTileSet,
 	TypeShader,
+	TypeShaderProgram,
 
 	// Managers
 	TypeViewManager,
