@@ -51,27 +51,35 @@ ShaderProgram::~ShaderProgram()
 
 void ShaderProgram::Use()
 {
+	SEED_ABSTRACT_METHOD;
 }
 
 void ShaderProgram::Unbind()
 {
+	SEED_ABSTRACT_METHOD;
 }
 
 void ShaderProgram::AttachShader(IShader *shader)
 {
+	UNUSED(shader);
+	SEED_ABSTRACT_METHOD;
 }
 
 void ShaderProgram::BindAttribute(GLuint index, String attribName)
 {
+	UNUSED(index);
+	UNUSED(attribName);
+	SEED_ABSTRACT_METHOD;
 }
 
 void ShaderProgram::Link()
 {
+	SEED_ABSTRACT_METHOD;
 }
 
 const String ShaderProgram::GetClassName() const
 {
-	return "ShaderProgram";
+	return "IShaderProgram";
 }
 
 int ShaderProgram::GetObjectType() const
