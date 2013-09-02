@@ -44,14 +44,11 @@ class SEED_CORE_API IShader : public IResource
 		IShader();
 		virtual ~IShader();
 
-		virtual File *GetFile();
 		// Common Operations
-		virtual void Compile();
-		virtual u32 GetShaderHandle() const;
+		virtual void Compile() const = 0;
+		virtual u32 GetShaderHandle() const = 0;
 
-		// Debbuging
-		virtual void ToggleDebug() const;
-
+		virtual File *GetFile();
 		// IResource
 		virtual bool Unload();
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);

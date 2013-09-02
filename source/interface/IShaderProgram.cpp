@@ -37,9 +37,10 @@ namespace Seed
 {
 
 IShaderProgram::IShaderProgram()
-	: bLinked(false)
+	: iProgramId(0)
+	, sName(NULL)
+	, bLinked(false)
 	, bActive(false)
-	, iProgramId(0)
 	, vShaders()
 	, mAttributes()
 {
@@ -49,30 +50,30 @@ IShaderProgram::~IShaderProgram()
 {
 }
 
-void IShaderProgram::Use()
+void IShaderProgram::Use() const
 {
 	SEED_ABSTRACT_METHOD;
 }
 
-void IShaderProgram::Unbind()
+void IShaderProgram::Unbind() const
 {
 	SEED_ABSTRACT_METHOD;
 }
 
-void IShaderProgram::AttachShader(IShader *shader)
+void IShaderProgram::AttachShader(IShader *shader) const
 {
 	UNUSED(shader);
 	SEED_ABSTRACT_METHOD;
 }
 
-void IShaderProgram::BindAttribute(u32 index, String attribName)
+void IShaderProgram::BindAttribute(u32 index, String attribName) const
 {
 	UNUSED(index);
 	UNUSED(attribName);
 	SEED_ABSTRACT_METHOD;
 }
 
-void IShaderProgram::Link()
+void IShaderProgram::Link() const
 {
 	SEED_ABSTRACT_METHOD;
 }
@@ -87,5 +88,5 @@ int IShaderProgram::GetObjectType() const
 	return Seed::TypeShaderProgram;
 }
 
-}
+} // namespace
 

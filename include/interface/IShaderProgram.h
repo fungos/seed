@@ -47,25 +47,27 @@ class SEED_CORE_API IShaderProgram : IObject
 		IShaderProgram();
 		virtual ~IShaderProgram();
 
-		void Use();
-		void Unbind();
-		void AttachShader(IShader *shader);
-		void BindAttribute(u32 index, String attribName);
-		void Link();
+		virtual void Use() const = 0;
+		virtual void Unbind() const = 0;
+		virtual void AttachShader(IShader *shader) const = 0;
+		virtual void BindAttribute(u32 index, String attribName) const = 0;
+		virtual void Link() const = 0;
 		inline u32 GetID() const { return iProgramId; }
 
 		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+		virtual const String GetClassName() const;
+		virtual int GetObjectType() const;
+
+	protected:
+		u32						iProgramId;
+		String					sName;
+		bool					bLinked;
+		bool					bActive;
+		mutable IShaderVector	vShaders;
+		Map<String, u32>		mAttributes;
 
 	private:
 		SEED_DISABLE_COPY(IShaderProgram);
-
-		bool					bLinked;
-		bool					bActive;
-		u32						iProgramId;
-		IShaderVector			vShaders;
-		Map<String, u32>		mAttributes;
 
 };
 

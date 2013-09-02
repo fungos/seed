@@ -34,9 +34,7 @@
 #include "Defines.h"
 #include "interface/IShader.h"
 
-namespace Seed {
-
-namespace GLSL {
+namespace Seed { namespace GLSL {
 
 class SEED_CORE_API GLSLES120Shader : public IShader
 {
@@ -46,8 +44,8 @@ class SEED_CORE_API GLSLES120Shader : public IShader
 
 		// Common Operations
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual void Compile() override;
-		virtual u32 GetShaderHandle() const override;
+		virtual void Compile() const;
+		virtual u32 GetShaderHandle() const;
 
 	private:
 		SEED_DISABLE_COPY(GLSLES120Shader);

@@ -28,62 +28,48 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "Shader.h"
+#ifndef __SHADERMANAGER_H__
+#define __SHADERMANAGER_H__
 
-#if defined (BUILD_IOS) && defined(SEED_ENABLE_OGLES2)
+#include "interface/IObject.h"
+#include "Defines.h"
+#include "Container.h"
 
-#include <OpenGLES/ES2/gl.h>
+namespace Seed {
 
-#define TAG "[Shader] "
+class IShader;
+class IShaderProgram;
 
-namespace Seed { namespace GLSL {
-
-GLSLES120Shader::GLSLES120Shader(eShaderType type)
+class SEED_CORE_API ShaderManager : IObject
 {
-	iShaderType = type;
-	bLoaded = false;
-	bCompiled = false;
-	switch (iShaderType)
-	{
-		case ShaderTypeVertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
-		case ShaderTypeFragment : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
-		case ShaderTypeGeometry : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
-		case ShaderTypeTesselation : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Tesselation shader not suported yet."); break; }
-	}
-}
+	SEED_SINGLETON_DECLARE(ShaderManager)
 
-GLSLES120Shader::~GLSLES120Shader()
-{
-}
+	public:
+		virtual bool LinkShader();
+		virtual void CreateShaderProgram();
+		virtual void AttachShader();
+		virtual void AttachShaderToProgram();
+		virtual u32 GetProgramId();
+		virtual void CompileShader();
+		virtual void LinkProgramObject();
+		virtual void Use();
+		virtual void BindAttribute();
+		virtual void LoadShaderSource();
+		void operator [](String programName);
 
-bool GLSLES120Shader::Load(const String &filename, ResourceManager *res)
-{
-	if(IShader::Load(filename, res))
-	{
-		const char* shaderData = (const char*)pFile->GetData();
-		glShaderSource(iShaderHandle, 1, &shaderData, NULL);
-		bLoaded = true;
-	}
-	else
-		Log(TAG "ERROR: Could not find/load shader %s.", filename.c_str());
+		// IObject
+		virtual const String GetClassName() const override;
+		virtual int GetObjectType() const override;
 
-	return bLoaded;
-}
+	private:
+		SEED_DISABLE_COPY(ShaderManager);
 
-void GLSLES120Shader::Compile() const
-{
-	if(bLoaded)
-	{
-		glCompileShader(iShaderHandle);
-		//bCompiled = true;
-	}
-}
+		Map<String, IShaderProgram*>	mShaderPrograms;
+		Map<String, IShader*> mShaders;
+};
 
-u32 GLSLES120Shader::GetShaderHandle() const
-{
-	return iShaderHandle;
-}
+#define pShaderManager ShaderManager::GetInstance()
 
-}} // namespace
+} // namespace
 
-#endif // BUILD_IOS && SEED_ENABLE_OGLES2
+#endif // __SHADERMANAGER_H__

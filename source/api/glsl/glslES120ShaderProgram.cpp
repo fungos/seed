@@ -32,14 +32,19 @@
 
 #if defined (BUILD_IOS) && defined(SEED_ENABLE_OGLES2)
 
+#include "Shader.h"
 #include <OpenGLES/ES2/gl.h>
 
 #define TAG "[Shader] "
 
 namespace Seed { namespace GLSL {
 
-GLSLES120ShaderProgram::GLSLES120ShaderProgram()
+GLSLES120ShaderProgram::GLSLES120ShaderProgram(String name, const IShader *shader)
 {
+	sName = name;
+
+	// Create the shader
+	iProgramId = glCreateShader(shader->GetShaderHandle());
 }
 
 GLSLES120ShaderProgram::~GLSLES120ShaderProgram()
@@ -48,22 +53,32 @@ GLSLES120ShaderProgram::~GLSLES120ShaderProgram()
 
 void GLSLES120ShaderProgram::Use()
 {
+	glUseProgram(iProgramId);
+	bActive = true;
 }
 
 void GLSLES120ShaderProgram::Unbind()
 {
+	bActive = false;
+	glUseProgram(0);
 }
 
-void GLSLES120ShaderProgram::AttachShader(Seed::IShader *shader)
+void GLSLES120ShaderProgram::AttachShader(IShader *shader)
 {
+	vShaders += shader;
+	glAttachShader(iProgramId, shader->GetShaderHandle());
 }
 
-void GLSLES120ShaderProgram::BindAttribute(u32 index, String attribName)
+void GLSLES120ShaderProgram::BindAttribute(const u32 index, const String attribName)
 {
+	mAttributes[attribName] = index;
+	glBindAttribLocation(iProgramId, index, attribName.c_str());
 }
 
 void GLSLES120ShaderProgram::Link()
 {
+	glLinkProgram(iProgramId);
+	bLinked = true;
 }
 
 }} // namespace

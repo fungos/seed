@@ -46,9 +46,26 @@ IShader::~IShader()
 {
 }
 
+void IShader::Compile() const
+{
+	SEED_ABSTRACT_METHOD;
+}
+
+u32 IShader::GetShaderHandle() const
+{
+	SEED_ABSTRACT_METHOD;
+	return 0;
+}
+
 File* IShader::GetFile()
 {
 	return pFile;
+}
+
+bool IShader::Unload()
+{
+	Delete(pFile);
+	return true;
 }
 
 bool IShader::Load(const String &filename, ResourceManager *res)
@@ -68,16 +85,6 @@ bool IShader::Load(const String &filename, ResourceManager *res)
 	}
 
 	return ret;
-}
-
-void IShader::Compile()
-{
-	SEED_ABSTRACT_METHOD;
-}
-
-u32 IShader::GetShaderHandle() const
-{
-	SEED_ABSTRACT_METHOD;
 }
 
 int IShader::GetObjectType() const

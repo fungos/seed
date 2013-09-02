@@ -28,62 +28,32 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "Shader.h"
+#include "ShaderManager.h"
+#include "Defines.h"
+#include "Enum.h"
 
-#if defined (BUILD_IOS) && defined(SEED_ENABLE_OGLES2)
+#define TAG	"[ShaderManager] "
 
-#include <OpenGLES/ES2/gl.h>
+namespace Seed {
 
-#define TAG "[Shader] "
+SEED_SINGLETON_DEFINE(ShaderManager)
 
-namespace Seed { namespace GLSL {
-
-GLSLES120Shader::GLSLES120Shader(eShaderType type)
-{
-	iShaderType = type;
-	bLoaded = false;
-	bCompiled = false;
-	switch (iShaderType)
-	{
-		case ShaderTypeVertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
-		case ShaderTypeFragment : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
-		case ShaderTypeGeometry : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
-		case ShaderTypeTesselation : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Tesselation shader not suported yet."); break; }
-	}
-}
-
-GLSLES120Shader::~GLSLES120Shader()
+ShaderManager::ShaderManager()
 {
 }
 
-bool GLSLES120Shader::Load(const String &filename, ResourceManager *res)
+ShaderManager::~ShaderManager()
 {
-	if(IShader::Load(filename, res))
-	{
-		const char* shaderData = (const char*)pFile->GetData();
-		glShaderSource(iShaderHandle, 1, &shaderData, NULL);
-		bLoaded = true;
-	}
-	else
-		Log(TAG "ERROR: Could not find/load shader %s.", filename.c_str());
-
-	return bLoaded;
 }
 
-void GLSLES120Shader::Compile() const
+const String ShaderManager::GetClassName() const
 {
-	if(bLoaded)
-	{
-		glCompileShader(iShaderHandle);
-		//bCompiled = true;
-	}
+	return "ShaderManager";
 }
 
-u32 GLSLES120Shader::GetShaderHandle() const
+int ShaderManager::GetObjectType() const
 {
-	return iShaderHandle;
+	return Seed::TypeShaderManager;
 }
 
-}} // namespace
-
-#endif // BUILD_IOS && SEED_ENABLE_OGLES2
+} // namespace

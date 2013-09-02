@@ -28,7 +28,6 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-
 #ifndef __GLSLES120SHADERPROGRAM_H__
 #define __GLSLES120SHADERPROGRAM_H__
 
@@ -40,13 +39,13 @@ namespace Seed { namespace GLSL {
 class SEED_CORE_API GLSLES120ShaderProgram : public IShaderProgram
 {
 	public:
-		GLSLES120ShaderProgram();
+		GLSLES120ShaderProgram(String name, const IShader *shader);
 		virtual ~GLSLES120ShaderProgram();
 
 		virtual void Use() override;
 		virtual void Unbind() override;
 		virtual void AttachShader(IShader *shader) override;
-		virtual void BindAttribute(u32 index, String attribName) override;
+		virtual void BindAttribute(const u32 index, const String attribName) override;
 		virtual void Link() override;
 
 };
