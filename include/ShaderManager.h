@@ -31,31 +31,36 @@
 #ifndef __SHADERMANAGER_H__
 #define __SHADERMANAGER_H__
 
-#include "interface/IObject.h"
 #include "Defines.h"
 #include "Container.h"
+#include "Enum.h"
 
 namespace Seed {
 
 class IShader;
 class IShaderProgram;
 
-class SEED_CORE_API ShaderManager : IObject
+typedef Map<String, IShaderProgram*> ShaderProgramMap;
+typedef ShaderProgramMap::iterator ShaderProgramMapIterator;
+
+typedef Map<String, IShader*> ShaderMap;
+typedef ShaderMap::iterator ShaderMapIterator;
+
+class SEED_CORE_API ShaderManager : public IObject
 {
 	SEED_SINGLETON_DECLARE(ShaderManager)
 
 	public:
-		virtual bool LinkShader();
-		virtual void CreateShaderProgram();
-		virtual void AttachShader();
-		virtual void AttachShaderToProgram();
-		virtual u32 GetProgramId();
-		virtual void CompileShader();
-		virtual void LinkProgramObject();
-		virtual void Use();
-		virtual void BindAttribute();
-		virtual void LoadShaderSource();
-		void operator [](String programName);
+		virtual u32 GetProgramId(const String &name);
+		virtual void AttachShader(IShader *shader, const String &name);
+		virtual void LoadShaderSource(const String &name, const String &filename, ResourceManager *res);
+		virtual void CompileShader(const String &name);
+		virtual bool LinkShader(const String &name);
+		virtual void AttachShaderToProgram(const String shaderName, const String shaderProgramName);
+		virtual void Use(const String &name);
+		IShaderProgram* operator[](const String programName);
+		void Add(const String &name, IShaderProgram *shaderProgram);
+		void Remove(const String &name);
 
 		// IObject
 		virtual const String GetClassName() const override;
@@ -64,8 +69,9 @@ class SEED_CORE_API ShaderManager : IObject
 	private:
 		SEED_DISABLE_COPY(ShaderManager);
 
-		Map<String, IShaderProgram*>	mShaderPrograms;
-		Map<String, IShader*> mShaders;
+		ShaderProgramMap		mShaderPrograms;
+		ShaderMap				mShaders;
+		IShaderProgram			*pCurrentProgram;
 };
 
 #define pShaderManager ShaderManager::GetInstance()

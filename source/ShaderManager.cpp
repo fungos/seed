@@ -29,8 +29,9 @@
 */
 
 #include "ShaderManager.h"
-#include "Defines.h"
-#include "Enum.h"
+#include "Log.h"
+#include "Shader.h"
+#include "ShaderProgram.h"
 
 #define TAG	"[ShaderManager] "
 
@@ -39,12 +40,139 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(ShaderManager)
 
 ShaderManager::ShaderManager()
+	: mShaderPrograms()
+	, mShaders()
+	, bEnabled(true)
 {
 }
 
 ShaderManager::~ShaderManager()
 {
+	this->Reset();
 }
+
+u32 ShaderManager::GetProgramId(const String &name)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(name);
+
+	if(it == mShaderPrograms.end())
+	{
+		Log(TAG "The shader program '%s' was not found", name.c_str());
+		return 0;
+	}
+	else
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		return shaderProgram->GetID();
+	}
+}
+
+void ShaderManager::AttachShader(IShader *shader, const String &name)
+{
+	mShaders[name] = shader;
+}
+
+void ShaderManager::LoadShaderSource(const String &name, const String &filename, ResourceManager *res)
+{
+	ShaderMapIterator it = mShaders.find(name);
+
+	if(it != mShaders.end())
+	{
+		IShader *shader = (*it).second;
+		shader->Load(filename, res);
+	}
+}
+
+void ShaderManager::CompileShader(const String &name)
+{
+	ShaderMapIterator it = mShaders.find(name);
+
+	if(it != mShaders.end())
+	{
+		IShader *shader = (*it).second;
+		shader->Compile();
+	}
+}
+
+bool ShaderManager::LinkShader(const String &name)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(name);
+
+	if(it != mShaderPrograms.end())
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		shaderProgram->Link();
+	}
+}
+
+void ShaderManager::Use(const String &name)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(name);
+
+	if(it != mShaderPrograms.end())
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		pCurrentProgram = shaderProgram;
+
+		pCurrentProgram->Use();
+	}
+}
+
+IShaderProgram* ShaderManager::operator[](const String name)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(name);
+
+	if(it == mShaderPrograms.end())
+	{
+		Log(TAG "The shader program '%s' was not found", name.c_str());
+		return NULL;
+	}
+	else
+		return (*it).second;
+}
+
+void ShaderManager::AttachShaderToProgram(const String shaderName, const String shaderProgramName)
+{
+	ShaderMapIterator itShader = mShaders.find(shaderName);
+	ShaderProgramMapIterator itShaderProgram = mShaderPrograms.find(shaderProgramName);
+
+	if(itShader != mShaders.end() && itShaderProgram != mShaderPrograms.end())
+	{
+		IShader *shader = (*itShader).second;
+		IShaderProgram *shaderProgram = (*itShaderProgram).second;
+
+		shaderProgram->AttachShader(shader);
+
+		// TODO Verify if it will be necessary
+		//shader->IncrementReference();
+	}
+}
+
+void ShaderManager::Add(const String &name, IShaderProgram *shaderProgram)
+{
+	if(mShaderPrograms.find(name) != mShaderPrograms.end())
+	{
+		Log(TAG "The shader program '%s' is already added.", name.c_str());
+		return;
+	}
+
+	mShaderPrograms[name] = shaderProgram;
+}
+
+void ShaderManager::Remove(const String &name)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(name);
+
+	if(it == mShaderPrograms.end())
+	{
+		Log(TAG "The shader program '%s' was not found", name.c_str());
+		return;
+	}
+
+	mShaderPrograms.erase(it);
+}
+
+// IObject
 
 const String ShaderManager::GetClassName() const
 {

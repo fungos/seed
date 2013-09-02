@@ -49,6 +49,7 @@ class SEED_CORE_API IShader : public IResource
 		virtual u32 GetShaderHandle() const = 0;
 
 		virtual File *GetFile();
+
 		// IResource
 		virtual bool Unload();
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
