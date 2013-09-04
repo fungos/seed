@@ -28,28 +28,44 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __GLSLES120SHADERPROGRAM_H__
-#define __GLSLES120SHADERPROGRAM_H__
+#include "ShaderProgram.h"
 
-#include "Defines.h"
-#include "interface/IShaderProgram.h"
+#if defined (BUILD_IOS) && !defined(SEED_ENABLE_OGLES2)
 
-namespace Seed { namespace GLSL {
+#include <OpenGLES/ES1/gl.h>
 
-class SEED_CORE_API GLSLES120ShaderProgram : public IShaderProgram
+#define TAG "[Shader] "
+
+namespace Seed { namespace OpenGL {
+
+OGLES1ShaderProgram::OGLES1ShaderProgram()
 {
-	public:
-		GLSLES120ShaderProgram(String name);
-		virtual ~GLSLES120ShaderProgram();
+}
 
-		virtual void Use();
-		virtual void Unbind();
-		virtual void AttachShader(IShader *shader);
-		virtual void BindAttribute(const u32 index, const String attribName);
-		virtual void Link();
+OGLES1ShaderProgram::~OGLES1ShaderProgram()
+{
+}
 
-};
+void OGLES1ShaderProgram::Use()
+{
+}
+
+void OGLES1ShaderProgram::Unbind()
+{
+}
+
+void OGLES1ShaderProgram::AttachShader(Seed::IShader *shader)
+{
+}
+
+void OGLES1ShaderProgram::BindAttribute(u32 index, String attribName)
+{
+}
+
+void OGLES1ShaderProgram::Link()
+{
+}
 
 }} // namespace
 
-#endif // __GLSLES120SHADERPROGRAM_H__
+#endif // BUILD_IOS && !SEED_ENABLE_OGLES2

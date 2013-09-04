@@ -144,8 +144,10 @@
 		D1B00ADA1642F634009211BF /* seed_posix.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD81642F634009211BF /* seed_posix.cpp */; };
 		D1B00ADB1642F634009211BF /* seed_win32.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D1B00AD91642F634009211BF /* seed_win32.cpp */; };
 		E218449A17CE81E1002A4457 /* IShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E218449917CE81E1002A4457 /* IShaderProgram.cpp */; };
-		E218449E17CE821B002A4457 /* glslES100ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E218449C17CE821B002A4457 /* glslES100ShaderProgram.cpp */; };
-		E218449F17CE821B002A4457 /* glslES120ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E218449D17CE821B002A4457 /* glslES120ShaderProgram.cpp */; };
+		E2191CD117D7DB3A003AF8DC /* oglES1Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2191CCD17D7DB3A003AF8DC /* oglES1Shader.cpp */; };
+		E2191CD217D7DB3A003AF8DC /* oglES1ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2191CCE17D7DB3A003AF8DC /* oglES1ShaderProgram.cpp */; };
+		E2191CD317D7DB3A003AF8DC /* oglES2Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2191CCF17D7DB3A003AF8DC /* oglES2Shader.cpp */; };
+		E2191CD417D7DB3A003AF8DC /* oglES2ShaderProgram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2191CD017D7DB3A003AF8DC /* oglES2ShaderProgram.cpp */; };
 		E2229EEC1758DD3F00F26210 /* GameMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE51758DD3E00F26210 /* GameMap.cpp */; };
 		E2229EED1758DD3F00F26210 /* IMapLayer.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE61758DD3E00F26210 /* IMapLayer.cpp */; };
 		E2229EEE1758DD3F00F26210 /* IMetadataObject.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EE71758DD3E00F26210 /* IMetadataObject.cpp */; };
@@ -160,8 +162,6 @@
 		E270C3C817583E8800A1C5FD /* oglES2RendererDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E270C3C717583E8800A1C5FD /* oglES2RendererDevice.cpp */; };
 		E2753F1617D66C42007D061F /* ShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2753F1517D66C42007D061F /* ShaderManager.cpp */; };
 		E2CD936017C7EC68009AC79F /* IShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CD935F17C7EC68009AC79F /* IShader.cpp */; };
-		E2CD936417C7EC94009AC79F /* glslES100Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CD936217C7EC94009AC79F /* glslES100Shader.cpp */; };
-		E2CD936517C7EC94009AC79F /* glslES120Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CD936317C7EC94009AC79F /* glslES120Shader.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -488,12 +488,16 @@
 		D1B00AD81642F634009211BF /* seed_posix.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_posix.cpp; sourceTree = "<group>"; };
 		D1B00AD91642F634009211BF /* seed_win32.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = seed_win32.cpp; sourceTree = "<group>"; };
 		E218449917CE81E1002A4457 /* IShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IShaderProgram.cpp; sourceTree = "<group>"; };
-		E218449C17CE821B002A4457 /* glslES100ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = glslES100ShaderProgram.cpp; path = glsl/glslES100ShaderProgram.cpp; sourceTree = "<group>"; };
-		E218449D17CE821B002A4457 /* glslES120ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = glslES120ShaderProgram.cpp; path = glsl/glslES120ShaderProgram.cpp; sourceTree = "<group>"; };
-		E21844A017CE8237002A4457 /* glslES100ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glslES100ShaderProgram.h; path = glsl/glslES100ShaderProgram.h; sourceTree = "<group>"; };
-		E21844A117CE8237002A4457 /* glslES120ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glslES120ShaderProgram.h; path = glsl/glslES120ShaderProgram.h; sourceTree = "<group>"; };
 		E21844A217CE825F002A4457 /* ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderProgram.h; sourceTree = "<group>"; };
 		E21844A317CE82A2002A4457 /* IShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IShaderProgram.h; sourceTree = "<group>"; };
+		E2191CC817D7DB0B003AF8DC /* oglES1Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oglES1Shader.h; sourceTree = "<group>"; };
+		E2191CC917D7DB0B003AF8DC /* oglES1ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oglES1ShaderProgram.h; sourceTree = "<group>"; };
+		E2191CCA17D7DB0B003AF8DC /* oglES2Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oglES2Shader.h; sourceTree = "<group>"; };
+		E2191CCB17D7DB0B003AF8DC /* oglES2ShaderProgram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oglES2ShaderProgram.h; sourceTree = "<group>"; };
+		E2191CCD17D7DB3A003AF8DC /* oglES1Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oglES1Shader.cpp; sourceTree = "<group>"; };
+		E2191CCE17D7DB3A003AF8DC /* oglES1ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oglES1ShaderProgram.cpp; sourceTree = "<group>"; };
+		E2191CCF17D7DB3A003AF8DC /* oglES2Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oglES2Shader.cpp; sourceTree = "<group>"; };
+		E2191CD017D7DB3A003AF8DC /* oglES2ShaderProgram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oglES2ShaderProgram.cpp; sourceTree = "<group>"; };
 		E2229ED41758DAC400F26210 /* oglES2RendererDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = oglES2RendererDevice.h; sourceTree = "<group>"; };
 		E2229ED71758DB0100F26210 /* RocketInterface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RocketInterface.h; path = rocket/RocketInterface.h; sourceTree = "<group>"; };
 		E2229ED81758DB8400F26210 /* IEventPresentationListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IEventPresentationListener.h; sourceTree = "<group>"; };
@@ -523,11 +527,7 @@
 		E2753F1517D66C42007D061F /* ShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderManager.cpp; sourceTree = "<group>"; };
 		E2CD935917C7EBC2009AC79F /* IShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IShader.h; sourceTree = "<group>"; };
 		E2CD935B17C7EBDA009AC79F /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
-		E2CD935D17C7EC03009AC79F /* glslES100Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glslES100Shader.h; path = glsl/glslES100Shader.h; sourceTree = "<group>"; };
-		E2CD935E17C7EC03009AC79F /* glslES120Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glslES120Shader.h; path = glsl/glslES120Shader.h; sourceTree = "<group>"; };
 		E2CD935F17C7EC68009AC79F /* IShader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = IShader.cpp; sourceTree = "<group>"; };
-		E2CD936217C7EC94009AC79F /* glslES100Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = glslES100Shader.cpp; path = glsl/glslES100Shader.cpp; sourceTree = "<group>"; };
-		E2CD936317C7EC94009AC79F /* glslES120Shader.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = glslES120Shader.cpp; path = glsl/glslES120Shader.cpp; sourceTree = "<group>"; };
 		E2D364E8175A6E87006BCAB8 /* Shaders.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shaders.h; path = platform/ios/Shaders.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -662,7 +662,6 @@
 		D103F4A6163F1CE800267967 /* api */ = {
 			isa = PBXGroup;
 			children = (
-				E2CD935C17C7EBEC009AC79F /* glsl */,
 				E2229ED61758DAED00F26210 /* rocket */,
 				D103F4A7163F1CE800267967 /* directx */,
 				D103F4AA163F1CE800267967 /* oal */,
@@ -698,6 +697,10 @@
 		D103F4B0163F1CE800267967 /* ogl */ = {
 			isa = PBXGroup;
 			children = (
+				E2191CC817D7DB0B003AF8DC /* oglES1Shader.h */,
+				E2191CC917D7DB0B003AF8DC /* oglES1ShaderProgram.h */,
+				E2191CCA17D7DB0B003AF8DC /* oglES2Shader.h */,
+				E2191CCB17D7DB0B003AF8DC /* oglES2ShaderProgram.h */,
 				E2229ED41758DAC400F26210 /* oglES2RendererDevice.h */,
 				D103F4B1163F1CE800267967 /* oglES1RendererDevice.h */,
 			);
@@ -935,7 +938,6 @@
 		D103F55C163F1CF500267967 /* api */ = {
 			isa = PBXGroup;
 			children = (
-				E2CD936117C7EC7C009AC79F /* glsl */,
 				E2229EF51758DD6800F26210 /* rocket */,
 				D103F55D163F1CF500267967 /* directx */,
 				D103F560163F1CF500267967 /* oal */,
@@ -971,6 +973,10 @@
 		D103F566163F1CF500267967 /* ogl */ = {
 			isa = PBXGroup;
 			children = (
+				E2191CCD17D7DB3A003AF8DC /* oglES1Shader.cpp */,
+				E2191CCE17D7DB3A003AF8DC /* oglES1ShaderProgram.cpp */,
+				E2191CCF17D7DB3A003AF8DC /* oglES2Shader.cpp */,
+				E2191CD017D7DB3A003AF8DC /* oglES2ShaderProgram.cpp */,
 				E270C3C717583E8800A1C5FD /* oglES2RendererDevice.cpp */,
 				D103F567163F1CF500267967 /* oglES1RendererDevice.cpp */,
 			);
@@ -1184,28 +1190,6 @@
 			name = rocket;
 			sourceTree = "<group>";
 		};
-		E2CD935C17C7EBEC009AC79F /* glsl */ = {
-			isa = PBXGroup;
-			children = (
-				E21844A017CE8237002A4457 /* glslES100ShaderProgram.h */,
-				E21844A117CE8237002A4457 /* glslES120ShaderProgram.h */,
-				E2CD935D17C7EC03009AC79F /* glslES100Shader.h */,
-				E2CD935E17C7EC03009AC79F /* glslES120Shader.h */,
-			);
-			name = glsl;
-			sourceTree = "<group>";
-		};
-		E2CD936117C7EC7C009AC79F /* glsl */ = {
-			isa = PBXGroup;
-			children = (
-				E218449C17CE821B002A4457 /* glslES100ShaderProgram.cpp */,
-				E218449D17CE821B002A4457 /* glslES120ShaderProgram.cpp */,
-				E2CD936217C7EC94009AC79F /* glslES100Shader.cpp */,
-				E2CD936317C7EC94009AC79F /* glslES120Shader.cpp */,
-			);
-			name = glsl;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1406,12 +1390,12 @@
 				E2229EFA1758DE3500F26210 /* EventPresentation.cpp in Sources */,
 				E2229EFB1758DE3500F26210 /* Presentation.cpp in Sources */,
 				E2CD936017C7EC68009AC79F /* IShader.cpp in Sources */,
-				E2CD936417C7EC94009AC79F /* glslES100Shader.cpp in Sources */,
-				E2CD936517C7EC94009AC79F /* glslES120Shader.cpp in Sources */,
 				E218449A17CE81E1002A4457 /* IShaderProgram.cpp in Sources */,
-				E218449E17CE821B002A4457 /* glslES100ShaderProgram.cpp in Sources */,
-				E218449F17CE821B002A4457 /* glslES120ShaderProgram.cpp in Sources */,
 				E2753F1617D66C42007D061F /* ShaderManager.cpp in Sources */,
+				E2191CD117D7DB3A003AF8DC /* oglES1Shader.cpp in Sources */,
+				E2191CD217D7DB3A003AF8DC /* oglES1ShaderProgram.cpp in Sources */,
+				E2191CD317D7DB3A003AF8DC /* oglES2Shader.cpp in Sources */,
+				E2191CD417D7DB3A003AF8DC /* oglES2ShaderProgram.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

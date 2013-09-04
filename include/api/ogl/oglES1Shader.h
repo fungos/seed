@@ -28,62 +28,31 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "Shader.h"
+#ifndef __OGLES1_SHADER_H__
+#define __OGLES1_SHADER_H__
 
-#if defined (BUILD_IOS) && defined(SEED_ENABLE_OGLES2)
+#include "Defines.h"
+#include "interface/IShader.h"
 
-#include <OpenGLES/ES2/gl.h>
+namespace Seed {
 
-#define TAG "[Shader] "
+namespace OpenGL {
 
-namespace Seed { namespace GLSL {
-
-GLSLES120Shader::GLSLES120Shader(eShaderType type)
+class SEED_CORE_API OGLES1Shader : public IShader
 {
-	iShaderType = type;
-	bLoaded = false;
-	bCompiled = false;
-	switch (iShaderType)
-	{
-		case ShaderTypeVertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
-		case ShaderTypeFragment : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
-		case ShaderTypeGeometry : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
-		case ShaderTypeTesselation : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Tesselation shader not suported yet."); break; }
-	}
-}
+	public:
+		OGLES1Shader();
+		virtual ~OGLES1Shader();
 
-GLSLES120Shader::~GLSLES120Shader()
-{
-}
+		// Common Operations
+		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
+		virtual void Compile() override;
+		virtual u32 GetShaderHandle() const override;
 
-bool GLSLES120Shader::Load(const String &filename, ResourceManager *res)
-{
-	if(IShader::Load(filename, res))
-	{
-		const char* shaderData = (const char*)pFile->GetData();
-		glShaderSource(iShaderHandle, 1, &shaderData, NULL);
-		bLoaded = true;
-	}
-	else
-		Log(TAG "ERROR: Could not find/load shader %s.", filename.c_str());
-
-	return bLoaded;
-}
-
-void GLSLES120Shader::Compile() const
-{
-	if(bLoaded)
-	{
-		glCompileShader(iShaderHandle);
-		//bCompiled = true;
-	}
-}
-
-u32 GLSLES120Shader::GetShaderHandle() const
-{
-	return iShaderHandle;
-}
+	private:
+		SEED_DISABLE_COPY(OGLES1Shader);
+};
 
 }} // namespace
 
-#endif // BUILD_IOS && SEED_ENABLE_OGLES2
+#endif // __OGLES1_SHADER_H__

@@ -28,59 +28,31 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "ShaderProgram.h"
+#ifndef __OGLES2_SHADER_PROGRAM_H__
+#define __OGLES2_SHADER_PROGRAM_H__
 
-#if defined (BUILD_IOS) && defined(SEED_ENABLE_OGLES2)
+#include "Defines.h"
+#include "interface/IShaderProgram.h"
 
-#include "Shader.h"
-#include <OpenGLES/ES2/gl.h>
+namespace Seed { namespace OpenGL {
 
-#define TAG "[Shader] "
-
-namespace Seed { namespace GLSL {
-
-GLSLES120ShaderProgram::GLSLES120ShaderProgram(String name)
+class SEED_CORE_API OGLES2ShaderProgram : public IShaderProgram
 {
-	sName = name;
+	public:
+		OGLES2ShaderProgram(String name);
+		virtual ~OGLES2ShaderProgram();
 
-	// Create the shader program
-	iProgramId = glCreateProgram();
-}
+		virtual void Use();
+		virtual void Unbind();
+		virtual void AttachShader(IShader *shader);
+		virtual void BindAttribute(const u32 index, const String attribName);
+		virtual void Link();
 
-GLSLES120ShaderProgram::~GLSLES120ShaderProgram()
-{
-}
+	private:
+		SEED_DISABLE_COPY(OGLES2ShaderProgram);
 
-void GLSLES120ShaderProgram::Use()
-{
-	glUseProgram(iProgramId);
-	bActive = true;
-}
-
-void GLSLES120ShaderProgram::Unbind()
-{
-	glUseProgram(0);
-	bActive = false;
-}
-
-void GLSLES120ShaderProgram::AttachShader(IShader *shader)
-{
-	vShaders += shader;
-	glAttachShader(iProgramId, shader->GetShaderHandle());
-}
-
-void GLSLES120ShaderProgram::BindAttribute(const u32 index, const String attribName)
-{
-	mAttributes[attribName] = index;
-	glBindAttribLocation(iProgramId, index, attribName.c_str());
-}
-
-void GLSLES120ShaderProgram::Link()
-{
-	glLinkProgram(iProgramId);
-	bLinked = true;
-}
+};
 
 }} // namespace
 
-#endif // BUILD_IOS && SEED_ENABLE_OGLES2
+#endif // __OGLES2_SHADER_PROGRAM_H__

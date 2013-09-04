@@ -30,42 +30,57 @@
 
 #include "ShaderProgram.h"
 
-#if defined (BUILD_IOS) && !defined(SEED_ENABLE_OGLES2)
+#if defined (BUILD_IOS) && defined(SEED_ENABLE_OGLES2)
 
-#include <OpenGLES/ES1/gl.h>
+#include "Shader.h"
+#include <OpenGLES/ES2/gl.h>
 
 #define TAG "[Shader] "
 
-namespace Seed { namespace GLSL {
+namespace Seed { namespace OpenGL {
 
-GLSLES100ShaderProgram::GLSLES100ShaderProgram()
+OGLES2ShaderProgram::OGLES2ShaderProgram(String name)
+{
+	sName = name;
+
+	// Create the shader program
+	iProgramId = glCreateProgram();
+}
+
+OGLES2ShaderProgram::~OGLES2ShaderProgram()
 {
 }
 
-GLSLES100ShaderProgram::~GLSLES100ShaderProgram()
+void OGLES2ShaderProgram::Use()
 {
+	glUseProgram(iProgramId);
+	bActive = true;
 }
 
-void GLSLES100ShaderProgram::Use()
+void OGLES2ShaderProgram::Unbind()
 {
+	glUseProgram(0);
+	bActive = false;
 }
 
-void GLSLES100ShaderProgram::Unbind()
+void OGLES2ShaderProgram::AttachShader(IShader *shader)
 {
+	vShaders += shader;
+	glAttachShader(iProgramId, shader->GetShaderHandle());
 }
 
-void GLSLES100ShaderProgram::AttachShader(Seed::IShader *shader)
+void OGLES2ShaderProgram::BindAttribute(const u32 index, const String attribName)
 {
+	mAttributes[attribName] = index;
+	glBindAttribLocation(iProgramId, index, attribName.c_str());
 }
 
-void GLSLES100ShaderProgram::BindAttribute(u32 index, String attribName)
+void OGLES2ShaderProgram::Link()
 {
-}
-
-void GLSLES100ShaderProgram::Link()
-{
+	glLinkProgram(iProgramId);
+	bLinked = true;
 }
 
 }} // namespace
 
-#endif // BUILD_IOS && !SEED_ENABLE_OGLES2
+#endif // BUILD_IOS && SEED_ENABLE_OGLES2

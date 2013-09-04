@@ -28,31 +28,62 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __GLSLES2_SHADER_H__
-#define __GLSLES2_SHADER_H__
+#include "Shader.h"
 
-#include "Defines.h"
-#include "interface/IShader.h"
+#if defined (BUILD_IOS) && !defined(SEED_ENABLE_OGLES2)
 
-namespace Seed {
+#include <OpenGLES/ES1/gl.h>
 
-namespace GLSL {
+#define TAG "[Shader] "
 
-class SEED_CORE_API GLSLES100Shader : public IShader
+namespace Seed { namespace OpenGL {
+
+OGLES1Shader::OGLES1Shader(eShaderType type)
 {
-	public:
-		GLSLES100Shader();
-		virtual ~GLSLES100Shader();
+	iShaderType = type;
+	bLoaded = false;
+	bCompiled = false;
+	switch (iShaderType)
+	{
+		case ShaderTypeVertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
+		case ShaderTypeFragment : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
+		case ShaderTypeGeometry : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
+		case ShaderTypeTesselation : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Tesselation shader not suported yet."); break; }
+	}
+}
 
-		// Common Operations
-		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual void Compile() override;
-		virtual u32 GetShaderHandle() const override;
+OGLES1Shader::~OGLES1Shader()
+{
+}
 
-	private:
-		SEED_DISABLE_COPY(GLSLES100Shader);
-};
+bool OGLES1Shader::Load(const String &filename, ResourceManager *res)
+{
+	if(IShader::Load(filename, res))
+	{
+		const char* shaderData = (const char*)pFile->GetData();
+		glShaderSource(iShaderHandle, 1, &shaderData, NULL);
+		bLoaded = true;
+	}
+	else
+		Log(TAG "ERROR: Could not find/load shader %s.", filename.c_str());
+
+	return bLoaded;
+}
+
+void OGLES1Shader::Compile()
+{
+	if(bLoaded)
+	{
+		glCompileShader(iShaderHandle);
+		bCompiled = true;
+	}
+}
+
+u32 OGLES1Shader::GetShaderHandle() const
+{
+	return iShaderHandle;
+}
 
 }} // namespace
 
-#endif // __GLSLES2_SHADER_H__
+#endif // BUILD_IOS && !SEED_ENABLE_OGLES2

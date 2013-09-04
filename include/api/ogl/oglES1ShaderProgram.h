@@ -29,19 +29,19 @@
 */
 
 
-#ifndef __GLSLES100SHADERPROGRAM_H__
-#define __GLSLES100SHADERPROGRAM_H__
+#ifndef __OGLES1_SHADER_PROGRAM_H__
+#define __OGLES1_SHADER_PROGRAM_H__
 
 #include "Defines.h"
 #include "interface/IShaderProgram.h"
 
 namespace Seed {
 
-class SEED_CORE_API GLSLES100ShaderProgram : public IShaderProgram
+class SEED_CORE_API OGLES1ShaderProgram : public IShaderProgram
 {
 	public:
-		GLSLES100ShaderProgram();
-		virtual ~GLSLES100ShaderProgram();
+		OGLES1ShaderProgram();
+		virtual ~OGLES1ShaderProgram();
 
 		virtual void Use() override;
 		virtual void Unbind() override;
@@ -49,8 +49,11 @@ class SEED_CORE_API GLSLES100ShaderProgram : public IShaderProgram
 		virtual void BindAttribute(GLuint index, String attribName) override;
 		virtual void Link() override;
 
+	private:
+		SEED_DISABLE_COPY(OGLES1ShaderProgram);
+
 };
 
 } // namespace
 
-#endif // __GLSLES100SHADERPROGRAM_H__
+#endif // __OGLES1_SHADER_PROGRAM_H__

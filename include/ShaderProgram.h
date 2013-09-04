@@ -3,28 +3,28 @@
 
 #if defined(BUILD_IOS)
 	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/glsl/glslES120ShaderProgram.h"
+	#include "api/ogl/oglES2ShaderProgram.h"
 	#else
-	#include "api/glsl/glslES100ShaderProgram.h"
+	#include "api/ogl/oglES1ShaderProgram.h"
 	#endif
 
 #elif defined(BUILD_SDL) || defined(BUILD_GLFW)
 	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/glsl/glslES120ShaderProgram.h"
+	#include "api/ogl/oglES2ShaderProgram.h"
 	#else
-	#include "api/glsl/glslES100ShaderProgram.h"
+	#include "api/ogl/oglES1ShaderProgram.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL20)
-	#include "api/glsl/glsl110Shader.h"
+	#include "api/ogl/ogl1ShaderProgram.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL30)
-	#include "api/glsl/glsl130Shader.h"
+	#include "api/ogl/ogl3ShaderProgram.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL40)
-	#include "api/glsl/glsl400Shader.h"
+	#include "api/ogl/ogl4ShaderProgram.h"
 	#endif
 
 	#if defined(SEED_ENABLE_D3D8)
@@ -40,7 +40,7 @@
 	#endif
 
 #elif defined(BUILD_QT)
-	#include "api/glsl/glslES100Shader.h"
+	#include "api/ogl/oglES1ShaderProgram.h"
 #endif
 
 #endif // __SHADERPROGRAM_H__

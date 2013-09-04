@@ -123,7 +123,6 @@
 
 #define TAG "[OGLES2RendererDevice] "
 
-using namespace Seed::GLSL;
 namespace Seed { namespace OpenGL {
 
 OGLES2RendererDevice::OGLES2RendererDevice()

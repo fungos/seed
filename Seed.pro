@@ -206,12 +206,12 @@ SOURCES += source/Viewport.cpp \
 	source/map/TileSet.cpp \
 	source/api/ogl/oglES2RendererDevice.cpp \
 	source/interface/IShader.cpp \
-	source/api/glsl/glslES100Shader.cpp \
-	source/api/glsl/glslES120Shader.cpp \
 	source/interface/IShaderProgram.cpp \
-	source/api/glsl/glslES100ShaderProgram.cpp \
-	source/api/glsl/glslES120ShaderProgram.cpp \
-	source/ShaderManager.cpp
+	source/ShaderManager.cpp \
+	source/api/ogl/oglES1Shader.cpp \
+	source/api/ogl/oglES1ShaderProgram.cpp \
+	source/api/ogl/oglES2Shader.cpp \
+	source/api/ogl/oglES2ShaderProgram.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -270,10 +270,26 @@ HEADERS += include/*.h \
 	include/api/ogl/oglES2RendererDevice.h \
 	include/interface/IShader.h \
 	include/Shader.h \
-	include/api/glsl/glslES100Shader.h \
-	include/api/glsl/glslES120Shader.h \
 	include/interface/IShaderProgram.h \
-	include/api/glsl/glslES100ShaderProgram.h \
-	include/api/glsl/glslES120ShaderProgram.h \
 	include/ShaderProgram.h \
-	include/ShaderManager.h
+	include/ShaderManager.h \
+	include/api/ogl/oglES1Shader.h \
+	include/api/ogl/oglES1ShaderProgram.h \
+	include/api/ogl/oglES2Shader.h \
+	include/api/ogl/oglES2ShaderProgram.h
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

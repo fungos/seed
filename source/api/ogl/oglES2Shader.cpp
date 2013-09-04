@@ -28,29 +28,62 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __GLSLES2_SHADER_H__
-#define __GLSLES2_SHADER_H__
+#include "Shader.h"
 
-#include "Defines.h"
-#include "interface/IShader.h"
+#if defined (BUILD_IOS) && defined(SEED_ENABLE_OGLES2)
 
-namespace Seed { namespace GLSL {
+#include <OpenGLES/ES2/gl.h>
 
-class SEED_CORE_API GLSLES120Shader : public IShader
+#define TAG "[Shader] "
+
+namespace Seed { namespace OpenGL {
+
+OGLES2Shader::OGLES2Shader(eShaderType type)
 {
-	public:
-		GLSLES120Shader(eShaderType type);
-		virtual ~GLSLES120Shader();
+	iShaderType = type;
+	bLoaded = false;
+	bCompiled = false;
+	switch (iShaderType)
+	{
+		case ShaderTypeVertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
+		case ShaderTypeFragment : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
+		case ShaderTypeGeometry : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
+		case ShaderTypeTesselation : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Tesselation shader not suported yet."); break; }
+	}
+}
 
-		// Common Operations
-		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
-		virtual void Compile() const;
-		virtual u32 GetShaderHandle() const;
+OGLES2Shader::~OGLES2Shader()
+{
+}
 
-	private:
-		SEED_DISABLE_COPY(GLSLES120Shader);
-};
+bool OGLES2Shader::Load(const String &filename, ResourceManager *res)
+{
+	if(IShader::Load(filename, res))
+	{
+		const char* shaderData = (const char*)pFile->GetData();
+		glShaderSource(iShaderHandle, 1, &shaderData, NULL);
+		bLoaded = true;
+	}
+	else
+		Log(TAG "ERROR: Could not find/load shader %s.", filename.c_str());
+
+	return bLoaded;
+}
+
+void OGLES2Shader::Compile() const
+{
+	if(bLoaded)
+	{
+		glCompileShader(iShaderHandle);
+		//bCompiled = true;
+	}
+}
+
+u32 OGLES2Shader::GetShaderHandle() const
+{
+	return iShaderHandle;
+}
 
 }} // namespace
 
-#endif // __GLSLES2_SHADER_H__
+#endif // BUILD_IOS && SEED_ENABLE_OGLES2

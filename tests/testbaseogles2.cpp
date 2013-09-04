@@ -27,10 +27,10 @@ bool TestBaseOGLES2::Initialize()
 
 	/* ------- Rendering Initialization ------- */
     
-    pShaderManager->Add("Simple", New(GLSLES120ShaderProgram("Simple")));
+    pShaderManager->Add("Simple", New(OGLES2ShaderProgram("Simple")));
     
-    pShaderManager->AttachShader("SimpleVertex", New(GLSLES120Shader(ShaderTypeVertex)));
-    pShaderManager->AttachShader("SimpleFragment", New(GLSLES120Shader(ShaderTypeFragment)));
+    pShaderManager->AttachShader("SimpleVertex", New(OGLES2Shader(ShaderTypeVertex)));
+    pShaderManager->AttachShader("SimpleFragment", New(OGLES2Shader(ShaderTypeFragment)));
     pShaderManager->LoadShaderSource("SimpleVertex", "shaders/simple.vs", pResourceManager);
     pShaderManager->LoadShaderSource("SimpleFragment", "shaders/simple.fs", pResourceManager);
     

@@ -8,7 +8,7 @@
 #include <Shader.h>
 
 using namespace Seed;
-using namespace Seed::GLSL;
+using namespace Seed::OpenGL;
 
 extern SceneNode *gScene;
 
