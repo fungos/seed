@@ -39,14 +39,14 @@ namespace Seed { namespace GLSL {
 class SEED_CORE_API GLSLES120ShaderProgram : public IShaderProgram
 {
 	public:
-		GLSLES120ShaderProgram(String name, const IShader *shader);
+		GLSLES120ShaderProgram(String name);
 		virtual ~GLSLES120ShaderProgram();
 
-		virtual void Use() override;
-		virtual void Unbind() override;
-		virtual void AttachShader(IShader *shader) override;
-		virtual void BindAttribute(const u32 index, const String attribName) override;
-		virtual void Link() override;
+		virtual void Use();
+		virtual void Unbind();
+		virtual void AttachShader(IShader *shader);
+		virtual void BindAttribute(const u32 index, const String attribName);
+		virtual void Link();
 
 };
 

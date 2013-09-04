@@ -158,6 +158,7 @@
 		E2229EFA1758DE3500F26210 /* EventPresentation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EF81758DE3300F26210 /* EventPresentation.cpp */; };
 		E2229EFB1758DE3500F26210 /* Presentation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2229EF91758DE3400F26210 /* Presentation.cpp */; };
 		E270C3C817583E8800A1C5FD /* oglES2RendererDevice.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E270C3C717583E8800A1C5FD /* oglES2RendererDevice.cpp */; };
+		E2753F1617D66C42007D061F /* ShaderManager.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2753F1517D66C42007D061F /* ShaderManager.cpp */; };
 		E2CD936017C7EC68009AC79F /* IShader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CD935F17C7EC68009AC79F /* IShader.cpp */; };
 		E2CD936417C7EC94009AC79F /* glslES100Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CD936217C7EC94009AC79F /* glslES100Shader.cpp */; };
 		E2CD936517C7EC94009AC79F /* glslES120Shader.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E2CD936317C7EC94009AC79F /* glslES120Shader.cpp */; };
@@ -518,6 +519,8 @@
 		E2229EF81758DE3300F26210 /* EventPresentation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EventPresentation.cpp; sourceTree = "<group>"; };
 		E2229EF91758DE3400F26210 /* Presentation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Presentation.cpp; sourceTree = "<group>"; };
 		E270C3C717583E8800A1C5FD /* oglES2RendererDevice.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = oglES2RendererDevice.cpp; sourceTree = "<group>"; };
+		E2753F1317D66C07007D061F /* ShaderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShaderManager.h; sourceTree = "<group>"; };
+		E2753F1517D66C42007D061F /* ShaderManager.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ShaderManager.cpp; sourceTree = "<group>"; };
 		E2CD935917C7EBC2009AC79F /* IShader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IShader.h; sourceTree = "<group>"; };
 		E2CD935B17C7EBDA009AC79F /* Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shader.h; sourceTree = "<group>"; };
 		E2CD935D17C7EC03009AC79F /* glslES100Shader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = glslES100Shader.h; path = glsl/glslES100Shader.h; sourceTree = "<group>"; };
@@ -633,6 +636,7 @@
 				D103F547163F1CE800267967 /* SeedInit.h */,
 				D103F548163F1CE800267967 /* SeedRun.h */,
 				E2CD935B17C7EBDA009AC79F /* Shader.h */,
+				E2753F1317D66C07007D061F /* ShaderManager.h */,
 				E21844A217CE825F002A4457 /* ShaderProgram.h */,
 				D103F549163F1CE800267967 /* Singleton.h */,
 				D103F54A163F1CE800267967 /* Sound.h */,
@@ -916,6 +920,7 @@
 				D103F5E7163F1CF500267967 /* SceneNode.cpp */,
 				D103F5E8163F1CF500267967 /* SceneObjectFactory.cpp */,
 				D103F5E9163F1CF500267967 /* SeedInit.cpp */,
+				E2753F1517D66C42007D061F /* ShaderManager.cpp */,
 				D103F5EA163F1CF500267967 /* Sprite.cpp */,
 				D103F5EB163F1CF500267967 /* Timeline.cpp */,
 				D103F5EC163F1CF500267967 /* Updater.cpp */,
@@ -1406,6 +1411,7 @@
 				E218449A17CE81E1002A4457 /* IShaderProgram.cpp in Sources */,
 				E218449E17CE821B002A4457 /* glslES100ShaderProgram.cpp in Sources */,
 				E218449F17CE821B002A4457 /* glslES120ShaderProgram.cpp in Sources */,
+				E2753F1617D66C42007D061F /* ShaderManager.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

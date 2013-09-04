@@ -67,7 +67,7 @@ u32 ShaderManager::GetProgramId(const String &name)
 	}
 }
 
-void ShaderManager::AttachShader(IShader *shader, const String &name)
+void ShaderManager::AttachShader(const String &name, IShader *shader)
 {
 	mShaders[name] = shader;
 }
@@ -94,7 +94,19 @@ void ShaderManager::CompileShader(const String &name)
 	}
 }
 
-bool ShaderManager::LinkShader(const String &name)
+void ShaderManager::BindAttribute(const String &programName, const u32 index, const String &attribName)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(programName);
+
+	if(it != mShaderPrograms.end())
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		shaderProgram->BindAttribute(index, attribName);
+	}
+}
+
+
+bool ShaderManager::LinkShaderProgram(const String &name)
 {
 	ShaderProgramMapIterator it = mShaderPrograms.find(name);
 
@@ -118,20 +130,20 @@ void ShaderManager::Use(const String &name)
 	}
 }
 
-IShaderProgram* ShaderManager::operator[](const String name)
+IShaderProgram* ShaderManager::GetShaderProgram(const String &programName)
 {
-	ShaderProgramMapIterator it = mShaderPrograms.find(name);
+	ShaderProgramMapIterator it = mShaderPrograms.find(programName);
 
 	if(it == mShaderPrograms.end())
 	{
-		Log(TAG "The shader program '%s' was not found", name.c_str());
+		Log(TAG "The shader program '%s' was not found", programName.c_str());
 		return NULL;
 	}
 	else
 		return (*it).second;
 }
 
-void ShaderManager::AttachShaderToProgram(const String shaderName, const String shaderProgramName)
+void ShaderManager::AttachShaderToProgram(const String shaderProgramName, const String shaderName)
 {
 	ShaderMapIterator itShader = mShaders.find(shaderName);
 	ShaderProgramMapIterator itShaderProgram = mShaderPrograms.find(shaderProgramName);
@@ -170,6 +182,34 @@ void ShaderManager::Remove(const String &name)
 	}
 
 	mShaderPrograms.erase(it);
+}
+
+// IModule
+
+bool ShaderManager::Initialize()
+{
+	IModule::Initialize();
+	return true;
+}
+
+bool ShaderManager::Reset()
+{
+	return true;
+}
+
+bool ShaderManager::Shutdown()
+{
+	return IModule::Shutdown();
+}
+
+void ShaderManager::Disable()
+{
+	bEnabled = false;
+}
+
+void ShaderManager::Enable()
+{
+	bEnabled = true;
 }
 
 // IObject

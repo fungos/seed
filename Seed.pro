@@ -277,28 +277,3 @@ HEADERS += include/*.h \
 	include/api/glsl/glslES120ShaderProgram.h \
 	include/ShaderProgram.h \
 	include/ShaderManager.h
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

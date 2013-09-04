@@ -63,6 +63,10 @@
 #include "Movie.h"
 #include "ParticleEmitter.h"
 
+#if defined(SEED_ENABLE_OGLES2)
+#include "ShaderManager.h"
+#endif
+
 extern "C" {
 
 namespace Seed {
@@ -210,6 +214,10 @@ bool Initialize()
 	ret = ret && pModuleManager->Add(pRendererDevice);
 	ret = ret && pModuleManager->Add(pViewManager);
 	ret = ret && pModuleManager->Add(pRendererManager);
+
+#if defined(SEED_ENABLE_OGLES2)
+	ret = ret && pModuleManager->Add(pShaderManager);
+#endif
 
 	if (!Private::bDisableSound)
 		ret = ret && pModuleManager->Add(pSoundSystem);

@@ -2,7 +2,13 @@
 #define _TESTBASE_OGLES2_H_
 
 #include <Seed.h>
+
+#include <ShaderManager.h>
+#include <ShaderProgram.h>
+#include <Shader.h>
+
 using namespace Seed;
+using namespace Seed::GLSL;
 
 extern SceneNode *gScene;
 
@@ -31,13 +37,13 @@ class TestBaseOGLES2 : public IGameApp, public IEventSystemListener, public IEve
 		SEED_DISABLE_COPY(TestBaseOGLES2);
 
 	protected:
-		SceneNode	cScene;
-		Viewport	cViewport;
-		Camera		cCamera;
-		Camera		cCameraTex;
-		Texture		cRenderTarget;
-		Renderer	cRenderer;
-		Sprite		sptLogo;
+		SceneNode                   cScene;
+		Viewport                    cViewport;
+		Camera                      cCamera;
+		Camera                      cCameraTex;
+		Texture                     cRenderTarget;
+		Renderer                    cRenderer;
+		Sprite                      sptLogo;
 };
 
 #endif // _TESTBASE_H_

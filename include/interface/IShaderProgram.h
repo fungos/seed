@@ -47,11 +47,11 @@ class SEED_CORE_API IShaderProgram : IObject
 		IShaderProgram();
 		virtual ~IShaderProgram();
 
-		virtual void Use() const = 0;
-		virtual void Unbind() const = 0;
-		virtual void AttachShader(IShader *shader) const = 0;
-		virtual void BindAttribute(u32 index, String attribName) const = 0;
-		virtual void Link() const = 0;
+		virtual void Use() = 0;
+		virtual void Unbind() = 0;
+		virtual void AttachShader(IShader *shader) = 0;
+		virtual void BindAttribute(u32 index, String attribName) = 0;
+		virtual void Link() = 0;
 		inline u32 GetID() const { return iProgramId; }
 
 		// IObject

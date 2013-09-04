@@ -38,7 +38,6 @@ namespace Seed
 
 IShaderProgram::IShaderProgram()
 	: iProgramId(0)
-	, sName(NULL)
 	, bLinked(false)
 	, bActive(false)
 	, vShaders()
@@ -50,30 +49,30 @@ IShaderProgram::~IShaderProgram()
 {
 }
 
-void IShaderProgram::Use() const
+void IShaderProgram::Use()
 {
 	SEED_ABSTRACT_METHOD;
 }
 
-void IShaderProgram::Unbind() const
+void IShaderProgram::Unbind()
 {
 	SEED_ABSTRACT_METHOD;
 }
 
-void IShaderProgram::AttachShader(IShader *shader) const
+void IShaderProgram::AttachShader(IShader *shader)
 {
 	UNUSED(shader);
 	SEED_ABSTRACT_METHOD;
 }
 
-void IShaderProgram::BindAttribute(u32 index, String attribName) const
+void IShaderProgram::BindAttribute(u32 index, String attribName)
 {
 	UNUSED(index);
 	UNUSED(attribName);
 	SEED_ABSTRACT_METHOD;
 }
 
-void IShaderProgram::Link() const
+void IShaderProgram::Link()
 {
 	SEED_ABSTRACT_METHOD;
 }

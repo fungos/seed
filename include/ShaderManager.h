@@ -31,9 +31,9 @@
 #ifndef __SHADERMANAGER_H__
 #define __SHADERMANAGER_H__
 
-#include "Defines.h"
+#include "interface/IModule.h"
+#include "Singleton.h"
 #include "Container.h"
-#include "Enum.h"
 
 namespace Seed {
 
@@ -46,21 +46,30 @@ typedef ShaderProgramMap::iterator ShaderProgramMapIterator;
 typedef Map<String, IShader*> ShaderMap;
 typedef ShaderMap::iterator ShaderMapIterator;
 
-class SEED_CORE_API ShaderManager : public IObject
+class SEED_CORE_API ShaderManager : public IModule
 {
 	SEED_SINGLETON_DECLARE(ShaderManager)
 
 	public:
 		virtual u32 GetProgramId(const String &name);
-		virtual void AttachShader(IShader *shader, const String &name);
+		virtual void AttachShader(const String &name, IShader *shader);
 		virtual void LoadShaderSource(const String &name, const String &filename, ResourceManager *res);
 		virtual void CompileShader(const String &name);
-		virtual bool LinkShader(const String &name);
-		virtual void AttachShaderToProgram(const String shaderName, const String shaderProgramName);
+		virtual void BindAttribute(const String &programName, const u32 index, const String &attribName);
+		virtual bool LinkShaderProgram(const String &name);
+		virtual void AttachShaderToProgram(const String shaderProgramName, const String shaderName);
 		virtual void Use(const String &name);
-		IShaderProgram* operator[](const String programName);
+		IShaderProgram* GetShaderProgram(const String &programName);
 		void Add(const String &name, IShaderProgram *shaderProgram);
 		void Remove(const String &name);
+
+		// IModule
+		virtual bool Initialize() override;
+		virtual bool Reset() override;
+		virtual bool Shutdown() override;
+
+		virtual void Disable() override;
+		virtual void Enable() override;
 
 		// IObject
 		virtual const String GetClassName() const override;
@@ -72,6 +81,7 @@ class SEED_CORE_API ShaderManager : public IObject
 		ShaderProgramMap		mShaderPrograms;
 		ShaderMap				mShaders;
 		IShaderProgram			*pCurrentProgram;
+		bool					bEnabled;
 };
 
 #define pShaderManager ShaderManager::GetInstance()

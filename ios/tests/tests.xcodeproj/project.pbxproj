@@ -371,6 +371,7 @@
 					"DEBUG=1",
 					"$(inherited)",
 					BUILD_IOS,
+					SEED_ENABLE_OGLES2,
 				);
 				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;

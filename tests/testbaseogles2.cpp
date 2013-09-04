@@ -26,6 +26,23 @@ bool TestBaseOGLES2::Initialize()
 	pInput->AddKeyboardListener(this);
 
 	/* ------- Rendering Initialization ------- */
+    
+    pShaderManager->Add("Simple", New(GLSLES120ShaderProgram("Simple")));
+    
+    pShaderManager->AttachShader("SimpleVertex", New(GLSLES120Shader(ShaderTypeVertex)));
+    pShaderManager->AttachShader("SimpleFragment", New(GLSLES120Shader(ShaderTypeFragment)));
+    pShaderManager->LoadShaderSource("SimpleVertex", "shaders/simple.vs", pResourceManager);
+    pShaderManager->LoadShaderSource("SimpleFragment", "shaders/simple.fs", pResourceManager);
+    
+    pShaderManager->CompileShader("SimpleVertex");
+    pShaderManager->CompileShader("SimpleFragment");
+    pShaderManager->AttachShaderToProgram("Simple", "SimpleVertex");
+    pShaderManager->AttachShaderToProgram("Simple", "SimpleFragment");
+    
+    pShaderManager->BindAttribute("Simple", 0, "vPosition");    
+   
+    pShaderManager->LinkShaderProgram("Simple");
+    
 	cScene.SetZ(0);
 	cRenderer.SetScene(&cScene);
 
@@ -60,6 +77,9 @@ bool TestBaseOGLES2::Update(f32 dt)
 {
 	UNUSED(dt)
 	//pRendererDevice->DrawRect(100, 100, 50, 50, Color(255, 0, 255, 255), true);
+    
+
+       
 	return true;
 }
 

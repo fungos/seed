@@ -129,9 +129,9 @@ void Renderer::Render(Camera *camera)
 	if (pScene && pRendererDevice && pRendererDevice->IsEnabled() && IModule::IsEnabled())
 	{
 		this->Culler(camera);
-       
+
 		this->Begin();
-		//	this->RenderObjects(vVisibleRenderables);
+			this->RenderObjects(vVisibleRenderables);
 		this->End();
 	}
 }

@@ -43,6 +43,10 @@
 #include "EventInputPointer.h"
 #include <iostream>
 
+#include "Shader.h"
+#include "IShaderProgram.h"
+#include "ShaderManager.h"
+
 using namespace Seed;
 
 #define MAX_PATH_SIZE	1024
@@ -246,24 +250,17 @@ const char *iosGetHomePath()
 	glClearColor(0.30f, 0.74f, 0.20f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	GLenum err (glGetError());
+	GLfloat vVertices[] = {  0.0f,  0.5f, 0.0f,
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f };
 
-	while (err != GL_NO_ERROR)
-	{
-		String error;
+	pShaderManager->GetShaderProgram("Simple")->Use();
 
-		switch (err)
-		{
-			case GL_INVALID_OPERATION:				error = "INVALID OPERATION";				break;
-			case GL_INVALID_ENUM:					error = "INVALID_ENUM";						break;
-			case GL_INVALID_VALUE:					error = "INVALID_VALUE";					break;
-			case GL_OUT_OF_MEMORY:					error = "OUT_OF_MEMORY";					break;
-			case GL_INVALID_FRAMEBUFFER_OPERATION:	error = "INVALID_FRAMEBUFFER_OPERATION";	break;
-		}
+	// Load the vertex data
+	glVertexAttribPointer ( 0, 3, GL_FLOAT, GL_FALSE, 0, vVertices );
+	glEnableVertexAttribArray ( 0 );
 
-		std::cerr << "GL_" << error.c_str() << std::endl;
-		err = glGetError();
-	}
+	glDrawArrays ( GL_TRIANGLES, 0, 3 );
 }
 
 #pragma mark - GLKViewControllerDelegate

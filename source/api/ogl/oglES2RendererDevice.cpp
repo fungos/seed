@@ -36,6 +36,10 @@
 #include "Screen.h"
 #include "Texture.h"
 #include "Vertex.h"
+#include "Shader.h"
+#include "ShaderProgram.h"
+#include "ShaderManager.h"
+#include "Enum.h"
 
 #if defined(BUILD_SDL)
 #undef NO_SDL_GLEXT
@@ -119,6 +123,7 @@
 
 #define TAG "[OGLES2RendererDevice] "
 
+using namespace Seed::GLSL;
 namespace Seed { namespace OpenGL {
 
 OGLES2RendererDevice::OGLES2RendererDevice()
@@ -183,7 +188,7 @@ bool OGLES2RendererDevice::Initialize()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 #endif
 
-	this->Enable2D();
+	//this->Enable2D();
 
 	GL_TRACE("END Initialize")
 	return ret;

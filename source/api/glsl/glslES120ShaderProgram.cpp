@@ -39,12 +39,12 @@
 
 namespace Seed { namespace GLSL {
 
-GLSLES120ShaderProgram::GLSLES120ShaderProgram(String name, const IShader *shader)
+GLSLES120ShaderProgram::GLSLES120ShaderProgram(String name)
 {
 	sName = name;
 
-	// Create the shader
-	iProgramId = glCreateShader(shader->GetShaderHandle());
+	// Create the shader program
+	iProgramId = glCreateProgram();
 }
 
 GLSLES120ShaderProgram::~GLSLES120ShaderProgram()
@@ -59,8 +59,8 @@ void GLSLES120ShaderProgram::Use()
 
 void GLSLES120ShaderProgram::Unbind()
 {
-	bActive = false;
 	glUseProgram(0);
+	bActive = false;
 }
 
 void GLSLES120ShaderProgram::AttachShader(IShader *shader)
