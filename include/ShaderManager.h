@@ -51,17 +51,17 @@ class SEED_CORE_API ShaderManager : public IModule
 	SEED_SINGLETON_DECLARE(ShaderManager)
 
 	public:
-		virtual u32 GetProgramId(const String &name);
-		virtual void AttachShader(const String &name, IShader *shader);
-		virtual void LoadShaderSource(const String &name, const String &filename, ResourceManager *res);
-		virtual void CompileShader(const String &name);
-		virtual void BindAttribute(const String &programName, const u32 index, const String &attribName);
-		virtual bool LinkShaderProgram(const String &name);
-		virtual void AttachShaderToProgram(const String shaderProgramName, const String shaderName);
-		virtual void Use(const String &name);
-		IShaderProgram* GetShaderProgram(const String &programName);
-		void Add(const String &name, IShaderProgram *shaderProgram);
-		void Remove(const String &name);
+		virtual u32 GetProgramId(const String &shaderProgramName);
+		virtual void AttachShader(const String &shaderName, IShader *shader);
+		virtual void LoadShaderSource(const String &shaderName, const String &filename, ResourceManager *res);
+		virtual void CompileShader(const String &shaderName);
+		virtual void BindAttribute(const String &shaderProgramName, const u32 index, const String &attribName);
+		virtual bool LinkShaderProgram(const String &shaderProgramName);
+		virtual void AttachShaderToProgram(const String &shaderProgramName, const String &shaderName);
+		virtual void Use(const String &shaderProgramName);
+		IShaderProgram* GetShaderProgram(const String &shaderProgramName);
+		void Add(const String &shaderProgramName, IShaderProgram *shaderProgram);
+		void Remove(const String &shaderProgramName);
 
 		// IModule
 		virtual bool Initialize() override;

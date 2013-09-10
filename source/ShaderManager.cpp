@@ -51,13 +51,13 @@ ShaderManager::~ShaderManager()
 	this->Reset();
 }
 
-u32 ShaderManager::GetProgramId(const String &name)
+u32 ShaderManager::GetProgramId(const String &shaderProgramName)
 {
-	ShaderProgramMapIterator it = mShaderPrograms.find(name);
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
 
 	if(it == mShaderPrograms.end())
 	{
-		Log(TAG "The shader program '%s' was not found", name.c_str());
+		Log(TAG "The shader program '%s' was not found", shaderProgramName.c_str());
 		return 0;
 	}
 	else
@@ -67,14 +67,14 @@ u32 ShaderManager::GetProgramId(const String &name)
 	}
 }
 
-void ShaderManager::AttachShader(const String &name, IShader *shader)
+void ShaderManager::AttachShader(const String &shaderName, IShader *shader)
 {
-	mShaders[name] = shader;
+	mShaders[shaderName] = shader;
 }
 
-void ShaderManager::LoadShaderSource(const String &name, const String &filename, ResourceManager *res)
+void ShaderManager::LoadShaderSource(const String &shaderName, const String &filename, ResourceManager *res)
 {
-	ShaderMapIterator it = mShaders.find(name);
+	ShaderMapIterator it = mShaders.find(shaderName);
 
 	if(it != mShaders.end())
 	{
@@ -83,9 +83,9 @@ void ShaderManager::LoadShaderSource(const String &name, const String &filename,
 	}
 }
 
-void ShaderManager::CompileShader(const String &name)
+void ShaderManager::CompileShader(const String &shaderName)
 {
-	ShaderMapIterator it = mShaders.find(name);
+	ShaderMapIterator it = mShaders.find(shaderName);
 
 	if(it != mShaders.end())
 	{
@@ -94,9 +94,9 @@ void ShaderManager::CompileShader(const String &name)
 	}
 }
 
-void ShaderManager::BindAttribute(const String &programName, const u32 index, const String &attribName)
+void ShaderManager::BindAttribute(const String &shaderProgramName, const u32 index, const String &attribName)
 {
-	ShaderProgramMapIterator it = mShaderPrograms.find(programName);
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
 
 	if(it != mShaderPrograms.end())
 	{
@@ -106,9 +106,9 @@ void ShaderManager::BindAttribute(const String &programName, const u32 index, co
 }
 
 
-bool ShaderManager::LinkShaderProgram(const String &name)
+bool ShaderManager::LinkShaderProgram(const String &shaderProgramName)
 {
-	ShaderProgramMapIterator it = mShaderPrograms.find(name);
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
 
 	if(it != mShaderPrograms.end())
 	{
@@ -117,33 +117,7 @@ bool ShaderManager::LinkShaderProgram(const String &name)
 	}
 }
 
-void ShaderManager::Use(const String &name)
-{
-	ShaderProgramMapIterator it = mShaderPrograms.find(name);
-
-	if(it != mShaderPrograms.end())
-	{
-		IShaderProgram *shaderProgram = (*it).second;
-		pCurrentProgram = shaderProgram;
-
-		pCurrentProgram->Use();
-	}
-}
-
-IShaderProgram* ShaderManager::GetShaderProgram(const String &programName)
-{
-	ShaderProgramMapIterator it = mShaderPrograms.find(programName);
-
-	if(it == mShaderPrograms.end())
-	{
-		Log(TAG "The shader program '%s' was not found", programName.c_str());
-		return NULL;
-	}
-	else
-		return (*it).second;
-}
-
-void ShaderManager::AttachShaderToProgram(const String shaderProgramName, const String shaderName)
+void ShaderManager::AttachShaderToProgram(const String &shaderProgramName, const String &shaderName)
 {
 	ShaderMapIterator itShader = mShaders.find(shaderName);
 	ShaderProgramMapIterator itShaderProgram = mShaderPrograms.find(shaderProgramName);
@@ -160,24 +134,50 @@ void ShaderManager::AttachShaderToProgram(const String shaderProgramName, const 
 	}
 }
 
-void ShaderManager::Add(const String &name, IShaderProgram *shaderProgram)
+void ShaderManager::Use(const String &shaderProgramName)
 {
-	if(mShaderPrograms.find(name) != mShaderPrograms.end())
-	{
-		Log(TAG "The shader program '%s' is already added.", name.c_str());
-		return;
-	}
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
 
-	mShaderPrograms[name] = shaderProgram;
+	if(it != mShaderPrograms.end())
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		pCurrentProgram = shaderProgram;
+
+		pCurrentProgram->Use();
+	}
 }
 
-void ShaderManager::Remove(const String &name)
+IShaderProgram* ShaderManager::GetShaderProgram(const String &shaderProgramName)
 {
-	ShaderProgramMapIterator it = mShaderPrograms.find(name);
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
 
 	if(it == mShaderPrograms.end())
 	{
-		Log(TAG "The shader program '%s' was not found", name.c_str());
+		Log(TAG "The shader program '%s' was not found", shaderProgramName.c_str());
+		return NULL;
+	}
+	else
+		return (*it).second;
+}
+
+void ShaderManager::Add(const String &shaderProgramName, IShaderProgram *shaderProgram)
+{
+	if(mShaderPrograms.find(shaderProgramName) != mShaderPrograms.end())
+	{
+		Log(TAG "The shader program '%s' is already added.", shaderProgramName.c_str());
+		return;
+	}
+
+	mShaderPrograms[shaderProgramName] = shaderProgram;
+}
+
+void ShaderManager::Remove(const String &shaderPogramName)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderPogramName);
+
+	if(it == mShaderPrograms.end())
+	{
+		Log(TAG "The shader program '%s' was not found", shaderPogramName.c_str());
 		return;
 	}
 
