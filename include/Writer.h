@@ -41,6 +41,8 @@ extern SEED_CORE_API IWriter cNullWriter;
 /// Data Writer
 class SEED_CORE_API Writer : public IWriter
 {
+	SEED_DISABLE_COPY(Writer)
+
 	public:
 		Writer();
 		virtual ~Writer();
@@ -58,8 +60,6 @@ class SEED_CORE_API Writer : public IWriter
 		virtual void CloseNode() override;
 
 	private:
-		SEED_DISABLE_COPY(Writer);
-
 		void Init();
 		IWriter *pOpaque;
 };

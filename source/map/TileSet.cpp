@@ -108,9 +108,9 @@ bool TileSet::Load(Reader &reader, ResourceManager *res)
 		u32 texW = reader.ReadU32("imagewidth", 0);
 		u32 texH = reader.ReadU32("imageheight", 0);
 		String file = reader.ReadString("image");
-		pTexture = static_cast<ITexture *>(res->Get(file, Seed::TypeTexture));
-		pTexture->SetFilter(Seed::TextureFilterTypeMin, Seed::TextureFilterNearest);
-		pTexture->SetFilter(Seed::TextureFilterTypeMag, Seed::TextureFilterNearest);
+		pTexture = static_cast<ITexture *>(res->Get(file, ITexture::GetTypeId()));
+		pTexture->SetFilter(eTextureFilterType::Min, eTextureFilter::Nearest);
+		pTexture->SetFilter(eTextureFilterType::Mag, eTextureFilter::Nearest);
 
 		ret = (pTexture->GetWidth() == texW && pTexture->GetHeight() == texH);
 		if (ret)
@@ -199,16 +199,6 @@ const String &TileSet::GetTileProperty(u32 tileId, const String &property) const
 		return mTileProperties.at(tileId).at(property);
 
 	return empty;
-}
-
-const String TileSet::GetClassName() const
-{
-	return "TileSet";
-}
-
-int TileSet::GetObjectType() const
-{
-	return Seed::TypeTileSet;
 }
 
 } // namespace

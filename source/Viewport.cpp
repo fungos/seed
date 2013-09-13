@@ -130,14 +130,4 @@ bool Viewport::Contains(u32 x, u32 y)
 	return (x >= iX && x <= iX + iWidth && y >= iY && y <= iY + iHeight);
 }
 
-const String Viewport::GetClassName() const
-{
-	return "Viewport";
-}
-
-int Viewport::GetObjectType() const
-{
-	return Seed::TypeViewport;
-}
-
 } // namespace

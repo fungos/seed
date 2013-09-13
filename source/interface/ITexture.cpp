@@ -39,10 +39,10 @@ namespace Seed {
 ITexture::ITexture()
 	: pTextureId(NULL)
 	, iTextureId(0)
-	, nTextureCompression(TextureCompressionNone)
+	, nTextureCompression(eTextureCompression::None)
 	, pFile(NULL)
-	, nMinFilter(Seed::TextureFilterLinear)
-	, nMagFilter(Seed::TextureFilterNearest)
+	, nMinFilter(eTextureFilter::Linear)
+	, nMagFilter(eTextureFilter::Nearest)
 	, iWidth(0)
 	, iHeight(0)
 	, iRenderTargetId(0)
@@ -62,8 +62,8 @@ void ITexture::Reset()
 	iWidth = 0;
 	iHeight = 0;
 
-	nMinFilter = Seed::TextureFilterLinear;
-	nMagFilter = Seed::TextureFilterNearest;
+	nMinFilter = eTextureFilter::Linear;
+	nMagFilter = eTextureFilter::Nearest;
 
 	this->DisableRenderTarget();
 }
@@ -178,7 +178,7 @@ bool ITexture::Load(const String &desc, u32 width, u32 height, Color *buffer, u3
 
 void ITexture::SetFilter(eTextureFilterType type, eTextureFilter filter)
 {
-	if (type == Seed::TextureFilterTypeMin)
+	if (type == eTextureFilterType::Min)
 		nMinFilter = filter;
 	else
 		nMagFilter = filter;
@@ -188,7 +188,7 @@ eTextureFilter ITexture::GetFilter(eTextureFilterType type) const
 {
 	eTextureFilter filter = nMinFilter;
 
-	if (type == Seed::TextureFilterTypeMag)
+	if (type == eTextureFilterType::Mag)
 		filter = nMagFilter;
 
 	return filter;
@@ -242,16 +242,6 @@ void ITexture::DisableRenderTarget()
 u32 ITexture::GetRenderTarget() const
 {
 	return iRenderTargetId;
-}
-
-int ITexture::GetObjectType() const
-{
-	return Seed::TypeTexture;
-}
-
-const String ITexture::GetClassName() const
-{
-	return "ITexture";
 }
 
 } // namespace

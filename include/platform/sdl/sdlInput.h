@@ -47,7 +47,9 @@ namespace Seed { namespace SDL {
 /// SDL Input Module
 class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKeyboard, public IInputJoystick
 {
-	SEED_SINGLETON_DECLARE(Input)
+	SEED_DECLARE_SINGLETON(Input)
+	SEED_DISABLE_COPY(Input)
+
 	public:
 		// IInput
 		virtual Seed::eInputButton GetButtonCode(u32 button) const override;
@@ -83,14 +85,12 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 		// IUpdatable
 		virtual bool Update(f32 dt) override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Shutdown() override;
 		virtual bool Reset() override;
 
 	private:
-		SEED_DISABLE_COPY(Input);
-
 		Seed::eKey GetKeyCode(u32 key) const;
 		Seed::eModifier GetModifierCode(u32 mod) const;
 

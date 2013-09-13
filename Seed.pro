@@ -37,7 +37,7 @@ SOURCES += source/Viewport.cpp \
 	source/ParticleEmitter.cpp \
 	source/Particle.cpp \
 	source/Movie.cpp \
-	source/ModuleManager.cpp \
+	source/Manager.cpp \
 	source/LeakReport.cpp \
 	source/Keyframe.cpp \
 	source/Key.cpp \
@@ -58,48 +58,34 @@ SOURCES += source/Viewport.cpp \
 	source/Animation.cpp \
 	source/api/directx/DirectXVersion.cpp \
 	source/api/directx/D3D8RendererDevice.cpp \
-	source/interface/IVideo.cpp \
-	source/interface/IUpdatable.cpp \
 	source/interface/ITransformable.cpp \
 	source/interface/IThread.cpp \
 	source/interface/ITexture.cpp \
 	source/interface/ISystem.cpp \
 	source/interface/ISoundSystem.cpp \
 	source/interface/ISoundSource.cpp \
-	source/interface/ISound.cpp \
 	source/interface/IScreen.cpp \
 	source/interface/ISceneObject.cpp \
 	source/interface/IResource.cpp \
 	source/interface/IRendererDevice.cpp \
 	source/interface/IRenderable.cpp \
 	source/interface/IReader.cpp \
-	source/interface/IObject.cpp \
-	source/interface/IMutex.cpp \
 	source/interface/IMusic.cpp \
-	source/interface/IModule.cpp \
 	source/interface/IInputPointer.cpp \
 	source/interface/IInputMotion.cpp \
 	source/interface/IInputKeyboard.cpp \
 	source/interface/IInputJoystick.cpp \
-	source/interface/IInput.cpp \
 	source/interface/IGameApp.cpp \
-	source/interface/IEventSystemListener.cpp \
-	source/interface/IEventResourceLoaderListener.cpp \
-	source/interface/IEventMovieListener.cpp \
-	source/interface/IEventListener.cpp \
-	source/interface/IEventInputPointerListener.cpp \
-	source/interface/IEventInputMotionListener.cpp \
-	source/interface/IEventInputKeyboardListener.cpp \
-	source/interface/IEventInputJoystickListener.cpp \
-	source/interface/IEventInput.cpp \
-	source/interface/IEventFileSystemListener.cpp \
-	source/interface/IEvent.cpp \
 	source/interface/ICartridge.cpp \
 	source/api/oal/vorbis_util.cpp \
 	source/api/oal/oalSoundSystem.cpp \
 	source/api/oal/oalSoundSource.cpp \
 	source/api/oal/oalSound.cpp \
 	source/api/oal/oalMusic.cpp \
+	source/api/nullal/nalSoundSystem.cpp \
+	source/api/nullal/nalSoundSource.cpp \
+	source/api/nullal/nalSound.cpp \
+	source/api/nullal/nalMusic.cpp \
 	source/api/ogl/oglES1RendererDevice.cpp \
 	source/api/theora/Theora.cpp \
 	source/api/yajl/JsonReader.cpp \
@@ -137,7 +123,6 @@ SOURCES += source/Viewport.cpp \
 	source/api/net/Socket.cpp \
 	source/Writer.cpp \
 	source/interface/IWriter.cpp \
-	source/interface/IDataObject.cpp \
 	source/SceneObjectFactory.cpp \
 	source/Camera.cpp \
 	source/platform/glfw/glfwTimer.cpp \
@@ -152,19 +137,18 @@ SOURCES += source/Viewport.cpp \
 	source/JobManager.cpp \
 	source/Job.cpp \
 	source/EventJob.cpp \
-	source/interface/IEventJobListener.cpp \
 	source/ThreadManager.cpp \
 	source/api/rocket/RocketInterface.cpp \
 	source/Presentation.cpp \
 	source/EventPresentation.cpp \
-	source/interface/IEventPresentationListener.cpp \
 	source/map/GameMap.cpp \
 	source/map/IMapLayer.cpp \
 	source/map/IMetadataObject.cpp \
 	source/map/MapLayerMetadata.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
-	source/map/TileSet.cpp
+	source/map/TileSet.cpp \
+	source/interface/IManager.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -186,6 +170,7 @@ HEADERS += include/*.h \
 	include/interface/*.h \
 	include/api/directx/*.h \
 	include/api/oal/*.h \
+	include/api/nullal/*.h \
 	include/api/ogl/*.h \
 	include/api/theora/*.h \
 	include/api/yajl/*.h \

@@ -45,6 +45,8 @@ namespace Seed { namespace iOS {
 /// iOS Thread
 class Thread : public IThread
 {
+	SEED_DISABLE_COPY(Thread)
+
 	public:
 		Thread();
 		virtual ~Thread();
@@ -54,11 +56,8 @@ class Thread : public IThread
 		virtual bool Run();
 
 	private:
-		SEED_DISABLE_COPY(Thread);
-
-	private:
-		bool bCreated;
-		bool bRunning;
+		bool bCreated : 1;
+		bool bRunning : 1;
 
 #if (SEED_USE_THREAD == 1)
 		pthread_t thread;

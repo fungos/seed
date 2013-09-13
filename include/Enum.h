@@ -33,56 +33,19 @@
 
 namespace Seed {
 
-enum eObjectType
-{
-	// Assets
-	TypeTexture = 0,
-	TypeImage,
-	TypeSprite,
-	TypeAnimation,
-	TypeFrame,
-	TypeSound,
-	TypeMusic,
-	TypeEvent,
-	TypeMovie,
-	TypeTimeline,
-	TypeKeyframe,
-	TypeScene,
-	TypeSoundSource,
-	TypeSoundListener,
-	TypeParticleEmitter,
-	TypeCamera,
-	TypeGameMap,
-	TypeTileSet,
-
-	// Managers
-	TypeViewManager,
-	TypeRendererManager,
-	TypeJobManager,
-	TypeThreadManager,
-	TypeRocketInterface,
-
-	// System
-	TypeFile,
-	TypeConfiguration,
-	TypeViewport,
-	TypePresentation,
-	TypeInterfaceModule,
-	TypeInterfaceRenderable,
-	TypeInterfaceBaseApp,
-	TypeInterfaceGameApp,
-
-	// From here just user defines types
-	TypeUser
-};
-
-enum eProjection
+enum class eProjection
 {
 	Orthogonal,
 	Perspective
 };
 
-enum eLanguage
+enum class eShutdownReason
+{
+	None,
+	CloseRequested
+};
+
+enum class eLanguage
 {
 	en_US,
 	pt_BR,
@@ -91,216 +54,217 @@ enum eLanguage
 	ja_JP,
 	fr_FR,
 	cn_CN,
-	MaximumLanguage
+	Maximum
 };
 
-enum eReaderType
+enum class eReaderType
 {
-	ReaderDefault = 0,
-	ReaderJson = ReaderDefault
+	Default,
+	Json = Default
 };
 
-enum eRendererDeviceType
+enum class eRendererDeviceType
 {
-	RendererDeviceAuto,
-	RendererDeviceOpenGLES1,
-	RendererDeviceOpenGL1x,
-	RendererDeviceOpenGL2x,
-	RendererDeviceOpenGL3x,
-	RendererDeviceOpenGL4x,
-	RendererDeviceOpenGLAny,
-	RendererDeviceDirectX8,
-	RendererDeviceDirectX9,
-	RendererDeviceDirectX10,
-	RendererDeviceDirectX11,
-	RendererDeviceDirectXAny
+	Auto,
+	OpenGLES1,
+	OpenGL1x,
+	OpenGL2x,
+	OpenGL3x,
+	OpenGL4x,
+	OpenGLAny,
+	DirectX8,
+	DirectX9,
+	DirectX10,
+	DirectX11,
+	DirectXAny
 };
 
-enum eTextureCompression
+enum class eTextureCompression
 {
-	TextureCompressionNone,
-	TextureCompression_RGB_PVRTC_2BPPV1
+	None,
+	RGB_PVRTC_2BPPV1
 };
 
-enum eModifier
+enum class eModifier
 {
-	ModifierNone			= 0x0000,
-	ModifierShiftLeft		= 0x0001,
-	ModifierShiftRight		= 0x0002,
-	ModifierShift			= (ModifierShiftLeft | ModifierShiftRight),
-	ModifierControlLeft		= 0x0040,
-	ModifierControlRight	= 0x0080,
-	ModifierControl			= (ModifierControlLeft | ModifierControlRight),
-	ModifierAltLeft			= 0x0100,
-	ModifierAltRight		= 0x0200,
-	ModifierAlt				= (ModifierAltLeft | ModifierAltRight),
-	ModifierMetaLeft		= 0x0400,
-	ModifierMetaRight		= 0x0800,
-	ModifierMeta			= (ModifierMetaLeft | ModifierMetaRight),
-	ModifierNumLock			= 0x1000,
-	ModifierCapsLock		= 0x2000,
-	ModifierScrollLock		= 0x4000
+	None			= 0x0000,
+	ShiftLeft		= 0x0001,
+	ShiftRight		= 0x0002,
+	Shift			= (ShiftLeft | ShiftRight),
+	ControlLeft		= 0x0040,
+	ControlRight	= 0x0080,
+	Control			= (ControlLeft | ControlRight),
+	AltLeft			= 0x0100,
+	AltRight		= 0x0200,
+	Alt				= (AltLeft | AltRight),
+	MetaLeft		= 0x0400,
+	MetaRight		= 0x0800,
+	Meta			= (MetaLeft | MetaRight),
+	NumLock			= 0x1000,
+	CapsLock		= 0x2000,
+	ScrollLock		= 0x4000
 };
 
 /* Yes, it is entirely based on SDL, until now it is the most complete Keyboard mapping I ever found in an API. So, get used to it. */
-enum eKey
+enum class eKey
 {
-	KeyNone				= 0,
-	KeyFirst			= 0,
+	None			= 0,
+	First			= 0,
 
-	KeyBackspace		= 8,
-	KeyTab				= 9,
-	KeyClear			= 12,
-	KeyReturn			= 13,
-	KeyEnter			= 13,
-	KeyPause			= 19,
-	KeyEscape			= 27,
+	Backspace		= 8,
+	Tab				= 9,
+	Clear			= 12,
+	Return			= 13,
+	Enter			= 13,
+	Pause			= 19,
+	Escape			= 27,
 
 	// Ascii table 1 to 1
-	KeySpace			= ' ',
-	KeyExclam			= '!',
-	KeyQuoteDouble		= '"',
-	KeyNumberSign		= '#',
-	KeyDollar			= '$',
-	KeyPercent			= '%',
-	KeyAmpersand		= '&',
-	KeyApostrophe		= 39,
-	KeyParenLeft		= '(',
-	KeyParenRight		= ')',
-	KeyAsterisk			= '*',
-	KeyPlus				= '+',
-	KeyComma			= ',',
-	KeyMinus			= '-',
-	KeyPeriod			= '.',
-	KeySlash			= '/',
-	Key0				= '0',
-	Key1				= '1',
-	Key2				= '2',
-	Key3				= '3',
-	Key4				= '4',
-	Key5				= '5',
-	Key6				= '6',
-	Key7				= '7',
-	Key8				= '8',
-	Key9				= '9',
-	KeyColon			= ':',
-	KeySemicolon		= ';',
-	KeyLess				= '<',
-	KeyEqual			= '=',
-	KeyGreater			= '>',
-	KeyQuestion			= '?',
-	KeyAt				= '@',
+	Space			= ' ',
+	Exclam			= '!',
+	QuoteDouble		= '"',
+	NumberSign		= '#',
+	Dollar			= '$',
+	Percent			= '%',
+	Ampersand		= '&',
+	Apostrophe		= 39,
+	ParenLeft		= '(',
+	ParenRight		= ')',
+	Asterisk		= '*',
+	Plus			= '+',
+	Comma			= ',',
+	Minus			= '-',
+	Period			= '.',
+	Slash			= '/',
+	Digit0			= '0',
+	Digit1			= '1',
+	Digit2			= '2',
+	Digit3			= '3',
+	Digit4			= '4',
+	Digit5			= '5',
+	Digit6			= '6',
+	Digit7			= '7',
+	Digit8			= '8',
+	Digit9			= '9',
+	Colon			= ':',
+	Semicolon		= ';',
+	Less			= '<',
+	Equal			= '=',
+	Greater			= '>',
+	Question		= '?',
+	At				= '@',
 	// Both capital and lowercase chars are valid
-	KeyA				= 'A',
-	KeyB				= 'B',
-	KeyC				= 'C',
-	KeyD				= 'D',
-	KeyE				= 'E',
-	KeyF				= 'F',
-	KeyG				= 'G',
-	KeyH				= 'H',
-	KeyI				= 'I',
-	KeyJ				= 'J',
-	KeyK				= 'K',
-	KeyL				= 'L',
-	KeyM				= 'M',
-	KeyN				= 'N',
-	KeyO				= 'O',
-	KeyP				= 'P',
-	KeyQ				= 'Q',
-	KeyR				= 'R',
-	KeyS				= 'S',
-	KeyT				= 'T',
-	KeyU				= 'U',
-	KeyV				= 'V',
-	KeyW				= 'W',
-	KeyX				= 'X',
-	KeyY				= 'Y',
-	KeyZ				= 'Z',
-	KeyBracketLeft		= '[',
-	KeyBackslash		= 92,
-	KeyBracketRight		= ']',
-	KeyCircum			= '^',
-	KeyUnderscore		= '_',
-	KeyQuoteLeft		= '`',
+	A				= 'A',
+	B				= 'B',
+	C				= 'C',
+	D				= 'D',
+	E				= 'E',
+	F				= 'F',
+	G				= 'G',
+	H				= 'H',
+	I				= 'I',
+	J				= 'J',
+	K				= 'K',
+	L				= 'L',
+	M				= 'M',
+	N				= 'N',
+	O				= 'O',
+	P				= 'P',
+	Q				= 'Q',
+	R				= 'R',
+	S				= 'S',
+	T				= 'T',
+	U				= 'U',
+	V				= 'V',
+	W				= 'W',
+	X				= 'X',
+	Y				= 'Y',
+	Z				= 'Z',
+	BracketLeft		= '[',
+	Backslash		= 92,
+	BracketRight	= ']',
+	Circum			= '^',
+	Underscore		= '_',
+	QuoteLeft		= '`',
 	// a-z 97-122
-	KeyConsole			= KeyQuoteLeft,
-	KeyBraceLeft		= '{',
-	KeyBar				= '|',
-	KeyPipe				= KeyBar,
-	KeyBraceRight		= '}',
-	KeyTilde			= '~',
+	Console			= QuoteLeft,
+	BraceLeft		= '{',
+	Bar				= '|',
+	Pipe			= Bar,
+	BraceRight		= '}',
+	Tilde			= '~',
 
-	KeyDelete			= 127,
+	Delete			= 127,
 
-	KeyPad0				= 256,
-	KeyPad1				= 257,
-	KeyPad2				= 258,
-	KeyPad3				= 259,
-	KeyPad4				= 260,
-	KeyPad5				= 261,
-	KeyPad6				= 262,
-	KeyPad7				= 263,
-	KeyPad8				= 264,
-	KeyPad9				= 265,
-	KeyPadPeriod		= 266,
-	KeyPadDivide		= 267,
-	KeyPadMultiply		= 268,
-	KeyPadMinus			= 269,
-	KeyPadPlus			= 270,
-	KeyPadEnter			= 271,
-	KeyPadEquals		= 272,
+	Pad0			= 256,
+	Pad1			= 257,
+	Pad2			= 258,
+	Pad3			= 259,
+	Pad4			= 260,
+	Pad5			= 261,
+	Pad6			= 262,
+	Pad7			= 263,
+	Pad8			= 264,
+	Pad9			= 265,
+	PadPeriod		= 266,
+	PadDivide		= 267,
+	PadMultiply		= 268,
+	PadMinus		= 269,
+	PadPlus			= 270,
+	PadEnter		= 271,
+	PadEquals		= 272,
 
-	KeyUp				= 273,
-	KeyDown				= 274,
-	KeyRight			= 275,
-	KeyLeft				= 276,
-	KeyInsert			= 277,
-	KeyHome				= 278,
-	KeyEnd				= 279,
-	KeyPageUp			= 280,
-	KeyPageDown			= 281,
+	Up				= 273,
+	Down			= 274,
+	Right			= 275,
+	Left			= 276,
+	Insert			= 277,
+	Home			= 278,
+	End				= 279,
+	PageUp			= 280,
+	PageDown		= 281,
 
-	KeyF1				= 282,
-	KeyF2				= 283,
-	KeyF3				= 284,
-	KeyF4				= 285,
-	KeyF5				= 286,
-	KeyF6				= 287,
-	KeyF7				= 288,
-	KeyF8				= 289,
-	KeyF9				= 290,
-	KeyF10				= 291,
-	KeyF11				= 292,
-	KeyF12				= 293,
-	KeyF13				= 294,
-	KeyF14				= 295,
-	KeyF15				= 296,
+	F1				= 282,
+	F2				= 283,
+	F3				= 284,
+	F4				= 285,
+	F5				= 286,
+	F6				= 287,
+	F7				= 288,
+	F8				= 289,
+	F9				= 290,
+	F10				= 291,
+	F11				= 292,
+	F12				= 293,
+	F13				= 294,
+	F14				= 295,
+	F15				= 296,
 
-	KeyNumLock			= 300,
-	KeyCapsLock			= 301,
-	KeyScrollLock		= 302,
+	NumLock			= 300,
+	CapsLock		= 301,
+	ScrollLock		= 302,
 
-	KeyShiftRight		= 303,
-	KeyShiftLeft		= 304,
-	KeyControlRight		= 305,
-	KeyControlLeft		= 306,
-	KeyAltRight			= 307,
-	KeyAltLeft			= 308,
-	KeyMetaRight		= 309,
-	KeyMetaLeft			= 310,
-	KeySuperLeft		= 311,		/* Left "Windows" key */
-	KeySuperRight		= 312,		/* Right "Windows" key */
-	KeyAltGr			= 313,		/* "Mode" key */
-	KeyMenu				= 314,		/* Menu key */
+	ShiftRight		= 303,
+	ShiftLeft		= 304,
+	ControlRight	= 305,
+	ControlLeft		= 306,
+	AltRight		= 307,
+	AltLeft			= 308,
+	MetaRight		= 309,
+	MetaLeft		= 310,
+	SuperLeft		= 311,		/* Left "Windows" Key */
+	SuperRight		= 312,		/* Right "Windows" Key */
+	AltGr			= 313,		/* "Mode" Key */
+	Menu			= 314,		/* Menu Key */
 
-	KeyPrintScreen		= 316,
+	PrintScreen		= 316,
 
-	KeyLast
+	Last
 };
 
-enum eInputButton
+enum class eInputButton
 {
+	None = 0x0,
 	Button0 = 0x01,
 	Button1 = 0x02,
 	Button2 = 0x04,
@@ -317,63 +281,63 @@ enum eInputButton
 	Button13 = 0x2000,
 	Button14 = 0x4000,
 	Button15 = 0x8000,
-	ButtonInvalid = 0x0,
-	ButtonAll = 0xFFFF,
+	Invalid = None,
+	All = 0xFFFF,
 
 	// From here it is just helper enums, may not be portable.
 	// Mouse specific mapping
-	ButtonUp = Button0,
-	ButtonDown = Button1,
-	ButtonLeft = Button2,
-	ButtonRight = Button3,
-	ButtonMiddle = Button4
+	Up = Button0,
+	Down = Button1,
+	Left = Button2,
+	Right = Button3,
+	Middle = Button4
 };
 
 /// Maximum size of the cartridge
 /**
 Its possible that some platforms does not support some cartridge sizes.
 */
-enum eCartridgeSize
+enum class eCartridgeSize
 {
-	Cartridge512b,		/*!< Cartridge has up to 512 bytes of data. */
-	Cartridge8192b,		/*!< Cartridge has up to 8Kb of data. */
-	Cartridge32768b,	/*!< Cartridge has up to 32Kb of data. */
-	Cartridge65536b,	/*!< Cartridge has up to 64Kb of data. */
-	Cartridge262144b,	/*!< Cartridge has up to 256Kb bytes of data. */
-	CartridgeUnlimited	/*!< Cartridge has no limit size */
+	VeryTiny,		/*!< Cartridge has up to 512 bytes of data. */
+	Tiny,			/*!< Cartridge has up to 8Kb of data. */
+	Small,			/*!< Cartridge has up to 32Kb of data. */
+	Normal,			/*!< Cartridge has up to 64Kb of data. */
+	Large,			/*!< Cartridge has up to 256Kb bytes of data. */
+	Unlimited		/*!< Cartridge has no limit size */
 };
 
 /// Possible cartridge return codes
 /**
 These are the possible error codes returned by the cartridge
 */
-enum eCartridgeError
+enum class eCartridgeError
 {
-	ErrorNone = 0,				/*!< No error ocurred. */
-	ErrorNoCard,				/*!< Card is not present, can also mean that the device is not present in case of a removable device. */
-	ErrorNotFormatted,			/*!< The card or device is not formatted. */
-	ErrorDataCorrupt,			/*!< The data is corrupted. */
-	ErrorFilesystemCorrupt,		/*!< The file system is corrupted, this is a fatal error. */
-	ErrorDeviceFull,			/*!< Not enough space left on device. */
-	ErrorInodeFull,				/*!< Not enough inodes left on device. */
-	ErrorAccessDenied,			/*!< Failed to open a file, it could be busy or the user may not have permissions to open the file. */
-	ErrorNotInitialized,		/*!< A function was called before the system was prepared or initialized to receive that call. */
-	ErrorInvalidArgument		/*!< Invalid parameter supplied to a method. */
+	None,				/*!< No error ocurred. */
+	NoCard,				/*!< Card is not present, can also mean that the device is not present in case of a removable device. */
+	NotFormatted,		/*!< The card or device is not formatted. */
+	DataCorrupt,		/*!< The data is corrupted. */
+	FilesystemCorrupt,	/*!< The file system is corrupted, this is a fatal error. */
+	DeviceFull,			/*!< Not enough space left on device. */
+	InodeFull,			/*!< Not enough inodes left on device. */
+	AccessDenied,		/*!< Failed to open a file, it could be busy or the user may not have permissions to open the file. */
+	NotInitialized,		/*!< A function was called before the system was prepared or initialized to receive that call. */
+	InvalidArgument		/*!< Invalid parameter supplied to a method. */
 };
 
-enum eTextureFilterType
+enum class eTextureFilterType
 {
-	TextureFilterTypeMin,
-	TextureFilterTypeMag
+	Min,
+	Mag
 };
 
-enum eTextureFilter
+enum class eTextureFilter
 {
-	TextureFilterLinear,
-	TextureFilterNearest
+	Linear,
+	Nearest
 };
 
-enum eMeshType
+enum class eMeshType
 {
 	Triangles,
 	TriangleStrip,
@@ -408,7 +372,7 @@ Base formula:
 
 Just will replace the rasterized fragment with the newly computed one.
 
-BlendNone
+Blend None
 
 Will blend the incoming texture with the background respecting the texture alpha
 and not the background alfa.
@@ -418,7 +382,7 @@ Ar = At * At + Ar * 0
 
 * DECAL operations
 
-BlendDecalOverlay
+Blend DecalOverlay
 
 Cr = Ct * Cr + Cf * 1.0f
 Ar = At * Ar + Af * 1.0f
@@ -430,13 +394,13 @@ All operations from here are blending between two textures:
 - the destiny texture or rasterized texture (whatever is in the framebuffer / background);
 
 
-BlendDefault
+Blend Default
 
 Cr = Ct * 1.0f + Cd * 1.0f = Ct + Cd
 Ar = At * 1.0f + Ad * 1.0f = At + Ad
 
 
-BlendMerge
+Blend Merge
 
 It's an average between source and destiny (Morpho's screen):
 
@@ -444,7 +408,7 @@ Cr = Ct * At + Cd * Ad
 Ar = At * At + Ad * Ad (this is correct?)
 
 
-BlendScreen
+Blend Screen
 
 This is based in this article:
 http://gmc.yoyogames.com/index.php?s=321b708f77c5e17d0fca772ef7dcd6f9&showtopic=254433&st=0
@@ -461,93 +425,93 @@ Modulate is applied based in a Texture Pixel with a Color Fragment (glColor*) ba
 in the following formula:
 
 
-BlendOverlay
+Blend Overlay
 
 Cr = Ct * Cr + Cf * 1.0f
 Ar = At * Ar + Af * 1.0f
 
 
-BlendLighten
+Blend Lighten
 
 Cr = Ct * (1.0f - At) + Cf * (1.0f - At)
 Ar = At * (1.0f - At) + Af * (1.0f - At)
 
 
-BlendColorDodge
+Blend ColorDodge
 
 Cr = Ct + Cf
 Ar = At + Af
 
 
-BlendModulateAlpha
+Blend ModulateAlpha
 
 Cr = Ct * At +  1 * (1.0f - At)
 Ar = At * At + Af * (1.0f - At)
 
 
-BlendModulate
+Blend Modulate
 
 Cr = Ct * At + Cf * (1.0f - At)
 Ar = At * At + Af * (1.0f - At)
 
 
-BlendAdditive
+Blend Additive
 
 Cr = Ct * At + Cd
 Ar = At * At + Ad
 
 */
-enum eBlendMode
+enum class eBlendMode
 {
-	BlendNone = 0,
-	BlendDefault,
-	BlendMerge,
-	BlendScreen,
-	BlendOverlay,
-	BlendLighten,
-	BlendColorDodge,
-	BlendDecalOverlay,
-	BlendModulateAlpha,
-	BlendModulate,
-	BlendAdditive
+	None = 0,
+	Default,
+	Merge,
+	Screen,
+	Overlay,
+	Lighten,
+	ColorDodge,
+	DecalOverlay,
+	ModulateAlpha,
+	Modulate,
+	Additive
 };
 
-enum eBufferTarget
+enum class eBufferTarget
 {
-	BufferTargetArray,
-	BufferTargetElementArray,
-	BufferTargetCount
+	Array,
+	ElementArray,
+	Count
 };
 
-enum eBufferUsage
+enum class eBufferUsage
 {
-	BufferUsageNeverChange,
-	BufferUsageWillChange,
-	BufferUsageEveryFrameChange,
-	BufferUsageCount
+	NeverChange,
+	WillChange,
+	EveryFrameChange,
+	Count
 };
 
-enum eElementType
+enum class eElementType
 {
-	ElementTypeByte,
-	ElementTypeShort,
-	ElementTypeInt,
-	ElementTypeCount
+	Byte,
+	Short,
+	Int,
+	Count
 };
 
-enum ePlayableState
+enum class ePlayableState
 {
-	PlayableStopped,
-	PlayablePaused,
-	PlayablePlaying
+	Stopped,
+	Paused,
+	Playing
 };
 
-enum eJobState
+enum class eJobState
 {
-	JobStopped,
-	JobRunning,
-	JobAborted,
-	JobCompleted
+	Stopped,
+	Running,
+	Aborted,
+	Completed
 };
 
 } // namespace

@@ -40,15 +40,14 @@ class EventResourceLoader;
 /// Resource loader event listener
 class SEED_CORE_API IEventResourceLoaderListener : public IEventListener
 {
+	SEED_DISABLE_COPY(IEventResourceLoaderListener)
+
 	public:
-		IEventResourceLoaderListener();
-		~IEventResourceLoaderListener();
+		IEventResourceLoaderListener() = default;
+		~IEventResourceLoaderListener() {}
 
-		virtual void OnGroupLoaded(const EventResourceLoader *ev);
-		virtual void OnQueueEmpty(const EventResourceLoader *ev);
-
-	private:
-		SEED_DISABLE_COPY(IEventResourceLoaderListener);
+		virtual void OnGroupLoaded(const EventResourceLoader *ev)	SEED_PURE_VIRTUAL_EVENT
+		virtual void OnQueueEmpty(const EventResourceLoader *ev)	SEED_PURE_VIRTUAL_EVENT
 };
 
 } // namespace

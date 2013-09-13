@@ -103,9 +103,9 @@ class RendererSceneLoader : public IEventJobListener
 			{
 				case kPresentationSceneLoaded:
 				{
-					FileLoader *job = (FileLoader *)ev->GetJob();
+					auto job = (FileLoader *)ev->GetJob();
+					auto scene = New(SceneNode());
 					Reader r(job->pFile);
-					SceneNode *scene = New(SceneNode());
 					scene->Load(r, pRes);
 					Delete(job);
 
@@ -119,7 +119,7 @@ class RendererSceneLoader : public IEventJobListener
 
 		virtual void OnJobAborted(const EventJob *ev)
 		{
-			Job *job = ev->GetJob();
+			auto job = ev->GetJob();
 			Delete(job);
 		}
 
@@ -231,14 +231,14 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 
 		// After all json parsing, we can start the scene loading jobs
 		// so we guarantee that we have all our reference names
-		RendererVectorIterator it = vRenderer.begin();
-		RendererVectorIterator end = vRenderer.end();
-		for (int  i = 0; it != end; ++it, ++i)
+		auto i = int{0};
+		for (auto obj: vRenderer)
 		{
-			Renderer *obj = (*it);
 			RendererSceneLoader *ldr = New(RendererSceneLoader(this, pRes, obj, i));
 			Log(TAG "Scheduling scene job for scene %s.", obj->sSceneToAttach.c_str());
 			pJobManager->Add(New(FileLoader(obj->sSceneToAttach, kPresentationSceneLoaded, ldr)));
+
+			++i;
 		}
 
 		ret = true;
@@ -258,11 +258,8 @@ bool Presentation::Unload()
 	sFree(pFinished);
 
 	{
-		ViewportVectorIterator it = vViewport.begin();
-		ViewportVectorIterator end = vViewport.end();
-		for (; it != end; ++it)
+		for (auto obj: vViewport)
 		{
-			Viewport *obj = (*it);
 			Log(TAG "Destroying viewport %s.", obj->sName.c_str());
 			pViewManager->Remove(obj);
 			Delete(obj);
@@ -272,11 +269,8 @@ bool Presentation::Unload()
 	}
 
 	{
-		RendererVectorIterator it = vRenderer.begin();
-		RendererVectorIterator end = vRenderer.end();
-		for (; it != end; ++it)
+		for (auto obj: vRenderer)
 		{
-			Renderer *obj = (*it);
 			Log(TAG "Destroying renderer %s.", obj->sName.c_str());
 			pRendererManager->Remove(obj);
 			Delete(obj);
@@ -286,11 +280,8 @@ bool Presentation::Unload()
 	}
 
 	{
-		SceneNodeVectorIterator it = vScenes.begin();
-		SceneNodeVectorIterator end = vScenes.end();
-		for (; it != end; ++it)
+		for (auto obj: vScenes)
 		{
-			SceneNode *obj = (*it);
 			Log(TAG "Destroying scene %s.", obj->sName.c_str());
 			Delete(obj);
 		}
@@ -316,11 +307,8 @@ Viewport *Presentation::GetViewportByName(const String &name)
 void Presentation::SceneLoaded(RendererSceneLoader *ldr)
 {
 	{
-		ViewportVectorIterator it = vViewport.begin();
-		ViewportVectorIterator end = vViewport.end();
-		for (; it != end; ++it)
+		for (auto obj: vViewport)
 		{
-			Viewport *obj = (*it);
 			if (obj->GetRenderer() == ldr->pRenderer)
 			{
 				Log(TAG "Scene %s finished loading.", ldr->pScene->sName.c_str());
@@ -343,11 +331,8 @@ void Presentation::SceneLoaded(RendererSceneLoader *ldr)
 	}
 
 	{
-		SceneNodeVectorIterator it = vScenes.begin();
-		SceneNodeVectorIterator end = vScenes.end();
-		for (; it != end; ++it)
+		for (auto obj: vScenes)
 		{
-			SceneNode *obj = (*it);
 			Log(TAG "Adding scene %s to the scene manager.", obj->sName.c_str());
 			pSceneManager->Add(obj);
 		}
@@ -367,16 +352,6 @@ void Presentation::SceneAborted(RendererSceneLoader *ldr)
 		EventPresentation ev(this, ldr->pRenderer);
 		pListener->OnPresentationAborted(&ev);
 	}
-}
-
-const String Presentation::GetClassName() const
-{
-	return "Presentation";
-}
-
-int Presentation::GetObjectType() const
-{
-	return Seed::TypeAnimation;
 }
 
 } // namespace

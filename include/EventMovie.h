@@ -42,6 +42,9 @@ class Keyframe;
 /// Movie Event
 class SEED_CORE_API EventMovie : public IEvent
 {
+	SEED_DISABLE_COPY(EventMovie)
+	SEED_DECLARE_RTTI(EventMovie, IEvent)
+
 	public:
 		EventMovie(const Timeline *timeline, const Keyframe *keyframe, u32 frame);
 		virtual ~EventMovie();
@@ -50,12 +53,7 @@ class SEED_CORE_API EventMovie : public IEvent
 		virtual const Keyframe *GetKeyframe() const;
 		virtual u32 GetFrame() const;
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	private:
-		SEED_DISABLE_COPY(EventMovie);
-
 		const Timeline	*pTimeline;
 		const Keyframe	*pKeyframe;
 		u32				iFrame;

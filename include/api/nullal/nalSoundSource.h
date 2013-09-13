@@ -28,23 +28,24 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __NULL_OAL_SOUND_SOURCE_H__
-#define __NULL_OAL_SOUND_SOURCE_H__
+#ifndef __NULL_AL_SOUND_SOURCE_H__
+#define __NULL_AL_SOUND_SOURCE_H__
 
 #include "Defines.h"
 
-#if defined(USE_API_NULL_OAL)
+#if defined(USE_API_NULL_AL)
 
 #include "Sound.h"
 #include "interface/ISoundSource.h"
 #include "interface/ISound.h"
 #include "Reader.h"
 
-namespace Seed { namespace OAL {
+namespace Seed { namespace NAL {
 
 class SEED_CORE_API SoundSource : public ISoundSource
 {
 	friend class SoundSystem;
+	SEED_DISABLE_COPY(SoundSource)
 
 	public:
 		SoundSource();
@@ -65,14 +66,11 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		// ISoundSource
 		virtual bool OnLoadFinished();
 		virtual bool OnUnloadRequest();
-
-	private:
-		SEED_DISABLE_COPY(SoundSource);
 };
 
 }} // namespace
 
-#else // USE_API_NULL_OAL
-	#error "Include 'SoundSource.h' instead 'api/nulloal/oalSoundSource.h' directly."
-#endif // USE_API_NULL_OAL
-#endif // __NULL_OAL_SOUND_SOURCE_H__
+#else // USE_API_NULL_AL
+	#error "Include 'SoundSource.h' instead 'api/nullal/nalSoundSource.h' directly."
+#endif // USE_API_NULL_AL
+#endif // __NULL_AL_SOUND_SOURCE_H__

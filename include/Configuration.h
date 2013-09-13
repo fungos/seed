@@ -41,7 +41,10 @@ namespace Seed {
 /// Run-time Configuration
 class SEED_CORE_API Configuration : public IObject
 {
-	SEED_SINGLETON_DECLARE(Configuration)
+	SEED_DECLARE_SINGLETON(Configuration)
+	SEED_DISABLE_COPY(Configuration)
+	SEED_DECLARE_RTTI(Configuration, IObject)
+
 	public:
 		void Load(const String &file);
 
@@ -125,22 +128,16 @@ class SEED_CORE_API Configuration : public IObject
 		void SetReaderType(eReaderType readerType);
 		eReaderType GetReaderType() const;
 
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
-
 		bool bDebugSprite;
 
 	private:
-		SEED_DISABLE_COPY(Configuration);
-
 		String sWorkingDirectory;
 		String sTitle;
 		String sDescription;
 		String sPublisherName;
 
-		eRendererDeviceType iRendererDeviceType;
-		eReaderType iReaderType;
+		eRendererDeviceType nRendererDeviceType;
+		eReaderType nReaderType;
 
 		u32 iFrameRate;
 		u32 iResolutionWidth;

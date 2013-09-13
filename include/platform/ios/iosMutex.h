@@ -40,6 +40,8 @@ namespace Seed { namespace iOS {
 /// iOS mutex
 class Mutex : public IMutex
 {
+	SEED_DISABLE_COPY(Mutex)
+
 	public:
 		Mutex();
 		virtual ~Mutex();
@@ -48,10 +50,7 @@ class Mutex : public IMutex
 		virtual void Unlock();
 
 	private:
-		SEED_DISABLE_COPY(Mutex);
-
-	private:
-		void		*pMutex;
+		void *pMutex;
 };
 
 }} // namespace

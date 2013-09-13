@@ -41,6 +41,8 @@ namespace Seed { namespace QT {
 /// Qt Mutex
 class Mutex : public IMutex
 {
+	SEED_DISABLE_COPY(Mutex)
+
 	public:
 		Mutex();
 		virtual ~Mutex();
@@ -48,9 +50,6 @@ class Mutex : public IMutex
 		virtual void Lock();
 		virtual void Unlock();
 		virtual bool TryLock();
-
-	private:
-		SEED_DISABLE_COPY(Mutex);
 
 	private:
 		QMutex	mutex;

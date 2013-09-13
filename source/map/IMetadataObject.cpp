@@ -41,7 +41,7 @@ IMetadataObject::IMetadataObject()
 	, pCached(NULL)
 	, iVertices(0)
 	, ptOffset(0.0f, 0.0f)
-	, nType(kMetaTypeRect)
+	, nType(eMetaType::Rect)
 	, rBox()
 {
 }
@@ -70,7 +70,7 @@ bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 		u32 len = reader.SelectArray("polygon");
 		if (len)
 		{
-			nType = kMetaTypePolygon;
+			nType = eMetaType::Polygon;
 			this->ReadVertices(reader, len);
 			reader.UnselectArray();
 		}
@@ -79,7 +79,7 @@ bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 			len = reader.SelectArray("polyline");
 			if (len)
 			{
-				nType = kMetaTypePolyline;
+				nType = eMetaType::Polyline;
 				this->ReadVertices(reader, len);
 				reader.UnselectArray();
 			}
@@ -141,7 +141,7 @@ void IMetadataObject::Render(const Matrix4f &worldTransform)
 
 	switch (nType)
 	{
-		case kMetaTypeRect:
+		case eMetaType::Rect:
 		{
 			x = x + t.getX();
 			y = y + t.getY();
@@ -149,8 +149,8 @@ void IMetadataObject::Render(const Matrix4f &worldTransform)
 		}
 		break;
 
-		case kMetaTypePolygon:
-		case kMetaTypePolyline:
+		case eMetaType::Polygon:
+		case eMetaType::Polyline:
 		{
 			for (u32 i = 0; i < iVertices * 2; i += 2)
 			{

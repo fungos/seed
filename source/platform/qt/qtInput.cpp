@@ -60,7 +60,7 @@ bool Input::Shutdown()
 {
 	Log(TAG "Terminating...");
 	bool r = this->Reset();
-	IModule::Shutdown();
+	IManager::Shutdown();
 	Log(TAG "Terminated.");
 
 	return r;
@@ -69,7 +69,7 @@ bool Input::Shutdown()
 bool Input::Initialize()
 {
 	Log(TAG "Initializing...");
-	IModule::Initialize();
+	IManager::Initialize();
 	bool r = this->Reset();
 	Log(TAG "Initialization completed.");
 
@@ -84,7 +84,7 @@ bool Input::Update(f32 dt)
 
 bool Input::Reset()
 {
-	IModule::Reset();
+	IManager::Reset();
 	return true;
 }
 
@@ -287,186 +287,186 @@ eKey Input::TranslateKey(u32 key)
 	}
 	else
 	{
-		eKey t = KeyNone;
+		eKey t = eKey::None;
 
 		switch (key)
 		{
 			case Qt::Key_Escape:
-				t = KeyEscape;
+				t = eKey::Escape;
 			break;
 
 			case Qt::Key_Tab:
-				t = KeyTab;
+				t = eKey::Tab;
 			break;
 
 			case Qt::Key_Backspace:
-				t = KeyBackspace;
+				t = eKey::Backspace;
 			break;
 
 			case Qt::Key_Return:
-				t = KeyReturn;
+				t = eKey::Return;
 			break;
 
 			case Qt::Key_Enter:
-				t = KeyEnter;
+				t = eKey::Enter;
 			break;
 
 			case Qt::Key_Pause:
-				t = KeyPause;
+				t = eKey::Pause;
 			break;
 
 			case Qt::Key_Clear:
-				t = KeyClear;
+				t = eKey::Clear;
 			break;
 
 			case Qt::Key_Delete:
-				t = KeyDelete;
+				t = eKey::Delete;
 			break;
 
 			case Qt::Key_Insert:
-				t = KeyInsert;
+				t = eKey::Insert;
 			break;
 
 			case Qt::Key_Print:
-				t = KeyPrintScreen;
+				t = eKey::PrintScreen;
 			break;
 
 			case Qt::Key_SysReq:
 
 			case Qt::Key_Home:
-				t = KeyHome;
+				t = eKey::Home;
 			break;
 
 			case Qt::Key_End:
-				t = KeyEnd;
+				t = eKey::End;
 			break;
 
 			case Qt::Key_Left:
-				t = KeyLeft;
+				t = eKey::Left;
 			break;
 
 			case Qt::Key_Up:
-				t = KeyUp;
+				t = eKey::Up;
 			break;
 
 			case Qt::Key_Down:
-				t = KeyDown;
+				t = eKey::Down;
 			break;
 
 			case Qt::Key_Right:
-				t = KeyRight;
+				t = eKey::Right;
 			break;
 
 			case Qt::Key_PageUp:
-				t = KeyPageUp;
+				t = eKey::PageUp;
 			break;
 
 			case Qt::Key_PageDown:
-				t = KeyPageDown;
+				t = eKey::PageDown;
 			break;
 
 			case Qt::Key_Shift:
-				t = KeyShiftLeft;
+				t = eKey::ShiftLeft;
 			break;
 
 			case Qt::Key_Control:
-				t = KeyControlLeft;
+				t = eKey::ControlLeft;
 			break;
 
 			case Qt::Key_Meta:
-				t = KeyMetaLeft;
+				t = eKey::MetaLeft;
 			break;
 
 			case Qt::Key_Alt:
-				t = KeyAltLeft;
+				t = eKey::AltLeft;
 			break;
 
 			case Qt::Key_Super_L:
-				t = KeySuperLeft;
+				t = eKey::SuperLeft;
 			break;
 
 			case Qt::Key_Super_R:
-				t = KeySuperRight;
+				t = eKey::SuperRight;
 			break;
 
 			case Qt::Key_AltGr:
-				t = KeyAltGr;
+				t = eKey::AltGr;
 			break;
 
 			case Qt::Key_CapsLock:
-				t = KeyCapsLock;
+				t = eKey::CapsLock;
 			break;
 
 			case Qt::Key_NumLock:
-				t = KeyNumLock;
+				t = eKey::NumLock;
 			break;
 
 			case Qt::Key_ScrollLock:
-				t = KeyScrollLock;
+				t = eKey::ScrollLock;
 			break;
 
 			case Qt::Key_F1:
-				t = KeyF1;
+				t = eKey::F1;
 			break;
 
 			case Qt::Key_F2:
-				t = KeyF2;
+				t = eKey::F2;
 			break;
 
 			case Qt::Key_F3:
-				t = KeyF3;
+				t = eKey::F3;
 			break;
 
 			case Qt::Key_F4:
-				t = KeyF4;
+				t = eKey::F4;
 			break;
 
 			case Qt::Key_F5:
-				t = KeyF5;
+				t = eKey::F5;
 			break;
 
 			case Qt::Key_F6:
-				t = KeyF6;
+				t = eKey::F6;
 			break;
 
 			case Qt::Key_F7:
-				t = KeyF7;
+				t = eKey::F7;
 			break;
 
 			case Qt::Key_F8:
-				t = KeyF8;
+				t = eKey::F8;
 			break;
 
 			case Qt::Key_F9:
-				t = KeyF9;
+				t = eKey::F9;
 			break;
 
 			case Qt::Key_F10:
-				t = KeyF10;
+				t = eKey::F10;
 			break;
 
 			case Qt::Key_F11:
-				t = KeyF11;
+				t = eKey::F11;
 			break;
 
 			case Qt::Key_F12:
-				t = KeyF12;
+				t = eKey::F12;
 			break;
 
 			case Qt::Key_F13:
-				t = KeyF13;
+				t = eKey::F13;
 			break;
 
 			case Qt::Key_F14:
-				t = KeyF14;
+				t = eKey::F14;
 			break;
 
 			case Qt::Key_F15:
-				t = KeyF15;
+				t = eKey::F15;
 			break;
 
 			case Qt::Key_Menu:
-				t = KeyMenu;
+				t = eKey::Menu;
 			break;
 
 			case Qt::Key_F16:

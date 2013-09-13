@@ -39,7 +39,7 @@
 
 //extern "C" { extern void Log(const char *pMessage, ...); }
 
-#define DECLARE_CONTAINER_HELPER(N, C) \
+#define SEED_DECLARE_CONTAINER_HELPER(N, C) \
 											\
 											template <typename T> \
 											class N : public C<T> \
@@ -72,12 +72,12 @@
 
 namespace Seed
 {
-	DECLARE_CONTAINER_HELPER(Vector, std::vector)
+	SEED_DECLARE_CONTAINER_HELPER(Vector, std::vector)
 }
 
 #define Stack std::stack
 #define Map std::map
-#define DECLARE_CONTAINER_TYPE(cont, type)	typedef cont<type *> type##cont; \
+#define SEED_DECLARE_CONTAINER(cont, type)	typedef cont<type *> type##cont; \
 											typedef type##cont::iterator type##cont##Iterator; \
 											typedef type##cont::const_iterator Const##type##cont##Iterator;
 

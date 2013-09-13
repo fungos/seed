@@ -9,6 +9,8 @@ class ParticleSample : public IGameApp,
 					public IEventInputKeyboardListener,
 					public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(ParticleSample)
+
 	public:
 		ParticleSample();
 		virtual ~ParticleSample();
@@ -25,9 +27,6 @@ class ParticleSample : public IGameApp,
 
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(ParticleSample);
 
 	protected:
 		Presentation cPres;

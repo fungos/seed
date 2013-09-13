@@ -42,7 +42,7 @@ namespace Seed { namespace OAL {
 
 IResource *SoundResourceLoader(const String &filename, ResourceManager *res)
 {
-	Sound *sound = New(Sound());
+	auto sound = New(Sound());
 	sound->Load(filename, res);
 	return sound;
 }
@@ -78,10 +78,10 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 		alGenBuffers(1, &iBuffer);
 
 		WARNING(TODO - Move to async file loading)
-		File *pFile = New(File(filename));
-		oggFile.dataPtr = pFile->GetData();
+		auto file = New(File(filename));
+		oggFile.dataPtr = file->GetData();
 		oggFile.dataRead = 0;
-		oggFile.dataSize = iSize = pFile->GetSize();
+		oggFile.dataSize = iSize = file->GetSize();
 
 		vorbisCb.read_func = vorbis_read;
 		vorbisCb.close_func = vorbis_close;
@@ -128,7 +128,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 		}
 
 		bLoaded = true;
-		Delete(pFile);
+		Delete(file);
 	}
 
 	return bLoaded;

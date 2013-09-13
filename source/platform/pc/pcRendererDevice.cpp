@@ -63,24 +63,24 @@ bool RendererDevice::Initialize()
 	Log(TAG "Initializing...");
 
 	eRendererDeviceType renderDevice = pConfiguration->GetRendererDeviceType();
-	if (renderDevice == RendererDeviceAuto)
+	if (renderDevice == eRendererDeviceType::Auto)
 	{
 #if defined(SEED_ENABLE_D3D11) || defined(SEED_ENABLE_D3D10) || defined(SEED_ENABLE_D3D9) || defined(SEED_ENABLE_D3D8)
 		renderDevice = Seed::RendererDeviceDirectXAny;
 #else
-		renderDevice = Seed::RendererDeviceOpenGLAny;
+		renderDevice = eRendererDeviceType::OpenGLAny;
 #endif
 	}
 
-	if (renderDevice == RendererDeviceOpenGLAny)
+	if (renderDevice == eRendererDeviceType::OpenGLAny)
 	{
 		char *version = (char *)glGetString(GL_VERSION);
 		switch (version[0])
 		{
-			case '4': renderDevice = Seed::RendererDeviceOpenGL4x; break;
-			case '3': renderDevice = Seed::RendererDeviceOpenGL3x; break;
-			case '2': renderDevice = Seed::RendererDeviceOpenGL2x; break;
-			default: renderDevice = Seed::RendererDeviceOpenGL1x; break;
+			case '4': renderDevice = eRendererDeviceType::OpenGL4x; break;
+			case '3': renderDevice = eRendererDeviceType::OpenGL3x; break;
+			case '2': renderDevice = eRendererDeviceType::OpenGL2x; break;
+			default: renderDevice = eRendererDeviceType::OpenGL1x; break;
 		}
 	}
 
@@ -88,7 +88,7 @@ bool RendererDevice::Initialize()
 	switch (renderDevice)
 	{
 #if defined(SEED_ENABLE_OGL20)
-		case RendererDeviceOpenGL2x:
+		case eRendererDeviceType::OpenGL2x:
 		{
 			Info(TAG "Creating renderer device OpenGL 2.x");
 			pApiDevice = New(OGL2xRendererDevice());
@@ -97,7 +97,7 @@ bool RendererDevice::Initialize()
 #endif
 
 #if defined(SEED_ENABLE_OGL30)
-		case RendererDeviceOpenGL3x:
+		case eRendererDeviceType::OpenGL3x:
 		{
 			Info(TAG "Creating renderer device OpenGL 3.x");
 			pApiDevice = New(OGL3xRendererDevice());
@@ -106,7 +106,7 @@ bool RendererDevice::Initialize()
 #endif
 
 #if defined(SEED_ENABLE_OGL40)
-		case RendererDeviceOpenGL4x:
+		case eRendererDeviceType::OpenGL4x:
 		{
 			Info(TAG "Creating renderer device OpenGL 4.x");
 			pApiDevice = New(OGL4xRendererDevice());
@@ -115,7 +115,7 @@ bool RendererDevice::Initialize()
 #endif
 
 #if defined(SEED_ENABLE_D3D8)
-		case RendererDeviceDirectX8:
+		case eRendererDeviceType::DirectX8:
 		{
 			Info(TAG "Creating renderer device DirectX 8.1");
 			pApiDevice = New(Seed::DirectX::D3D8RendererDevice());
@@ -124,7 +124,7 @@ bool RendererDevice::Initialize()
 #endif
 
 #if defined(SEED_ENABLE_D3D9)
-		case RendererDeviceDirectX9:
+		case eRendererDeviceType::DirectX9:
 		{
 			Info(TAG "Creating renderer device DirectX 9.0c");
 			pApiDevice = New(D3D9RendererDevice());
@@ -133,7 +133,7 @@ bool RendererDevice::Initialize()
 #endif
 
 #if defined(SEED_ENABLE_D3D10)
-		case RendererDeviceDirectX10:
+		case eRendererDeviceType::DirectX10:
 		{
 			Info(TAG "Creating renderer device DirectX 10");
 			pApiDevice = New(D3D10RendererDevice());
@@ -142,7 +142,7 @@ bool RendererDevice::Initialize()
 #endif
 
 #if defined(SEED_ENABLE_D3D11)
-		case RendererDeviceDirectX11:
+		case eRendererDeviceType::DirectX11:
 		{
 			Info(TAG "Creating renderer device DirectX 11");
 			pApiDevice = New(D3D11RendererDevice());
@@ -150,8 +150,8 @@ bool RendererDevice::Initialize()
 		break;
 #endif
 
-		case RendererDeviceOpenGLES1:
-		case RendererDeviceOpenGL1x:
+		case eRendererDeviceType::OpenGLES1:
+		case eRendererDeviceType::OpenGL1x:
 		default:
 		{
 			Info(TAG "Creating renderer device OpenGL 1.5/ES 1");

@@ -65,14 +65,14 @@ System::~System()
 
 bool System::Reset()
 {
-	IModule::Reset();
+	IManager::Reset();
 	return true;
 }
 
 bool System::Initialize()
 {
 	Log(TAG "Initializing...");
-	IModule::Initialize();
+	IManager::Initialize();
 	Log(TAG "Initialization completed.");
 
 	return true;
@@ -81,7 +81,7 @@ bool System::Initialize()
 bool System::Shutdown()
 {
 	this->bShutdown = true;
-	IModule::Shutdown();
+	IManager::Shutdown();
 	Log(TAG "Terminating...");
 
 	return true;

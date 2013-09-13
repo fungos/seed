@@ -77,6 +77,8 @@ typedef std::stack<ProfileContext *> ContextStack;
 /// Profiler
 class SEED_CORE_API Profiler
 {
+	SEED_DISABLE_COPY(Profiler)
+
 	public:
 		Profiler(const char *name);
 		~Profiler();
@@ -90,9 +92,6 @@ class SEED_CORE_API Profiler
 		static Profiler *regionProfilerInstance;
 
 	private:
-		SEED_DISABLE_COPY(Profiler);
-
-	private:
 		const char *pName;
 		FuncTimeMap mapSubjectSlice;
 		FuncTimeMap mapSubjectTotal;
@@ -101,6 +100,8 @@ class SEED_CORE_API Profiler
 /// Profiler Context
 class SEED_CORE_API ProfileContext
 {
+	SEED_DISABLE_COPY(ProfileContext)
+
 	public:
 		ProfileContext(const char *f, Profiler *prof = Profiler::funcProfilerInstance);
 		~ProfileContext();
@@ -114,9 +115,6 @@ class SEED_CORE_API ProfileContext
 		void Pop();
 
 		static ContextStack stack;
-
-	private:
-		SEED_DISABLE_COPY(ProfileContext);
 
 	private:
 		const char *func;

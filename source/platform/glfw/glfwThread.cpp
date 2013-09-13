@@ -45,8 +45,8 @@ static void __seed_thread_loop_callback(void *param)
 #endif
 
 Thread::Thread()
-	: bRunning(true)
-	, iThread(0)
+	: iThread(0)
+	, bRunning(true)
 {
 }
 

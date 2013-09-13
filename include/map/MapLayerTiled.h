@@ -46,6 +46,7 @@ class Image;
 class SEED_CORE_API MapLayerTiled : public IMapLayer
 {
 	friend class GameMap;
+	SEED_DISABLE_COPY(MapLayerTiled)
 
 	public:
 		MapLayerTiled();
@@ -70,8 +71,6 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		virtual bool Unload() override;
 
 	private:
-		SEED_DISABLE_COPY(MapLayerTiled);
-
 		u32			 *pTileData;
 		sVertex		 *pVertex;
 		u32			 *pElements;
@@ -84,8 +83,8 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		Point2u ptMapSize;
 		Point2f ptMapSizeHalf;
 
-		bool	bRebuildMesh;
-		bool	bResizeMap;
+		bool	bRebuildMesh : 1;
+		bool	bResizeMap : 1;
 };
 
 } // namespace

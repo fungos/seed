@@ -99,13 +99,13 @@ void Box2DSample::OnSystemShutdown(const EventSystem *ev)
 
 void Box2DSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
 }
 
@@ -116,10 +116,10 @@ void Box2DSample::OnInputPointerPress(const EventInputPointer *ev)
 	p.setY(ev->GetY());
 	p += pCamera->GetPosition();
 
-	if (ev->GetPressed() == Seed::ButtonLeft)
+	if (ev->GetPressed() == eInputButton::Left)
 	{
-		f32 mx = p.getX() * PIX2M;
-		f32 my = p.getY() * PIX2M;
+		auto mx = p.getX() * PIX2M;
+		auto my = p.getY() * PIX2M;
 
 		b2AABB aabb;
 		aabb.lowerBound.Set(mx - 0.001f, my - 0.001f);
@@ -174,7 +174,7 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 	p.setY(ev->GetY());
 	p += pCamera->GetPosition();
 
-	if (ev->GetReleased() == Seed::ButtonLeft)
+	if (ev->GetReleased() == eInputButton::Left)
 	{
 		if (pPick)
 		{
@@ -183,9 +183,9 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 			pPick = NULL;
 		}
 	}
-	else if (ev->GetReleased() == Seed::ButtonRight)
+	else if (ev->GetReleased() == eInputButton::Right)
 	{
-		Image *img = New(Image("frame03.png"));
+		auto img = New(Image("frame03.png"));
 		img->bMarkForDeletion = true;
 
 		std::stringstream ss;
@@ -202,14 +202,14 @@ void Box2DSample::OnPresentationLoaded(const EventPresentation *ev)
 	UNUSED(ev)
 
 	pScene = cPres.GetRendererByName("MainRenderer")->GetScene();
-	pCamera = (Camera *)pScene->GetChildByName("MainCamera");
+	pCamera = static_cast<Camera *>(pScene->GetChildByName("MainCamera"));
 
 	ISceneObject *obj = pScene->GetChildByName("Ground");
 	obj->SetPosition(pGround->GetPosition().x * M2PIX, pGround->GetPosition().y * M2PIX);
 	obj->SetVisible(true);
 	pGround->SetUserData(obj);
 
-	this->CreateBody((Image *)pScene->GetChildByName("Panda"), 0.0f, 0.0f);
+	this->CreateBody(static_cast<Image *>(pScene->GetChildByName("Panda")), 0.0f, 0.0f);
 
 	pSystem->AddListener(this);
 	pInput->AddKeyboardListener(this);
@@ -220,7 +220,7 @@ void Box2DSample::DestroyPhysics()
 {
 	for (b2Body *b = pWorld->GetBodyList(); b; b = b->GetNext())
 	{
-		ISceneObject *obj = (ISceneObject *)b->GetUserData();
+		ISceneObject *obj = static_cast<ISceneObject *>(b->GetUserData());
 		if (obj != NULL)
 		{
 			pScene->Remove(obj);
@@ -240,7 +240,7 @@ void Box2DSample::CreateBody(Image *img, f32 x, f32 y)
 	bodyDef.position.Set(x * PIX2M, y * PIX2M);
 	bodyDef.angle = 0;
 	bodyDef.userData = img;
-	b2Body *b = pWorld->CreateBody(&bodyDef);
+	auto b = pWorld->CreateBody(&bodyDef);
 
 	b2PolygonShape boxShape;
 	boxShape.SetAsBox(38.0f * PIX2M, 38.0f * PIX2M);

@@ -43,7 +43,10 @@ namespace Seed { namespace PC {
 /// PC Rendering Device
 class SEED_CORE_API RendererDevice : public IRendererDevice
 {
-	SEED_SINGLETON_DECLARE(RendererDevice)
+	SEED_DECLARE_SINGLETON(RendererDevice)
+	SEED_DECLARE_MANAGER(RendererDevice)
+	SEED_DISABLE_COPY(RendererDevice)
+
 	public:
 		virtual void Begin() const override;
 		virtual void End() const override;
@@ -94,14 +97,12 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		// Other
 		virtual void Update() override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
 
 	private:
-		SEED_DISABLE_COPY(RendererDevice);
-
 		IRendererDevice cNull;
 		IRendererDevice	*pApiDevice;
 };

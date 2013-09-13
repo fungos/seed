@@ -42,15 +42,14 @@ class Timeline;
 /// Movie event listener
 class SEED_CORE_API IEventMovieListener : public IEventListener
 {
+	SEED_DISABLE_COPY(IEventMovieListener)
+
 	public:
-		IEventMovieListener();
-		virtual ~IEventMovieListener();
+		IEventMovieListener() = default;
+		virtual ~IEventMovieListener() {}
 
-		virtual void OnTimelineFrame(const EventMovie *ev);
-		virtual void OnTimelineRestart(const EventMovie *ev);
-
-	private:
-		SEED_DISABLE_COPY(IEventMovieListener);
+		virtual void OnTimelineFrame(const EventMovie *ev)		SEED_PURE_VIRTUAL_EVENT
+		virtual void OnTimelineRestart(const EventMovie *ev)	SEED_PURE_VIRTUAL_EVENT
 };
 
 } // namespace

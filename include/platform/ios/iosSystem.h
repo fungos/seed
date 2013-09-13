@@ -39,9 +39,12 @@
 namespace Seed { namespace iOS {
 
 /// iOS System Module
-class System : public ISystem
+class SEED_CORE_API System : public ISystem
 {
-	SEED_SINGLETON_DECLARE(System)
+	SEED_DECLARE_SINGLETON(System)
+	SEED_DECLARE_MANAGER(System)
+	SEED_DISABLE_COPY(System)
+
 	public:
 		// ISystem
 		virtual void GoToMenu();
@@ -61,16 +64,13 @@ class System : public ISystem
 		virtual bool IsHomeRunning() const;
 		virtual bool InitializeHome();
 
-		// IModule
+		// IManager
 		virtual bool Initialize();
 		virtual bool Shutdown();
 		virtual bool Reset();
 
 		// IUpdatable
 		virtual bool Update(f32 dt);
-
-	private:
-		SEED_DISABLE_COPY(System);
 };
 
 #define pSystem Seed::iOS::System::GetInstance()

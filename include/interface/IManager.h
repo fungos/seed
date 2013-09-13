@@ -28,17 +28,64 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#ifndef __IMANAGER_H__
+#define __IMANAGER_H__
+
+#include "Defines.h"
 #include "interface/IObject.h"
+
+#define SEED_DECLARE_MANAGER(name)	public:										\
+										virtual const String GetName() const	\
+										{										\
+											return #name;						\
+										}										\
+
 
 namespace Seed {
 
-IObject::IObject()
-	: sName()
+/// Module Interface
+/**
+Interface for basic manager
+*/
+class SEED_CORE_API IManager
 {
-}
+	SEED_DISABLE_COPY(IManager)
 
-IObject::~IObject()
-{
-}
+	public:
+		IManager();
+		virtual ~IManager();
+
+		/// Initialize this module, it must initialize all module attributes.
+		virtual bool Initialize();
+
+		/// Reset all module attributes as a newly created object.
+		virtual bool Reset();
+
+		/// Terminate everything and deinitialize all dependency. Reset to before initialization state.
+		virtual bool Shutdown();
+
+		/// Disables this module
+		virtual void Disable();
+
+		/// Enabled this module
+		virtual void Enable();
+
+		/// Returns true if this module is enabled
+		virtual bool IsEnabled() const;
+
+		/// Check if the module is initialized
+		bool IsInitialized() const;
+
+		/// If this module is mandatory (it is a base subsystem or critical one)
+		virtual bool IsRequired() const;
+
+		virtual const String GetName() const = 0;
+
+	protected:
+		bool bInitialized : 1;
+		bool bEnabled : 1;
+};
 
 } // namespace
+
+#endif // __IMANAGER_H__

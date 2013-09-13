@@ -41,6 +41,8 @@ Thread interface
 */
 class SEED_CORE_API IThread
 {
+	SEED_DISABLE_COPY(IThread)
+
 	public:
 		IThread();
 		virtual ~IThread();
@@ -48,9 +50,6 @@ class SEED_CORE_API IThread
 		virtual void Create(s32 priority = 31);
 		virtual void Destroy();
 		virtual bool Run();
-
-	private:
-		SEED_DISABLE_COPY(IThread);
 };
 
 } // namespace

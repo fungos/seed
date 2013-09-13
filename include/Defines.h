@@ -47,7 +47,7 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #pragma warning(disable:4996) // _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable:4251) // stl + dll
 #else
-#define override
+//#define override
 #endif
 
 #define STRINGIZE_HELPER(x) #x
@@ -145,17 +145,14 @@ typedef Color Color4b;
 #define CLAMP(val,min,max) 				((val) = (((val) < (min)) ? (min) : ((val) > (max)) ? (max) : (val)))
 #define ROUND_UP(value, alignment)		(((u32)(value) + (alignment-1)) & ~(alignment-1))
 #define ROUND_DOWN(value, alignment)	((u32)(value) & ~(alignment-1))
-#define PTR_OFF(ptr) 			((size_t)(ptr))
-#define ALIGN_OFFSET(ptr, align)	(PTR_OFF(ptr) & ((align) - 1))
-#define ALIGN_FLOOR(ptr, align)		((u8 *)(ptr) - ( PTR_OFF(ptr) & ((align) - 1)))
-#define ALIGN_CEIL(ptr, align) 		((u8 *)(ptr) + (-PTR_OFF(ptr) & ((align) - 1)))
+#define PTR_OFF(ptr)					((size_t)(ptr))
+#define ALIGN_OFFSET(ptr, align)		(PTR_OFF(ptr) & ((align) - 1))
+#define ALIGN_FLOOR(ptr, align)			((u8 *)(ptr) - ( PTR_OFF(ptr) & ((align) - 1)))
+#define ALIGN_CEIL(ptr, align)			((u8 *)(ptr) + (-PTR_OFF(ptr) & ((align) - 1)))
 
-#define SEED_DISABLE_COPY(Class)		Class(const Class &); \
-										Class &operator=(const Class &)
-
-
-#define SEED_FORWARD_DECLARATION(Class) namespace Seed { class Class; }
-
+#define SEED_DISABLE_COPY(Class)		private:										\
+											Class(const Class &) = delete;				\
+											Class &operator=(const Class &) = delete;	\
 
 #define SEED_COMPILE_TIME_ASSERT(name, x)	typedef int __seed_compile_assert_ ## name[(x) * 2 - 1]
 

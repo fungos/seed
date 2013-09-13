@@ -28,22 +28,25 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __OAL_SOUND_SYSTEM_H__
-#define __OAL_SOUND_SYSTEM_H__
+#ifndef __NULL_AL_SOUND_SYSTEM_H__
+#define __NULL_AL_SOUND_SYSTEM_H__
 
 #include "Defines.h"
 
-#if defined(USE_API_NULL_OAL)
+#if defined(USE_API_NULL_AL)
 
 #include "interface/ISoundSystem.h"
 #include "Singleton.h"
 
-namespace Seed { namespace OAL {
+namespace Seed { namespace NAL {
 
-/// OpenAL Sound system
+/// NULL sound manager
 class SEED_CORE_API SoundSystem : public ISoundSystem
 {
-	SEED_SINGLETON_DECLARE(SoundSystem)
+	SEED_DECLARE_SINGLETON(SoundSystem)
+	SEED_DECLARE_MANAGER(SoundSystem)
+	SEED_DISABLE_COPY(SoundSystem)
+
 	public:
 		virtual void Pause();
 		virtual void Resume();
@@ -55,16 +58,13 @@ class SEED_CORE_API SoundSystem : public ISoundSystem
 		virtual bool Initialize();
 		virtual bool Reset();
 		virtual bool Shutdown();
-
-	private:
-		SEED_DISABLE_COPY(SoundSystem);
 };
 
 #define pSoundSystem Seed::OAL::SoundSystem::GetInstance()
 
 }} // namespace
 
-#else // USE_API_NULL_OAL
-	#error "Include 'SoundSystem.h' instead 'api/nulloal/oalSoundSystem.h' directly."
-#endif // USE_API_NULL_OAL
-#endif // __NULL_OAL_SOUND_SYSTEM_H__
+#else // USE_API_NULL_AL
+	#error "Include 'SoundSystem.h' instead 'api/nullal/nalSoundSystem.h' directly."
+#endif // USE_API_NULL_AL
+#endif // __NULL_AL_SOUND_SYSTEM_H__

@@ -53,10 +53,12 @@ Animated Sprite
 */
 class SEED_CORE_API Sprite : public ISceneObject
 {
+	SEED_DECLARE_CONTAINER(Vector, Animation)
+	SEED_DECLARE_CONTAINER(Vector, Frame)
+	SEED_DECLARE_RTTI(Sprite, ISceneObject)
+
 	friend class ParticleEmitter;
 	public:
-		DECLARE_CONTAINER_TYPE(Vector, Animation)
-		DECLARE_CONTAINER_TYPE(Vector, Frame)
 		friend class ResourceLoader;
 
 	public:
@@ -105,10 +107,6 @@ class SEED_CORE_API Sprite : public ISceneObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
 
 	protected:
 		virtual void ReconfigureAnimation();

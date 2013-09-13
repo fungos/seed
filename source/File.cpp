@@ -140,16 +140,6 @@ const String &File::GetName() const
 	return sFilename;
 }
 
-const String File::GetClassName() const
-{
-	return "File";
-}
-
-int File::GetObjectType() const
-{
-	return Seed::TypeFile;
-}
-
 
 FileLoader::FileLoader(const String &filename, u32 name, IEventJobListener *listener)
 	: Job(name, listener)
@@ -167,7 +157,7 @@ bool FileLoader::Run()
 {
 //	Log("Job Run %s", sFilename.c_str());
 	cMutex.Lock();
-	bool run = (nState == JobRunning);
+	bool run = (nState == eJobState::Running);
 	cMutex.Unlock();
 
 	if (run)
@@ -177,7 +167,7 @@ bool FileLoader::Run()
 		Log("[FileJob] Loading file %s (%d bytes)", sFilename.c_str(), pFile->GetSize());
 
 		cMutex.Lock();
-		nState = JobCompleted;
+		nState = eJobState::Completed;
 		cMutex.Unlock();
 //		Log("Job Run completed %s", sFilename.c_str());
 	}

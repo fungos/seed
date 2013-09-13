@@ -33,7 +33,7 @@
 
 #if (SEED_USE_THREAD == 0)
 
-#include "interface/IModule.h"
+#include "interface/IManager.h"
 #include "interface/IUpdatable.h"
 #include "Singleton.h"
 #include "Container.h"
@@ -43,15 +43,18 @@ namespace Seed {
 class IThread;
 
 /// Thread Manager
-class SEED_CORE_API ThreadManager : public IModule, public IUpdatable
+class SEED_CORE_API ThreadManager : public IManager, public IUpdatable
 {
-	SEED_SINGLETON_DECLARE(ThreadManager)
-	DECLARE_CONTAINER_TYPE(Vector, IThread)
+	SEED_DECLARE_SINGLETON(ThreadManager)
+	SEED_DECLARE_MANAGER(ThreadManager)
+	SEED_DECLARE_CONTAINER(Vector, IThread)
+	SEED_DISABLE_COPY(ThreadManager)
+
 	public:
 		void Add(IThread *thread);
 		void Remove(IThread *thread);
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
@@ -62,15 +65,9 @@ class SEED_CORE_API ThreadManager : public IModule, public IUpdatable
 		// IUpdatable
 		virtual bool Update(f32 dt) override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	private:
-		SEED_DISABLE_COPY(ThreadManager);
-
 		IThreadVector vThread;
-		bool bEnabled;
+		bool bEnabled : 1;
 };
 
 #define pThreadManager ThreadManager::GetInstance()

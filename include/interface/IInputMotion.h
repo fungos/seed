@@ -46,7 +46,9 @@ Platforms that support Accelerometer like input must implement this interface.
 */
 class SEED_CORE_API IInputMotion
 {
-	DECLARE_CONTAINER_TYPE(Vector, IEventInputMotionListener)
+	SEED_DECLARE_CONTAINER(Vector, IEventInputMotionListener)
+	SEED_DISABLE_COPY(IInputMotion)
+
 	public:
 		IInputMotion();
 		virtual ~IInputMotion();
@@ -63,9 +65,6 @@ class SEED_CORE_API IInputMotion
 
 	protected:
 		IEventInputMotionListenerVector vMotionListeners;
-
-	private:
-		SEED_DISABLE_COPY(IInputMotion);
 };
 
 } // namespace

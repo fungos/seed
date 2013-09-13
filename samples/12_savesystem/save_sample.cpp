@@ -28,12 +28,12 @@ SaveSample::SaveSample()
 	: cPres()
 	, pImage(NULL)
 	, pCamera(NULL)
-	, fElapsed(0.0f)
-	, fDir(1.0f)
-	, bRotate(false)
 	, vFrom()
 	, vCurrent()
 	, vTo()
+	, fElapsed(0.0f)
+	, fDir(1.0f)
+	, bRotate(false)
 {
 }
 
@@ -45,7 +45,7 @@ SaveSample::~SaveSample()
 inline void strlcpy(char *dest, const char *src, size_t len)
 {
 	strncpy(dest, src, len);
-	dest[len-1] = 0;	
+	dest[len-1] = 0;
 }
 #endif
 
@@ -65,7 +65,7 @@ bool SaveSample::Initialize()
 
 		for (u32 i = 0; i < MY_GAME_RANKING_SIZE; i++)
 		{
-			strlcpy(shared.arEntries[i].pcName, "Player 1", MY_GAME_NAME_LEN);			
+			strlcpy(shared.arEntries[i].pcName, "Player 1", MY_GAME_NAME_LEN);
 
 			shared.arEntries[i].iTime = shared.arEntries[i].iScore = 100 - (i * 10);
 		}
@@ -154,13 +154,13 @@ void SaveSample::OnSystemShutdown(const EventSystem *ev)
 
 void SaveSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
 }
 
@@ -169,7 +169,7 @@ void SaveSample::OnInputPointerRelease(const EventInputPointer *ev)
 	if (!pCamera)
 		return;
 
-	if (ev->GetReleased() == Seed::ButtonLeft)
+	if (ev->GetReleased() == eInputButton::Left)
 	{
 		if (pImage)
 			vFrom = pImage->GetPosition();
@@ -179,16 +179,16 @@ void SaveSample::OnInputPointerRelease(const EventInputPointer *ev)
 		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}
-	else if (ev->GetReleased() == Seed::ButtonRight)
+	else if (ev->GetReleased() == eInputButton::Right)
 	{
 		bRotate = !bRotate;
 	}
-	else if (ev->GetReleased() == Seed::ButtonUp)
+	else if (ev->GetReleased() == eInputButton::Up)
 	{
 		fDir = 1.0f;
 		bRotate = true;
 	}
-	else if (ev->GetReleased() == Seed::ButtonDown)
+	else if (ev->GetReleased() == eInputButton::Down)
 	{
 		fDir = -1.0f;
 		bRotate = true;
@@ -209,7 +209,7 @@ void SaveSample::OnPresentationLoaded(const EventPresentation *ev)
 	MySlotStruct slot;
 	pSaveSystem->Load(0, &slot);
 
-	Vector3f v(slot.fPosX, slot.fPosY, pImage->GetPosition().getZ());
+	auto v = Vector3f(slot.fPosX, slot.fPosY, pImage->GetPosition().getZ());
 	vFrom = vTo = v;
 	pImage->SetPosition(v);
 }
@@ -223,49 +223,49 @@ bool SaveSample::SaveSystemFlow() const
 	memset(&shared, '\0', sizeof(shared));
 
 	pSaveSystem->SetTotalSlots(4);
-	eCartridgeError error = pSaveSystem->Initialize(Seed::Cartridge8192b);
-	if (error == Seed::ErrorNone)
+	auto error = pSaveSystem->Initialize(eCartridgeSize::Small);
+	if (error == eCartridgeError::None)
 		error = pSaveSystem->Prepare(MY_GAME_ID, &slot, sizeof(slot), &shared, sizeof(shared));
 
-	if (error == Seed::ErrorDeviceFull)
+	if (error == eCartridgeError::DeviceFull)
 	{
 		Log("Not enough space available on device.");
 		return false;
 	}
 
-	if (error == Seed::ErrorInodeFull)
+	if (error == eCartridgeError::InodeFull)
 	{
 		Log("Not enough inodes available on device.");
 		return false;
 	}
 
-	if (error == Seed::ErrorNoCard || error == Seed::ErrorAccessDenied)
+	if (error == eCartridgeError::NoCard || error == eCartridgeError::AccessDenied)
 	{
 		Log("Unknown file system error - no card or access denied - system hungup");
 		pSystem->HangUp();
 		return false;
 	}
 
-	if (error == Seed::ErrorNotFormatted)
+	if (error == eCartridgeError::NotFormatted)
 	{
 		Log("Save file doesn't exist or corrupted, creating one now.");
 		error = pSaveSystem->FormatCard(&slot, &shared);
 	}
 
-	if (error == Seed::ErrorDataCorrupt)
+	if (error == eCartridgeError::DataCorrupt)
 	{
 		Log("One or more saved games were corrupted and had to be reset");
-		error = Seed::ErrorNone;
+		error = eCartridgeError::None;
 	}
 
-	if (error == Seed::ErrorFilesystemCorrupt)
+	if (error == eCartridgeError::FilesystemCorrupt)
 	{
 		Log("File system became corrupted - system hungup");
 		pSystem->HangUp();
 		return false;
 	}
 
-	if (error == Seed::ErrorNone)
+	if (error == eCartridgeError::None)
 	{
 		Log("Save data CRC ok.");
 		// Do your initial loading here.

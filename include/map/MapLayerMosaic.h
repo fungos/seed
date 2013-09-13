@@ -38,7 +38,7 @@ namespace Seed {
 
 class Sprite;
 
-DECLARE_CONTAINER_TYPE(Vector, Sprite)
+SEED_DECLARE_CONTAINER(Vector, Sprite)
 
 struct LayerMosaicHeader {
 
@@ -46,6 +46,8 @@ struct LayerMosaicHeader {
 
 class SEED_CORE_API MapLayerMosaic : public IMapLayer
 {
+	SEED_DISABLE_COPY(MapLayerMosaic)
+
 	public:
 		MapLayerMosaic();
 		virtual ~MapLayerMosaic();
@@ -85,13 +87,11 @@ class SEED_CORE_API MapLayerMosaic : public IMapLayer
 		virtual void Render(const Matrix4f &worldTransform);
 
 	private:
-		SEED_DISABLE_COPY(MapLayerMosaic);
-
 		SceneNode cScene;
 		SpriteVector vObjects;
 		Point2u ptiTileSize;
 
-		s32 iPosX;
+		/*s32 iPosX;
 		s32 iPosY;
 		s32 iOffsetX;
 		s32 iOffsetY;
@@ -99,9 +99,9 @@ class SEED_CORE_API MapLayerMosaic : public IMapLayer
 		u32 iMapWidth;
 		u32 iMapHeight;
 		u32 iViewWidth;
-		u32 iViewHeight;
+		u32 iViewHeight;*/
 
-		bool bWrap;
+		bool bWrap : 1;
 };
 
 } // namespace

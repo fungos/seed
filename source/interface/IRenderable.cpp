@@ -36,7 +36,7 @@
 namespace Seed {
 
 IRenderable::IRenderable()
-	: eBlendOperation(BlendNone)
+	: nBlendOperation(eBlendMode::None)
 	, cColor(255, 255, 255, 255)
 	, bColorChanged(false)
 	, bVisible(true)
@@ -50,7 +50,7 @@ IRenderable::~IRenderable()
 
 void IRenderable::Reset()
 {
-	eBlendOperation = BlendNone;
+	nBlendOperation = eBlendMode::None;
 	cColor = Color();
 	bVisible = true;
 	bColorChanged = false;
@@ -70,7 +70,7 @@ void IRenderable::Update(f32 delta)
 
 void IRenderable::SetBlending(eBlendMode op)
 {
-	eBlendOperation = op;
+	nBlendOperation = op;
 	bColorChanged = true;
 }
 
@@ -118,25 +118,25 @@ void IRenderable::SetBlendingByName(const String &blending)
 	String name = blending;
 	std::transform(name.begin(), name.end(), name.begin(), ::tolower);
 
-	eBlendOperation = BlendNone;
+	nBlendOperation = eBlendMode::None;
 	if (name == "merge")
-		eBlendOperation = BlendMerge;
+		nBlendOperation = eBlendMode::Merge;
 	else if (name == "screen")
-		eBlendOperation = BlendScreen;
+		nBlendOperation = eBlendMode::Screen;
 	else if (name == "overlay")
-		eBlendOperation = BlendOverlay;
+		nBlendOperation = eBlendMode::Overlay;
 	else if (name == "lighten")
-		eBlendOperation = BlendLighten;
+		nBlendOperation = eBlendMode::Lighten;
 	else if (name == "decaloverlay")
-		eBlendOperation = BlendDecalOverlay;
+		nBlendOperation = eBlendMode::DecalOverlay;
 	else if (name == "colordodge")
-		eBlendOperation = BlendColorDodge;
+		nBlendOperation = eBlendMode::ColorDodge;
 	else if (name == "modulatealpha")
-		eBlendOperation = BlendModulateAlpha;
+		nBlendOperation = eBlendMode::ModulateAlpha;
 	else if (name == "modulate")
-		eBlendOperation = BlendModulate;
+		nBlendOperation = eBlendMode::Modulate;
 	else if (name == "additive")
-		eBlendOperation = BlendAdditive;
+		nBlendOperation = eBlendMode::Additive;
 
 	bColorChanged = true;
 }
@@ -144,19 +144,19 @@ void IRenderable::SetBlendingByName(const String &blending)
 String IRenderable::GetBlendingName() const
 {
 	String ret = "None";
-	switch (eBlendOperation)
+	switch (nBlendOperation)
 	{
-		case BlendMerge:		ret = "Merge";			break;
-		case BlendScreen:		ret = "Screen";			break;
-		case BlendOverlay:		ret = "Overlay";		break;
-		case BlendLighten:		ret = "Lighten";		break;
-		case BlendDecalOverlay:	ret = "DecalOverlay";	break;
-		case BlendColorDodge:	ret = "ColorDodge";		break;
-		case BlendModulateAlpha:ret = "ModulateAlpha";	break;
-		case BlendModulate:		ret = "Modulate";		break;
-		case BlendAdditive:		ret = "Additive";		break;
-		case BlendDefault:
-		case BlendNone:
+		case eBlendMode::Merge:		ret = "Merge";			break;
+		case eBlendMode::Screen:		ret = "Screen";			break;
+		case eBlendMode::Overlay:		ret = "Overlay";		break;
+		case eBlendMode::Lighten:		ret = "Lighten";		break;
+		case eBlendMode::DecalOverlay:	ret = "DecalOverlay";	break;
+		case eBlendMode::ColorDodge:	ret = "ColorDodge";		break;
+		case eBlendMode::ModulateAlpha:ret = "ModulateAlpha";	break;
+		case eBlendMode::Modulate:		ret = "Modulate";		break;
+		case eBlendMode::Additive:		ret = "Additive";		break;
+		case eBlendMode::Default:
+		case eBlendMode::None:
 		default:
 		break;
 	}
@@ -182,7 +182,7 @@ void IRenderable::Unserialize(Reader &reader)
 
 void IRenderable::Serialize(Writer &writer)
 {
-	if (eBlendOperation != BlendDefault && eBlendOperation != BlendNone)
+	if (nBlendOperation != eBlendMode::Default && nBlendOperation != eBlendMode::None)
 		writer.WriteString("sBlending", this->GetBlendingName().c_str());
 
 	writer.OpenNode("cColor");

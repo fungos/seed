@@ -31,7 +31,7 @@
 #ifndef __RENDERER_MANAGER_H__
 #define __RENDERER_MANAGER_H__
 
-#include "interface/IModule.h"
+#include "interface/IManager.h"
 #include "interface/IUpdatable.h"
 #include "Singleton.h"
 #include "Container.h"
@@ -41,15 +41,18 @@ namespace Seed {
 class Renderer;
 
 /// Renderer Manager
-class SEED_CORE_API RendererManager : public IModule, public IUpdatable
+class SEED_CORE_API RendererManager : public IManager, public IUpdatable
 {
-	SEED_SINGLETON_DECLARE(RendererManager)
-	DECLARE_CONTAINER_TYPE(Vector, Renderer)
+	SEED_DECLARE_SINGLETON(RendererManager)
+	SEED_DECLARE_MANAGER(RendererManager)
+	SEED_DECLARE_CONTAINER(Vector, Renderer)
+	SEED_DISABLE_COPY(RendererManager)
+
 	public:
 		void Add(Renderer *renderer);
 		void Remove(Renderer *renderer);
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
@@ -60,15 +63,9 @@ class SEED_CORE_API RendererManager : public IModule, public IUpdatable
 		// IUpdatable
 		virtual bool Update(f32 dt) override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	private:
-		SEED_DISABLE_COPY(RendererManager);
-
 		RendererVector vRenderer;
-		bool bEnabled;
+		bool bEnabled : 1;
 };
 
 #define pRendererManager RendererManager::GetInstance()

@@ -100,12 +100,15 @@ struct SEED_CORE_API EmitterConfiguration
 	f32		fHeight;
 
 	f32		fInterval;
-	bool	bRelative;
+	bool	bRelative : 1;
 };
 
 /// Particle Emitter
 class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListener
 {
+	SEED_DISABLE_COPY(ParticleEmitter)
+	SEED_DECLARE_RTTI(ParticleEmitter, ISceneObject)
+
 	public:
 		ParticleEmitter();
 		virtual ~ParticleEmitter();
@@ -147,12 +150,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListe
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	private:
-		SEED_DISABLE_COPY(ParticleEmitter);
 		void MoveEverything(const Vector3f &pos);
 
 		ResourceManager			*pRes;
@@ -186,11 +184,11 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListe
 		sVertex					*pVertex;
 		u32						iVertexAmount;
 
-		bool					bParticlesFollowEmitter;
-		bool					bPaused;
-		bool					bEnabled;
-		bool					bAutoPlay;
-		bool					bInitialized;
+		bool					bParticlesFollowEmitter : 1;
+		bool					bPaused : 1;
+		bool					bEnabled : 1;
+		bool					bAutoPlay : 1;
+		bool					bInitialized : 1;
 };
 
 } // namespace

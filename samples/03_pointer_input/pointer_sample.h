@@ -10,6 +10,8 @@ class PointerSample : public IGameApp,
 					public IEventInputPointerListener,
 					public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(PointerSample)
+
 	public:
 		PointerSample();
 		virtual ~PointerSample();
@@ -30,21 +32,18 @@ class PointerSample : public IGameApp,
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
-	private:
-		SEED_DISABLE_COPY(PointerSample);
-
 	protected:
 		Presentation cPres;
 		ISceneObject *pImage;
 		Camera		*pCamera;
 
-		f32			fElapsed;
-		f32			fDir;
-		bool		bRotate;
-
 		Vector3f	vFrom;
 		Vector3f	vCurrent;
 		Vector3f	vTo;
+
+		f32			fElapsed;
+		f32			fDir;
+		bool		bRotate : 1;
 };
 
 #endif // _POINTERSAMPLE_H_

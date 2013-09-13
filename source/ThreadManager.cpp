@@ -55,7 +55,7 @@ ThreadManager::~ThreadManager()
 
 bool ThreadManager::Initialize()
 {
-	return IModule::Initialize();
+	return IManager::Initialize();
 }
 
 bool ThreadManager::Reset()
@@ -67,7 +67,7 @@ bool ThreadManager::Reset()
 bool ThreadManager::Shutdown()
 {
 	this->Reset();
-	return IModule::Shutdown();
+	return IManager::Shutdown();
 }
 
 bool ThreadManager::Update(f32 dt)
@@ -77,24 +77,16 @@ bool ThreadManager::Update(f32 dt)
 	{
 		IThreadVector completed;
 
-		IThreadVectorIterator it = vThread.begin();
-		IThreadVectorIterator end = vThread.end();
-		for (; it != end; ++it)
+		for (auto each: vThread)
 		{
-			IThread *obj = (*it);
-			if (!obj->Run())
+			if (!each->Run())
 			{
-				completed += obj;
+				completed += each;
 			}
 		}
 
-		it = completed.begin();
-		end = completed.end();
-		for (; it != end; ++it)
-		{
-			IThread *obj = (*it);
-			vThread -= obj;
-		}
+		for (auto each: completed)
+			vThread -= each;
 	}
 
 	return true;
@@ -118,16 +110,6 @@ void ThreadManager::Disable()
 void ThreadManager::Enable()
 {
 	bEnabled = true;
-}
-
-const String ThreadManager::GetClassName() const
-{
-	return "ThreadManager";
-}
-
-int ThreadManager::GetObjectType() const
-{
-	return Seed::TypeThreadManager;
 }
 
 } // namespace

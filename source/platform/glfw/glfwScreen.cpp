@@ -35,6 +35,7 @@
 #include "RendererDevice.h"
 #include "SeedInit.h"
 #include "Configuration.h"
+#include "interface/ITexture.h"
 
 #ifdef WIN32
 #pragma push_macro("Delete")
@@ -57,9 +58,9 @@ SEED_SINGLETON_DEFINE(Screen)
 
 Screen::Screen()
 	: iHandle(0)
-	, bFullScreen(false)
 	, iBPP(32)
 	, iFlags(0)
+	, bFullScreen(false)
 {
 }
 
@@ -188,7 +189,7 @@ bool Screen::Shutdown()
 	Log(TAG "Terminating...");
 
 	iFadeStatus = 0;
-	nFadeType	= kFadeIn;
+	nFadeType	= eFade::In;
 	iHeight		= 0;
 	iWidth		= 0;
 	iBPP		= 32;
@@ -242,13 +243,13 @@ void Screen::ToggleFullscreen()
 	iFlags ^= GLFW_WINDOW;
 	pConfiguration->SetFullScreen(bFullScreen);
 
-	pResourceManager->Unload(Seed::TypeTexture);
+	pResourceManager->Unload(ITexture::GetTypeId());
 	pRendererDevice->Shutdown();
 	pScreen->Shutdown();
 	pScreen->Initialize();
 	this->EnableCursor(pConfiguration->IsCursorEnabled());
 	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::TypeTexture);
+	pResourceManager->Reload(ITexture::GetTypeId());
 
 #if defined(WIN32)
 	if (!bFullScreen)

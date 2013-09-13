@@ -54,35 +54,27 @@ JobManager::~JobManager()
 
 bool JobManager::Initialize()
 {
-	return IModule::Initialize();
+	return IManager::Initialize();
 }
 
 bool JobManager::Reset()
 {
-	JobVectorIterator it = vJob.begin();
-	JobVectorIterator end = vJob.end();
-	for (; it != end; ++it)
-	{
-		Job *obj = (*it);
-		obj->Abort();
-	}
+	for (auto job: vJob)
+		job->Abort();
 
 	return true;
 }
 
 bool JobManager::Shutdown()
 {
-	JobVectorIterator it = vJob.begin();
-	JobVectorIterator end = vJob.end();
-	for (; it != end; ++it)
+	for (auto job: vJob)
 	{
-		Job *obj = (*it);
-		obj->Destroy();
-		Delete(obj);
+		job->Destroy();
+		Delete(job);
 	}
 
 	JobVector().swap(vJob);
-	return IModule::Shutdown();
+	return IManager::Shutdown();
 }
 
 bool JobManager::Update(f32 dt)
@@ -92,24 +84,21 @@ bool JobManager::Update(f32 dt)
 		JobVector completed;
 		JobVector aborted;
 
-		JobVectorIterator it = vJob.begin();
-		JobVectorIterator end = vJob.end();
-		for (; it != end; ++it)
+		for (auto job: vJob)
 		{
-			Job *obj = (*it);
-			obj->Update(dt);
+			job->Update(dt);
 
-			switch (obj->GetState())
+			switch (job->GetState())
 			{
-				case JobCompleted:
+				case eJobState::Completed:
 				{
-					completed += obj;
+					completed += job;
 				}
 				break;
 
-				case JobAborted:
+				case eJobState::Aborted:
 				{
-					aborted += obj;
+					aborted += job;
 				}
 				break;
 
@@ -118,26 +107,20 @@ bool JobManager::Update(f32 dt)
 			}
 		}
 
-		it = completed.begin();
-		end = completed.end();
-		for (; it != end; ++it)
+		for (auto job: completed)
 		{
-			Job *obj = (*it);
-			vJob -= obj;
+			vJob -= job;
 
-			EventJob ev(obj, obj->iName);
-			obj->pListener->OnJobCompleted(&ev);
+			EventJob ev(job, job->iName);
+			job->pListener->OnJobCompleted(&ev);
 		}
 
-		it = aborted.begin();
-		end = aborted.end();
-		for (; it != end; ++it)
+		for (auto job: aborted)
 		{
-			Job *obj = (*it);
-			vJob -= obj;
+			vJob -= job;
 
-			EventJob ev(obj, obj->iName);
-			obj->pListener->OnJobAborted(&ev);
+			EventJob ev(job, job->iName);
+			job->pListener->OnJobAborted(&ev);
 		}
 	}
 
@@ -168,16 +151,6 @@ void JobManager::Disable()
 void JobManager::Enable()
 {
 	bEnabled = true;
-}
-
-const String JobManager::GetClassName() const
-{
-	return "JobManager";
-}
-
-int JobManager::GetObjectType() const
-{
-	return Seed::TypeJobManager;
 }
 
 } // namespace

@@ -7,14 +7,15 @@ COMPXX="g++"
 COMP="gcc"
 FLAGSXX=""
 
-USE_CCACHE = FALSE
-USE_CLANG = FALSE
+USE_CCACHE=FALSE
+USE_CLANG=FALSE
 
 unix {
-	system(which ccache):USE_CCACHE = TRUE
-	system(which clang++):USE_CLANG = TRUE
-}
+	FLAGSXX += -std=c++11
 
+	system(which ccache):USE_CCACHE=TRUE
+	system(which clang++):USE_CLANG=TRUE
+}
 
 contains(USE_CCACHE, TRUE) {
 	CCACHE="ccache"

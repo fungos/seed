@@ -12,6 +12,8 @@ class RendererSample : public IGameApp,
 					public IEventInputPointerListener,
 					public IEventJobListener
 {
+	SEED_DISABLE_COPY(RendererSample)
+
 	public:
 		RendererSample();
 		virtual ~RendererSample();
@@ -33,23 +35,21 @@ class RendererSample : public IGameApp,
 		virtual void OnJobCompleted(const EventJob *ev);
 		virtual void OnJobAborted(const EventJob *ev);
 
-	private:
-		SEED_DISABLE_COPY(RendererSample);
-
 	protected:
 		ISceneObject *pImage;
-		f32			fElapsed;
-		f32			fDir;
-		bool		bRotate;
+		Camera		*pCamera;
 
 		SceneNode	cScene;
 		Viewport	cViewport;
-		Camera		*pCamera;
 		Renderer	cRenderer;
 
 		Vector3f	vFrom;
 		Vector3f	vCurrent;
 		Vector3f	vTo;
+
+		f32			fElapsed;
+		f32			fDir;
+		bool		bRotate : 1;
 };
 
 #endif // _RENDERERSAMPLE_H_

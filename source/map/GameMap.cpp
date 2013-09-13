@@ -113,7 +113,7 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 	{
 		reader.SelectNext();
 
-		TileSet *set = New(TileSet());
+		auto set = New(TileSet());
 		set->Load(reader, res);
 
 		vTileSets += set;
@@ -183,13 +183,9 @@ bool GameMap::Unload()
 	cMapLayers.Unload();
 	IMapLayerVector().swap(vLayers);
 
-	TileSetVectorIterator it = vTileSets.begin();
-	TileSetVectorIterator end = vTileSets.end();
-	for (; it != end; ++it)
-	{
-		TileSet *obj = (*it);
+	for (auto obj: vTileSets)
 		Delete(obj);
-	}
+
 	TileSetVector().swap(vTileSets);
 
 	ptMapSize.x = 0;
@@ -227,7 +223,7 @@ u32 GameMap::AddLayerTiled()
 {
 	u32 layerId = vLayers.Size();
 
-	MapLayerTiled *layer = New(MapLayerTiled());
+	auto layer = New(MapLayerTiled());
 	vLayers += layer;
 	layer->bMarkForDeletion = true;
 	cMapLayers.Add(layer);
@@ -239,7 +235,7 @@ u32 GameMap::AddLayerMetadata(Point2u tileSize)
 {
 	u32 layerId = vLayers.Size();
 
-	MapLayerMetadata *layer = New(MapLayerMetadata(tileSize));
+	auto layer = New(MapLayerMetadata(tileSize));
 	vLayers += layer;
 	layer->bMarkForDeletion = true;
 	cMapLayers.Add(layer);
@@ -251,7 +247,7 @@ u32 GameMap::AddLayerMosaic()
 {
 	u32 layerId = vLayers.Size();
 
-	MapLayerMosaic *layer = New(MapLayerMosaic());
+	auto layer = New(MapLayerMosaic());
 	vLayers += layer;
 	layer->bMarkForDeletion = true;
 	cMapLayers.Add(layer);
@@ -268,11 +264,8 @@ IMapLayer *GameMap::GetLayerByName(const String &name)
 {
 	IMapLayer *map = NULL;
 
-	IMapLayerVectorIterator it = vLayers.begin();
-	IMapLayerVectorIterator end = vLayers.end();
-	for (; it != end; ++it)
+	for (auto obj: vLayers)
 	{
-		IMapLayer *obj = (*it);
 		if (obj->sName == name)
 		{
 			map = obj;
@@ -287,11 +280,8 @@ TileSet *GameMap::GetTileSet(const String &name)
 {
 	TileSet *ts = NULL;
 
-	TileSetVectorIterator it = vTileSets.begin();
-	TileSetVectorIterator end = vTileSets.end();
-	for (; it != end; ++it)
+	for (auto obj: vTileSets)
 	{
-		TileSet *obj = (*it);
 		if (obj->sName == name)
 		{
 			ts = obj;
@@ -313,16 +303,5 @@ const String GameMap::GetProperty(const String &property) const
 
 	return mProperties.end() == it ? "" : it->second;
 }
-
-const String GameMap::GetClassName() const
-{
-	return "GameMap";
-}
-
-int GameMap::GetObjectType() const
-{
-	return Seed::TypeGameMap;
-}
-
 
 } // namespace

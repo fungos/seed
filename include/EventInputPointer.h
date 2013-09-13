@@ -38,30 +38,27 @@ namespace Seed {
 /// Pointer Devices Input Event (Mouse, Wiimote, ...)
 class SEED_CORE_API EventInputPointer : public IEventInput
 {
+	SEED_DISABLE_COPY(EventInputPointer)
+	SEED_DECLARE_RTTI(EventInputPointer, IEventInput)
+
 	public:
-		EventInputPointer(u32 j, u32 pressed, u32 hold, u32 released, u32 x, u32 y);
+		EventInputPointer(u32 j, eInputButton pressed, eInputButton hold, eInputButton released, u32 x, u32 y);
 		virtual ~EventInputPointer();
 
 		u32 GetJoystick() const;
-		u32 GetPressed()  const;
-		u32 GetReleased() const;
-		u32 GetHold() 	 const;
+		eInputButton GetPressed()  const;
+		eInputButton GetReleased() const;
+		eInputButton GetHold() 	 const;
 		u32 GetX() 		 const;
 		u32 GetY() 		 const;
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	protected:
 		u32 iJoystick;
-		u32 iPressed;
-		u32 iHold;
-		u32 iReleased;
+		eInputButton nPressed;
+		eInputButton nHold;
+		eInputButton nReleased;
 		u32 iX;
 		u32 iY;
-
-	private:
-		SEED_DISABLE_COPY(EventInputPointer);
 };
 
 } // namespace

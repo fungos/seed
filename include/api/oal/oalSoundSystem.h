@@ -53,7 +53,10 @@ namespace Seed { namespace OAL {
 /// OpenAL Sound system
 class SEED_CORE_API SoundSystem : public ISoundSystem
 {
-	SEED_SINGLETON_DECLARE(SoundSystem)
+	SEED_DECLARE_SINGLETON(SoundSystem)
+	SEED_DECLARE_MANAGER(SoundSystem)
+	SEED_DISABLE_COPY(SoundSystem)
+
 	public:
 		// ISoundSystem
 		virtual void Pause() override;
@@ -62,14 +65,12 @@ class SEED_CORE_API SoundSystem : public ISoundSystem
 		// IUpdatable
 		virtual bool Update(f32 dt) override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
 
 	private:
-		SEED_DISABLE_COPY(SoundSystem);
-
 		void UpdateMusic(f32 dt, IMusic *mus);
 		void UpdateSounds(f32 dt);
 

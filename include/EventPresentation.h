@@ -40,6 +40,9 @@ class Renderer;
 
 class SEED_CORE_API EventPresentation: public IEvent
 {
+	SEED_DISABLE_COPY(EventPresentation)
+	SEED_DECLARE_RTTI(EventPresentation, IEvent)
+
 	public:
 		EventPresentation(Presentation *p, Renderer *r);
 		virtual ~EventPresentation();
@@ -54,15 +57,9 @@ class SEED_CORE_API EventPresentation: public IEvent
 		 */
 		Renderer *GetRenderer() const;
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	protected:
 		Presentation	*pPresentation;
 		Renderer		*pRenderer;
-
-	private:
-		SEED_DISABLE_COPY(EventPresentation);
 };
 
 } // namespace

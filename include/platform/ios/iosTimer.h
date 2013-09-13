@@ -33,7 +33,7 @@
 
 #if defined(BUILD_IOS)
 
-#include "interface/IModule.h"
+#include "interface/IManager.h"
 #include "Singleton.h"
 #include <time.h>
 #include <sys/time.h>
@@ -41,9 +41,12 @@
 namespace Seed { namespace iOS {
 
 /// iOS Timer Module
-class Timer : public IModule
+class SEED_CORE_API Timer : public IManager
 {
-	SEED_SINGLETON_DECLARE(Timer)
+	SEED_DECLARE_SINGLETON(Timer)
+	SEED_DECLARE_MANAGER(Timer)
+	SEED_DISABLE_COPY(Timer)
+
 	public:
 		inline u64 GetMilliseconds() const
 		{
@@ -60,7 +63,7 @@ class Timer : public IModule
 			UNUSED(ms);
 		}
 
-		// IModule
+		// IManager
 		bool Initialize() override
 		{
 			bInitialized = true;
@@ -89,16 +92,8 @@ class Timer : public IModule
 			return true;
 		}
 
-		const String GetClassName() const override
-		{
-			return "Timer";
-		}
-
 	public:
 		u64 fStart;
-
-	private:
-		SEED_DISABLE_COPY(Timer);
 };
 
 #define pTimer Seed::iOS::Timer::GetInstance()

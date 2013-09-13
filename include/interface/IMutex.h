@@ -41,24 +41,33 @@ Interface for a simple mutex object
 */
 class SEED_CORE_API IMutex
 {
+	SEED_DISABLE_COPY(IMutex)
+
 	public:
-		IMutex();
-		virtual ~IMutex();
+		IMutex() = default;
+		virtual ~IMutex() {}
 
 		/// Lock mutex
-		virtual void Lock();
+		virtual void Lock()
+		{
+			bLocked = true;
+		}
 
 		/// Unlock mutex
-		virtual void Unlock();
+		virtual void Unlock()
+		{
+			bLocked = false;
+		}
 
 		/// TryLock mutex
-		virtual bool TryLock();
+		virtual bool TryLock()
+		{
+			SEED_ABSTRACT_METHOD;
+			return true;
+		}
 
 	protected:
-		bool bLocked;
-
-	private:
-		SEED_DISABLE_COPY(IMutex);
+		bool bLocked = false;
 };
 
 } // namespace

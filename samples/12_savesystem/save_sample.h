@@ -10,6 +10,8 @@ class SaveSample : public IGameApp,
 					public IEventInputPointerListener,
 					public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(SaveSample)
+
 	public:
 		SaveSample();
 		virtual ~SaveSample();
@@ -31,8 +33,6 @@ class SaveSample : public IGameApp,
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	private:
-		SEED_DISABLE_COPY(SaveSample);
-
 		bool SaveSystemFlow() const;
 
 	protected:
@@ -40,13 +40,13 @@ class SaveSample : public IGameApp,
 		ISceneObject *pImage;
 		Camera		*pCamera;
 
-		f32			fElapsed;
-		f32			fDir;
-		bool		bRotate;
-
 		Vector3f	vFrom;
 		Vector3f	vCurrent;
 		Vector3f	vTo;
+
+		f32			fElapsed;
+		f32			fDir;
+		bool		bRotate : 1;
 };
 
 #endif // _SAVESAMPLE_H_

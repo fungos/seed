@@ -28,30 +28,63 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "interface/IEventPresentationListener.h"
-#include "EventJob.h"
+#include "interface/IManager.h"
+#include "Enum.h"
+#include "Log.h"
 
 namespace Seed {
 
-IEventPresentationListener::IEventPresentationListener()
+IManager::IManager()
+	: bInitialized(false)
+	, bEnabled(true)
 {
 }
 
-IEventPresentationListener::~IEventPresentationListener()
+IManager::~IManager()
 {
+	this->Shutdown();
 }
 
-void IEventPresentationListener::OnPresentationLoaded(const EventPresentation *ev)
+bool IManager::Initialize()
 {
-	UNUSED(ev);
-	SEED_ABSTRACT_METHOD;
+	bInitialized = true;
+	return true;
 }
 
-void IEventPresentationListener::OnPresentationAborted(const EventPresentation *ev)
+bool IManager::Reset()
 {
-	UNUSED(ev);
-	SEED_ABSTRACT_METHOD;
+	return true;
+}
+
+bool IManager::Shutdown()
+{
+	bInitialized = false;
+	return true;
+}
+
+void IManager::Disable()
+{
+	bEnabled = false;
+}
+
+void IManager::Enable()
+{
+	bEnabled = true;
+}
+
+bool IManager::IsEnabled() const
+{
+	return bEnabled;
+}
+
+bool IManager::IsInitialized() const
+{
+	return bInitialized;
+}
+
+bool IManager::IsRequired() const
+{
+	return false;
 }
 
 } // namespace
-

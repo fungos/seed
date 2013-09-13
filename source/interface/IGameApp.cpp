@@ -77,14 +77,4 @@ ResourceManager *IGameApp::GetResourceManager()
 	return &cResourceManager;
 }
 
-const String IGameApp::GetClassName() const
-{
-	return "IGameApp";
-}
-
-int IGameApp::GetObjectType() const
-{
-	return Seed::TypeInterfaceGameApp;
-}
-
 } // namespace

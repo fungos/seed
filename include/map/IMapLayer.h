@@ -41,6 +41,8 @@ class MapLayerMetadata;
 
 class SEED_CORE_API IMapLayer : public SceneNode
 {
+	SEED_DISABLE_COPY(IMapLayer)
+
 	public:
 		IMapLayer();
 		virtual ~IMapLayer();
@@ -61,8 +63,6 @@ class SEED_CORE_API IMapLayer : public SceneNode
 		Map<String, String> mProperties;
 
 	private:
-		SEED_DISABLE_COPY(IMapLayer);
-
 		f32 fOpacity;
 };
 

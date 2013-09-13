@@ -46,6 +46,7 @@ IResource *TextureResourceLoader(const String &filename, ResourceManager *res = 
 class SEED_CORE_API Texture : public ITexture
 {
 	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);
+	SEED_DISABLE_COPY(Texture)
 
 	public:
 		Texture();
@@ -76,8 +77,6 @@ class SEED_CORE_API Texture : public ITexture
 		void UnloadTexture();
 
 	private:
-		SEED_DISABLE_COPY(Texture);
-
 		u8 *pData;
 
 		u32 iBytesPerPixel;
@@ -86,7 +85,7 @@ class SEED_CORE_API Texture : public ITexture
 		u32 iAtlasWidth;
 		u32 iAtlasHeight;
 
-		bool bCopy;
+		bool bCopy : 1;
 };
 
 }} // namespace

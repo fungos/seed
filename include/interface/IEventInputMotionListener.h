@@ -39,14 +39,13 @@ namespace Seed {
 /// Motion input event listener
 class SEED_CORE_API IEventInputMotionListener : public IEventListener
 {
+	SEED_DISABLE_COPY(IEventInputMotionListener)
+
 	public:
-		IEventInputMotionListener();
-		virtual ~IEventInputMotionListener();
+		IEventInputMotionListener() = default;
+		virtual ~IEventInputMotionListener() {}
 
-		virtual void OnAccelerationChanged(const EventInputMotion *ev);
-
-	private:
-		SEED_DISABLE_COPY(IEventInputMotionListener);
+		virtual void OnAccelerationChanged(const EventInputMotion *ev)	SEED_PURE_VIRTUAL_EVENT
 };
 
 } // namespace

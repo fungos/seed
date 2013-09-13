@@ -1,7 +1,11 @@
 #include "net_udp_socket_sample.h"
 
 NetUDPSocketSample::NetUDPSocketSample()
-	: iPort(3000)
+	: sPacketData()
+	, cSocket()
+	, vPlayer()
+	, vEnemyPlayer()
+	, iPort(3000)
 {
 	vPlayer = VECTOR_ZERO;
 	vEnemyPlayer = VECTOR_ZERO;
@@ -21,7 +25,7 @@ bool NetUDPSocketSample::Initialize()
 	// Create socket
 	cSocket.Open(iPort);
 
-	int bytesRead = 0;
+	auto bytesRead = 0;
 	cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 
 	while (!bytesRead)
@@ -42,7 +46,7 @@ bool NetUDPSocketSample::Update(f32 dt)
 	UNUSED(dt)
 
 	Address sender;
-	int bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
+	auto bytesRead = cSocket.Receive(sender, &sPacketData, sizeof(sPacketData));
 
 	if (bytesRead)
 		vEnemyPlayer = sPacketData.vRemotePlayer;
@@ -72,25 +76,24 @@ void NetUDPSocketSample::OnSystemShutdown(const EventSystem *ev)
 
 void NetUDPSocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
-	else if (k == Seed::KeyUp)
+	else if (k == eKey::Up)
 	{
 		vPlayer += VECTOR_UP;
 		sPacketData.vRemotePlayer = vPlayer;
 		cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 	}
-	else if (k == Seed::KeyDown)
+	else if (k == eKey::Down)
 	{
 		vPlayer += VECTOR_DOWN;
 		sPacketData.vRemotePlayer = vPlayer;
 		cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 	}
 }
-

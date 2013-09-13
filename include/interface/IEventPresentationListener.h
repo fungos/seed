@@ -39,15 +39,14 @@ class EventPresentation;
 
 class SEED_CORE_API IEventPresentationListener : public IEventListener
 {
+	SEED_DISABLE_COPY(IEventPresentationListener)
+
 	public:
-		IEventPresentationListener();
-		virtual ~IEventPresentationListener();
+		IEventPresentationListener() = default;
+		virtual ~IEventPresentationListener() {}
 
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
-		virtual void OnPresentationAborted(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(IEventPresentationListener);
+		virtual void OnPresentationLoaded(const EventPresentation *ev)		SEED_PURE_VIRTUAL_EVENT
+		virtual void OnPresentationAborted(const EventPresentation *ev)		SEED_PURE_VIRTUAL_EVENT
 };
 
 } // namespace

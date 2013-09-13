@@ -51,7 +51,9 @@ namespace Seed { namespace iOS {
 /// iOS Sound Module
 class SoundSystem : public ISoundSystem
 {
-	SEED_SINGLETON_DECLARE(SoundSystem)
+	SEED_DECLARE_SINGLETON(SoundSystem)
+	SEED_DISABLE_COPY(SoundSystem)
+
 	public:
 		// ISoundSystem
 		//virtual void PlayMusic(IMusic *mus, f32 ms = 0);
@@ -66,14 +68,12 @@ class SoundSystem : public ISoundSystem
 		// IUpdatable
 		virtual bool Update(f32 dt);
 
-		// IModule
+		// IManager
 		virtual bool Initialize();
 		virtual bool Reset();
 		virtual bool Shutdown();
 
 	private:
-		SEED_DISABLE_COPY(SoundSystem);
-
 		void UpdateMusic(f32 dt, IMusic *mus);
 		void UpdateSounds(f32 dt);
 

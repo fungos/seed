@@ -40,16 +40,15 @@ namespace Seed {
 /// Scene object interface
 class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, public IDataObject
 {
+	SEED_DISABLE_COPY(ISceneObject)
+
 	public:
 		ISceneObject();
 		virtual ~ISceneObject();
 
 		virtual bool IsNode() const;
 
-		bool	bMarkForDeletion;
-
-	private:
-		SEED_DISABLE_COPY(ISceneObject);
+		bool bMarkForDeletion : 1;
 };
 
 } // namespace

@@ -38,6 +38,9 @@ namespace Seed {
 /// Joystick Input Event
 class SEED_CORE_API EventInputJoystick : public IEventInput
 {
+	SEED_DISABLE_COPY(EventInputJoystick)
+	SEED_DECLARE_RTTI(EventInputJoystick, IEventInput)
+
 	public:
 		EventInputJoystick(u32 j, u32 pressed, u32 hold, u32 released, u32 axis, u32 value);
 		virtual ~EventInputJoystick();
@@ -49,9 +52,6 @@ class SEED_CORE_API EventInputJoystick : public IEventInput
 		u32 GetAxis() 	 const;
 		u32 GetValue()	 const;
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	protected:
 		u32 iJoystick;
 		u32 iPressed;
@@ -59,9 +59,6 @@ class SEED_CORE_API EventInputJoystick : public IEventInput
 		u32 iReleased;
 		u32 iAxis;
 		u32 iValue;
-
-	private:
-		SEED_DISABLE_COPY(EventInputJoystick);
 };
 
 } // namespace

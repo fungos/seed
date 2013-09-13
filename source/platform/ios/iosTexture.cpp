@@ -49,7 +49,7 @@ namespace Seed { namespace iOS {
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 {
-	Texture *image = New(Texture());
+	auto image = New(Texture());
 	image->Load(filename, res);
 
 	return image;

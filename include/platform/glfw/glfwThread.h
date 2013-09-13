@@ -43,6 +43,8 @@ namespace Seed { namespace GLFW {
 /// SDL Thread
 class SEED_CORE_API Thread : public IThread
 {
+	SEED_DISABLE_COPY(Thread)
+
 	public:
 		Thread();
 		virtual ~Thread();
@@ -53,10 +55,8 @@ class SEED_CORE_API Thread : public IThread
 		virtual bool Run() override;
 
 	private:
-		SEED_DISABLE_COPY(Thread);
-
-		bool		bRunning;
-		GLFWthread  iThread;
+		GLFWthread iThread;
+		bool bRunning : 1;
 };
 
 }} // namespace

@@ -34,7 +34,7 @@ namespace Seed {
 
 IMusic::IMusic()
 	: fVolume(1.0f)
-	, eState(Seed::MusicNone)
+	, nState(Seed::eMusicState::None)
 	, bAutoUnload(false)
 {
 }
@@ -87,16 +87,6 @@ void IMusic::SetAutoUnload(bool b)
 	bAutoUnload = b;
 }
 
-int IMusic::GetObjectType() const
-{
-	return Seed::TypeMusic;
-}
-
-const String IMusic::GetClassName() const
-{
-	return "IMusic";
-}
-
 void IMusic::Play()
 {
 	SEED_ABSTRACT_METHOD;
@@ -114,11 +104,11 @@ void IMusic::Pause()
 
 bool IMusic::IsPlaying() const
 {
-	return ((eState != MusicStopped) &&
-			(eState != MusicStop) &&
-			(eState != MusicPause) &&
-			(eState != MusicPaused) &&
-			(eState != MusicNone));
+	return ((nState != eMusicState::Stopped) &&
+			(nState != eMusicState::Stop) &&
+			(nState != eMusicState::Pause) &&
+			(nState != eMusicState::Paused) &&
+			(nState != eMusicState::None));
 }
 
 } // namespace

@@ -31,7 +31,7 @@
 #ifndef __ISCREEN_H__
 #define __ISCREEN_H__
 
-#include "IModule.h"
+#include "IManager.h"
 #include "Enum.h"
 
 namespace Seed {
@@ -40,8 +40,10 @@ namespace Seed {
 /**
 Any Screen implementation must implement this interface.
 */
-class SEED_CORE_API IScreen : public IModule
+class SEED_CORE_API IScreen : public IManager
 {
+	SEED_DISABLE_COPY(IScreen)
+
 	public:
 		IScreen();
 		virtual ~IScreen();
@@ -87,17 +89,14 @@ class SEED_CORE_API IScreen : public IModule
 
 		virtual void Update();
 
-		// IModule
+		// IManager
 		virtual bool IsRequired() const;
 
-		// IObject
-		virtual const String GetClassName() const;
-
 	protected:
-		enum eFadeType
+		enum class eFade
 		{
-			kFadeIn = 1,
-			kFadeOut
+			In = 1,
+			Out
 		};
 
 		f32			fAspectRatio;
@@ -105,11 +104,8 @@ class SEED_CORE_API IScreen : public IModule
 		u32			iWidth;
 
 		s32			iFadeStatus;
-		eFadeType	nFadeType;
-		bool		bFading;
-
-	private:
-		SEED_DISABLE_COPY(IScreen);
+		eFade		nFadeType;
+		bool		bFading : 1;
 };
 
 } // namespace

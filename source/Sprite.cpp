@@ -47,8 +47,7 @@ namespace Seed {
 
 ISceneObject *FactorySprite()
 {
-	Sprite *s = New(Sprite());
-	return s;
+	return New(Sprite());
 }
 
 Sprite::Sprite()
@@ -118,7 +117,7 @@ Sprite::Sprite(const Sprite &other)
 	bTransformationChanged = other.bTransformationChanged;
 
 	// IRenderable
-	eBlendOperation = other.eBlendOperation;
+	nBlendOperation = other.nBlendOperation;
 	cColor = other.cColor;
 	bColorChanged = other.bColorChanged;
 	bVisible = other.bVisible;
@@ -168,7 +167,7 @@ Sprite &Sprite::operator=(const Sprite &other)
 		bTransformationChanged = other.bTransformationChanged;
 
 		// IRenderable
-		eBlendOperation = other.eBlendOperation;
+		nBlendOperation = other.nBlendOperation;
 		cColor = other.cColor;
 		bColorChanged = other.bColorChanged;
 		bVisible = other.bVisible;
@@ -182,10 +181,8 @@ void Sprite::Reset()
 {
 	if (!bIsCopy)
 	{
-		AnimationVectorIterator it = vAnimations.begin();
-		AnimationVectorIterator end = vAnimations.end();
-		for (; it != end; ++it)
-			Delete(*it);
+		for (auto each: vAnimations)
+			Delete(each);
 	}
 
 	AnimationVector().swap(vAnimations);
@@ -504,18 +501,18 @@ void Sprite::Render(const Matrix4f &worldTransform)
 	if (!bInitialized)
 		return;
 
-	ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+	ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
 
 	SEED_ASSERT(pFrameTexture);
 
 	RendererPacket packet;
-	packet.nMeshType = Seed::TriangleStrip;
+	packet.nMeshType = eMeshType::TriangleStrip;
 	packet.pVertexBuffer = &cVertexBuffer;
 	packet.pTexture = pFrameTexture;
-	packet.nBlendMode = eBlendOperation;
+	packet.nBlendMode = nBlendOperation;
 	packet.pTransform = &worldTransform;
 	packet.cColor = cColor;
-	packet.iFlags = flags;
+	packet.nFlags = flags;
 	packet.vPivot = vTransformedPivot;
 
 	Rect4f box(0, 0, this->GetWidth(), this->GetHeight());
@@ -553,24 +550,12 @@ ITexture *Sprite::GetTexture() const
 	return pFrameTexture;
 }
 
-const String Sprite::GetClassName() const
-{
-	return "Sprite";
-}
-
-int Sprite::GetObjectType() const
-{
-	return Seed::TypeSprite;
-}
-
 bool Sprite::Unload()
 {
 	if (!bIsCopy)
 	{
-		AnimationVectorIterator it = vAnimations.begin();
-		AnimationVectorIterator end = vAnimations.end();
-		for (; it != end; ++it)
-			Delete(*it);
+		for (auto each: vAnimations)
+			Delete(each);
 	}
 
 	AnimationVector().swap(vAnimations);
@@ -599,7 +584,7 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 		{
 			for (u32 i = 0; i < anims; i++)
 			{
-				Animation *a = New(Animation);
+				auto a = New(Animation);
 				reader.SelectNext();
 				a->Load(reader, res);
 				vAnimations += a;
@@ -637,7 +622,7 @@ bool Sprite::Load(Reader &reader, ResourceManager *res)
 bool Sprite::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteS32("iAnimation", this->GetCurrentAnimation());
 
@@ -648,7 +633,7 @@ bool Sprite::Write(Writer &writer)
 		u32 anims  = (u32)vAnimations.Size();
 		for (u32 i = 0; i < anims; i++)
 		{
-			Animation *anim = vAnimations[i];
+			auto anim = vAnimations[i];
 			anim->Write(writer);
 		}
 		writer.CloseArray();

@@ -51,8 +51,8 @@ RocketInterface::RocketInterface()
 	: pCurrent(NULL)
 	, iModifierState(0)
 {
-	cVertexBuffer.Configure(BufferUsageEveryFrameChange);
-	cElementBuffer.Configure(BufferUsageEveryFrameChange, ElementTypeInt);
+	cVertexBuffer.Configure(eBufferUsage::EveryFrameChange);
+	cElementBuffer.Configure(eBufferUsage::EveryFrameChange, eElementType::Int);
 	this->SetWidth(pScreen->GetWidth());
 	this->SetHeight(pScreen->GetHeight());
 
@@ -97,8 +97,8 @@ void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_ver
 	packet.pElementBuffer = &cElementBuffer;
 	packet.pVertexBuffer = &cVertexBuffer;
 	packet.pTransform = &transform;
-	packet.nMeshType = Seed::Triangles;
-	packet.nBlendMode = Seed::BlendModulate;
+	packet.nMeshType = eMeshType::Triangles;
+	packet.nBlendMode = eBlendMode::Modulate;
 	TexturePtr *tex = (TexturePtr *)texture;
 	if (tex)
 		packet.pTexture = tex->pTex;
@@ -110,12 +110,12 @@ void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_ver
 
 Rocket::Core::CompiledGeometryHandle RocketInterface::CompileGeometry(Rocket::Core::Vertex *vertices, int num_vertices, int *indices, int num_indices, Rocket::Core::TextureHandle texture)
 {
-	RendererPacket *packet = New(RendererPacket());
+	auto packet = New(RendererPacket());
 
 	int *elems = (int *)Alloc(sizeof(int) * num_indices);
 	memcpy(elems, indices, num_indices * sizeof(int));
 
-	sVertex *vert = NewArray(sVertex, num_vertices);
+	auto vert = NewArray(sVertex, num_vertices);
 	for (int i = 0; i < num_vertices; ++i)
 	{
 		vert[i].cVertex.setX(vertices[i].position.x);
@@ -132,18 +132,18 @@ Rocket::Core::CompiledGeometryHandle RocketInterface::CompileGeometry(Rocket::Co
 	}
 
 	packet->pElementBuffer = New(ElementBuffer());
-	packet->pElementBuffer->Configure(BufferUsageNeverChange, ElementTypeInt);
+	packet->pElementBuffer->Configure(eBufferUsage::NeverChange, eElementType::Int);
 	packet->pElementBuffer->SetData(elems, num_indices);
 
 	packet->pVertexBuffer = New(VertexBuffer());
-	packet->pVertexBuffer->Configure(BufferUsageNeverChange);
+	packet->pVertexBuffer->Configure(eBufferUsage::NeverChange);
 	packet->pVertexBuffer->SetData(vert, num_vertices);
 
 	TexturePtr *tex = (TexturePtr *)texture;
 	if (tex)
 		packet->pTexture = tex->pTex;
-	packet->nMeshType = Seed::Triangles;
-	packet->nBlendMode = Seed::BlendModulate;
+	packet->nMeshType = eMeshType::Triangles;
+	packet->nBlendMode = eBlendMode::Modulate;
 
 	return (Rocket::Core::CompiledGeometryHandle)packet;
 }
@@ -197,13 +197,13 @@ void RocketInterface::SetScissorRegion(int x, int y, int width, int height)
 
 bool RocketInterface::LoadTexture(Rocket::Core::TextureHandle &texture_handle, Rocket::Core::Vector2i &texture_dimensions, const Rocket::Core::String &source)
 {
-	Texture *t = static_cast<Texture *>(pResourceManager->Get(source.CString(), Seed::TypeTexture));
-	t->SetFilter(Seed::TextureFilterTypeMin, Seed::TextureFilterLinear);
-	t->SetFilter(Seed::TextureFilterTypeMag, Seed::TextureFilterLinear);
+	Texture *t = static_cast<Texture *>(pResourceManager->Get(source.CString(), ITexture::GetTypeId()));
+	t->SetFilter(eTextureFilterType::Min, eTextureFilter::Linear);
+	t->SetFilter(eTextureFilterType::Mag, eTextureFilter::Linear);
 	texture_dimensions.x = t->GetWidth();
 	texture_dimensions.y = t->GetHeight();
 
-	TexturePtr *tex = New(TexturePtr());
+	auto tex = New(TexturePtr());
 	tex->pTex = t;
 	tex->bDynamic = false;
 
@@ -214,14 +214,14 @@ bool RocketInterface::LoadTexture(Rocket::Core::TextureHandle &texture_handle, R
 
 bool RocketInterface::GenerateTexture(Rocket::Core::TextureHandle &texture_handle, const Rocket::Core::byte *source, const Rocket::Core::Vector2i &source_dimensions)
 {
-	Texture *t = New(Texture());
+	auto t = New(Texture());
 	u32 w = source_dimensions.x;
 	u32 h = source_dimensions.y;
 	t->Load("[RocketDynamicTexture]", w, h, (Color *)source, w, h, true);
-	t->SetFilter(Seed::TextureFilterTypeMin, Seed::TextureFilterLinear);
-	t->SetFilter(Seed::TextureFilterTypeMag, Seed::TextureFilterLinear);
+	t->SetFilter(eTextureFilterType::Min, eTextureFilter::Linear);
+	t->SetFilter(eTextureFilterType::Mag, eTextureFilter::Linear);
 
-	TexturePtr *tex = New(TexturePtr());
+	auto tex = New(TexturePtr());
 	tex->pTex = t;
 	tex->bDynamic = true;
 	texture_handle = (Rocket::Core::TextureHandle)tex;
@@ -257,7 +257,7 @@ float RocketInterface::GetVerticalTexelOffset()
 // Rocket::Core::FileInterface
 Rocket::Core::FileHandle RocketInterface::Open(const Rocket::Core::String &path)
 {
-	FilePtr *fp = New(FilePtr());
+	auto fp = New(FilePtr());
 	WARNING(TODO - Move to async file loading)
 	fp->pFile = New(File(path.CString()));
 	fp->pFile->GetData();
@@ -326,11 +326,11 @@ void RocketInterface::OnInputPointerPress(const EventInputPointer *ev)
 
 	switch (ev->GetPressed())
 	{
-		case ButtonLeft: break;
-		case ButtonRight: btn = 1; break;
-		case ButtonMiddle: btn = 2; break;
-		case ButtonUp: pCurrent->ProcessMouseWheel(-1, iModifierState); return;
-		case ButtonDown: pCurrent->ProcessMouseWheel(1, iModifierState); return;
+		case eInputButton::Left: break;
+		case eInputButton::Right: btn = 1; break;
+		case eInputButton::Middle: btn = 2; break;
+		case eInputButton::Up: pCurrent->ProcessMouseWheel(-1, iModifierState); return;
+		case eInputButton::Down: pCurrent->ProcessMouseWheel(1, iModifierState); return;
 		default: break;
 	}
 
@@ -343,9 +343,9 @@ void RocketInterface::OnInputPointerRelease(const EventInputPointer *ev)
 
 	switch (ev->GetPressed())
 	{
-		case ButtonLeft: break;
-		case ButtonRight: btn = 1; break;
-		case ButtonMiddle: btn = 2; break;
+		case eInputButton::Left: break;
+		case eInputButton::Right: btn = 1; break;
+		case eInputButton::Middle: btn = 2; break;
 		default: break;
 	}
 
@@ -359,7 +359,7 @@ void RocketInterface::OnInputPointerMove(const EventInputPointer *ev)
 
 void RocketInterface::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
-	Rocket::Core::Input::KeyIdentifier key = (Rocket::Core::Input::KeyIdentifier)ev->GetKey().GetValue();
+	Rocket::Core::Input::KeyIdentifier key = (Rocket::Core::Input::KeyIdentifier)ev->GetKey();
 	pCurrent->ProcessKeyDown(key, iModifierState);
 
 	// FIXME: Do full key->text processing
@@ -368,7 +368,7 @@ void RocketInterface::OnInputKeyboardPress(const EventInputKeyboard *ev)
 
 void RocketInterface::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Rocket::Core::Input::KeyIdentifier key = (Rocket::Core::Input::KeyIdentifier)ev->GetKey().GetValue();
+	Rocket::Core::Input::KeyIdentifier key = (Rocket::Core::Input::KeyIdentifier)ev->GetKey();
 	pCurrent->ProcessKeyUp(key, iModifierState);
 }
 
@@ -384,16 +384,6 @@ void RocketInterface::Update(f32 delta)
 	UNUSED(delta)
 	if (pCurrent)
 		pCurrent->Update();
-}
-
-const String RocketInterface::GetClassName() const
-{
-	return "RocketInterface";
-}
-
-int RocketInterface::GetObjectType() const
-{
-	return TypeRocketInterface;
 }
 
 void RocketInterface::SetCurrentContext(Rocket::Core::Context *ctx)
@@ -422,7 +412,7 @@ void RocketEventInstancer::Release()
 	delete this;
 }
 
-DECLARE_CONTAINER_TYPE(Vector, IRocketEventListener)
+SEED_DECLARE_CONTAINER(Vector, IRocketEventListener)
 IRocketEventListenerVector RocketEventManager::vListeners;
 
 void RocketEventManager::AddListener(IRocketEventListener *listener)
@@ -439,15 +429,8 @@ void RocketEventManager::SendEvent(Rocket::Core::Event &event, const Rocket::Cor
 {
 	//make a copy to avoid problem with events that modify vListeners during OnGuiEvent
 	IRocketEventListenerVector listeners = vListeners;
-
-	IRocketEventListenerVectorIterator it = listeners.begin();
-	IRocketEventListenerVectorIterator end = listeners.end();
-
-	for (; it != end; ++it)
-	{
-		IRocketEventListener *obj = (*it);
+	for (auto obj: listeners)
 		obj->OnGuiEvent(event, value);
-	}
 }
 
 

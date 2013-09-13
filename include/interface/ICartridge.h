@@ -31,18 +31,20 @@
 #ifndef __ICARTRIDGE_H__
 #define __ICARTRIDGE_H__
 
-#include "IModule.h"
+#include "IManager.h"
 #include "../Enum.h"
 
 namespace Seed {
 
 /// Cartridge Interface
 /**
-Interface for cartridge/save data, it can be a real cartridge like Nintendo DS builtin EPROM
+Manager for cartridge/save data, it can be a real cartridge like Nintendo DS builtin EPROM
 and/or even a file in a PC implementation.
 */
-class SEED_CORE_API ICartridge : public IModule
+class SEED_CORE_API ICartridge : public IManager
 {
+	SEED_DISABLE_COPY(ICartridge)
+
 	public:
 		ICartridge();
 		virtual ~ICartridge();
@@ -98,11 +100,8 @@ class SEED_CORE_API ICartridge : public IModule
 		virtual u32 GetRequiredSize(u32 headerSize, u32 sharedDataSize, u32 slotDataSize, u32 num_slots) const;
 
 	protected:
-		eCartridgeError eLastError;
+		eCartridgeError nLastError;
 		u32 iSize;
-
-	private:
-		SEED_DISABLE_COPY(ICartridge);
 };
 
 } // namespace

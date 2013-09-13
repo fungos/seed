@@ -45,7 +45,7 @@
 #include "Input.h"
 #include "Updater.h"
 #include "Camera.h"
-#include "ModuleManager.h"
+#include "Manager.h"
 #include "Cartridge.h"
 #include "ViewManager.h"
 #include "RendererManager.h"
@@ -199,7 +199,7 @@ bool Initialize()
 
 	pChecksum = Checksum::GetInstance();
 
-	ret = ret && pModuleManager->Add(pFileSystem);
+	ret = ret && pManager->Add(pFileSystem);
 	pConfiguration->Load(Private::sConfigFile);
 	if (Private::sWorkDir != "")
 		pConfiguration->SetWorkingDirectory(Private::sWorkDir); // cli has priority
@@ -211,26 +211,26 @@ bool Initialize()
 	Info(SEED_TAG "\tThread: %s", Private::bDisableThread ? "No" : "Yes");
 	Info(SEED_TAG "\tResourceLoader: %s", Private::bDisableResourceLoader ? "No" : "Yes");
 
-	ret = ret && pModuleManager->Add(pSystem);
-	ret = ret && pModuleManager->Add(pTimer);
-	ret = ret && pModuleManager->Add(pCartridge);
-	ret = ret && pModuleManager->Add(pScreen);
-	ret = ret && pModuleManager->Add(pRendererDevice);
-	ret = ret && pModuleManager->Add(pViewManager);
-	ret = ret && pModuleManager->Add(pRendererManager);
+	ret = ret && pManager->Add(pSystem);
+	ret = ret && pManager->Add(pTimer);
+	ret = ret && pManager->Add(pCartridge);
+	ret = ret && pManager->Add(pScreen);
+	ret = ret && pManager->Add(pRendererDevice);
+	ret = ret && pManager->Add(pViewManager);
+	ret = ret && pManager->Add(pRendererManager);
 
 	if (!Private::bDisableSound)
-		ret = ret && pModuleManager->Add(pSoundSystem);
+		ret = ret && pManager->Add(pSoundSystem);
 
 #if (SEED_USE_THREAD == 1)
 	if (!Private::bDisableThread || !Private::bDisableResourceLoader)
-		ret = ret && pModuleManager->Add(pResourceLoader);
+		ret = ret && pManager->Add(pResourceLoader);
 #else
-	ret = ret && pModuleManager->Add(pThreadManager);
+	ret = ret && pManager->Add(pThreadManager);
 #endif
 
-	ret = ret && pModuleManager->Add(pJobManager);
-	ret = ret && pModuleManager->Add(pInput);
+	ret = ret && pManager->Add(pJobManager);
+	ret = ret && pManager->Add(pInput);
 
 	pUpdater->Add(Private::pApplication);
 
@@ -253,9 +253,9 @@ bool Initialize()
 	pUpdater->Add(pRendererManager);
 	pUpdater->Add(pSceneManager);
 
-	ResourceManager::Register(Seed::TypeTexture,	TextureResourceLoader);
-	ResourceManager::Register(Seed::TypeSound,		SoundResourceLoader);
-	ResourceManager::Register(Seed::TypeMusic,		MusicResourceLoader);
+	ResourceManager::Register(ITexture::GetTypeId(), TextureResourceLoader);
+	ResourceManager::Register(ISound::GetTypeId(), SoundResourceLoader);
+	ResourceManager::Register(IMusic::GetTypeId(), MusicResourceLoader);
 
 	SceneObjectFactory::Register("Sprite", FactorySprite);
 	SceneObjectFactory::Register("Movie", FactoryMovie);
@@ -268,8 +268,8 @@ bool Initialize()
 
 	Private::bInitialized = true;
 
-	ret = ret && pModuleManager->Add(Private::pApplication);
-	pModuleManager->Print();
+	ret = ret && pManager->Add(Private::pApplication);
+	pManager->Print();
 
 	return ret;
 }
@@ -309,7 +309,7 @@ void Shutdown()
 		return;
 
 	Info(SEED_TAG "Shutting down subsystems...");
-	pModuleManager->Shutdown();
+	pManager->Shutdown();
 
 	pSceneObjectFactory->DestroyInstance();
 	pSceneManager->DestroyInstance();

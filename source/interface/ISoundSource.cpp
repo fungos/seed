@@ -42,7 +42,7 @@ ISoundSource::ISoundSource()
 	, fVolume(1.0f)
 	, fFadeTime(0.0f)
 	, fStartFadeTime(0)
-	, eState(SourceNone)
+	, nState(eSoundSourceState::None)
 	, bLoop(false)
 	, bAutoPlay(false)
 {
@@ -69,7 +69,7 @@ bool ISoundSource::Load(Reader &reader, ResourceManager *res)
 		ITransformable::Unserialize(reader);
 		IRenderable::Unserialize(reader);
 
-		pSound = static_cast<Sound *>(res->Get(fname, Seed::TypeSound));
+		pSound = static_cast<Sound *>(res->Get(fname, ISound::GetTypeId()));
 		ret = this->OnLoadFinished();
 
 		pSoundSystem->Add(this);
@@ -83,7 +83,7 @@ bool ISoundSource::Load(Reader &reader, ResourceManager *res)
 bool ISoundSource::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteString("sResource", pSound->GetFilename().c_str());
 		writer.WriteF32("fVolume", fVolume);
@@ -103,7 +103,7 @@ bool ISoundSource::Unload()
 {
 	bool ret = OnUnloadRequest();
 	pSoundSystem->Remove(this);
-	eState = SourceNone;
+	nState = eSoundSourceState::None;
 	return ret;
 }
 
@@ -125,45 +125,45 @@ void ISoundSource::UpdateVolume()
 
 bool ISoundSource::IsPlaying() const
 {
-	return ((eState != SourceStopped) &&
-			(eState != SourceStop) &&
-			(eState != SourcePause) &&
-			(eState != SourcePaused) &&
-			(eState != SourceNone));
+	return ((nState != eSoundSourceState::Stopped) &&
+			(nState != eSoundSourceState::Stop) &&
+			(nState != eSoundSourceState::Pause) &&
+			(nState != eSoundSourceState::Paused) &&
+			(nState != eSoundSourceState::None));
 }
 
 void ISoundSource::Play()
 {
-	if (eState != SourcePlaying && eState != SourcePlayStarted)
-		eState = SourcePlay;
+	if (nState != eSoundSourceState::Playing && nState != eSoundSourceState::PlayStarted)
+		nState = eSoundSourceState::Play;
 }
 
 void ISoundSource::Stop(f32 ms)
 {
 	UNUSED(ms);
-	eState = SourceStop;
+	nState = eSoundSourceState::Stop;
 }
 
 void ISoundSource::Pause()
 {
 	if (this->IsPlaying())
 	{
-		eState = SourcePause;
+		nState = eSoundSourceState::Pause;
 	}
 }
 
 void ISoundSource::Resume()
 {
-	if (eState == SourcePause || eState == SourcePaused)
+	if (nState == eSoundSourceState::Pause || nState == eSoundSourceState::Paused)
 	{
-		eState = SourcePlay;
+		nState = eSoundSourceState::Play;
 	}
 }
 
 void ISoundSource::FadeOut(f32 ms)
 {
-	if (eState != SourceFadingOut)
-		eState = SourceFadeOut;
+	if (nState != eSoundSourceState::FadingOut)
+		nState = eSoundSourceState::FadeOut;
 
 	fStartFadeTime = pTimer->GetMilliseconds();
 	fFadeTime = ms;
@@ -171,8 +171,8 @@ void ISoundSource::FadeOut(f32 ms)
 
 void ISoundSource::FadeIn(f32 ms)
 {
-	if (eState != SourceFadingIn)
-		eState = SourceFadeIn;
+	if (nState != eSoundSourceState::FadingIn)
+		nState = eSoundSourceState::FadeIn;
 
 	fStartFadeTime = pTimer->GetMilliseconds();
 	fFadeTime = ms;
@@ -190,22 +190,12 @@ bool ISoundSource::IsLoop() const
 
 eSoundSourceState ISoundSource::GetState() const
 {
-	return eState;
+	return nState;
 }
 
 void ISoundSource::Render(const Matrix4f &worldTransform)
 {
 	UNUSED(worldTransform);
-}
-
-const String ISoundSource::GetClassName() const
-{
-	return "SoundSource";
-}
-
-int ISoundSource::GetObjectType() const
-{
-	return Seed::TypeSoundSource;
 }
 
 } // namespace

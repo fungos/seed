@@ -10,6 +10,8 @@ class SfxSample : public IGameApp,
 					public IEventInputPointerListener,
 					public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(SfxSample)
+
 	public:
 		SfxSample();
 		virtual ~SfxSample();
@@ -31,7 +33,6 @@ class SfxSample : public IGameApp,
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	private:
-		SEED_DISABLE_COPY(SfxSample);
 		Presentation cPres;
 		Music musTheme;
 };

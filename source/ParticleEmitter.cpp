@@ -44,6 +44,7 @@
 
 namespace Seed {
 
+// FIXME
 enum EmiterJobs {
 	kLoadSprite = 1
 };
@@ -74,8 +75,8 @@ ParticleEmitter::ParticleEmitter()
 	, fParticleHeightHalf(0.0f)
 	, iAnimation(0)
 	, iParticlesAmount(0)
-	, nMinFilter(TextureFilterLinear)
-	, nMagFilter(TextureFilterLinear)
+	, nMinFilter(eTextureFilter::Linear)
+	, nMagFilter(eTextureFilter::Linear)
 	, cVertexBuffer()
 	, pVertex(NULL)
 	, iVertexAmount(0)
@@ -85,7 +86,7 @@ ParticleEmitter::ParticleEmitter()
 	, bAutoPlay(false)
 	, bInitialized(false)
 {
-	cVertexBuffer.Configure(BufferUsageEveryFrameChange);
+	cVertexBuffer.Configure(eBufferUsage::EveryFrameChange);
 }
 
 ParticleEmitter::~ParticleEmitter()
@@ -289,8 +290,8 @@ void ParticleEmitter::Update(f32 deltaTime)
 		pTexture = pTemplate->GetTexture();
 		if (pTexture)
 		{
-			pTexture->SetFilter(TextureFilterTypeMag, nMagFilter);
-			pTexture->SetFilter(TextureFilterTypeMin, nMinFilter);
+			pTexture->SetFilter(eTextureFilterType::Mag, nMagFilter);
+			pTexture->SetFilter(eTextureFilterType::Min, nMinFilter);
 		}
 
 		memset(pVertex, '\0', sizeof(sVertex) * 6 * iParticlesAmount);
@@ -335,15 +336,15 @@ void ParticleEmitter::Render(const Matrix4f &worldTransform)
 {
 	if (bEnabled && arParticles && pTexture)
 	{
-		ePacketFlags flags = FlagNone;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+		ePacketFlags flags = ePacketFlags::None;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
 		RendererPacket packet;
-		packet.nMeshType = Seed::Triangles;
+		packet.nMeshType = eMeshType::Triangles;
 		packet.pVertexBuffer = &cVertexBuffer;
 		packet.pTexture = pTexture;
-		packet.nBlendMode = eBlendOperation;
+		packet.nBlendMode = nBlendOperation;
 		packet.pTransform = &worldTransform;
 		packet.cColor = cColor;
-		packet.iFlags = flags;
+		packet.nFlags = flags;
 		packet.vPivot = vTransformedPivot;
 
 		pRendererDevice->UploadData(&packet);
@@ -465,11 +466,11 @@ bool ParticleEmitter::IsEnabled() const
 
 void ParticleEmitter::SetFilter(eTextureFilterType type, eTextureFilter filter)
 {
-	if (type == Seed::TextureFilterTypeMin)
+	if (type == eTextureFilterType::Min)
 	{
 		nMinFilter = filter;
 	}
-	else if (type == Seed::TextureFilterTypeMag)
+	else if (type == eTextureFilterType::Mag)
 	{
 		nMagFilter = filter;
 	}
@@ -585,7 +586,7 @@ bool ParticleEmitter::Write(Writer &writer)
 		iAnimation = pTemplate->GetCurrentAnimation();
 
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteString("sSprite", sSprite.c_str());
 
@@ -673,16 +674,6 @@ void ParticleEmitter::OnJobAborted(const EventJob *ev)
 {
 	Job *job = ev->GetJob();
 	Delete(job);
-}
-
-const String ParticleEmitter::GetClassName() const
-{
-	return "ParticleEmitter";
-}
-
-int ParticleEmitter::GetObjectType() const
-{
-	return Seed::TypeParticleEmitter;
 }
 
 } // namespace

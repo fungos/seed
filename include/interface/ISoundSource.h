@@ -39,26 +39,29 @@
 namespace Seed {
 
 /// Internal sound states
-enum eSoundSourceState
+enum class eSoundSourceState
 {
-	SourceNone,
-	SourcePlay,
-	SourcePlayStarted,
-	SourcePlaying,
-	SourceStop,
-	SourceStopped,
-	SourcePause,
-	SourcePaused,
-	SourceFadeIn,
-	SourceFadingIn,
-	SourceFadeOut,
-	SourceFadingOut,
-	SourceFading
+	None,
+	Play,
+	PlayStarted,
+	Playing,
+	Stop,
+	Stopped,
+	Pause,
+	Paused,
+	FadeIn,
+	FadingIn,
+	FadeOut,
+	FadingOut,
+	Fading
 };
 
 /// Sound source interface
 class SEED_CORE_API ISoundSource : public ISceneObject
 {
+	SEED_DISABLE_COPY(ISoundSource)
+	SEED_DECLARE_RTTI(ISoundSource, ISceneObject)
+
 	public:
 		ISoundSource();
 		virtual ~ISoundSource();
@@ -88,10 +91,6 @@ class SEED_CORE_API ISoundSource : public ISceneObject
 		// IRenderable
 		virtual void Render(const Matrix4f &worldTransform);
 
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
-
 	protected:
 		virtual bool OnLoadFinished()= 0;
 		virtual bool OnUnloadRequest() = 0;
@@ -103,12 +102,9 @@ class SEED_CORE_API ISoundSource : public ISceneObject
 		f32 fVolume;
 		f32 fFadeTime;
 		u64 fStartFadeTime;
-		eSoundSourceState eState;
-		bool bLoop;
-		bool bAutoPlay;
-
-	private:
-		SEED_DISABLE_COPY(ISoundSource);
+		eSoundSourceState nState;
+		bool bLoop : 1;
+		bool bAutoPlay : 1;
 };
 
 } // namespace

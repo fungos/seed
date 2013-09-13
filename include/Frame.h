@@ -44,6 +44,9 @@ Frame is a static region from a Texture
 */
 class SEED_CORE_API Frame : public IDataObject
 {
+	SEED_DISABLE_COPY(Frame)
+	SEED_DECLARE_RTTI(Frame, IDataObject)
+
 	public:
 		ITexture	*pTexture;
 		String		sName;
@@ -69,13 +72,6 @@ class SEED_CORE_API Frame : public IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
-		// IMPLEMENT COPY
-		SEED_DISABLE_COPY(Frame);
 };
 
 } // namespace

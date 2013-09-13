@@ -51,8 +51,9 @@
 	#define SEED_PLATFORM_NAME "NativeClient"
 #endif // BUILD_IOS
 
-#if __GNUG__ && __GNUC_MINOR__ < 7
-	#define override
+#if __GNUG__ && __GNUC_MINOR__ < 7 && !defined(__clang__)
+	//#define override
+	#error Unsupported compiler - uncomment things here at your own risk.
 #endif
 
 //================================================================================

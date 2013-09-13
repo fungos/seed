@@ -42,7 +42,7 @@ typedef IResource *(*pResourceLoaderFunc)(const String &filename, ResourceManage
 typedef Map<String, IResource *> ResourceMap;
 typedef ResourceMap::iterator ResourceMapIterator;
 
-typedef Map<Seed::eObjectType, pResourceLoaderFunc> LoaderMap;
+typedef Map<TypeId, pResourceLoaderFunc> LoaderMap;
 typedef LoaderMap::iterator LoaderMapIterator;
 
 /// Resource Manager
@@ -51,26 +51,27 @@ Resource Cache and Manager for loading resources
 */
 class SEED_CORE_API ResourceManager
 {
+	SEED_DISABLE_COPY(ResourceManager)
+
 	public:
 		ResourceManager(const String &name);
 		~ResourceManager();
 
 		void Reset();
-		IResource *Get(const String &filename, Seed::eObjectType resourceType = Seed::TypeTexture);
+		IResource *Get(const String &filename, TypeId resourceType);
 		void GarbageCollect();
 
 		u32 GetTotalUsedMemory();
 		void PrintUsedMemoryByResource();
 
-		static void Register(Seed::eObjectType resourceType, pResourceLoaderFunc pfunc);
-		static void Unregister(Seed::eObjectType resourceType);
+		static void Register(TypeId resourceType, pResourceLoaderFunc pfunc);
+		static void Unregister(TypeId resourceType);
 
-		void Unload(Seed::eObjectType resourceType);
-		void Reload(Seed::eObjectType resourceType);
+		void Unload(TypeId resourceType);
+		void Reload(TypeId resourceType);
 		void Print();
 
 	private:
-		SEED_DISABLE_COPY(ResourceManager);
 		void Add(const String &filename, IResource *res);
 		void Remove(const String &filename);
 

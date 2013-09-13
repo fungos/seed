@@ -41,6 +41,9 @@ class ResourceGroup;
 /// Resource Loader Event
 class SEED_CORE_API EventResourceLoader : public IEvent
 {
+	SEED_DISABLE_COPY(EventResourceLoader)
+	SEED_DECLARE_RTTI(EventResourceLoader, IEvent)
+
 	public:
 		EventResourceLoader();
 		virtual ~EventResourceLoader();
@@ -48,14 +51,8 @@ class SEED_CORE_API EventResourceLoader : public IEvent
 		void SetGroup(ResourceGroup *pGroup);
 		ResourceGroup *GetGroup() const;
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	protected:
 		ResourceGroup *pGroup;
-
-	private:
-		SEED_DISABLE_COPY(EventResourceLoader);
 };
 
 } // namespace

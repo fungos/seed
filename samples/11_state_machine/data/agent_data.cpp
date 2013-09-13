@@ -18,13 +18,3 @@ void AgentData::SetFatigue(const u32 fatigue)
 {
 	iFatigue = fatigue;
 }
-
-const String AgentData::GetClassName() const
-{
-	return "AgentData";
-}
-
-int AgentData::GetObjectType() const
-{
-	return TYPE_AGENTDATA;
-}

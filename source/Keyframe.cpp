@@ -44,12 +44,12 @@ Keyframe::Keyframe()
 	, iFrameToJump(-1)
 	, iEvent(KeyframeEventNone)
 	, sName("")
-	, bTween(false)
-	, bBlank(false)
 	, iColorR(255)
 	, iColorG(255)
 	, iColorB(255)
 	, iColorA(255)
+	, bTween(false)
+	, bBlank(false)
 {
 }
 
@@ -140,7 +140,7 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 bool Keyframe::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteS32("iFrame", iFrame);
 		writer.WriteS32("iGoto", iFrameToJump);
@@ -189,16 +189,6 @@ bool Keyframe::Write(Writer &writer)
 	writer.CloseNode();
 
 	return true;
-}
-
-const String Keyframe::GetClassName() const
-{
-	return "Keyframe";
-}
-
-int Keyframe::GetObjectType() const
-{
-	return Seed::TypeKeyframe;
 }
 
 } // namespace

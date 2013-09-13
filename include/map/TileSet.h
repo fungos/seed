@@ -42,6 +42,9 @@ class ITexture;
 
 class SEED_CORE_API TileSet : public IDataObject
 {
+	SEED_DISABLE_COPY(TileSet)
+	SEED_DECLARE_RTTI(TileSet, IDataObject)
+
 	public:
 		TileSet();
 		virtual ~TileSet();
@@ -58,13 +61,7 @@ class SEED_CORE_API TileSet : public IDataObject
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	private:
-		SEED_DISABLE_COPY(TileSet);
-
 		ITexture *pTexture;
 		Rect4f	 *pTileUV;
 		Map<String, String> mProperties;

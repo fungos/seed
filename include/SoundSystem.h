@@ -31,14 +31,15 @@
 #ifndef __SOUND_SYSTEM_H__
 #define __SOUND_SYSTEM_H__
 
-#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
-#if defined(USE_API_NULL_OAL)
+#if defined(USE_API_NULL_AL)
 	#include "api/nullal/nalSoundSystem.h"
+	using namespace Seed::NAL;
 #else
-	#include "api/oal/oalSoundSystem.h"
+	#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
+		#include "api/oal/oalSoundSystem.h"
+	#elif defined(BUILD_IOS)
+		#include "platform/ios/iosSoundSystem.h"
+	#endif
 #endif
-#elif defined(BUILD_IOS)
-	#include "platform/ios/iosSoundSystem.h"
-#endif // platform
 
 #endif // __SOUND_SYSTEM_H__

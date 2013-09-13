@@ -73,7 +73,7 @@ bool Frame::Load(Reader &reader, ResourceManager *res)
 		sName = reader.ReadString("sName", "frame");
 
 		sTexture = reader.ReadString("sResource", "default");
-		pTexture = static_cast<ITexture *>(res->Get(sTexture, Seed::TypeTexture));
+		pTexture = static_cast<ITexture *>(res->Get(sTexture, ITexture::GetTypeId()));
 
 		if (reader.SelectNode("cBoundary"))
 		{
@@ -115,7 +115,7 @@ bool Frame::Write(Writer &writer)
 	bool ret = false;
 
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteString("sResource", sTexture.c_str());
 		if (iFps)
@@ -156,16 +156,6 @@ bool Frame::Unload()
 	fTexT1 = 0.0f;
 
 	return true;
-}
-
-const String Frame::GetClassName() const
-{
-	return "Frame";
-}
-
-int Frame::GetObjectType() const
-{
-	return Seed::TypeFrame;
 }
 
 } // namespace

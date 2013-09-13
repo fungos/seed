@@ -50,6 +50,8 @@ class SEED_CORE_API SoundSource : public ISoundSource
 {
 	friend class SoundSystem;
 
+	SEED_DISABLE_COPY(SoundSource)
+
 	public:
 		SoundSource();
 		virtual ~SoundSource();
@@ -62,19 +64,16 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		virtual void SetVolume(f32 vol);
 		virtual void UpdateVolume();
 
-        // IRenderable
-        virtual void Update(f32 dt);
-    
-    protected:
-        // ISoundSource
-        virtual bool OnLoadFinished();
-        virtual bool OnUnloadRequest();
-    
-	private:
-		SEED_DISABLE_COPY(SoundSource);
+		// IRenderable
+		virtual void Update(f32 dt);
+
+	protected:
+		// ISoundSource
+		virtual bool OnLoadFinished();
+		virtual bool OnUnloadRequest();
 
 	private:
-		ALuint			iSource;
+		ALuint iSource;
 };
 
 }} // namespace

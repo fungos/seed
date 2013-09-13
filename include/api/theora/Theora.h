@@ -118,6 +118,8 @@ namespace Seed {
 /// Theora video player
 class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 {
+	SEED_DISABLE_COPY(Theora)
+
 	public:
 		Theora();
 		virtual ~Theora();
@@ -161,9 +163,6 @@ class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 		void ProcessVideoData(OggPlayVideoData *data);
 		void ConfigureRendering();
 
-	private:
-		SEED_DISABLE_COPY(Theora);
-
 	public:
 		OggPlay		*pPlayer;
 		u8			*pTexData;
@@ -193,11 +192,11 @@ class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 		f32			fTexScaleY;
 		f32			fElapsedTime;
 
-		bool		bLoaded;
-		bool		bPaused;
-		bool		bPlaying;
-		bool		bFinished;
-		bool		bTerminateThread;
+		bool		bLoaded : 1;
+		bool		bPaused : 1;
+		bool		bPlaying : 1;
+		bool		bFinished : 1;
+		bool		bTerminateThread : 1;
 		semaphore	sem;
 
 		Texture		cTexture;

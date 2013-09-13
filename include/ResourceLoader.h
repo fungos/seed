@@ -31,7 +31,7 @@
 #ifndef __RESOURCE_LOADER_H__
 #define __RESOURCE_LOADER_H__
 
-#include "interface/IModule.h"
+#include "interface/IManager.h"
 #include "interface/IUpdatable.h"
 #include "Mutex.h"
 #include "Thread.h"
@@ -46,11 +46,13 @@ class IEventResourceLoaderListener;
 
 /// Resource Loader
 /*!
-Responsible for Loading resources
+Manager responsible for loading resources
 */
-class SEED_CORE_API ResourceLoader : public IModule, public IUpdatable, public Thread
+class SEED_CORE_API ResourceLoader : public IManager, public IUpdatable, public Thread
 {
-	SEED_SINGLETON_DECLARE(ResourceLoader)
+	SEED_DECLARE_SINGLETON(ResourceLoader)
+	SEED_DECLARE_MANAGER(ResourceLoader)
+	SEED_DISABLE_COPY(ResourceLoader)
 
 	public:
 		typedef Vector<IEventResourceLoaderListener *> 	ListenerVector;
@@ -79,26 +81,20 @@ class SEED_CORE_API ResourceLoader : public IModule, public IUpdatable, public T
 		// IUpdatable
 		virtual bool Update(f32 dt);
 
-		// IModule
+		// IManager
 		virtual bool Initialize();
 		virtual bool Shutdown();
 		virtual bool Reset();
-
-		// IObject
-		virtual const String GetClassName() const;
 
 	protected:
 		void SendEventGroupLoaded(const EventResourceLoader *ev);
 		void SendEventQueueEmpty(const EventResourceLoader *ev);
 
 	private:
-		SEED_DISABLE_COPY(ResourceLoader);
-
-	private:
 		ListenerVector 	vListeners;
 		GroupVector		vGroups;
-		bool 			bRunning;
 		Mutex			*pMutex;
+		bool 			bRunning : 1;
 };
 
 #define pResourceLoader ResourceLoader::GetInstance()

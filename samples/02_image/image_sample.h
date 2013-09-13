@@ -9,6 +9,8 @@ class ImageSample : public IGameApp,
 					public IEventInputKeyboardListener,
 					public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(ImageSample)
+
 	public:
 		ImageSample();
 		virtual ~ImageSample();
@@ -25,9 +27,6 @@ class ImageSample : public IGameApp,
 
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(ImageSample);
 
 	protected:
 		Presentation cPres;

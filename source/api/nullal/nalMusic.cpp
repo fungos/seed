@@ -30,15 +30,15 @@
 
 #include "Music.h"
 
-#if defined(USE_API_NULL_OAL)
+#if defined(USE_API_NULL_AL)
 
-namespace Seed { namespace OAL {
+namespace Seed { namespace NAL {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 {
 	UNUSED(res);
 
-	Music *music = New(Music());
+	auto music = New(Music());
 	music->Load(filename, res);
 
 	return music;
@@ -87,4 +87,4 @@ const void *Music::GetData() const
 
 }} // namespace
 
-#endif // USE_API_NULL_OAL
+#endif // USE_API_NULL_AL

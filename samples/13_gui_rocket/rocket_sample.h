@@ -12,6 +12,8 @@ class RocketSample : public IGameApp,
 					public IEventInputKeyboardListener,
 					public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(RocketSample)
+
 	public:
 		RocketSample();
 		virtual ~RocketSample();
@@ -35,9 +37,6 @@ class RocketSample : public IGameApp,
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
-	private:
-		SEED_DISABLE_COPY(RocketSample);
-
 	protected:
 		SceneNode *pScene;
 		RocketInterface *pI;
@@ -46,7 +45,7 @@ class RocketSample : public IGameApp,
 		Presentation cPres;
 
 		String sDocument;
-		bool bLoaded;
+		bool bLoaded : 1;
 };
 
 #endif // _ROCKET_SAMPLE_H_

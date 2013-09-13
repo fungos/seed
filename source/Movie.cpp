@@ -86,11 +86,8 @@ void Movie::Update(f32 delta)
 	{
 		fElapsedTime -= frame;
 
-		TimelineVectorIterator it = vTimelines.begin();
-		TimelineVectorIterator end = vTimelines.end();
-		for (; it != end; ++it)
+		for (auto obj: vTimelines)
 		{
-			Timeline *obj = (*it);
 			if (bTransformationChanged)
 			{
 				obj->SetLocalPosition(this->GetPivotX(), this->GetPivotY());
@@ -124,18 +121,14 @@ void Movie::Stop()
 
 void Movie::Rewind()
 {
-	TimelineVectorIterator it = vTimelines.begin();
-	TimelineVectorIterator end = vTimelines.end();
-	for (; it != end; ++it)
-		(*it)->Rewind();
+	for (auto each: vTimelines)
+		each->Rewind();
 }
 
 void Movie::Reset()
 {
-	TimelineVectorIterator it = vTimelines.begin();
-	TimelineVectorIterator end = vTimelines.end();
-	for (; it != end; ++it)
-		(*it)->Reset();
+	for (auto each: vTimelines)
+		each->Reset();
 }
 
 bool Movie::Load(Reader &reader, ResourceManager *res)
@@ -157,11 +150,11 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 			{
 				reader.SelectNext();
 
-				Timeline *obj = New(Timeline);
+				auto obj = New(Timeline);
 				obj->Load(reader, res);
 				vTimelines += obj;
 
-				ISceneObject *o = obj->GetObject();
+				auto o = obj->GetObject();
 				this->Add(o);
 			}
 			reader.UnselectArray();
@@ -180,33 +173,23 @@ bool Movie::Load(Reader &reader, ResourceManager *res)
 bool Movie::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);
 
 		writer.OpenArray("aTimelines");
-		u32 lines  = (u32)vTimelines.Size();
+		auto lines = u32(vTimelines.Size());
 		for (u32 i = 0; i < lines; i++)
 		{
-			Timeline *line = vTimelines[i];
+			auto line = vTimelines[i];
 			line->Write(writer);
 		}
 		writer.CloseArray();
 	writer.CloseNode();
 
 	return true;
-}
-
-const String Movie::GetClassName() const
-{
-	return "Movie";
-}
-
-int Movie::GetObjectType() const
-{
-	return Seed::TypeMovie;
 }
 
 } // namespace
