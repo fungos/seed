@@ -63,7 +63,6 @@ typedef ptrdiff_t TypeId;
 																										\
 											static TypeId GetTypeId()									\
 											{															\
-												static const char s_internal_##type = 0;				\
 												return (TypeId)&s_internal_##type;						\
 											}															\
 										private:														\
@@ -112,7 +111,6 @@ class SEED_CORE_API IObject
 		template<class T>
 		bool IsKindOf() const
 		{
-			//T::class_need_declare_rtti *p = NULL;
 			return IsKindOf(T::GetTypeId());
 		}
 
