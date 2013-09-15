@@ -63,6 +63,7 @@ typedef ptrdiff_t TypeId;
 																										\
 											static TypeId GetTypeId()									\
 											{															\
+												static const char s_internal_##type = 0;				\
 												return (TypeId)&s_internal_##type;						\
 											}															\
 										private:														\
