@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -81,6 +81,7 @@ Type Vector2< Type >::DotProduct(const Vector2< Type >& rhs) const
 template < typename Type >
 Vector2< Type > Vector2< Type >::Rotate(float theta) const
 {
+	(void)theta;
 	ROCKET_STATIC_ASSERT(sizeof(Type) == 0, Invalid_Operation);
 	return *this;
 }

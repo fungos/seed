@@ -4,8 +4,8 @@ Copyright (c) 2003-2006 Erwin Coumans  http://continuousphysics.com/Bullet/
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -17,13 +17,13 @@ subject to the following restrictions:
 #define BT_SOLVER_CONSTRAINT_H
 
 class	btRigidBody;
-#include "LinearMath/btVector3.h"
-#include "LinearMath/btMatrix3x3.h"
-#include "btJacobianEntry.h"
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btVector3.h>
+#include <bullet/LinearMath/btMatrix3x3.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btJacobianEntry.h>
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
 //#define NO_FRICTION_TANGENTIALS 1
-#include "btSolverBody.h"
+#include <bullet/BulletDynamics/ConstraintSolver/btSolverBody.h>
 
 
 ///1D constraint along a normal axis between bodyA and bodyB. It can be combined to solve contact and friction constraints.
@@ -39,7 +39,7 @@ ATTRIBUTE_ALIGNED16 (struct)	btSolverConstraint
 
 	btVector3		m_angularComponentA;
 	btVector3		m_angularComponentB;
-	
+
 	mutable btSimdScalar	m_appliedPushImpulse;
 	mutable btSimdScalar	m_appliedImpulse;
 
@@ -47,22 +47,22 @@ ATTRIBUTE_ALIGNED16 (struct)	btSolverConstraint
 	btScalar	m_jacDiagABInv;
 	btScalar		m_rhs;
 	btScalar		m_cfm;
-	
-    btScalar		m_lowerLimit;
+
+	btScalar		m_lowerLimit;
 	btScalar		m_upperLimit;
 	btScalar		m_rhsPenetration;
-    union
+	union
 	{
 		void*		m_originalContactPoint;
 		btScalar	m_unusedPadding4;
 	};
 
 	int	m_overrideNumSolverIterations;
-    int			m_frictionIndex;
+	int			m_frictionIndex;
 	int m_solverBodyIdA;
 	int m_solverBodyIdB;
 
-    
+
 	enum		btSolverConstraintType
 	{
 		BT_SOLVER_CONTACT_1D = 0,

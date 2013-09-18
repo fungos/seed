@@ -448,7 +448,7 @@ void Timeline::SetPriority(u32 p)
 {
 	iPriority = p;
 	if (pObject)
-		pObject->SetZ(p);
+		pObject->SetZ(static_cast<f32>(p));
 }
 
 u32 Timeline::GetPriority() const
@@ -518,11 +518,11 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 		*/
 		if (reader.SelectNode("cObject"))
 		{
-			#warning TODO - Use SceneObjectFactory here
+			WARNING(TODO - Use SceneObjectFactory here)
 			Reader r(reader);
 			Sprite *spt = New(Sprite);
 			spt->Load(r, res);
-			spt->SetZ(iPriority);
+			spt->SetZ(static_cast<f32>(iPriority));
 			pObject = spt;
 			reader.UnselectNode();
 		}
@@ -531,13 +531,13 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 			String object = reader.ReadString("sObject", "");
 			SEED_ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
 
-			#warning TODO - Move to async file loading
+			WARNING(TODO - Move to async file loading)
 			File *f = New(File(object));
 			Reader r(f);
 
 			Sprite *spt = New(Sprite);
 			spt->Load(r, res);
-			spt->SetZ(iPriority);
+			spt->SetZ(static_cast<f32>(iPriority));
 			pObject = spt;
 
 			Delete(f);

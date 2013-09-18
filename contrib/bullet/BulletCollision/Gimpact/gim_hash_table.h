@@ -32,7 +32,7 @@ email: projectileman@yahoo.com
 -----------------------------------------------------------------------------
 */
 
-#include "gim_radixsort.h"
+#include <bullet/gim_radixsort.h>
 
 
 #define GIM_INVALID_HASH 0xffffffff //!< A very very high value

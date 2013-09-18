@@ -38,9 +38,10 @@
 #include "RendererDevice.h"
 #include "Screen.h"
 #include "Texture.h"
-#include "contrib/soil/SOIL.h"
 
 #include "api/rocket/RocketInterface.h"
+
+#include <Rocket/Core/Factory.h>
 
 #define TAG "[API::Rocket] "
 
@@ -54,6 +55,10 @@ RocketInterface::RocketInterface()
 	cElementBuffer.Configure(BufferUsageEveryFrameChange, ElementTypeInt);
 	this->SetWidth(pScreen->GetWidth());
 	this->SetHeight(pScreen->GetHeight());
+
+	RocketEventInstancer *inst = new RocketEventInstancer();
+	Rocket::Core::Factory::RegisterEventListenerInstancer(inst);
+	inst->RemoveReference();
 }
 
 RocketInterface::~RocketInterface()
@@ -93,6 +98,7 @@ void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_ver
 	packet.pVertexBuffer = &cVertexBuffer;
 	packet.pTransform = &transform;
 	packet.nMeshType = Seed::Triangles;
+	packet.nBlendMode = Seed::BlendModulate;
 	TexturePtr *tex = (TexturePtr *)texture;
 	if (tex)
 		packet.pTexture = tex->pTex;
@@ -137,6 +143,7 @@ Rocket::Core::CompiledGeometryHandle RocketInterface::CompileGeometry(Rocket::Co
 	if (tex)
 		packet->pTexture = tex->pTex;
 	packet->nMeshType = Seed::Triangles;
+	packet->nBlendMode = Seed::BlendModulate;
 
 	return (Rocket::Core::CompiledGeometryHandle)packet;
 }
@@ -173,7 +180,7 @@ void RocketInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHand
 	DeleteArray(v);
 
 	int *e = (int *)elems;
-	Free(e);
+	sFree(e);
 
 	Delete(packet);
 }
@@ -251,7 +258,7 @@ float RocketInterface::GetVerticalTexelOffset()
 Rocket::Core::FileHandle RocketInterface::Open(const Rocket::Core::String &path)
 {
 	FilePtr *fp = New(FilePtr());
-	#warning TODO - Move to async file loading
+	WARNING(TODO - Move to async file loading)
 	fp->pFile = New(File(path.CString()));
 	fp->pFile->GetData();
 	fp->iOffset = 0L;
@@ -392,6 +399,76 @@ int RocketInterface::GetObjectType() const
 void RocketInterface::SetCurrentContext(Rocket::Core::Context *ctx)
 {
 	pCurrent = ctx;
+}
+
+
+
+RocketEventInstancer::RocketEventInstancer()
+{
+}
+
+RocketEventInstancer::~RocketEventInstancer()
+{
+}
+
+Rocket::Core::EventListener *RocketEventInstancer::InstanceEventListener(const Rocket::Core::String &value, Rocket::Core::Element *element)
+{
+	UNUSED(element)
+	return new RocketEvent(value);
+}
+
+void RocketEventInstancer::Release()
+{
+	delete this;
+}
+
+DECLARE_CONTAINER_TYPE(Vector, IRocketEventListener)
+IRocketEventListenerVector RocketEventManager::vListeners;
+
+void RocketEventManager::AddListener(IRocketEventListener *listener)
+{
+	vListeners += listener;
+}
+
+void RocketEventManager::RemoveListener(IRocketEventListener *listener)
+{
+	vListeners -= listener;
+}
+
+void RocketEventManager::SendEvent(Rocket::Core::Event &event, const Rocket::Core::String &value)
+{
+	//make a copy to avoid problem with events that modify vListeners during OnGuiEvent
+	IRocketEventListenerVector listeners = vListeners;
+
+	IRocketEventListenerVectorIterator it = listeners.begin();
+	IRocketEventListenerVectorIterator end = listeners.end();
+
+	for (; it != end; ++it)
+	{
+		IRocketEventListener *obj = (*it);
+		obj->OnGuiEvent(event, value);
+	}
+}
+
+
+RocketEvent::RocketEvent(const Rocket::Core::String &value)
+	: sValue(value)
+{
+}
+
+RocketEvent::~RocketEvent()
+{
+}
+
+void RocketEvent::ProcessEvent(Rocket::Core::Event &event)
+{
+	RocketEventManager::SendEvent(event, sValue);
+}
+
+void RocketEvent::OnDetach(Rocket::Core::Element *element)
+{
+	UNUSED(element)
+	delete this;
 }
 
 }} // namespace

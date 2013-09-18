@@ -18,14 +18,14 @@ email: projectileman@yahoo.com
  This library is free software; you can redistribute it and/or
  modify it under the terms of EITHER:
    (1) The GNU Lesser General Public License as published by the Free
-       Software Foundation; either version 2.1 of the License, or (at
-       your option) any later version. The text of the GNU Lesser
-       General Public License is included with this library in the
-       file GIMPACT-LICENSE-LGPL.TXT.
+	   Software Foundation; either version 2.1 of the License, or (at
+	   your option) any later version. The text of the GNU Lesser
+	   General Public License is included with this library in the
+	   file GIMPACT-LICENSE-LGPL.TXT.
    (2) The BSD-style license that is included with this library in
-       the file GIMPACT-LICENSE-BSD.TXT.
+	   the file GIMPACT-LICENSE-BSD.TXT.
    (3) The zlib/libpng license that is included with this library in
-       the file GIMPACT-LICENSE-ZLIB.TXT.
+	   the file GIMPACT-LICENSE-ZLIB.TXT.
 
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -36,7 +36,7 @@ email: projectileman@yahoo.com
 */
 
 
-#include "gim_linear_math.h"
+#include <bullet/BulletCollision/Gimpact/gim_linear_math.h>
 
 
 
@@ -49,38 +49,38 @@ email: projectileman@yahoo.com
 #define TRIANGLE_NORMAL(v1,v2,v3,n)\
 {\
 	vec3f _dif1,_dif2;\
-    VEC_DIFF(_dif1,v2,v1);\
-    VEC_DIFF(_dif2,v3,v1);\
-    VEC_CROSS(n,_dif1,_dif2);\
-    VEC_NORMALIZE(n);\
+	VEC_DIFF(_dif1,v2,v1);\
+	VEC_DIFF(_dif2,v3,v1);\
+	VEC_CROSS(n,_dif1,_dif2);\
+	VEC_NORMALIZE(n);\
 }\
 
 #define TRIANGLE_NORMAL_FAST(v1,v2,v3,n){\
-    vec3f _dif1,_dif2; \
-    VEC_DIFF(_dif1,v2,v1); \
-    VEC_DIFF(_dif2,v3,v1); \
-    VEC_CROSS(n,_dif1,_dif2); \
+	vec3f _dif1,_dif2; \
+	VEC_DIFF(_dif1,v2,v1); \
+	VEC_DIFF(_dif2,v3,v1); \
+	VEC_CROSS(n,_dif1,_dif2); \
 }\
 
 /// plane is a vec4f
 #define TRIANGLE_PLANE(v1,v2,v3,plane) {\
-    TRIANGLE_NORMAL(v1,v2,v3,plane);\
-    plane[3] = VEC_DOT(v1,plane);\
+	TRIANGLE_NORMAL(v1,v2,v3,plane);\
+	plane[3] = VEC_DOT(v1,plane);\
 }\
 
 /// plane is a vec4f
 #define TRIANGLE_PLANE_FAST(v1,v2,v3,plane) {\
-    TRIANGLE_NORMAL_FAST(v1,v2,v3,plane);\
-    plane[3] = VEC_DOT(v1,plane);\
+	TRIANGLE_NORMAL_FAST(v1,v2,v3,plane);\
+	plane[3] = VEC_DOT(v1,plane);\
 }\
 
 /// Calc a plane from an edge an a normal. plane is a vec4f
 #define EDGE_PLANE(e1,e2,n,plane) {\
-    vec3f _dif; \
-    VEC_DIFF(_dif,e2,e1); \
-    VEC_CROSS(plane,_dif,n); \
-    VEC_NORMALIZE(plane); \
-    plane[3] = VEC_DOT(e1,plane);\
+	vec3f _dif; \
+	VEC_DIFF(_dif,e2,e1); \
+	VEC_CROSS(plane,_dif,n); \
+	VEC_NORMALIZE(plane); \
+	plane[3] = VEC_DOT(e1,plane);\
 }\
 
 #define DISTANCE_PLANE_POINT(plane,point) (VEC_DOT(plane,point) - plane[3])
@@ -101,7 +101,7 @@ SIMD_FORCE_INLINE bool POINT_IN_HULL(
 	for (GUINT _i = 0;_i< plane_count;++_i)
 	{
 		_dis = DISTANCE_PLANE_POINT(planes[_i],point);
-	    if(_dis>0.0f) return false;
+		if(_dis>0.0f) return false;
 	}
 	return true;
 }
@@ -159,13 +159,13 @@ SIMD_FORCE_INLINE eLINE_PLANE_INTERSECTION_TYPE PLANE_CLIP_SEGMENT2(
 	GREAL _dis2 = DISTANCE_PLANE_POINT(plane,s2);
 	if(_dis1 >-G_EPSILON && _dis2 >-G_EPSILON)
 	{
-	    if(_dis1<_dis2) return G_FRONT_PLANE_S1;
-	    return G_FRONT_PLANE_S2;
+		if(_dis1<_dis2) return G_FRONT_PLANE_S1;
+		return G_FRONT_PLANE_S2;
 	}
 	else if(_dis1 <G_EPSILON && _dis2 <G_EPSILON)
 	{
-	    if(_dis1>_dis2) return G_BACK_PLANE_S1;
-	    return G_BACK_PLANE_S2;
+		if(_dis1>_dis2) return G_BACK_PLANE_S1;
+		return G_BACK_PLANE_S2;
 	}
 
 	VEC_DIFF(clipped,s2,s1);
@@ -203,19 +203,19 @@ SIMD_FORCE_INLINE eLINE_PLANE_INTERSECTION_TYPE PLANE_CLIP_SEGMENT_CLOSEST(
 	{
 	case G_FRONT_PLANE_S1:
 		VEC_COPY(clipped1,s1);
-	    VEC_COPY(clipped2,s2);
+		VEC_COPY(clipped2,s2);
 		break;
 	case G_FRONT_PLANE_S2:
 		VEC_COPY(clipped1,s2);
-	    VEC_COPY(clipped2,s1);
+		VEC_COPY(clipped2,s1);
 		break;
 	case G_BACK_PLANE_S1:
 		VEC_COPY(clipped1,s1);
-	    VEC_COPY(clipped2,s2);
+		VEC_COPY(clipped2,s2);
 		break;
 	case G_BACK_PLANE_S2:
 		VEC_COPY(clipped1,s2);
-	    VEC_COPY(clipped2,s1);
+		VEC_COPY(clipped2,s1);
 		break;
 	case G_COLLIDE_PLANE_S1:
 		VEC_COPY(clipped2,s1);
@@ -247,7 +247,7 @@ SIMD_FORCE_INLINE bool RAY_PLANE_COLLISION(
 	_dotdir = VEC_DOT(plane,vDir);
 	if(_dotdir<PLANEDIREPSILON)
 	{
-	    return false;
+		return false;
 	}
 	_dis = DISTANCE_PLANE_POINT(plane,vPoint);
 	tparam = -_dis/_dotdir;
@@ -277,7 +277,7 @@ SIMD_FORCE_INLINE GUINT LINE_PLANE_COLLISION(
 	if(btFabs(_dotdir)<PLANEDIREPSILON)
 	{
 		tparam = tmax;
-	    return 0;
+		return 0;
 	}
 	_dis = DISTANCE_PLANE_POINT(plane,vPoint);
 	char returnvalue = _dis<0.0f?2:1;
@@ -300,7 +300,7 @@ SIMD_FORCE_INLINE GUINT LINE_PLANE_COLLISION(
 }
 
 /*! \brief Returns the Ray on which 2 planes intersect if they do.
-    Written by Rodrigo Hernandez on ODE convex collision
+	Written by Rodrigo Hernandez on ODE convex collision
 
   \param p1 Plane 1
   \param p2 Plane 2
@@ -317,8 +317,8 @@ SIMD_FORCE_INLINE bool INTERSECT_PLANES(
 		CLASS_POINT &d)
 {
 	VEC_CROSS(d,p1,p2);
-  	GREAL denom = VEC_DOT(d, d);
-  	if(GIM_IS_ZERO(denom)) return false;
+	GREAL denom = VEC_DOT(d, d);
+	if(GIM_IS_ZERO(denom)) return false;
 	vec3f _n;
 	_n[0]=p1[3]*p2[0] - p2[3]*p1[0];
 	_n[1]=p1[3]*p2[1] - p2[3]*p1[1];
@@ -339,23 +339,23 @@ SIMD_FORCE_INLINE void CLOSEST_POINT_ON_SEGMENT(
 	CLASS_POINT & cp, const CLASS_POINT & v,
 	const CLASS_POINT &e1,const CLASS_POINT &e2)
 {
-    vec3f _n;
-    VEC_DIFF(_n,e2,e1);
-    VEC_DIFF(cp,v,e1);
+	vec3f _n;
+	VEC_DIFF(_n,e2,e1);
+	VEC_DIFF(cp,v,e1);
 	GREAL _scalar = VEC_DOT(cp, _n);
 	_scalar/= VEC_DOT(_n, _n);
 	if(_scalar <0.0f)
 	{
-	    VEC_COPY(cp,e1);
+		VEC_COPY(cp,e1);
 	}
 	else if(_scalar >1.0f)
 	{
-	    VEC_COPY(cp,e2);
+		VEC_COPY(cp,e2);
 	}
 	else
 	{
-        VEC_SCALE(cp,_scalar,_n);
-        VEC_SUM(cp,cp,e1);
+		VEC_SCALE(cp,_scalar,_n);
+		VEC_SUM(cp,cp,e1);
 	}
 }
 
@@ -379,13 +379,13 @@ SIMD_FORCE_INLINE bool LINE_INTERSECTION_PARAMS(
 	CLASS_POINT &  point2,
 	T& t1,T& t2)
 {
-    GREAL det;
+	GREAL det;
 	GREAL e1e1 = VEC_DOT(dir1,dir1);
 	GREAL e1e2 = VEC_DOT(dir1,dir2);
 	GREAL e2e2 = VEC_DOT(dir2,dir2);
 	vec3f p1p2;
-    VEC_DIFF(p1p2,point1,point2);
-    GREAL p1p2e1 = VEC_DOT(p1p2,dir1);
+	VEC_DIFF(p1p2,point1,point2);
+	GREAL p1p2e1 = VEC_DOT(p1p2,dir1);
 	GREAL p1p2e2 = VEC_DOT(p1p2,dir2);
 	det = e1e2*e1e2 - e1e1*e2e2;
 	if(GIM_IS_ZERO(det)) return false;
@@ -404,80 +404,80 @@ SIMD_FORCE_INLINE void SEGMENT_COLLISION(
 	CLASS_POINT & vPointA,
 	CLASS_POINT & vPointB)
 {
-    CLASS_POINT _AD,_BD,_N;
-    vec4f _M;//plane
-    VEC_DIFF(_AD,vA2,vA1);
-    VEC_DIFF(_BD,vB2,vB1);
-    VEC_CROSS(_N,_AD,_BD);
-    GREAL _tp = VEC_DOT(_N,_N);
-    if(_tp<G_EPSILON)//ARE PARALELE
-    {
-    	//project B over A
-    	bool invert_b_order = false;
-    	_M[0] = VEC_DOT(vB1,_AD);
-    	_M[1] = VEC_DOT(vB2,_AD);
-    	if(_M[0]>_M[1])
-    	{
-    		invert_b_order  = true;
-    		GIM_SWAP_NUMBERS(_M[0],_M[1]);
-    	}
-    	_M[2] = VEC_DOT(vA1,_AD);
-    	_M[3] = VEC_DOT(vA2,_AD);
-    	//mid points
-    	_N[0] = (_M[0]+_M[1])*0.5f;
-    	_N[1] = (_M[2]+_M[3])*0.5f;
+	CLASS_POINT _AD,_BD,_N;
+	vec4f _M;//plane
+	VEC_DIFF(_AD,vA2,vA1);
+	VEC_DIFF(_BD,vB2,vB1);
+	VEC_CROSS(_N,_AD,_BD);
+	GREAL _tp = VEC_DOT(_N,_N);
+	if(_tp<G_EPSILON)//ARE PARALELE
+	{
+		//project B over A
+		bool invert_b_order = false;
+		_M[0] = VEC_DOT(vB1,_AD);
+		_M[1] = VEC_DOT(vB2,_AD);
+		if(_M[0]>_M[1])
+		{
+			invert_b_order  = true;
+			GIM_SWAP_NUMBERS(_M[0],_M[1]);
+		}
+		_M[2] = VEC_DOT(vA1,_AD);
+		_M[3] = VEC_DOT(vA2,_AD);
+		//mid points
+		_N[0] = (_M[0]+_M[1])*0.5f;
+		_N[1] = (_M[2]+_M[3])*0.5f;
 
-    	if(_N[0]<_N[1])
-    	{
-    		if(_M[1]<_M[2])
-    		{
-    			vPointB = invert_b_order?vB1:vB2;
-    			vPointA = vA1;
-    		}
-    		else if(_M[1]<_M[3])
-    		{
-    			vPointB = invert_b_order?vB1:vB2;
-    			CLOSEST_POINT_ON_SEGMENT(vPointA,vPointB,vA1,vA2);
-    		}
-    		else
-    		{
-    			vPointA = vA2;
-    			CLOSEST_POINT_ON_SEGMENT(vPointB,vPointA,vB1,vB2);
-    		}
-    	}
-    	else
-    	{
-    		if(_M[3]<_M[0])
-    		{
-    			vPointB = invert_b_order?vB2:vB1;
-    			vPointA = vA2;
-    		}
-    		else if(_M[3]<_M[1])
-    		{
-    			vPointA = vA2;
-    			CLOSEST_POINT_ON_SEGMENT(vPointB,vPointA,vB1,vB2);
-    		}
-    		else
-    		{
-    			vPointB = invert_b_order?vB1:vB2;
-    			CLOSEST_POINT_ON_SEGMENT(vPointA,vPointB,vA1,vA2);
-    		}
-    	}
-    	return;
-    }
+		if(_N[0]<_N[1])
+		{
+			if(_M[1]<_M[2])
+			{
+				vPointB = invert_b_order?vB1:vB2;
+				vPointA = vA1;
+			}
+			else if(_M[1]<_M[3])
+			{
+				vPointB = invert_b_order?vB1:vB2;
+				CLOSEST_POINT_ON_SEGMENT(vPointA,vPointB,vA1,vA2);
+			}
+			else
+			{
+				vPointA = vA2;
+				CLOSEST_POINT_ON_SEGMENT(vPointB,vPointA,vB1,vB2);
+			}
+		}
+		else
+		{
+			if(_M[3]<_M[0])
+			{
+				vPointB = invert_b_order?vB2:vB1;
+				vPointA = vA2;
+			}
+			else if(_M[3]<_M[1])
+			{
+				vPointA = vA2;
+				CLOSEST_POINT_ON_SEGMENT(vPointB,vPointA,vB1,vB2);
+			}
+			else
+			{
+				vPointB = invert_b_order?vB1:vB2;
+				CLOSEST_POINT_ON_SEGMENT(vPointA,vPointB,vA1,vA2);
+			}
+		}
+		return;
+	}
 
 
-    VEC_CROSS(_M,_N,_BD);
-    _M[3] = VEC_DOT(_M,vB1);
+	VEC_CROSS(_M,_N,_BD);
+	_M[3] = VEC_DOT(_M,vB1);
 
-    LINE_PLANE_COLLISION(_M,_AD,vA1,vPointA,_tp,btScalar(0), btScalar(1));
-    /*Closest point on segment*/
-    VEC_DIFF(vPointB,vPointA,vB1);
+	LINE_PLANE_COLLISION(_M,_AD,vA1,vPointA,_tp,btScalar(0), btScalar(1));
+	/*Closest point on segment*/
+	VEC_DIFF(vPointB,vPointA,vB1);
 	_tp = VEC_DOT(vPointB, _BD);
 	_tp/= VEC_DOT(_BD, _BD);
 	_tp = GIM_CLAMP(_tp,0.0f,1.0f);
-    VEC_SCALE(vPointB,_tp,_BD);
-    VEC_SUM(vPointB,vPointB,vB1);
+	VEC_SCALE(vPointB,_tp,_BD);
+	VEC_SUM(vPointB,vPointB,vB1);
 }
 
 
@@ -499,7 +499,7 @@ SIMD_FORCE_INLINE bool BOX_AXIS_INTERSECT(T pos, T dir,T bmin, T bmax, T & tfirs
 {
 	if(GIM_IS_ZERO(dir))
 	{
-        return !(pos < bmin || pos > bmax);
+		return !(pos < bmin || pos > bmax);
 	}
 	GREAL a0 = (bmin - pos) / dir;
 	GREAL a1 = (bmax - pos) / dir;

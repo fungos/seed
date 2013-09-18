@@ -174,6 +174,8 @@ SOURCES += source/Viewport.cpp \
 	source/platform/sdl/sdlMutex.cpp \
 	source/platform/sdl/sdlInput.cpp \
 	source/api/yajl/JsonWriter.cpp \
+	source/api/net/Address.cpp \
+	source/api/net/Socket.cpp \
 	source/Writer.cpp \
 	source/interface/IWriter.cpp \
 	source/interface/IDataObject.cpp \
@@ -212,6 +214,7 @@ SOURCES += source/Viewport.cpp \
 	source/api/ogl/oglES1ShaderProgram.cpp \
 	source/api/ogl/oglES2Shader.cpp \
 	source/api/ogl/oglES2ShaderProgram.cpp
+	source/map/TileSet.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -236,6 +239,7 @@ HEADERS += include/*.h \
 	include/api/ogl/*.h \
 	include/api/theora/*.h \
 	include/api/yajl/*.h \
+	include/api/net/*.h \
 	include/Writer.h \
 	include/interface/IWriter.h \
 	include/api/yajl/JsonWriter.h \
@@ -277,19 +281,4 @@ HEADERS += include/*.h \
 	include/api/ogl/oglES1ShaderProgram.h \
 	include/api/ogl/oglES2Shader.h \
 	include/api/ogl/oglES2ShaderProgram.h
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	include/map/TileSet.h

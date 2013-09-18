@@ -62,7 +62,7 @@ void IMapLayer::ReadProperties(Reader &reader)
 
 void IMapLayer::ReadMapLayer(Reader &reader)
 {
-	this->SetPosition(reader.ReadU32("x", 0), reader.ReadU32("y", 0));
+	this->SetPosition(static_cast<f32>(reader.ReadU32("x", 0)), static_cast<f32>(reader.ReadU32("y", 0)));
 	this->SetVisible(reader.ReadBool("visible", true));
 	this->SetOpacity(reader.ReadF32("opacity", 1.0f));
 	sName = reader.ReadString("name", "IMapLayer");

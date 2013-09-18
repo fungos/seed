@@ -85,8 +85,8 @@ bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 			}
 			else // rect
 			{
-				Free(pCached);
-				Free(pVertices);
+				sFree(pCached);
+				sFree(pVertices);
 				pVertices = (f32 *)Alloc(sizeof(f32) * 8);
 				pCached = (f32 *)Alloc(sizeof(f32) * 8);
 
@@ -117,15 +117,15 @@ bool IMetadataObject::Load(Reader &reader, ResourceManager *res)
 bool IMetadataObject::Write(Writer &writer)
 {
 	UNUSED(writer)
-	#warning IMPL - IMetadataObject::Write(Writer &writer)
+	//#pragma warning "IMPL - IMetadataObject::Write(Writer &writer)"
 	return true;
 }
 
 bool IMetadataObject::Unload()
 {
 	iVertices = 0;
-	Free(pCached);
-	Free(pVertices);
+	sFree(pCached);
+	sFree(pVertices);
 	Map<String, String>().swap(mProperties);
 
 	return true;
@@ -175,8 +175,8 @@ void IMetadataObject::ReadVertices(Reader &reader, u32 size)
 	if (!size)
 		return;
 
-	Free(pCached);
-	Free(pVertices);
+	sFree(pCached);
+	sFree(pVertices);
 	iVertices = size;
 	pVertices = (f32 *)Alloc(sizeof(f32) * size * 2); // POD
 	pCached = (f32 *)Alloc(sizeof(f32) * size * 2);
@@ -231,14 +231,15 @@ const f32 *IMetadataObject::GetVertices() const
 	return pVertices;
 }
 
-const String &IMetadataObject::GetProperty(const String &property) const
+const String IMetadataObject::GetProperty(const String &property) const
 {
-	return mProperties.at(property);
+	Map<String, String>::const_iterator it = mProperties.find(property);
+	return it == mProperties.end() ? "" : it->second;
 }
 
 bool IMetadataObject::CheckHit(const Rect4f &area, Rect4f &overlap) const
 {
-	#warning FIXME - Implementar em coordenadas de mundo
+	WARNING(FIXME - Implementar em coordenadas de mundo)
 	return area.GetOverlappedRect(rBox, overlap);
 }
 

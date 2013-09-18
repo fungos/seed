@@ -16,11 +16,11 @@ subject to the following restrictions:
 #ifndef BT_MANIFOLD_CONTACT_POINT_H
 #define BT_MANIFOLD_CONTACT_POINT_H
 
-#include "LinearMath/btVector3.h"
-#include "LinearMath/btTransformUtil.h"
+#include <bullet/LinearMath/btVector3.h>
+#include <bullet/LinearMath/btTransformUtil.h>
 
 #ifdef PFX_USE_FREE_VECTORMATH
-	#include "physics_effects/base_level/solver/pfx_constraint_row.h"
+	#include <bullet/physics_effects/base_level/solver/pfx_constraint_row.h>
 typedef sce::PhysicsEffects::PfxConstraintRow btConstraintRow;
 #else
 	// Don't change following order of parameters

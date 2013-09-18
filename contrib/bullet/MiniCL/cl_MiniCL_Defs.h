@@ -15,9 +15,9 @@ subject to the following restrictions:
 
 #include <float.h>
 #include <math.h>
-#include "LinearMath/btScalar.h"
+#include <bullet/LinearMath/btScalar.h>
 
-#include "MiniCL/cl.h"
+#include <bullet/MiniCL/cl.h>
 
 
 #define __kernel

@@ -50,6 +50,16 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define override
 #endif
 
+#define STRINGIZE_HELPER(x) #x
+#define STRINGIZE(x) STRINGIZE_HELPER(x)
+#define DO_PRAGMA(x) _Pragma (#x)
+
+#if BUILD_MESSAGES == 1
+#define WARNING(desc) DO_PRAGMA(message (__FILE__ "(" STRINGIZE(__LINE__) ") : warning: " #desc));
+#else
+#define WARNING(desc)
+#endif
+
 #define OV_EXCLUDE_STATIC_CALLBACKS
 
 #if defined(BUILD_SDL)
@@ -74,7 +84,11 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define SEED_EXTRA_API
 #endif
 
+#ifdef _MSC_VER
+#define UNUSED(var)
+#else
 #define UNUSED(var)						(void)var;
+#endif
 
 typedef std::string String;
 

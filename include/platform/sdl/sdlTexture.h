@@ -59,8 +59,9 @@ class SEED_CORE_API Texture : public ITexture
 		virtual u32 GetBytesPerPixel() const override;
 
 		virtual void Update(Color *buffer) override;
+		virtual void Close() override;
 		virtual void Reset() override;
-		virtual bool Load(const String &desc, u32 width, u32 height, Color *buffer = NULL, u32 atlasWidth = 0, u32 atlasHeight = 0, bool copy) override; // O que acontece no Reload?
+		virtual bool Load(const String &desc, u32 width, u32 height, Color *buffer = NULL, u32 atlasWidth = 0, u32 atlasHeight = 0, bool copy = false) override; // O que acontece no Reload?
 
 		virtual u32 GetAtlasWidth() const override;
 		virtual u32 GetAtlasHeight() const override;

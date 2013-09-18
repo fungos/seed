@@ -48,7 +48,7 @@ class SEED_CORE_API System : public ISystem
 		// ISystem
 		virtual void GoToMenu() override;
 		virtual void Sleep() override;
-		virtual void OnHomeCalled() override;
+		virtual void OnHomeCalled();
 		virtual void WaitForRetrace() override;
 		virtual void HangUp() override;
 		virtual void GoToDataManager() override;

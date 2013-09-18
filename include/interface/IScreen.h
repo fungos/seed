@@ -56,10 +56,10 @@ class SEED_CORE_API IScreen : public IModule
 		virtual bool IsFading() const;
 
 		/// Should not be used - internal only
-		virtual void ApplyFade() override;
+		virtual void ApplyFade();
 
 		/// Cancel current fade
-		virtual void CancelFade() override;
+		virtual void CancelFade();
 
 		/// Get the screen heigth
 		virtual u32 GetHeight() const;

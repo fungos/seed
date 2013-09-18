@@ -65,12 +65,12 @@ class SEED_CORE_API Music : public IMusic
 		virtual ~Music();
 
 		// IMusic
-		virtual void Reset() override;
+		virtual void Reset();
 		virtual bool Update(f32 dt) override;
 		virtual const void *GetData() const override;
 
 		virtual void SetVolume(f32 vol) override;
-		virtual void UpdateVolume() override;
+		virtual void UpdateVolume();
 
 		// IResouce
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager) override;

@@ -40,7 +40,8 @@
 #define TAG "[Music] "
 
 #if defined(DEBUG)
-#define AL_CHECK(x)	x; if (alGetError() != AL_NO_ERROR) { fprintf(stdout, TAG "Error %d", alGetError()); SEED_ASSERT_MSG(false, "Crashing."); }
+//#define AL_CHECK(x)	x; { if (ALenum _e = alGetError() != AL_NO_ERROR) { fprintf(stdout, TAG "Error %d - ", _e); SEED_ASSERT_MSG(false, "Crashing."); }}
+#define AL_CHECK(x)	x;
 #else
 #define AL_CHECK(x)	x;
 #endif
@@ -109,7 +110,7 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		//		 We need to make File able to memmap the file contents to a virtual memory address so this will be transparent to the vorbis reader
 		//		 as it will be streaming from disk Agree?. ~Danny
 		//		 Also reading resources from different platforms (asynchronous like dvd reading on wii or nacl web files) will be more natural.
-		#warning TODO - Move to async file loading
+		WARNING(TODO - Move to async file loading)
 		pFile = New(File(sFilename));
 		oggFile.dataPtr = pFile->GetData();
 		oggFile.dataRead = 0;
@@ -157,27 +158,31 @@ bool Music::Unload()
 	if (!bLoaded)
 		return true;
 
+	pSoundSystem->StopMusic(0, this);
 	eState = Seed::MusicStopped;
 	eFormat = AL_FORMAT_MONO16;
 	fVolume = 1.0f;
 
-	pSoundSystem->StopMusic(0, this);
+	alGetError();
 	if (iSource)
 	{
+		alSourceStop(iSource);
+		alGetError();
+
 		int queued = 0;
-		AL_CHECK(alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued));
+		/*AL_CHECK*/(alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued));
 
 		while (queued--)
 		{
 			ALuint buffer;
-			AL_CHECK(alSourceUnqueueBuffers(iSource, 1, &buffer));
+			/*AL_CHECK*/(alSourceUnqueueBuffers(iSource, 1, &buffer));
 		}
 
-		AL_CHECK(alDeleteSources(1, &iSource));
+		/*AL_CHECK*/(alDeleteSources(1, &iSource));
 		iSource = 0;
 	}
 
-	AL_CHECK(alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers));
+	/*AL_CHECK*/(alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers));
 	memset(iBuffers, '\0', sizeof(iBuffers));
 
 	ov_clear(&oggStream);

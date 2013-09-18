@@ -4,8 +4,8 @@ Copyright (c) 2003-2009 Erwin Coumans  http://bulletphysics.org
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -16,9 +16,9 @@ subject to the following restrictions:
 #ifndef BT_CYLINDER_MINKOWSKI_H
 #define BT_CYLINDER_MINKOWSKI_H
 
-#include "btBoxShape.h"
-#include "BulletCollision/BroadphaseCollision/btBroadphaseProxy.h" // for the types
-#include "LinearMath/btVector3.h"
+#include <bullet/BulletCollision/CollisionShapes/btBoxShape.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h> // for the types
+#include <bullet/LinearMath/btVector3.h>
 
 /// The btCylinderShape class implements a cylinder shape primitive, centered around the origin. Its central axis aligned with the Y axis. btCylinderShapeX is aligned with the X axis and btCylinderShapeZ around the Z axis.
 ATTRIBUTE_ALIGNED16(class) btCylinderShape : public btConvexInternalShape
@@ -40,14 +40,14 @@ BT_DECLARE_ALIGNED_ALLOCATOR();
 		halfExtents += margin;
 		return halfExtents;
 	}
-	
+
 	const btVector3& getHalfExtentsWithoutMargin() const
 	{
 		return m_implicitShapeDimensions;//changed in Bullet 2.63: assume the scaling and margin are included
 	}
 
 	btCylinderShape (const btVector3& halfExtents);
-	
+
 	void getAabb(const btTransform& t,btVector3& aabbMin,btVector3& aabbMax) const;
 
 	virtual void	calculateLocalInertia(btScalar mass,btVector3& inertia) const;
@@ -61,7 +61,7 @@ BT_DECLARE_ALIGNED_ALLOCATOR();
 		//correct the m_implicitShapeDimensions for the margin
 		btVector3 oldMargin(getMargin(),getMargin(),getMargin());
 		btVector3 implicitShapeDimensionsWithMargin = m_implicitShapeDimensions+oldMargin;
-		
+
 		btConvexInternalShape::setMargin(collisionMargin);
 		btVector3 newMargin(getMargin(),getMargin(),getMargin());
 		m_implicitShapeDimensions = implicitShapeDimensionsWithMargin - newMargin;
@@ -73,14 +73,14 @@ BT_DECLARE_ALIGNED_ALLOCATOR();
 
 		btVector3 supVertex;
 		supVertex = localGetSupportingVertexWithoutMargin(vec);
-		
+
 		if ( getMargin()!=btScalar(0.) )
 		{
 			btVector3 vecnorm = vec;
 			if (vecnorm .length2() < (SIMD_EPSILON*SIMD_EPSILON))
 			{
 				vecnorm.setValue(btScalar(-1.),btScalar(-1.),btScalar(-1.));
-			} 
+			}
 			vecnorm.normalize();
 			supVertex+= getMargin() * vecnorm;
 		}
@@ -138,12 +138,12 @@ class btCylinderShapeX : public btCylinderShape
 {
 public:
 	BT_DECLARE_ALIGNED_ALLOCATOR();
-	
+
 	btCylinderShapeX (const btVector3& halfExtents);
 
 	virtual btVector3	localGetSupportingVertexWithoutMargin(const btVector3& vec)const;
 	virtual void	batchedUnitVectorGetSupportingVertexWithoutMargin(const btVector3* vectors,btVector3* supportVerticesOut,int numVectors) const;
-	
+
 		//debugging
 	virtual const char*	getName()const
 	{
@@ -161,7 +161,7 @@ class btCylinderShapeZ : public btCylinderShape
 {
 public:
 	BT_DECLARE_ALIGNED_ALLOCATOR();
-	
+
 	btCylinderShapeZ (const btVector3& halfExtents);
 
 	virtual btVector3	localGetSupportingVertexWithoutMargin(const btVector3& vec)const;
@@ -199,11 +199,11 @@ SIMD_FORCE_INLINE	int	btCylinderShape::calculateSerializeBufferSize() const
 SIMD_FORCE_INLINE	const char*	btCylinderShape::serialize(void* dataBuffer, btSerializer* serializer) const
 {
 	btCylinderShapeData* shapeData = (btCylinderShapeData*) dataBuffer;
-	
+
 	btConvexInternalShape::serialize(&shapeData->m_convexInternalShapeData,serializer);
 
 	shapeData->m_upAxis = m_upAxis;
-	
+
 	return "btCylinderShapeData";
 }
 

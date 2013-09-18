@@ -81,7 +81,7 @@ void Texture::Reset()
 	this->UnloadTexture();
 
 	if (bCopy)
-		Free(pData);
+		sFree(pData);
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);
@@ -112,7 +112,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		SDL_RWops *rwops = SDL_RWFromConstMem(pFile->GetData(), pFile->GetSize());
 
 		size_t extpos = SDL_strlen(pFile->GetName().c_str());
-		char *ext = pFile->GetName().c_str() - 3;
+		const char *ext = pFile->GetName().c_str() - 3;
 		ext = &ext[extpos];
 
 		u32 format = PNG;
@@ -121,7 +121,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		else if (!SDL_strcasecmp(pImageFormatTable[JPG], ext))
 			format = JPG;
 
-		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, pImageFormatTable[format]);
+		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, const_cast<char *>(pImageFormatTable[format]));
 
 		if (!tmp)
 		{
@@ -217,8 +217,10 @@ bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32
 {
 	if (buffer)
 	{
+#ifndef _MSC_VER
 		SEED_ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
 		SEED_ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
+#endif
 	}
 
 	if (this->Unload())
@@ -261,7 +263,7 @@ void Texture::Close()
 	ITexture::Close();
 
 	if (bCopy)
-		Free(pData);
+		sFree(pData);
 
 	bCopy = false;
 }
@@ -283,7 +285,7 @@ bool Texture::Unload()
 		this->UnloadTexture();
 
 	if (bCopy)
-		Free(pData);
+		sFree(pData);
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);

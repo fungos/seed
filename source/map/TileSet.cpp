@@ -150,7 +150,7 @@ bool TileSet::Load(Reader &reader, ResourceManager *res)
 bool TileSet::Write(Writer &writer)
 {
 	UNUSED(writer)
-	#warning IMPL - TileSet::Write(Writer &writer)
+	//#pragma warning ("IMPL - TileSet::Write(Writer &writer)")
 	return true;
 }
 
@@ -170,10 +170,15 @@ u32 TileSet::GetFirstTileId() const
 
 const Rect4f *TileSet::GetTileUV(u32 tileId) const
 {
-	SEED_ASSERT_MSG((s32)tileId - (s32)iFirstId >= 0, "Wrong tile id.");
-	Rect4f *ret = &pTileUV[tileId - iFirstId];
+	Rect4f *ret = NULL;
 
-	SEED_ASSERT_MSG(ret, "No tile with given id");
+	if (tileId)
+	{
+		SEED_ASSERT_MSG((s32)tileId - (s32)iFirstId >= 0, "Wrong tile id.");
+		ret = &pTileUV[tileId - iFirstId];
+		SEED_ASSERT_MSG(ret, "No tile with given id");
+	}
+
 	return ret;
 }
 

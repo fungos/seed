@@ -155,7 +155,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 			}
 		}
 
-		Free(sharedTestMemory);
+		sFree(sharedTestMemory);
 	}
 
 	if (error == Seed::ErrorNone)
@@ -178,7 +178,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 			}
 		}
 
-		Free(slotTestMemory);
+		sFree(slotTestMemory);
 	}
 
 	bIsSaving = false;

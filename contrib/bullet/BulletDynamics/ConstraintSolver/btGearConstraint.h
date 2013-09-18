@@ -4,8 +4,8 @@ Copyright (c) 2012 Advanced Micro Devices, Inc.  http://bulletphysics.org
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -18,7 +18,7 @@ subject to the following restrictions:
 #ifndef BT_GEAR_CONSTRAINT_H
 #define BT_GEAR_CONSTRAINT_H
 
-#include "BulletDynamics/ConstraintSolver/btTypedConstraint.h"
+#include <bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h>
 ///The btGeatConstraint will couple the angular velocity for two bodies around given local axis and ratio.
 ///See Bullet/Demos/ConstraintDemo for an example use.
 class btGearConstraint : public btTypedConstraint
@@ -39,14 +39,19 @@ public:
 	///internal method used by the constraint solver, don't use them directly
 	virtual void getInfo2 (btConstraintInfo2* info);
 
-	virtual	void	setParam(int num, btScalar value, int axis = -1) 
+	virtual	void	setParam(int num, btScalar value, int axis = -1)
 	{
+		(void)num;
+		(void)value;
+		(void)axis;
 		btAssert(0);
 	};
 
 	///return the local value of parameter
-	virtual	btScalar getParam(int num, int axis = -1) const 
-	{ 
+	virtual	btScalar getParam(int num, int axis = -1) const
+	{
+		(void)num;
+		(void)axis;
 		btAssert(0);
 		return 0.f;
 	}

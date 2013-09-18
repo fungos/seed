@@ -19,7 +19,7 @@ Written by: Marten Svanfeldt
 #define	BT_SPU_SYNC_H
 
 
-#include "PlatformDefinitions.h"
+#include <bullet/PlatformDefinitions.h>
 
 
 #if defined(WIN32)

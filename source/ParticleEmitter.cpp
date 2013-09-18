@@ -99,7 +99,7 @@ bool ParticleEmitter::Unload()
 	iParticlesAmount = 0;
 	DeleteArray(arParticles);
 	Delete(pTemplate);
-	Free(pVertex);
+	sFree(pVertex);
 
 	fInterval = 0.0f;
 	iAnimation = 0;
@@ -285,11 +285,12 @@ void ParticleEmitter::Update(f32 deltaTime)
 
 	if (pTemplate)
 	{
-		ITexture *img = pTemplate->GetTexture();
-		if (img)
+		pTemplate->Update(deltaTime);
+		pTexture = pTemplate->GetTexture();
+		if (pTexture)
 		{
-			img->SetFilter(TextureFilterTypeMag, nMagFilter);
-			img->SetFilter(TextureFilterTypeMin, nMinFilter);
+			pTexture->SetFilter(TextureFilterTypeMag, nMagFilter);
+			pTexture->SetFilter(TextureFilterTypeMin, nMinFilter);
 		}
 
 		memset(pVertex, '\0', sizeof(sVertex) * 6 * iParticlesAmount);
@@ -384,14 +385,9 @@ void ParticleEmitter::SetSprite(const String &filename)
 	pJobManager->Add(New(FileLoader(sSprite, (u32)kLoadSprite, this)));
 }
 
-void ParticleEmitter::SetAnimation(u32 anim)
+Sprite *ParticleEmitter::GetSprite() const
 {
-	iAnimation = anim;
-	if (pTemplate)
-	{
-		pTemplate->SetAnimation(anim);
-		pTexture = pTemplate->GetTexture();
-	}
+	return pTemplate;
 }
 
 void ParticleEmitter::Play()
@@ -585,6 +581,9 @@ bool ParticleEmitter::Load(Reader &reader, ResourceManager *res)
 
 bool ParticleEmitter::Write(Writer &writer)
 {
+	if (pTemplate)
+		iAnimation = pTemplate->GetCurrentAnimation();
+
 	writer.OpenNode();
 		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
@@ -658,6 +657,7 @@ void ParticleEmitter::OnJobCompleted(const EventJob *ev)
 			pTemplate = New(Sprite);
 			pTemplate->Load(r, pRes);
 			pTemplate->SetAnimation(iAnimation);
+			pTemplate->Play();
 			pTexture = pTemplate->GetTexture();
 
 			fParticleWidhtHalf = pTemplate->GetWidth() / 2.0f;

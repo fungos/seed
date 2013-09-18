@@ -136,7 +136,7 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 				tiled->Load(reader, res);
 				tiled->SetTileSize(ptTileSize);
 				tiled->SetTileSet(vTileSets.at(0));
-				tiled->SetPosition(-100, -100);
+				//tiled->SetPosition(-100, -100);
 				tiled->Update(0.0f);
 			}
 		}
@@ -165,8 +165,8 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 	}
 	reader.UnselectArray();
 
-	this->SetWidth(ptMapSize.x * ptTileSize.x);
-	this->SetHeight(ptMapSize.y * ptTileSize.y);
+	this->SetWidth(static_cast<f32>(ptMapSize.x * ptTileSize.x));
+	this->SetHeight(static_cast<f32>(ptMapSize.y * ptTileSize.y));
 
 	return true;
 }
@@ -174,7 +174,7 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 bool GameMap::Write(Writer &writer)
 {
 	UNUSED(writer)
-	#warning IMPL - GameMap::Write(Writer &writer)
+	//#pragma warning "IMPL - GameMap::Write(Writer &writer)"
 	return true;
 }
 
@@ -307,9 +307,11 @@ int GameMap::GetLayerCount() const
 	return vLayers.Size();
 }
 
-const String &GameMap::GetProperty(const String &property) const
+const String GameMap::GetProperty(const String &property) const
 {
-	return mProperties.at(property);
+	Map<String, String>::const_iterator it = mProperties.find(property);
+
+	return mProperties.end() == it ? "" : it->second;
 }
 
 const String GameMap::GetClassName() const

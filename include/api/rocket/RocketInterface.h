@@ -45,6 +45,8 @@
 #include <Rocket/Core/FileInterface.h>
 #include <Rocket/Core/SystemInterface.h>
 #include <Rocket/Core/Context.h>
+#include <Rocket/Core/EventListenerInstancer.h>
+#include <Rocket/Core/EventListener.h>
 
 namespace Seed { namespace RocketGui {
 
@@ -127,6 +129,56 @@ class SEED_CORE_API RocketInterface :
 		ElementBuffer cElementBuffer;
 		Rocket::Core::Context *pCurrent;
 		u32 iModifierState;
+};
+
+class SEED_CORE_API RocketEventInstancer : public Rocket::Core::EventListenerInstancer
+{
+	public:
+		RocketEventInstancer();
+		virtual ~RocketEventInstancer();
+
+		/// Instances a new event
+		virtual Rocket::Core::EventListener *InstanceEventListener(const Rocket::Core::String &value, Rocket::Core::Element *element);
+
+		/// Destroys the instancer.
+		virtual void Release();
+};
+
+class SEED_CORE_API IRocketEventListener
+{
+	public:
+		IRocketEventListener() {}
+		virtual ~IRocketEventListener() {}
+
+		virtual void OnGuiEvent(Rocket::Core::Event &event, const Rocket::Core::String &script) = 0;
+};
+
+class SEED_CORE_API RocketEventManager
+{
+	DECLARE_CONTAINER_TYPE(Vector, IRocketEventListener)
+	public:
+		static void AddListener(IRocketEventListener *listener);
+		static void RemoveListener(IRocketEventListener *listener);
+		static void SendEvent(Rocket::Core::Event &event, const Rocket::Core::String &value);
+
+	private:
+		static IRocketEventListenerVector vListeners;
+};
+
+class SEED_CORE_API RocketEvent : public Rocket::Core::EventListener
+{
+	public:
+		RocketEvent(const Rocket::Core::String &value);
+		virtual ~RocketEvent();
+
+		/// Sends the event value through our event processing system.
+		virtual void ProcessEvent(Rocket::Core::Event &event);
+
+		/// Destroys the event.
+		virtual void OnDetach(Rocket::Core::Element *element);
+
+	private:
+		Rocket::Core::String sValue;
 };
 
 }} // namespace

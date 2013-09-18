@@ -51,7 +51,7 @@ MapLayerTiled::MapLayerTiled()
 	, ptMapSizeHalf(0.0f, 0.0f)
 	, bRebuildMesh(false)
 {
-	cVertexBuffer.Configure(BufferUsageNeverChange);
+	cVertexBuffer.Configure(BufferUsageNeverChange, ElementTypeInt);
 	cElementBuffer.Configure(BufferUsageNeverChange, ElementTypeInt);
 }
 
@@ -65,9 +65,9 @@ MapLayerTiled::~MapLayerTiled()
 
 bool MapLayerTiled::Unload()
 {
-	Free(pElements)
-	Free(pVertex);
-	Free(pTileData);
+	sFree(pElements);
+	sFree(pVertex);
+	sFree(pTileData);
 	pTileSet = NULL;
 
 	return true;
@@ -104,7 +104,7 @@ void MapLayerTiled::LoadData(Reader &reader, u32 len)
 	{
 		if (iDataLen != len)
 		{
-			Free(pTileData);
+			sFree(pTileData);
 			pTileData = (u32 *)Alloc(sizeof(u32) * len);
 		}
 
@@ -116,7 +116,7 @@ void MapLayerTiled::LoadData(Reader &reader, u32 len)
 	}
 
 	if (!len)
-		Free(pTileData);
+		sFree(pTileData);
 
 	iDataLen = len;
 	bRebuildMesh = true;
@@ -127,16 +127,16 @@ void MapLayerTiled::Update(f32 dt)
 	UNUSED(dt)
 	if (bRebuildMesh && pTileSet && pTileData)
 	{
-		this->SetWidth(ptMapSize.x * ptTileSize.x);
-		this->SetHeight(ptMapSize.y * ptTileSize.y);
+		this->SetWidth(static_cast<f32>(ptMapSize.x * ptTileSize.x));
+		this->SetHeight(static_cast<f32>(ptMapSize.y * ptTileSize.y));
 
 		u32 vertexAmount = ptMapSize.x * ptMapSize.y * 4;
 		u32 elementAmount = ptMapSize.x * ptMapSize.y * 6;
 
 		if (bResizeMap)
 		{
-			Free(pElements);
-			Free(pVertex);
+			sFree(pElements);
+			sFree(pVertex);
 
 			pVertex = (sVertex *)Alloc(sizeof(sVertex) * vertexAmount);
 			pElements = (u32 *)Alloc(sizeof(u32) * elementAmount);
@@ -155,51 +155,53 @@ void MapLayerTiled::Update(f32 dt)
 		u32 i = 0;
 		Color c(255, 255, 255, 255);
 
-		f32 curY = -ptMapSizeHalf.x;
+		f32 curY = -ptMapSizeHalf.y;
 		for (u32 y = 0; y < ptMapSize.y; y++)
 		{
-			f32 curX = -ptMapSizeHalf.y;
+			f32 curX = -ptMapSizeHalf.x;
 			for (u32 x = 0; x < ptMapSize.x; x++)
 			{
 				const Rect4f *uv = pTileSet->GetTileUV(pTileData[i]);
+				if (uv)
+				{
+					f32 tx = ptTileSize.x * curX;
+					f32 ty = ptTileSize.y * curY;
 
-				f32 tx = ptTileSize.x * curX;
-				f32 ty = ptTileSize.y * curY;
+					pVertex[v + 0].cCoords.x = uv->x1;
+					pVertex[v + 0].cCoords.y = uv->y1;
+					pVertex[v + 0].cColor = c;
+					pVertex[v + 0].cVertex = Vector3f(tx - halfTileW, ty - halfTileH, 1.0f);
+					pVertex[v + 1].cCoords.x = uv->x2;
+					pVertex[v + 1].cCoords.y = uv->y1;
+					pVertex[v + 1].cColor = c;
+					pVertex[v + 1].cVertex = Vector3f(tx + halfTileW, ty - halfTileH, 1.0f);
+					pVertex[v + 2].cCoords.x = uv->x1;
+					pVertex[v + 2].cCoords.y = uv->y2;
+					pVertex[v + 2].cColor = c;
+					pVertex[v + 2].cVertex = Vector3f(tx - halfTileW, ty + halfTileH, 1.0f);
+					pVertex[v + 3].cCoords.x = uv->x2;
+					pVertex[v + 3].cCoords.y = uv->y2;
+					pVertex[v + 3].cColor = c;
+					pVertex[v + 3].cVertex = Vector3f(tx + halfTileW, ty + halfTileH, 1.0f);
 
-				pVertex[v + 0].cCoords.x = uv->x1;
-				pVertex[v + 0].cCoords.y = uv->y1;
-				pVertex[v + 0].cColor = c;
-				pVertex[v + 0].cVertex = Vector3f(tx - halfTileW, ty - halfTileH, 1.0f);
-				pVertex[v + 1].cCoords.x = uv->x2;
-				pVertex[v + 1].cCoords.y = uv->y1;
-				pVertex[v + 1].cColor = c;
-				pVertex[v + 1].cVertex = Vector3f(tx + halfTileW, ty - halfTileH, 1.0f);
-				pVertex[v + 2].cCoords.x = uv->x1;
-				pVertex[v + 2].cCoords.y = uv->y2;
-				pVertex[v + 2].cColor = c;
-				pVertex[v + 2].cVertex = Vector3f(tx - halfTileW, ty + halfTileH, 1.0f);
-				pVertex[v + 3].cCoords.x = uv->x2;
-				pVertex[v + 3].cCoords.y = uv->y2;
-				pVertex[v + 3].cColor = c;
-				pVertex[v + 3].cVertex = Vector3f(tx + halfTileW, ty + halfTileH, 1.0f);
+					pElements[e + 0] = v + 0;
+					pElements[e + 1] = v + 1;
+					pElements[e + 2] = v + 2;
+					pElements[e + 3] = v + 1;
+					pElements[e + 4] = v + 2;
+					pElements[e + 5] = v + 3;
 
-				pElements[e + 0] = v + 0;
-				pElements[e + 1] = v + 1;
-				pElements[e + 2] = v + 2;
-				pElements[e + 3] = v + 1;
-				pElements[e + 4] = v + 2;
-				pElements[e + 5] = v + 3;
-
+					v += 4;
+					e += 6;
+				}
 				i++;
-				v += 4;
-				e += 6;
 				curX++;
 			}
 			curY++;
 		}
 
-		cVertexBuffer.SetData(pVertex, vertexAmount);
-		cElementBuffer.SetData(pElements, elementAmount);
+		cVertexBuffer.SetData(pVertex, v);
+		cElementBuffer.SetData(pElements, e);
 
 		bRebuildMesh = false;
 		bTransformationChanged = true;

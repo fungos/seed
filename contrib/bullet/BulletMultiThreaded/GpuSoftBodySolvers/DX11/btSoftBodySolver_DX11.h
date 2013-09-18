@@ -17,12 +17,12 @@ subject to the following restrictions:
 #define BT_ACCELERATED_SOFT_BODY_DX11_SOLVER_H
 
 
-#include "vectormath/vmInclude.h"
-#include "BulletSoftBody/btSoftBodySolvers.h"
-#include "btSoftBodySolverVertexBuffer_DX11.h"
-#include "btSoftBodySolverLinkData_DX11.h"
-#include "btSoftBodySolverVertexData_DX11.h"
-#include "btSoftBodySolverTriangleData_DX11.h"
+#include <bullet/vectormath/vmInclude.h>
+#include <bullet/BulletSoftBody/btSoftBodySolvers.h>
+#include <bullet/btSoftBodySolverVertexBuffer_DX11.h>
+#include <bullet/btSoftBodySolverLinkData_DX11.h>
+#include <bullet/btSoftBodySolverVertexData_DX11.h>
+#include <bullet/btSoftBodySolverTriangleData_DX11.h>
 
 
 

@@ -207,7 +207,7 @@ bool system_check_multiple_instance()
 		}
 	}
 #else
-	#warning "Implementar 'system_check_multiple_instance' no Qt"
+	WARNING(Implementar 'system_check_multiple_instance' no Qt)
 #endif
 	return true;
 }

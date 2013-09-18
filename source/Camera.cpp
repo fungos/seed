@@ -76,7 +76,7 @@ bool Camera::Contains(ITransformable *obj, Matrix4f &worldMatrix)
 void Camera::SetView(const Rect4f &rect)
 {
 	rViewArea = rect;
-	rBoundingBox = Rect4f(0.0f, 0.0f, pScreen->GetWidth(), pScreen->GetHeight());
+	rBoundingBox = Rect4f(0.0f, 0.0f, static_cast<f32>(pScreen->GetWidth()), static_cast<f32>(pScreen->GetHeight()));
 }
 
 void Camera::Update(f32 delta)
@@ -120,7 +120,7 @@ void Camera::Render(const Matrix4f &worldTransform)
 {
 	UNUSED(worldTransform)
 
-	#warning IMPL - Camera::Render(const Matrix4f &worldTransform) - Camera representation
+	WARNING(IMPL - Camera::Render(const Matrix4f &worldTransform) - Camera representation)
 //	RendererPacket packet;
 //	packet.iSize = iNumVertices;
 //	packet.nMeshType = nMeshType;
@@ -172,7 +172,7 @@ bool Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)
 	UNUSED(obj)
 	UNUSED(worldTransform)
 
-	#warning IMPL - Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)
+	WARNING(IMPL - Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform))
 
 	return true;
 }

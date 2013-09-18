@@ -258,7 +258,7 @@ if (*offset >= jsonTextLen) { \
  *  review.  return the number of chars that are uninteresting and can
  *  be skipped.
  * (lth) hi world, any thoughts on how to make this routine faster? */
-inline static size_t
+static size_t
 yajl_string_scan(const unsigned char * buf, size_t len, int utf8check)
 {
 	unsigned char mask = IJC|NFP|(utf8check ? NUC : 0);
@@ -376,7 +376,7 @@ yajl_lex_string(yajl_lexer lexer, const unsigned char * jsonText,
  *  further review. return the number of chars that are uninteresting
  *  and can be skipped.
  * (lth) hi world, any thoughts on how to make this routine faster? */
-inline static size_t
+static size_t
 yajl_unquoted_string_scan(const unsigned char * buf, size_t len,
 						  int utf8check)
 {

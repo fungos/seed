@@ -1,0 +1,16 @@
+{
+	sType: SceneNode
+	sName: Main
+	aObjects: [
+		{
+			sType: sprite
+			sInclude: sprite_panda.sprite
+		}
+		{
+			sType: Camera
+			sName: MainCamera
+			sProjection: Orthogonal
+			cPosition: {x: -400, y: -300}
+		}
+	]
+}

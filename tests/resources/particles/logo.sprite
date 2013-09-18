@@ -5,7 +5,7 @@
 		{
 			"aFrames": [
 				{
-					"sTexture": "logo.tga"
+					"sResource": "logo.tga"
 				}
 			]
 		}

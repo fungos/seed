@@ -154,7 +154,7 @@ bool ITexture::Load(const String &filename, ResourceManager *res)
 		pRes = res;
 		sFilename = filename;
 
-		#warning TODO - Move to async file loading
+		WARNING(TODO - Move to async file loading)
 		pFile = New(File(filename));
 		ret = (pFile->GetData() != NULL);
 	}

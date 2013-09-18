@@ -18,7 +18,7 @@ subject to the following restrictions:
 #define MINKOWSKI_PENETRATION_DEPTH_SOLVER_H
 
 
-#include "BulletCollision/NarrowPhaseCollision/btConvexPenetrationDepthSolver.h"
+#include <bullet/BulletCollision/NarrowPhaseCollision/btConvexPenetrationDepthSolver.h>
 
 class btStackAlloc;
 class btIDebugDraw;

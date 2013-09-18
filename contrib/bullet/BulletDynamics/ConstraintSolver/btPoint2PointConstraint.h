@@ -4,8 +4,8 @@ Copyright (c) 2003-2006 Erwin Coumans  http://continuousphysics.com/Bullet/
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -16,9 +16,9 @@ subject to the following restrictions:
 #ifndef BT_POINT2POINTCONSTRAINT_H
 #define BT_POINT2POINTCONSTRAINT_H
 
-#include "LinearMath/btVector3.h"
-#include "btJacobianEntry.h"
-#include "btTypedConstraint.h"
+#include <bullet/LinearMath/btVector3.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btJacobianEntry.h>
+#include <bullet/BulletDynamics/ConstraintSolver/btTypedConstraint.h>
 
 class btRigidBody;
 
@@ -57,14 +57,14 @@ ATTRIBUTE_ALIGNED16(class) btPoint2PointConstraint : public btTypedConstraint
 public:
 #endif
 	btJacobianEntry	m_jac[3]; //3 orthogonal linear constraints
-	
+
 	btVector3	m_pivotInA;
 	btVector3	m_pivotInB;
-	
+
 	int			m_flags;
 	btScalar	m_erp;
 	btScalar	m_cfm;
-	
+
 public:
 
 	BT_DECLARE_ALIGNED_ALLOCATOR();
@@ -111,7 +111,7 @@ public:
 		return m_pivotInB;
 	}
 
-	///override the default global value of a parameter (such as ERP or CFM), optionally provide the axis (0..5). 
+	///override the default global value of a parameter (such as ERP or CFM), optionally provide the axis (0..5).
 	///If no axis is provided, it uses the default axis for this constraint.
 	virtual	void	setParam(int num, btScalar value, int axis = -1);
 	///return the local value of parameter

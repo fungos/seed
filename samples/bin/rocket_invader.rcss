@@ -56,7 +56,7 @@ div#title_bar span
 	font-weight: bold;
 
 	outline-font-effect: outline;
-	outline-width: 1px;
+	outline-width: 2px;
 	outline-color: black;
 
 	background-decorator: tiled-horizontal;

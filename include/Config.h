@@ -1,6 +1,8 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
+#include "LocalDefines.h"
+
 #if defined(SEED_BUILD)
 	#if !defined(SEED_USE_STATIC)
 		#define SEED_BUILD_SHARED	1

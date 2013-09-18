@@ -104,6 +104,7 @@ Sprite::Sprite(const Sprite &other)
 	cVertex[1] = other.cVertex[1];
 	cVertex[2] = other.cVertex[2];
 	cVertex[3] = other.cVertex[3];
+	cVertexBuffer.SetData(cVertex, 4);
 
 	// ITransformable
 	pParent = other.pParent;
@@ -143,6 +144,7 @@ Sprite &Sprite::operator=(const Sprite &other)
 		cVertex[1] = other.cVertex[1];
 		cVertex[2] = other.cVertex[2];
 		cVertex[3] = other.cVertex[3];
+		cVertexBuffer.SetData(cVertex, 4);
 
 		bInitialized = other.bInitialized;
 		bChanged = other.bChanged;
@@ -238,8 +240,8 @@ void Sprite::ReconfigureFrame()
 {
 	SEED_ASSERT(pFrameTexture);
 
-	ITransformable::SetWidth(pFrame->iWidth);
-	ITransformable::SetHeight(pFrame->iHeight);
+	ITransformable::SetWidth(static_cast<f32>(pFrame->iWidth));
+	ITransformable::SetHeight(static_cast<f32>(pFrame->iHeight));
 
 	f32 u0, u1, v0, v1;
 
@@ -323,12 +325,12 @@ u32 Sprite::GetAnimationCount() const
 	return (u32)vAnimations.Size();
 }
 
-u32 Sprite::GetAnimation() const
+u32 Sprite::GetCurrentAnimation() const
 {
 	return iCurrentAnimation;
 }
 
-const String Sprite::GetAnimationName() const
+const String Sprite::GetCurrentAnimationName() const
 {
 	String ret;
 	if (pAnimation)
@@ -493,6 +495,8 @@ void Sprite::Update(f32 delta)
 		cVertex[2].cColor = p;
 		cVertex[3].cColor = p;
 	}
+
+	cVertexBuffer.SetData(cVertex, 4);
 }
 
 void Sprite::Render(const Matrix4f &worldTransform)
@@ -635,7 +639,7 @@ bool Sprite::Write(Writer &writer)
 	writer.OpenNode();
 		writer.WriteString("sType", this->GetClassName().c_str());
 		writer.WriteString("sName", sName.c_str());
-		writer.WriteS32("iAnimation", this->GetAnimation());
+		writer.WriteS32("iAnimation", this->GetCurrentAnimation());
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);

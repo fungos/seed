@@ -78,7 +78,7 @@ bool  File::Unload()
 bool File::Open()
 {
 	bool ret = true;
-	SEED_ASSERT_MSG(sFilename.length(), TAG "Error: No filename was given to open file!");
+	SEED_ASSERT_MSG(sFilename.length(), "Error: No filename was given to open file!");
 	pHandle = PHYSFS_openRead(sFilename.c_str());
 	if (!pHandle)
 	{
@@ -106,7 +106,7 @@ bool File::Check() const
 	bool ret = true;
 	if (!pHandle)
 	{
-		Log(TAG, "Error: Invalid handle, open the file before call this function");
+		Log(TAG "Error: Invalid handle, open the file before call this function");
 		ret = false;
 	}
 
@@ -115,7 +115,7 @@ bool File::Check() const
 
 u8 *File::GetData() const
 {
-	#warning FIXME - mutex lock guard here
+	WARNING(FIXME - mutex lock guard here)
 	if (pData)
 		return pData;
 
@@ -174,6 +174,7 @@ bool FileLoader::Run()
 	{
 		pFile = New(File(sFilename));
 		pFile->GetData();
+		Log("[FileJob] Loading file %s (%d bytes)", sFilename.c_str(), pFile->GetSize());
 
 		cMutex.Lock();
 		nState = JobCompleted;

@@ -112,7 +112,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListe
 
 		virtual void Reset();
 		virtual void SetSprite(const String &filename);
-		virtual void SetAnimation(u32 anim);
+		virtual Sprite *GetSprite() const;
 
 		virtual void SetFilter(eTextureFilterType type, eTextureFilter filter);
 		virtual const EmitterConfiguration &GetConfig() const;

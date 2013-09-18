@@ -1,0 +1,12 @@
+{
+	sType: SceneNode
+	sName: MainScene
+	aObjects: [
+		{
+			sType: Camera
+			sName: MainCamera
+			sProjection: Orthogonal
+			cPosition: {x: -400, y: -300}
+		}
+	]
+}

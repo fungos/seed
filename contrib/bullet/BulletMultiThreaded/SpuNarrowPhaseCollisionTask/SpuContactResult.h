@@ -4,8 +4,8 @@ Copyright (c) 2003-2006 Erwin Coumans  http://continuousphysics.com/Bullet/
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -23,14 +23,14 @@ subject to the following restrictions:
 
 
 
-#include "../SpuDoubleBuffer.h"
+#include <bullet/BulletMultiThreaded/SpuDoubleBuffer.h>
 
 
-#include "LinearMath/btTransform.h"
+#include <bullet/LinearMath/btTransform.h>
 
 
-#include "BulletCollision/NarrowPhaseCollision/btPersistentManifold.h"
-#include "BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h"
+#include <bullet/BulletCollision/NarrowPhaseCollision/btPersistentManifold.h>
+#include <bullet/BulletCollision/NarrowPhaseCollision/btDiscreteCollisionDetectorInterface.h>
 
 class btCollisionShape;
 
@@ -44,13 +44,13 @@ struct SpuCollisionPairInput
 	btVector3	m_primitiveDimensions0;
 	btVector3	m_primitiveDimensions1;
 	int		m_shapeType0;
-	int		m_shapeType1;	
+	int		m_shapeType1;
 	float	m_collisionMargin0;
 	float	m_collisionMargin1;
 
 	btTransform	m_worldTransform0;
 	btTransform m_worldTransform1;
-	
+
 	bool	m_isSwapped;
 	bool    m_useEpa;
 };
@@ -65,15 +65,15 @@ struct SpuClosestPointInput : public btDiscreteCollisionDetectorInterface::Close
 ///So when an existing contact point is duplicated, no transfer/refresh is performed.
 class SpuContactResult : public btDiscreteCollisionDetectorInterface::Result
 {
-    btTransform		m_rootWorldTransform0;
+	btTransform		m_rootWorldTransform0;
 	btTransform		m_rootWorldTransform1;
 	ppu_address_t	m_manifoldAddress;
 
-    btPersistentManifold* m_spuManifold;
+	btPersistentManifold* m_spuManifold;
 	bool m_RequiresWriteBack;
 	btScalar	m_combinedFriction;
 	btScalar	m_combinedRestitution;
-	
+
 	bool m_isSwapped;
 
 	DoubleBuffer<btPersistentManifold, 1> g_manifoldDmaExport;
@@ -93,9 +93,9 @@ class SpuContactResult : public btDiscreteCollisionDetectorInterface::Result
 		void	setContactInfo(btPersistentManifold* spuManifold, ppu_address_t	manifoldAddress,const btTransform& worldTrans0,const btTransform& worldTrans1, btScalar restitution0,btScalar restitution1, btScalar friction0,btScalar friction01, bool isSwapped);
 
 
-        void writeDoubleBufferedManifold(btPersistentManifold* lsManifold, btPersistentManifold* mmManifold);
+		void writeDoubleBufferedManifold(btPersistentManifold* lsManifold, btPersistentManifold* mmManifold);
 
-        virtual void addContactPoint(const btVector3& normalOnBInWorld,const btVector3& pointInWorld,btScalar depth);
+		virtual void addContactPoint(const btVector3& normalOnBInWorld,const btVector3& pointInWorld,btScalar depth);
 
 		void flush();
 };

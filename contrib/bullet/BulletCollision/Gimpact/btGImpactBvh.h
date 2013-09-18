@@ -25,10 +25,10 @@ subject to the following restrictions:
 */
 
 
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include "btBoxCollision.h"
-#include "btTriangleShapeEx.h"
+#include <bullet/BulletCollision/Gimpact/btBoxCollision.h>
+#include <bullet/BulletCollision/Gimpact/btTriangleShapeEx.h>
 
 
 
@@ -37,21 +37,21 @@ subject to the following restrictions:
 //! Overlapping pair
 struct GIM_PAIR
 {
-    int m_index1;
-    int m_index2;
-    GIM_PAIR()
-    {}
+	int m_index1;
+	int m_index2;
+	GIM_PAIR()
+	{}
 
-    GIM_PAIR(const GIM_PAIR & p)
-    {
-    	m_index1 = p.m_index1;
-    	m_index2 = p.m_index2;
+	GIM_PAIR(const GIM_PAIR & p)
+	{
+		m_index1 = p.m_index1;
+		m_index2 = p.m_index2;
 	}
 
 	GIM_PAIR(int index1, int index2)
-    {
-    	m_index1 = index1;
-    	m_index2 = index2;
+	{
+		m_index1 = index1;
+		m_index2 = index2;
 	}
 };
 

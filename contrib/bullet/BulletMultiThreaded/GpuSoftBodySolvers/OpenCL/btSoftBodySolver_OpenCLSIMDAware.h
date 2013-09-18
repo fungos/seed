@@ -16,14 +16,14 @@ subject to the following restrictions:
 #ifndef BT_SOFT_BODY_SOLVER_OPENCL_SIMDAWARE_H
 #define BT_SOFT_BODY_SOLVER_OPENCL_SIMDAWARE_H
 
-#include "stddef.h" //for size_t
-#include "vectormath/vmInclude.h"
+#include <bullet/stddef.h> //for size_t
+#include <bullet/vectormath/vmInclude.h>
 
-#include "btSoftBodySolver_OpenCL.h"
-#include "btSoftBodySolverBuffer_OpenCL.h"
-#include "btSoftBodySolverLinkData_OpenCLSIMDAware.h"
-#include "btSoftBodySolverVertexData_OpenCL.h"
-#include "btSoftBodySolverTriangleData_OpenCL.h"
+#include <bullet/btSoftBodySolver_OpenCL.h>
+#include <bullet/btSoftBodySolverBuffer_OpenCL.h>
+#include <bullet/btSoftBodySolverLinkData_OpenCLSIMDAware.h>
+#include <bullet/btSoftBodySolverVertexData_OpenCL.h>
+#include <bullet/btSoftBodySolverTriangleData_OpenCL.h>
 
 
 

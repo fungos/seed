@@ -22,9 +22,9 @@ subject to the following restrictions:
 
 class btStackAlloc;
 class btIDebugDraw;
-#include "BulletCollision/NarrowphaseCollision/btConvexPenetrationDepthSolver.h"
+#include <bullet/BulletCollision/NarrowphaseCollision/btConvexPenetrationDepthSolver.h>
 
-#include "LinearMath/btTransform.h"
+#include <bullet/LinearMath/btTransform.h>
 
 
 ///ConvexPenetrationDepthSolver provides an interface for penetration depth calculation.

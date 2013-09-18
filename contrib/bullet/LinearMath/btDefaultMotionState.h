@@ -1,7 +1,7 @@
 #ifndef BT_DEFAULT_MOTION_STATE_H
 #define BT_DEFAULT_MOTION_STATE_H
 
-#include "btMotionState.h"
+#include <bullet/LinearMath/btMotionState.h>
 
 ///The btDefaultMotionState provides a common implementation to synchronize world transforms with offsets.
 ATTRIBUTE_ALIGNED16(struct)	btDefaultMotionState : public btMotionState
@@ -23,7 +23,7 @@ ATTRIBUTE_ALIGNED16(struct)	btDefaultMotionState : public btMotionState
 	}
 
 	///synchronizes world transform from user to physics
-	virtual void	getWorldTransform(btTransform& centerOfMassWorldTrans ) const 
+	virtual void	getWorldTransform(btTransform& centerOfMassWorldTrans ) const
 	{
 			centerOfMassWorldTrans = 	m_centerOfMassOffset.inverse() * m_graphicsWorldTrans ;
 	}
@@ -35,7 +35,7 @@ ATTRIBUTE_ALIGNED16(struct)	btDefaultMotionState : public btMotionState
 			m_graphicsWorldTrans = centerOfMassWorldTrans * m_centerOfMassOffset ;
 	}
 
-	
+
 
 };
 

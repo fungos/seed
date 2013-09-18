@@ -46,7 +46,7 @@
 #define NewArray(T, L)			pLeakReport->LogNew((new T[L]), #T, __FILE__, __LINE__, __FUNC__)
 #define DeleteArray(ptr)		{ if (ptr) pLeakReport->LogDelete(ptr, true); ptr = NULL; }
 #define Alloc(S)				malloc(S)
-#define Free(ptr)				{ if (ptr) free(ptr); ptr = NULL; }
+#define sFree(ptr)				{ if (ptr) free(ptr); ptr = NULL; }
 
 #define LeakReportPrint			pLeakReport->Print();
 
@@ -130,7 +130,7 @@ class SEED_CORE_API LeakReport
 		PointerInfo arInfo[SEED_LEAK_MAX];
 };
 
-#define pLeakReport LeakReport::GetInstance()
+#define pLeakReport Seed::LeakReport::GetInstance()
 
 } // namespace
 
@@ -141,7 +141,7 @@ class SEED_CORE_API LeakReport
 #define NewArray(T, L)			new T[L]
 #define DeleteArray(ptr)		{ if (ptr) delete []ptr; ptr = NULL; }
 #define Alloc(S)				malloc(S)
-#define Free(ptr)				free(ptr)
+#define sFree(ptr)				{ free(ptr); ptr = NULL;}
 
 #define LeakReportPrint
 

@@ -66,7 +66,7 @@ bool Cartridge::Initialize()
 
 bool Cartridge::Reset()
 {
-	Free(this->pData);
+	sFree(this->pData);
 
 	iType = 0;
 	iSize = 0;
@@ -328,7 +328,7 @@ bool Cartridge::CreateSaveFile()
 		void *pBlankData = Alloc(iSize);
 		memset(pBlankData, 0, iSize);
 		bool result = this->Write(0, pBlankData, iSize);
-		Free(pBlankData);
+		sFree(pBlankData);
 
 		if (!result)
 		{

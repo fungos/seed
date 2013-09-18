@@ -50,6 +50,12 @@
 #include <SDL/SDL_syswm.h>
 #endif
 
+#if defined(EMSCRIPTEN)
+#define SDL_EVENT_KEY_WHICH 0
+#else
+#define SDL_EVENT_KEY_WHICH event.key.which
+#endif
+
 #define TAG "[Input] "
 
 namespace Seed { namespace SDL {
@@ -210,14 +216,14 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 			case SDL_KEYDOWN:
 			{
-				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, 0); // key.which deprecated
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode, SDL_EVENT_KEY_WHICH); // key.which deprecated
 				this->SendEventKeyboardPress(&ev);
 			}
 			break;
 
 			case SDL_KEYUP:
 			{
-				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, 0); // key.which deprecated
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode, SDL_EVENT_KEY_WHICH); // key.which deprecated
 				this->SendEventKeyboardRelease(&ev);
 			}
 			break;
@@ -336,13 +342,13 @@ bool Input::IsPointerEnabled(u16 joystick) const
 f32 Input::GetX(u16 joystick) const
 {
 	UNUSED(joystick);
-	return iX;
+	return static_cast<f32>(iX);
 }
 
 f32 Input::GetY(u16 joystick) const
 {
 	UNUSED(joystick);
-	return iY;
+	return static_cast<f32>(iY);
 }
 
 f32 Input::GetRelativeX(u16 joystick) const
@@ -421,9 +427,13 @@ void Input::SetSensitivity(u32 sens, u16 joystick)
 
 Seed::eKey Input::GetKeyCode(u32 key) const
 {
-	Seed::eKey k = static_cast<Seed::eKey>(key);
-
-	return k;
+	if (key >= 'a' && key <= 'z')
+		return static_cast<Seed::eKey>(Seed::KeyA + (key - 'a'));
+	else
+	{
+		Seed::eKey k = static_cast<Seed::eKey>(key);
+		return k;
+	}
 }
 
 Seed::eModifier Input::GetModifierCode(u32 mod) const
