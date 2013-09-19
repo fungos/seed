@@ -84,56 +84,44 @@ enum
 	kPresentationSceneLoaded
 };
 
-class RendererSceneLoader : public IEventJobListener
+class RendererSceneLoader : public FileLoader
 {
 	friend class Presentation;
 	public:
-		RendererSceneLoader(Presentation *parent, ResourceManager *res, Renderer *renderer, u32 myId)
-			: pParent(parent)
-			, pRes(res)
-			, pRenderer(renderer)
-			, iId(myId)
+		RendererSceneLoader(u32 unique, const String &filename, JobCallback fun)
+			: FileLoader(filename, fun)
+			, iId(unique)
 		{
 		}
 
-		// IEventJobListener
-		virtual void OnJobCompleted(const EventJob *ev)
-		{
-			switch (ev->GetName())
-			{
-				case kPresentationSceneLoaded:
-				{
-					auto job = (FileLoader *)ev->GetJob();
-					auto scene = New(SceneNode());
-					Reader r(job->pFile);
-					scene->Load(r, pRes);
-					Delete(job);
+		virtual ~RendererSceneLoader() {}
 
-					pRenderer->SetScene(scene);
-					pScene = scene;
-					pParent->SceneLoaded(this);
-				}
-				break;
-			}
+		void SetPresentation(Presentation *parent)
+		{
+			pParent = parent;
 		}
 
-		virtual void OnJobAborted(const EventJob *ev)
+		void SetResourceManager(ResourceManager *res)
 		{
-			auto job = ev->GetJob();
-			Delete(job);
+			pRes = res;
 		}
 
-		Presentation *pParent;
-		ResourceManager *pRes;
-		Renderer *pRenderer;
-		SceneNode *pScene;
-		u32 iId;
+		void SetRenderer(Renderer *renderer)
+		{
+			pRenderer = renderer;
+		}
+
+	protected:
+		Presentation *pParent = nullptr;
+		ResourceManager *pRes = nullptr;
+		Renderer *pRenderer = nullptr;
+		SceneNode *pScene = nullptr;
+		u32 iId = 0;
 };
 
 Presentation::Presentation()
-	: pListener(NULL)
-	, pRes(NULL)
-	, pFinished(NULL)
+	: pRes(nullptr)
+	, pFinished(nullptr)
 {
 }
 
@@ -142,10 +130,9 @@ Presentation::~Presentation()
 	this->Unload();
 }
 
-bool Presentation::Load(const String &filename, IEventPresentationListener *listener, ResourceManager *res)
+bool Presentation::Load(const String &filename, Callback cb, ResourceManager *res)
 {
-	SEED_ASSERT(listener);
-	pListener = listener;
+	fnCallback = cb;
 
 	File f(filename);
 	Reader r(&f);
@@ -234,9 +221,34 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 		auto i = int{0};
 		for (auto obj: vRenderer)
 		{
-			RendererSceneLoader *ldr = New(RendererSceneLoader(this, pRes, obj, i));
+			auto cb = [&](Job *self) {
+				auto job = static_cast<RendererSceneLoader *>(self);
+
+				if (job->GetState() == eJobState::Completed)
+				{
+					auto scene = New(SceneNode());
+
+					Reader r(job->pFile);
+					scene->Load(r, job->pRes);
+
+					job->pRenderer->SetScene(scene);
+					job->pScene = scene;
+					job->pParent->SceneLoaded(job);
+				}
+				else if (job->GetState() == eJobState::Aborted)
+				{
+					job->pParent->SceneAborted(job);
+				}
+				Delete(self);
+			};
+
+			auto ldr = New(RendererSceneLoader(i, obj->sSceneToAttach, cb));
+			ldr->SetResourceManager(pRes);
+			ldr->SetRenderer(obj);
+			ldr->SetPresentation(this);
+
 			Log(TAG "Scheduling scene job for scene %s.", obj->sSceneToAttach.c_str());
-			pJobManager->Add(New(FileLoader(obj->sSceneToAttach, kPresentationSceneLoaded, ldr)));
+			pJobManager->Add(ldr);
 
 			++i;
 		}
@@ -311,18 +323,21 @@ void Presentation::SceneLoaded(RendererSceneLoader *ldr)
 		{
 			if (obj->GetRenderer() == ldr->pRenderer)
 			{
-				Log(TAG "Scene %s finished loading.", ldr->pScene->sName.c_str());
-				vScenes += ldr->pScene;
 				Camera *cam = (Camera *)ldr->pScene->GetChildByName(obj->sCameraNameToAttach);
 				obj->SetCamera(cam);
 
-				pFinished[ldr->iId] = true;
+				// So we do not add dupes in vScenes
+				if (!pFinished[ldr->iId])
+				{
+					Log(TAG "Scene %s finished loading.", ldr->pScene->sName.c_str());
+					vScenes += ldr->pScene;
+					pFinished[ldr->iId] = true;
+				}
 			}
 		}
 	}
 
-	vScenes.Unique();
-	Delete(ldr);
+	//vScenes.Unique();
 
 	for (u32 i = 0; i < vRenderer.Size(); ++i)
 	{
@@ -337,21 +352,15 @@ void Presentation::SceneLoaded(RendererSceneLoader *ldr)
 			pSceneManager->Add(obj);
 		}
 
-		if (pListener)
-		{
-			EventPresentation ev(this, NULL);
-			pListener->OnPresentationLoaded(&ev);
-		}
+		if (fnCallback)
+			fnCallback(this, nullptr);
 	}
 }
 
 void Presentation::SceneAborted(RendererSceneLoader *ldr)
 {
-	if (pListener)
-	{
-		EventPresentation ev(this, ldr->pRenderer);
-		pListener->OnPresentationAborted(&ev);
-	}
+	if (fnCallback)
+		fnCallback(this, ldr->pRenderer);
 }
 
 } // namespace

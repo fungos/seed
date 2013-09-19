@@ -40,8 +40,8 @@ namespace Seed {
 
 File::File()
 	: IObject()
-	, pHandle(NULL)
-	, pData(NULL)
+	, pHandle(nullptr)
+	, pData(nullptr)
 	, sFilename()
 	, iSize(0)
 {
@@ -49,8 +49,8 @@ File::File()
 
 File::File(const String &filename)
 	: IObject()
-	, pHandle(NULL)
-	, pData(NULL)
+	, pHandle(nullptr)
+	, pData(nullptr)
 	, sFilename(filename)
 	, iSize(0)
 {
@@ -127,7 +127,7 @@ u8 *File::GetData() const
 			return pData;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 u32 File::GetSize() const
@@ -141,10 +141,10 @@ const String &File::GetName() const
 }
 
 
-FileLoader::FileLoader(const String &filename, u32 name, IEventJobListener *listener)
-	: Job(name, listener)
+FileLoader::FileLoader(const String &filename, JobCallback fun)
+	: Job(fun)
 	, sFilename(filename)
-	, pFile(NULL)
+	, pFile(nullptr)
 {
 }
 
@@ -155,7 +155,8 @@ FileLoader::~FileLoader()
 
 bool FileLoader::Run()
 {
-//	Log("Job Run %s", sFilename.c_str());
+	Log("[Job:FileLoader] Load: %s", sFilename.c_str());
+
 	cMutex.Lock();
 	bool run = (nState == eJobState::Running);
 	cMutex.Unlock();
@@ -164,12 +165,12 @@ bool FileLoader::Run()
 	{
 		pFile = New(File(sFilename));
 		pFile->GetData();
-		Log("[FileJob] Loading file %s (%d bytes)", sFilename.c_str(), pFile->GetSize());
+		Log("[Job:FileLoader] Loaded: %s (%d bytes)", sFilename.c_str(), pFile->GetSize());
 
 		cMutex.Lock();
 		nState = eJobState::Completed;
 		cMutex.Unlock();
-//		Log("Job Run completed %s", sFilename.c_str());
+		Log("[Job:FileLoader] Completed: %s", sFilename.c_str());
 	}
 
 	return false;

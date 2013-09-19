@@ -104,7 +104,7 @@ struct SEED_CORE_API EmitterConfiguration
 };
 
 /// Particle Emitter
-class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListener
+class SEED_CORE_API ParticleEmitter : public ISceneObject
 {
 	SEED_DISABLE_COPY(ParticleEmitter)
 	SEED_DECLARE_RTTI(ParticleEmitter, ISceneObject)
@@ -136,10 +136,6 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListe
 		virtual bool IsEnabled() const;
 
 		virtual void SetParticlesFollowEmitter(bool bFollow);
-
-		// IEventJobListener
-		virtual void OnJobCompleted(const EventJob *ev) override;
-		virtual void OnJobAborted(const EventJob *ev) override;
 
 		// IRenderable
 		virtual void Update(f32 delta) override;

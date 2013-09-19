@@ -383,7 +383,30 @@ void ParticleEmitter::Render(const Matrix4f &worldTransform)
 void ParticleEmitter::SetSprite(const String &filename)
 {
 	sSprite = filename;
-	pJobManager->Add(New(FileLoader(sSprite, (u32)kLoadSprite, this)));
+
+	auto spriteCallback = [&](Job *self) {
+		if (self->GetState() == eJobState::Completed)
+		{
+			auto job = static_cast<FileLoader *>(self);
+			Reader r(job->pFile);
+
+			if (pTemplate)
+				Delete(pTemplate);
+
+			pTemplate = New(Sprite);
+			pTemplate->Load(r, pRes);
+			pTemplate->SetAnimation(iAnimation);
+			pTemplate->Play();
+			pTexture = pTemplate->GetTexture();
+
+			fParticleWidhtHalf = pTemplate->GetWidth() / 2.0f;
+			fParticleHeightHalf = pTemplate->GetHeight() / 2.0f;
+		}
+
+		Delete(self);
+	};
+
+	pJobManager->Add(New(FileLoader(sSprite, spriteCallback)));
 }
 
 Sprite *ParticleEmitter::GetSprite() const
@@ -641,39 +664,6 @@ bool ParticleEmitter::Write(Writer &writer)
 	writer.CloseNode();
 
 	return true;
-}
-
-void ParticleEmitter::OnJobCompleted(const EventJob *ev)
-{
-	switch (ev->GetName())
-	{
-		case kLoadSprite:
-		{
-			FileLoader *job = (FileLoader *)ev->GetJob();
-			Reader r(job->pFile);
-
-			if (pTemplate)
-				Delete(pTemplate);
-
-			pTemplate = New(Sprite);
-			pTemplate->Load(r, pRes);
-			pTemplate->SetAnimation(iAnimation);
-			pTemplate->Play();
-			pTexture = pTemplate->GetTexture();
-
-			fParticleWidhtHalf = pTemplate->GetWidth() / 2.0f;
-			fParticleHeightHalf = pTemplate->GetHeight() / 2.0f;
-
-			Delete(job);
-		}
-		break;
-	}
-}
-
-void ParticleEmitter::OnJobAborted(const EventJob *ev)
-{
-	Job *job = ev->GetJob();
-	Delete(job);
 }
 
 } // namespace

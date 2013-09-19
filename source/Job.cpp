@@ -33,32 +33,23 @@
 
 namespace Seed {
 
-Job::Job(u32 name, IEventJobListener *listener)
-	: pListener(listener)
-	, nState(eJobState::Stopped)
-	, iName(name)
+Job::Job(JobCallback fun)
+	: fnCallback(fun)
 {
 }
 
 Job::~Job()
 {
-
+	Log("JOB DELETED");
 }
 
 void Job::Create(s32 priority)
 {
+	cMutex.Lock();
 	nState = eJobState::Running;
+	cMutex.Unlock();
+
 	Thread::Create(priority);
-}
-
-void Job::SetListener(IEventJobListener *listener)
-{
-	pListener = listener;
-}
-
-void Job::Update(f32 dt)
-{
-	UNUSED(dt);
 }
 
 void Job::Abort()
@@ -79,5 +70,12 @@ bool Job::Run()
 {
 	return true;
 }
+
+void Job::OnFinished()
+{
+	if (fnCallback)
+		fnCallback(this);
+}
+
 
 } // namespace

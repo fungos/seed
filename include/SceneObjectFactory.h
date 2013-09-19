@@ -65,18 +65,19 @@ class SEED_CORE_API SceneObjectFactory
 		static FactoryMap mapFactory;
 };
 
-class SEED_CORE_API SceneObjectFactoryJobLoader : public IEventJobListener
+class SEED_CORE_API SceneObjectJobLoader : public FileLoader
 {
 	public:
-		SceneObjectFactoryJobLoader(ISceneObject *obj);
-		virtual ~SceneObjectFactoryJobLoader();
+		SceneObjectJobLoader(ISceneObject *obj, const String &filename, JobCallback fun)
+			: FileLoader(filename, fun)
+			, pObj(obj)
+		{}
 
-		// IEventJobListener
-		virtual void OnJobCompleted(const EventJob *ev);
-		virtual void OnJobAborted(const EventJob *ev);
+		virtual ~SceneObjectJobLoader() {}
 
 		ISceneObject *pObj;
 };
+
 
 #define pSceneObjectFactory SceneObjectFactory::GetInstance()
 

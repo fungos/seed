@@ -43,8 +43,6 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(JobManager)
 
 JobManager::JobManager()
-	: vJob()
-	, bEnabled(true)
 {
 }
 
@@ -54,51 +52,81 @@ JobManager::~JobManager()
 
 bool JobManager::Initialize()
 {
+	pMutex = New(Mutex);
 	return IManager::Initialize();
 }
 
 bool JobManager::Reset()
 {
-	for (auto job: vJob)
+	while (vQueue.size())
+	{
+		auto job = vQueue.front();
+		vQueue.pop();
+
 		job->Abort();
+	}
+
+	for (auto job: vRunning)
+		job->Abort();
+
+	JobVector().swap(vRunning);
 
 	return true;
 }
 
 bool JobManager::Shutdown()
 {
-	for (auto job: vJob)
+	while (vQueue.size())
 	{
-		job->Destroy();
-		Delete(job);
+		auto job = vQueue.front();
+		vQueue.pop();
+
+		job->Abort();
 	}
 
-	JobVector().swap(vJob);
+	for (auto job: vRunning)
+		job->Destroy();
+
+	JobVector().swap(vRunning);
+	Delete(pMutex);
+
 	return IManager::Shutdown();
+}
+
+void JobManager::StartThreads()
+{
+	if (vQueue.empty())
+		return;
+
+	pMutex->Lock();
+	while (vRunning.Size() < iMaxThreads && !vQueue.empty())
+	{
+		auto job = vQueue.front();
+		vQueue.pop();
+
+		vRunning += job;
+		job->Create();
+	}
+	pMutex->Unlock();
 }
 
 bool JobManager::Update(f32 dt)
 {
+	UNUSED(dt)
 	if (bEnabled)
 	{
-		JobVector completed;
-		JobVector aborted;
+		this->StartThreads();
+		auto list = vRunning;
 
-		for (auto job: vJob)
+		for (auto job: list)
 		{
-			job->Update(dt);
-
 			switch (job->GetState())
 			{
 				case eJobState::Completed:
-				{
-					completed += job;
-				}
-				break;
-
 				case eJobState::Aborted:
 				{
-					aborted += job;
+					vRunning -= job;
+					job->OnFinished();
 				}
 				break;
 
@@ -107,21 +135,7 @@ bool JobManager::Update(f32 dt)
 			}
 		}
 
-		for (auto job: completed)
-		{
-			vJob -= job;
-
-			EventJob ev(job, job->iName);
-			job->pListener->OnJobCompleted(&ev);
-		}
-
-		for (auto job: aborted)
-		{
-			vJob -= job;
-
-			EventJob ev(job, job->iName);
-			job->pListener->OnJobAborted(&ev);
-		}
+		this->StartThreads();
 	}
 
 	return true;
@@ -129,18 +143,10 @@ bool JobManager::Update(f32 dt)
 
 Job *JobManager::Add(Job *job)
 {
-//	Log(TAG "Job created");
-	job->Create();
-	vJob += job;
-
+	pMutex->Lock();
+	vQueue.push(job);
+	pMutex->Unlock();
 	return job;
-}
-
-void JobManager::Remove(Job *job)
-{
-	vJob -= job;
-	job->Destroy();
-//	Log(TAG "Job destroyed");
 }
 
 void JobManager::Disable()

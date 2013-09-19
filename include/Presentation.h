@@ -52,6 +52,7 @@ SEED_DECLARE_CONTAINER(Vector, Renderer)
 class SEED_CORE_API Presentation : public IDataObject
 {
 	friend class RendererSceneLoader;
+	typedef std::function<void(Presentation *, Renderer *)> Callback;
 	SEED_DISABLE_COPY(Presentation)
 	SEED_DECLARE_RTTI(Presentation, IDataObject)
 
@@ -59,7 +60,7 @@ class SEED_CORE_API Presentation : public IDataObject
 		Presentation();
 		virtual ~Presentation();
 
-		bool Load(const String &filename, IEventPresentationListener *listener, ResourceManager *res = pResourceManager);
+		bool Load(const String &filename, Callback cb, ResourceManager *res = pResourceManager);
 
 		Renderer *GetRendererByName(const String &name);
 		Viewport *GetViewportByName(const String &name);
@@ -75,12 +76,13 @@ class SEED_CORE_API Presentation : public IDataObject
 		void SceneLoaded(RendererSceneLoader *ldr);
 		void SceneAborted(RendererSceneLoader *ldr);
 
-		IEventPresentationListener *pListener;
 		ResourceManager *pRes;
+		bool *pFinished;
+
+		Callback fnCallback;
 		ViewportVector vViewport;
 		RendererVector vRenderer;
 		SceneNodeVector vScenes;
-		bool *pFinished;
 };
 
 

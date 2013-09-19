@@ -42,7 +42,7 @@ namespace Seed {
 
 class IThread;
 
-/// Thread Manager
+/// Thread Manager is used when no threads are enabled to run threads in serial
 class SEED_CORE_API ThreadManager : public IManager, public IUpdatable
 {
 	SEED_DECLARE_SINGLETON(ThreadManager)

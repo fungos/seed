@@ -37,8 +37,6 @@
 #include <map>
 #include <stack>
 
-//extern "C" { extern void Log(const char *pMessage, ...); }
-
 #define SEED_DECLARE_CONTAINER_HELPER(N, C) \
 											\
 											template <typename T> \

@@ -80,9 +80,7 @@ bool ThreadManager::Update(f32 dt)
 		for (auto each: vThread)
 		{
 			if (!each->Run())
-			{
 				completed += each;
-			}
 		}
 
 		for (auto each: completed)
