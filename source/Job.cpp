@@ -40,7 +40,6 @@ Job::Job(JobCallback fun)
 
 Job::~Job()
 {
-	Log("JOB DELETED");
 }
 
 void Job::Create(s32 priority)

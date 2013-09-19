@@ -12,7 +12,6 @@ PresentationSample::~PresentationSample()
 bool PresentationSample::Initialize()
 {
 	return cPres.Load("pres2.config", [&](Presentation *, Renderer *) {
-		Log("LOADING DONE");
 		pSystem->AddListener(this);
 		pInput->AddKeyboardListener(this);
 		pInput->AddPointerListener(this);
