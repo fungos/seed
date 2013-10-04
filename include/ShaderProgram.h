@@ -4,19 +4,15 @@
 #if defined(BUILD_IOS)
 	#if defined(SEED_ENABLE_OGLES2)
 	#include "api/ogl/oglES2ShaderProgram.h"
-	#else
-	#include "api/ogl/oglES1ShaderProgram.h"
 	#endif
 
 #elif defined(BUILD_SDL) || defined(BUILD_GLFW)
 	#if defined(SEED_ENABLE_OGLES2)
 	#include "api/ogl/oglES2ShaderProgram.h"
-	#else
-	#include "api/ogl/oglES1ShaderProgram.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL20)
-	#include "api/ogl/ogl1ShaderProgram.h"
+	#include "api/ogl/ogl20ShaderProgram.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL30)

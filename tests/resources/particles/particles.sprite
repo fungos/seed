@@ -6,7 +6,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 0",
-					"sTexture": "textures/particle_00.tga"
+					"sResource": "textures/particle_00.tga"
 				}
 			]
 		},
@@ -14,7 +14,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 1",
-					"sTexture": "textures/particle_01.tga"
+					"sResource": "textures/particle_01.tga"
 				}
 			]
 		},
@@ -22,7 +22,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 2",
-					"sTexture": "textures/particle_02.tga"
+					"sResource": "textures/particle_02.tga"
 				}
 			]
 		},
@@ -30,7 +30,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 3",
-					"sTexture": "textures/particle_03.tga"
+					"sResource": "textures/particle_03.tga"
 				}
 			]
 		},
@@ -38,7 +38,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 4",
-					"sTexture": "textures/particle_04.tga"
+					"sResource": "textures/particle_04.tga"
 				}
 			]
 		},
@@ -46,7 +46,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 5",
-					"sTexture": "textures/particle_05.tga"
+					"sResource": "textures/particle_05.tga"
 				}
 			]
 		},
@@ -54,7 +54,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 6",
-					"sTexture": "textures/particle_06.tga"
+					"sResource": "textures/particle_06.tga"
 				}
 			]
 		},
@@ -62,7 +62,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 7",
-					"sTexture": "textures/particle_07.tga"
+					"sResource": "textures/particle_07.tga"
 				}
 			]
 		},
@@ -70,7 +70,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 8",
-					"sTexture": "textures/particle_08.tga"
+					"sResource": "textures/particle_08.tga"
 				}
 			]
 		},
@@ -78,7 +78,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 9",
-					"sTexture": "textures/particle_09.tga"
+					"sResource": "textures/particle_09.tga"
 				}
 			]
 		},
@@ -86,7 +86,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 10",
-					"sTexture": "textures/particle_10.tga"
+					"sResource": "textures/particle_10.tga"
 				}
 			]
 		},
@@ -94,7 +94,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 11",
-					"sTexture": "textures/particle_11.tga"
+					"sResource": "textures/particle_11.tga"
 				}
 			]
 		},
@@ -102,7 +102,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 12",
-					"sTexture": "textures/particle_12.tga"
+					"sResource": "textures/particle_12.tga"
 				}
 			]
 		},
@@ -110,7 +110,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 13",
-					"sTexture": "textures/particle_13.tga"
+					"sResource": "textures/particle_13.tga"
 				}
 			]
 		},
@@ -118,7 +118,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 14",
-					"sTexture": "textures/particle_14.tga"
+					"sResource": "textures/particle_14.tga"
 				}
 			]
 		},
@@ -126,7 +126,7 @@
 			"aFrames": [
 				{
 					"sName": "particle 15",
-					"sTexture": "textures/particle_15.tga"
+					"sResource": "textures/particle_15.tga"
 				}
 			]
 		}

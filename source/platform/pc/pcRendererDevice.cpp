@@ -91,7 +91,7 @@ bool RendererDevice::Initialize()
 		case RendererDeviceOpenGL2x:
 		{
 			Info(TAG "Creating renderer device OpenGL 2.x");
-			pApiDevice = New(OGL2xRendererDevice());
+			pApiDevice = New(Seed::OpenGL::OGL20RendererDevice());
 		}
 		break;
 #endif
@@ -151,12 +151,12 @@ bool RendererDevice::Initialize()
 #endif
 
 #if defined(SEED_ENABLE_OGLES2)
-        case RendererDeviceOpenGLES2:
-        {
-            Info(TAG "Creating renderer device OpenGLES 2");
-            pApiDevice = New(Seed::OpenGL::OGLES2RendererDevice());
-        }
-        break;
+		case RendererDeviceOpenGLES2:
+		{
+			Info(TAG "Creating renderer device OpenGLES 2");
+			pApiDevice = New(Seed::OpenGL::OGLES2RendererDevice());
+		}
+		break;
 #else
 		case RendererDeviceOpenGLES1:
 		case RendererDeviceOpenGL1x:
@@ -165,7 +165,7 @@ bool RendererDevice::Initialize()
 			Info(TAG "Creating renderer device OpenGL 1.5/ES 1");
 			pApiDevice = New(Seed::OpenGL::OGLES1RendererDevice());
 		}
-        break;
+		break;
 #endif
 	}
 

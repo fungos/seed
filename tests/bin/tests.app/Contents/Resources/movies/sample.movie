@@ -1,0 +1,31 @@
+{
+	"sName": "PandaMovieRotation",
+	"cPosition": {"x": 400, "y": 150, "z": 200},
+	"cPivot": {"x": 0, "y": 0},
+	"aTimelines": [
+		{
+			"sName": "anim",
+			"sObject": "anim.sprite",
+			"aKeyframes": [
+				{
+					"bTween": true,
+					"iFrame": 0,
+					"fEasing": 0,
+					"fRotation": -180
+				},
+				{
+					"bTween": true,
+					"iFrame": 600,
+					"fEasing": 0,
+					"cPosition": {"y": 300}
+				},
+				{
+					"bTween": true,
+					"iFrame": 1200,
+					"fEasing": 0,
+					"fRotation": 180
+				}
+			]
+		}
+	]
+}

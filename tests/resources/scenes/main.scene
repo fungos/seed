@@ -38,17 +38,17 @@
 						{
 							"sType": "Frame",
 							"sName": "frame 1",
-							"sTexture": "textures/frame01.png"
+							"sResource": "textures/frame01.png"
 						},
 						{
 							"sType": "Frame",
 							"sName": "frame 2",
-							"sTexture": "textures/frame02.png"
+							"sResource": "textures/frame02.png"
 						},
 						{
 							"sType": "Frame",
 							"sName": "frame 3",
-							"sTexture": "textures/frame03.png"
+							"sResource": "textures/frame03.png"
 						}
 					]
 				}

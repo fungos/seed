@@ -56,12 +56,10 @@ GLSL Version	OpenGL Version
 #elif defined(BUILD_SDL) || defined(BUILD_GLFW)
 	#if defined(SEED_ENABLE_OGLES2)
 	#include "api/ogl/oglES2Shader.h"
-	#else
-	#include "api/ogl/oglES1Shader.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL20)
-	#include "api/ogl/ogl1Shader.h"
+	#include "api/ogl/ogl20Shader.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL30)

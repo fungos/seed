@@ -1,7 +1,7 @@
 TARGET = seed
 TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
-DEFINES += SEED_BUILD SEED_ENABLE_PROFILER #SEED_ENABLE_OGLES2
+DEFINES += SEED_BUILD SEED_ENABLE_PROFILER SEED_ENABLE_OGL20 #SEED_ENABLE_OGLES2
 CONFIG += glfw
 
 #TARGET_EXT = .bc
@@ -213,8 +213,11 @@ SOURCES += source/Viewport.cpp \
 	source/api/ogl/oglES1Shader.cpp \
 	source/api/ogl/oglES1ShaderProgram.cpp \
 	source/api/ogl/oglES2Shader.cpp \
-	source/api/ogl/oglES2ShaderProgram.cpp
-	source/map/TileSet.cpp
+	source/api/ogl/oglES2ShaderProgram.cpp \
+	source/map/TileSet.cpp \
+	source/api/ogl/ogl20RendererDevice.cpp \
+	source/api/ogl/ogl20Shader.cpp \
+	source/api/ogl/ogl20ShaderProgram.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -277,8 +280,11 @@ HEADERS += include/*.h \
 	include/interface/IShaderProgram.h \
 	include/ShaderProgram.h \
 	include/ShaderManager.h \
-	include/api/ogl/oglES1Shader.h \
-	include/api/ogl/oglES1ShaderProgram.h \
 	include/api/ogl/oglES2Shader.h \
-	include/api/ogl/oglES2ShaderProgram.h
-	include/map/TileSet.h
+	include/api/ogl/oglES2ShaderProgram.h \
+	include/map/TileSet.h \
+	include/api/ogl/ogl20RendererDevice.h \
+	include/api/ogl/ogl20Shader.h \
+	include/api/ogl/ogl20ShaderProgram.h
+
+

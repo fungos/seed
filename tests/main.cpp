@@ -1,6 +1,6 @@
-#include "testbaseogles2.h"
+#include "testbase.h"
 
 int main(int argc, char **argv)
 {
-	return SeedRun<TestBaseOGLES2>(argc, argv, "configs/app.config");
+	return SeedRun<TestBase>(argc, argv, "configs/app.config");
 }

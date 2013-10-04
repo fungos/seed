@@ -1,6 +1,7 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
+DEFINES += SEED_ENABLE_OGL20
 CONFIG += glfw
 
 #TARGET_EXT = .bc

@@ -63,8 +63,10 @@
 #include "Movie.h"
 #include "ParticleEmitter.h"
 
-#if defined(SEED_ENABLE_OGLES2)
+#if defined(SEED_ENABLE_OGLES2) || defined(SEED_ENABLE_OGL20)
 #include "ShaderManager.h"
+#include "ShaderProgram.h"
+#include "Shader.h"
 #endif
 
 extern "C" {
@@ -223,7 +225,7 @@ bool Initialize()
 	ret = ret && pModuleManager->Add(pViewManager);
 	ret = ret && pModuleManager->Add(pRendererManager);
 
-#if defined(SEED_ENABLE_OGLES2)
+#if defined(SEED_ENABLE_OGLES2) || defined(SEED_ENABLE_OGL20)
 	ret = ret && pModuleManager->Add(pShaderManager);
 #endif
 
