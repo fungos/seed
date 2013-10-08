@@ -364,14 +364,21 @@ bool Input::Update(f32 dt)
 		amount = glfwGetJoystickButtons(i, buttons, iButtonsMax);
 		for (int btn = 0; btn < amount; btn++)
 		{
+			eInputButton btnCode = this->GetJoystickButtonCode(btn);
+
 			if (buttons[btn] == GLFW_PRESS)
 			{
-				const EventInputJoystick ev(i, this->GetJoystickButtonCode(btn), eInputButton::None, eInputButton::None, 0, 0);
-				this->SendEventJoystickButtonPress(&ev);
+				const EventInputJoystick ev(i, btnCode, eInputButton::None, eInputButton::None, 0, 0);
+
+				if(btnCode == eInputButton::JoystickUp || btnCode == eInputButton::JoystickRight ||
+					btnCode == eInputButton::JoystickDown || btnCode == eInputButton::JoystickLeft)
+					this->SendEventJoystickDPadMove(&ev);
+				else
+					this->SendEventJoystickButtonPress(&ev);
 			}
 			else
 			{
-				const EventInputJoystick ev(i, eInputButton::None, eInputButton::None, this->GetJoystickButtonCode(btn), 0, 0);
+				const EventInputJoystick ev(i, eInputButton::None, eInputButton::None, btnCode, 0, 0);
 				this->SendEventJoystickButtonRelease(&ev);
 			}
 		}
@@ -455,11 +462,11 @@ eInputButton Input::GetMouseButtonCode(u32 button) const
 	eInputButton btn = eInputButton::Invalid;
 
 	if (button == GLFW_MOUSE_BUTTON_LEFT)
-		btn = eInputButton::Left;
+		btn = eInputButton::MouseLeft;
 	else if (button == GLFW_MOUSE_BUTTON_RIGHT)
-		btn = eInputButton::Right;
+		btn = eInputButton::MouseRight;
 	else if (button == GLFW_MOUSE_BUTTON_MIDDLE)
-		btn = eInputButton::Middle;
+		btn = eInputButton::MouseMiddle;
 	else if (button == GLFW_MOUSE_BUTTON_4)
 		btn = eInputButton::Button5;
 	else if (button == GLFW_MOUSE_BUTTON_5)
@@ -471,9 +478,9 @@ eInputButton Input::GetMouseButtonCode(u32 button) const
 	else if (button == GLFW_MOUSE_BUTTON_8)
 		btn = eInputButton::Button9;
 	else if (button == GLFW_MOUSE_BUTTON_LAST + 1)
-		btn = eInputButton::Down;
+		btn = eInputButton::MouseDown;
 	else if (button == GLFW_MOUSE_BUTTON_LAST + 2)
-		btn = eInputButton::Up;
+		btn = eInputButton::MouseUp;
 
 	return btn;
 }

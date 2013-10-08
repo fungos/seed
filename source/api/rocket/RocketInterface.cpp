@@ -326,11 +326,11 @@ void RocketInterface::OnInputPointerPress(const EventInputPointer *ev)
 
 	switch (ev->GetPressed())
 	{
-		case eInputButton::Left: break;
-		case eInputButton::Right: btn = 1; break;
-		case eInputButton::Middle: btn = 2; break;
-		case eInputButton::Up: pCurrent->ProcessMouseWheel(-1, iModifierState); return;
-		case eInputButton::Down: pCurrent->ProcessMouseWheel(1, iModifierState); return;
+		case eInputButton::MouseLeft: break;
+		case eInputButton::MouseRight: btn = 1; break;
+		case eInputButton::MouseMiddle: btn = 2; break;
+		case eInputButton::MouseUp: pCurrent->ProcessMouseWheel(-1, iModifierState); return;
+		case eInputButton::MouseDown: pCurrent->ProcessMouseWheel(1, iModifierState); return;
 		default: break;
 	}
 
@@ -343,9 +343,9 @@ void RocketInterface::OnInputPointerRelease(const EventInputPointer *ev)
 
 	switch (ev->GetPressed())
 	{
-		case eInputButton::Left: break;
-		case eInputButton::Right: btn = 1; break;
-		case eInputButton::Middle: btn = 2; break;
+		case eInputButton::MouseLeft: break;
+		case eInputButton::MouseRight: btn = 1; break;
+		case eInputButton::MouseMiddle: btn = 2; break;
 		default: break;
 	}
 

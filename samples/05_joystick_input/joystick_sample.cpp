@@ -88,39 +88,7 @@ void JoystickSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 void JoystickSample::OnInputJoystickButtonPress(const EventInputJoystick *ev)
 {
-	auto k = ev->GetPressed();
-
-	if (k == eInputButton::Button4)
-	{
-		// Sum the normalized vector up with the current vector
-		vPlayerVectorDirection += VECTOR_UP;
-	}
-
-	if (k == eInputButton::Button7)
-	{
-		// Sum the normalized vector left with the current vector
-		vPlayerVectorDirection += VECTOR_LEFT;
-
-		// Change the scale to turn the player sprite
-		if (pPlayerSprite->GetScaleX() < 0)
-			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
-	}
-
-	if (k == eInputButton::Button5)
-	{
-		// Sum the normalized vector right with the current vector
-		vPlayerVectorDirection += VECTOR_RIGHT;
-
-		// Change the scale to turn the player sprite
-		if (pPlayerSprite->GetScaleX() > 0)
-			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
-	}
-
-	if (k == eInputButton::Button6)
-	{
-		// Sum the normalized vector down with the current vector
-		vPlayerVectorDirection += VECTOR_DOWN;
-	}
+	UNUSED(ev)
 }
 
 void JoystickSample::OnInputJoystickButtonRelease(const EventInputJoystick *ev)
@@ -152,7 +120,39 @@ void JoystickSample::OnInputJoystickButtonRelease(const EventInputJoystick *ev)
 
 void JoystickSample::OnInputJoystickDPadMove(const EventInputJoystick *ev)
 {
-	UNUSED(ev)
+	auto k = ev->GetPressed();
+
+	if (k == eInputButton::JoystickUp)
+	{
+		// Sum the normalized vector up with the current vector
+		vPlayerVectorDirection += VECTOR_UP;
+	}
+
+	if (k == eInputButton::JoystickLeft)
+	{
+		// Sum the normalized vector left with the current vector
+		vPlayerVectorDirection += VECTOR_LEFT;
+
+		// Change the scale to turn the player sprite
+		if (pPlayerSprite->GetScaleX() < 0)
+			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
+	}
+
+	if (k == eInputButton::JoystickRight)
+	{
+		// Sum the normalized vector right with the current vector
+		vPlayerVectorDirection += VECTOR_RIGHT;
+
+		// Change the scale to turn the player sprite
+		if (pPlayerSprite->GetScaleX() > 0)
+			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
+	}
+
+	if (k == eInputButton::JoystickDown)
+	{
+		// Sum the normalized vector down with the current vector
+		vPlayerVectorDirection += VECTOR_DOWN;
+	}
 }
 
 void JoystickSample::OnInputJoystickAxisMove(const EventInputJoystick *ev)
