@@ -5,8 +5,14 @@
 		{
 			sType: Image
 			sName: Panda
+			sResource: frame01.png
+			cPosition: {x: 200, y: 300}
+		}
+		{
+			sType: Image
+			sName: Panda2
 			sResource: frame03.png
-			cPosition: {x: 400, y: 300}
+			cPosition: {x: 600, y: 300}
 		}
 		{
 			sType: Camera

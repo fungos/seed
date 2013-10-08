@@ -42,10 +42,10 @@ const char *buttonName[]
 	[2] = "Button1",
 	[4] = "Button2",
 	[8] = "Button3",
-	[16] = "Button4",
-	[32] = "Button5",
-	[64] = "Button6",
-	[128] = "Button7",
+	[16] = "JoystickUp",
+	[32] = "JoystickRight",
+	[64] = "JoystickDown",
+	[128] = "JoystickLeft",
 	[256] = "Button8",
 	[512] = "Button9",
 	[1024] = "Button10",
@@ -90,7 +90,7 @@ void IInputJoystick::SendEventJoystickButtonPress(const EventInputJoystick *ev)
 	SEED_ASSERT(ev);
 
 #if defined(DEBUG)
-	Dbg(">>>> Joystick Button Press: %s", buttonName[static_cast<int>(ev->GetPressed())]);
+	Dbg(">>>> Joystick Button Press: %s Value: 0x%04x", buttonName[static_cast<u32>(ev->GetPressed())], static_cast<u32>(ev->GetPressed()));
 #endif
 
 	for (auto each: vJoystickListeners)
@@ -107,6 +107,11 @@ void IInputJoystick::SendEventJoystickButtonRelease(const EventInputJoystick *ev
 
 void IInputJoystick::SendEventJoystickDPadMove(const EventInputJoystick *ev)
 {
+	SEED_ASSERT(ev);
+
+#if defined(DEBUG)
+	Dbg(">>>> Joystick Button Dpad Press: %s Value: 0x%04x", buttonName[static_cast<u32>(ev->GetPressed())], static_cast<u32>(ev->GetPressed()));
+#endif
 	for (auto each: vJoystickListeners)
 		each->OnInputJoystickDPadMove(ev);
 }

@@ -7,6 +7,8 @@ HEADERS += \
 	joystick_sample.h
 
 OTHER_FILES += \
+	../bin/frame01.png \
+	../bin/frame02.png \
 	../bin/frame03.png \
 	../bin/joystick_app.config \
 	../bin/joystick_sample.config \

@@ -88,13 +88,24 @@ void JoystickSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 void JoystickSample::OnInputJoystickButtonPress(const EventInputJoystick *ev)
 {
-	UNUSED(ev)
+	auto k = ev->GetPressed();
+
+	if (k == eInputButton::Button14)
+	{
+		pPlayerSprite = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda2");
+	}
+
+	if (k == eInputButton::Button15)
+	{
+		pPlayerSprite = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+	}
 }
 
 void JoystickSample::OnInputJoystickButtonRelease(const EventInputJoystick *ev)
 {
 	UNUSED(ev)
-	/*auto k = ev->GetReleased();
+	/*
+	auto k = ev->GetReleased();
 
 	// Remove the directions
 	if (k == eInputButton::Button2)
