@@ -33,6 +33,8 @@
 
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlMutex.h"
+#elif defined(BUILD_SDL2)
+	#include "platform/sdl2/sdl2Mutex.h"
 #elif defined(BUILD_GLFW)
 	#include "platform/glfw/glfwMutex.h"
 #elif defined(BUILD_IOS)

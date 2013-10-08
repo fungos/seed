@@ -34,7 +34,7 @@
 #if defined(BUILD_IOS)
 	#include "platform/pc/pcRendererDevice.h"
 	#include "api/ogl/oglES1RendererDevice.h"
-#elif defined(BUILD_SDL) || defined(BUILD_GLFW)
+#elif defined(BUILD_SDL) || defined(BUILD_GLFW) || defined(BUILD_SDL2)
 	#include "api/ogl/oglES1RendererDevice.h"
 	#include "platform/pc/pcRendererDevice.h"
 

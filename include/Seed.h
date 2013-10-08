@@ -134,7 +134,7 @@
 #include <api/theora/Theora.h>
 #include <api/rocket/RocketInterface.h>
 
-#if defined(BUILD_SDL) && defined(WIN32)
+#if defined(BUILD_SDL) || defined(BUILD_SDL2) && defined(WIN32)
 #undef main
 #endif
 

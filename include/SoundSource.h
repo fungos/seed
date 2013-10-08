@@ -31,7 +31,7 @@
 #ifndef __SOUND_SOURCE_H__
 #define __SOUND_SOURCE_H__
 
-#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
+#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW) || defined(BUILD_SDL2)
 #if defined(USE_API_NULL_OAL)
 	#include "api/nullal/nalSoundSource.h"
 #else

@@ -293,7 +293,6 @@ enum eKey
 	KeySuperRight		= 312,		/* Right "Windows" key */
 	KeyAltGr			= 313,		/* "Mode" key */
 	KeyMenu				= 314,		/* Menu key */
-
 	KeyPrintScreen		= 316,
 
 	KeyLast

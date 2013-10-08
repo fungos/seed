@@ -756,7 +756,7 @@ SOURCES += yajl/yajl_buf.c \
 	Rocket/Source/Debugger/ElementLog.cpp \
 	Rocket/Source/Debugger/DebugGeometry.cpp \
 	Rocket/Source/Debugger/DebugPlugin.cpp \
-	Rocket/Source/Debugger/DebugSystemInterface.cpp
+	Rocket/Source/Debugger/DebugSystemInterface.cpp \
 
 unix:!macx:SOURCES += \
 	glfw/x11/x11_enable.c \
@@ -1763,7 +1763,7 @@ HEADERS += yajl/api/yajl_version.h \
 	bullet/LinearMath/btConvexHull.h \
 	bullet/LinearMath/btAlignedObjectArray.h \
 	bullet/LinearMath/btAlignedAllocator.h \
-	bullet/LinearMath/btAabbUtil2.h
+	bullet/LinearMath/btAabbUtil2.h \
 
 
 OTHER_FILES += \
@@ -1776,5 +1776,5 @@ OTHER_FILES += \
 	vectormath/SSE/cpp/readme_e.txt \
 	lua/Makefile \
 	README.md \
-	flash/Console.as
+	flash/Console.as \
 

@@ -104,9 +104,9 @@ class SEED_CORE_API LeakReport
 
 			if (ptr)
 			{
-				if (array)
-					delete []ptr;
-				else
+				//if (array)
+					//delete []ptr;
+				//else
 					delete ptr;
 
 				ptr = NULL;

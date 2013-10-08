@@ -2,7 +2,7 @@ TARGET = seed
 TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
-CONFIG += glfw
+CONFIG += sdl2
 
 #TARGET_EXT = .bc
 #QMAKE_EXT_OBJ = .bc
@@ -25,18 +25,20 @@ win32 {
 	CONFIG += sdl
 }
 
-macx {
-	!editor:!glfw {
-		message("Seed for OSX must use GLFW, disabling SDL.")
-		CONFIG -= sdl
-		CONFIG += glfw
-	}
-	INCLUDEPATH += contrib/osx/
-}
-
 unix {
 	DEFINES += LINUX
-	CONFIG += sdl
+	CONFIG += sdl2
+}
+
+macx {
+	!editor:sdl {
+		message("Seed for OSX must use GLFW or SDL2, disabling SDL, enabling SDL2.")
+		CONFIG -= sdl
+		CONFIG -= glfw
+		CONFIG += sdl2
+
+	}
+	INCLUDEPATH += contrib/osx/
 }
 
 qt {
@@ -46,7 +48,10 @@ qt {
 	DEFINES += BUILD_GLFW
 } else:sdl {
 	DEFINES += BUILD_SDL
+} else:sdl2 {
+	DEFINES += BUILD_SDL2
 }
+
 
 CONFIG(debug, debug|release) {
 	DESTDIR =../seed/lib/debug
@@ -205,10 +210,19 @@ SOURCES += source/Viewport.cpp \
 	source/map/MapLayerMetadata.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
-	source/map/TileSet.cpp
+	source/map/TileSet.cpp \
+	source/platform/sdl2/sdl2Timer.cpp \
+	source/platform/sdl2/sdl2Thread.cpp \
+	source/platform/sdl2/sdl2Texture.cpp \
+	source/platform/sdl2/sdl2System.cpp \
+	source/platform/sdl2/sdl2Screen.cpp \
+	source/platform/sdl2/sdl2Mutex.cpp \
+	source/platform/sdl2/sdl2Input.cpp
 
 OTHER_FILES += \
-	source/platform/ios/iosView.mm
+	source/platform/ios/iosView.mm \
+	exports.txt \
+	Makefile.js
 
 HEADERS += include/*.h \
 	include/platform/sdl/*.h \
@@ -261,4 +275,12 @@ HEADERS += include/*.h \
 	include/map/MapLayerMetadata.h \
 	include/map/MapLayerMosaic.h \
 	include/map/MapLayerTiled.h \
-	include/map/TileSet.h
+	include/map/TileSet.h \
+	include/platform/sdl2/sdl2Timer.h \
+	include/platform/sdl2/sdl2Thread.h \
+	include/platform/sdl2/sdl2Texture.h \
+	include/platform/sdl2/sdl2System.h \
+	include/platform/sdl2/sdl2Screen.h \
+	include/platform/sdl2/sdl2Mutex.h \
+	include/platform/sdl2/sdl2Input.h \
+	include/platform/sdl2/sdl2Defines.h

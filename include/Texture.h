@@ -33,6 +33,8 @@
 
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlTexture.h"
+#elif defined(BUILD_SDL2)
+	#include "platform/sdl2/sdl2Texture.h"
 #elif defined(BUILD_GLFW) || defined(BUILD_QT)
 	#include "api/soil/soilTexture.h"
 #elif defined(BUILD_IOS)
