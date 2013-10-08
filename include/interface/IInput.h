@@ -62,7 +62,8 @@ class SEED_CORE_API IInput : public IManager, public IUpdatable
 		virtual bool IsRequired() const;
 
 	protected:
-		virtual eInputButton GetButtonCode(u32 button) const = 0;
+		virtual eInputButton GetMouseButtonCode(u32 button) const = 0;
+		virtual eInputButton GetJoystickButtonCode(u32 button) const = 0;
 		virtual u32 ConvertButtonFlags(u32 flags) = 0;
 };
 

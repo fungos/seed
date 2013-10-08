@@ -34,6 +34,31 @@
 
 namespace Seed {
 
+#if defined(DEBUG)
+const char *buttonName[]
+{
+	[0] = "None",
+	[1] = "Button0",
+	[2] = "Button1",
+	[4] = "Button2",
+	[8] = "Button3",
+	[16] = "Button4",
+	[32] = "Button5",
+	[64] = "Button6",
+	[128] = "Button7",
+	[256] = "Button8",
+	[512] = "Button9",
+	[1024] = "Button10",
+	[2048] = "Button11",
+	[4096] = "Button12",
+	[8192] = "Button13",
+	[16384] = "Button14",
+	[32768] = "Button15",
+	[65536] = "Invalid",
+	[131072] = "All"
+};
+#endif
+
 IInputJoystick::IInputJoystick()
 	: vJoystickListeners()
 {
@@ -62,12 +87,20 @@ void IInputJoystick::RemoveJoystickListener(IEventInputJoystickListener *listene
 
 void IInputJoystick::SendEventJoystickButtonPress(const EventInputJoystick *ev)
 {
+	SEED_ASSERT(ev);
+
+#if defined(DEBUG)
+	Dbg(">>>> Joystick Button Press: %s", buttonName[static_cast<int>(ev->GetPressed())]);
+#endif
+
 	for (auto each: vJoystickListeners)
 		each->OnInputJoystickButtonPress(ev);
 }
 
 void IInputJoystick::SendEventJoystickButtonRelease(const EventInputJoystick *ev)
 {
+	SEED_ASSERT(ev);
+
 	for (auto each: vJoystickListeners)
 		each->OnInputJoystickButtonRelease(ev);
 }

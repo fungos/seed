@@ -32,12 +32,12 @@
 
 namespace Seed {
 
-EventInputJoystick::EventInputJoystick(u32 j, u32 pressed, u32 hold, u32 released, u32 axis, u32 value)
+EventInputJoystick::EventInputJoystick(u32 j, eInputButton pressed, eInputButton hold, eInputButton released, u32 axis, u32 value)
 	: IEventInput()
 	, iJoystick(j)
-	, iPressed(pressed)
-	, iHold(hold)
-	, iReleased(released)
+	, nPressed(pressed)
+	, nHold(hold)
+	, nReleased(released)
 	, iAxis(axis)
 	, iValue(value)
 {
@@ -52,19 +52,19 @@ u32 EventInputJoystick::GetJoystick() const
 	return iJoystick;
 }
 
-u32 EventInputJoystick::GetPressed()  const
+eInputButton EventInputJoystick::GetPressed()  const
 {
-	return iPressed;
+	return nPressed;
 }
 
-u32 EventInputJoystick::GetReleased() const
+eInputButton EventInputJoystick::GetReleased() const
 {
-	return iReleased;
+	return nReleased;
 }
 
-u32 EventInputJoystick::GetHold() const
+eInputButton EventInputJoystick::GetHold() const
 {
-	return iHold;
+	return nHold;
 }
 
 u32 EventInputJoystick::GetAxis() const

@@ -11,23 +11,23 @@ USE_CCACHE=FALSE
 USE_CLANG=FALSE
 
 unix {
-	FLAGSXX += -std=c++11
+		FLAGSXX += -std=c++11
 
-	system(which ccache):USE_CCACHE=TRUE
-	system(which clang++):USE_CLANG=TRUE
+		system(which ccache):USE_CCACHE=TRUE
+		system(which clang++):USE_CLANG=TRUE
 }
 
 contains(USE_CCACHE, TRUE) {
-	CCACHE="ccache"
+		CCACHE="ccache"
 }
 
 contains(USE_CLANG, TRUE) {
-	COMPXX="clang++"
-	COMP="clang"
+		COMPXX="clang++"
+		COMP="clang"
 
-	contains(USE_CCACHE, TRUE) {
-		FLAGSXX += -Qunused-arguments # so clang+ccache works fine without spitting tons of warnings
-	}
+		contains(USE_CCACHE, TRUE) {
+				FLAGSXX += -Qunused-arguments # so clang+ccache works fine without spitting tons of warnings
+		}
 }
 
 #TARGET_EXT = .bc
