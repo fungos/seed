@@ -286,11 +286,17 @@ enum class eInputButton
 
 	// From here it is just helper enums, may not be portable.
 	// Mouse specific mapping
-	Up = Button0,
-	Down = Button1,
-	Left = Button2,
-	Right = Button3,
-	Middle = Button4
+	MouseUp = Button0,
+	MouseDown = Button1,
+	MouseLeft = Button2,
+	MouseRight = Button3,
+	MouseMiddle = Button4,
+
+	// Joystick specific mapping
+	JoystickUp = Button4,
+	JoystickRight = Button5,
+	JoystickDown = Button6,
+	JoystickLeft = Button7
 };
 
 /// Maximum size of the cartridge

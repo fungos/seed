@@ -314,12 +314,12 @@ void Input::OnMouseButtonCb(int button, int action)
 
 	if (action == GLFW_RELEASE)
 	{
-		const EventInputPointer ev(0, eInputButton::None, eInputButton::None, this->GetButtonCode(button), xp, yp);
+		const EventInputPointer ev(0, eInputButton::None, eInputButton::None, this->GetMouseButtonCode(button), xp, yp);
 		this->SendEventPointerRelease(&ev);
 	}
 	else
 	{
-		const EventInputPointer ev(0, this->GetButtonCode(button), eInputButton::None, eInputButton::None, xp, yp);
+		const EventInputPointer ev(0, this->GetMouseButtonCode(button), eInputButton::None, eInputButton::None, xp, yp);
 		this->SendEventPointerPress(&ev);
 	}
 }
@@ -357,21 +357,28 @@ bool Input::Update(f32 dt)
 		int amount = glfwGetJoystickPos(i, axes, iAxesMax);
 		for (int axis = 0; axis < amount; axis++)
 		{
-			const EventInputJoystick ev(i, 0, 0, 0, axis, axes[axis]);
+			const EventInputJoystick ev(i, eInputButton::None, eInputButton::None, eInputButton::None, axis, axes[axis]);
 			this->SendEventJoystickAxisMove(&ev);
 		}
 
 		amount = glfwGetJoystickButtons(i, buttons, iButtonsMax);
 		for (int btn = 0; btn < amount; btn++)
 		{
+			eInputButton btnCode = this->GetJoystickButtonCode(btn);
+
 			if (buttons[btn] == GLFW_PRESS)
 			{
-				const EventInputJoystick ev(i, btn, 0, 0, 0, 0);
-				this->SendEventJoystickButtonPress(&ev);
+				const EventInputJoystick ev(i, btnCode, eInputButton::None, eInputButton::None, 0, 0);
+
+				if(btnCode == eInputButton::JoystickUp || btnCode == eInputButton::JoystickRight ||
+					btnCode == eInputButton::JoystickDown || btnCode == eInputButton::JoystickLeft)
+					this->SendEventJoystickDPadMove(&ev);
+				else
+					this->SendEventJoystickButtonPress(&ev);
 			}
 			else
 			{
-				const EventInputJoystick ev(i, 0, 0, btn, 0, 0);
+				const EventInputJoystick ev(i, eInputButton::None, eInputButton::None, btnCode, 0, 0);
 				this->SendEventJoystickButtonRelease(&ev);
 			}
 		}
@@ -450,16 +457,16 @@ f32 Input::GetDistance(u16 joystick) const
 	return 0;
 }
 
-eInputButton Input::GetButtonCode(u32 button) const
+eInputButton Input::GetMouseButtonCode(u32 button) const
 {
 	eInputButton btn = eInputButton::Invalid;
 
 	if (button == GLFW_MOUSE_BUTTON_LEFT)
-		btn = eInputButton::Left;
+		btn = eInputButton::MouseLeft;
 	else if (button == GLFW_MOUSE_BUTTON_RIGHT)
-		btn = eInputButton::Right;
+		btn = eInputButton::MouseRight;
 	else if (button == GLFW_MOUSE_BUTTON_MIDDLE)
-		btn = eInputButton::Middle;
+		btn = eInputButton::MouseMiddle;
 	else if (button == GLFW_MOUSE_BUTTON_4)
 		btn = eInputButton::Button5;
 	else if (button == GLFW_MOUSE_BUTTON_5)
@@ -471,16 +478,56 @@ eInputButton Input::GetButtonCode(u32 button) const
 	else if (button == GLFW_MOUSE_BUTTON_8)
 		btn = eInputButton::Button9;
 	else if (button == GLFW_MOUSE_BUTTON_LAST + 1)
-		btn = eInputButton::Down;
+		btn = eInputButton::MouseDown;
 	else if (button == GLFW_MOUSE_BUTTON_LAST + 2)
-		btn = eInputButton::Up;
+		btn = eInputButton::MouseUp;
+
+	return btn;
+}
+
+eInputButton Input::GetJoystickButtonCode(u32 button) const
+{
+	eInputButton btn = eInputButton::Invalid;
+
+	if (button == GLFW_JOYSTICK_1)
+		btn = eInputButton::Button0;
+	else if (button == GLFW_JOYSTICK_2)
+		btn = eInputButton::Button1;
+	else if (button == GLFW_JOYSTICK_3)
+		btn = eInputButton::Button2;
+	else if (button == GLFW_JOYSTICK_4)
+		btn = eInputButton::Button3;
+	else if (button == GLFW_JOYSTICK_5)
+		btn = eInputButton::Button4;
+	else if (button == GLFW_JOYSTICK_6)
+		btn = eInputButton::Button5;
+	else if (button == GLFW_JOYSTICK_7)
+		btn = eInputButton::Button6;
+	else if (button == GLFW_JOYSTICK_8)
+		btn = eInputButton::Button7;
+	else if (button == GLFW_JOYSTICK_9)
+		btn = eInputButton::Button8;
+	else if (button == GLFW_JOYSTICK_10)
+		btn = eInputButton::Button9;
+	else if (button == GLFW_JOYSTICK_11)
+		btn = eInputButton::Button10;
+	else if (button == GLFW_JOYSTICK_12)
+		btn = eInputButton::Button11;
+	else if (button == GLFW_JOYSTICK_13)
+		btn = eInputButton::Button12;
+	else if (button == GLFW_JOYSTICK_14)
+		btn = eInputButton::Button13;
+	else if (button == GLFW_JOYSTICK_15)
+		btn = eInputButton::Button14;
+	else if (button == GLFW_JOYSTICK_16)
+		btn = eInputButton::Button15;
 
 	return btn;
 }
 
 u32 Input::ConvertButtonFlags(u32 flags)
 {
-	return static_cast<u32>(this->GetButtonCode(flags));
+	return static_cast<u32>(this->GetMouseButtonCode(flags));
 }
 
 u32 Input::GetSensitivity(u16 joystick) const

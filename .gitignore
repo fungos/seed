@@ -11,6 +11,7 @@ LocalDefines.h
 *.o
 *.so
 *.a
+*.app
 
 # Packages #
 ############

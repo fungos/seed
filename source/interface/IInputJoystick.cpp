@@ -34,6 +34,31 @@
 
 namespace Seed {
 
+#if defined(DEBUG)
+const char *buttonName[]
+{
+	[0] = "None",
+	[1] = "Button0",
+	[2] = "Button1",
+	[4] = "Button2",
+	[8] = "Button3",
+	[16] = "JoystickUp",
+	[32] = "JoystickRight",
+	[64] = "JoystickDown",
+	[128] = "JoystickLeft",
+	[256] = "Button8",
+	[512] = "Button9",
+	[1024] = "Button10",
+	[2048] = "Button11",
+	[4096] = "Button12",
+	[8192] = "Button13",
+	[16384] = "Button14",
+	[32768] = "Button15",
+	[65536] = "Invalid",
+	[131072] = "All"
+};
+#endif
+
 IInputJoystick::IInputJoystick()
 	: vJoystickListeners()
 {
@@ -62,18 +87,31 @@ void IInputJoystick::RemoveJoystickListener(IEventInputJoystickListener *listene
 
 void IInputJoystick::SendEventJoystickButtonPress(const EventInputJoystick *ev)
 {
+	SEED_ASSERT(ev);
+
+#if defined(DEBUG)
+	Dbg(">>>> Joystick Button Press: %s Value: 0x%04x", buttonName[static_cast<u32>(ev->GetPressed())], static_cast<u32>(ev->GetPressed()));
+#endif
+
 	for (auto each: vJoystickListeners)
 		each->OnInputJoystickButtonPress(ev);
 }
 
 void IInputJoystick::SendEventJoystickButtonRelease(const EventInputJoystick *ev)
 {
+	SEED_ASSERT(ev);
+
 	for (auto each: vJoystickListeners)
 		each->OnInputJoystickButtonRelease(ev);
 }
 
 void IInputJoystick::SendEventJoystickDPadMove(const EventInputJoystick *ev)
 {
+	SEED_ASSERT(ev);
+
+#if defined(DEBUG)
+	Dbg(">>>> Joystick Button Dpad Press: %s Value: 0x%04x", buttonName[static_cast<u32>(ev->GetPressed())], static_cast<u32>(ev->GetPressed()));
+#endif
 	for (auto each: vJoystickListeners)
 		each->OnInputJoystickDPadMove(ev);
 }

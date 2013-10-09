@@ -73,12 +73,12 @@ bool Screen::Reset()
 #if defined(__linux__)
 	this->InitializeVideo();
 #else
-	pResourceManager->Unload(Seed::TypeTexture);
+	//pResourceManager->Unload(Seed::TypeTexture);
 	pRendererDevice->Shutdown();
 	this->Shutdown();
 	this->Initialize();
 	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::TypeTexture);
+	//pResourceManager->Reload(Seed::TypeTexture);
 #endif
 
 	return true;

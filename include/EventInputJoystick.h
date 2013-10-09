@@ -42,21 +42,21 @@ class SEED_CORE_API EventInputJoystick : public IEventInput
 	SEED_DECLARE_RTTI(EventInputJoystick, IEventInput)
 
 	public:
-		EventInputJoystick(u32 j, u32 pressed, u32 hold, u32 released, u32 axis, u32 value);
+		EventInputJoystick(u32 j, eInputButton pressed, eInputButton hold, eInputButton released, u32 axis, u32 value);
 		virtual ~EventInputJoystick();
 
 		u32 GetJoystick() const;
-		u32 GetPressed()  const;
-		u32 GetReleased() const;
-		u32 GetHold() 	 const;
+		eInputButton GetPressed()  const;
+		eInputButton GetReleased() const;
+		eInputButton GetHold() 	 const;
 		u32 GetAxis() 	 const;
 		u32 GetValue()	 const;
 
 	protected:
 		u32 iJoystick;
-		u32 iPressed;
-		u32 iHold;
-		u32 iReleased;
+		eInputButton nPressed;
+		eInputButton nHold;
+		eInputButton nReleased;
 		u32 iAxis;
 		u32 iValue;
 };
