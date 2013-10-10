@@ -31,7 +31,6 @@
 #include "interface/IInputJoystick.h"
 #include "interface/IEventInputJoystickListener.h"
 #include "Log.h"
-#include <iostream>
 
 namespace Seed {
 
