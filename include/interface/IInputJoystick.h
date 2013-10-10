@@ -65,6 +65,11 @@ class SEED_CORE_API IInputJoystick
 
 	protected:
 		IEventInputJoystickListenerVector vJoystickListeners;
+
+#if defined(DEBUG)
+	private:
+		Map<u32, String> buttonsName;
+#endif
 };
 
 } // namespace
