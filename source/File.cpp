@@ -33,6 +33,7 @@
 #include "FileSystem.h"
 #include "Log.h"
 #include "Enum.h"
+#include "Memory.h"
 
 #define TAG		"[File] "
 
@@ -94,7 +95,7 @@ bool File::Open()
 
 void File::Close()
 {
-	Delete(pData);
+	sdDelete(pData);
 	if (pHandle)
 		PHYSFS_close(pHandle);
 	iSize = 0;
@@ -121,7 +122,7 @@ u8 *File::GetData() const
 
 	if (this->Check())
 	{
-		pData = (u8 *)Alloc(iSize + 1);
+		pData = (u8 *)sdAlloc(iSize + 1);
 		pData[iSize] = 0;
 		if (PHYSFS_read(pHandle, pData, iSize, 1) != -1)
 			return pData;
@@ -150,7 +151,7 @@ FileLoader::FileLoader(const String &filename, JobCallback fun)
 
 FileLoader::~FileLoader()
 {
-	Delete(pFile);
+	sdDelete(pFile);
 }
 
 bool FileLoader::Run()
@@ -163,7 +164,7 @@ bool FileLoader::Run()
 
 	if (run)
 	{
-		pFile = New(File(sFilename));
+		pFile = sdNew(File(sFilename));
 		pFile->GetData();
 		Log("[Job:FileLoader] Loaded: %s (%d bytes)", sFilename.c_str(), pFile->GetSize());
 

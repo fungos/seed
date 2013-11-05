@@ -33,8 +33,7 @@
 #include "Log.h"
 #include "Enum.h"
 #include "Job.h"
-#include "EventJob.h"
-#include "interface/IEventJobListener.h"
+#include "Memory.h"
 
 #define TAG		"[JobManager] "
 
@@ -52,7 +51,7 @@ JobManager::~JobManager()
 
 bool JobManager::Initialize()
 {
-	pMutex = New(Mutex);
+	pMutex = sdNew(Mutex);
 	return IManager::Initialize();
 }
 
@@ -88,7 +87,7 @@ bool JobManager::Shutdown()
 		job->Destroy();
 
 	JobVector().swap(vRunning);
-	Delete(pMutex);
+	sdDelete(pMutex);
 
 	return IManager::Shutdown();
 }

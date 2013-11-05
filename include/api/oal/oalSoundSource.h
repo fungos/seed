@@ -66,13 +66,16 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		virtual void SetVolume(f32 vol) override;
 		virtual void UpdateVolume() override;
 
+		// IDataObject
+		virtual SoundSource *Clone() const override;
+
 		// IRenderable
 		virtual void Update(f32 delta) override;
 
 	protected:
 		// ISoundSource
-		virtual bool OnLoadFinished();
-		virtual bool OnUnloadRequest();
+		virtual bool OnLoadFinished() override;
+		virtual bool OnUnloadRequest() override;
 
 	private:
 		ALuint iSource;

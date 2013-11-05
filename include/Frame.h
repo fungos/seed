@@ -48,6 +48,7 @@ class SEED_CORE_API Frame : public IDataObject
 	SEED_DECLARE_RTTI(Frame, IDataObject)
 
 	public:
+		ResourceManager *pRes;
 		ITexture	*pTexture;
 		String		sName;
 		String		sTexture;
@@ -72,6 +73,14 @@ class SEED_CORE_API Frame : public IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual Frame *Clone() const override;
+		virtual void Set(Reader &reader) override;
+
+	private:
+		void Configure();
+
+	private:
+		bool PostLoad();
 };
 
 } // namespace

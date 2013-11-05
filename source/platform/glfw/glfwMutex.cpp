@@ -37,17 +37,22 @@ namespace Seed { namespace GLFW {
 Mutex::Mutex()
 	: pMutex(NULL)
 {
-	pMutex = glfwCreateMutex();
-	SEED_ASSERT(pMutex);
 }
 
 Mutex::~Mutex()
 {
-	glfwDestroyMutex(pMutex);
+	if (pMutex)
+		glfwDestroyMutex(pMutex);
 }
 
 void Mutex::Lock()
 {
+	if (!pMutex)
+	{
+		pMutex = glfwCreateMutex();
+		SEED_ASSERT(pMutex);
+	}
+
 	IMutex::Lock();
 	glfwLockMutex(pMutex);
 }

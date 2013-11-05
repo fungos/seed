@@ -39,7 +39,7 @@ class MapLayerTiled;
 class MapLayerMosaic;
 class MapLayerMetadata;
 
-class SEED_CORE_API IMapLayer : public SceneNode
+class SEED_CORE_API IMapLayer : public ISceneNode
 {
 	SEED_DISABLE_COPY(IMapLayer)
 

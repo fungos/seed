@@ -33,6 +33,7 @@
 #if defined(USE_API_OAL)
 
 #include "Log.h"
+#include "Memory.h"
 #include <vector>
 
 #define TAG "[Sound] "
@@ -42,7 +43,7 @@ namespace Seed { namespace OAL {
 
 IResource *SoundResourceLoader(const String &filename, ResourceManager *res)
 {
-	auto sound = New(Sound());
+	auto sound = sdNew(Sound);
 	sound->Load(filename, res);
 	return sound;
 }
@@ -77,8 +78,8 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 
 		alGenBuffers(1, &iBuffer);
 
-		WARNING(TODO - Move to async file loading)
-		auto file = New(File(filename));
+		// FIXME: async resource loading
+		auto file = sdNew(File(filename));
 		oggFile.dataPtr = file->GetData();
 		oggFile.dataRead = 0;
 		oggFile.dataSize = iSize = file->GetSize();
@@ -128,7 +129,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 		}
 
 		bLoaded = true;
-		Delete(file);
+		sdDelete(file);
 	}
 
 	return bLoaded;

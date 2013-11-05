@@ -40,8 +40,6 @@
 
 namespace Seed {
 
-class IEventJobListener;
-
 class SEED_CORE_API Job : public Thread
 {
 	friend class JobManager;

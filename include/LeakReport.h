@@ -36,17 +36,12 @@
 #include "Defines.h"
 #include "Log.h"
 #include "Singleton.h"
+#include "interface/IObject.h"
 
+#include <chrono>
 #include <map>
 
 #define SEED_LEAK_MAX			128
-
-#define New(T)					pLeakReport->LogNew((new T), #T, __FILE__, __LINE__, __FUNC__)
-#define Delete(ptr)				{ if (ptr) pLeakReport->LogDelete(ptr); ptr = NULL; }
-#define NewArray(T, L)			pLeakReport->LogNew((new T[L]), #T, __FILE__, __LINE__, __FUNC__)
-#define DeleteArray(ptr)		{ if (ptr) pLeakReport->LogDelete(ptr, true); ptr = NULL; }
-#define Alloc(S)				malloc(S)
-#define sFree(ptr)				{ if (ptr) free(ptr); ptr = NULL; }
 
 #define LeakReportPrint			pLeakReport->Print();
 
@@ -59,22 +54,39 @@ class SEED_CORE_API LeakReport
 	SEED_DISABLE_COPY(LeakReport)
 
 	public:
+		void Debug(void *ptr)
+		{
+			void *addr = reinterpret_cast<void *>(ptr);
+			fprintf(stdout, "WHAT DELETE: %p\n", addr);
+			for (int i = 0; i < SEED_LEAK_MAX; ++i)
+			{
+				if (arInfo[i].ptrAddr != nullptr)
+					fprintf(stdout, "CHECK: %d - %p == %p\n", i, addr, arInfo[i].ptrAddr);
+			}
+		}
+
 		template <class T>
-		T *LogNew(T* ptr, const char *call, const char *file, int line, const char *func)
+		T *LogNew(T *ptr, const char *call, const char *file, int line, const char *func)
+		{
+			return (T *)LogNew((void *)ptr, call, file, line, func);
+		}
+
+		void *LogNew(void *ptr, const char *call, const char *file, int line, const char *func)
 		{
 			for (int i = 0; i < SEED_LEAK_MAX; ++i)
 			{
-				if (arInfo[i].ptrAddr == NULL)
+				if (arInfo[i].ptrAddr == nullptr)
 				{
-					arInfo[i].ptrAddr = ptr;
+					arInfo[i].ptrAddr = (void *)ptr;
 
 					strncpy(arInfo[i].strCall, call, 64);
 					strncpy(arInfo[i].strFile, file, 128);
 					strncpy(arInfo[i].strFunc, func, 256);
 
 					arInfo[i].iLine = line;
+					arInfo[i].iFrame = 0;
 
-					//Log("New: [0x%8x] %s:%d: %s -> %s", arInfo[i].ptrAddr, arInfo[i].strFile, arInfo[i].iLine, arInfo[i].strFunc, arInfo[i].strCall);
+					//fprintf(stdout, "== New: [%p] %s:%d: %s -> %s\n", arInfo[i].ptrAddr, arInfo[i].strFile, arInfo[i].iLine, arInfo[i].strFunc, arInfo[i].strCall);
 					break;
 				}
 			}
@@ -83,34 +95,25 @@ class SEED_CORE_API LeakReport
 		}
 
 		template <class T>
-		void LogDelete(T *ptr, bool array = false)
+		void LogDelete(T *ptr)
 		{
-			void *addr = (void *)ptr;
+			void *addr = reinterpret_cast<void *>(ptr);
 
 			for (int i = 0; i < SEED_LEAK_MAX; ++i)
 			{
 				if (addr == arInfo[i].ptrAddr)
 				{
-					//Log("Delete: [0x%8x] %s:%d: %s -> %s", arInfo[i].ptrAddr, arInfo[i].strFile, arInfo[i].iLine, arInfo[i].strFunc, arInfo[i].strCall);
-					arInfo[i].ptrAddr = NULL;
+					//fprintf(stdout, "== Delete: [%p] %s:%d: %s -> %s\n", arInfo[i].ptrAddr, arInfo[i].strFile, arInfo[i].iLine, arInfo[i].strFunc, arInfo[i].strCall);
+					arInfo[i].ptrAddr = nullptr;
 
 					memset(arInfo[i].strCall, '\0', 64);
 					memset(arInfo[i].strFile, '\0', 128);
 					memset(arInfo[i].strFunc, '\0', 256);
 
 					arInfo[i].iLine = 0;
+					arInfo[i].iFrame = 0;
 					break;
 				}
-			}
-
-			if (ptr)
-			{
-				if (array)
-					delete []ptr;
-				else
-					delete ptr;
-
-				ptr = NULL;
 			}
 		}
 
@@ -124,6 +127,7 @@ class SEED_CORE_API LeakReport
 			char strFile[128];
 			char strFunc[256];
 			int  iLine;
+			u64  iFrame;
 		};
 
 		PointerInfo arInfo[SEED_LEAK_MAX];
@@ -136,11 +140,11 @@ class SEED_CORE_API LeakReport
 #else
 
 #define New(T)					new T
-#define Delete(ptr)				{ if (ptr) delete ptr; ptr = NULL; }
+#define Delete(ptr)				{ if (ptr) delete ptr; ptr = nullptr; }
 #define NewArray(T, L)			new T[L]
-#define DeleteArray(ptr)		{ if (ptr) delete []ptr; ptr = NULL; }
+#define DeleteArray(ptr)		{ if (ptr) delete []ptr; ptr = nullptr; }
 #define Alloc(S)				malloc(S)
-#define sFree(ptr)				{ free(ptr); ptr = NULL;}
+#define sFree(ptr)				{ free(ptr); ptr = nullptr;}
 
 #define LeakReportPrint
 

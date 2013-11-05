@@ -70,37 +70,33 @@ class SEED_CORE_API MapLayerMosaic : public IMapLayer
 			it will instantiate a new object and may leak.
 
 			\param entry a struct of Layer Object basic information.
-			\return An instance of a custom object from IMetadataObject type.
+			\return An instance of a custom object from MetadataObject type.
 		*/
 		virtual Sprite *CreateSprite(const LayerMosaicHeader *entry, u32 prio);
 
 		// IMapLayer
 		virtual MapLayerMosaic *AsMosaic();
 
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
+		virtual void Add(ISceneObject *obj) override;
+		virtual void Remove(ISceneObject *obj) override;
+		virtual u32 Size() const override;
+		virtual ISceneObject *GetChildByName(const String &name) const override;
+		virtual ISceneObject *GetChildAt(u32 i) const override;
 
-		// SceneNode
+		// IRenderable
 		virtual void Update(f32 delta);
 		virtual void Render(const Matrix4f &worldTransform);
+
+		// IDataObject
+		virtual bool Unload() override;
+		virtual bool Write(Writer &writer) override;
+		virtual MapLayerMosaic *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
 		SceneNode cScene;
 		SpriteVector vObjects;
 		Point2u ptiTileSize;
-
-		/*s32 iPosX;
-		s32 iPosY;
-		s32 iOffsetX;
-		s32 iOffsetY;
-
-		u32 iMapWidth;
-		u32 iMapHeight;
-		u32 iViewWidth;
-		u32 iViewHeight;*/
-
 		bool bWrap : 1;
 };
 

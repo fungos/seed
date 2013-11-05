@@ -31,12 +31,8 @@
 #ifndef __PARTICLE_EMITTER_H__
 #define __PARTICLE_EMITTER_H__
 
-#include "interface/ITransformable.h"
 #include "interface/ISceneObject.h"
-#include "interface/IEventJobListener.h"
-#include "Particle.h"
 #include "Rect.h"
-#include "Vertex.h"
 #include "RendererDevice.h"
 
 namespace Seed {
@@ -45,7 +41,6 @@ class ITexture;
 class ResourceManager;
 class Particle;
 class Sprite;
-class EventJob;
 
 ISceneObject *FactoryParticleEmitter();
 
@@ -142,14 +137,14 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual ParticleEmitter *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
 		void MoveEverything(const Vector3f &pos);
 
-		ResourceManager			*pRes;
 		Particle				*arParticles;
 		ITexture				*pTexture;
 

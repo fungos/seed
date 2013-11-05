@@ -31,6 +31,7 @@
 #include "map/MapLayerMosaic.h"
 #include "Sprite.h"
 #include "Screen.h"
+#include "Memory.h"
 
 namespace Seed {
 
@@ -48,11 +49,7 @@ MapLayerMosaic::~MapLayerMosaic()
 
 void MapLayerMosaic::Reset()
 {
-	for (auto obj: vObjects)
-		Delete(obj);
-
-	SpriteVector().swap(vObjects);
-	cScene.Reset();
+	this->Unload();
 }
 
 void MapLayerMosaic::Initialize(Point2u tileSize, u32 count, const LayerMosaicHeader *data)
@@ -64,11 +61,76 @@ void MapLayerMosaic::Initialize(Point2u tileSize, u32 count, const LayerMosaicHe
 	}
 }
 
+bool MapLayerMosaic::Unload()
+{
+	for (auto obj: vObjects)
+		sdDelete(obj);
+
+	SpriteVector().swap(vObjects);
+	cScene.Reset();
+
+	return true;
+}
+
+void MapLayerMosaic::Set(Reader &reader)
+{
+	UNUSED(reader)
+}
+
+bool MapLayerMosaic::Write(Writer &writer)
+{
+	UNUSED(writer)
+	WARNING(IMPL - MapLayerMosaic::Writer(...))
+	return false;
+}
+
+MapLayerMosaic *MapLayerMosaic::Clone() const
+{
+	auto obj = sdNew(MapLayerMosaic);
+	obj->GenerateCloneName(sName);
+
+	obj->ptiTileSize = ptiTileSize;
+	obj->bWrap = bWrap;
+
+	for (auto each: vObjects)
+		obj->vObjects += static_cast<Sprite *>(each->Clone());
+
+	//for (u32 i = 0; i < cScene.Size(); i++)
+	//	obj->cScene.Add(static_cast<ISceneObject *>(cScene.GetChildAt(i)->Clone()));
+	for (auto each: cScene)
+		obj->cScene += static_cast<ISceneObject *>(each->Clone()); // TODO: testar essa implementacao
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
+
+	return obj;
+}
+
 Sprite *MapLayerMosaic::CreateSprite(const LayerMosaicHeader *entry, u32 prio)
 {
+	UNUSED(entry)
+	UNUSED(prio)
+	WARNING(IMPL - MapLayerMosaic::CreateSprite(...) - Reimplementar)
+
 	Sprite *obj = NULL;
 
-	//#pragma warning "TODO - rewrite"
 //	obj = New(SpriteInstantiable());
 //	obj->Load(_F(entry->iSpriteFileId));
 //	//obj->SetPosition(entry->fPosX * ptiTileSize.x, entry->fPosY * ptiTileSize.y);
@@ -101,7 +163,6 @@ Sprite *MapLayerMosaic::GetObject(u32 at)
 Point2i MapLayerMosaic::ViewAt(Point2i pos)
 {
 	cScene.SetPosition(-pos.x / static_cast<f32>(pScreen->GetWidth()), -pos.y / static_cast<f32>(pScreen->GetHeight()));
-
 	return Point2i(0, 0);
 }
 
@@ -146,7 +207,12 @@ u32 MapLayerMosaic::Size() const
 	return cScene.Size();
 }
 
-ISceneObject *MapLayerMosaic::GetChildAt(u32 i)
+ISceneObject *MapLayerMosaic::GetChildByName(const String &name) const
+{
+	return cScene.GetChildByName(name);
+}
+
+ISceneObject *MapLayerMosaic::GetChildAt(u32 i) const
 {
 	return cScene.GetChildAt(i);
 }

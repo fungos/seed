@@ -33,7 +33,8 @@
 #include "interface/ISceneObject.h"
 #include "SoundSource.h"
 #include "JobManager.h"
-#include "EventJob.h"
+#include "PrefabManager.h"
+#include "Memory.h"
 
 #define TAG		"[SceneObjectFactory] "
 
@@ -41,7 +42,7 @@ namespace Seed {
 
 ISceneObject *FactorySoundSource()
 {
-	return New(SoundSource());
+	return sdNew(SoundSource);
 }
 
 FactoryMap SceneObjectFactory::mapFactory;
@@ -86,23 +87,16 @@ void SceneObjectFactory::Unregister(const String &objectType)
 	mapFactory.erase(it);
 }
 
-ISceneObject *SceneObjectFactory::Load(Reader &reader, ResourceManager *res) const
+void SceneObjectFactory::LoadInstance(ISceneObject *obj, Reader &reader, ResourceManager *res) const
 {
-	String type = reader.ReadString("sType", "");
-	SEED_ASSERT_MSG(type != "", "Object without type.");
-
-	ISceneObject *obj = this->Create(type);
-	SEED_ASSERT_MSG(obj != NULL, "Object type invalid.");
-
-	String include = reader.ReadString("sInclude", "");
+	auto include = String(reader.ReadString("sInclude", ""));
 	if (include != "")
 	{
-		WARNING(FIXME - Find a way to guarantee that all jobs finished before finishing scene loading)
 		// TODO: it is possible that scene will finish loading before it's dependencies,
 		// and then presentation can fire the completed event before all scene elements
 		// are loaded, trying to access them from there can cause crash. How to guarantee
 		// that all scene async jobs are finished before triggering presentation complete?
-
+		// FIXME: Clear this thing, we may not need this "sInclude" now that we have prefabs.
 		auto cb = [&](Job *self) {
 			if (self->GetState() == eJobState::Completed)
 			{
@@ -111,14 +105,43 @@ ISceneObject *SceneObjectFactory::Load(Reader &reader, ResourceManager *res) con
 				job->pObj->Load(r);
 			}
 
-			Delete(self);
+			sdDelete(self);
 		};
 
-		pJobManager->Add(New(SceneObjectJobLoader(obj, include, cb)));
+		pJobManager->Add(sdNew(SceneObjectJobLoader(obj, include, cb)));
 	}
 	else
 	{
 		obj->Load(reader, res);
+		Log(TAG "Created object: %s", obj->sName.c_str());
+	}
+}
+
+ISceneObject *SceneObjectFactory::Load(Reader &reader, ResourceManager *res, bool isPrefab) const
+{
+	auto type = String(reader.ReadString("sType", ""));
+	SEED_ASSERT_MSG(type != "", "Object without type.");
+
+	auto prefab = String(reader.ReadString("sPrefab", ""));
+	auto name = String(reader.ReadString("sName", ""));
+
+	ISceneObject *obj = nullptr;
+	if (prefab != "" && !isPrefab)
+	{
+		// we need a prefab, try to make a copy
+		auto tpl = pPrefabManager->Get(prefab);
+		SEED_ASSERT_FMT(tpl, "Object '%s' depends on inexistent prefab '%s'.", name.c_str(), prefab.c_str());
+
+		obj = static_cast<ISceneObject *>(tpl->Clone());
+		obj->Set(reader);
+		Log(TAG "Cloned prefab %s as %s", tpl->sName.c_str(), obj->sName.c_str());
+	}
+	else
+	{
+		// if we do not need a prefab instantiation, continue normally
+		obj = this->Create(type);
+		this->LoadInstance(obj, reader, res);
+		SEED_ASSERT_FMT(obj != nullptr, "Object '%s' type '%s' invalid.", name.c_str(), type.c_str());
 	}
 
 	return obj;
@@ -126,15 +149,14 @@ ISceneObject *SceneObjectFactory::Load(Reader &reader, ResourceManager *res) con
 
 ISceneObject *SceneObjectFactory::Create(const String &objectType) const
 {
-	ISceneObject *obj = NULL;
-	String type = objectType;
+	auto type = objectType;
 	std::transform(type.begin(), type.end(), type.begin(), ::tolower);
 
 	if (mapFactory.find(type) == mapFactory.end())
 		Log(TAG "Factory %s not found.", objectType.c_str());
 
-	obj = mapFactory[type]();
-	SEED_ASSERT_MSG(obj != NULL, "Couldn't create the object.");
+	auto obj = mapFactory[type]();
+	SEED_ASSERT_MSG(obj != nullptr, "Couldn't create the object.");
 
 	obj->bMarkForDeletion = true;
 

@@ -62,10 +62,11 @@ void IMapLayer::ReadProperties(Reader &reader)
 
 void IMapLayer::ReadMapLayer(Reader &reader)
 {
-	this->SetPosition(static_cast<f32>(reader.ReadU32("x", 0)), static_cast<f32>(reader.ReadU32("y", 0)));
-	this->SetVisible(reader.ReadBool("visible", true));
-	this->SetOpacity(reader.ReadF32("opacity", 1.0f));
-	sName = reader.ReadString("name", "IMapLayer");
+	this->SetPosition(f32(reader.ReadU32("x", this->GetX())), f32(reader.ReadU32("y", this->GetY())));
+	this->SetVisible(reader.ReadBool("visible", this->IsVisible()));
+	this->SetOpacity(reader.ReadF32("opacity", this->GetOpacity()));
+
+	sName = reader.ReadString("name", sName.c_str());
 }
 
 const String &IMapLayer::GetProperty(const String &property) const
@@ -75,17 +76,17 @@ const String &IMapLayer::GetProperty(const String &property) const
 
 MapLayerTiled *IMapLayer::AsTiled()
 {
-	return NULL;
+	return nullptr;
 }
 
 MapLayerMosaic *IMapLayer::AsMosaic()
 {
-	return NULL;
+	return nullptr;
 }
 
 MapLayerMetadata *IMapLayer::AsMetadata()
 {
-	return NULL;
+	return nullptr;
 }
 
 void IMapLayer::SetOpacity(f32 opacity)

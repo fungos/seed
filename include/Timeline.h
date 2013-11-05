@@ -90,6 +90,8 @@ class SEED_CORE_API Timeline : public IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual Timeline *Clone() const override;
+		virtual void Set(Reader &reader);
 
 	private:
 		s32 FindNextKeyframe();
@@ -99,6 +101,7 @@ class SEED_CORE_API Timeline : public IDataObject
 		f32 EaseQuadPercent(f32 time, f32 begin, f32 change, f32 duration, f32 easing);
 
 	private:
+		ResourceManager		*pRes;
 		Movie				*pParent;
 		ISceneObject		*pObject;
 		IEventMovieListener *pListener;

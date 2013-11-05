@@ -29,7 +29,6 @@
 */
 
 #include "Job.h"
-#include "interface/IEventJobListener.h"
 
 namespace Seed {
 

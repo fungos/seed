@@ -4,7 +4,47 @@
 	aObjects: [
 		{
 			sType: sprite
-			sInclude: sprite_panda.sprite
+			sName: Panda
+			cScale: {x: 1, y: 1, z: 1}
+			cPosition: {z: 100}
+			sBlending: none
+			cColor: {r: 255, g: 255, b: 255, a: 255}
+			aAnimations:
+			[
+				{
+					bAnimated: true
+					bLoop: true
+					iFps: 7
+					aFrames:
+					[
+						{
+							sName: "frame 1"
+							sResource: frame01.png
+							cBoundary: {iWidth: 120, iHeight: 120}
+						}
+						{
+							sName: "frame 2"
+							sResource: frame01.png
+							cBoundary: {iX: 20, iY: 20, iWidth: 100, iHeight: 100}
+						}
+						{
+							sName: "frame 3"
+							sResource: frame01.png
+							cBoundary: {iX: 40, iY: 40, iWidth: 80, iHeight: 80}
+						}
+						{
+							sName: "frame 4"
+							sResource: frame01.png
+							cBoundary: {iX: 60, iY: 60, iWidth: 60, iHeight: 60}
+						}
+						{
+							sName: "frame 5"
+							sResource: frame01.png
+							cBoundary: {iX: 80, iY: 80, iWidth: 40, iHeight: 40}
+						}
+					]
+				}
+			]
 		}
 		{
 			sType: Camera

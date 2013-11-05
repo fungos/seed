@@ -3,9 +3,9 @@
 SceneNode *gScene;
 
 TileSample::TileSample()
-	: pPlayer(NULL)
-	, pCamera(NULL)
-	, pMap(NULL)
+	: pPlayer(nullptr)
+	, pCamera(nullptr)
+	, pMap(nullptr)
 	, cPres()
 	, vDir()
 	, fSpeed(5.0f)
@@ -19,7 +19,28 @@ TileSample::~TileSample()
 
 bool TileSample::Initialize()
 {
-	return cPres.Load("tile_sample.config", this);
+	return cPres.Load("tile_sample.config", [&](Presentation *pres, Renderer *) {
+		gScene = pres->GetRendererByName("MainRenderer")->GetScene();
+		pCamera = pres->GetViewportByName("MainView")->GetCamera();
+
+		pPlayer = (ISceneObject *)gScene->GetChildByName("Player");
+
+		pMap = (GameMap *)gScene->GetChildByName("GameMap");
+		pCamera->SetParent(pPlayer);
+		vDir = Vector3f(0.0f, 0.0f, 0.0f);
+
+		/* How to read the various properties in a tiled map */
+		auto mapName = pMap->GetProperty("map_name");
+		auto layerVelocity = pMap->GetLayerByName("Ground")->GetProperty("velocity");
+		auto type = pMap->GetTileSet("Desert")->GetProperty("terrain_type");
+		auto tileProp1 = pMap->GetTileSet("Desert")->GetTileProperty(1, "type");
+		auto tileProp30 = pMap->GetTileSet("Desert")->GetTileProperty(30, "type");
+
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+
+		bLoaded = true;
+	});
 }
 
 bool TileSample::Update(f32 dt)
@@ -108,30 +129,4 @@ void TileSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		break;
 		default: return;
 	}
-}
-
-void TileSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	gScene = cPres.GetRendererByName("MainRenderer")->GetScene();
-	pCamera = cPres.GetViewportByName("MainView")->GetCamera();
-
-	pPlayer = (ISceneObject *)gScene->GetChildByName("Player");
-
-	pMap = (GameMap *)gScene->GetChildByName("Map");
-	pCamera->SetParent(pPlayer);
-	vDir = Vector3f(0.0f, 0.0f, 0.0f);
-
-	/* How to read the various properties in a tiled map */
-	auto mapName = pMap->GetProperty("map_name");
-	auto layerVelocity = pMap->GetLayerByName("Ground")->GetProperty("velocity");
-	auto type = pMap->GetTileSet("Desert")->GetProperty("terrain_type");
-	auto tileProp1 = pMap->GetTileSet("Desert")->GetTileProperty(1, "type");
-	auto tileProp30 = pMap->GetTileSet("Desert")->GetTileProperty(30, "type");
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-
-	bLoaded = true;
 }

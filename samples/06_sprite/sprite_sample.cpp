@@ -2,8 +2,8 @@
 
 SpriteSample::SpriteSample()
 	: cPres()
-	, pSprite(NULL)
-	, pCamera(NULL)
+	, pSprite(nullptr)
+	, pCamera(nullptr)
 	, vFrom()
 	, vCurrent()
 	, vTo()
@@ -20,7 +20,16 @@ SpriteSample::~SpriteSample()
 bool SpriteSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("sprite_sample.config", this);
+	return cPres.Load("sprite_sample.config", [&](Presentation *pres, Renderer *rend)
+	{
+		UNUSED(rend)
+		pCamera = pres->GetViewportByName("MainView")->GetCamera();
+		pSprite = (Sprite *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+		pInput->AddPointerListener(this);
+	});
 }
 
 bool SpriteSample::Update(f32 dt)
@@ -101,16 +110,4 @@ void SpriteSample::OnInputPointerRelease(const EventInputPointer *ev)
 		fDir = -1.0f;
 		bRotate = true;
 	}
-}
-
-void SpriteSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pCamera = cPres.GetViewportByName("MainView")->GetCamera();
-	pSprite = (Sprite *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
 }

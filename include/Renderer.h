@@ -91,6 +91,7 @@ class SEED_CORE_API Renderer : public IUpdatable, public IObject
 		virtual bool Update(f32 delta) override;
 
 	protected:
+		String sPrefabToLoad;
 		String sSceneToAttach;
 		SceneNode *pScene;
 		RenderableVector vRenderables;

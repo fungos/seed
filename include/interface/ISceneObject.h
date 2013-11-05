@@ -48,6 +48,10 @@ class SEED_CORE_API ISceneObject : public ITransformable, public IRenderable, pu
 
 		virtual bool IsNode() const;
 
+		// IDataObject
+		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
+
+		ResourceManager *pRes;
 		bool bMarkForDeletion : 1;
 };
 

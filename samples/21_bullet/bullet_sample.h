@@ -9,8 +9,7 @@ using namespace Seed;
 class BulletSample :	public IGameApp,
 						public IEventSystemListener,
 						public IEventInputKeyboardListener,
-						public IEventInputPointerListener,
-						public IEventPresentationListener
+						public IEventInputPointerListener
 {
 	SEED_DISABLE_COPY(BulletSample)
 
@@ -32,9 +31,6 @@ class BulletSample :	public IGameApp,
 		virtual void OnInputPointerPress(const EventInputPointer *ev);
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
 		virtual void OnInputPointerMove(const EventInputPointer *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	private:
 		void CreateBody(Image *img, f32 x, f32 y);

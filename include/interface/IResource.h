@@ -34,8 +34,8 @@
 #include "Defines.h"
 #include "IObject.h"
 
-#define sAcquire(p)		p->Acquire()
-#define sRelease(p)		{ if (p) p->Release(); p = NULL; }
+#define sdAcquire(p)		p->Acquire()
+#define sdRelease(p)		{ if (p) p->Release(); p = NULL; }
 
 namespace Seed {
 

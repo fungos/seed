@@ -1,0 +1,68 @@
+{
+	aTextures: [
+		{
+			sName: "particle 0"
+			sResource: particle_00.tga
+		}
+		{
+			sName: "particle 1"
+			sResource: particle_01.tga
+		}
+		{
+			sName: "particle 2"
+			sResource: particle_02.tga
+		}
+		{
+			sName: "particle 3"
+			sResource: particle_03.tga
+		}
+		{
+			sName: "particle 4"
+			sResource: particle_04.tga
+		}
+		{
+			sName: "particle 5"
+			sResource: particle_05.tga
+		}
+		{
+			sName: "particle 6"
+			sResource: particle_06.tga
+		}
+		{
+			sName: "particle 7"
+			sResource: particle_07.tga
+		}
+		{
+			sName: "particle 8"
+			sResource: particle_08.tga
+		}
+		{
+			sName: "particle 9"
+			sResource: particle_09.tga
+		}
+		{
+			sName: "particle 10"
+			sResource: particle_10.tga
+		}
+		{
+			sName: "particle 11"
+			sResource: particle_11.tga
+		}
+		{
+			sName: "particle 12"
+			sResource: particle_12.tga
+		}
+		{
+			sName: "particle 13"
+			sResource: particle_13.tga
+		}
+		{
+			sName: "particle 14"
+			sResource: particle_14.tga
+		}
+		{
+			sName: "particle 15"
+			sResource: particle_15.tga
+		}
+	]
+}

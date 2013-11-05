@@ -14,7 +14,10 @@ StateMachineSample::~StateMachineSample()
 
 bool StateMachineSample::Initialize()
 {
-	bool init = cPres.Load("state_machine_sample.config", this);
+	bool init = cPres.Load("state_machine_sample.config", [&](Presentation *, Renderer *) {
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+	});
 
 	// Create the data for state machine
 	pAgentData = New(AgentData());
@@ -89,12 +92,4 @@ void StateMachineSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 	if (k == eKey::Escape)
 		pSystem->Shutdown();
-}
-
-void StateMachineSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
 }

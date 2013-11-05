@@ -28,29 +28,51 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "EventJob.h"
+#ifndef PREFABMANAGER_H
+#define PREFABMANAGER_H
+
+#include "Defines.h"
+#include "Container.h"
+#include "Mutex.h"
 
 namespace Seed {
 
-EventJob::EventJob(Job *job, u32 name)
-	: IEvent()
-	, pJob(job)
-	, iName(name)
-{
-}
+class IDataObject;
+class Reader;
 
-EventJob::~EventJob()
-{
-}
+typedef Map<String, IDataObject *> PrefabMap;
+typedef PrefabMap::iterator PrefabMapIterator;
 
-u32 EventJob::GetName() const
+/// Prefab Manager
+/*!
+Object prefab cache and manager for copy instancing objects
+*/
+class SEED_CORE_API PrefabManager
 {
-	return iName;
-}
+	SEED_DISABLE_COPY(PrefabManager)
+	SEED_DECLARE_SINGLETON(PrefabManager)
 
-Job *EventJob::GetJob() const
-{
-	return pJob;
-}
+	friend class SceneNode;
+	friend class SceneObjectFactory;
+	public:
+		void Reset();
+		IDataObject *Get(const String &name);
+		void Load(Reader &reader, ResourceManager *res);
+
+		void Print();
+
+	protected:
+		void Add(IDataObject *obj);
+		void Remove(IDataObject *res);
+		void Remove(const String &name);
+
+	private:
+		Mutex cLock;
+		PrefabMap mapPrefabs;
+};
 
 } // namespace
+
+#define pPrefabManager PrefabManager::GetInstance()
+
+#endif // PREFABMANAGER_H

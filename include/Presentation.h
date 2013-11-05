@@ -42,7 +42,8 @@ class Viewport;
 class Camera;
 class Renderer;
 class SceneNode;
-class RendererSceneLoader;
+class SceneFileLoader;
+class PrefabFileLoader;
 class IEventPresentationListener;
 
 SEED_DECLARE_CONTAINER(Vector, SceneNode)
@@ -52,6 +53,12 @@ SEED_DECLARE_CONTAINER(Vector, Renderer)
 class SEED_CORE_API Presentation : public IDataObject
 {
 	friend class RendererSceneLoader;
+	/*!
+	* \brief Callback
+	* Callback to execute when the presentation load is finished. If the presentation load was aborted due some error,
+	* it will call the callback with a renderer parameter with the faulty rebderer, otherwise the renderer will be null.
+	* All renderers loaded in a presentation can be queried/get by name.
+	*/
 	typedef std::function<void(Presentation *, Renderer *)> Callback;
 	SEED_DISABLE_COPY(Presentation)
 	SEED_DECLARE_RTTI(Presentation, IDataObject)
@@ -73,11 +80,25 @@ class SEED_CORE_API Presentation : public IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 
 	private:
-		void SceneLoaded(RendererSceneLoader *ldr);
-		void SceneAborted(RendererSceneLoader *ldr);
+		void SceneLoaded(SceneFileLoader *ldr);
+		void SceneAborted(SceneFileLoader *ldr);
 
+		void PrefabLoaded(PrefabFileLoader *ldr);
+		void PrefabAborted(PrefabFileLoader *ldr);
+
+		void GotoScenePhase();
+		void PrefabsPhase();
+		void ScenesPhase();
+
+		// IDataObject
+		virtual Presentation *Clone() const override { SEED_ASSERT("[Presentation] Not clonable."); return nullptr; }
+		virtual void Set(Reader &) override {}
+
+	private:
 		ResourceManager *pRes;
-		bool *pFinished;
+		bool *pFinishedScenes;
+		bool *pFinishedPrefabs;
+		u32 iPrefabsCount;
 
 		Callback fnCallback;
 		ViewportVector vViewport;

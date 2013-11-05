@@ -35,12 +35,10 @@
 #include "Singleton.h"
 #include "Reader.h"
 #include "Container.h"
-#include "interface/IEventJobListener.h"
 
 namespace Seed {
 
 class ISceneObject;
-class EventJob;
 
 typedef ISceneObject *(*pSceneObjectFactoryFunc)();
 
@@ -56,10 +54,13 @@ class SEED_CORE_API SceneObjectFactory
 
 	public:
 		ISceneObject *Create(const String &type) const;
-		ISceneObject *Load(Reader &reader, ResourceManager *res = pResourceManager) const;
+		ISceneObject *Load(Reader &reader, ResourceManager *res = pResourceManager, bool isPrefab = false) const;
 
 		static void Register(const String &type, pSceneObjectFactoryFunc pfunc);
 		static void Unregister(const String &type);
+
+	private:
+		void LoadInstance(ISceneObject *obj, Reader &reader, ResourceManager *res) const;
 
 	private:
 		static FactoryMap mapFactory;

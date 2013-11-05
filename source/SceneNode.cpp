@@ -30,7 +30,9 @@
 
 #include "SceneNode.h"
 #include "Defines.h"
+#include "PrefabManager.h"
 #include "SceneObjectFactory.h"
+#include "Memory.h"
 #include <algorithm>
 
 #define TAG "[SceneNode] "
@@ -39,25 +41,25 @@ namespace Seed {
 
 ISceneObject *FactorySceneNode()
 {
-	return New(SceneNode());
+	return sdNew(SceneNode);
 }
 
-SceneNode::SceneNode()
+ISceneNode::ISceneNode()
 	: vChild()
 {
 }
 
-SceneNode::~SceneNode()
+ISceneNode::~ISceneNode()
 {
 	this->Unload();
 }
 
-bool SceneNode::IsNode() const
+bool ISceneNode::IsNode() const
 {
 	return true;
 }
 
-void SceneNode::Update(f32 dt)
+void ISceneNode::Update(f32 dt)
 {
 	for (auto obj: vChild)
 		obj->Update(dt);
@@ -65,35 +67,35 @@ void SceneNode::Update(f32 dt)
 	this->UpdateTransform();
 }
 
-void SceneNode::Render(const Matrix4f &worldTransform)
+void ISceneNode::Render(const Matrix4f &worldTransform)
 {
 	UNUSED(worldTransform)
 }
 
-void SceneNode::Add(ISceneObject *obj)
+void ISceneNode::Add(ISceneObject *obj)
 {
 	SEED_ASSERT_MSG(obj, "Cannot add null child to a scene.");
 	vChild += obj;
 	obj->SetParent(this);
 }
 
-void SceneNode::Remove(ISceneObject *obj)
+void ISceneNode::Remove(ISceneObject *obj)
 {
 	obj->SetParent(NULL);
 	vChild -= obj;
 }
 
-u32 SceneNode::Size() const
+u32 ISceneNode::Size() const
 {
 	return (u32)vChild.Size();
 }
 
-ISceneObject *SceneNode::GetChildAt(u32 i)
+ISceneObject *ISceneNode::GetChildAt(u32 i) const
 {
 	return vChild.at(i);
 }
 
-ISceneObject *SceneNode::GetChildByName(String name)
+ISceneObject *ISceneNode::GetChildByName(const String &name) const
 {
 	for (auto obj: vChild)
 	{
@@ -103,9 +105,9 @@ ISceneObject *SceneNode::GetChildByName(String name)
 
 	for (auto each: vChild)
 	{
-		if (each->IsKindOf<SceneNode>())
+		if (each->IsKindOf<ISceneNode>())
 		{
-			auto obj = static_cast<SceneNode *>(each);
+			auto obj = static_cast<ISceneNode *>(each);
 			return obj->GetChildByName(name);
 		}
 	}
@@ -113,28 +115,57 @@ ISceneObject *SceneNode::GetChildByName(String name)
 	return NULL;
 }
 
-bool SceneNode::Load(Reader &reader, ResourceManager *res)
+bool ISceneNode::Unload()
 {
-	bool ret = false;
-	if (this->Unload())
+	auto ret = true;
+	for (auto obj: vChild)
 	{
-		sName = reader.ReadString("sName", "node");
-		u32 objs = reader.SelectArray("aObjects");
-		if (objs)
-		{
-			for (u32 i = 0; i < objs; i++)
-			{
-				reader.SelectNext();
-				IDataObject *obj = pSceneObjectFactory->Load(reader, res);
-				vChild += static_cast<ISceneObject *>(obj);
-			}
-			reader.UnselectArray();
-		}
-
-		ret = true;
+//		Log("Unloading scene node %s.", obj->sName.c_str());
+		obj->Unload();
+		if (obj->bMarkForDeletion)
+			sdDelete(obj);
 	}
 
+	ISceneObjectVector().swap(vChild);
+	sName = this->GetTypeName();
+
 	return ret;
+}
+
+void ISceneNode::Dump(u32 level)
+{
+	for (auto obj: vChild)
+	{
+		for (decltype(level) i = 0; i < level + 1; i++) fprintf(stdout, "-");
+		Log(" %s", obj->sName.c_str());
+
+		if (obj->IsNode())
+			(static_cast<ISceneNode *>(obj))->Dump(level + 1);
+	}
+}
+
+void ISceneNode::Reset()
+{
+	for (auto obj: vChild)
+		obj->SetParent(NULL);
+
+	ISceneObjectVector().swap(vChild);
+}
+
+void SceneNode::Set(Reader &reader)
+{
+	sName = reader.ReadString("sName", sName.c_str());
+	auto objs = reader.SelectArray("aObjects");
+	if (objs)
+	{
+		for (decltype(objs) i = 0; i < objs; i++)
+		{
+			reader.SelectNext();
+			auto obj = pSceneObjectFactory->Load(reader, pRes);
+			vChild += static_cast<ISceneObject *>(obj);
+		}
+		reader.UnselectArray();
+	}
 }
 
 bool SceneNode::Write(Writer &writer)
@@ -144,10 +175,10 @@ bool SceneNode::Write(Writer &writer)
 		writer.WriteString("sName", sName.c_str());
 
 		writer.OpenArray("aObjects");
-		u32 objects  = (u32)vChild.Size();
-		for (u32 i = 0; i < objects; i++)
+		auto objects  = vChild.Size();
+		for (decltype(objects) i = 0; i < objects; i++)
 		{
-			IDataObject *obj = vChild[i];
+			auto obj = vChild[i];
 			obj->Write(writer);
 		}
 		writer.CloseArray();
@@ -156,41 +187,18 @@ bool SceneNode::Write(Writer &writer)
 	return true;
 }
 
-bool SceneNode::Unload()
+SceneNode *SceneNode::Clone() const
 {
-	bool ret = true;
+	auto obj = sdNew(SceneNode);
+	obj->GenerateCloneName(sName);
 
-	for (auto obj: vChild)
+	for (auto child: vChild)
 	{
-//		Log("Unloading scene node %s.", obj->sName.c_str());
-		obj->Unload();
-		if (obj->bMarkForDeletion)
-			Delete(obj);
+		auto cln = static_cast<ISceneObject *>(child->Clone());
+		obj->vChild += cln;
 	}
 
-	ISceneObjectVector().swap(vChild);
-
-	return ret;
-}
-
-void SceneNode::Dump(u32 level)
-{
-	for (auto obj: vChild)
-	{
-		for (u32 i = 0; i < level + 1; i++) fprintf(stdout, "-");
-		Log(" %s", obj->sName.c_str());
-
-		if (obj->IsNode())
-			(static_cast<SceneNode *>(obj))->Dump(level + 1);
-	}
-}
-
-void SceneNode::Reset()
-{
-	for (auto obj: vChild)
-		obj->SetParent(NULL);
-
-	ISceneObjectVector().swap(vChild);
+	return obj;
 }
 
 } // namespace

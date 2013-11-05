@@ -41,31 +41,28 @@ ISceneObject *FactorySceneNode();
 SEED_DECLARE_CONTAINER(Vector, ISceneObject)
 
 /// Scene Node
-class SEED_CORE_API SceneNode : public ISceneObject
+class SEED_CORE_API ISceneNode : public ISceneObject
 {
 	friend class Renderer;
-	SEED_DISABLE_COPY(SceneNode)
-	SEED_DECLARE_RTTI(SceneNode, ISceneObject)
+	SEED_DISABLE_COPY(ISceneNode)
+	SEED_DECLARE_RTTI(ISceneNode, ISceneObject)
+	SEED_IMPLEMENT_VAR_HELPERS(Vector, ISceneObject, vChild)
 
 	public:
-		SceneNode();
-		virtual ~SceneNode();
+		ISceneNode();
+		virtual ~ISceneNode();
 
 		virtual bool IsNode() const;
 
 		virtual void Add(ISceneObject *obj);
 		virtual void Remove(ISceneObject *obj);
 		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
-		virtual ISceneObject *GetChildByName(String name);
+		virtual ISceneObject *GetChildAt(u32 i) const;
+		virtual ISceneObject *GetChildByName(const String &name) const;
 
 		// IRenderable
 		virtual void Update(f32 dt) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
-
-		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
-		virtual bool Write(Writer &writer) override;
 
 		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
 		 * so if you want to keep some object loaded, remove it from the scene before
@@ -82,6 +79,22 @@ class SEED_CORE_API SceneNode : public ISceneObject
 
 	protected:
 		ISceneObjectVector vChild;
+};
+
+class SceneNode : public ISceneNode
+{
+	friend class Renderer;
+	SEED_DISABLE_COPY(SceneNode)
+	SEED_DECLARE_RTTI(SceneNode, ISceneNode)
+
+	public:
+		SceneNode() = default;
+		virtual ~SceneNode() = default;
+
+		// IDataObject
+		virtual bool Write(Writer &writer) override;
+		virtual SceneNode *Clone() const override;
+		virtual void Set(Reader &reader) override;
 };
 
 } // namespace

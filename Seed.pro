@@ -136,19 +136,20 @@ SOURCES += source/Viewport.cpp \
 	source/platform/pc/seed_posix.cpp \
 	source/JobManager.cpp \
 	source/Job.cpp \
-	source/EventJob.cpp \
 	source/ThreadManager.cpp \
 	source/api/rocket/RocketInterface.cpp \
 	source/Presentation.cpp \
 	source/EventPresentation.cpp \
 	source/map/GameMap.cpp \
 	source/map/IMapLayer.cpp \
-	source/map/IMetadataObject.cpp \
 	source/map/MapLayerMetadata.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
 	source/map/TileSet.cpp \
-	source/interface/IManager.cpp
+	source/interface/IManager.cpp \
+    source/PrefabManager.cpp \
+    source/map/MetadataObject.cpp \
+    source/Memory.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -191,18 +192,17 @@ HEADERS += include/*.h \
 	include/api/soil/soilTexture.h \
 	include/JobManager.h \
 	include/Job.h \
-	include/EventJob.h \
-	include/interface/IEventJobListener.h \
 	include/ThreadManager.h \
 	include/api/rocket/RocketInterface.h \
 	include/interface/IHardwareBuffer.h \
 	include/Presentation.h \
-	include/interface/IEventPresentationListener.h \
 	include/EventPresentation.h \
 	include/map/GameMap.h \
 	include/map/IMapLayer.h \
-	include/map/IMetadataObject.h \
 	include/map/MapLayerMetadata.h \
 	include/map/MapLayerMosaic.h \
 	include/map/MapLayerTiled.h \
-	include/map/TileSet.h
+	include/map/TileSet.h \
+    include/PrefabManager.h \
+    include/map/MetadataObject.h \
+    include/Memory.h

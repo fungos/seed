@@ -49,6 +49,7 @@
 #include "Cartridge.h"
 #include "ViewManager.h"
 #include "RendererManager.h"
+#include "PrefabManager.h"
 #include "SceneManager.h"
 #include "RendererDevice.h"
 #include "JobManager.h"
@@ -218,6 +219,7 @@ bool Initialize()
 	ret = ret && pManager->Add(pRendererDevice);
 	ret = ret && pManager->Add(pViewManager);
 	ret = ret && pManager->Add(pRendererManager);
+	pPrefabManager->GetInstance();
 
 	if (!Private::bDisableSound)
 		ret = ret && pManager->Add(pSoundSystem);
@@ -309,8 +311,10 @@ void Shutdown()
 		return;
 
 	Info(SEED_TAG "Shutting down subsystems...");
+	pPrefabManager->GetInstance()->Reset();
 	pManager->Shutdown();
 
+	pPrefabManager->DestroyInstance();
 	pSceneObjectFactory->DestroyInstance();
 	pSceneManager->DestroyInstance();
 	pJobManager->DestroyInstance();

@@ -32,6 +32,7 @@
 #include "Configuration.h"
 #include "api/yajl/JsonWriter.h"
 #include "Log.h"
+#include "Memory.h"
 
 #define TAG "[Writer] "
 
@@ -49,7 +50,7 @@ Writer::Writer()
 Writer::~Writer()
 {
 	if (pOpaque != &cNullWriter)
-		Delete(pOpaque);
+		sdDelete(pOpaque);
 
 	pOpaque = NULL;
 }
@@ -64,7 +65,7 @@ void Writer::Init()
 			case eReaderType::Json:
 			{
 				Info(TAG "Creating Writer json");
-				pOpaque = New(JsonWriter());
+				pOpaque = sdNew(JsonWriter);
 			}
 			break;
 #endif
@@ -73,7 +74,7 @@ void Writer::Init()
 			{
 #if defined(SEED_USE_JSON)
 				Info(TAG "Creating Writer json");
-				pOpaque = New(JsonWriter());
+				pOpaque = sdNew(JsonWriter);
 #else
 				Info(TAG "Failed creating Writer, using null");
 #endif

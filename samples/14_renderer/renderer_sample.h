@@ -9,8 +9,7 @@ extern SceneNode *gScene;
 class RendererSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventInputPointerListener,
-					public IEventJobListener
+					public IEventInputPointerListener
 {
 	SEED_DISABLE_COPY(RendererSample)
 
@@ -30,10 +29,6 @@ class RendererSample : public IGameApp,
 
 		// IEventInputPointerListener
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-
-		// IEventJobListener
-		virtual void OnJobCompleted(const EventJob *ev);
-		virtual void OnJobAborted(const EventJob *ev);
 
 	protected:
 		ISceneObject *pImage;

@@ -42,7 +42,6 @@
 namespace Seed {
 
 class Job;
-class IEventJobListener;
 
 /// Job Manager
 class SEED_CORE_API JobManager : public IManager, public IUpdatable

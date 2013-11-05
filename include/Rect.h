@@ -64,10 +64,13 @@ template <class TYPE> class Rect
 
 		Rect<TYPE> &operator=(const Rect<TYPE> &rect)
 		{
-			x1	= rect.x1;
-			y1	= rect.y1;
-			x2	= rect.x2;
-			y2	= rect.y2;
+			if (this != &rect)
+			{
+				x1 = rect.x1;
+				y1 = rect.y1;
+				x2 = rect.x2;
+				y2 = rect.y2;
+			}
 
 			return *this;
 		}

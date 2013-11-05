@@ -104,9 +104,10 @@ class SEED_CORE_API Sprite : public ISceneObject
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual Sprite *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	protected:
 		virtual void ReconfigureAnimation();
@@ -128,13 +129,13 @@ class SEED_CORE_API Sprite : public ISceneObject
 		sVertex cVertex[4];
 		VertexBuffer cVertexBuffer;
 
-		bool bInitialized;
-		bool bChanged;
-		bool bAnimation;
-		bool bLoop;
-		bool bPlaying;
-		bool bFinished;
-		bool bIsCopy;
+		bool bInitialized : 1;
+		bool bChanged : 1;
+		bool bAnimation : 1;
+		bool bLoop : 1;
+		bool bPlaying : 1;
+		bool bFinished : 1;
+		bool bIsCopy : 1;
 };
 
 } // namespace
