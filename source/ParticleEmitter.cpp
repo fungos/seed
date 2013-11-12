@@ -377,7 +377,7 @@ void ParticleEmitter::Update(f32 deltaTime)
 				continue;
 
 			auto p = &arParticles[i];
-			auto c = Color{p->fColorR * 255, p->fColorG * 255, p->fColorB * 255, p->fColorA * 255};
+			auto c = Color{u8(p->fColorR * 255), u8(p->fColorG * 255), u8(p->fColorB * 255), u8(p->fColorA * 255)};
 			{
 				pVertex[iVertexAmount + 0].cCoords = pTemplate->cVertex[0].cCoords;
 				pVertex[iVertexAmount + 0].cColor = c;

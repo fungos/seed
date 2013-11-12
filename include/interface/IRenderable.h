@@ -69,12 +69,12 @@ class SEED_CORE_API IRenderable
 		virtual void Serialize(Writer &writer);
 
 	protected:
+		virtual void Reset();
+
 		eBlendMode	nBlendOperation;
 		Color		cColor;
-		bool		bColorChanged;
-		bool		bVisible;
-
-		virtual void Reset();
+		bool		bColorChanged : 1;
+		bool		bVisible : 1;
 };
 
 } // namespace

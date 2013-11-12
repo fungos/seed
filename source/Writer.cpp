@@ -101,7 +101,7 @@ void Writer::WriteS32(const char *key, s32 value) const
 
 void Writer::WriteU32(const char *key, u32 value) const
 {
-	pOpaque->WriteS32(key, value);
+	pOpaque->WriteU32(key, value);
 }
 
 void Writer::WriteF32(const char *key, f32 value) const

@@ -273,7 +273,7 @@ u32 GameMap::AddLayerMetadata(Point2u tileSize)
 {
 	auto layerId = vLayers.Size();
 
-	Point2f size(tileSize.x, tileSize.y);
+	Point2f size(f32(tileSize.x), f32(tileSize.y));
 	auto layer = sdNew(MapLayerMetadata(size));
 	vLayers += layer;
 	layer->bMarkForDeletion = true;

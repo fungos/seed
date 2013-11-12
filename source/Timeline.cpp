@@ -602,7 +602,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 	}
 
 	SEED_ASSERT_FMT(pObject != nullptr, "Timeline '%s' does not have an scene object.", sName.c_str());
-	pObject->SetZ(iPriority);
+	pObject->SetZ(f32(iPriority));
 
 	u32 keyframes = reader.SelectArray("aKeyframes");
 	if (keyframes)

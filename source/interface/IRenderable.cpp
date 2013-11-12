@@ -86,10 +86,10 @@ bool IRenderable::IsVisible() const
 
 void IRenderable::SetColor(u32 r, u32 g, u32 b, u32 a)
 {
-	cColor.r = r;
-	cColor.g = g;
-	cColor.b = b;
-	cColor.a = a;
+	cColor.r = u8(r);
+	cColor.g = u8(g);
+	cColor.b = u8(b);
+	cColor.a = u8(a);
 	bColorChanged = true;
 }
 
@@ -169,10 +169,10 @@ void IRenderable::Unserialize(Reader &reader)
 	bVisible = reader.ReadBool("bVisible", bVisible);
 	if (reader.SelectNode("cColor"))
 	{
-		cColor.r = reader.ReadU32("r", cColor.r);
-		cColor.g = reader.ReadU32("g", cColor.g);
-		cColor.b = reader.ReadU32("b", cColor.b);
-		cColor.a = reader.ReadU32("a", cColor.a);
+		cColor.r = u8(reader.ReadU32("r", cColor.r));
+		cColor.g = u8(reader.ReadU32("g", cColor.g));
+		cColor.b = u8(reader.ReadU32("b", cColor.b));
+		cColor.a = u8(reader.ReadU32("a", cColor.a));
 		reader.UnselectNode();
 	}
 

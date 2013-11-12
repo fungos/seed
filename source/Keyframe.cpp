@@ -151,10 +151,10 @@ void Keyframe::Set(Reader &reader)
 
 	if (reader.SelectNode("cColor"))
 	{
-		iColorR = reader.ReadS32("r", iColorR);
-		iColorG = reader.ReadS32("g", iColorG);
-		iColorB = reader.ReadS32("b", iColorB);
-		iColorA = reader.ReadS32("a", iColorA);
+		iColorR = u8(reader.ReadS32("r", iColorR));
+		iColorG = u8(reader.ReadS32("g", iColorG));
+		iColorB = u8(reader.ReadS32("b", iColorB));
+		iColorA = u8(reader.ReadS32("a", iColorA));
 		reader.UnselectNode();
 	}
 }

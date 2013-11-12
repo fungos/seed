@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -19,13 +19,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -54,7 +54,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4068;4275</DisableSpecificWarnings>
@@ -479,10 +479,18 @@
     <ClInclude Include="..\..\..\contrib\freetype\src\gxvalid\gxvalid.h" />
     <ClInclude Include="..\..\..\contrib\freetype\src\gxvalid\gxverror.h" />
     <ClInclude Include="..\..\..\contrib\freetype\src\gxvalid\gxvmod.h" />
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\inffixed.h" />
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zconf.h" />
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zlib.h" />
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zutil.h" />
+    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\inffixed.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zconf.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zlib.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zutil.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\..\..\contrib\freetype\src\otvalid\otvalid.h" />
     <ClInclude Include="..\..\..\contrib\freetype\src\otvalid\otverror.h" />
     <ClInclude Include="..\..\..\contrib\freetype\src\otvalid\otvgpos.h" />
@@ -1061,9 +1069,13 @@
     <ClCompile Include="..\..\..\contrib\freetype\src\cid\type1cid.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\gxvalid\gxvalid.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\gxvalid\gxvfgen.c" />
-    <ClCompile Include="..\..\..\contrib\freetype\src\gzip\adler32.c" />
+    <ClCompile Include="..\..\..\contrib\freetype\src\gzip\adler32.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\contrib\freetype\src\gzip\ftgzip.c" />
-    <ClCompile Include="..\..\..\contrib\freetype\src\gzip\zutil.c" />
+    <ClCompile Include="..\..\..\contrib\freetype\src\gzip\zutil.c">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\contrib\freetype\src\lzw\ftlzw.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\otvalid\otvalid.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\pcf\pcf.c" />

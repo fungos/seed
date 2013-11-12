@@ -35,6 +35,7 @@
 #include "RendererDevice.h"
 #include "SeedInit.h"
 #include "Configuration.h"
+#include "Texture.h"
 
 #if defined(WIN32)
 #define USER_DEFAULT_SCREEN_DPI	96
@@ -66,12 +67,12 @@ bool Screen::Reset()
 #if defined(__linux__)
 	this->InitializeVideo();
 #else
-	pResourceManager->Unload(Seed::TypeTexture);
+	pResourceManager->Unload(ITexture::GetTypeId());
 	pRendererDevice->Shutdown();
 	this->Shutdown();
 	this->Initialize();
 	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::TypeTexture);
+	pResourceManager->Reload(ITexture::GetTypeId());
 #endif
 
 	return true;
@@ -177,8 +178,8 @@ bool Screen::InitializeVideo()
 	this->SetupOpenGL();
 #else
 	eRendererDeviceType type = pConfiguration->GetRendererDeviceType();
-	if (type == Seed::RendererDeviceOpenGL1x || type == Seed::RendererDeviceOpenGL2x ||
-		type == Seed::RendererDeviceOpenGL3x || type == Seed::RendererDeviceOpenGL4x)
+	if (type == eRendererDeviceType::OpenGL1x || type == eRendererDeviceType::OpenGL2x ||
+		type == eRendererDeviceType::OpenGL3x || type == eRendererDeviceType::OpenGL4x)
 	{
 		this->SetupOpenGL();
 	}
@@ -274,7 +275,7 @@ bool Screen::Shutdown()
 	Log(TAG "Terminating...");
 
 	iFadeStatus = 0;
-	nFadeType	= kFadeIn;
+	nFadeType   = eFade::In;
 	bFading		= false;
 	iHeight		= 0;
 	iWidth		= 0;
@@ -351,12 +352,12 @@ void Screen::ToggleFullscreen()
 #else
 	iFlags ^= SDL_FULLSCREEN;
 
-	pResourceManager->Unload(Seed::TypeTexture);
+	pResourceManager->Unload(ITexture::GetTypeId());
 	pRendererDevice->Shutdown();
 	this->InitializeVideo();
 	this->EnableCursor(pConfiguration->IsCursorEnabled());
 	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::TypeTexture);
+	pResourceManager->Reload(ITexture::GetTypeId());
 
 #if defined(WIN32)
 	if (!bFullScreen)

@@ -85,6 +85,8 @@ enum
 
 class SceneFileLoader : public FileLoader
 {
+	SEED_DISABLE_COPY(SceneFileLoader)
+
 	friend class Presentation;
 	public:
 		SceneFileLoader(u32 unique, const String &filename, JobCallback fun)
@@ -120,6 +122,8 @@ class SceneFileLoader : public FileLoader
 
 class PrefabFileLoader : public FileLoader
 {
+	SEED_DISABLE_COPY(PrefabFileLoader)
+
 	friend class Presentation;
 	public:
 		PrefabFileLoader(u32 unique, const String &filename, JobCallback fun)
@@ -245,12 +249,18 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 	}
 
 	pFinishedScenes  = (bool *)sdAlloc(sizeof(bool) * vRenderer.Size());
-	pFinishedPrefabs = (bool *)sdAlloc(sizeof(bool) * iPrefabsCount);
-
 	memset(pFinishedScenes,  0, sizeof(bool) * vRenderer.Size());
-	memset(pFinishedPrefabs, 0, sizeof(bool) * iPrefabsCount);
 
-	this->PrefabsPhase();
+	if (iPrefabsCount)
+	{
+		pFinishedPrefabs = (bool *)sdAlloc(sizeof(bool) * iPrefabsCount);
+		memset(pFinishedPrefabs, 0, sizeof(bool) * iPrefabsCount);
+		this->PrefabsPhase();
+	}
+	else
+	{
+		this->ScenesPhase();
+	}
 
 	return true;
 }
@@ -384,7 +394,7 @@ void Presentation::GotoScenePhase()
 
 void Presentation::PrefabsPhase()
 {
-	auto i = int{0};
+	auto i = u32{0};
 	for (auto obj: vRenderer)
 	{
 		if (!obj->sPrefabToLoad.empty())
@@ -421,7 +431,7 @@ void Presentation::ScenesPhase()
 {
 	// After all json parsing, we can start the scene loading jobs
 	// so we guarantee that we have all our reference names
-	auto i = int{0};
+	auto i = u32{0};
 	for (auto obj: vRenderer)
 	{
 		auto cb = [&](Job *self) {

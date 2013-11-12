@@ -136,15 +136,10 @@ void PrefabManager::Print()
 
 	for (auto each: mapPrefabs)
 	{
-		auto obj = each.second;
-		const auto name = each.first;
-
-		Log(TAG "\t%s [%s]", name.c_str(), obj->GetTypeName());
-		cnt++;
+		Log(TAG "\t%d: %s [%s]", ++cnt, (each.first).c_str(), (each.second)->GetTypeName());
 	}
-	cLock.Unlock();
-
 	Log(TAG "Total: %d prefabs.", cnt);
+	cLock.Unlock();
 }
 
 void PrefabManager::Load(Reader &reader, ResourceManager *res)

@@ -41,6 +41,9 @@ About warning 4251 - DLL export for templatized classes (std and others)
 http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 */
 #if defined(_MSC_VER)
+#pragma warning(disable:4514) // unreferenced inline function has been removed (/WD)
+#pragma warning(disable:4820) // 'n' bytes padding added after data memeber 'y' (/WD)
+#pragma warning(disable:4350) // behavior change: 'method1' called instead of 'method2' (/WD)
 #pragma warning(disable:4127) // conditional expression is constant
 #pragma warning(disable:4201) // nonstandard extension used : nameless struct/union
 #pragma warning(disable:4530)
@@ -84,11 +87,7 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define SEED_EXTRA_API
 #endif
 
-#ifdef _MSC_VER
-#define UNUSED(var)
-#else
 #define UNUSED(var)						(void)var;
-#endif
 
 typedef std::string String;
 

@@ -5,8 +5,8 @@
 using namespace Seed;
 
 class SkelSample : public IGameApp,
-							public IEventSystemListener,
-							public IEventInputKeyboardListener
+					public IEventSystemListener,
+					public IEventInputKeyboardListener
 {
 	SEED_DISABLE_COPY(SkelSample)
 

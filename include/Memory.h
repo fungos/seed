@@ -66,34 +66,30 @@ void SeedLogDeleteArray(T *ptr)
 	delete [] ptr;
 }
 
-class Image;
-template <>
-Image *SeedLogNew(Image *obj, const char *stmt, const char *file, int line, const char *func);
+#define SEED_CREATE_DECLARATION_NEW(type)			class type;							\
+													template <>							\
+													type *SeedLogNew(type *obj, const char *stmt, const char *file, int line, const char *func);
 
-class ParticleEmitter;
-template <>
-ParticleEmitter *SeedLogNew(ParticleEmitter *obj, const char *stmt, const char *file, int line, const char *func);
+#define SEED_CREATE_DECLARATION_DELETE(type)		class type;							\
+													template <>							\
+													void SeedLogDelete(type *ptr);
 
-class Camera;
-template <>
-Camera *SeedLogNew(Camera *obj, const char *stmt, const char *file, int line, const char *func);
 
-class Frame;
-template <>
-Frame *SeedLogNew(Frame *obj, const char *stmt, const char *file, int line, const char *func);
+#define SEED_CREATE_DECLARATION(type)				SEED_CREATE_DECLARATION_NEW(type) \
+													SEED_CREATE_DECLARATION_DELETE(type)
 
-#define DELETE_CREATE_DECLARATION(type)			class type;							\
-												template <>							\
-												void SeedLogDelete(type *ptr);
+SEED_CREATE_DECLARATION(Sprite)
+SEED_CREATE_DECLARATION(Image)
+SEED_CREATE_DECLARATION(ParticleEmitter)
+SEED_CREATE_DECLARATION(Camera)
+SEED_CREATE_DECLARATION(Frame)
+SEED_CREATE_DECLARATION(IDataObject)
+SEED_CREATE_DECLARATION(ISceneObject)
 
-DELETE_CREATE_DECLARATION(IDataObject)
-DELETE_CREATE_DECLARATION(ISceneObject)
-DELETE_CREATE_DECLARATION(Image)
-DELETE_CREATE_DECLARATION(ParticleEmitter)
-DELETE_CREATE_DECLARATION(Camera)
-DELETE_CREATE_DECLARATION(Frame)
 
-#undef DELETE_CREATE_DECLARATION
+#undef SEED_CREATE_DECLARATION_DELETE
+#undef SEED_CREATE_DECLARATION_NEW
+#undef SEED_CREATE_DECLARATION
 
 
 }

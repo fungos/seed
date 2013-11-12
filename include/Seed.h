@@ -63,6 +63,7 @@
 #include <JobManager.h>
 #include <Job.h>
 
+#include <Memory.h>
 #include <LeakReport.h>
 
 #include <Image.h>

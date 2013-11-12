@@ -20,15 +20,15 @@ bool StateMachineSample::Initialize()
 	});
 
 	// Create the data for state machine
-	pAgentData = New(AgentData());
+	pAgentData = sdNew(AgentData());
 
 	// Create the states
-	pStateSleeping = New(StateSleeping(pAgentData));
-	pStateWorking = New(StateWorking(pAgentData));
+	pStateSleeping = sdNew(StateSleeping(pAgentData));
+	pStateWorking = sdNew(StateWorking(pAgentData));
 
 	// Create the events
-	pOnSleepEvent = New(StateMachineEvent());
-	pOnWorkEvent = New(StateMachineEvent());
+	pOnSleepEvent = sdNew(StateMachineEvent());
+	pOnWorkEvent = sdNew(StateMachineEvent());
 
 	// Create the transitions
 	cTransSleepToWork.Initialize(pStateSleeping, pOnWorkEvent, pStateWorking);
@@ -69,13 +69,13 @@ bool StateMachineSample::Shutdown()
 	pInput->RemoveKeyboardListener(this);
 	pSystem->RemoveListener(this);
 
-	Delete(pStateSleeping);
-	Delete(pStateWorking);
+	sdDelete(pStateSleeping);
+	sdDelete(pStateWorking);
 
-	Delete(pOnSleepEvent);
-	Delete(pOnWorkEvent);
+	sdDelete(pOnSleepEvent);
+	sdDelete(pOnWorkEvent);
 
-	Delete(pAgentData);
+	sdDelete(pAgentData);
 
 	return IGameApp::Shutdown();
 }

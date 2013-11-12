@@ -54,8 +54,8 @@ RocketInterface::RocketInterface()
 {
 	cVertexBuffer.Configure(eBufferUsage::EveryFrameChange);
 	cElementBuffer.Configure(eBufferUsage::EveryFrameChange, eElementType::Int);
-	this->SetWidth(pScreen->GetWidth());
-	this->SetHeight(pScreen->GetHeight());
+	this->SetWidth(f32(pScreen->GetWidth()));
+	this->SetHeight(f32(pScreen->GetHeight()));
 
 	RocketEventInstancer *inst = new RocketEventInstancer();
 	Rocket::Core::Factory::RegisterEventListenerInstancer(inst);
@@ -193,7 +193,7 @@ void RocketInterface::EnableScissorRegion(bool enable)
 
 void RocketInterface::SetScissorRegion(int x, int y, int width, int height)
 {
-	pRendererDevice->SetScissor(x, pScreen->GetHeight() - (y + height), width, height);
+	pRendererDevice->SetScissor(f32(x), f32(pScreen->GetHeight() - (y + height)), f32(width), f32(height));
 }
 
 bool RocketInterface::LoadTexture(Rocket::Core::TextureHandle &texture_handle, Rocket::Core::Vector2i &texture_dimensions, const Rocket::Core::String &source)

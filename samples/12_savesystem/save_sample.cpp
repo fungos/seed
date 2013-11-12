@@ -188,8 +188,8 @@ void SaveSample::OnInputPointerRelease(const EventInputPointer *ev)
 		if (pImage)
 			vFrom = pImage->GetPosition();
 
-		vTo.setX(ev->GetX());
-		vTo.setY(ev->GetY());
+		vTo.setX(f32(ev->GetX()));
+		vTo.setY(f32(ev->GetY()));
 		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}

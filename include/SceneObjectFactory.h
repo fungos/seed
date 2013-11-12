@@ -68,6 +68,8 @@ class SEED_CORE_API SceneObjectFactory
 
 class SEED_CORE_API SceneObjectJobLoader : public FileLoader
 {
+	SEED_DISABLE_COPY(SceneObjectJobLoader)
+
 	public:
 		SceneObjectJobLoader(ISceneObject *obj, const String &filename, JobCallback fun)
 			: FileLoader(filename, fun)

@@ -102,7 +102,7 @@ bool RocketSample::LoadGUI(const String &doc)
 
 bool RocketSample::InitializeGUI()
 {
-	pI = New(RocketInterface());
+	pI = sdNew(RocketInterface());
 	pI->sName = "RocketGUI";
 	Rocket::Core::SetRenderInterface(pI);
 	Rocket::Core::SetFileInterface(pI);
@@ -148,5 +148,5 @@ void RocketSample::ReleaseGUI()
 	bLoaded = false;
 
 	pScene->Remove(pI);
-	Delete(pI);
+	sdDelete(pI);
 }

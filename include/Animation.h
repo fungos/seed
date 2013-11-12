@@ -47,6 +47,7 @@ SEED_DECLARE_CONTAINER(Vector, Frame)
 
 class SEED_CORE_API Animation : public IDataObject
 {
+	SEED_DISABLE_COPY(Animation)
 	SEED_DECLARE_RTTI(Animation, IDataObject)
 
 	public:

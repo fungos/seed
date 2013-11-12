@@ -62,7 +62,7 @@ void IMapLayer::ReadProperties(Reader &reader)
 
 void IMapLayer::ReadMapLayer(Reader &reader)
 {
-	this->SetPosition(f32(reader.ReadU32("x", this->GetX())), f32(reader.ReadU32("y", this->GetY())));
+	this->SetPosition(reader.ReadF32("x", this->GetX()), reader.ReadF32("y", this->GetY()));
 	this->SetVisible(reader.ReadBool("visible", this->IsVisible()));
 	this->SetOpacity(reader.ReadF32("opacity", this->GetOpacity()));
 

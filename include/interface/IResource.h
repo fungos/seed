@@ -68,12 +68,10 @@ class SEED_CORE_API IResource : public IObject
 		u32 GetReferenceCount() const;
 
 	protected:
-		bool			bLoaded : 1;
 		ResourceManager *pRes;
 		String			sFilename;
-
-	private:
 		u32				iRefCount;
+		bool			bLoaded : 1;
 };
 
 } // namespace

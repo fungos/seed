@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
       <Configuration>Debug</Configuration>
@@ -29,7 +29,6 @@
     <ClCompile Include="..\..\..\source\EventInputKeyboard.cpp" />
     <ClCompile Include="..\..\..\source\EventInputMotion.cpp" />
     <ClCompile Include="..\..\..\source\EventInputPointer.cpp" />
-    <ClCompile Include="..\..\..\source\EventJob.cpp" />
     <ClCompile Include="..\..\..\source\EventMovie.cpp" />
     <ClCompile Include="..\..\..\source\EventPresentation.cpp" />
     <ClCompile Include="..\..\..\source\EventResourceLoader.cpp" />
@@ -39,59 +38,40 @@
     <ClCompile Include="..\..\..\source\Frame.cpp" />
     <ClCompile Include="..\..\..\source\Image.cpp" />
     <ClCompile Include="..\..\..\source\interface\ICartridge.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IDataObject.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEvent.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventFileSystemListener.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventInput.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventInputJoystickListener.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventInputKeyboardListener.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventInputMotionListener.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventInputPointerListener.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventJobListener.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventListener.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventMovieListener.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventPresentationListener.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventResourceLoaderListener.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IEventSystemListener.cpp" />
     <ClCompile Include="..\..\..\source\interface\IGameApp.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IInput.cpp" />
     <ClCompile Include="..\..\..\source\interface\IInputJoystick.cpp" />
     <ClCompile Include="..\..\..\source\interface\IInputKeyboard.cpp" />
     <ClCompile Include="..\..\..\source\interface\IInputMotion.cpp" />
     <ClCompile Include="..\..\..\source\interface\IInputPointer.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IModule.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IManager.cpp" />
     <ClCompile Include="..\..\..\source\interface\IMusic.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IMutex.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IObject.cpp" />
     <ClCompile Include="..\..\..\source\interface\IReader.cpp" />
     <ClCompile Include="..\..\..\source\interface\IRenderable.cpp" />
     <ClCompile Include="..\..\..\source\interface\IRendererDevice.cpp" />
     <ClCompile Include="..\..\..\source\interface\IResource.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISceneObject.cpp" />
     <ClCompile Include="..\..\..\source\interface\IScreen.cpp" />
-    <ClCompile Include="..\..\..\source\interface\ISound.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISoundSource.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISoundSystem.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISystem.cpp" />
     <ClCompile Include="..\..\..\source\interface\ITexture.cpp" />
     <ClCompile Include="..\..\..\source\interface\IThread.cpp" />
     <ClCompile Include="..\..\..\source\interface\ITransformable.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IUpdatable.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IVideo.cpp" />
     <ClCompile Include="..\..\..\source\interface\IWriter.cpp" />
     <ClCompile Include="..\..\..\source\Job.cpp" />
     <ClCompile Include="..\..\..\source\JobManager.cpp" />
     <ClCompile Include="..\..\..\source\Key.cpp" />
     <ClCompile Include="..\..\..\source\Keyframe.cpp" />
     <ClCompile Include="..\..\..\source\LeakReport.cpp" />
+    <ClCompile Include="..\..\..\source\Manager.cpp" />
     <ClCompile Include="..\..\..\source\map\GameMap.cpp" />
     <ClCompile Include="..\..\..\source\map\IMapLayer.cpp" />
-    <ClCompile Include="..\..\..\source\map\IMetadataObject.cpp" />
     <ClCompile Include="..\..\..\source\map\MapLayerMetadata.cpp" />
     <ClCompile Include="..\..\..\source\map\MapLayerMosaic.cpp" />
     <ClCompile Include="..\..\..\source\map\MapLayerTiled.cpp" />
+    <ClCompile Include="..\..\..\source\map\MetadataObject.cpp" />
     <ClCompile Include="..\..\..\source\map\TileSet.cpp" />
-    <ClCompile Include="..\..\..\source\ModuleManager.cpp" />
+    <ClCompile Include="..\..\..\source\Memory.cpp" />
     <ClCompile Include="..\..\..\source\Movie.cpp" />
     <ClCompile Include="..\..\..\source\Particle.cpp" />
     <ClCompile Include="..\..\..\source\ParticleEmitter.cpp" />
@@ -106,6 +86,7 @@
     <ClCompile Include="..\..\..\source\platform\sdl\sdlTexture.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlThread.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlTimer.cpp" />
+    <ClCompile Include="..\..\..\source\PrefabManager.cpp" />
     <ClCompile Include="..\..\..\source\Presentation.cpp" />
     <ClCompile Include="..\..\..\source\Profiler.cpp" />
     <ClCompile Include="..\..\..\source\Rand.cpp" />
@@ -129,7 +110,138 @@
     <ClCompile Include="..\..\..\source\Writer.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\include\Animation.h" />
+    <ClInclude Include="..\..\..\include\Camera.h" />
+    <ClInclude Include="..\..\..\include\Cartridge.h" />
+    <ClInclude Include="..\..\..\include\Checksum.h" />
+    <ClInclude Include="..\..\..\include\Config.h" />
+    <ClInclude Include="..\..\..\include\Configuration.h" />
     <ClInclude Include="..\..\..\include\Container.h" />
+    <ClInclude Include="..\..\..\include\Defines.h" />
+    <ClInclude Include="..\..\..\include\Enum.h" />
+    <ClInclude Include="..\..\..\include\EventFileSystem.h" />
+    <ClInclude Include="..\..\..\include\EventInputJoystick.h" />
+    <ClInclude Include="..\..\..\include\EventInputKeyboard.h" />
+    <ClInclude Include="..\..\..\include\EventInputMotion.h" />
+    <ClInclude Include="..\..\..\include\EventInputPointer.h" />
+    <ClInclude Include="..\..\..\include\EventMovie.h" />
+    <ClInclude Include="..\..\..\include\EventPresentation.h" />
+    <ClInclude Include="..\..\..\include\EventResourceLoader.h" />
+    <ClInclude Include="..\..\..\include\EventSystem.h" />
+    <ClInclude Include="..\..\..\include\File.h" />
+    <ClInclude Include="..\..\..\include\FileSystem.h" />
+    <ClInclude Include="..\..\..\include\Frame.h" />
+    <ClInclude Include="..\..\..\include\Image.h" />
+    <ClInclude Include="..\..\..\include\Input.h" />
+    <ClInclude Include="..\..\..\include\interface\ICartridge.h" />
+    <ClInclude Include="..\..\..\include\interface\IDataObject.h" />
+    <ClInclude Include="..\..\..\include\interface\IEvent.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventFileSystemListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventInput.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventInputJoystickListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventInputKeyboardListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventInputMotionListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventInputPointerListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventMovieListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventResourceLoaderListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventSystemListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IGameApp.h" />
+    <ClInclude Include="..\..\..\include\interface\IHardwareBuffer.h" />
+    <ClInclude Include="..\..\..\include\interface\IInput.h" />
+    <ClInclude Include="..\..\..\include\interface\IInputJoystick.h" />
+    <ClInclude Include="..\..\..\include\interface\IInputKeyboard.h" />
+    <ClInclude Include="..\..\..\include\interface\IInputMotion.h" />
+    <ClInclude Include="..\..\..\include\interface\IInputPointer.h" />
+    <ClInclude Include="..\..\..\include\interface\IManager.h" />
+    <ClInclude Include="..\..\..\include\interface\IMusic.h" />
+    <ClInclude Include="..\..\..\include\interface\IMutex.h" />
+    <ClInclude Include="..\..\..\include\interface\IObject.h" />
+    <ClInclude Include="..\..\..\include\interface\IReader.h" />
+    <ClInclude Include="..\..\..\include\interface\IRenderable.h" />
+    <ClInclude Include="..\..\..\include\interface\IRendererDevice.h" />
+    <ClInclude Include="..\..\..\include\interface\IResource.h" />
+    <ClInclude Include="..\..\..\include\interface\ISceneObject.h" />
+    <ClInclude Include="..\..\..\include\interface\IScreen.h" />
+    <ClInclude Include="..\..\..\include\interface\ISound.h" />
+    <ClInclude Include="..\..\..\include\interface\ISoundSource.h" />
+    <ClInclude Include="..\..\..\include\interface\ISoundSystem.h" />
+    <ClInclude Include="..\..\..\include\interface\ISystem.h" />
+    <ClInclude Include="..\..\..\include\interface\ITexture.h" />
+    <ClInclude Include="..\..\..\include\interface\IThread.h" />
+    <ClInclude Include="..\..\..\include\interface\ITransformable.h" />
+    <ClInclude Include="..\..\..\include\interface\IUpdatable.h" />
+    <ClInclude Include="..\..\..\include\interface\IVideo.h" />
+    <ClInclude Include="..\..\..\include\interface\IWriter.h" />
+    <ClInclude Include="..\..\..\include\Job.h" />
+    <ClInclude Include="..\..\..\include\JobManager.h" />
+    <ClInclude Include="..\..\..\include\Key.h" />
+    <ClInclude Include="..\..\..\include\Keyframe.h" />
+    <ClInclude Include="..\..\..\include\LeakReport.h" />
+    <ClInclude Include="..\..\..\include\LocalDefines.h" />
+    <ClInclude Include="..\..\..\include\Log.h" />
+    <ClInclude Include="..\..\..\include\Manager.h" />
+    <ClInclude Include="..\..\..\include\map\GameMap.h" />
+    <ClInclude Include="..\..\..\include\map\IMapLayer.h" />
+    <ClInclude Include="..\..\..\include\map\MapLayerMetadata.h" />
+    <ClInclude Include="..\..\..\include\map\MapLayerMosaic.h" />
+    <ClInclude Include="..\..\..\include\map\MapLayerTiled.h" />
+    <ClInclude Include="..\..\..\include\map\MetadataObject.h" />
+    <ClInclude Include="..\..\..\include\map\TileSet.h" />
+    <ClInclude Include="..\..\..\include\MathUtil.h" />
+    <ClInclude Include="..\..\..\include\Memory.h" />
+    <ClInclude Include="..\..\..\include\Movie.h" />
+    <ClInclude Include="..\..\..\include\Music.h" />
+    <ClInclude Include="..\..\..\include\Mutex.h" />
+    <ClInclude Include="..\..\..\include\Number.h" />
+    <ClInclude Include="..\..\..\include\Particle.h" />
+    <ClInclude Include="..\..\..\include\ParticleEmitter.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlDefines.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlInput.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlMutex.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlScreen.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlSystem.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlTexture.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlThread.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlTimer.h" />
+    <ClInclude Include="..\..\..\include\Point.h" />
+    <ClInclude Include="..\..\..\include\PrefabManager.h" />
+    <ClInclude Include="..\..\..\include\Presentation.h" />
+    <ClInclude Include="..\..\..\include\Profiler.h" />
+    <ClInclude Include="..\..\..\include\Rand.h" />
+    <ClInclude Include="..\..\..\include\Reader.h" />
+    <ClInclude Include="..\..\..\include\Rect.h" />
+    <ClInclude Include="..\..\..\include\Renderer.h" />
+    <ClInclude Include="..\..\..\include\RendererDevice.h" />
+    <ClInclude Include="..\..\..\include\RendererManager.h" />
+    <ClInclude Include="..\..\..\include\ResourceGroup.h" />
+    <ClInclude Include="..\..\..\include\ResourceLoader.h" />
+    <ClInclude Include="..\..\..\include\ResourceManager.h" />
+    <ClInclude Include="..\..\..\include\SaveSystem.h" />
+    <ClInclude Include="..\..\..\include\SceneManager.h" />
+    <ClInclude Include="..\..\..\include\SceneNode.h" />
+    <ClInclude Include="..\..\..\include\SceneObjectFactory.h" />
+    <ClInclude Include="..\..\..\include\Screen.h" />
+    <ClInclude Include="..\..\..\include\Seed.h" />
+    <ClInclude Include="..\..\..\include\SeedInit.h" />
+    <ClInclude Include="..\..\..\include\SeedRun.h" />
+    <ClInclude Include="..\..\..\include\Singleton.h" />
+    <ClInclude Include="..\..\..\include\Sound.h" />
+    <ClInclude Include="..\..\..\include\SoundSource.h" />
+    <ClInclude Include="..\..\..\include\SoundSystem.h" />
+    <ClInclude Include="..\..\..\include\Sprite.h" />
+    <ClInclude Include="..\..\..\include\StateMachine.h" />
+    <ClInclude Include="..\..\..\include\System.h" />
+    <ClInclude Include="..\..\..\include\Texture.h" />
+    <ClInclude Include="..\..\..\include\Thread.h" />
+    <ClInclude Include="..\..\..\include\ThreadManager.h" />
+    <ClInclude Include="..\..\..\include\Timeline.h" />
+    <ClInclude Include="..\..\..\include\Timer.h" />
+    <ClInclude Include="..\..\..\include\Updater.h" />
+    <ClInclude Include="..\..\..\include\Vertex.h" />
+    <ClInclude Include="..\..\..\include\ViewManager.h" />
+    <ClInclude Include="..\..\..\include\Viewport.h" />
+    <ClInclude Include="..\..\..\include\Writer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{86AE299C-0A83-4BBF-9718-41E7D1F04071}</ProjectGuid>
@@ -140,13 +252,13 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <CharacterSet>NotSet</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
-    <PlatformToolset>v110</PlatformToolset>
+    <PlatformToolset>v120</PlatformToolset>
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
@@ -173,7 +285,7 @@
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
-      <WarningLevel>Level3</WarningLevel>
+      <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;BUILD_SDL;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
