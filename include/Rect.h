@@ -64,10 +64,13 @@ template <class TYPE> class Rect
 
 		Rect<TYPE> &operator=(const Rect<TYPE> &rect)
 		{
-			x1	= rect.x1;
-			y1	= rect.y1;
-			x2	= rect.x2;
-			y2	= rect.y2;
+			if (this != &rect)
+			{
+				x1 = rect.x1;
+				y1 = rect.y1;
+				x2 = rect.x2;
+				y2 = rect.y2;
+			}
 
 			return *this;
 		}
@@ -205,9 +208,9 @@ template <class TYPE> class Rect
 		inline bool Intersect(f32 x, f32 y, f32 radius) const
 		{
 			f32 cx = x;
-			CLAMP(cx, x1, x2);
+			SEED_CLAMP(cx, x1, x2);
 			f32 cy = y;
-			CLAMP(cy, y1, y2);
+			SEED_CLAMP(cy, y1, y2);
 
 			f32 dx = x - cx;
 			f32 dy = y - cy;

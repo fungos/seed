@@ -60,6 +60,8 @@ class SEED_CORE_API Keyframe : public IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual Keyframe *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	public:
 		Point2f		ptPos;

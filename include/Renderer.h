@@ -90,19 +90,20 @@ class SEED_CORE_API Renderer : public IUpdatable, public IObject
 		// IUpdatable
 		virtual bool Update(f32 delta) override;
 
-	protected:
-		String sSceneToAttach;
-		SceneNode *pScene;
-		RenderableVector vRenderables;
-		VisibleVector vVisibleRenderables;
-		bool bEnabled : 1;
-
 	private:
 		void RenderObjects(const VisibleVector &vec) const;
 		void PushChildNodes(SceneNode *, SceneNodeVector &vec);
 
 		void Sort(VisibleVector &vec);
 		void Culler(Camera *camera);
+
+	protected:
+		String sPrefabToLoad;
+		String sSceneToAttach;
+		SceneNode *pScene;
+		RenderableVector vRenderables;
+		VisibleVector vVisibleRenderables;
+		bool bEnabled : 1;
 };
 
 inline void Renderer::Setup()

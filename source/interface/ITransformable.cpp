@@ -40,7 +40,7 @@
 namespace Seed {
 
 ITransformable::ITransformable()
-	: pParent(NULL)
+	: pParent(nullptr)
 	, mTransform()
 	, vPos(0.0f, 0.0f, 0.0f)
 	, vPivot(SEED_PIVOT_VALUE, SEED_PIVOT_VALUE, SEED_PIVOT_VALUE)
@@ -65,7 +65,7 @@ void ITransformable::Reset()
 	vScale = Vector3f();
 	vBoundingBox = Vector3f();
 	fRotation = 0.0f;
-	pParent = NULL;
+	pParent = nullptr;
 	bTransformationChanged = true;
 }
 
@@ -788,25 +788,25 @@ void ITransformable::Unserialize(Reader &reader)
 
 	if (reader.SelectNode("cPosition"))
 	{
-		vPos.setX(reader.ReadF32("x", 0.0f));
-		vPos.setY(reader.ReadF32("y", 0.0f));
-		vPos.setZ(reader.ReadF32("z", 0.0f));
+		vPos.setX(reader.ReadF32("x", vPos.getX()));
+		vPos.setY(reader.ReadF32("y", vPos.getY()));
+		vPos.setZ(reader.ReadF32("z", vPos.getZ()));
 		reader.UnselectNode();
 	}
 
 	if (reader.SelectNode("cPivot"))
 	{
-		vPivot.setX(reader.ReadF32("x", 0.0f));
-		vPivot.setY(reader.ReadF32("y", 0.0f));
-		vPivot.setZ(reader.ReadF32("z", 0.0f));
+		vPivot.setX(reader.ReadF32("x", vPivot.getX()));
+		vPivot.setY(reader.ReadF32("y", vPivot.getY()));
+		vPivot.setZ(reader.ReadF32("z", vPivot.getZ()));
 		reader.UnselectNode();
 	}
 
 	if (reader.SelectNode("cScale"))
 	{
-		vScale.setX(reader.ReadF32("x", 1.0f));
-		vScale.setY(reader.ReadF32("y", 1.0f));
-		vScale.setZ(reader.ReadF32("z", 1.0f));
+		vScale.setX(reader.ReadF32("x", vScale.getX()));
+		vScale.setY(reader.ReadF32("y", vScale.getY()));
+		vScale.setZ(reader.ReadF32("z", vScale.getZ()));
 		reader.UnselectNode();
 	}
 }

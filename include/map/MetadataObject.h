@@ -28,27 +28,57 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __IEVENTPRESENTATIONLISTENER_H__
-#define __IEVENTPRESENTATIONLISTENER_H__
+#ifndef __IMETADATAOBJECT_H__
+#define __IMETADATAOBJECT_H__
 
-#include "interface/IEventListener.h"
+#include "Defines.h"
+#include "Rect.h"
+#include "SceneNode.h"
+#include "Point.h"
 
 namespace Seed {
 
-class EventPresentation;
-
-class SEED_CORE_API IEventPresentationListener : public IEventListener
+class SEED_CORE_API MetadataObject : public ISceneNode
 {
-	SEED_DISABLE_COPY(IEventPresentationListener)
+	SEED_DISABLE_COPY(MetadataObject)
 
 	public:
-		IEventPresentationListener() = default;
-		virtual ~IEventPresentationListener() {}
+		MetadataObject();
+		virtual ~MetadataObject();
 
-		virtual void OnPresentationLoaded(const EventPresentation *ev)		SEED_PURE_VIRTUAL_EVENT
-		virtual void OnPresentationAborted(const EventPresentation *ev)		SEED_PURE_VIRTUAL_EVENT
+		virtual const f32 *GetVertices() const;
+		virtual const String GetProperty(const String &property) const;
+		virtual bool CheckHit(const Rect4f &area, Rect4f &overlap) const;
+
+		// IRenderable
+		virtual void Render(const Matrix4f &worldTransform) override;
+
+		// IDataObject
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
+		virtual MetadataObject *Clone() const override;
+		virtual void Set(Reader &reader) override;
+
+	protected:
+		void ReadProperties(Reader &reader);
+		void ReadVertices(Reader &reader, u32 size);
+
+	private:
+		enum class eMetaType {
+			Rect,
+			Polygon,
+			Polyline
+		};
+
+		Map<String, String> mProperties;
+		f32					*pVertices;
+		f32					*pCached;
+		u32					iVertices;
+		Point2f				ptOffset;
+		eMetaType			nType;
+		Rect4f				rBox;
 };
 
 } // namespace
 
-#endif // __IEVENTPRESENTATIONLISTENER_H__
+#endif // __IMETADATAOBJECT_H__

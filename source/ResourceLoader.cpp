@@ -34,6 +34,7 @@
 #include "EventResourceLoader.h"
 #include "interface/IEventResourceLoaderListener.h"
 #include "Timer.h"
+#include "Memory.h"
 
 #define TAG		"[ResourceLoader] "
 
@@ -63,7 +64,7 @@ bool ResourceLoader::Initialize()
 {
 	Log(TAG "Initializing...");
 	IManager::Initialize();
-	pMutex = New(Mutex());
+	pMutex = sdNew(Mutex);
 	this->Create();
 	bRunning = true;
 	Log(TAG "Initialization completed.");
@@ -75,7 +76,7 @@ bool ResourceLoader::Shutdown()
 {
 	bRunning = false;
 	this->Destroy();
-	Delete(pMutex);
+	sdDelete(pMutex);
 	IManager::Shutdown();
 	Log(TAG "Terminated.");
 

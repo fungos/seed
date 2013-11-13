@@ -38,6 +38,7 @@
 #include "RendererDevice.h"
 #include "Screen.h"
 #include "Texture.h"
+#include "Memory.h"
 
 #include "api/rocket/RocketInterface.h"
 
@@ -53,8 +54,8 @@ RocketInterface::RocketInterface()
 {
 	cVertexBuffer.Configure(eBufferUsage::EveryFrameChange);
 	cElementBuffer.Configure(eBufferUsage::EveryFrameChange, eElementType::Int);
-	this->SetWidth(pScreen->GetWidth());
-	this->SetHeight(pScreen->GetHeight());
+	this->SetWidth(f32(pScreen->GetWidth()));
+	this->SetHeight(f32(pScreen->GetHeight()));
 
 	RocketEventInstancer *inst = new RocketEventInstancer();
 	Rocket::Core::Factory::RegisterEventListenerInstancer(inst);
@@ -75,7 +76,7 @@ void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_ver
 	Vector3f t(translation.x + this->GetHorizontalTexelOffset(), translation.y + this->GetVerticalTexelOffset(), 0.0f);
 	transform.setTranslation(t);
 
-	sVertex *vert = NewArray(sVertex, num_vertices);
+	sVertex *vert = sdNewArray(sVertex, num_vertices);
 	for (int i = 0; i < num_vertices; ++i)
 	{
 		vert[i].cVertex.setX(vertices[i].position.x);
@@ -105,17 +106,17 @@ void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_ver
 
 	pRendererDevice->UploadData(&packet);
 
-	DeleteArray(vert);
+	sdDeleteArray(vert);
 }
 
 Rocket::Core::CompiledGeometryHandle RocketInterface::CompileGeometry(Rocket::Core::Vertex *vertices, int num_vertices, int *indices, int num_indices, Rocket::Core::TextureHandle texture)
 {
-	auto packet = New(RendererPacket());
+	auto packet = sdNew(RendererPacket);
 
-	int *elems = (int *)Alloc(sizeof(int) * num_indices);
+	int *elems = (int *)sdAlloc(sizeof(int) * num_indices);
 	memcpy(elems, indices, num_indices * sizeof(int));
 
-	auto vert = NewArray(sVertex, num_vertices);
+	auto vert = sdNewArray(sVertex, num_vertices);
 	for (int i = 0; i < num_vertices; ++i)
 	{
 		vert[i].cVertex.setX(vertices[i].position.x);
@@ -131,11 +132,11 @@ Rocket::Core::CompiledGeometryHandle RocketInterface::CompileGeometry(Rocket::Co
 		vert[i].cCoords.y = vertices[i].tex_coord[1];
 	}
 
-	packet->pElementBuffer = New(ElementBuffer());
+	packet->pElementBuffer = sdNew(ElementBuffer);
 	packet->pElementBuffer->Configure(eBufferUsage::NeverChange, eElementType::Int);
 	packet->pElementBuffer->SetData(elems, num_indices);
 
-	packet->pVertexBuffer = New(VertexBuffer());
+	packet->pVertexBuffer = sdNew(VertexBuffer);
 	packet->pVertexBuffer->Configure(eBufferUsage::NeverChange);
 	packet->pVertexBuffer->SetData(vert, num_vertices);
 
@@ -172,17 +173,17 @@ void RocketInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHand
 
 	// inverse order freeing
 	pRendererDevice->DestroyHardwareBuffer(packet->pVertexBuffer);
-	Delete(packet->pVertexBuffer);
+	sdDelete(packet->pVertexBuffer);
 	pRendererDevice->DestroyHardwareBuffer(packet->pElementBuffer);
-	Delete(packet->pElementBuffer);
+	sdDelete(packet->pElementBuffer);
 
 	sVertex *v = (sVertex *)vert;
-	DeleteArray(v);
+	sdDeleteArray(v);
 
 	int *e = (int *)elems;
-	sFree(e);
+	sdFree(e);
 
-	Delete(packet);
+	sdDelete(packet);
 }
 
 void RocketInterface::EnableScissorRegion(bool enable)
@@ -192,7 +193,7 @@ void RocketInterface::EnableScissorRegion(bool enable)
 
 void RocketInterface::SetScissorRegion(int x, int y, int width, int height)
 {
-	pRendererDevice->SetScissor(x, pScreen->GetHeight() - (y + height), width, height);
+	pRendererDevice->SetScissor(f32(x), f32(pScreen->GetHeight() - (y + height)), f32(width), f32(height));
 }
 
 bool RocketInterface::LoadTexture(Rocket::Core::TextureHandle &texture_handle, Rocket::Core::Vector2i &texture_dimensions, const Rocket::Core::String &source)
@@ -203,7 +204,7 @@ bool RocketInterface::LoadTexture(Rocket::Core::TextureHandle &texture_handle, R
 	texture_dimensions.x = t->GetWidth();
 	texture_dimensions.y = t->GetHeight();
 
-	auto tex = New(TexturePtr());
+	auto tex = sdNew(TexturePtr);
 	tex->pTex = t;
 	tex->bDynamic = false;
 
@@ -214,14 +215,14 @@ bool RocketInterface::LoadTexture(Rocket::Core::TextureHandle &texture_handle, R
 
 bool RocketInterface::GenerateTexture(Rocket::Core::TextureHandle &texture_handle, const Rocket::Core::byte *source, const Rocket::Core::Vector2i &source_dimensions)
 {
-	auto t = New(Texture());
+	auto t = sdNew(Texture);
 	u32 w = source_dimensions.x;
 	u32 h = source_dimensions.y;
 	t->Load("[RocketDynamicTexture]", w, h, (Color *)source, w, h, true);
 	t->SetFilter(eTextureFilterType::Min, eTextureFilter::Linear);
 	t->SetFilter(eTextureFilterType::Mag, eTextureFilter::Linear);
 
-	auto tex = New(TexturePtr());
+	auto tex = sdNew(TexturePtr);
 	tex->pTex = t;
 	tex->bDynamic = true;
 	texture_handle = (Rocket::Core::TextureHandle)tex;
@@ -234,14 +235,14 @@ void RocketInterface::ReleaseTexture(Rocket::Core::TextureHandle texture_handle)
 	TexturePtr *tex = (TexturePtr *)texture_handle;
 	if (tex->bDynamic)
 	{
-		Delete(tex->pTex);
+		sdDelete(tex->pTex);
 	}
 	else
 	{
-		sRelease(tex->pTex);
+		sdRelease(tex->pTex);
 	}
 
-	Delete(tex);
+	sdDelete(tex);
 }
 
 float RocketInterface::GetHorizontalTexelOffset()
@@ -257,9 +258,9 @@ float RocketInterface::GetVerticalTexelOffset()
 // Rocket::Core::FileInterface
 Rocket::Core::FileHandle RocketInterface::Open(const Rocket::Core::String &path)
 {
-	auto fp = New(FilePtr());
-	WARNING(TODO - Move to async file loading)
-	fp->pFile = New(File(path.CString()));
+	auto fp = sdNew(FilePtr);
+	// FIXME: ASYNC
+	fp->pFile = sdNew(File(path.CString()));
 	fp->pFile->GetData();
 	fp->iOffset = 0L;
 
@@ -269,8 +270,8 @@ Rocket::Core::FileHandle RocketInterface::Open(const Rocket::Core::String &path)
 void RocketInterface::Close(Rocket::Core::FileHandle file)
 {
 	FilePtr *fp = (FilePtr *)file;
-	Delete(fp->pFile);
-	Delete(fp);
+	sdDelete(fp->pFile);
+	sdDelete(fp);
 }
 
 size_t RocketInterface::Read(void *buffer, size_t size, Rocket::Core::FileHandle file)

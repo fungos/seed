@@ -60,8 +60,14 @@ class SEED_CORE_API TileSet : public IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual TileSet *Clone() const override;
+		virtual void Set(Reader &reader) override;
+
+	protected:
+		void RebuildUVMapping();
 
 	private:
+		ResourceManager *pRes;
 		ITexture *pTexture;
 		Rect4f	 *pTileUV;
 		Map<String, String> mProperties;
@@ -71,6 +77,7 @@ class SEED_CORE_API TileSet : public IDataObject
 		u32		iMargin;
 		u32		iSpacing;
 		Point2u ptTileSize;
+		Point2u ptTiles;
 };
 
 } // namespace

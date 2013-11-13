@@ -36,15 +36,19 @@
 #include "Keyframe.h"
 #include "Log.h"
 #include "ResourceManager.h"
+#include "SceneObjectFactory.h"
+#include "PrefabManager.h"
+#include "Memory.h"
 
 #define TAG "[Timeline] "
 
 namespace Seed {
 
 Timeline::Timeline()
-	: pParent(NULL)
-	, pObject(NULL)
-	, pListener(NULL)
+	: pRes(nullptr)
+	, pParent(nullptr)
+	, pObject(nullptr)
+	, pListener(nullptr)
 	, sName()
 	, fElapsedTime(0.0f)
 	, fElapsedKeyframeTime(0.0f)
@@ -72,6 +76,8 @@ void Timeline::Reset()
 	iCurrentFrame 			= 0;
 	iKeyframeFrom 			= 0;
 	iKeyframeTo 			= 0;
+	sName					= this->GetTypeName();
+	pParent					= nullptr;
 }
 
 void Timeline::Rewind()
@@ -86,7 +92,7 @@ void Timeline::Rewind()
 void Timeline::AddKeyframe(Keyframe *keyframe)
 {
 	if (mapKeyframes[keyframe->iFrame])
-		Delete(mapKeyframes[keyframe->iFrame]);
+		sdDelete(mapKeyframes[keyframe->iFrame]);
 
 	mapKeyframes[keyframe->iFrame] = keyframe;
 }
@@ -306,8 +312,7 @@ void Timeline::Update()
 		}
 	}
 
-	//FIXME when changing to timebased instead of framebased the iCurrentFrame increment must
-	//be based on the elapsedtime
+	// FIXME: when changing to timebased instead of framebased the iCurrentFrame increment must be based on the elapsedtime
 	fElapsedKeyframeTime++;
 	fElapsedTime++;
 	iCurrentFrame++;
@@ -443,7 +448,7 @@ void Timeline::SetPriority(u32 p)
 {
 	iPriority = p;
 	if (pObject)
-		pObject->SetZ(static_cast<f32>(p));
+		pObject->SetZ(f32(p));
 }
 
 u32 Timeline::GetPriority() const
@@ -484,90 +489,145 @@ bool Timeline::Unload()
 	{
 		Keyframe *obj = (*mapKeyframes.begin()).second;
 		mapKeyframes.erase(mapKeyframes.begin());
-		Delete(obj);
+		sdDelete(obj);
 	}
 
-	Delete(pObject);
+	if (pParent && pObject)
+		pParent->Remove(pObject);
+	sdDelete(pObject);
+
 	KeyframeMap().swap(mapKeyframes);
 
-	sName = "";
 	this->Reset();
 
 	return true;
 }
 
-bool Timeline::Load(Reader &reader, ResourceManager *res)
+Timeline *Timeline::Clone() const
 {
-	SEED_ASSERT(res);
-	bool ret = false;
+	auto obj = sdNew(Timeline);
+	obj->GenerateCloneName(sName);
 
-	if (this->Unload())
+	obj->pParent = pParent; // TODO: TEST
+	obj->pObject = pObject; // TODO: TEST
+	obj->pListener = pListener;
+
+	obj->fElapsedTime = fElapsedTime;
+	obj->fElapsedKeyframeTime = fElapsedKeyframeTime;
+	obj->iCurrentFrame = iCurrentFrame;
+	obj->iKeyframeFrom = iKeyframeFrom;
+	obj->iKeyframeTo = iKeyframeTo;
+	obj->iPriority = iPriority;
+
+	obj->ptParentPosition = ptParentPosition;
+	obj->ptParentLocalPosition = ptParentLocalPosition;
+	obj->ptParentScale = ptParentScale;
+	obj->fParentRotation = fParentRotation;
+
+	for (auto kv: mapKeyframes)
+		obj->mapKeyframes[kv.first] = kv.second->Clone();
+
+	return obj;
+}
+
+void Timeline::Set(Reader &reader)
+{
+	sName = reader.ReadString("sName", sName.c_str());
+	iPriority = reader.ReadU32("iPriority", iPriority);
+
+	if (reader.SelectNode("cObject"))
 	{
-		sName = reader.ReadString("sName", "timeline");
-		iPriority = reader.ReadU32("iPriority", 0);
+		if (pParent && pObject)
+			pParent->Remove(pObject);
+		sdDelete(pObject);
 
-		/*
-		FIXME: The object here can be any ISceneObject, so we need a way to
-		identify the kind of object and a kind of factory that will construct
-		the object and return to us (Project)
-		*/
-		if (reader.SelectNode("cObject"))
+		pObject = pSceneObjectFactory->Load(reader, pRes);
+		reader.UnselectNode();
+	}
+	else
+	{
+		auto object = String(reader.ReadString("sObjectPrefab", ""));
+		if (object != "")
 		{
-			WARNING(TODO - Use SceneObjectFactory here)
-			Reader r(reader);
-			auto spt = New(Sprite);
-			spt->Load(r, res);
-			spt->SetZ(static_cast<f32>(iPriority));
-			pObject = spt;
-			reader.UnselectNode();
-		}
-		else
-		{
-			String object = reader.ReadString("sObject", "");
-			SEED_ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
+			if (pParent && pObject)
+				pParent->Remove(pObject);
+			sdDelete(pObject);
 
-			WARNING(TODO - Move to async file loading)
-			auto f = New(File(object));
-			Reader r(f);
-			auto spt = New(Sprite);
-			spt->Load(r, res);
-			spt->SetZ(static_cast<f32>(iPriority));
-			pObject = spt;
-
-			Delete(f);
-		}
-
-		u32 keyframes = reader.SelectArray("aKeyframes");
-		SEED_ASSERT_MSG(keyframes != 0, "Timeline does not have keyframes.");
-		if (keyframes)
-		{
-			for (u32 i = 0; i < keyframes; i++)
-			{
-				reader.SelectNext();
-
-				auto obj = New(Keyframe);
-				obj->Load(reader, res);
-
-				u32 frame = 0;
-				if (obj->iFrame)
-					frame = obj->iFrame;
-				else
-					frame = i;
-
-				SEED_ASSERT_MSG(mapKeyframes[frame] == NULL, "Dupicated frame in the timeline");
-				mapKeyframes[frame] = obj;
-			}
-			reader.UnselectArray();
-
-			ret = true;
-		}
-		else
-		{
-			Log(TAG " WARNING: No keyframe found in the timeline '%s'", sName.c_str());
+			pObject = reinterpret_cast<ISceneObject *>(pPrefabManager->Get(object));
 		}
 	}
 
-	return ret;
+	if (pObject)
+		pObject->SetZ(f32(iPriority));
+
+	// incremental keyframes construction, this will merge or overwrite
+	u32 keyframes = reader.SelectArray("aKeyframes");
+	if (keyframes)
+	{
+		for (u32 i = 0; i < keyframes; i++)
+		{
+			reader.SelectNext();
+
+			auto obj = sdNew(Keyframe);
+			obj->Load(reader, pRes);
+
+			this->AddKeyframe(obj); // overwrite if already exists
+		}
+		reader.UnselectArray();
+	}
+}
+
+bool Timeline::Load(Reader &reader, ResourceManager *res)
+{
+	if (!this->Unload())
+		return true;
+
+	SEED_ASSERT(res);
+	pRes = res;
+
+	sName = reader.ReadString("sName", "timeline");
+	iPriority = reader.ReadU32("iPriority", 0);
+
+	if (reader.SelectNode("cObject"))
+	{
+		pObject = pSceneObjectFactory->Load(reader, pRes);
+		reader.UnselectNode();
+	}
+	else
+	{
+		auto object = String(reader.ReadString("sObjectPrefab", ""));
+		SEED_ASSERT_FMT(object != "", "Timeline '%s' does not have an object prefab [sObjectPrefab] set.", sName.c_str());
+		pObject = reinterpret_cast<ISceneObject *>(pPrefabManager->Get(object));
+	}
+
+	SEED_ASSERT_FMT(pObject != nullptr, "Timeline '%s' does not have an scene object.", sName.c_str());
+	pObject->SetZ(f32(iPriority));
+
+	u32 keyframes = reader.SelectArray("aKeyframes");
+	if (keyframes)
+	{
+		for (u32 i = 0; i < keyframes; i++)
+		{
+			reader.SelectNext();
+
+			auto obj = sdNew(Keyframe);
+			obj->Load(reader, res);
+
+			u32 frame = 0;
+			if (obj->iFrame)
+				frame = obj->iFrame;
+			else
+				frame = i;
+
+			SEED_ASSERT_FMT(mapKeyframes[frame] == nullptr, "Dupicated frame in the timeline '%s'.", sName.c_str());
+			mapKeyframes[frame] = obj;
+		}
+		reader.UnselectArray();
+	}
+
+	SEED_WARNING(keyframes == 0, "Timeline '%s': Has no keyframes [aKeyframes]", sName.c_str());
+
+	return true;
 }
 
 bool Timeline::Write(Writer &writer)

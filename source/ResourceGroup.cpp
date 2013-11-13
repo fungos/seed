@@ -32,6 +32,7 @@
 #include "interface/IResource.h"
 #include "ResourceManager.h"
 #include "Timer.h"
+#include "Memory.h"
 
 namespace Seed {
 
@@ -48,12 +49,12 @@ ResourceGroup::~ResourceGroup()
 
 void ResourceGroup::Add(const String &filename, TypeId resourceType, ResourceManager *res)
 {
-	auto newItem			= New(QueueItem());
+	auto newItem			= sdNew(QueueItem());
 	newItem->filename 		= filename;
 	newItem->resource 		= NULL;
 	newItem->resourceType 	= resourceType;
 	newItem->resManager		= res;
-	newItem->startTime		= (u32)pTimer->GetMilliseconds();
+	newItem->startTime		= u32(pTimer->GetMilliseconds());
 	newItem->erased			= false;
 
 	queue += newItem;
@@ -77,8 +78,8 @@ bool ResourceGroup::Unload()
 {
 	for (auto each: queue)
 	{
-		sRelease(each->resource);
-		Delete(each);
+		sdRelease(each->resource);
+		sdDelete(each);
 	}
 
 	queue.clear();

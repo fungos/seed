@@ -7,8 +7,7 @@ using namespace Seed;
 class SpriteSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventInputPointerListener,
-					public IEventPresentationListener
+					public IEventInputPointerListener
 {
 	SEED_DISABLE_COPY(SpriteSample)
 
@@ -28,9 +27,6 @@ class SpriteSample : public IGameApp,
 
 		// IEventInputPointerListener
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	protected:
 		Presentation cPres;

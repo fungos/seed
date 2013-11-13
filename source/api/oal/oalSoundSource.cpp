@@ -35,6 +35,7 @@
 #include "SoundSystem.h"
 #include "Sound.h"
 #include "Log.h"
+#include "Memory.h"
 #include "SeedInit.h"
 
 #define TAG		"[SoundSource] "
@@ -62,7 +63,7 @@ bool SoundSource::OnLoadFinished()
 	if (err != AL_NO_ERROR)
 		Info(TAG "Could not create OpenAL Source: %4x", err);
 
-	const ALint *buffer = static_cast<const ALint *>(pSound->GetData());
+	auto buffer = static_cast<const ALint *>(pSound->GetData());
 
 	alDistanceModel(AL_LINEAR_DISTANCE);
 	alSource3f(iSource, AL_POSITION, GetX(), GetY(), GetZ());
@@ -89,8 +90,6 @@ bool SoundSource::OnUnloadRequest()
 	if (iSource)
 		alDeleteSources(1, &iSource);
 
-	sRelease(pSound);
-
 	return true;
 }
 
@@ -103,6 +102,17 @@ void SoundSource::SetVolume(f32 vol)
 void SoundSource::UpdateVolume()
 {
 	alSourcef(iSource, AL_GAIN, fVolume * pSoundSystem->GetSfxVolume());
+}
+
+SoundSource *SoundSource::Clone() const
+{
+	auto obj = sdNew(SoundSource);
+
+	// TODO: TEST
+	this->DoClone(obj);
+	obj->OnLoadFinished();
+
+	return obj;
 }
 
 void SoundSource::SetLoop(bool b)

@@ -207,7 +207,7 @@ void System::WaitForRetrace()
 
 	if (iFpsTime > 1000)
 	{
-		Dbg("FPS: %d", iRetraceCount);
+		//Dbg("FPS: %d", iRetraceCount);
 
 		arRetraceCount[iRetraceIndex++] = iRetraceCount;
 		if (iRetraceIndex >= SYSTEM_RETRACE_HISTORY_MAX)

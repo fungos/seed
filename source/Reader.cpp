@@ -32,6 +32,7 @@
 #include "Configuration.h"
 #include "api/yajl/JsonReader.h"
 #include "Log.h"
+#include "Memory.h"
 
 #define TAG "[Reader] "
 
@@ -67,7 +68,7 @@ Reader::Reader(Reader &reader)
 Reader::~Reader()
 {
 	if (pOpaque != &cNullReader)
-		Delete(pOpaque);
+		sdDelete(pOpaque);
 
 	pOpaque = NULL;
 }
@@ -82,7 +83,7 @@ void Reader::Init()
 			case eReaderType::Json:
 			{
 				Info(TAG "Creating reader json");
-				pOpaque = New(JsonReader());
+				pOpaque = sdNew(JsonReader());
 			}
 			break;
 #endif
@@ -91,7 +92,7 @@ void Reader::Init()
 			{
 #if defined(SEED_USE_JSON)
 				Info(TAG "Creating reader json");
-				pOpaque = New(JsonReader());
+				pOpaque = sdNew(JsonReader());
 #else
 				Info(TAG "Failed creating reader, using null");
 #endif

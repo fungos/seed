@@ -36,16 +36,16 @@
 
 namespace Seed {
 
-class IMetadataObject;
+class MetadataObject;
 
-SEED_DECLARE_CONTAINER(Vector, IMetadataObject)
+SEED_DECLARE_CONTAINER(Vector, MetadataObject)
 
 class SEED_CORE_API MapLayerMetadata : public IMapLayer
 {
 	SEED_DISABLE_COPY(MapLayerMetadata)
 
 	public:
-		MapLayerMetadata(Point2u tileSize);
+		MapLayerMetadata(Point2f tileSize);
 		virtual ~MapLayerMetadata();
 
 		void LoadData(Reader &reader, u32 len);
@@ -54,17 +54,19 @@ class SEED_CORE_API MapLayerMetadata : public IMapLayer
 		virtual MapLayerMetadata *AsMetadata() override;
 
 		// SceneNode
-//		virtual void Update(f32 delta) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 		virtual void Reset() override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
-//		virtual bool Unload() override;
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
+		virtual MapLayerMetadata *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
 		ResourceManager *pRes;
-		Point2u ptTileSize;
+		Point2f ptTileSize;
+		Point2f ptSize;
 		Point2f ptMapSize;
 		Point2f ptHalfSize;
 };

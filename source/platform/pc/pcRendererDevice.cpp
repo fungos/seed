@@ -33,6 +33,7 @@
 #if defined(BUILD_PC)
 
 #include "Configuration.h"
+#include "Memory.h"
 #define TAG "[RendererDevice] "
 
 namespace Seed { namespace PC {
@@ -50,7 +51,7 @@ RendererDevice::RendererDevice()
 RendererDevice::~RendererDevice()
 {
 	if (pApiDevice != &cNull)
-		Delete(pApiDevice);
+		sdDelete(pApiDevice);
 
 	pApiDevice = NULL;
 }
@@ -58,7 +59,7 @@ RendererDevice::~RendererDevice()
 bool RendererDevice::Initialize()
 {
 	if (pApiDevice != &cNull && pApiDevice != NULL)
-		Delete(pApiDevice);
+		sdDelete(pApiDevice);
 
 	Log(TAG "Initializing...");
 
@@ -155,7 +156,7 @@ bool RendererDevice::Initialize()
 		default:
 		{
 			Info(TAG "Creating renderer device OpenGL 1.5/ES 1");
-			pApiDevice = New(Seed::OpenGL::OGLES1RendererDevice());
+			pApiDevice = sdNew(Seed::OpenGL::OGLES1RendererDevice);
 		}
 		break;
 	}
@@ -173,7 +174,7 @@ bool RendererDevice::Reset()
 bool RendererDevice::Shutdown()
 {
 	bool ret = pApiDevice->Shutdown();
-	Delete(pApiDevice);
+	sdDelete(pApiDevice);
 	pApiDevice = &cNull;
 
 	return ret;

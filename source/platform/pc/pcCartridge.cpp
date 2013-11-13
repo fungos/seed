@@ -29,10 +29,11 @@
 */
 
 #include "Cartridge.h"
-#include "LeakReport.h"
 
 #if defined(BUILD_PC)
 
+#include "LeakReport.h"
+#include "Memory.h"
 #include "Log.h"
 #include "FileSystem.h"
 
@@ -65,7 +66,7 @@ bool Cartridge::Initialize()
 
 bool Cartridge::Reset()
 {
-	sFree(this->pData);
+	sdFree(this->pData);
 
 	nType = eCartridgeSize::Unlimited;
 	iSize = 0;
@@ -96,7 +97,7 @@ bool Cartridge::Prepare(eCartridgeSize size)
 	strncat(strPath, PATH_SEPARATOR, PC_MAX_PATH - 1);
 	strncat(strPath, CARTRIDGE_FILENAME, PC_MAX_PATH - strlen(strPath) - 1);
 
-	this->pData = static_cast<u8 *>(Alloc(iSize));
+	this->pData = static_cast<u8 *>(sdAlloc(iSize));
 	memset(this->pData, 0, iSize);
 
 	if (!this->Verify(strPath, iSize))
@@ -324,10 +325,10 @@ bool Cartridge::CreateSaveFile()
 	FILE *fp = fopen(strPath, "wb+");
 	if (fp)
 	{
-		void *pBlankData = Alloc(iSize);
+		void *pBlankData = sdAlloc(iSize);
 		memset(pBlankData, 0, iSize);
 		bool result = this->Write(0, pBlankData, iSize);
-		sFree(pBlankData);
+		sdFree(pBlankData);
 
 		if (!result)
 		{

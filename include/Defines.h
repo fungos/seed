@@ -41,6 +41,9 @@ About warning 4251 - DLL export for templatized classes (std and others)
 http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 */
 #if defined(_MSC_VER)
+#pragma warning(disable:4514) // unreferenced inline function has been removed (/WD)
+#pragma warning(disable:4820) // 'n' bytes padding added after data memeber 'y' (/WD)
+#pragma warning(disable:4350) // behavior change: 'method1' called instead of 'method2' (/WD)
 #pragma warning(disable:4127) // conditional expression is constant
 #pragma warning(disable:4201) // nonstandard extension used : nameless struct/union
 #pragma warning(disable:4530)
@@ -50,14 +53,15 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 //#define override
 #endif
 
-#define STRINGIZE_HELPER(x) #x
-#define STRINGIZE(x) STRINGIZE_HELPER(x)
-#define DO_PRAGMA(x) _Pragma (#x)
+#define SEED_STRINGIZE_HELPER(x)	#x
+#define SEED_STRINGIZE(x)			SEED_STRINGIZE_HELPER(x)
+#define SEED_DO_PRAGMA(x)			_Pragma (#x)
 
-#if BUILD_MESSAGES == 1
-#define WARNING(desc) DO_PRAGMA(message (__FILE__ "(" STRINGIZE(__LINE__) ") : warning: " #desc));
+#if BUILD_MESSAGES == 1 && !defined(_MSC_VER)
+#define WARNING(desc)	SEED_DO_PRAGMA(message (__FILE__ "(" SEED_STRINGIZE(__LINE__) ") : warning: " #desc));
+						//Wrn("WARNING: " __FILE__ "(" SEED_STRINGIZE(__LINE__) "): " SEED_STRINGIZE(desc));
 #else
-#define WARNING(desc)
+#define WARNING(desc)	//Wrn("WARNING: " __FILE__ "(" SEED_STRINGIZE(__LINE__) "): " SEED_STRINGIZE(desc));
 #endif
 
 #define OV_EXCLUDE_STATIC_CALLBACKS
@@ -84,11 +88,7 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #define SEED_EXTRA_API
 #endif
 
-#ifdef _MSC_VER
-#define UNUSED(var)
-#else
 #define UNUSED(var)						(void)var;
-#endif
 
 typedef std::string String;
 
@@ -115,8 +115,10 @@ typedef Color Color4b;
 // Debugging
 #if defined(DEBUG)
 	#include "Log.h"
-	#define SEED_ASSERT(x)				if (!(x)) { Log("%s:%d - " #x, __FILE__, __LINE__); HALT}
-	#define SEED_ASSERT_MSG(x, msg)		if (!(x)) { Log("%s:%d - " #msg, __FILE__, __LINE__); HALT}
+	#define SEED_ASSERT(x)					if (!(x)) { Err("%s:%d: " #x, __FILE__, __LINE__); HALT}
+	#define SEED_ASSERT_MSG(x, msg)			if (!(x)) { Err("%s:%d: (" #x "): " #msg, __FILE__, __LINE__); HALT}
+	#define SEED_ASSERT_FMT(x, msg, ...)	if (!(x)) { Err("%s:%d: (" #x "): " #msg, __FILE__, __LINE__, __VA_ARGS__); HALT}
+	#define SEED_WARNING(x, msg, ...)		if (x)    { Wrn("%s:%d: WARNING: (" #x "): " #msg, __FILE__, __LINE__, __VA_ARGS__); }
 
 	#if defined(__GNUC__)
 		#define __FUNC__					__PRETTY_FUNCTION__
@@ -142,13 +144,13 @@ typedef Color Color4b;
 
 #define SEED_INVALID_ID					0xFFFFFFFF
 
-#define CLAMP(val,min,max) 				((val) = (((val) < (min)) ? (min) : ((val) > (max)) ? (max) : (val)))
-#define ROUND_UP(value, alignment)		(((u32)(value) + (alignment-1)) & ~(alignment-1))
-#define ROUND_DOWN(value, alignment)	((u32)(value) & ~(alignment-1))
-#define PTR_OFF(ptr)					((size_t)(ptr))
-#define ALIGN_OFFSET(ptr, align)		(PTR_OFF(ptr) & ((align) - 1))
-#define ALIGN_FLOOR(ptr, align)			((u8 *)(ptr) - ( PTR_OFF(ptr) & ((align) - 1)))
-#define ALIGN_CEIL(ptr, align)			((u8 *)(ptr) + (-PTR_OFF(ptr) & ((align) - 1)))
+#define SEED_CLAMP(val,min,max) 			((val) = (((val) < (min)) ? (min) : ((val) > (max)) ? (max) : (val)))
+#define SEED_ROUND_UP(value, alignment)		(((u32)(value) + (alignment-1)) & ~(alignment-1))
+#define SEED_ROUND_DOWN(value, alignment)	((u32)(value) & ~(alignment-1))
+#define SEED_PTR_OFF(ptr)					((size_t)(ptr))
+#define SEED_ALIGN_OFFSET(ptr, align)		(SEED_PTR_OFF(ptr) & ((align) - 1))
+#define SEED_ALIGN_FLOOR(ptr, align)		((u8 *)(ptr) - ( PTR_OFF(ptr) & ((align) - 1)))
+#define SEED_ALIGN_CEIL(ptr, align)			((u8 *)(ptr) + (-PTR_OFF(ptr) & ((align) - 1)))
 
 #define SEED_DISABLE_COPY(Class)		private:										\
 											Class(const Class &) = delete;				\

@@ -35,17 +35,17 @@
 #include "MathUtil.h"
 #include "SeedInit.h"
 #include "Configuration.h"
+#include "Memory.h"
 
 namespace Seed {
 
 ISceneObject *FactoryImage()
 {
-	return New(Image());
+	return sdNew(Image);
 }
 
 Image::Image()
-	: pTexture(NULL)
-	, pRes(NULL)
+	: pTexture(nullptr)
 	, sFilename()
 	, iHalfWidth(0)
 	, iHalfHeight(0)
@@ -59,8 +59,7 @@ Image::Image()
 }
 
 Image::Image(const String &filename, ResourceManager *res)
-	: pTexture(NULL)
-	, pRes(NULL)
+	: pTexture(nullptr)
 	, sFilename()
 	, iHalfWidth(0)
 	, iHalfHeight(0)
@@ -77,49 +76,49 @@ Image::Image(const String &filename, ResourceManager *res)
 Image::~Image()
 {
 	pRendererDevice->DestroyHardwareBuffer(&cVertexBuffer);
+	this->Unload();
 }
 
 void Image:: Update(f32 delta)
 {
 	UNUSED(delta);
-	if (this->IsChanged())
-	{
-		f32  x1, y1, x2, y2, z;
-		x2 = vBoundingBox.getX() * 0.5f;
-		y2 = vBoundingBox.getY() * 0.5f;
-		x1 = -x2;
-		y1 = -y2;
-		z = vPos.getZ();
+	if (!this->IsChanged())
+		return;
 
-		vert[0].cVertex = Vector3f(x1, y1, z);
-		vert[1].cVertex = Vector3f(x2, y1, z);
-		vert[2].cVertex = Vector3f(x1, y2, z);
-		vert[3].cVertex = Vector3f(x2, y2, z);
+	auto x2 = vBoundingBox.getX() * 0.5f;
+	auto y2 = vBoundingBox.getY() * 0.5f;
+	auto x1 = -x2;
+	auto y1 = -y2;
+	auto z = vPos.getZ();
 
-		this->UpdateTransform();
-	}
+	vert[0].cVertex = Vector3f{x1, y1, z};
+	vert[1].cVertex = Vector3f{x2, y1, z};
+	vert[2].cVertex = Vector3f{x1, y2, z};
+	vert[3].cVertex = Vector3f{x2, y2, z};
+
+	this->UpdateTransform();
 }
 
 void Image::Render(const Matrix4f &worldTransform)
 {
-	if (pTexture && pTexture->GetData())
-	{
-		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
-		RendererPacket packet;
-		packet.pTransform = &worldTransform; // FIXME: ortho or billboard
-		packet.nMeshType = eMeshType::TriangleStrip;
-		packet.pVertexBuffer = &cVertexBuffer;
-		packet.pTexture = pTexture;
-		packet.nBlendMode = nBlendOperation;
-		packet.cColor = cColor;
-		packet.nFlags = flags;
-		packet.vPivot = vTransformedPivot;
+	if (!pTexture || !pTexture->GetData())
+		return;
 
-		Rect4f box(0, 0, this->GetWidth(), this->GetHeight());
-		packet.fRadius = box.CircleRadius();
+	auto flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
+	RendererPacket packet;
+	packet.pTransform = &worldTransform; // FIXME: ortho or billboard
+	packet.nMeshType = eMeshType::TriangleStrip;
+	packet.pVertexBuffer = &cVertexBuffer;
+	packet.pTexture = pTexture;
+	packet.nBlendMode = nBlendOperation;
+	packet.cColor = cColor;
+	packet.nFlags = flags;
+	packet.vPivot = vTransformedPivot;
 
-		pRendererDevice->UploadData(&packet);
-	}
+	auto box= Rect4f{0, 0, this->GetWidth(), this->GetHeight()};
+	packet.fRadius = box.CircleRadius();
+
+	pRendererDevice->UploadData(&packet);
 }
 
 bool Image::Load(ITexture *texture)
@@ -127,9 +126,9 @@ bool Image::Load(ITexture *texture)
 	SEED_ASSERT(texture);
 
 	if (!bDynamic)
-		sRelease(pTexture);
+		sdRelease(pTexture);
 
-	pTexture = NULL;
+	pTexture = nullptr;
 
 	sFilename = "[dynamic texture]";
 	pTexture = texture;
@@ -144,97 +143,139 @@ void Image::UpdateCoords()
 {
 	iWidth = pTexture->GetWidth();
 	iHeight = pTexture->GetHeight();
-	ITransformable::SetWidth(static_cast<f32>(pTexture->GetWidth())); // set normalized width
-	ITransformable::SetHeight(static_cast<f32>(pTexture->GetHeight())); // set normalized height
+	ITransformable::SetWidth(f32(pTexture->GetWidth())); // set normalized width
+	ITransformable::SetHeight(f32(pTexture->GetHeight())); // set normalized height
 
-	f32 rInvWidth = 1.0f / pTexture->GetAtlasWidth(); // full width from image, not only frame area
-	f32 rInvHeight = 1.0f / pTexture->GetAtlasHeight(); // full height from image, not only frame area
+	auto rInvWidth = 1.0f / pTexture->GetAtlasWidth(); // full width from image, not only frame area
+	auto rInvHeight = 1.0f / pTexture->GetAtlasHeight(); // full height from image, not only frame area
 
 	iHalfWidth = iWidth >> 1;
 	iHalfHeight = iHeight >> 1;
 
-	f32 s0 = 0.0f;
-	f32 s1 = static_cast<f32>(iWidth * rInvWidth);
-	f32 t0 = 0.0f;
-	f32 t1 = static_cast<f32>(iHeight * rInvHeight);
+	auto s0 = 0.0f;
+	auto s1 = f32{iWidth * rInvWidth};
+	auto t0 = 0.0f;
+	auto t1 = f32{iHeight * rInvHeight};
 
-	vert[0].cCoords = Point2f(s0, t0);
-	vert[1].cCoords = Point2f(s1, t0);
-	vert[2].cCoords = Point2f(s0, t1);
-	vert[3].cCoords = Point2f(s1, t1);
+	vert[0].cCoords = Point2f{s0, t0};
+	vert[1].cCoords = Point2f{s1, t0};
+	vert[2].cCoords = Point2f{s0, t1};
+	vert[3].cCoords = Point2f{s1, t1};
 }
 
 bool Image::Load(const String &filename, ResourceManager *res)
 {
 	SEED_ASSERT(res);
-	bool ret = false;
+	if (!this->Unload())
+		return false;
 
-	if (this->Unload())
-	{
-		sName = filename;
-		sFilename = filename;
-		pRes = res;
+	sName = filename;
+	sFilename = filename;
+	pRes = res;
 
-		pTexture = static_cast<ITexture *>(res->Get(sFilename, ITexture::GetTypeId()));
-		this->UpdateCoords();
+	pTexture = static_cast<ITexture *>(res->Get(sFilename, ITexture::GetTypeId()));
+	this->UpdateCoords();
 
-		bDynamic = false;
-	}
+	bDynamic = false;
 
-	return ret;
+	return true;
 }
 
-bool Image::Load(Reader &reader, ResourceManager *res)
+
+void Image::Set(Reader &reader)
 {
-	SEED_ASSERT(res);
+	sName = reader.ReadString("sName", sName.c_str());
+	auto filename = String(reader.ReadString("sResource", sFilename.c_str()));
 
-	bool ret = false;
+	ITransformable::Unserialize(reader);
+	IRenderable::Unserialize(reader);
 
-	if (this->Unload())
+	if (filename != sFilename)
 	{
-		sName = reader.ReadString("sName", "image");
-		sFilename = reader.ReadString("sResource", "");
+		sFilename = filename;
 
-		ITransformable::Unserialize(reader);
-		IRenderable::Unserialize(reader);
-
-		pRes = res;
-
-		pTexture = static_cast<ITexture *>(res->Get(sFilename, ITexture::GetTypeId()));
+		sdRelease(pTexture);
+		pTexture = static_cast<ITexture *>(pRes->Get(sFilename, ITexture::GetTypeId()));
 		this->UpdateCoords();
-
-		bDynamic = false;
 	}
 
-	return ret;
+	SEED_ASSERT_FMT(pTexture, "Image '%s': Has no texture.", sName.c_str());
+	bDynamic = false;
 }
 
 bool Image::Unload()
 {
 	pRendererDevice->DestroyHardwareBuffer(&cVertexBuffer);
 	if (!bDynamic)
-		sRelease(pTexture);
-	pTexture = NULL;
+		sdRelease(pTexture);
+	pTexture = nullptr;
+	sFilename = "";
+	sName = this->GetTypeName();
 
 	return true;
 }
 
+Image *Image::Clone() const
+{
+	auto obj = sdNew(Image);
+	obj->GenerateCloneName(sName);
+
+	if (!bDynamic)
+		sdAcquire(pTexture);
+
+	obj->pTexture = pTexture;
+	obj->pRes = pRes;
+	obj->sFilename = sFilename;
+
+	obj->iHalfWidth = iHalfWidth;
+	obj->iHalfHeight = iHalfHeight;
+	obj->iWidth = iWidth;
+	obj->iHeight = iHeight;
+	obj->bDynamic = bDynamic;
+
+	memcpy(&obj->vert, &vert, sizeof(sVertex));
+	obj->cVertexBuffer.SetData(obj->vert, 4);
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
+
+	obj->UpdateCoords();
+
+	return obj;
+}
+
 bool Image::Write(Writer &writer)
 {
-	bool ret = !bDynamic;
-	if (ret)
-	{
-		writer.OpenNode();
-			writer.WriteString("sType", this->GetTypeName());
-			writer.WriteString("sName", sName.c_str());
-			writer.WriteString("sResource", sFilename.c_str());
+	if (bDynamic)
+		return false;
 
-			ITransformable::Serialize(writer);
-			IRenderable::Serialize(writer);
-		writer.CloseNode();
-	}
+	writer.OpenNode();
+		writer.WriteString("sType", this->GetTypeName());
+		writer.WriteString("sName", sName.c_str());
+		writer.WriteString("sResource", sFilename.c_str());
 
-	return ret;
+		ITransformable::Serialize(writer);
+		IRenderable::Serialize(writer);
+	writer.CloseNode();
+
+	return true;
 }
 
 } // namespace

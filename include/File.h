@@ -73,7 +73,7 @@ class SEED_CORE_API FileLoader : public Job
 	SEED_DISABLE_COPY(FileLoader)
 
 	public:
-		FileLoader(const String &filename, u32 name, IEventJobListener *listener);
+		FileLoader(const String &filename, JobCallback fun);
 		virtual ~FileLoader();
 
 		virtual bool Run() override;

@@ -39,6 +39,7 @@
 #include "Screen.h"
 #include "RendererDevice.h"
 #include "Configuration.h"
+#include "Memory.h"
 #include <soil/SOIL.h>
 #include <soil/image_helper.h>
 
@@ -48,7 +49,7 @@ namespace Seed { namespace SOIL {
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 {
-	auto image = New(Texture());
+	auto image = sdNew(Texture);
 	image->Load(filename, res);
 
 	return image;
@@ -76,7 +77,7 @@ void Texture::Reset()
 	this->UnloadTexture();
 
 	if (bCopy)
-		sFree(pData)
+		sdFree(pData)
 	else if (pData)
 		SOIL_free_image_data(pData);
 	pData = NULL;
@@ -123,7 +124,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			{
 				Log(TAG "WARNING: texture size not optimal, changing from %dx%d to %dx%d", iWidth, iHeight, width, height);
 
-				unsigned char *resampled = (unsigned char*)Alloc(channels * width * height);
+				unsigned char *resampled = (unsigned char*)sdAlloc(channels * width * height);
 				up_scale_image(pData, iWidth, iHeight, channels, resampled, width, height);
 
 				SOIL_free_image_data(pData);
@@ -166,7 +167,7 @@ bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32
 		iPitch = ROUND_UP(width, 32); // FIXME: parametized?
 		if (copy)
 		{
-			pData = (u8 *)Alloc(iAtlasWidth * iAtlasHeight * iBytesPerPixel);
+			pData = (u8 *)sdAlloc(iAtlasWidth * iAtlasHeight * iBytesPerPixel);
 			memcpy(pData, buffer, iAtlasWidth * iAtlasHeight * iBytesPerPixel);
 		}
 		else
@@ -187,7 +188,7 @@ void Texture::Close()
 	ITexture::Close();
 
 	if (bCopy)
-		sFree(pData);
+		sdFree(pData);
 
 	bCopy = false;
 }
@@ -207,7 +208,7 @@ bool Texture::Unload()
 		this->UnloadTexture();
 
 	if (bCopy)
-		sFree(pData);
+		sdFree(pData);
 
 	if (pData)
 		SOIL_free_image_data(pData);

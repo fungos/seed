@@ -9,8 +9,7 @@ using namespace Seed::RocketGui;
 
 class RocketSample : public IGameApp,
 					public IEventSystemListener,
-					public IEventInputKeyboardListener,
-					public IEventPresentationListener
+					public IEventInputKeyboardListener
 {
 	SEED_DISABLE_COPY(RocketSample)
 
@@ -33,9 +32,6 @@ class RocketSample : public IGameApp,
 
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	protected:
 		SceneNode *pScene;

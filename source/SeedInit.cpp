@@ -49,6 +49,7 @@
 #include "Cartridge.h"
 #include "ViewManager.h"
 #include "RendererManager.h"
+#include "PrefabManager.h"
 #include "SceneManager.h"
 #include "RendererDevice.h"
 #include "JobManager.h"
@@ -183,7 +184,7 @@ bool Initialize()
 		HALT;
 	}
 
-	Info(SEED_MESSAGE, SEED_VERSION_MAJOR, SEED_VERSION_MIDDLE, SEED_VERSION_MINOR);
+	Info(SEED_BANNER, SEED_VERSION_MAJOR, SEED_VERSION_MIDDLE, SEED_VERSION_MINOR);
 
 	Info("");
 	Info(SEED_TAG "Build Configuration:");
@@ -218,6 +219,7 @@ bool Initialize()
 	ret = ret && pManager->Add(pRendererDevice);
 	ret = ret && pManager->Add(pViewManager);
 	ret = ret && pManager->Add(pRendererManager);
+	pPrefabManager->GetInstance();
 
 	if (!Private::bDisableSound)
 		ret = ret && pManager->Add(pSoundSystem);
@@ -297,10 +299,7 @@ void Update()
 void Render()
 {
 	pScreen->Update();
-	// FIXME: Viewport Render and Screen Update must be generic
-#if !defined(BUILD_QT)
 	pViewManager->Render();
-#endif
 }
 
 void Shutdown()
@@ -309,8 +308,10 @@ void Shutdown()
 		return;
 
 	Info(SEED_TAG "Shutting down subsystems...");
+	pPrefabManager->GetInstance()->Reset();
 	pManager->Shutdown();
 
+	pPrefabManager->DestroyInstance();
 	pSceneObjectFactory->DestroyInstance();
 	pSceneManager->DestroyInstance();
 	pJobManager->DestroyInstance();

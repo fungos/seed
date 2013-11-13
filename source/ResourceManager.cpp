@@ -32,6 +32,7 @@
 #include "Log.h"
 #include "ResourceManager.h"
 #include "Timer.h"
+#include "Memory.h"
 
 #define TAG		"[ResourceManager] "
 
@@ -72,7 +73,7 @@ void ResourceManager::Reset()
 	for (auto each: mapResources)
 	{
 		LOG(TAG "Deallocating %s.", each.first.c_str());
-		Delete(each.second);
+		sdDelete(each.second);
 	}
 
 	ResourceMap().swap(mapResources);
@@ -132,7 +133,7 @@ void ResourceManager::GarbageCollect()
 		{
 			amount++;
 			mapResources.erase(it++);
-			Delete(res);
+			sdDelete(res);
 		}
 		else
 		{

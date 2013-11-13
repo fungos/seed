@@ -36,6 +36,7 @@
 #include "Log.h"
 #include "SoundSystem.h"
 #include "Reader.h"
+#include "Memory.h"
 
 #define TAG "[Music] "
 
@@ -50,7 +51,7 @@ namespace Seed { namespace OAL {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 {
-	auto music = New(Music());
+	auto music = sdNew(Music);
 	music->Load(filename, res);
 
 	return music;
@@ -108,10 +109,10 @@ bool Music::Load(const String &filename, ResourceManager *res)
 
 		// TODO: Now File will load all data to a memory allocated buffer, for music this means something big if we are in a resource limited device.
 		//		 We need to make File able to memmap the file contents to a virtual memory address so this will be transparent to the vorbis reader
-		//		 as it will be streaming from disk Agree?. ~Danny
+		//		 as it will be streaming from disk.
 		//		 Also reading resources from different platforms (asynchronous like dvd reading on wii or nacl web files) will be more natural.
-		WARNING(TODO - Move to async file loading)
-		pFile = New(File(sFilename));
+		// FIXME: ASYNC
+		pFile = sdNew(File(sFilename));
 		oggFile.dataPtr = pFile->GetData();
 		oggFile.dataRead = 0;
 		oggFile.dataSize = pFile->GetSize();
@@ -187,7 +188,7 @@ bool Music::Unload()
 
 	ov_clear(&oggStream);
 	bLoaded = false;
-	Delete(pFile);
+	sdDelete(pFile);
 
 	return true;
 }

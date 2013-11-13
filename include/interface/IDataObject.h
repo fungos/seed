@@ -55,6 +55,8 @@ class SEED_CORE_API IDataObject : public IObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) = 0;
 		virtual bool Write(Writer &writer) = 0;
 		virtual bool Unload() = 0;
+		virtual IDataObject *Clone() const = 0;
+		virtual void Set(Reader &reader) = 0;
 };
 
 } // namespace

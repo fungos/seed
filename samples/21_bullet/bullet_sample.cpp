@@ -1,14 +1,14 @@
 #include "bullet_sample.h"
 
 BulletSample::BulletSample()
-	: pDynamicsWorld(NULL)
-	, pCollisionConfiguration(NULL)
-	, pDispatcher(NULL)
-	, pOverlappingPairCache(NULL)
-	, pSolver(NULL)
+	: pDynamicsWorld(nullptr)
+	, pCollisionConfiguration(nullptr)
+	, pDispatcher(nullptr)
+	, pOverlappingPairCache(nullptr)
+	, pSolver(nullptr)
 	, cPres()
-	, pScene(NULL)
-	, pCamera(NULL)
+	, pScene(nullptr)
+	, pCamera(nullptr)
 {
 }
 
@@ -18,7 +18,7 @@ BulletSample::~BulletSample()
 
 bool BulletSample::Initialize()
 {
-	cPres.Load("bullet_sample.config", this);
+	cPres.Load("bullet_sample.config", [&](Presentation *, Renderer *) { /* TODO */ });
 
 	/*
 	 * Create a World
@@ -162,11 +162,6 @@ void BulletSample::OnInputPointerMove(const EventInputPointer *ev)
 }
 
 void BulletSample::OnInputPointerRelease(const EventInputPointer *ev)
-{
-	//TODO
-}
-
-void BulletSample::OnPresentationLoaded(const EventPresentation *ev)
 {
 	//TODO
 }

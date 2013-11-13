@@ -6,8 +6,7 @@ using namespace Seed;
 
 class ImageSample : public IGameApp,
 					public IEventSystemListener,
-					public IEventInputKeyboardListener,
-					public IEventPresentationListener
+					public IEventInputKeyboardListener
 {
 	SEED_DISABLE_COPY(ImageSample)
 
@@ -24,9 +23,6 @@ class ImageSample : public IGameApp,
 
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	protected:
 		Presentation cPres;

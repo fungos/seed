@@ -197,7 +197,7 @@ bool OGLES1RendererDevice::Initialize()
 
 bool OGLES1RendererDevice::Reset()
 {
-	WARNING(FIXME - mutex lock guard here (?))
+	WARNING(FIXME - mutex lock guard here)
 	ITextureVector().swap(vTexture);
 	return true;
 }
@@ -411,7 +411,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 				switch (texture->GetCompressionType())
 				{
 #if defined(BUILD_IOS)
-					case TextureCompression_RGB_PVRTC_2BPPV1:
+					case eTextureCompression::RGB_PVRTC_2BPPV1:
 					{
 						//GLuint bpp = 2;
 						GLsizei size = w * h * bpp / 8;
@@ -424,6 +424,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 					break;
 #endif
 
+					case eTextureCompression::None:
 					default:
 					{
 						switch (bpp)
@@ -821,7 +822,7 @@ void OGLES1RendererDevice::EnableScissor(bool b) const
 
 void OGLES1RendererDevice::SetScissor(f32 x, f32 y, f32 w, f32 h) const
 {
-	glScissor(x, y, w, h);
+	glScissor(GLint(x), GLint(y), GLsizei(w), GLsizei(h));
 }
 
 void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const

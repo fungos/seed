@@ -44,9 +44,6 @@
 #include "Viewport.h"
 
 #if defined(WIN32)
-#define WM_IME_SETCONTEXT			0x281
-#define WM_IME_NOTIFY				0x282
-#define WM_DWMCOMPOSITIONCHANGED	0x31e
 #include <SDL/SDL_syswm.h>
 #endif
 
@@ -132,9 +129,6 @@ bool Input::Update(f32 dt)
 {
 	UNUSED(dt);
 
-/*
-FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate configurado pelo usuario. Verificar tambem... | Danny Angelo Carminati Grein
-*/
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
@@ -216,14 +210,14 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 			case SDL_KEYDOWN:
 			{
-				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode, SDL_EVENT_KEY_WHICH); // key.which deprecated
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), GetModifierCode(event.key.keysym.mod), event.key.keysym.scancode, SDL_EVENT_KEY_WHICH); // key.which deprecated
 				this->SendEventKeyboardPress(&ev);
 			}
 			break;
 
 			case SDL_KEYUP:
 			{
-				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode, SDL_EVENT_KEY_WHICH); // key.which deprecated
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), GetModifierCode(event.key.keysym.mod), event.key.keysym.scancode, SDL_EVENT_KEY_WHICH); // key.which deprecated
 				this->SendEventKeyboardRelease(&ev);
 			}
 			break;
@@ -241,7 +235,7 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 				x = iX = event.motion.x;
 				y = iY = event.motion.y;
 
-				EventInputPointer ev(0, 0, 0, 0, x, y);
+				EventInputPointer ev(0, eInputButton::None, eInputButton::None, eInputButton::None, x, y);
 				this->SendEventPointerMove(&ev);
 			}
 			break;
@@ -252,7 +246,7 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 				x = iX = event.motion.x;
 				y = iY = event.motion.y;
 
-				const EventInputPointer ev(0, 0, 0, this->ConvertButtonFlags(event.button.button), x, y);
+				const EventInputPointer ev(0, eInputButton::None, eInputButton::None, eInputButton(this->ConvertButtonFlags(event.button.button)), x, y);
 				this->SendEventPointerRelease(&ev);
 			}
 			break;
@@ -263,7 +257,7 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 				x = iX = event.motion.x;
 				y = iY = event.motion.y;
 
-				const EventInputPointer ev(0, this->ConvertButtonFlags(event.button.button), 0, 0, x, y);
+				const EventInputPointer ev(0, eInputButton(this->ConvertButtonFlags(event.button.button)), eInputButton::None, eInputButton::None, x, y);
 				this->SendEventPointerPress(&ev);
 			}
 			break;
@@ -375,20 +369,20 @@ f32 Input::GetDistance(u16 joystick) const
 	return 0;
 }
 
-Seed::eInputButton Input::GetButtonCode(u32 button) const
+eInputButton Input::GetButtonCode(u32 button) const
 {
-	Seed::eInputButton btn = Seed::ButtonInvalid;
+	eInputButton btn = eInputButton::Invalid;
 
 	if (button & SDL_BUTTON_LMASK)
-		btn = Seed::ButtonLeft;
+		btn = eInputButton::Left;
 	else if (button & SDL_BUTTON_RMASK)
-		btn = Seed::ButtonRight;
+		btn = eInputButton::Right;
 	else if (button & SDL_BUTTON_MMASK)
-		btn = Seed::ButtonMiddle;
+		btn = eInputButton::Middle;
 	else if (button & SDL_BUTTON(SDL_BUTTON_WHEELUP))
-		btn = Seed::ButtonUp;
+		btn = eInputButton::Up;
 	else if (button & SDL_BUTTON(SDL_BUTTON_WHEELDOWN))
-		btn = Seed::ButtonDown;
+		btn = eInputButton::Down;
 
 	return btn;
 }
@@ -397,7 +391,7 @@ u32 Input::ConvertButtonFlags(u32 flags)
 {
 	u32 converted = 0;
 
-	converted |= this->GetButtonCode(SDL_BUTTON(flags));
+	converted |= u32(this->GetButtonCode(SDL_BUTTON(flags)));
 
 	return converted;
 }
@@ -425,20 +419,20 @@ void Input::SetSensitivity(u32 sens, u16 joystick)
 	UNUSED(joystick);
 }
 
-Seed::eKey Input::GetKeyCode(u32 key) const
+eKey Input::GetKeyCode(u32 key) const
 {
 	if (key >= 'a' && key <= 'z')
-		return static_cast<Seed::eKey>(Seed::KeyA + (key - 'a'));
+		return static_cast<eKey>(u32(eKey::A) + (key - 'a'));
 	else
 	{
-		Seed::eKey k = static_cast<Seed::eKey>(key);
+		eKey k = static_cast<eKey>(key);
 		return k;
 	}
 }
 
-Seed::eModifier Input::GetModifierCode(u32 mod) const
+eModifier Input::GetModifierCode(u32 mod) const
 {
-	Seed::eModifier m = static_cast<Seed::eModifier>(mod);
+	eModifier m = static_cast<eModifier>(mod);
 
 	return m;
 }

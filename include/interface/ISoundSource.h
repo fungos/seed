@@ -84,18 +84,20 @@ class SEED_CORE_API ISoundSource : public ISceneObject
 		virtual bool IsLoop() const;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-		virtual bool Unload();
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
+		virtual void Set(Reader &reader) override;
 
 		// IRenderable
-		virtual void Render(const Matrix4f &worldTransform);
+		virtual void Render(const Matrix4f &worldTransform) override;
 
 	protected:
 		virtual bool OnLoadFinished()= 0;
 		virtual bool OnUnloadRequest() = 0;
 
 		virtual eSoundSourceState GetState() const;
+
+		void DoClone(ISoundSource *obj) const;
 
 	protected:
 		ISound *pSound;

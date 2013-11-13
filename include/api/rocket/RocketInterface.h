@@ -122,6 +122,10 @@ class SEED_CORE_API RocketInterface :
 		virtual void Update(f32 delta) override;
 
 	private:
+		// It should be possible to clone, but not for now.
+		virtual RocketInterface *Clone() const override { SEED_ASSERT("Cannot clone RocketInterface"); return nullptr; }
+		virtual void Set(Reader &) override {} // TODO: implement
+
 		VertexBuffer cVertexBuffer;
 		ElementBuffer cElementBuffer;
 		Rocket::Core::Context *pCurrent;

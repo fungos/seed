@@ -88,6 +88,11 @@ class SEED_CORE_API IObject
 			return IsKindOf_Internal(t);
 		}
 
+		void GenerateCloneName(const String &original)
+		{
+			sName = original + "FixThis";
+		}
+
 	public:
 		IObject()
 			: sName()

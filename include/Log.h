@@ -50,6 +50,10 @@ extern SEED_CORE_API void Info(const char *pMessage, ...);
 	#endif // __GNUC__ || _WII_
 #endif // DEBUG
 
+// temporary, until output messages rework
+#define Err(...) Log(__VA_ARGS__)
+#define Wrn(...) Log(__VA_ARGS__)
+
 }
 
 #endif // __LOG_H__

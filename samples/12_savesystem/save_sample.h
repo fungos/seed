@@ -7,8 +7,7 @@ using namespace Seed;
 class SaveSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventInputPointerListener,
-					public IEventPresentationListener
+					public IEventInputPointerListener
 {
 	SEED_DISABLE_COPY(SaveSample)
 
@@ -28,9 +27,6 @@ class SaveSample : public IGameApp,
 
 		// IEventInputPointerListener
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	private:
 		bool SaveSystemFlow() const;

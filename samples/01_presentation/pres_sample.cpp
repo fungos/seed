@@ -11,7 +11,10 @@ PresentationSample::~PresentationSample()
 
 bool PresentationSample::Initialize()
 {
-	return cPres.Load("pres1.config", this);
+	return cPres.Load("pres1.config", [&](Presentation *, Renderer *) {
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+	});
 }
 
 bool PresentationSample::Update(f32 dt)
@@ -46,12 +49,4 @@ void PresentationSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->Print();
 	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
-}
-
-void PresentationSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
 }

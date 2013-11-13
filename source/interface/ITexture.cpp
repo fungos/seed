@@ -33,6 +33,7 @@
 #include "Log.h"
 #include "RendererDevice.h"
 #include "ResourceManager.h"
+#include "Memory.h"
 
 namespace Seed {
 
@@ -57,7 +58,7 @@ ITexture::~ITexture()
 
 void ITexture::Reset()
 {
-	Delete(pFile);
+	sdDelete(pFile);
 
 	iWidth = 0;
 	iHeight = 0;
@@ -134,12 +135,12 @@ eTextureCompression ITexture::GetCompressionType() const
 
 void ITexture::Close()
 {
-	Delete(pFile);
+	sdDelete(pFile);
 }
 
 bool ITexture::Unload()
 {
-	Delete(pFile);
+	sdDelete(pFile);
 	return true;
 }
 
@@ -154,8 +155,8 @@ bool ITexture::Load(const String &filename, ResourceManager *res)
 		pRes = res;
 		sFilename = filename;
 
-		WARNING(TODO - Move to async file loading)
-		pFile = New(File(filename));
+		// FIXME: ASYNC
+		pFile = sdNew(File(filename));
 		ret = (pFile->GetData() != NULL);
 	}
 
@@ -221,7 +222,8 @@ bool ITexture::EnableRenderTarget(bool useDepthBuffer)
 			pRendererDevice->ActivateDepthBuffer();
 		}
 
-		if (!(ret = pRendererDevice->CheckFrameBufferStatus()))
+		ret = pRendererDevice->CheckFrameBufferStatus();
+		if (!ret)
 			this->DisableRenderTarget();
 
 		pRendererDevice->ActivateFrameBuffer();

@@ -2,8 +2,8 @@
 
 ParticleSample::ParticleSample()
 	: cPres()
-	, pEmitter(NULL)
-	, pSprite(NULL)
+	, pEmitter(nullptr)
+	, pSprite(nullptr)
 	, iAnimation(0)
 {
 }
@@ -15,7 +15,11 @@ ParticleSample::~ParticleSample()
 bool ParticleSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("particle_sample.config", this);
+	return cPres.Load("particle_sample.config", [&](Presentation *pres, Renderer *) {
+		pEmitter = (ParticleEmitter *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Emitter");
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+	});
 }
 
 bool ParticleSample::Update(f32 dt)
@@ -73,15 +77,4 @@ void ParticleSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 		pSprite->SetAnimation(iAnimation);
 	}
-}
-
-
-void ParticleSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pEmitter = (ParticleEmitter *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Emitter");
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
 }

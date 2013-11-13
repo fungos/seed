@@ -53,8 +53,8 @@ class SEED_CORE_API Thread : public IThread
 		virtual bool Run() override;
 
 	private:
-		bool		bRunning : 1;
 		SDL_Thread 	*pThread;
+		bool		bRunning : 1;
 };
 
 }} // namespace
