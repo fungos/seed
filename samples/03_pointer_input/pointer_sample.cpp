@@ -80,7 +80,7 @@ void PointerSample::OnInputPointerRelease(const EventInputPointer *ev)
 	if (!pCamera)
 		return;
 
-	if (ev->GetReleased() == eInputButton::Left)
+	if (ev->GetReleased() == eInputButton::MouseLeft)
 	{
 		if (pImage)
 			vFrom = pImage->GetPosition();
@@ -90,16 +90,16 @@ void PointerSample::OnInputPointerRelease(const EventInputPointer *ev)
 		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}
-	else if (ev->GetReleased() == eInputButton::Right)
+	else if (ev->GetReleased() == eInputButton::MouseRight)
 	{
 		bRotate = !bRotate;
 	}
-	else if (ev->GetReleased() == eInputButton::Up)
+	else if (ev->GetReleased() == eInputButton::MouseUp)
 	{
 		fDir = 1.0f;
 		bRotate = true;
 	}
-	else if (ev->GetReleased() == eInputButton::Down)
+	else if (ev->GetReleased() == eInputButton::MouseDown)
 	{
 		fDir = -1.0f;
 		bRotate = true;

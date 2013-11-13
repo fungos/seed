@@ -264,28 +264,28 @@ bool Input::Update(f32 dt)
 
 			case SDL_JOYBUTTONDOWN:
 			{
-				const EventInputJoystick ev(event.jbutton.which, event.jbutton.button, 0, 0, 0, 0);
+				const EventInputJoystick ev(event.jbutton.which, this->GetJoystickButtonCode(event.jbutton.button), eInputButton::None, eInputButton::None, 0, 0);
 				this->SendEventJoystickButtonPress(&ev);
 			}
 			break;
 
 			case SDL_JOYBUTTONUP:
 			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, event.jbutton.button, 0, 0);
+				const EventInputJoystick ev(event.jbutton.which, eInputButton::None, eInputButton::None, this->GetJoystickButtonCode(event.jbutton.button), 0, 0);
 				this->SendEventJoystickButtonRelease(&ev);
 			}
 			break;
 
 			case SDL_JOYAXISMOTION:
 			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, 0, event.jaxis.axis, event.jaxis.value);
+				const EventInputJoystick ev(event.jbutton.which, eInputButton::None, eInputButton::None, eInputButton::None, event.jaxis.axis, event.jaxis.value);
 				this->SendEventJoystickAxisMove(&ev);
 			}
 			break;
 
 			case SDL_JOYHATMOTION:
 			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, 0, event.jhat.hat, event.jhat.value);
+				const EventInputJoystick ev(event.jbutton.which, eInputButton::None, eInputButton::None, eInputButton::None, event.jhat.hat, event.jhat.value);
 				this->SendEventJoystickDPadMove(&ev);
 			}
 			break;
@@ -369,20 +369,25 @@ f32 Input::GetDistance(u16 joystick) const
 	return 0;
 }
 
-eInputButton Input::GetButtonCode(u32 button) const
+eInputButton Input::GetJoystickButtonCode(u32 button) const 
+{
+	return eInputButton(button); // FIXME: BUTTON MAPPING
+}
+
+eInputButton Input::GetMouseButtonCode(u32 button) const
 {
 	eInputButton btn = eInputButton::Invalid;
 
 	if (button & SDL_BUTTON_LMASK)
-		btn = eInputButton::Left;
+		btn = eInputButton::MouseLeft;
 	else if (button & SDL_BUTTON_RMASK)
-		btn = eInputButton::Right;
+		btn = eInputButton::MouseRight;
 	else if (button & SDL_BUTTON_MMASK)
-		btn = eInputButton::Middle;
+		btn = eInputButton::MouseMiddle;
 	else if (button & SDL_BUTTON(SDL_BUTTON_WHEELUP))
-		btn = eInputButton::Up;
+		btn = eInputButton::MouseUp;
 	else if (button & SDL_BUTTON(SDL_BUTTON_WHEELDOWN))
-		btn = eInputButton::Down;
+		btn = eInputButton::MouseDown;
 
 	return btn;
 }
@@ -391,7 +396,7 @@ u32 Input::ConvertButtonFlags(u32 flags)
 {
 	u32 converted = 0;
 
-	converted |= u32(this->GetButtonCode(SDL_BUTTON(flags)));
+	converted |= u32(this->GetMouseButtonCode(SDL_BUTTON(flags)));
 
 	return converted;
 }

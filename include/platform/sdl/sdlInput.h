@@ -53,7 +53,8 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 
 	public:
 		// IInput
-		virtual eInputButton GetButtonCode(u32 button) const override;
+		virtual eInputButton GetMouseButtonCode(u32 button) const override;
+		virtual eInputButton GetJoystickButtonCode(u32 button) const override;
 		virtual u32 ConvertButtonFlags(u32 flags) override;
 
 		virtual bool IsJoystick() const override;
