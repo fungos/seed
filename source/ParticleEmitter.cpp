@@ -44,11 +44,6 @@
 
 namespace Seed {
 
-// FIXME
-enum EmiterJobs {
-	kLoadSprite = 1
-};
-
 ISceneObject *FactoryParticleEmitter()
 {
 	return sdNew(ParticleEmitter);

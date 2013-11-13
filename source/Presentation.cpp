@@ -160,7 +160,7 @@ bool Presentation::Load(const String &filename, Callback cb, ResourceManager *re
 {
 	fnCallback = cb;
 
-	// FIXME: async
+	// FIXME: ASYNC
 	File f(filename);
 	Reader r(&f);
 	return this->Load(r, res);

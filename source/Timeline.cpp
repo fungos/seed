@@ -312,8 +312,7 @@ void Timeline::Update()
 		}
 	}
 
-	//FIXME when changing to timebased instead of framebased the iCurrentFrame increment must
-	//be based on the elapsedtime
+	// FIXME: when changing to timebased instead of framebased the iCurrentFrame increment must be based on the elapsedtime
 	fElapsedKeyframeTime++;
 	fElapsedTime++;
 	iCurrentFrame++;
@@ -509,8 +508,8 @@ Timeline *Timeline::Clone() const
 	auto obj = sdNew(Timeline);
 	obj->GenerateCloneName(sName);
 
-	obj->pParent = pParent; // ? TODO: need testing
-	obj->pObject = pObject; // ? TODO: need testing
+	obj->pParent = pParent; // TODO: TEST
+	obj->pObject = pObject; // TODO: TEST
 	obj->pListener = pListener;
 
 	obj->fElapsedTime = fElapsedTime;

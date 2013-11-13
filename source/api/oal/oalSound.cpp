@@ -78,7 +78,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 
 		alGenBuffers(1, &iBuffer);
 
-		// FIXME: async resource loading
+		// FIXME: ASYNC
 		auto file = sdNew(File(filename));
 		oggFile.dataPtr = file->GetData();
 		oggFile.dataRead = 0;

@@ -89,32 +89,8 @@ void SceneObjectFactory::Unregister(const String &objectType)
 
 void SceneObjectFactory::LoadInstance(ISceneObject *obj, Reader &reader, ResourceManager *res) const
 {
-	auto include = String(reader.ReadString("sInclude", ""));
-	if (include != "")
-	{
-		// TODO: it is possible that scene will finish loading before it's dependencies,
-		// and then presentation can fire the completed event before all scene elements
-		// are loaded, trying to access them from there can cause crash. How to guarantee
-		// that all scene async jobs are finished before triggering presentation complete?
-		// FIXME: Clear this thing, we may not need this "sInclude" now that we have prefabs.
-		auto cb = [&](Job *self) {
-			if (self->GetState() == eJobState::Completed)
-			{
-				auto job = static_cast<SceneObjectJobLoader *>(self);
-				Reader r(job->pFile);
-				job->pObj->Load(r);
-			}
-
-			sdDelete(self);
-		};
-
-		pJobManager->Add(sdNew(SceneObjectJobLoader(obj, include, cb)));
-	}
-	else
-	{
-		obj->Load(reader, res);
-		Log(TAG "Created object: %s", obj->sName.c_str());
-	}
+	obj->Load(reader, res);
+	Log(TAG "Created object: %s", obj->sName.c_str());
 }
 
 ISceneObject *SceneObjectFactory::Load(Reader &reader, ResourceManager *res, bool isPrefab) const

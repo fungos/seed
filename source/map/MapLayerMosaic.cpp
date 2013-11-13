@@ -98,7 +98,7 @@ MapLayerMosaic *MapLayerMosaic::Clone() const
 	//for (u32 i = 0; i < cScene.Size(); i++)
 	//	obj->cScene.Add(static_cast<ISceneObject *>(cScene.GetChildAt(i)->Clone()));
 	for (auto each: cScene)
-		obj->cScene += static_cast<ISceneObject *>(each->Clone()); // TODO: testar essa implementacao
+		obj->cScene += static_cast<ISceneObject *>(each->Clone()); // TODO: TEST
 
 	// ISceneObject
 	obj->bMarkForDeletion = true;

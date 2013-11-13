@@ -129,9 +129,6 @@ bool Input::Update(f32 dt)
 {
 	UNUSED(dt);
 
-/*
-FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate configurado pelo usuario. Verificar tambem... | Danny Angelo Carminati Grein
-*/
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{

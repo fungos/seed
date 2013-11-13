@@ -424,7 +424,7 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 		}
 		break;
 
-		/* FIXME: 2009-15-06 | BUG | SDL | Fadeout / Fadein nao estao funcionando (alSourcef AL_GAIN) */
+		/* FIXME: Fadeout / Fadein nao estao funcionando (alSourcef AL_GAIN)? Testar... */
 		case eMusicState::FadingOut:
 		{
 			f32 elapsed = fMusicFadeTime - static_cast<f32>(pTimer->GetMilliseconds()) - fMusicStartFadeTime;

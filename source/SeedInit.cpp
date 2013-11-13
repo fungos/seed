@@ -184,7 +184,7 @@ bool Initialize()
 		HALT;
 	}
 
-	Info(SEED_MESSAGE, SEED_VERSION_MAJOR, SEED_VERSION_MIDDLE, SEED_VERSION_MINOR);
+	Info(SEED_BANNER, SEED_VERSION_MAJOR, SEED_VERSION_MIDDLE, SEED_VERSION_MINOR);
 
 	Info("");
 	Info(SEED_TAG "Build Configuration:");
@@ -299,10 +299,7 @@ void Update()
 void Render()
 {
 	pScreen->Update();
-	// FIXME: Viewport Render and Screen Update must be generic
-#if !defined(BUILD_QT)
 	pViewManager->Render();
-#endif
 }
 
 void Shutdown()

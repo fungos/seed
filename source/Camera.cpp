@@ -136,7 +136,7 @@ void Camera::Render(const Matrix4f &worldTransform)
 //	pRendererDevice->UploadData(&packet);
 }
 
-// TODO: need testing
+// TODO: TEST
 bool Camera::SetTexture(ITexture *target)
 {
 	if (pTexture)

@@ -68,7 +68,7 @@ void GameMap::Set(Reader &reader)
 	String resource = reader.ReadString("sResource", "");
 	if (resource != "")
 	{
-		// FIXME: Should be async...
+		// FIXME: ASYNC
 		File f(resource);
 		Reader r(&f);
 		this->LoadTiled(r);

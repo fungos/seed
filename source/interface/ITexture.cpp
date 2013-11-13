@@ -155,7 +155,7 @@ bool ITexture::Load(const String &filename, ResourceManager *res)
 		pRes = res;
 		sFilename = filename;
 
-		// FIXME: async resource loading
+		// FIXME: ASYNC
 		pFile = sdNew(File(filename));
 		ret = (pFile->GetData() != NULL);
 	}

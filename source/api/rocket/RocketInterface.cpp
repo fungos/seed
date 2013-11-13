@@ -259,7 +259,7 @@ float RocketInterface::GetVerticalTexelOffset()
 Rocket::Core::FileHandle RocketInterface::Open(const Rocket::Core::String &path)
 {
 	auto fp = sdNew(FilePtr);
-	// FIXME: async resource loading
+	// FIXME: ASYNC
 	fp->pFile = sdNew(File(path.CString()));
 	fp->pFile->GetData();
 	fp->iOffset = 0L;

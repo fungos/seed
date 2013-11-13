@@ -191,15 +191,8 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			}
 		}
 
-		// FIXME: Must divide by res_width , res_height - not by screen width/height
 		iAtlasWidth = pSurface->w;
 		iAtlasHeight = pSurface->h;
-
-		// Lets keep the iWidth and iHeight the original one so the sprite rect can match it.
-		// For texture UV mapping, we use the relation between original W and H and the converted texture W and H.
-		//iWidth = pSurface->w;
-		//iHeight = pSurface->h;
-
 		iBytesPerPixel = pSurface->format->BytesPerPixel;
 		iPitch = pSurface->pitch;
 		pData = pSurface->pixels;
@@ -238,8 +231,8 @@ bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32
 		if (atlasHeight)
 			iAtlasHeight = atlasHeight;
 
-		iBytesPerPixel = sizeof(Color); // FIXME: parametized?
-		iPitch = ROUND_UP(width, 32); // FIXME: parametized?
+		iBytesPerPixel = sizeof(Color);
+		iPitch = SEED_ROUND_UP(width, 32);
 
 		if (copy)
 		{

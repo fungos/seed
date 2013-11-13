@@ -197,7 +197,7 @@ bool OGLES1RendererDevice::Initialize()
 
 bool OGLES1RendererDevice::Reset()
 {
-	WARNING(FIXME - mutex lock guard here (?))
+	WARNING(FIXME - mutex lock guard here)
 	ITextureVector().swap(vTexture);
 	return true;
 }
