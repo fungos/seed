@@ -60,10 +60,7 @@ void PrefabManager::Reset()
 	{
 		Log(TAG "Deallocating %s.", each.first.c_str());
 		IObject *obj = reinterpret_cast<IObject *>(each.second);
-
-		pLeakReport->Debug(obj);
 		sdDelete(obj);
-		pLeakReport->Debug(obj);
 	}
 
 	PrefabMap().swap(mapPrefabs);

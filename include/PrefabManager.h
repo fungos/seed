@@ -32,6 +32,7 @@
 #define PREFABMANAGER_H
 
 #include "Defines.h"
+#include "Singleton.h"
 #include "Container.h"
 #include "Mutex.h"
 

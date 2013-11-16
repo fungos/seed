@@ -31,7 +31,6 @@
 #ifndef __LEAK_REPORT_H__
 #define __LEAK_REPORT_H__
 
-#if defined(DEBUG)
 
 #include "Defines.h"
 #include "Log.h"
@@ -43,9 +42,12 @@
 
 #define SEED_LEAK_MAX			128
 
+#define pLeakReport				LeakReport::GetInstance()
 #define LeakReportPrint			pLeakReport->Print();
 
 namespace Seed {
+
+#if defined(DEBUG)
 
 /// Leak Reporter
 class SEED_CORE_API LeakReport
@@ -54,17 +56,6 @@ class SEED_CORE_API LeakReport
 	SEED_DISABLE_COPY(LeakReport)
 
 	public:
-		void Debug(void *ptr)
-		{
-			void *addr = reinterpret_cast<void *>(ptr);
-			fprintf(stdout, "WHAT DELETE: %p\n", addr);
-			for (int i = 0; i < SEED_LEAK_MAX; ++i)
-			{
-				if (arInfo[i].ptrAddr != nullptr)
-					fprintf(stdout, "CHECK: %d - %p == %p\n", i, addr, arInfo[i].ptrAddr);
-			}
-		}
-
 		template <class T>
 		T *LogNew(T *ptr, const char *call, const char *file, int line, const char *func)
 		{
@@ -133,14 +124,35 @@ class SEED_CORE_API LeakReport
 		PointerInfo arInfo[SEED_LEAK_MAX];
 };
 
-#define pLeakReport Seed::LeakReport::GetInstance()
-
-} // namespace
-
 #else
 
-#define LeakReportPrint
+class SEED_CORE_API LeakReport
+{
+	SEED_DECLARE_SINGLETON(LeakReport)
+	SEED_DISABLE_COPY(LeakReport)
+
+	public:
+		template <class T>
+		T *LogNew(T *ptr, const char *, const char *, int, const char *)
+		{
+			return ptr;
+		}
+
+		void *LogNew(void *ptr, const char *, const char *, int, const char *)
+		{
+			return ptr;
+		}
+
+		template <class T>
+		void LogDelete(T *)
+		{
+		}
+
+		void Print() {}
+};
 
 #endif // DEBUG
+
+} // namespace
 
 #endif // __LEAK_REPORT_H__

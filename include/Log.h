@@ -41,13 +41,8 @@ extern SEED_CORE_API void Info(const char *pMessage, ...);
 	extern SEED_CORE_API void Log(const char *pMessage, ...);
 	extern SEED_CORE_API void Dbg(const char *pMessage, ...);
 #else
-	#if defined(__GNUC__)
-		#define Log(...) {}
-		#define Dbg(...) {}
-	#else
-		inline void Log(const char *, ...) {}
-		#define Dbg {}
-	#endif // __GNUC__ || _WII_
+	inline void Log(const char *, ...) {}
+	inline void Dbg(const char *, ...) {}
 #endif // DEBUG
 
 // temporary, until output messages rework

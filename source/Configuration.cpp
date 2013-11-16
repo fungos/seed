@@ -42,8 +42,7 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(Configuration)
 
 Configuration::Configuration()
-	: bDebugSprite(false)
-	, sWorkingDirectory("./")
+	: sWorkingDirectory("./")
 	, sTitle("")
 	, sDescription("")
 	, sPublisherName("")
@@ -56,6 +55,7 @@ Configuration::Configuration()
 	, bWarningMultipleInstances(false)
 	, bFullScreen(false)
 	, bShowCursor(false)
+	, bDebugSprite(false)
 {
 }
 

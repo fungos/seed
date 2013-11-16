@@ -135,7 +135,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		}
 
 		iBytesPerPixel = channels;
-		iPitch = ROUND_UP(iAtlasWidth, 32);
+		iPitch = SEED_ROUND_UP(iAtlasWidth, 32);
 		pRendererDevice->TextureRequest(this);
 		bLoaded = true;
 	}
@@ -163,8 +163,8 @@ bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32
 		if (atlasHeight)
 			iAtlasHeight = atlasHeight;
 
-		iBytesPerPixel = sizeof(Color); // FIXME: parametized?
-		iPitch = ROUND_UP(width, 32); // FIXME: parametized?
+		iBytesPerPixel = sizeof(Color);
+		iPitch = SEED_ROUND_UP(width, 32);
 		if (copy)
 		{
 			pData = (u8 *)sdAlloc(iAtlasWidth * iAtlasHeight * iBytesPerPixel);

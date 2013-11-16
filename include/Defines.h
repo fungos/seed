@@ -135,9 +135,13 @@ typedef Color Color4b;
 	#if defined(__GNUC__)
 		#define SEED_ASSERT(...)
 		#define SEED_ASSERT_MSG(...)
+		#define SEED_ASSERT_FMT(...)
+		#define SEED_WARNING(...)
 	#else
 		#define SEED_ASSERT
 		#define SEED_ASSERT_MSG
+		#define SEED_ASSERT_FMT
+		#define SEED_WARNING
 	#endif // __GNUC__
 
 #endif // DEBUG
@@ -145,12 +149,12 @@ typedef Color Color4b;
 #define SEED_INVALID_ID					0xFFFFFFFF
 
 #define SEED_CLAMP(val,min,max) 			((val) = (((val) < (min)) ? (min) : ((val) > (max)) ? (max) : (val)))
-#define SEED_ROUND_UP(value, alignment)		(((u32)(value) + (alignment-1)) & ~(alignment-1))
-#define SEED_ROUND_DOWN(value, alignment)	((u32)(value) & ~(alignment-1))
-#define SEED_PTR_OFF(ptr)					((size_t)(ptr))
+#define SEED_ROUND_UP(value, alignment)		(((intptr_t)(value) + (alignment-1)) & ~(alignment-1))
+#define SEED_ROUND_DOWN(value, alignment)	((intptr_t)(value) & ~(alignment-1))
+#define SEED_PTR_OFF(ptr)					((intptr_t)(ptr))
 #define SEED_ALIGN_OFFSET(ptr, align)		(SEED_PTR_OFF(ptr) & ((align) - 1))
-#define SEED_ALIGN_FLOOR(ptr, align)		((u8 *)(ptr) - ( PTR_OFF(ptr) & ((align) - 1)))
-#define SEED_ALIGN_CEIL(ptr, align)			((u8 *)(ptr) + (-PTR_OFF(ptr) & ((align) - 1)))
+#define SEED_ALIGN_FLOOR(ptr, align)		((u8 *)(ptr) - ( SEED_PTR_OFF(ptr) & ((align) - 1)))
+#define SEED_ALIGN_CEIL(ptr, align)			((u8 *)(ptr) + (-SEED_PTR_OFF(ptr) & ((align) - 1)))
 
 #define SEED_DISABLE_COPY(Class)		private:										\
 											Class(const Class &) = delete;				\

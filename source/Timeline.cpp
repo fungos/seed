@@ -553,7 +553,7 @@ void Timeline::Set(Reader &reader)
 				pParent->Remove(pObject);
 			sdDelete(pObject);
 
-			pObject = reinterpret_cast<ISceneObject *>(pPrefabManager->Get(object));
+			pObject = static_cast<ISceneObject *>(pPrefabManager->Get(object));
 		}
 	}
 
@@ -597,7 +597,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 	{
 		auto object = String(reader.ReadString("sObjectPrefab", ""));
 		SEED_ASSERT_FMT(object != "", "Timeline '%s' does not have an object prefab [sObjectPrefab] set.", sName.c_str());
-		pObject = reinterpret_cast<ISceneObject *>(pPrefabManager->Get(object));
+		pObject = static_cast<ISceneObject *>(pPrefabManager->Get(object));
 	}
 
 	SEED_ASSERT_FMT(pObject != nullptr, "Timeline '%s' does not have an scene object.", sName.c_str());

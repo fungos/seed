@@ -28,8 +28,6 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(DEBUG)
-
 #include "LeakReport.h"
 #include "Defines.h"
 #include "Log.h"
@@ -41,6 +39,8 @@
 namespace Seed {
 
 SEED_SINGLETON_DEFINE(LeakReport)
+
+#if defined(DEBUG)
 
 LeakReport::LeakReport()
 {
@@ -62,6 +62,7 @@ void LeakReport::Print()
 	}
 }
 
+#endif // DEBUG
+
 } // namespace
 
-#endif // DEBUG

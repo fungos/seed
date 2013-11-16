@@ -6,6 +6,7 @@ DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
 
 CONFIG += glfw
 CONFIG += staticlib
+CONFIG += check
 
 CONFIG(debug, debug|release) {
 	DESTDIR =../seed/lib/debug
