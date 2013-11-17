@@ -18,16 +18,18 @@ unix {
 }
 
 contains(USE_CCACHE, TRUE) {
-	CCACHE="ccache"
+	!check {
+		CCACHE="ccache"
+	}
 }
 
 contains(USE_CLANG, TRUE) {
-	COMPXX="clang++"
-	COMP="clang"
+	COMPXX=clang++
+	COMP=clang
 	contains(USE_CCACHE, TRUE) {
 		FLAGSXX += -Qunused-arguments # so clang+ccache works fine without spitting tons of warnings
 		check {
-			FLAGSXx += -fsanitize=undefined
+			FLAGSXX += -fsanitize=undefined
 		}
 	}
 }

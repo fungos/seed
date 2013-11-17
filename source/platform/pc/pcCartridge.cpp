@@ -325,6 +325,8 @@ bool Cartridge::CreateSaveFile()
 	FILE *fp = fopen(strPath, "wb+");
 	if (fp)
 	{
+		fclose(fp);
+
 		void *pBlankData = sdAlloc(iSize);
 		memset(pBlankData, 0, iSize);
 		bool result = this->Write(0, pBlankData, iSize);

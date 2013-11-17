@@ -6,6 +6,9 @@ BulletSample::BulletSample()
 	, pDispatcher(nullptr)
 	, pOverlappingPairCache(nullptr)
 	, pSolver(nullptr)
+	, pGroundShape(nullptr)
+	, arCollisionShapes()
+	, cGroundTransform()
 	, cPres()
 	, pScene(nullptr)
 	, pCamera(nullptr)
@@ -38,10 +41,10 @@ bool BulletSample::Initialize()
 
 	// Keep track of the shapes, we release memory at exit.
 	// Make sure to re-use collision shapes among rigid bodies whenever possible!
-	pCollisionShapes.push_back(pGroundShape);
+	arCollisionShapes.push_back(pGroundShape);
 
-	pGroundTransform.setIdentity();
-	pGroundTransform.setOrigin(btVector3(0,-56,0));
+	cGroundTransform.setIdentity();
+	cGroundTransform.setOrigin(btVector3(0,-56,0));
 
 	auto mass = btScalar(0.0f);
 
@@ -53,7 +56,7 @@ bool BulletSample::Initialize()
 		pGroundShape->calculateLocalInertia(mass,localInertia);
 
 	// Using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-	auto myMotionStateRigidBody = new btDefaultMotionState(pGroundTransform);
+	auto myMotionStateRigidBody = new btDefaultMotionState(cGroundTransform);
 	auto rbInfoRigidBody = btRigidBody::btRigidBodyConstructionInfo(mass, myMotionStateRigidBody, pGroundShape, localInertia);
 	auto rigidBody = new btRigidBody(rbInfoRigidBody);
 
@@ -66,7 +69,7 @@ bool BulletSample::Initialize()
 
 	//auto colShape = new btBoxShape(btVector3(1,1,1));
 	auto colShape = new btSphereShape(btScalar(1.));
-	pCollisionShapes.push_back(colShape);
+	arCollisionShapes.push_back(colShape);
 
 	/// Create Dynamic Objects
 	auto startTransform = btTransform();
@@ -117,13 +120,13 @@ bool BulletSample::Update(f32 dt)
 bool BulletSample::Shutdown()
 {
 	this->DestroyPhysics();
-	Delete(pDynamicsWorld);
-	Delete(pSolver);
-	Delete(pOverlappingPairCache);
-	Delete(pDispatcher);
-	Delete(pCollisionConfiguration);
+	sdDelete(pDynamicsWorld);
+	sdDelete(pSolver);
+	sdDelete(pOverlappingPairCache);
+	sdDelete(pDispatcher);
+	sdDelete(pCollisionConfiguration);
 
-	Delete(pGroundShape);
+	sdDelete(pGroundShape);
 	cPres.Unload();
 
 	pInput->RemovePointerListener(this);

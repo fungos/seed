@@ -5,6 +5,14 @@
 
 StateMachineSample::StateMachineSample()
 	: cPres()
+	, pStateSleeping(nullptr)
+	, pStateWorking(nullptr)
+	, pOnSleepEvent(nullptr)
+	, pOnWorkEvent(nullptr)
+	, cTransSleepToWork()
+	, cTransWorkToSleep()
+	, pAgentData(nullptr)
+	, cAgent()
 {
 }
 

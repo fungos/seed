@@ -317,8 +317,6 @@ void Texture::LoadPNG(const char *file)
 	CGColorSpaceRef colorSpace;
 	CGColorSpaceRef srcColorSpace;
 	void *tempData;
-	unsigned int *inPixel32;
-	unsigned short *outPixel16;
 	bool hasAlpha;
 	CGImageAlphaInfo info;
 	CGAffineTransform transform;
@@ -437,8 +435,8 @@ void Texture::LoadPNG(const char *file)
 	if (pixelFormat == kTexture2DPixelFormat_RGB565)
 	{
 		tempData = Alloc(height * width * 2);
-		inPixel32 = (unsigned int *)data;
-		outPixel16 = (unsigned short *)tempData;
+		unsigned int *inPixel32 = (unsigned int *)data;
+		unsigned short *outPixel16 = (unsigned short *)tempData;
 
 		for (i = 0; i < width * height; ++i, ++inPixel32)
 			*outPixel16++ = ((((*inPixel32 >> 0) & 0xFF) >> 3) << 11) | ((((*inPixel32 >> 8) & 0xFF) >> 2) << 5) | ((((*inPixel32 >> 16) & 0xFF) >> 3) << 0);

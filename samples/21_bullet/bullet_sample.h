@@ -44,8 +44,8 @@ class BulletSample :	public IGameApp,
 		btSequentialImpulseConstraintSolver	*pSolver;
 
 		btCollisionShape*							pGroundShape;
-		btAlignedObjectArray<btCollisionShape*>		pCollisionShapes;
-		btTransform									pGroundTransform;
+		btAlignedObjectArray<btCollisionShape*>		arCollisionShapes;
+		btTransform									cGroundTransform;
 
 
 		Presentation	cPres;

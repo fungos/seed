@@ -7,7 +7,10 @@
 #define VECTOR_ZERO		Vector3f(0, 0, 0);
 
 KeyboardSample::KeyboardSample()
-	: fVelocity(0.0f)
+	: cPres()
+	, pPlayerSprite(nullptr)
+	, vPlayerVectorDirection()
+	, fVelocity(0.0f)
 	, bPresentationLoaded(false)
 {
 }

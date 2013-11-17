@@ -145,7 +145,7 @@ void ISoundSource::DoClone(ISoundSource *obj) const
 
 void ISoundSource::SetVolume(f32 vol)
 {
-	SEED_ASSERT_MSG((vol >= 0 || vol <= 1.0f), "Source volume must be between 0 and 1");
+	SEED_ASSERT_MSG((vol >= 0 && vol <= 1.0f), "Source volume must be between 0 and 1");
 	fVolume = vol;
 }
 

@@ -67,7 +67,7 @@ void ISoundSystem::Remove(ISoundSource *src)
 
 void ISoundSystem::SetMusicVolume(f32 volume)
 {
-	SEED_ASSERT_MSG((volume >= 0 || volume <= 1.0f), "Music volume must be between 0 and 1");
+	SEED_ASSERT_MSG((volume >= 0 && volume <= 1.0f), "Music volume must be between 0 and 1");
 	fMusicVolume = volume;
 	bChanged = true;
 }
@@ -79,7 +79,7 @@ f32 ISoundSystem::GetMusicVolume() const
 
 void ISoundSystem::SetSfxVolume(f32 volume)
 {
-	SEED_ASSERT_MSG((volume >= 0 || volume <= 1.0f), "Sfx volume must be between 0 and 1");
+	SEED_ASSERT_MSG((volume >= 0 && volume <= 1.0f), "Sfx volume must be between 0 and 1");
 	fSfxVolume = volume;
 	bChanged = true;
 }

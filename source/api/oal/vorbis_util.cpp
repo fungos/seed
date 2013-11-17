@@ -61,7 +61,6 @@ size_t vorbis_read(void *ptr, size_t byteSize, size_t sizeToRead, void *datasour
 
 int vorbis_seek(void *datasource, ogg_int64_t offset, int whence)
 {
-	size_t spaceToEOF;
 	ogg_int64_t actualOffset;
 	sOggFile *vorbisData;
 
@@ -81,7 +80,7 @@ int vorbis_seek(void *datasource, ogg_int64_t offset, int whence)
 
 		case SEEK_CUR:
 		{
-			spaceToEOF = static_cast<size_t>(vorbisData->dataSize - vorbisData->dataRead);
+			size_t spaceToEOF = static_cast<size_t>(vorbisData->dataSize - vorbisData->dataRead);
 			if (offset < (ogg_int64_t)spaceToEOF)
 				actualOffset = (offset);
 			else
@@ -123,11 +122,10 @@ bool ogg_update_stream(OggVorbis_File *oggStream, ogg_int64_t rate, ALenum forma
 	char pcm[VORBIS_BUFFER_SIZE];
 	int size = 0;
 	int section;
-	int result;
 
 	while (size < VORBIS_BUFFER_SIZE)
 	{
-		result = (int)ov_read(oggStream, pcm + size, VORBIS_BUFFER_SIZE - size, 0, 2, 1, &section);
+		int result = (int)ov_read(oggStream, pcm + size, VORBIS_BUFFER_SIZE - size, 0, 2, 1, &section);
 
 		if (result > 0)
 			size += result;
