@@ -38,76 +38,90 @@
 
 namespace Seed {
 
+#ifdef DEBUG
+template<>
 void SeedLogDelete(IDataObject *ptr)
 {
 	pLeakReport->LogDelete((IObject *)ptr);
 	delete ptr;
 }
 
+template<>
 void SeedLogDelete(ISceneObject *ptr)
 {
 	pLeakReport->LogDelete((IObject *)ptr);
 	delete ptr;
 }
 
+template<>
 Sprite *SeedLogNew(Sprite *obj, const char *stmt, const char *file, int line, const char *func)
 {
 	pLeakReport->LogNew((IObject *)obj, stmt, file, line, func);
 	return obj;
 }
 
+template<>
 void SeedLogDelete(Sprite *ptr)
 {
 	pLeakReport->LogDelete((IObject *)ptr);
 	delete ptr;
 }
 
+template<>
 Image *SeedLogNew(Image *obj, const char *stmt, const char *file, int line, const char *func)
 {
 	pLeakReport->LogNew((IObject *)obj, stmt, file, line, func);
 	return obj;
 }
 
+template<>
 void SeedLogDelete(Image *ptr)
 {
 	pLeakReport->LogDelete((IObject *)ptr);
 	delete ptr;
 }
 
+template<>
 ParticleEmitter *SeedLogNew(ParticleEmitter *obj, const char *stmt, const char *file, int line, const char *func)
 {
 	pLeakReport->LogNew((IObject *)obj, stmt, file, line, func);
 	return obj;
 }
 
+template<>
 void SeedLogDelete(ParticleEmitter *ptr)
 {
 	pLeakReport->LogDelete((IObject *)ptr);
 	delete ptr;
 }
 
+template<>
 Camera *SeedLogNew(Camera *obj, const char *stmt, const char *file, int line, const char *func)
 {
 	pLeakReport->LogNew((IObject *)obj, stmt, file, line, func);
 	return obj;
 }
 
+template<>
 void SeedLogDelete(Camera *ptr)
 {
 	pLeakReport->LogDelete((IObject *)ptr);
 	delete ptr;
 }
 
+template<>
 Frame *SeedLogNew(Frame *obj, const char *stmt, const char *file, int line, const char *func)
 {
 	pLeakReport->LogNew((IObject *)obj, stmt, file, line, func);
 	return obj;
 }
 
+template<>
 void SeedLogDelete(Frame *ptr)
 {
 	pLeakReport->LogDelete((IObject *)ptr);
 	delete ptr;
 }
+#endif
 
 }

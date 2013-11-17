@@ -95,7 +95,7 @@ bool File::Open()
 
 void File::Close()
 {
-	sdDelete(pData);
+	sdFree(pData);
 	if (pHandle)
 		PHYSFS_close(pHandle);
 	iSize = 0;
