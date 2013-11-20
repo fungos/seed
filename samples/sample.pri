@@ -1,7 +1,7 @@
 TEMPLATE = app
 CONFIG += console
 CONFIG -= qt
-CONFIG += glfw
+CONFIG += sdl2
 
 INCLUDEPATH += ../../include ../../contrib
 include("../compiler.pri")
@@ -31,11 +31,16 @@ macx {
 		INCLUDEPATH += ../../contrib/osx/
 		LIBS += -lseed -lseedcontrib -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit
 		CONFIG -= sdl
-		CONFIG += glfw
+		CONFIG -= glfw
+		CONFIG += sdl2
 
 		APP_QML_FILES.files = $$OTHER_FILES
 		APP_QML_FILES.path = Contents/Resources
 		QMAKE_BUNDLE_DATA += APP_QML_FILES
+
+		sdl2 {
+				LIBS += -lSDL -lSDL_image
+		}
 }
 
 win32 {
@@ -53,6 +58,8 @@ glfw {
 		DEFINES += BUILD_GLFW
 } else:sdl {
 		DEFINES += BUILD_SDL
+} else:sdl2 {
+		DEFINES += BUILD_SDL2
 }
 
 #LIBS += -L../../../libRocket/Build -lRocketCore -lRocketControls -lRocketDebugger
