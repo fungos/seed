@@ -3,6 +3,7 @@ TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
 CONFIG += sdl2
+CONFIG += c++11
 
 #TARGET_EXT = .bc
 #QMAKE_EXT_OBJ = .bc

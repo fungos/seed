@@ -22,7 +22,7 @@
 #ifndef _SDL_assert_h
 #define _SDL_assert_h
 
-#include "SDL_config.h"
+#include "SDL2/SDL_config.h"
 
 #include "begin_code.h"
 /* Set up for C function definitions, even when using C++ */
