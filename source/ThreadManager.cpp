@@ -34,7 +34,7 @@
 #include "Defines.h"
 #include "Log.h"
 #include "Enum.h"
-#include "interface/IThread.h"
+#include "Thread.h"
 
 #define TAG		"[ThreadManager] "
 
@@ -60,7 +60,7 @@ bool ThreadManager::Initialize()
 
 bool ThreadManager::Reset()
 {
-	IThreadVector().swap(vThread);
+	ThreadVector().swap(vThread);
 	return true;
 }
 
@@ -75,7 +75,7 @@ bool ThreadManager::Update(f32 dt)
 	UNUSED(dt)
 	if (bEnabled)
 	{
-		IThreadVector completed;
+		ThreadVector completed;
 
 		for (auto each: vThread)
 		{
@@ -90,12 +90,12 @@ bool ThreadManager::Update(f32 dt)
 	return true;
 }
 
-void ThreadManager::Add(IThread *obj)
+void ThreadManager::Add(Thread *obj)
 {
 	vThread += obj;
 }
 
-void ThreadManager::Remove(IThread *obj)
+void ThreadManager::Remove(Thread *obj)
 {
 	vThread -= obj;
 }

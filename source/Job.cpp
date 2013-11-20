@@ -41,21 +41,17 @@ Job::~Job()
 {
 }
 
-void Job::Create(s32 priority)
+void Job::Create()
 {
-	cMutex.Lock();
+	ScopedMutexLock lock(cMutex);
 	nState = eJobState::Running;
-	cMutex.Unlock();
-
-	Thread::Create(priority);
+	Thread::Create();
 }
 
 void Job::Abort()
 {
-	cMutex.Lock();
+	ScopedMutexLock lock(cMutex);
 	nState = eJobState::Aborted;
-	cMutex.Unlock();
-
 	Thread::Destroy();
 }
 
@@ -74,6 +70,5 @@ void Job::OnFinished()
 	if (fnCallback)
 		fnCallback(this);
 }
-
 
 } // namespace

@@ -35,7 +35,7 @@
 #include "interface/IUpdatable.h"
 #include "Singleton.h"
 #include "Container.h"
-#include "Mutex.h"
+#include "Thread.h"
 
 #include <queue>
 
@@ -55,7 +55,6 @@ class SEED_CORE_API JobManager : public IManager, public IUpdatable
 		Job *Add(Job *job);
 
 		// IManager
-		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
 
@@ -69,7 +68,7 @@ class SEED_CORE_API JobManager : public IManager, public IUpdatable
 		void StartThreads();
 
 	private:
-		Mutex *pMutex = nullptr;
+		Mutex cMutex;
 
 		std::queue<Job *> vQueue;
 		JobVector vRunning;

@@ -49,12 +49,6 @@ JobManager::~JobManager()
 {
 }
 
-bool JobManager::Initialize()
-{
-	pMutex = sdNew(Mutex);
-	return IManager::Initialize();
-}
-
 bool JobManager::Reset()
 {
 	while (vQueue.size())
@@ -87,7 +81,6 @@ bool JobManager::Shutdown()
 		job->Destroy();
 
 	JobVector().swap(vRunning);
-	sdDelete(pMutex);
 
 	return IManager::Shutdown();
 }
@@ -97,7 +90,7 @@ void JobManager::StartThreads()
 	if (vQueue.empty())
 		return;
 
-	pMutex->Lock();
+	ScopedMutexLock lock(cMutex);
 	while (vRunning.Size() < iMaxThreads && !vQueue.empty())
 	{
 		auto job = vQueue.front();
@@ -106,7 +99,6 @@ void JobManager::StartThreads()
 		vRunning += job;
 		job->Create();
 	}
-	pMutex->Unlock();
 }
 
 bool JobManager::Update(f32 dt)
@@ -142,9 +134,8 @@ bool JobManager::Update(f32 dt)
 
 Job *JobManager::Add(Job *job)
 {
-	pMutex->Lock();
+	ScopedMutexLock lock(cMutex);
 	vQueue.push(job);
-	pMutex->Unlock();
 	return job;
 }
 

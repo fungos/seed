@@ -34,7 +34,6 @@
 #include "interface/IDataObject.h"
 #include "ResourceManager.h"
 #include "Container.h"
-#include "Mutex.h"
 
 namespace Seed {
 

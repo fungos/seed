@@ -34,7 +34,7 @@
 #include "Defines.h"
 #include "Singleton.h"
 #include "Container.h"
-#include "Mutex.h"
+#include "Thread.h"
 
 namespace Seed {
 
@@ -68,7 +68,7 @@ class SEED_CORE_API PrefabManager
 		void Remove(const String &name);
 
 	private:
-		Mutex cLock;
+		Mutex cMutex;
 		PrefabMap mapPrefabs;
 };
 

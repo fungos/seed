@@ -34,9 +34,9 @@
 #include "Defines.h"
 #include "Thread.h"
 #include "Enum.h"
-#include "Mutex.h"
 
 #include <functional>
+#include <mutex>
 
 namespace Seed {
 
@@ -59,7 +59,7 @@ class SEED_CORE_API Job : public Thread
 
 		// Thread
 		virtual bool Run() override;
-		virtual void Create(s32 priority = 31) override;
+		virtual void Create() override;
 
 	protected:
 		JobCallback fnCallback;

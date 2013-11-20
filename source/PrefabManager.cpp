@@ -55,7 +55,7 @@ PrefabManager::~PrefabManager()
 
 void PrefabManager::Reset()
 {
-	cLock.Lock();
+	ScopedMutexLock lock(cMutex);
 	for (auto each: mapPrefabs)
 	{
 		Log(TAG "Deallocating %s.", each.first.c_str());
@@ -64,70 +64,57 @@ void PrefabManager::Reset()
 	}
 
 	PrefabMap().swap(mapPrefabs);
-	cLock.Unlock();
 }
 
 IDataObject *PrefabManager::Get(const String &name)
 {
-	cLock.Lock();
+	ScopedMutexLock lock(cMutex);
 	if (mapPrefabs.find(name) == mapPrefabs.end())
 	{
 		Log(TAG "Prefab %s not found.", name.c_str());
-		cLock.Unlock();
-
 		return nullptr;
 	}
 
 	auto r = mapPrefabs[name];
-	cLock.Unlock();
-
 	return r;
 }
 
 void PrefabManager::Add(IDataObject *obj)
 {
-	cLock.Lock();
+	ScopedMutexLock lock(cMutex);
 	if (mapPrefabs.find(obj->sName) != mapPrefabs.end())
 	{
 		Log(TAG "WARNING: The prefab %s already is allocated.", obj->sName.c_str());
-		cLock.Unlock();
-
 		return;
 	}
 
 	auto k = obj->sName;
 	mapPrefabs[k] = obj;
-	cLock.Unlock();
 }
 
 void PrefabManager::Remove(IDataObject *obj)
 {
-	cLock.Lock();
+	ScopedMutexLock lock(cMutex);
 	Remove(obj->sName);
-	cLock.Unlock();
 }
 
 void PrefabManager::Remove(const String &name)
 {
-	cLock.Lock();
+	ScopedMutexLock lock(cMutex);
 	PrefabMapIterator it = mapPrefabs.find(name);
 
 	if (it == mapPrefabs.end())
 	{
 		Log(TAG "Prefab %s not found.", name.c_str());
-		cLock.Unlock();
-
 		return;
 	}
 
 	mapPrefabs.erase(it);
-	cLock.Unlock();
 }
 
 void PrefabManager::Print()
 {
-	cLock.Lock();
-
+	ScopedMutexLock lock(cMutex);
 	auto cnt = u32{0};
 	Log(TAG "Listing %d loaded prefabs:", mapPrefabs.size());
 
@@ -136,7 +123,6 @@ void PrefabManager::Print()
 		Log(TAG "\t%d: %s [%s]", ++cnt, (each.first).c_str(), (each.second)->GetTypeName());
 	}
 	Log(TAG "Total: %d prefabs.", cnt);
-	cLock.Unlock();
 }
 
 void PrefabManager::Load(Reader &reader, ResourceManager *res)

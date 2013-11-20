@@ -79,7 +79,6 @@
 #include <interface/ISceneObject.h>
 
 #include <Music.h>
-#include <Mutex.h>
 
 #include <map/GameMap.h>
 #include <map/IMapLayer.h>

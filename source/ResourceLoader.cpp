@@ -45,8 +45,6 @@ SEED_SINGLETON_DEFINE(ResourceLoader)
 ResourceLoader::ResourceLoader()
 	: vListeners()
 	, vGroups()
-	, pMutex(NULL)
-	, bRunning(false)
 {
 }
 
@@ -64,9 +62,7 @@ bool ResourceLoader::Initialize()
 {
 	Log(TAG "Initializing...");
 	IManager::Initialize();
-	pMutex = sdNew(Mutex);
 	this->Create();
-	bRunning = true;
 	Log(TAG "Initialization completed.");
 
 	return true;
@@ -74,9 +70,7 @@ bool ResourceLoader::Initialize()
 
 bool ResourceLoader::Shutdown()
 {
-	bRunning = false;
 	this->Destroy();
-	sdDelete(pMutex);
 	IManager::Shutdown();
 	Log(TAG "Terminated.");
 
@@ -87,22 +81,20 @@ bool ResourceLoader::Update(f32 dt)
 {
 	UNUSED(dt);
 
-	if (!bRunning)
+	if (!this->IsRunning())
 		return false;
 
 	ResourceGroup *group = NULL;
 
-	pMutex->Lock();
+	ScopedMutexLock lock(cMutex);
 	if (vGroups.size() > 0)
 	{
 		group = (*vGroups.begin());
 	}
-	pMutex->Unlock();
 
 	if (!group)
 		return true;
 
-	pMutex->Lock();
 	if (group->IsLoaded())
 	{
 		EventResourceLoader ev;
@@ -123,24 +115,21 @@ bool ResourceLoader::Update(f32 dt)
 
 		//glResourceManager.Print();
 	}
-	pMutex->Unlock();
 
 	return true;
 }
 
 bool ResourceLoader::Run()
 {
-	bool ret = Thread::Run();
-	if (ret)
+	if (this->IsRunning())
 	{
 		ResourceGroup *group = NULL;
 
-		pMutex->Lock();
+		ScopedMutexLock lock(cMutex);
 		if (vGroups.size() > 0)
 		{
 			group = (*vGroups.begin());
 		}
-		pMutex->Unlock();
 
 		if (!group)
 			return true;
@@ -149,26 +138,19 @@ bool ResourceLoader::Run()
 			return true;
 
 		if (group->Load())
-		{
-			pMutex->Lock();
 			group->SetLoaded();
-			pMutex->Unlock();
-		}
-
-		ret = bRunning;
 	}
 
 	pTimer->Sleep(10);
-	return ret;
+	return this->IsRunning();
 }
 
 void ResourceLoader::Add(ResourceGroup *group)
 {
-	if (bRunning)
+	if (this->IsRunning())
 	{
-		pMutex->Lock();
+		ScopedMutexLock lock(cMutex);
 		vGroups.push_back(group);
-		pMutex->Unlock();
 	}
 }
 

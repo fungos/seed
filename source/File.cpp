@@ -158,9 +158,9 @@ bool FileLoader::Run()
 {
 	Log("[Job:FileLoader] Load: %s", sFilename.c_str());
 
-	cMutex.Lock();
+	cMutex.lock();
 	bool run = (nState == eJobState::Running);
-	cMutex.Unlock();
+	cMutex.unlock();
 
 	if (run)
 	{
@@ -168,9 +168,10 @@ bool FileLoader::Run()
 		pFile->GetData();
 		Log("[Job:FileLoader] Loaded: %s (%d bytes)", sFilename.c_str(), pFile->GetSize());
 
-		cMutex.Lock();
+		cMutex.lock();
 		nState = eJobState::Completed;
-		cMutex.Unlock();
+		cMutex.unlock();
+
 		Log("[Job:FileLoader] Completed: %s", sFilename.c_str());
 	}
 

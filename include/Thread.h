@@ -31,14 +31,38 @@
 #ifndef __THREAD_H__
 #define __THREAD_H__
 
-#if defined(BUILD_SDL)
-	#include "platform/sdl/sdlThread.h"
-#elif defined(BUILD_GLFW)
-	#include "platform/glfw/glfwThread.h"
-#elif defined(BUILD_IOS)
-	#include "platform/ios/iosThread.h"
-#elif defined(BUILD_QT)
-	#include "platform/qt/qtThread.h"
-#endif // platform
+#include "Defines.h"
+#include <thread>
+#include <mutex>
+
+typedef std::mutex Mutex;
+typedef std::lock_guard<Mutex> ScopedMutexLock;
+
+namespace Seed {
+
+class SEED_CORE_API Thread
+{
+	SEED_DISABLE_COPY(Thread)
+
+	public:
+		Thread();
+		virtual ~Thread();
+
+		virtual void Create();
+		virtual void Destroy();
+
+		virtual bool Run() = 0;
+
+		bool IsRunning() const
+		{
+			return bRunning;
+		}
+
+	private:
+		std::thread cThread;
+		bool bRunning : 1;
+};
+
+} // namespace
 
 #endif // __THREAD_H__

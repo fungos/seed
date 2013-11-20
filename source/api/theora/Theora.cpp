@@ -108,7 +108,7 @@ bool Theora::Unload()
 
 bool Theora::Run()
 {
-	bool ret = Thread::Run();
+	bool ret = this->IsRunning();
 	if (ret)
 	{
 		if (bPlaying && !bFinished)
@@ -145,7 +145,7 @@ bool Theora::Run()
 
 	pTimer->Sleep(10);
 	//Log("%d", bTerminateThread);
-	return ret;
+	return ret && this->IsRunning();
 }
 
 bool Theora::Load(const String &filename)

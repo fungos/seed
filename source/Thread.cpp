@@ -28,16 +28,15 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_QT)
-
-#include "platform/qt/qtThread.h"
+#include "Thread.h"
 
 #define TAG 	"[Thread] "
 
-namespace Seed { namespace QT {
+namespace Seed {
 
 Thread::Thread()
-	: iPriority(7)
+	: cThread()
+	, bRunning(false)
 {
 }
 
@@ -46,36 +45,37 @@ Thread::~Thread()
 	this->Destroy();
 }
 
-void Thread::Create(s32 priority)
+void Thread::Create()
 {
-	this->iPriority = priority;
-
-	IThread::Create(priority);
+	SEED_ASSERT_MSG(bRunning != true, TAG "Already created.");
 
 #if (SEED_USE_THREAD == 1)
-	QThread::start(static_cast<QThread::Priority>(iPriority));
+	cThread = std::thread([&](){
+		while (this->Run()) {};
+	});
+
+	std::thread::id defaultId;
+	UNUSED(defaultId)
+	SEED_ASSERT_MSG(defaultId != cThread.get_id(), TAG "Failed to create thread.");
+#else
+	pThreadManager->Add(this);
 #endif
+
+	bRunning = true;
 }
 
 void Thread::Destroy()
 {
-	IThread::Destroy();
+	if (!bRunning)
+		return;
+
+	bRunning = false;
 #if (SEED_USE_THREAD == 1)
-	QThread::terminate();
+	cThread.join();
+#else
+	pThreadManager->Remove(this);
 #endif
 }
 
-bool Thread::Run()
-{
-	IThread::Run();
-	return true;
-}
+} // namespace
 
-void Thread::run()
-{
-	this->Run();
-}
-
-}} // namespace
-
-#endif // BUILD_QT
