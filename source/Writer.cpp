@@ -61,7 +61,7 @@ void Writer::Init()
 		switch (pConfiguration->GetReaderType())
 		{
 #if defined(SEED_USE_JSON)
-			case ReaderJson:
+			case eReaderType::Json:
 			{
 				Info(TAG "Creating Writer json");
 				pOpaque = New(JsonWriter());

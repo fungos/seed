@@ -28,59 +28,44 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __IMODULE_H__
-#define __IMODULE_H__
+#ifndef __MANAGER_H__
+#define __MANAGER_H__
 
 #include "Defines.h"
-#include "interface/IObject.h"
+#include "Singleton.h"
+#include "Container.h"
 
 namespace Seed {
 
-/// Module Interface
-/**
-Interface for basic module
-*/
-class SEED_CORE_API IModule : public IObject
+class IManager;
+
+/// Module Manager
+class SEED_CORE_API Manager
 {
+	SEED_DECLARE_SINGLETON(Manager)
+	SEED_DECLARE_CONTAINER(Vector, IManager)
+	SEED_DISABLE_COPY(Manager)
+
 	public:
-		IModule();
-		virtual ~IModule();
+		bool Add(IManager *obj);
+		bool Remove(IManager *obj);
 
-		/// Initialize this module, it must initialize all module attributes.
-		virtual bool Initialize();
+		void Disable(const char *managerName);
+		void Enable(const char *managerName);
+		bool IsEnabled(const char *managerName);
 
-		/// Reset all module attributes as a newly created object.
-		virtual bool Reset();
+		bool Initialize();
+		bool Reset();
+		bool Shutdown();
 
-		/// Terminate everything and deinitialize all dependency. Reset to before initialization state.
-		virtual bool Shutdown();
-
-		/// Disables this module
-		virtual void Disable();
-
-		/// Enabled this module
-		virtual void Enable();
-
-		/// Returns true if this module is enabled
-		virtual bool IsEnabled() const;
-
-		/// Check if the module is initialized
-		bool IsInitialized() const;
-
-		/// If this module is mandatory (it is a base subsystem or critical one)
-		virtual bool IsRequired() const;
-
-		// IObject
-		virtual int GetObjectType() const;
-
-	protected:
-		bool bInitialized;
-		bool bEnabled;
+		void Print();
 
 	private:
-		SEED_DISABLE_COPY(IModule);
+		IManagerVector vManager;
 };
+
+#define pManager Manager::GetInstance()
 
 } // namespace
 
-#endif // __IMODULE_H__
+#endif // __MANAGER_H__

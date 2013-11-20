@@ -19,6 +19,8 @@ class NetUDPSocketSample : public IGameApp,
 							public IEventSystemListener,
 							public IEventInputKeyboardListener
 {
+	SEED_DISABLE_COPY(NetUDPSocketSample)
+
 	public:
 		NetUDPSocketSample();
 		virtual ~NetUDPSocketSample();
@@ -34,17 +36,18 @@ class NetUDPSocketSample : public IGameApp,
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
 
 	private:
-		SEED_DISABLE_COPY(NetUDPSocketSample);
-		Socket cSocket;
-		int iPort;
-		b2Vec2 vPlayer;
-		b2Vec2 vEnemyPlayer;
-
 		struct PacketData
 		{
 			b2Vec2 ball;
 			b2Vec2 vRemotePlayer;
 		} sPacketData;
+
+		Socket cSocket;
+
+		b2Vec2 vPlayer;
+		b2Vec2 vEnemyPlayer;
+
+		u32 iPort;
 };
 
 #endif // _NET_UDP_SOCKET_SAMPLE_H

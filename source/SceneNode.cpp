@@ -59,12 +59,8 @@ bool SceneNode::IsNode() const
 
 void SceneNode::Update(f32 dt)
 {
-	ISceneObjectVectorIterator it = vChild.begin();
-	ISceneObjectVectorIterator end = vChild.end();
-	for (; it != end; ++it)
-	{
-		(*it)->Update(dt);
-	}
+	for (auto obj: vChild)
+		obj->Update(dt);
 
 	this->UpdateTransform();
 }
@@ -99,22 +95,17 @@ ISceneObject *SceneNode::GetChildAt(u32 i)
 
 ISceneObject *SceneNode::GetChildByName(String name)
 {
-	ISceneObjectVectorIterator it = vChild.begin();
-	ISceneObjectVectorIterator end = vChild.end();
-	for (; it != end; ++it)
+	for (auto obj: vChild)
 	{
-		ISceneObject *obj = (*it);
 		if (obj->sName == name)
 			return obj;
 	}
 
-	it = vChild.begin();
-	end = vChild.end();
-	for (; it != end; ++it)
+	for (auto each: vChild)
 	{
-		if ((*it)->GetObjectType() == Seed::TypeScene)
+		if (each->IsKindOf<SceneNode>())
 		{
-			SceneNode *obj = (SceneNode *)(*it);
+			auto obj = static_cast<SceneNode *>(each);
 			return obj->GetChildByName(name);
 		}
 	}
@@ -149,7 +140,7 @@ bool SceneNode::Load(Reader &reader, ResourceManager *res)
 bool SceneNode::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 
 		writer.OpenArray("aObjects");
@@ -169,11 +160,8 @@ bool SceneNode::Unload()
 {
 	bool ret = true;
 
-	ISceneObjectVectorIterator it = vChild.begin();
-	ISceneObjectVectorIterator end = vChild.end();
-	for (; it != end; ++it)
+	for (auto obj: vChild)
 	{
-		ISceneObject *obj = (*it);
 //		Log("Unloading scene node %s.", obj->sName.c_str());
 		obj->Unload();
 		if (obj->bMarkForDeletion)
@@ -187,12 +175,8 @@ bool SceneNode::Unload()
 
 void SceneNode::Dump(u32 level)
 {
-	ISceneObjectVectorIterator it = vChild.begin();
-	ISceneObjectVectorIterator end = vChild.end();
-	for (; it != end; ++it)
+	for (auto obj: vChild)
 	{
-		ISceneObject *obj = (*it);
-
 		for (u32 i = 0; i < level + 1; i++) fprintf(stdout, "-");
 		Log(" %s", obj->sName.c_str());
 
@@ -203,25 +187,10 @@ void SceneNode::Dump(u32 level)
 
 void SceneNode::Reset()
 {
-	ISceneObjectVectorIterator it = vChild.begin();
-	ISceneObjectVectorIterator end = vChild.end();
-	for (; it != end; ++it)
-	{
-		ISceneObject *obj = (*it);
+	for (auto obj: vChild)
 		obj->SetParent(NULL);
-	}
 
 	ISceneObjectVector().swap(vChild);
-}
-
-const String SceneNode::GetClassName() const
-{
-	return "SceneNode";
-}
-
-int SceneNode::GetObjectType() const
-{
-	return Seed::TypeScene;
 }
 
 } // namespace

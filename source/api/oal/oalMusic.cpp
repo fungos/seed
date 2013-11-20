@@ -50,7 +50,7 @@ namespace Seed { namespace OAL {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 {
-	Music *music = New(Music());
+	auto music = New(Music());
 	music->Load(filename, res);
 
 	return music;
@@ -159,7 +159,7 @@ bool Music::Unload()
 		return true;
 
 	pSoundSystem->StopMusic(0, this);
-	eState = Seed::MusicStopped;
+	nState = eMusicState::Stopped;
 	eFormat = AL_FORMAT_MONO16;
 	fVolume = 1.0f;
 
@@ -230,7 +230,7 @@ bool Music::Update(f32 dt)
 	}
 
 	if (!active)
-		eState = MusicStopped;
+		nState = eMusicState::Stopped;
 
 	return active;
 }

@@ -43,10 +43,12 @@ class Frame;
 /**
 Animation is a sequence of Frames used by Sprite
 */
-DECLARE_CONTAINER_TYPE(Vector, Frame)
+SEED_DECLARE_CONTAINER(Vector, Frame)
 
 class SEED_CORE_API Animation : public IDataObject
 {
+	SEED_DECLARE_RTTI(Animation, IDataObject)
+
 	public:
 		FrameVector	vFrames;
 		String		sName;
@@ -66,10 +68,6 @@ class SEED_CORE_API Animation : public IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
 };
 
 } // namespace

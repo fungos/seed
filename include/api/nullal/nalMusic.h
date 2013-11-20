@@ -28,18 +28,18 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __NULL_OAL_MUSIC_H__
-#define __NULL_OAL_MUSIC_H__
+#ifndef __NULL_NAL_MUSIC_H__
+#define __NULL_NAL_MUSIC_H__
 
 #include "Defines.h"
 
-#if defined(USE_API_NULL_OAL)
+#if defined(USE_API_NULL_AL)
 
 #include "File.h"
 #include "interface/IMusic.h"
 #include "Sound.h"
 
-namespace Seed { namespace OAL {
+namespace Seed { namespace NAL {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res = pResourceManager);
 
@@ -47,6 +47,7 @@ class SEED_CORE_API Music : public IMusic
 {
 	friend IResource *MusicResourceLoader(const String &filename, ResourceManager *res);
 	friend class SoundSystem;
+	SEED_DISABLE_COPY(Music)
 
 	public:
 		Music();
@@ -63,14 +64,11 @@ class SEED_CORE_API Music : public IMusic
 		// IResouce
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual bool Unload();
-
-	private:
-		SEED_DISABLE_COPY(Music);
 };
 
 }} // namespace
 
-#else // USE_API_NULL_OAL
-	#error "Include 'Music.h' instead 'api/nulloal/oalMusic.h' directly."
-#endif // USE_API_NULL_OAL
-#endif // __NULL_OAL_MUSIC_H__
+#else // USE_API_NULL_AL
+	#error "Include 'Music.h' instead 'api/nullal/nalMusic.h' directly."
+#endif // USE_API_NULL_AL
+#endif // __NULL_NAL_MUSIC_H__

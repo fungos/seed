@@ -40,6 +40,8 @@ namespace Seed {
 
 class SEED_CORE_API IMetadataObject : public SceneNode
 {
+	SEED_DISABLE_COPY(IMetadataObject)
+
 	public:
 		IMetadataObject();
 		virtual ~IMetadataObject();
@@ -61,12 +63,10 @@ class SEED_CORE_API IMetadataObject : public SceneNode
 		void ReadVertices(Reader &reader, u32 size);
 
 	private:
-		SEED_DISABLE_COPY(IMetadataObject);
-
-		enum eMetaType {
-			kMetaTypeRect,
-			kMetaTypePolygon,
-			kMetaTypePolyline
+		enum class eMetaType {
+			Rect,
+			Polygon,
+			Polyline
 		};
 
 		Map<String, String> mProperties;

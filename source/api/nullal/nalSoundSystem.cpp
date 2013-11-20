@@ -30,10 +30,10 @@
 
 #include "SoundSystem.h"
 
-#if defined(USE_API_NULL_OAL)
+#if defined(USE_API_NULL_AL)
 
 
-namespace Seed { namespace OAL {
+namespace Seed { namespace NAL {
 
 SEED_SINGLETON_DEFINE(SoundSystem)
 
@@ -77,4 +77,4 @@ void SoundSystem::Resume()
 
 }} // namespace
 
-#endif // USE_API_NULL_OAL
+#endif // USE_API_NULL_AL

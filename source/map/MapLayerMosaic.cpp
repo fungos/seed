@@ -48,13 +48,8 @@ MapLayerMosaic::~MapLayerMosaic()
 
 void MapLayerMosaic::Reset()
 {
-	SpriteVectorIterator it = vObjects.begin();
-	SpriteVectorIterator end = vObjects.end();
-	for (; it != end; ++it)
-	{
-		Sprite *obj = (*it);
+	for (auto obj: vObjects)
 		Delete(obj);
-	}
 
 	SpriteVector().swap(vObjects);
 	cScene.Reset();
@@ -117,13 +112,8 @@ void MapLayerMosaic::Update(f32 dt)
 
 void MapLayerMosaic::Render(const Matrix4f &worldTransform)
 {
-	ConstSpriteVectorIterator it = vObjects.begin();
-	ConstSpriteVectorIterator end = vObjects.end();
-	for (; it != end; ++it)
-	{
-		Sprite *obj = (*it);
+	for (auto obj: vObjects)
 		obj->Render(worldTransform);
-	}
 }
 
 void MapLayerMosaic::SetWrap(bool b)

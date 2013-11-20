@@ -31,7 +31,7 @@
 #ifndef __IINPUT_H__
 #define __IINPUT_H__
 
-#include "IModule.h"
+#include "IManager.h"
 #include "IUpdatable.h"
 #include "Enum.h"
 
@@ -45,30 +45,53 @@ class IEventInputPointerListener;
 /**
 All kind of inputs must implement this interface.
 */
-class SEED_CORE_API IInput : public IModule, public IUpdatable
+class SEED_CORE_API IInput : public IManager, public IUpdatable
 {
+	SEED_DISABLE_COPY(IInput)
+
 	public:
-		IInput();
-		virtual ~IInput();
+		IInput() = default;
+		virtual ~IInput() {}
 
 		virtual bool IsPointer() const;
 		virtual bool IsMotion() const;
 		virtual bool IsJoystick() const;
 		virtual bool IsKeyboard() const;
 
-		// IModule
+		// IManager
 		virtual bool IsRequired() const;
 
-		// IObject
-		virtual const String GetClassName() const;
-
 	protected:
-		virtual eInputButton GetButtonCode(u32 button) const = 0;
+		virtual eInputButton GetMouseButtonCode(u32 button) const = 0;
+		virtual eInputButton GetJoystickButtonCode(u32 button) const = 0;
 		virtual u32 ConvertButtonFlags(u32 flags) = 0;
-
-	private:
-		SEED_DISABLE_COPY(IInput);
 };
+
+inline bool IInput::IsPointer() const
+{
+	return false;
+}
+
+inline bool IInput::IsJoystick() const
+{
+	return false;
+}
+
+inline bool IInput::IsMotion() const
+{
+	return false;
+}
+
+inline bool IInput::IsKeyboard() const
+{
+	return false;
+}
+
+inline bool IInput::IsRequired() const
+{
+	return true;
+}
+
 
 } // namespace
 

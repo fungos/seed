@@ -48,7 +48,7 @@ ISceneObject *FactoryCamera()
 Camera::Camera()
 	: pTexture(NULL)
 	, aMesh()
-	, nProjection(Seed::Orthogonal)
+	, nProjection(eProjection::Orthogonal)
 	, rViewArea()
 {
 }
@@ -65,7 +65,7 @@ void Camera::SetProjection(eProjection type)
 bool Camera::Contains(ITransformable *obj, Matrix4f &worldMatrix)
 {
 	bool ret = false;
-	if (nProjection == Seed::Orthogonal)
+	if (nProjection == eProjection::Orthogonal)
 		ret = this->IsInView(obj, worldMatrix);
 	else
 		ret = this->IsInFrustum(obj, worldMatrix);
@@ -177,16 +177,6 @@ bool Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)
 	return true;
 }
 
-const String Camera::GetClassName() const
-{
-	return "Camera";
-}
-
-int Camera::GetObjectType() const
-{
-	return Seed::TypeCamera;
-}
-
 bool Camera::Unload()
 {
 	return true;
@@ -204,9 +194,9 @@ bool Camera::Load(Reader &reader, ResourceManager *res)
 		String proj = reader.ReadString("sProjection", "Orthogonal");
 		std::transform(proj.begin(), proj.end(), proj.begin(), ::tolower);
 		if (proj == "perspective")
-			nProjection = Seed::Perspective;
+			nProjection = eProjection::Perspective;
 		else
-			nProjection = Seed::Orthogonal;
+			nProjection = eProjection::Orthogonal;
 
 		ITransformable::Unserialize(reader);
 		IRenderable::Unserialize(reader);
@@ -220,9 +210,9 @@ bool Camera::Load(Reader &reader, ResourceManager *res)
 bool Camera::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
-		writer.WriteString("sProjection", nProjection == Seed::Orthogonal ? "Orthogonal" : "Perspective");
+		writer.WriteString("sProjection", nProjection == eProjection::Orthogonal ? "Orthogonal" : "Perspective");
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);

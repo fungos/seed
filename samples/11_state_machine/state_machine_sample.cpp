@@ -85,9 +85,9 @@ void StateMachineSample::OnSystemShutdown(const EventSystem *ev)
 
 void StateMachineSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
 }
 

@@ -39,15 +39,14 @@ class EventJob;
 
 class SEED_CORE_API IEventJobListener : public IEventListener
 {
+	SEED_DISABLE_COPY(IEventJobListener)
+
 	public:
-		IEventJobListener();
-		virtual ~IEventJobListener();
+		IEventJobListener() = default;
+		virtual ~IEventJobListener() {}
 
-		virtual void OnJobCompleted(const EventJob *ev);
-		virtual void OnJobAborted(const EventJob *ev);
-
-	private:
-		SEED_DISABLE_COPY(IEventJobListener);
+		virtual void OnJobCompleted(const EventJob *ev)		SEED_PURE_VIRTUAL_EVENT
+		virtual void OnJobAborted(const EventJob *ev)		SEED_PURE_VIRTUAL_EVENT
 };
 
 } // namespace

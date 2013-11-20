@@ -35,182 +35,338 @@
 namespace Seed {
 
 #if defined(DEBUG)
-const char *keyName[]
-{
-	[0] = "KeyNone",
-
-	[8] = "KeyBackspace",
-	[9] = "KeyTab",
-	[12] = "KeyClear",
-	[13] = "KeyReturn/KeyEnter",
-	[19] = "KeyPause",
-	[27] = "KeyEscape",
-
+const char *keyName[] = {
+	"None", // 0
+	"", // 1
+	"", // 2
+	"", // 3
+	"", // 4
+	"", // 5
+	"", // 6
+	"", // 7
+	"Backspace",
+	"Tab",
+	"", // 10
+	"", // 11
+	"Clear",
+	"Return/Enter",
+	"", // 14
+	"", // 15
+	"", // 16
+	"", // 17
+	"", // 18
+	"Pause",
+	"", // 20
+	"", // 21
+	"", // 22
+	"", // 23
+	"", // 24
+	"", // 25
+	"", // 26
+	"Escape",
+	"", // 28
+	"", // 29
+	"", // 30
+	"", // 31
 	// Ascii table 1 to 1
-	[32] = "KeySpace",
-	[33] = "KeyExclam",
-	[34] = "KeyQuoteDouble",
-	[35] = "KeyNumberSign",
-	[36] = "KeyDollar",
-	[37] = "KeyPercent",
-	[38] = "KeyAmpersand",
-	[39] = "KeyApostrophe",
-	[40] = "KeyParenLeft",
-	[41] = "KeyParenRight",
-	[42] = "KeyAsterisk",
-	[43] = "KeyPlus",
-	[44] = "KeyComma",
-	[45] = "KeyMinus",
-	[46] = "KeyPeriod",
-	[47] = "KeySlash",
-	[48] = "Key0",
-	[49] = "Key1",
-	[50] = "Key2",
-	[51] = "Key3",
-	[52] = "Key4",
-	[53] = "Key5",
-	[54] = "Key6",
-	[55] = "Key7",
-	[56] = "Key8",
-	[57] = "Key9",
-	[58] = "KeyColon",
-	[59] = "KeySemicolon",
-	[60] = "KeyLess",
-	[61] = "KeyEqual",
-	[62] = "KeyGreater",
-	[63] = "KeyQuestion",
-
+	"Space",
+	"Exclam",
+	"QuoteDouble",
+	"NumberSign",
+	"Dollar",
+	"Percent",
+	"Ampersand",
+	"Apostrophe",
+	"ParenLeft",
+	"ParenRight",
+	"Asterisk",
+	"Plus",
+	"Comma",
+	"Minus",
+	"Period",
+	"Slash",
+	"0",
+	"1",
+	"2",
+	"3",
+	"4",
+	"5",
+	"6",
+	"7",
+	"8",
+	"9",
+	"Colon",
+	"Semicolon",
+	"Less",
+	"Equal",
+	"Greater",
+	"Question",
+	"", // @ 64
 	// Both capital and lowercase chars are valid
-	[65] = "KeyA",
-	[66] = "KeyB",
-	[67] = "KeyC",
-	[68] = "KeyD",
-	[69] = "KeyE",
-	[70] = "KeyF",
-	[71] = "KeyG",
-	[72] = "KeyH",
-	[73] = "KeyI",
-	[74] = "KeyJ",
-	[75] = "KeyK",
-	[76] = "KeyL",
-	[77] = "KeyM",
-	[78] = "KeyN",
-	[79] = "KeyO",
-	[80] = "KeyP",
-	[81] = "KeyQ",
-	[82] = "KeyR",
-	[83] = "KeyS",
-	[84] = "KeyT",
-	[85] = "KeyU",
-	[86] = "KeyV",
-	[87] = "KeyW",
-	[88] = "KeyX",
-	[89] = "KeyY",
-	[90] = "KeyZ",
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z",
 
-	[91] = "KeyBracketLeft",
-	[92] = "KeyBackslash",
-	[93] = "KeyBracketRight",
-	[94] = "KeyCircum",
-	[95] = "KeyUnderscore",
-	[96] = "KeyQuoteLeft/KeyConsole",
+	"BracketLeft",
+	"Backslash",
+	"BracketRight",
+	"Circum",
+	"Underscore",
+	"QuoteLeft/Console",
 
-	[97] = "KeyA",
-	[98] = "KeyB",
-	[99] = "KeyC",
-	[100] = "KeyD",
-	[101] = "KeyE",
-	[102] = "KeyF",
-	[103] = "KeyG",
-	[104] = "KeyH",
-	[105] = "KeyI",
-	[106] = "KeyJ",
-	[107] = "KeyK",
-	[108] = "KeyL",
-	[109] = "KeyM",
-	[110] = "KeyN",
-	[111] = "KeyO",
-	[112] = "KeyP",
-	[113] = "KeyQ",
-	[114] = "KeyR",
-	[115] = "KeyS",
-	[116] = "KeyT",
-	[117] = "KeyU",
-	[118] = "KeyV",
-	[119] = "KeyW",
-	[120] = "KeyX",
-	[121] = "KeyY",
-	[122] = "KeyZ",
+	"A", // a 97
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z", // z 122
 
-	[123] = "KeyBraceLeft",
-	[124] = "KeyBar/KeyPipe",
-	[125] = "KeyBraceRight",
-	[126] = "KeyTilde",
+	"BraceLeft",
+	"Bar/Pipe",
+	"BraceRight",
+	"Tilde",
 
-	[127] = "KeyDelete",
+	"Delete", // 127
 
-	[256] = "KeyPad0",
-	[257] = "KeyPad1",
-	[258] = "KeyPad2",
-	[259] = "KeyPad3",
-	[260] = "KeyPad4",
-	[261] = "KeyPad5",
-	[262] = "KeyPad6",
-	[263] = "KeyPad7",
-	[264] = "KeyPad8",
-	[265] = "KeyPad9",
-	[266] = "KeyPadPeriod",
-	[267] = "KeyPadDivide",
-	[268] = "KeyPadMultiply",
-	[269] = "KeyPadMinus",
-	[270] = "KeyPadPlus",
-	[271] = "KeyPadEnter",
-	[272] = "KeyPadEquals",
+	"", // 128
+	"",
+	"", // 130
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 140
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 150
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 160
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 170
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 180
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 190
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 200
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 210
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 220
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 230
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 240
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"",
+	"", // 250
+	"",
+	"",
+	"",
+	"",
+	"",
 
-	[273] = "KeyUp",
-	[274] = "KeyDown",
-	[275] = "KeyRight",
-	[276] = "KeyLeft",
-	[277] = "KeyInsert",
-	[278] = "KeyHome",
-	[279] = "KeyEnd",
-	[280] = "KeyPageUp",
-	[281] = "KeyPageDown",
+	"Pad0", // 256
+	"Pad1",
+	"Pad2",
+	"Pad3",
+	"Pad4",
+	"Pad5",
+	"Pad6",
+	"Pad7",
+	"Pad8",
+	"Pad9",
+	"PadPeriod",
+	"PadDivide",
+	"PadMultiply",
+	"PadMinus",
+	"PadPlus",
+	"PadEnter",
+	"PadEquals",
 
-	[282] = "KeyF1",
-	[283] = "KeyF2",
-	[284] = "KeyF3",
-	[285] = "KeyF4",
-	[286] = "KeyF5",
-	[287] = "KeyF6",
-	[289] = "KeyF7",
-	[290] = "KeyF8",
-	[291] = "KeyF9",
-	[292] = "KeyF10",
-	[293] = "KeyF11",
-	[294] = "KeyF12",
-	[295] = "KeyF13",
-	[296] = "KeyF14",
-	[297] = "KeyF15",
+	"Up",
+	"Down",
+	"Right",
+	"Left",
+	"Insert",
+	"Home",
+	"End",
+	"PageUp",
+	"PageDown",
 
-	[300] = "KeyNumLock",
-	[301] = "KeyCapsLock",
-	[302] = "KeyScrollLock",
+	"F1",
+	"F2",
+	"F3",
+	"F4",
+	"F5",
+	"F6",
+	"F7",
+	"F8",
+	"F9",
+	"F10",
+	"F11",
+	"F12",
+	"F13",
+	"F14",
+	"F15",
 
-	[303] = "KeyShiftRight",
-	[304] = "KeyShiftLeft",
-	[305] = "KeyControlRight",
-	[306] = "KeyControlLeft",
-	[307] = "KeyAltRight",
-	[308] = "KeyAltLeft",
-	[309] = "KeyMetaRight",
-	[310] = "KeyMetaLeft",
-	[311] = "KeySuperLeft",
-	[312] = "KeySuperRight",
-	[313] = "KeyAltGr",
-	[314] = "KeyMenu",
+	"", // 297
+	"", // 298
+	"", // 299
 
-	[316] = "KeyPrintScreen"
+	"NumLock", // 300
+	"CapsLock",
+	"ScrollLock",
+
+	"ShiftRight",
+	"ShiftLeft",
+	"ControlRight",
+	"ControlLeft",
+	"AltRight",
+	"AltLeft",
+	"MetaRight",
+	"MetaLeft",
+	"SuperLeft",
+	"SuperRight",
+	"AltGr",
+	"Menu",
+	"", // 315
+
+	"PrintScreen",
 
 };
 #endif
@@ -241,15 +397,12 @@ void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 	SEED_ASSERT(ev);
 
 #if defined(DEBUG)
-	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
+	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[static_cast<u32>(ev->GetKey())], ev->GetModifier());
 #endif
 
-	IEventInputKeyboardListenerVectorIterator it = vKeyboardListeners.begin();
-	IEventInputKeyboardListenerVectorIterator end = vKeyboardListeners.end();
-	for (; it != end; ++it)
+	for (auto each: vKeyboardListeners)
 	{
-		(*it)->OnInputKeyboardPress(ev);
-
+		each->OnInputKeyboardPress(ev);
 		if (ev->IsConsumed())
 			break;
 	}
@@ -260,15 +413,12 @@ void IInputKeyboard::SendEventKeyboardRelease(const EventInputKeyboard *ev)
 	SEED_ASSERT(ev);
 
 #if defined(DEBUG)
-	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
+	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[static_cast<u32>(ev->GetKey())], static_cast<u32>(ev->GetModifier()));
 #endif
 
-	IEventInputKeyboardListenerVectorIterator it = vKeyboardListeners.begin();
-	IEventInputKeyboardListenerVectorIterator end = vKeyboardListeners.end();
-	for (; it != end; ++it)
+	for (auto each: vKeyboardListeners)
 	{
-		(*it)->OnInputKeyboardRelease(ev);
-
+		each->OnInputKeyboardRelease(ev);
 		if (ev->IsConsumed())
 			break;
 	}

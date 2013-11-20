@@ -8,6 +8,8 @@ class SkelSample : public IGameApp,
 							public IEventSystemListener,
 							public IEventInputKeyboardListener
 {
+	SEED_DISABLE_COPY(SkelSample)
+
 	public:
 		SkelSample();
 		virtual ~SkelSample();
@@ -21,9 +23,6 @@ class SkelSample : public IGameApp,
 
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
-
-	private:
-		SEED_DISABLE_COPY(SkelSample);
 };
 
 #endif // _SKEL_SAMPLE_H

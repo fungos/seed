@@ -61,8 +61,9 @@ namespace DirectX {
 class SEED_CORE_API D3D8RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
+	SEED_DECLARE_CONTAINER(Vector, ITexture)
+	SEED_DISABLE_COPY(D3D8RendererDevice)
 
-	DECLARE_CONTAINER_TYPE(Vector, ITexture)
 	public:
 		D3D8RendererDevice();
 		virtual ~D3D8RendererDevice();
@@ -118,19 +119,15 @@ class SEED_CORE_API D3D8RendererDevice : public IRendererDevice
 		// Other
 		virtual void Update() override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
-
-		// IObject
-		virtual const String GetClassName() const override;
 
 	protected:
 		mutable ITextureVector vTexture;
 
 	private:
-		SEED_DISABLE_COPY(D3D8RendererDevice);
 		bool CheckExtension(const char *extName);
 
 		D3DCAPS8		mCaps;
@@ -139,7 +136,7 @@ class SEED_CORE_API D3D8RendererDevice : public IRendererDevice
 		D3DPRESENT_PARAMETERS	mParams;
 		D3DDISPLAYMODE		mMode;
 
-		bool			bLost;
+		bool			bLost : 1;
 };
 
 }} // namespace

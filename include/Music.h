@@ -32,13 +32,15 @@
 #define __MUSIC_H__
 
 #if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW) || defined(BUILD_SDL2)
-#if defined(USE_API_NULL_OAL)
+#if defined(USE_API_NULL_AL)
 	#include "api/nullal/nalMusic.h"
+	using namespace Seed::NAL;
 #else
-	#include "api/oal/oalMusic.h"
+	#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
+		#include "api/oal/oalMusic.h"
+	#elif defined(BUILD_IOS)
+		#include "platform/ios/iosMusic.h"
+	#endif
 #endif
-#elif defined(BUILD_IOS)
-	#include "platform/ios/iosMusic.h"
-#endif // platform
 
 #endif // __MUSIC_H__

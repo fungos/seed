@@ -41,7 +41,8 @@ namespace Seed {
 /// Save System
 class SEED_CORE_API SaveSystem
 {
-	SEED_SINGLETON_DECLARE(SaveSystem)
+	SEED_DECLARE_SINGLETON(SaveSystem)
+	SEED_DISABLE_COPY(SaveSystem)
 
 	public:
 		/// Save Header
@@ -72,8 +73,6 @@ class SEED_CORE_API SaveSystem
 		bool IsSaving() const;
 
 	private:
-		SEED_DISABLE_COPY(SaveSystem);
-
 		eCartridgeError GetNewSlotBuffer(u32 slot, u8 *slotBuffer);
 		eCartridgeError GetSlotBuffer(u32 slot, u8 *slotBuffer);
 		eCartridgeError SetSlotBuffer(u32 slot, u8 slotBuffer);
@@ -93,7 +92,7 @@ class SEED_CORE_API SaveSystem
 		eCartridgeSize cardType;
 
 		static bool bIsSaving;
-		bool bInitialized;
+		bool bInitialized : 1;
 
 		char *pcSaveGameFolder[SEED_MAX_FOLDER_SIZE];
 };

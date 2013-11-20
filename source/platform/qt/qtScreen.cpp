@@ -63,14 +63,14 @@ Screen::~Screen()
 
 bool Screen::Reset()
 {
-	IModule::Reset();
+	IManager::Reset();
 	return true;
 }
 
 bool Screen::Initialize()
 {
 	Log(TAG "Initializing...");
-	IModule::Initialize();
+	IManager::Initialize();
 
 	if (!pScene)
 		pScene = New(Scene(iWidth, iHeight));
@@ -99,7 +99,7 @@ bool Screen::Shutdown()
 
 	Delete(pScene);
 	pScene = NULL;
-	IModule::Shutdown();
+	IManager::Shutdown();
 	Log(TAG "Terminated.");
 
 	return r;

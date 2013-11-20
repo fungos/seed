@@ -63,6 +63,7 @@ Renderer::Renderer()
 	: pScene(NULL)
 	, vRenderables()
 	, vVisibleRenderables()
+	, bEnabled(true)
 {
 }
 
@@ -93,7 +94,7 @@ bool Renderer::Update(f32 dt)
 	UNUSED(dt);
 	SEED_FUNCTION_PROFILER;
 
-	if (!IModule::IsEnabled() || !pScene)
+	if (!this->IsEnabled() || !pScene)
 		return false;
 
 	vRenderables.clear();
@@ -127,7 +128,7 @@ bool Renderer::Update(f32 dt)
 void Renderer::Render(Camera *camera)
 {
 	SEED_FUNCTION_PROFILER;
-	if (pScene && pRendererDevice && pRendererDevice->IsEnabled() && IModule::IsEnabled())
+	if (pScene && pRendererDevice && pRendererDevice->IsEnabled() && this->IsEnabled())
 	{
 		this->Culler(camera);
 
@@ -143,13 +144,9 @@ void Renderer::Culler(Camera *camera)
 
 	vVisibleRenderables.clear();
 
-	ConstRenderableVectorIterator it = vRenderables.begin();
-	ConstRenderableVectorIterator end = vRenderables.end();
-
 	VisibleObject visible;
-	for (; it != end; ++it)
+	for (auto obj: vRenderables)
 	{
-		ISceneObject *obj = (*it);
 //		Log("Culling: %s", obj->sName.c_str());
 		SEED_ASSERT(obj);
 
@@ -168,7 +165,6 @@ void Renderer::RenderObjects(const VisibleVector &vec) const
 {
 	ConstVisibleVectorIterator it = vec.begin();
 	ConstVisibleVectorIterator end = vec.end();
-
 	for (; it != end; ++it)
 	{
 		const VisibleObject *obj = &(*it);
@@ -204,11 +200,6 @@ void Renderer::SetScene(SceneNode *node)
 SceneNode *Renderer::GetScene() const
 {
 	return pScene;
-}
-
-const String Renderer::GetClassName() const
-{
-	return "Renderer";
 }
 
 } // namespace

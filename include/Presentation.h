@@ -45,13 +45,16 @@ class SceneNode;
 class RendererSceneLoader;
 class IEventPresentationListener;
 
-DECLARE_CONTAINER_TYPE(Vector, SceneNode)
-DECLARE_CONTAINER_TYPE(Vector, Viewport)
-DECLARE_CONTAINER_TYPE(Vector, Renderer)
+SEED_DECLARE_CONTAINER(Vector, SceneNode)
+SEED_DECLARE_CONTAINER(Vector, Viewport)
+SEED_DECLARE_CONTAINER(Vector, Renderer)
 
 class SEED_CORE_API Presentation : public IDataObject
 {
 	friend class RendererSceneLoader;
+	SEED_DISABLE_COPY(Presentation)
+	SEED_DECLARE_RTTI(Presentation, IDataObject)
+
 	public:
 		Presentation();
 		virtual ~Presentation();
@@ -65,15 +68,10 @@ class SEED_CORE_API Presentation : public IDataObject
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	protected:
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 
 	private:
-		SEED_DISABLE_COPY(Presentation);
 		void SceneLoaded(RendererSceneLoader *ldr);
 		void SceneAborted(RendererSceneLoader *ldr);
 

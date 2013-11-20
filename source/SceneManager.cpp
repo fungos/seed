@@ -68,12 +68,8 @@ void SceneManager::Remove(ISceneObject *obj)
 
 bool SceneManager::Update(f32 delta)
 {
-	ISceneObjectVectorIterator it = vObject.begin();
-	ISceneObjectVectorIterator end = vObject.end();
-	for (; it != end; ++it)
-	{
-		(*it)->Update(delta);
-	}
+	for (auto each: vObject)
+		each->Update(delta);
 
 	return true;
 }

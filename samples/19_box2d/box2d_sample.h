@@ -11,6 +11,8 @@ class Box2DSample : public IGameApp,
 					public IEventInputPointerListener,
 					public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(Box2DSample)
+
 	public:
 		Box2DSample();
 		virtual ~Box2DSample();
@@ -34,8 +36,6 @@ class Box2DSample : public IGameApp,
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	private:
-		SEED_DISABLE_COPY(Box2DSample);
-
 		void CreateBody(Image *img, f32 x, f32 y);
 		void DestroyPhysics();
 

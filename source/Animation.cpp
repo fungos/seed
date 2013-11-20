@@ -71,7 +71,7 @@ bool Animation::Load(Reader &reader, ResourceManager *res)
 		{
 			for (u32 i = 0; i < iFrames; i++)
 			{
-				Frame *f = New(Frame);
+				auto f = New(Frame);
 				reader.SelectNext();
 				f->Load(reader, res);
 				f->iIndex = i;
@@ -90,10 +90,10 @@ bool Animation::Load(Reader &reader, ResourceManager *res)
 
 bool Animation::Write(Writer &writer)
 {
-	bool ret = false;
+	auto ret = false;
 
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteBool("bAnimated", bAnimated);
 		writer.WriteU32("iFps", iFps);
@@ -112,10 +112,8 @@ bool Animation::Write(Writer &writer)
 
 bool Animation::Unload()
 {
-	FrameVectorIterator it = vFrames.begin();
-	FrameVectorIterator end = vFrames.end();
-	for (; it != end; ++it)
-		Delete(*it);
+	for (auto frame: vFrames)
+		Delete(frame);
 
 	FrameVector().swap(vFrames);
 
@@ -125,16 +123,6 @@ bool Animation::Unload()
 FrameVector *Animation::GetFrames()
 {
 	return &vFrames;
-}
-
-const String Animation::GetClassName() const
-{
-	return "Animation";
-}
-
-int Animation::GetObjectType() const
-{
-	return Seed::TypeAnimation;
 }
 
 } // namespace

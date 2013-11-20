@@ -41,19 +41,24 @@ Interface for objects that need be updated each frame.
 */
 class SEED_CORE_API IUpdatable
 {
+	SEED_DISABLE_COPY(IUpdatable)
+
 	public:
-		IUpdatable();
-		virtual ~IUpdatable();
+		IUpdatable() = default;
+		virtual ~IUpdatable() {}
 
 		//! Method to be called each frame.
 		/*!
 			\return If update was sucessful
 		 */
 		virtual bool Update(f32 dt);
-
-	private:
-		SEED_DISABLE_COPY(IUpdatable);
 };
+
+inline bool IUpdatable::Update(f32 dt)
+{
+	UNUSED(dt);
+	return true;
+}
 
 } // namespace
 

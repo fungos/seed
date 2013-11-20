@@ -32,30 +32,27 @@
 #define __FILESYSTEM_H__
 
 #include "Defines.h"
-#include "interface/IModule.h"
+#include "interface/IManager.h"
 #include "Singleton.h"
 
 namespace Seed {
 
-/// FileSystem Module
-class SEED_CORE_API FileSystem : public IModule
+/// FileSystem Manager
+class SEED_CORE_API FileSystem : public IManager
 {
-	SEED_SINGLETON_DECLARE(FileSystem)
+	SEED_DECLARE_SINGLETON(FileSystem)
+	SEED_DECLARE_MANAGER(FileSystem)
+	SEED_DISABLE_COPY(FileSystem)
+
 	public:
 		void Prepare() const;
 		const char *GetWorkDirectory() const;
 		const char *GetWriteableDirectory() const;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Shutdown() override;
 		virtual bool IsRequired() const override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-
-	private:
-		SEED_DISABLE_COPY(FileSystem);
 };
 
 #define pFileSystem FileSystem::GetInstance()

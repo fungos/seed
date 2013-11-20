@@ -45,6 +45,8 @@ class ResourceManager;
 class SEED_CORE_API IResource : public IObject
 {
 	friend class ResourceManager;
+	SEED_DISABLE_COPY(IResource)
+	SEED_DECLARE_RTTI(IResource, IObject)
 
 	public:
 		IResource();
@@ -66,12 +68,9 @@ class SEED_CORE_API IResource : public IObject
 		u32 GetReferenceCount() const;
 
 	protected:
-		bool			bLoaded;
+		bool			bLoaded : 1;
 		ResourceManager *pRes;
 		String			sFilename;
-
-	private:
-		SEED_DISABLE_COPY(IResource);
 
 	private:
 		u32				iRefCount;

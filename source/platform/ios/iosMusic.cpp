@@ -48,7 +48,7 @@ namespace Seed { namespace iOS {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 {
-	Music *music = New(Music());
+	auto music = New(Music());
 	music->Load(filename, res);
 
 	return music;

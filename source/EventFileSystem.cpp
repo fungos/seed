@@ -33,7 +33,7 @@
 namespace Seed {
 
 EventFileSystem::EventFileSystem()
-	: IEvent(TypeSystem, EventIdFileSystem)
+	: IEvent()
 	, sFilename()
 {
 }
@@ -50,11 +50,6 @@ void EventFileSystem::SetFile(const String &filename)
 const String &EventFileSystem::GetFile()
 {
 	return sFilename;
-}
-
-const String EventFileSystem::GetClassName() const
-{
-	return "EventFileSystem";
 }
 
 } // namespace

@@ -125,13 +125,13 @@ void ISoundSystem::PlayMusic(IMusic *mus, f32 ms)
 
 		if (ms)
 		{
-			pCurrentMusic->eState = Seed::MusicFadeOut;
-			pNewMusic->eState = Seed::MusicFadeIn;
+			pCurrentMusic->nState = eMusicState::FadeOut;
+			pNewMusic->nState = eMusicState::FadeIn;
 		}
 		else
 		{
-			pCurrentMusic->eState = Seed::MusicStop;
-			pNewMusic->eState = Seed::MusicPlay;
+			pCurrentMusic->nState = eMusicState::Stop;
+			pNewMusic->nState = eMusicState::Play;
 		}
 	}
 	else
@@ -140,11 +140,11 @@ void ISoundSystem::PlayMusic(IMusic *mus, f32 ms)
 
 		if (ms)
 		{
-			pCurrentMusic->eState = Seed::MusicFadeIn;
+			pCurrentMusic->nState = eMusicState::FadeIn;
 		}
 		else
 		{
-			pCurrentMusic->eState = Seed::MusicPlay;
+			pCurrentMusic->nState = eMusicState::Play;
 		}
 	}
 }
@@ -153,7 +153,7 @@ void ISoundSystem::StopMusic(f32 ms, IMusic *mus)
 {
 	if (mus)
 	{
-		mus->eState = Seed::MusicStop;
+		mus->nState = eMusicState::Stop;
 
 		if (pCurrentMusic == mus)
 			pCurrentMusic = NULL;
@@ -167,24 +167,19 @@ void ISoundSystem::StopMusic(f32 ms, IMusic *mus)
 		if (ms)
 		{
 			fMusicStartFadeTime = static_cast<f32>(pTimer->GetMilliseconds());
-			pCurrentMusic->eState = Seed::MusicFadeOut;
+			pCurrentMusic->nState = eMusicState::FadeOut;
 		}
 		else
 		{
-			pCurrentMusic->eState = Seed::MusicStop;
+			pCurrentMusic->nState = eMusicState::Stop;
 		}
 	}
 }
 
 void ISoundSystem::StopSounds()
 {
-	ISoundSourceVectorIterator it = vSource.begin();
-	ISoundSourceVectorIterator end = vSource.end();
-	for (; it != end; ++it)
-	{
-		ISoundSource *obj = (*it);
+	for (auto obj: vSource)
 		obj->Stop();
-	}
 }
 
 void ISoundSystem::Pause()
@@ -195,11 +190,6 @@ void ISoundSystem::Pause()
 void ISoundSystem::Resume()
 {
 	bPaused = false;
-}
-
-const String ISoundSystem::GetClassName() const
-{
-	return "SoundSystem";
 }
 
 } // namespace

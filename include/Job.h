@@ -43,6 +43,8 @@ class IEventJobListener;
 class SEED_CORE_API Job : public Thread
 {
 	friend class JobManager;
+
+	SEED_DISABLE_COPY(Job)
 	public:
 		Job(u32 name, IEventJobListener *listener);
 		virtual ~Job();
@@ -62,9 +64,6 @@ class SEED_CORE_API Job : public Thread
 		Mutex cMutex;
 		eJobState nState;
 		u32 iName;
-
-	private:
-		SEED_DISABLE_COPY(Job);
 };
 
 } // namespace

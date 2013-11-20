@@ -40,13 +40,16 @@ namespace Seed {
 class IMapLayer;
 class TileSet;
 
-DECLARE_CONTAINER_TYPE(Vector, IMapLayer)
-DECLARE_CONTAINER_TYPE(Vector, TileSet)
+SEED_DECLARE_CONTAINER(Vector, IMapLayer)
+SEED_DECLARE_CONTAINER(Vector, TileSet)
 
 ISceneObject *FactoryGameMap();
 
 class SEED_CORE_API GameMap : public ISceneObject
 {
+	SEED_DISABLE_COPY(GameMap)
+	SEED_DECLARE_RTTI(GameMap, ISceneObject)
+
 	public:
 		GameMap();
 		virtual ~GameMap();
@@ -68,10 +71,6 @@ class SEED_CORE_API GameMap : public ISceneObject
 		virtual bool Unload() override;
 		virtual void Reset() override; // call Unload
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	protected:
 		u32 AddLayerTiled();
 		u32 AddLayerMetadata(Point2u tileSize);
@@ -79,14 +78,12 @@ class SEED_CORE_API GameMap : public ISceneObject
 		bool LoadTiled(Reader &reader, ResourceManager *res);
 
 	protected:
-		SEED_DISABLE_COPY(GameMap);
-
-		enum eLayerType
+		enum class eLayerType
 		{
-			LayerTypeTiled,
-			LayerTypeMetadata,
-			LayerTypeMosaic,
-			LayerTypeMax
+			Tiled,
+			Metadata,
+			Mosaic,
+			Max
 		};
 
 		SceneNode cMapLayers;

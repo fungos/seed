@@ -38,6 +38,9 @@ namespace Seed {
 /// FileSystem Event
 class SEED_CORE_API EventFileSystem : public IEvent
 {
+	SEED_DISABLE_COPY(EventFileSystem)
+	SEED_DECLARE_RTTI(EventFileSystem, IEvent)
+
 	public:
 		EventFileSystem();
 		virtual ~EventFileSystem();
@@ -45,12 +48,7 @@ class SEED_CORE_API EventFileSystem : public IEvent
 		void SetFile(const String &filename);
 		const String &GetFile();
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	private:
-		SEED_DISABLE_COPY(EventFileSystem);
-
 		String sFilename;
 };
 

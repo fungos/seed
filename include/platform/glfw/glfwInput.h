@@ -60,10 +60,14 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 	friend void GLFWCALL glfwOnMouseWheelCb(int pos, int btn);
 	friend void GLFWCALL glfwOnMousePosCb(int x, int y);
 
-	SEED_SINGLETON_DECLARE(Input)
+	SEED_DECLARE_SINGLETON(Input)
+	SEED_DECLARE_MANAGER(Input)
+	SEED_DISABLE_COPY(Input)
+
 	public:
 		// IInput
-		virtual Seed::eInputButton GetButtonCode(u32 button) const override;
+		virtual eInputButton GetMouseButtonCode(u32 button) const override;
+		virtual eInputButton GetJoystickButtonCode(u32 button) const override;
 		virtual u32 ConvertButtonFlags(u32 flags) override;
 
 		virtual bool IsJoystick() const override;
@@ -96,16 +100,14 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 		// IUpdatable
 		virtual bool Update(f32 dt) override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Shutdown() override;
 		virtual bool Reset() override;
 
 	private:
-		SEED_DISABLE_COPY(Input);
-
-		Seed::eKey GetKeyCode(u32 key) const;
-		Seed::eModifier GetModifierCode(u32 mod) const;
+		eKey GetKeyCode(u32 key) const;
+		eModifier GetModifierCode(u32 mod) const;
 
 		void OnKeyCb(int key, int action);
 		void OnMouseButtonCb(int button, int action);
@@ -134,7 +136,7 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 		};
 
 		glfwJoyInfo arJoyInfo[MAX_JOYSTICKS];
-		int nModifiers;
+		u32 iModifiers;
 };
 
 #define pInput Seed::GLFW::Input::GetInstance()

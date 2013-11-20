@@ -247,9 +247,4 @@ void IRendererDevice::Update()
 {
 }
 
-const String IRendererDevice::GetClassName() const
-{
-	return "IRendererDevice";
-}
-
 } // namespace

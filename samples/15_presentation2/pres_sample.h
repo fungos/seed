@@ -10,6 +10,8 @@ class PresentationSample : public IGameApp,
 					public IEventInputPointerListener,
 					public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(PresentationSample)
+
 	public:
 		PresentationSample();
 		virtual ~PresentationSample();
@@ -29,9 +31,6 @@ class PresentationSample : public IGameApp,
 
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(PresentationSample);
 
 	protected:
 		Presentation cPres;

@@ -33,7 +33,7 @@
 namespace Seed {
 
 EventResourceLoader::EventResourceLoader()
-	: IEvent(TypeResource, EventIdResourceLoader)
+	: IEvent()
 	, pGroup(NULL)
 {
 }
@@ -50,11 +50,6 @@ void EventResourceLoader::SetGroup(ResourceGroup *group)
 ResourceGroup *EventResourceLoader::GetGroup() const
 {
 	return pGroup;
-}
-
-const String EventResourceLoader::GetClassName() const
-{
-	return "EventResourceLoader";
 }
 
 } // namespace

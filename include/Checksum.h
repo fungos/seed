@@ -39,7 +39,9 @@ namespace Seed {
 /// Helper class to calculate CRC checksums
 class SEED_CORE_API Checksum
 {
-	SEED_SINGLETON_DECLARE(Checksum)
+	SEED_DECLARE_SINGLETON(Checksum)
+	SEED_DISABLE_COPY(Checksum)
+
 	public:
 		/// Sets the first polynomial to use when generating CRC tables
 		void 	SetPolynomial1(unsigned int polynomial);
@@ -59,9 +61,6 @@ class SEED_CORE_API Checksum
 		\param len Size of the data
 		*/
 		u64		Calculate(const char *data, u32 len);
-
-	private:
-		SEED_DISABLE_COPY(Checksum);
 
 	private:
 		unsigned int	iPolynomial1;

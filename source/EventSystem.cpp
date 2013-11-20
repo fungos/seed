@@ -33,17 +33,24 @@
 namespace Seed {
 
 EventSystem::EventSystem()
-	: IEvent(TypeSystem, EventIdSystem)
-	, nCurrentLang(Seed::en_US)
-	, nNewLang(Seed::en_US)
+	: IEvent()
+	, nCurrentLang(eLanguage::en_US)
+	, nNewLang(eLanguage::en_US)
+	, nReason(eShutdownReason::None)
 {
 }
 
-EventSystem::EventSystem(Seed::eLanguage curLang, Seed::eLanguage newLang)
-	: IEvent(TypeSystem, EventIdSystem)
-	, nCurrentLang(curLang)
-	, nNewLang(newLang)
+EventSystem::EventSystem(eLanguage curLang, eLanguage newLang)
+	: EventSystem()
 {
+	nCurrentLang = curLang;
+	nNewLang = newLang;
+}
+
+EventSystem::EventSystem(eShutdownReason reason)
+	: EventSystem()
+{
+	nReason = reason;
 }
 
 EventSystem::~EventSystem()
@@ -52,17 +59,17 @@ EventSystem::~EventSystem()
 
 Seed::eLanguage EventSystem::GetLanguageCurrent() const
 {
-	return this->nCurrentLang;
+	return nCurrentLang;
 }
 
 Seed::eLanguage EventSystem::GetLanguageNew() const
 {
-	return this->nNewLang;
+	return nNewLang;
 }
 
-const String EventSystem::GetClassName() const
+Seed::eShutdownReason EventSystem::GetShutdownReason() const
 {
-	return "EventSystem";
+	return nReason;
 }
 
 } // namespace

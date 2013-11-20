@@ -4,12 +4,12 @@ SpriteSample::SpriteSample()
 	: cPres()
 	, pSprite(NULL)
 	, pCamera(NULL)
-	, fElapsed(0.0f)
-	, fDir(1.0f)
-	, bRotate(false)
 	, vFrom()
 	, vCurrent()
 	, vTo()
+	, fElapsed(0.0f)
+	, fDir(1.0f)
+	, bRotate(false)
 {
 }
 
@@ -62,13 +62,13 @@ void SpriteSample::OnSystemShutdown(const EventSystem *ev)
 
 void SpriteSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
 }
 
@@ -77,7 +77,7 @@ void SpriteSample::OnInputPointerRelease(const EventInputPointer *ev)
 	if (!pCamera)
 		return;
 
-	if (ev->GetReleased() == Seed::ButtonLeft)
+	if (ev->GetReleased() == eInputButton::Left)
 	{
 		if (pSprite)
 			vFrom = pSprite->GetPosition();
@@ -87,16 +87,16 @@ void SpriteSample::OnInputPointerRelease(const EventInputPointer *ev)
 		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}
-	else if (ev->GetReleased() == Seed::ButtonRight)
+	else if (ev->GetReleased() == eInputButton::Right)
 	{
 		bRotate = !bRotate;
 	}
-	else if (ev->GetReleased() == Seed::ButtonUp)
+	else if (ev->GetReleased() == eInputButton::Up)
 	{
 		fDir = 1.0f;
 		bRotate = true;
 	}
-	else if (ev->GetReleased() == Seed::ButtonDown)
+	else if (ev->GetReleased() == eInputButton::Down)
 	{
 		fDir = -1.0f;
 		bRotate = true;

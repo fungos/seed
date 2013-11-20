@@ -366,12 +366,9 @@ void Timeline::SetRotation(f32 rotation)
 
 s32 Timeline::FindKeyframeByName(const String &name)
 {
-	KeyframeMapIterator it = mapKeyframes.begin();
-	KeyframeMapIterator end = mapKeyframes.end();
-	for (; it != end; ++it)
+	for (auto each: mapKeyframes)
 	{
-		Keyframe *obj = (*it).second;
-
+		Keyframe *obj = each.second;
 		if (obj->sName == name)
 			return obj->iFrame;
 	}
@@ -381,11 +378,9 @@ s32 Timeline::FindKeyframeByName(const String &name)
 
 s32 Timeline::FindNextKeyframe()
 {
-	KeyframeMap::iterator it = mapKeyframes.begin();
-	KeyframeMap::iterator end = mapKeyframes.end();
-	for (; it != end; ++it)
+	for (auto each: mapKeyframes)
 	{
-		s32 pos = (*it).first;
+		s32 pos = each.first;
 		if (pos > iKeyframeFrom)
 			return pos;
 	}
@@ -520,7 +515,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 		{
 			WARNING(TODO - Use SceneObjectFactory here)
 			Reader r(reader);
-			Sprite *spt = New(Sprite);
+			auto spt = New(Sprite);
 			spt->Load(r, res);
 			spt->SetZ(static_cast<f32>(iPriority));
 			pObject = spt;
@@ -532,10 +527,9 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 			SEED_ASSERT_MSG(object.length() > 0, "Keyframe does not have an 'object' set ");
 
 			WARNING(TODO - Move to async file loading)
-			File *f = New(File(object));
+			auto f = New(File(object));
 			Reader r(f);
-
-			Sprite *spt = New(Sprite);
+			auto spt = New(Sprite);
 			spt->Load(r, res);
 			spt->SetZ(static_cast<f32>(iPriority));
 			pObject = spt;
@@ -551,7 +545,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 			{
 				reader.SelectNext();
 
-				Keyframe *obj = New(Keyframe);
+				auto obj = New(Keyframe);
 				obj->Load(reader, res);
 
 				u32 frame = 0;
@@ -579,7 +573,7 @@ bool Timeline::Load(Reader &reader, ResourceManager *res)
 bool Timeline::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 
 		writer.WriteS32("iPriority", iPriority);
@@ -592,27 +586,15 @@ bool Timeline::Write(Writer &writer)
 		}
 
 		writer.OpenArray("aKeyframes");
-			KeyframeMapIterator it = mapKeyframes.begin();
-			KeyframeMapIterator end = mapKeyframes.end();
-			for (; it != end; ++it)
+			for (auto each: mapKeyframes)
 			{
-				Keyframe *key = (*it).second;
+				Keyframe *key = each.second;
 				key->Write(writer);
 			}
 		writer.CloseArray();
 	writer.CloseNode();
 
 	return true;
-}
-
-const String Timeline::GetClassName() const
-{
-	return "Timeline";
-}
-
-int Timeline::GetObjectType() const
-{
-	return Seed::TypeTimeline;
 }
 
 } // namespace

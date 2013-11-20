@@ -38,12 +38,15 @@ namespace Seed {
 
 ISceneObject *FactorySceneNode();
 
-DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
+SEED_DECLARE_CONTAINER(Vector, ISceneObject)
 
 /// Scene Node
 class SEED_CORE_API SceneNode : public ISceneObject
 {
 	friend class Renderer;
+	SEED_DISABLE_COPY(SceneNode)
+	SEED_DECLARE_RTTI(SceneNode, ISceneObject)
+
 	public:
 		SceneNode();
 		virtual ~SceneNode();
@@ -77,15 +80,8 @@ class SEED_CORE_API SceneNode : public ISceneObject
 
 		void Dump(u32 level = 0);
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	protected:
 		ISceneObjectVector vChild;
-
-	private:
-		SEED_DISABLE_COPY(SceneNode);
 };
 
 } // namespace

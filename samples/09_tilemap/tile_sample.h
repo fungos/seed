@@ -11,6 +11,8 @@ class TileSample : public IGameApp,
 					public IEventInputKeyboardListener,
 					public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(TileSample)
+
 	public:
 		TileSample();
 		virtual ~TileSample();
@@ -29,19 +31,15 @@ class TileSample : public IGameApp,
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
-	private:
-		SEED_DISABLE_COPY(TileSample);
-
 	protected:
-
 		ISceneObject	*pPlayer;
 		Camera			*pCamera;
+		GameMap			*pMap;
 		Presentation	cPres;
 		Vector3f		vDir;
 		float			fSpeed;
 		bool			bLoaded;
 
-		GameMap			*pMap;
 };
 
 #endif // _TILESAMPLE_H_

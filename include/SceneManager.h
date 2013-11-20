@@ -42,8 +42,10 @@ class ISceneObject;
 /// Scene Manager
 class SEED_CORE_API SceneManager : public IUpdatable
 {
-	SEED_SINGLETON_DECLARE(SceneManager)
-	DECLARE_CONTAINER_TYPE(Vector, ISceneObject)
+	SEED_DECLARE_SINGLETON(SceneManager)
+	SEED_DECLARE_CONTAINER(Vector, ISceneObject)
+	SEED_DISABLE_COPY(SceneManager)
+
 	public:
 		void Add(ISceneObject *obj);
 		void Remove(ISceneObject *obj);
@@ -55,8 +57,6 @@ class SEED_CORE_API SceneManager : public IUpdatable
 		virtual bool Update(f32 delta) override;
 
 	private:
-		SEED_DISABLE_COPY(SceneManager);
-
 		ISceneObjectVector vObject;
 };
 

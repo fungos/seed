@@ -41,6 +41,8 @@ namespace Seed { namespace SDL {
 /// SDL Thread
 class SEED_CORE_API Thread : public IThread
 {
+	SEED_DISABLE_COPY(Thread)
+
 	public:
 		Thread();
 		virtual ~Thread();
@@ -51,9 +53,7 @@ class SEED_CORE_API Thread : public IThread
 		virtual bool Run() override;
 
 	private:
-		SEED_DISABLE_COPY(Thread);
-
-		bool		bRunning;
+		bool		bRunning : 1;
 		SDL_Thread 	*pThread;
 };
 

@@ -40,6 +40,8 @@ namespace Seed { namespace SDL {
 /// SDL Mutex
 class SEED_CORE_API Mutex : public IMutex
 {
+	SEED_DISABLE_COPY(Mutex)
+
 	public:
 		Mutex();
 		virtual ~Mutex();
@@ -48,8 +50,6 @@ class SEED_CORE_API Mutex : public IMutex
 		virtual void Unlock() override;
 
 	private:
-		SEED_DISABLE_COPY(Mutex);
-
 		SDL_mutex *pMutex;
 };
 

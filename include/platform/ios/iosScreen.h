@@ -41,13 +41,16 @@
 namespace Seed { namespace iOS {
 
 /// iOS Screen Module
-class Screen : public IScreen
+class SEED_CORE_API Screen : public IScreen
 {
-	SEED_SINGLETON_DECLARE(Screen)
+	SEED_DECLARE_SINGLETON(Screen)
+	SEED_DECLARE_MANAGER(Screen)
+	SEED_DISABLE_COPY(Screen)
+
 	public:
 		virtual void Update();
 
-		// IModule
+		// IManager
 		virtual bool Initialize();
 		virtual bool Shutdown();
 
@@ -55,9 +58,6 @@ class Screen : public IScreen
 
 		GLuint	frameBuffer;
 		GLuint	renderBuffer;
-
-	private:
-		SEED_DISABLE_COPY(Screen);
 
 	private:
 		GLint		iModeHeight;

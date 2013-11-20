@@ -11,6 +11,8 @@ class StateMachineSample : public IGameApp,
 						   public IEventInputKeyboardListener,
 						   public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(StateMachineSample)
+
 	public:
 		StateMachineSample();
 		virtual ~StateMachineSample();
@@ -27,9 +29,6 @@ class StateMachineSample : public IGameApp,
 
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(StateMachineSample);
 
 	protected:
 		Presentation		cPres;

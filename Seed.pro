@@ -1,68 +1,21 @@
 TARGET = seed
 TEMPLATE = lib
+
 INCLUDEPATH += include/ contrib/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
-CONFIG += sdl2
-CONFIG += c++11
 
-#TARGET_EXT = .bc
-#QMAKE_EXT_OBJ = .bc
-#QMAKE_CXXFLAGS += -emit-llvm
-#QMAKE_CXX = clang++
-#QMAKE_CC = clang
-#QMAKE_LIB = llvm-ld -link-as-library -o
-#QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
-#QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj
-
-!editor {
-	CONFIG -= qt
-} else {
-	CONFIG += qt
-}
-
-win32 {
-	INCLUDEPATH += contrib/windows/
-	CONFIG -= glfw
-	CONFIG += sdl
-}
-
-unix {
-	DEFINES += LINUX
-	CONFIG += sdl2
-}
-
-macx {
-	!editor:sdl {
-		message("Seed for OSX must use GLFW or SDL2, disabling SDL, enabling SDL2.")
-		CONFIG -= sdl
-		CONFIG -= glfw
-		CONFIG += sdl2
-
-	}
-	INCLUDEPATH += contrib/osx/
-}
-
-qt {
-	DEFINES += BUILD_QT
-	QT += opengl
-} else:glfw {
-	DEFINES += BUILD_GLFW
-} else:sdl {
-	DEFINES += BUILD_SDL
-} else:sdl2 {
-	DEFINES += BUILD_SDL2
-}
-
+CONFIG += glfw
+CONFIG += staticlib
 
 CONFIG(debug, debug|release) {
 	DESTDIR =../seed/lib/debug
-	DEFINES += DEBUG
 } else {
 	DESTDIR = ../seed/lib/release
-	DEFINES += RELEASE
 }
 
-CONFIG += staticlib
+
+include(compiler.pri)
+include(platform.pri)
 
 SOURCES += source/Viewport.cpp \
 	source/ViewManager.cpp \
@@ -84,7 +37,7 @@ SOURCES += source/Viewport.cpp \
 	source/ParticleEmitter.cpp \
 	source/Particle.cpp \
 	source/Movie.cpp \
-	source/ModuleManager.cpp \
+	source/Manager.cpp \
 	source/LeakReport.cpp \
 	source/Keyframe.cpp \
 	source/Key.cpp \
@@ -105,48 +58,34 @@ SOURCES += source/Viewport.cpp \
 	source/Animation.cpp \
 	source/api/directx/DirectXVersion.cpp \
 	source/api/directx/D3D8RendererDevice.cpp \
-	source/interface/IVideo.cpp \
-	source/interface/IUpdatable.cpp \
 	source/interface/ITransformable.cpp \
 	source/interface/IThread.cpp \
 	source/interface/ITexture.cpp \
 	source/interface/ISystem.cpp \
 	source/interface/ISoundSystem.cpp \
 	source/interface/ISoundSource.cpp \
-	source/interface/ISound.cpp \
 	source/interface/IScreen.cpp \
 	source/interface/ISceneObject.cpp \
 	source/interface/IResource.cpp \
 	source/interface/IRendererDevice.cpp \
 	source/interface/IRenderable.cpp \
 	source/interface/IReader.cpp \
-	source/interface/IObject.cpp \
-	source/interface/IMutex.cpp \
 	source/interface/IMusic.cpp \
-	source/interface/IModule.cpp \
 	source/interface/IInputPointer.cpp \
 	source/interface/IInputMotion.cpp \
 	source/interface/IInputKeyboard.cpp \
 	source/interface/IInputJoystick.cpp \
-	source/interface/IInput.cpp \
 	source/interface/IGameApp.cpp \
-	source/interface/IEventSystemListener.cpp \
-	source/interface/IEventResourceLoaderListener.cpp \
-	source/interface/IEventMovieListener.cpp \
-	source/interface/IEventListener.cpp \
-	source/interface/IEventInputPointerListener.cpp \
-	source/interface/IEventInputMotionListener.cpp \
-	source/interface/IEventInputKeyboardListener.cpp \
-	source/interface/IEventInputJoystickListener.cpp \
-	source/interface/IEventInput.cpp \
-	source/interface/IEventFileSystemListener.cpp \
-	source/interface/IEvent.cpp \
 	source/interface/ICartridge.cpp \
 	source/api/oal/vorbis_util.cpp \
 	source/api/oal/oalSoundSystem.cpp \
 	source/api/oal/oalSoundSource.cpp \
 	source/api/oal/oalSound.cpp \
 	source/api/oal/oalMusic.cpp \
+	source/api/nullal/nalSoundSystem.cpp \
+	source/api/nullal/nalSoundSource.cpp \
+	source/api/nullal/nalSound.cpp \
+	source/api/nullal/nalMusic.cpp \
 	source/api/ogl/oglES1RendererDevice.cpp \
 	source/api/theora/Theora.cpp \
 	source/api/yajl/JsonReader.cpp \
@@ -184,7 +123,6 @@ SOURCES += source/Viewport.cpp \
 	source/api/net/Socket.cpp \
 	source/Writer.cpp \
 	source/interface/IWriter.cpp \
-	source/interface/IDataObject.cpp \
 	source/SceneObjectFactory.cpp \
 	source/Camera.cpp \
 	source/platform/glfw/glfwTimer.cpp \
@@ -199,12 +137,10 @@ SOURCES += source/Viewport.cpp \
 	source/JobManager.cpp \
 	source/Job.cpp \
 	source/EventJob.cpp \
-	source/interface/IEventJobListener.cpp \
 	source/ThreadManager.cpp \
 	source/api/rocket/RocketInterface.cpp \
 	source/Presentation.cpp \
 	source/EventPresentation.cpp \
-	source/interface/IEventPresentationListener.cpp \
 	source/map/GameMap.cpp \
 	source/map/IMapLayer.cpp \
 	source/map/IMetadataObject.cpp \
@@ -212,18 +148,10 @@ SOURCES += source/Viewport.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
 	source/map/TileSet.cpp \
-	source/platform/sdl2/sdl2Timer.cpp \
-	source/platform/sdl2/sdl2Thread.cpp \
-	source/platform/sdl2/sdl2Texture.cpp \
-	source/platform/sdl2/sdl2System.cpp \
-	source/platform/sdl2/sdl2Screen.cpp \
-	source/platform/sdl2/sdl2Mutex.cpp \
-	source/platform/sdl2/sdl2Input.cpp
+	source/interface/IManager.cpp
 
 OTHER_FILES += \
-	source/platform/ios/iosView.mm \
-	exports.txt \
-	Makefile.js
+	source/platform/ios/iosView.mm
 
 HEADERS += include/*.h \
 	include/platform/sdl/*.h \
@@ -242,6 +170,7 @@ HEADERS += include/*.h \
 	include/interface/*.h \
 	include/api/directx/*.h \
 	include/api/oal/*.h \
+	include/api/nullal/*.h \
 	include/api/ogl/*.h \
 	include/api/theora/*.h \
 	include/api/yajl/*.h \
@@ -276,12 +205,4 @@ HEADERS += include/*.h \
 	include/map/MapLayerMetadata.h \
 	include/map/MapLayerMosaic.h \
 	include/map/MapLayerTiled.h \
-	include/map/TileSet.h \
-	include/platform/sdl2/sdl2Timer.h \
-	include/platform/sdl2/sdl2Thread.h \
-	include/platform/sdl2/sdl2Texture.h \
-	include/platform/sdl2/sdl2System.h \
-	include/platform/sdl2/sdl2Screen.h \
-	include/platform/sdl2/sdl2Mutex.h \
-	include/platform/sdl2/sdl2Input.h \
-	include/platform/sdl2/sdl2Defines.h
+	include/map/TileSet.h

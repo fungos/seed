@@ -1,3 +1,7 @@
+# Local settings #
+##################
+LocalDefines.h
+
 # Compiled source #
 ###################
 *.com
@@ -7,6 +11,7 @@
 *.o
 *.so
 *.a
+*.app
 
 # Packages #
 ############

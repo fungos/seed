@@ -38,10 +38,12 @@ namespace Seed {
 
 class IMetadataObject;
 
-DECLARE_CONTAINER_TYPE(Vector, IMetadataObject)
+SEED_DECLARE_CONTAINER(Vector, IMetadataObject)
 
 class SEED_CORE_API MapLayerMetadata : public IMapLayer
 {
+	SEED_DISABLE_COPY(MapLayerMetadata)
+
 	public:
 		MapLayerMetadata(Point2u tileSize);
 		virtual ~MapLayerMetadata();
@@ -61,8 +63,6 @@ class SEED_CORE_API MapLayerMetadata : public IMapLayer
 //		virtual bool Unload() override;
 
 	private:
-		SEED_DISABLE_COPY(MapLayerMetadata);
-
 		ResourceManager *pRes;
 		Point2u ptTileSize;
 		Point2f ptMapSize;

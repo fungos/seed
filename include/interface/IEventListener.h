@@ -35,15 +35,17 @@
 
 namespace Seed {
 
+#define SEED_PURE_VIRTUAL_EVENT				{ UNUSED(ev); SEED_ABSTRACT_METHOD; }
+#define SEED_PURE_VIRTUAL_EVENT_QUIET		{ UNUSED(ev); }
+
 /// Base Event Listener
 class SEED_CORE_API IEventListener
 {
-	public:
-		IEventListener();
-		virtual ~IEventListener();
+	SEED_DISABLE_COPY(IEventListener)
 
-	private:
-		SEED_DISABLE_COPY(IEventListener);
+	public:
+		IEventListener() = default;
+		virtual ~IEventListener() {}
 };
 
 } // namespace

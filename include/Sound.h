@@ -32,13 +32,15 @@
 #define __SOUND_H__
 
 #if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW) || defined(BUILD_SDL2)
-#if defined(USE_API_NULL_OAL)
+#if defined(USE_API_NULL_AL)
 	#include "api/nullal/nalSound.h"
+	using namespace Seed::NAL;
 #else
-	#include "api/oal/oalSound.h"
+	#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
+		#include "api/oal/oalSound.h"
+	#elif defined(BUILD_IOS)
+		#include "platform/ios/iosSound.h"
+	#endif
 #endif
-#elif defined(BUILD_IOS)
-	#include "platform/ios/iosSound.h"
-#endif // platform
 
 #endif // __SOUND_H__

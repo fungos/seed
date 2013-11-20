@@ -35,7 +35,7 @@ namespace Seed {
 
 Job::Job(u32 name, IEventJobListener *listener)
 	: pListener(listener)
-	, nState(JobStopped)
+	, nState(eJobState::Stopped)
 	, iName(name)
 {
 }
@@ -47,7 +47,7 @@ Job::~Job()
 
 void Job::Create(s32 priority)
 {
-	nState = JobRunning;
+	nState = eJobState::Running;
 	Thread::Create(priority);
 }
 
@@ -64,7 +64,7 @@ void Job::Update(f32 dt)
 void Job::Abort()
 {
 	cMutex.Lock();
-	nState = JobAborted;
+	nState = eJobState::Aborted;
 	cMutex.Unlock();
 
 	Thread::Destroy();

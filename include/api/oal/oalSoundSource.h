@@ -51,6 +51,7 @@ namespace Seed { namespace OAL {
 class SEED_CORE_API SoundSource : public ISoundSource
 {
 	friend class SoundSystem;
+	SEED_DISABLE_COPY(SoundSource)
 
 	public:
 		SoundSource();
@@ -74,8 +75,6 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		virtual bool OnUnloadRequest();
 
 	private:
-		SEED_DISABLE_COPY(SoundSource);
-
 		ALuint iSource;
 };
 

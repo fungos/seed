@@ -44,8 +44,8 @@ SEED_SINGLETON_DEFINE(ResourceLoader)
 ResourceLoader::ResourceLoader()
 	: vListeners()
 	, vGroups()
-	, bRunning(false)
 	, pMutex(NULL)
+	, bRunning(false)
 {
 }
 
@@ -55,14 +55,14 @@ ResourceLoader::~ResourceLoader()
 
 bool ResourceLoader::Reset()
 {
-	IModule::Reset();
+	IManager::Reset();
 	return true;
 }
 
 bool ResourceLoader::Initialize()
 {
 	Log(TAG "Initializing...");
-	IModule::Initialize();
+	IManager::Initialize();
 	pMutex = New(Mutex());
 	this->Create();
 	bRunning = true;
@@ -76,7 +76,7 @@ bool ResourceLoader::Shutdown()
 	bRunning = false;
 	this->Destroy();
 	Delete(pMutex);
-	IModule::Shutdown();
+	IManager::Shutdown();
 	Log(TAG "Terminated.");
 
 	return true;
@@ -193,35 +193,14 @@ void ResourceLoader::RemoveListener(IEventResourceLoaderListener *listener)
 
 void ResourceLoader::SendEventGroupLoaded(const EventResourceLoader *ev)
 {
-	SEED_ASSERT(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
-	{
-		IEventResourceLoaderListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnGroupLoaded(ev);
-	}
 }
 
 void ResourceLoader::SendEventQueueEmpty(const EventResourceLoader *ev)
 {
-	SEED_ASSERT(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
-	{
-		IEventResourceLoaderListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnQueueEmpty(ev);
-	}
-}
-
-const String ResourceLoader::GetClassName() const
-{
-	return "ResourceLoader";
 }
 
 } // namespace

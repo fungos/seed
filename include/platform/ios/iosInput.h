@@ -43,7 +43,9 @@ namespace Seed { namespace iOS {
 /// iOS Input Module
 class Input : public IInput, public IInputPointer
 {
-	SEED_SINGLETON_DECLARE(Input)
+	SEED_DECLARE_SINGLETON(Input)
+	SEED_DISABLE_COPY(Input)
+
 	public:
 		// IInput
 		virtual Seed::eInputButton GetButtonCode(u32 button) const;
@@ -77,7 +79,7 @@ class Input : public IInput, public IInputPointer
 		// IUpdatable
 		virtual bool Update(f32 delta);
 
-		// IModule
+		// IManager
 		virtual bool Initialize();
 		virtual bool Shutdown();
 		virtual bool Reset();
@@ -91,9 +93,6 @@ class Input : public IInput, public IInputPointer
 			u32 iRelease;
 			bool bValid;
 		};
-
-	private:
-		SEED_DISABLE_COPY(Input);
 
 	private:
 		void SendEvents();

@@ -70,6 +70,9 @@ class SEED_CORE_API RocketInterface :
 					public IEventInputKeyboardListener,
 					public ISceneObject
 {
+	SEED_DISABLE_COPY(RocketInterface)
+	SEED_DECLARE_RTTI(RocketInterface, ISceneObject)
+
 	public:
 		RocketInterface();
 		virtual ~RocketInterface();
@@ -118,13 +121,7 @@ class SEED_CORE_API RocketInterface :
 		virtual void Render(const Matrix4f &worldTransform) override;
 		virtual void Update(f32 delta) override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	private:
-		SEED_DISABLE_COPY(RocketInterface);
-
 		VertexBuffer cVertexBuffer;
 		ElementBuffer cElementBuffer;
 		Rocket::Core::Context *pCurrent;
@@ -155,7 +152,7 @@ class SEED_CORE_API IRocketEventListener
 
 class SEED_CORE_API RocketEventManager
 {
-	DECLARE_CONTAINER_TYPE(Vector, IRocketEventListener)
+	SEED_DECLARE_CONTAINER(Vector, IRocketEventListener)
 	public:
 		static void AddListener(IRocketEventListener *listener);
 		static void RemoveListener(IRocketEventListener *listener);

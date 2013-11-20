@@ -66,10 +66,10 @@ struct sVertex
 	}
 };
 
-enum ePacketFlags
+enum class ePacketFlags
 {
-	FlagNone		= 0x00,
-	FlagWireframe	= 0x01
+	None		= 0x00,
+	Wireframe	= 0x01
 };
 
 /// Renderer Packet
@@ -82,7 +82,7 @@ struct RendererPacket
 	Color					cColor;
 	eMeshType				nMeshType;
 	eBlendMode				nBlendMode;
-	ePacketFlags			iFlags;
+	ePacketFlags			nFlags;
 	Vector3f				vPivot;
 	f32						fRadius;
 
@@ -92,9 +92,9 @@ struct RendererPacket
 		, pVertexBuffer(NULL)
 		, pElementBuffer(NULL)
 		, cColor(0, 0, 0, 255)
-		, nMeshType(Seed::TriangleStrip)
-		, nBlendMode(Seed::BlendNone)
-		, iFlags(FlagNone)
+		, nMeshType(eMeshType::TriangleStrip)
+		, nBlendMode(eBlendMode::None)
+		, nFlags(ePacketFlags::None)
 		, vPivot(0.5f, 0.5f, 0.5f)
 		, fRadius(0)
 	{

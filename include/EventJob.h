@@ -38,6 +38,9 @@ namespace Seed {
 
 class SEED_CORE_API EventJob: public IEvent
 {
+	SEED_DISABLE_COPY(EventJob)
+	SEED_DECLARE_RTTI(EventJob, IEvent)
+
 	public:
 		EventJob(Job *job, u32 name);
 		virtual ~EventJob();
@@ -45,14 +48,9 @@ class SEED_CORE_API EventJob: public IEvent
 		Job *GetJob() const;
 		u32 GetName() const;
 
-		virtual const String GetClassName() const override;
-
 	protected:
 		Job *pJob;
 		u32 iName;
-
-	private:
-		SEED_DISABLE_COPY(EventJob);
 };
 
 } // namespace

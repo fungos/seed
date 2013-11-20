@@ -99,7 +99,7 @@ void MapLayerMetadata::LoadData(Reader &reader, u32 len)
 	{
 		reader.SelectNext();
 
-		IMetadataObject *obj = New(IMetadataObject());
+		auto obj = New(IMetadataObject());
 		obj->Load(reader, pRes);
 		obj->bMarkForDeletion = true;
 		this->Add(obj);
@@ -108,13 +108,8 @@ void MapLayerMetadata::LoadData(Reader &reader, u32 len)
 
 void MapLayerMetadata::Render(const Matrix4f &worldTransform)
 {
-	ISceneObjectVectorIterator it = vChild.begin();
-	ISceneObjectVectorIterator end = vChild.end();
-	for (; it != end; ++it)
-	{
-		ISceneObject *obj = (*it);
+	for (auto obj: vChild)
 		obj->Render(worldTransform);
-	}
 }
 
 MapLayerMetadata *MapLayerMetadata::AsMetadata()

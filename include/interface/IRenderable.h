@@ -45,6 +45,8 @@ Interface for renderables objects. Things that will be rendered to the screen.
 */
 class SEED_CORE_API IRenderable
 {
+	SEED_DISABLE_COPY(IRenderable)
+
 	public:
 		IRenderable();
 		virtual ~IRenderable();
@@ -67,15 +69,12 @@ class SEED_CORE_API IRenderable
 		virtual void Serialize(Writer &writer);
 
 	protected:
-		eBlendMode	eBlendOperation;
+		eBlendMode	nBlendOperation;
 		Color		cColor;
 		bool		bColorChanged;
 		bool		bVisible;
 
 		virtual void Reset();
-
-	private:
-		SEED_DISABLE_COPY(IRenderable);
 };
 
 } // namespace

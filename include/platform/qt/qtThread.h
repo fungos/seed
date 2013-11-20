@@ -46,6 +46,8 @@ class Thread : public IThread
 	, public QThread
 #endif
 {
+	SEED_DISABLE_COPY(Thread)
+
 	public:
 		Thread();
 		virtual ~Thread();
@@ -56,9 +58,6 @@ class Thread : public IThread
 
 	protected:
 		virtual void run();
-
-	private:
-		SEED_DISABLE_COPY(Thread);
 
 	private:
 		s32 iPriority;

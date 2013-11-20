@@ -9,6 +9,13 @@ enum
 
 RendererSample::RendererSample()
 	: pImage(NULL)
+	, pCamera(NULL)
+	, cScene()
+	, cViewport()
+	, cRenderer()
+	, vFrom()
+	, vCurrent()
+	, vTo()
 	, fElapsed(0.0f)
 	, fDir(1.0f)
 	, bRotate(false)
@@ -86,19 +93,19 @@ void RendererSample::OnSystemShutdown(const EventSystem *ev)
 
 void RendererSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
 }
 
 void RendererSample::OnInputPointerRelease(const EventInputPointer *ev)
 {
-	if (ev->GetReleased() == Seed::ButtonLeft)
+	if (ev->GetReleased() == eInputButton::Left)
 	{
 		if (pImage)
 			vFrom = pImage->GetPosition();
@@ -108,16 +115,16 @@ void RendererSample::OnInputPointerRelease(const EventInputPointer *ev)
 		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}
-	else if (ev->GetReleased() == Seed::ButtonRight)
+	else if (ev->GetReleased() == eInputButton::Right)
 	{
 		bRotate = !bRotate;
 	}
-	else if (ev->GetReleased() == Seed::ButtonUp)
+	else if (ev->GetReleased() == eInputButton::Up)
 	{
 		fDir = 1.0f;
 		bRotate = true;
 	}
-	else if (ev->GetReleased() == Seed::ButtonDown)
+	else if (ev->GetReleased() == eInputButton::Down)
 	{
 		fDir = -1.0f;
 		bRotate = true;
@@ -130,7 +137,7 @@ void RendererSample::OnJobCompleted(const EventJob *ev)
 	{
 		case kJobLoadScene:
 		{
-			FileLoader *job = (FileLoader *)ev->GetJob();
+			auto job = static_cast<FileLoader *>(ev->GetJob());
 			Reader r(job->pFile);
 			gScene->Load(r);
 			Delete(job);
@@ -148,6 +155,6 @@ void RendererSample::OnJobCompleted(const EventJob *ev)
 
 void RendererSample::OnJobAborted(const EventJob *ev)
 {
-	Job *job = ev->GetJob();
+	auto job = ev->GetJob();
 	Delete(job);
 }

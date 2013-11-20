@@ -56,7 +56,7 @@ bool SoundSource::OnLoadFinished()
 	ALenum err = 0;
 	if (iSource)
 		alDeleteSources(1, &iSource);
-	
+
 	alGenSources(1, &iSource);
 	err = alGetError();
 	if (err != AL_NO_ERROR)
@@ -116,22 +116,22 @@ void SoundSource::Stop(f32 ms)
 	UNUSED(ms)
 
 	alSourceStop(iSource);
-	eState = Seed::SourceStop;
+	nState = eSoundSourceState::Stop;
 }
 
 void SoundSource::Play()
 {
 	alSourceStop(iSource);
 	alSourcePlay(iSource);
-	eState = Seed::SourcePlaying;
+	nState = eSoundSourceState::Playing;
 }
 
 void SoundSource::Resume()
 {
-	if (eState == SourcePause || eState == SourcePaused)
+	if (nState == eSoundSourceState::Pause || nState == eSoundSourceState::Paused)
 	{
 		alSourcePlay(iSource);
-		eState = SourcePlay;
+		nState = eSoundSourceState::Play;
 	}
 }
 

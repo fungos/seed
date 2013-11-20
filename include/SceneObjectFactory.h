@@ -51,7 +51,9 @@ ISceneObject *FactorySoundSource();
 
 class SEED_CORE_API SceneObjectFactory
 {
-	SEED_SINGLETON_DECLARE(SceneObjectFactory)
+	SEED_DECLARE_SINGLETON(SceneObjectFactory)
+	SEED_DISABLE_COPY(SceneObjectFactory)
+
 	public:
 		ISceneObject *Create(const String &type) const;
 		ISceneObject *Load(Reader &reader, ResourceManager *res = pResourceManager) const;
@@ -60,8 +62,6 @@ class SEED_CORE_API SceneObjectFactory
 		static void Unregister(const String &type);
 
 	private:
-		SEED_DISABLE_COPY(SceneObjectFactory);
-
 		static FactoryMap mapFactory;
 };
 

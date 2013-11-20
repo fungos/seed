@@ -10,6 +10,8 @@ class KeyboardSample : public IGameApp,
 							public IEventInputPointerListener,
 							public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(KeyboardSample)
+
 	public:
 		KeyboardSample();
 		virtual ~KeyboardSample();
@@ -30,15 +32,12 @@ class KeyboardSample : public IGameApp,
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
-	private:
-		SEED_DISABLE_COPY(KeyboardSample);
-
 	protected:
 		Presentation cPres;
 		Image		*pPlayerSprite;
 		Vector3f	vPlayerVectorDirection;
-		float		fVelocity;
-		bool		bPresentationLoaded;
+		f32			fVelocity;
+		bool		bPresentationLoaded : 1;
 };
 
 #endif // _KEYBOARD_INPUT_SAMPLE_H

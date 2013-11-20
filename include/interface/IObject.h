@@ -32,6 +32,7 @@
 #define __IOBJECT_H__
 
 #include "Defines.h"
+#include "Enum.h"
 
 namespace Seed {
 
@@ -39,19 +40,82 @@ namespace Seed {
 /**
 Interface for basic object
 */
+
+typedef ptrdiff_t TypeId;
+
+#define SEED_DECLARE_RTTI(type, base)	protected:														\
+											virtual bool IsKindOf_Internal(TypeId t) const override		\
+											{															\
+												if (GetTypeId() == t)									\
+													return true;										\
+												else													\
+													return Base::IsKindOf_Internal(t);					\
+											}															\
+																										\
+										public:															\
+											typedef type class_need_declare_rtti;						\
+											typedef base Base;											\
+																										\
+											static const char *GetTypeName()							\
+											{															\
+												return #type;											\
+											}															\
+																										\
+											static TypeId GetTypeId()									\
+											{															\
+												static const char s_internal_##type = 0;				\
+												return (TypeId)&s_internal_##type;						\
+											}															\
+										private:														\
+
+
+
+
 class SEED_CORE_API IObject
 {
-	public:
-		IObject();
-		virtual ~IObject();
+	SEED_DISABLE_COPY(IObject)
 
-		virtual const String GetClassName() const = 0;
-		virtual int GetObjectType() const = 0;
+	protected:
+		virtual bool IsKindOf_Internal(TypeId t) const
+		{
+			if (this->GetTypeId() == t)
+				return true;
+			return false;
+		}
+
+		virtual bool IsKindOf(TypeId t) const
+		{
+			return IsKindOf_Internal(t);
+		}
+
+	public:
+		IObject()
+			: sName()
+		{
+		}
+
+		virtual ~IObject()
+		{
+		}
+
+		static const char *GetTypeName()
+		{
+			return "IObject";
+		}
+
+		static TypeId GetTypeId()
+		{
+			static const char s_internal = 0;
+			return (TypeId)&s_internal;
+		}
+
+		template<class T>
+		bool IsKindOf() const
+		{
+			return IsKindOf(T::GetTypeId());
+		}
 
 		String sName;
-
-	private:
-		SEED_DISABLE_COPY(IObject);
 };
 
 } // namespace

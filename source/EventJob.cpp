@@ -33,7 +33,7 @@
 namespace Seed {
 
 EventJob::EventJob(Job *job, u32 name)
-	: IEvent(TypeJob, EventIdJob)
+	: IEvent()
 	, pJob(job)
 	, iName(name)
 {
@@ -51,11 +51,6 @@ u32 EventJob::GetName() const
 Job *EventJob::GetJob() const
 {
 	return pJob;
-}
-
-const String EventJob::GetClassName() const
-{
-	return "EventJob";
 }
 
 } // namespace

@@ -10,7 +10,7 @@ StateWorking::~StateWorking()
 {
 }
 
-void StateWorking::OnStart(AgentData *)
+void StateWorking::OnStart(void *)
 {
 	Log("It's time to go work!");
 }
@@ -21,7 +21,7 @@ void StateWorking::OnUpdate(f32)
 	Log("Working ... %d", pAgentData->GetFatigue());
 }
 
-void StateWorking::OnStop(AgentData *)
+void StateWorking::OnStop(void *)
 {
 	Log("I'm tired, I want to go home!");
 }

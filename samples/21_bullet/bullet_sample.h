@@ -12,6 +12,8 @@ class BulletSample :	public IGameApp,
 						public IEventInputPointerListener,
 						public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(BulletSample)
+
 	public:
 		BulletSample();
 		virtual ~BulletSample();
@@ -35,8 +37,6 @@ class BulletSample :	public IGameApp,
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	private:
-		SEED_DISABLE_COPY(BulletSample);
-
 		void CreateBody(Image *img, f32 x, f32 y);
 		void DestroyPhysics();
 

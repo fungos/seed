@@ -39,6 +39,9 @@ namespace Seed {
 /// Motion Input Event
 class SEED_CORE_API EventInputMotion : public IEventInput
 {
+	SEED_DISABLE_COPY(EventInputMotion)
+	SEED_DECLARE_RTTI(EventInputMotion, IEventInput)
+
 	public:
 		EventInputMotion(u32 j, Vector3f ptAcc, f32 fMag, f32 fVel);
 		virtual ~EventInputMotion();
@@ -48,17 +51,11 @@ class SEED_CORE_API EventInputMotion : public IEventInput
 		f32 GetAccelerationMagnitude()  const;
 		f32 GetAccelerationSpeed() const;
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	protected:
 		Vector3f ptAcceleration;
 		u32 iJoystick;
 		f32 fMagnitude;
 		f32 fSpeed;
-
-	private:
-		SEED_DISABLE_COPY(EventInputMotion);
 };
 
 } // namespace

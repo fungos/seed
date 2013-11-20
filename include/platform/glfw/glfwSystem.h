@@ -43,7 +43,10 @@ namespace Seed { namespace GLFW {
 /// GLFW System Module
 class SEED_CORE_API System : public ISystem
 {
-	SEED_SINGLETON_DECLARE(System)
+	SEED_DECLARE_SINGLETON(System)
+	SEED_DECLARE_MANAGER(System)
+	SEED_DISABLE_COPY(System)
+
 	public:
 		// ISystem
 		virtual void GoToMenu() override;
@@ -70,7 +73,7 @@ class SEED_CORE_API System : public ISystem
 		virtual const char *GetApplicationDataFolder() const override;
 		virtual const char *GetSaveGameFolder() const override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Shutdown() override;
 		virtual bool Reset() override;
@@ -79,8 +82,6 @@ class SEED_CORE_API System : public ISystem
 		virtual bool Update(f32 dt) override;
 
 	private:
-		SEED_DISABLE_COPY(System);
-
 		u64		iLastFrameTime;
 		u64		iFpsTime;
 		f32		fElapsedTime;
@@ -88,9 +89,8 @@ class SEED_CORE_API System : public ISystem
 		u32		iFrameRate;
 		u32		iRetraceIndex;
 		u32		arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
-		bool	bShutdown;
-		bool	bSleeping;
-		bool	bDefaultCursorEnabled;
+		bool	bShutdown : 1;
+		bool	bSleeping : 1;
 };
 
 #define pSystem Seed::GLFW::System::GetInstance()

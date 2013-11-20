@@ -38,30 +38,16 @@ namespace Seed {
 
 struct SEED_CORE_API IHardwareBuffer
 {
-	IHardwareBuffer()
-		: iBuffer(0)
-	{}
-
-	~IHardwareBuffer()
-	{}
-
-	u32 iBuffer;
+	IHardwareBuffer() = default;
+	~IHardwareBuffer() {}
+	u32 iBuffer = 0;
 };
 
 template <eBufferTarget T> struct SEED_CORE_API HardwareBuffer : public IHardwareBuffer
 {
 	public:
-		HardwareBuffer()
-			: pData(NULL)
-			, nTarget(T)
-			, nUsage(BufferUsageNeverChange)
-			, nElemType(ElementTypeByte)
-			, iLength(0)
-			, bUpdated(false)
-		{}
-
-		~HardwareBuffer()
-		{}
+		HardwareBuffer() = default;
+		~HardwareBuffer() {}
 
 		inline void SetData(void *data, u32 len)
 		{
@@ -70,7 +56,7 @@ template <eBufferTarget T> struct SEED_CORE_API HardwareBuffer : public IHardwar
 			bUpdated = true;
 		}
 
-		inline void Configure(eBufferUsage u = BufferUsageNeverChange, eElementType e = ElementTypeByte)
+		inline void Configure(eBufferUsage u = eBufferUsage::NeverChange, eElementType e = eElementType::Byte)
 		{
 			nUsage = u;
 			nElemType = e;
@@ -84,16 +70,16 @@ template <eBufferTarget T> struct SEED_CORE_API HardwareBuffer : public IHardwar
 			return iLength;
 		}
 
-		void *pData;
-		eBufferTarget nTarget;
-		eBufferUsage nUsage;
-		eElementType nElemType;
-		u32 iLength;
-		bool bUpdated;
+		void *pData = nullptr;
+		eBufferTarget nTarget = T;
+		eBufferUsage nUsage = eBufferUsage::NeverChange;
+		eElementType nElemType = eElementType::Byte;
+		u32 iLength = 0;
+		bool bUpdated = false;
 };
 
-struct VertexBuffer : public HardwareBuffer<BufferTargetArray> {};
-struct ElementBuffer : public HardwareBuffer<BufferTargetElementArray> {};
+struct VertexBuffer : public HardwareBuffer<eBufferTarget::Array> {};
+struct ElementBuffer : public HardwareBuffer<eBufferTarget::ElementArray> {};
 
 } // namespace
 

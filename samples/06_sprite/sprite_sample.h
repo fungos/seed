@@ -10,6 +10,8 @@ class SpriteSample : public IGameApp,
 					public IEventInputPointerListener,
 					public IEventPresentationListener
 {
+	SEED_DISABLE_COPY(SpriteSample)
+
 	public:
 		SpriteSample();
 		virtual ~SpriteSample();
@@ -30,21 +32,18 @@ class SpriteSample : public IGameApp,
 		// IEventPresentationListener
 		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
-	private:
-		SEED_DISABLE_COPY(SpriteSample);
-
 	protected:
 		Presentation cPres;
 		ISceneObject *pSprite;
 		Camera		*pCamera;
 
-		f32			fElapsed;
-		f32			fDir;
-		bool		bRotate;
-
 		Vector3f	vFrom;
 		Vector3f	vCurrent;
 		Vector3f	vTo;
+
+		f32			fElapsed;
+		f32			fDir;
+		bool		bRotate : 1;
 };
 
 #endif // _SPRITESAMPLE_H_

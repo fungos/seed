@@ -41,6 +41,8 @@ namespace Seed { namespace GLFW {
 /// GLFW Mutex
 class SEED_CORE_API Mutex : public IMutex
 {
+	SEED_DISABLE_COPY(Mutex)
+
 	public:
 		Mutex();
 		virtual ~Mutex();
@@ -49,8 +51,6 @@ class SEED_CORE_API Mutex : public IMutex
 		virtual void Unlock() override;
 
 	private:
-		SEED_DISABLE_COPY(Mutex);
-
 		GLFWmutex pMutex;
 };
 

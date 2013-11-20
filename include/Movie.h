@@ -42,7 +42,9 @@ ISceneObject *FactoryMovie();
 /// Movie
 class SEED_CORE_API Movie : public SceneNode
 {
-	DECLARE_CONTAINER_TYPE(Vector, Timeline)
+	SEED_DECLARE_CONTAINER(Vector, Timeline)
+	SEED_DISABLE_COPY(Movie)
+	SEED_DECLARE_RTTI(Movie, SceneNode)
 
 	public:
 		Movie();
@@ -63,16 +65,10 @@ class SEED_CORE_API Movie : public SceneNode
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	private:
-		SEED_DISABLE_COPY(Movie);
-
 		f32				fElapsedTime;
 		TimelineVector	vTimelines;
-		bool			bPlaying;
+		bool			bPlaying : 1;
 };
 
 } // namespace

@@ -56,9 +56,12 @@ class Scene;
 class IRenderer;
 
 /// Qt Screen Module
-class Screen : public IScreen
+class SEED_CORE_API Screen : public IScreen
 {
-	SEED_SINGLETON_DECLARE(Screen)
+	SEED_DECLARE_SINGLETON(Screen)
+	SEED_DECLARE_MANAGER(Screen)
+	SEED_DISABLE_COPY(Screen)
+
 	public:
 		virtual u32 GetHeight() const;
 		virtual u32 GetWidth() const;
@@ -68,7 +71,7 @@ class Screen : public IScreen
 		// IScreen
 		virtual void Update();
 
-		// IModule
+		// IManager
 		virtual bool Initialize();
 		virtual bool Reset();
 		virtual bool Shutdown();
@@ -78,8 +81,6 @@ class Screen : public IScreen
 		u32 surfaceSize;
 
 	private:
-		SEED_DISABLE_COPY(Screen);
-
 		void PrepareMode();
 		void CreateHardwareSurfaces();
 		void DestroyHardwareSurfaces();

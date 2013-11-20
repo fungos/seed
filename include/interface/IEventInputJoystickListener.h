@@ -39,17 +39,16 @@ namespace Seed {
 /// Joystick input event listener
 class SEED_CORE_API IEventInputJoystickListener : public IEventListener
 {
+	SEED_DISABLE_COPY(IEventInputJoystickListener)
+
 	public:
-		IEventInputJoystickListener();
-		virtual ~IEventInputJoystickListener();
+		IEventInputJoystickListener() = default;
+		virtual ~IEventInputJoystickListener() {}
 
-		virtual void OnInputJoystickButtonPress(const EventInputJoystick *ev) const;
-		virtual void OnInputJoystickButtonRelease(const EventInputJoystick *ev) const;
-		virtual void OnInputJoystickDPadMove(const EventInputJoystick *ev) const;
-		virtual void OnInputJoystickAxisMove(const EventInputJoystick *ev) const;
-
-	private:
-		SEED_DISABLE_COPY(IEventInputJoystickListener);
+		virtual void OnInputJoystickButtonPress(const EventInputJoystick *ev)		SEED_PURE_VIRTUAL_EVENT
+		virtual void OnInputJoystickButtonRelease(const EventInputJoystick *ev)		SEED_PURE_VIRTUAL_EVENT
+		virtual void OnInputJoystickDPadMove(const EventInputJoystick *ev)			SEED_PURE_VIRTUAL_EVENT
+		virtual void OnInputJoystickAxisMove(const EventInputJoystick *ev)			SEED_PURE_VIRTUAL_EVENT
 };
 
 } // namespace

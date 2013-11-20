@@ -44,6 +44,8 @@ class SEED_CORE_API ITransformable
 {
 	friend class ParticleEmitter; // argh. fix this please.
 	friend class Camera;
+	SEED_DISABLE_COPY(ITransformable)
+
 	public:
 		ITransformable();
 		virtual ~ITransformable();
@@ -154,10 +156,7 @@ class SEED_CORE_API ITransformable
 		Vector3f vBoundingBox;
 		f32 fBoundingCircleRadius;
 		f32 fRotation;
-		bool bTransformationChanged;
-
-	private:
-		SEED_DISABLE_COPY(ITransformable);
+		bool bTransformationChanged : 1;
 };
 
 /// Transformable ascending predicate

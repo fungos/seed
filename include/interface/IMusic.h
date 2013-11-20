@@ -37,26 +37,29 @@
 namespace Seed {
 
 /// Internal Music States
-enum eMusicState
+enum class eMusicState
 {
-	MusicNone,
-	MusicPlay,
-	MusicPlayStarted,
-	MusicPlaying,
-	MusicStop,
-	MusicStopped,
-	MusicPause,
-	MusicPaused,
-	MusicFadeIn,
-	MusicFadingIn,
-	MusicFadeOut,
-	MusicFadingOut,
-	MusicFading
+	None,
+	Play,
+	PlayStarted,
+	Playing,
+	Stop,
+	Stopped,
+	Pause,
+	Paused,
+	FadeIn,
+	FadingIn,
+	FadeOut,
+	FadingOut,
+	Fading
 };
 
 /// Music resource interface
 class SEED_CORE_API IMusic : public IResource
 {
+	SEED_DISABLE_COPY(IMusic)
+	SEED_DECLARE_RTTI(IMusic, IResource)
+
 	friend class ISoundSystem;
 	public:
 		IMusic();
@@ -74,10 +77,6 @@ class SEED_CORE_API IMusic : public IResource
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager) override;
 		virtual bool Unload() override;
 
-		// IObject
-		virtual int GetObjectType() const override;
-		virtual const String GetClassName() const override;
-
 	protected:
 		virtual void Play();
 		virtual void Stop();
@@ -85,11 +84,8 @@ class SEED_CORE_API IMusic : public IResource
 
 	protected:
 		f32					fVolume;
-		eMusicState			eState;
-		bool				bAutoUnload;
-
-	private:
-		SEED_DISABLE_COPY(IMusic);
+		eMusicState			nState;
+		bool				bAutoUnload : 1;
 };
 
 } // namespace

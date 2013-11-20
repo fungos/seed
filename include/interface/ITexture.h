@@ -44,6 +44,9 @@ Base texture class. This IResource must not be instanciable. It has basic inform
 */
 class SEED_CORE_API ITexture : public IResource
 {
+	SEED_DISABLE_COPY(ITexture)
+	SEED_DECLARE_RTTI(ITexture, IResource)
+
 	public:
 		ITexture();
 		virtual ~ITexture();
@@ -151,10 +154,6 @@ class SEED_CORE_API ITexture : public IResource
 		*/
 		virtual void Update(Color *buffer) = 0;
 
-		// IObject
-		virtual int GetObjectType() const;
-		virtual const String GetClassName() const;
-
 	public:
 		void	*pTextureId;
 		u32		iTextureId;
@@ -171,9 +170,6 @@ class SEED_CORE_API ITexture : public IResource
 
 		u32		iRenderTargetId;
 		u32		iDepthTargetId;
-
-	private:
-		SEED_DISABLE_COPY(ITexture);
 };
 
 } // namespace

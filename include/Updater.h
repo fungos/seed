@@ -42,18 +42,17 @@ class IUpdatable;
 /// Updater Runner
 class SEED_CORE_API Updater
 {
-	SEED_SINGLETON_DECLARE(Updater)
-	DECLARE_CONTAINER_TYPE(Vector, IUpdatable)
+	SEED_DECLARE_SINGLETON(Updater)
+	SEED_DECLARE_CONTAINER(Vector, IUpdatable)
+	SEED_DISABLE_COPY(Updater)
+
 	public:
 		void Run(f32 dt);
 		void Add(IUpdatable *obj);
 		void Remove(IUpdatable *obj);
 
 	private:
-		SEED_DISABLE_COPY(Updater);
-
 		IUpdatableVector vUpdatable;
-		f32 fAccumulator;
 };
 
 #define pUpdater Updater::GetInstance()

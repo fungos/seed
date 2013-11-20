@@ -47,6 +47,9 @@ Interface for working with viewports.
 */
 class SEED_CORE_API Viewport : public IObject
 {
+	SEED_DISABLE_COPY(Viewport)
+	SEED_DECLARE_RTTI(Viewport, IObject)
+
 	friend class Presentation;
 	public:
 		Viewport();
@@ -72,10 +75,6 @@ class SEED_CORE_API Viewport : public IObject
 
 		bool Contains(u32 x, u32 y);
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	protected:
 		Renderer	*pRenderer;
 		Camera		*pCamera;
@@ -86,9 +85,6 @@ class SEED_CORE_API Viewport : public IObject
 		u32		iHeight;
 
 		String	sCameraNameToAttach;
-
-	private:
-		SEED_DISABLE_COPY(Viewport);
 };
 
 } // namespace

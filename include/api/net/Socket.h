@@ -41,6 +41,9 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <fcntl.h>
+#if defined(__linux__)
+#include <unistd.h>
+#endif
 #endif
 
 namespace Seed { namespace Net
@@ -48,6 +51,8 @@ namespace Seed { namespace Net
 
 class SEED_CORE_API Socket
 {
+	SEED_DISABLE_COPY(Socket)
+
 	public:
 		Socket();
 		virtual ~Socket();
@@ -58,11 +63,11 @@ class SEED_CORE_API Socket
 		virtual int Receive(Address &sender, void *data, int size);
 
 	private:
-		SEED_DISABLE_COPY(Socket);
 		Address cAddress;
-		bool bIsOpen;
-		int iHandle;
+		u32 iHandle;
+		bool bIsOpen : 1;
 };
-}}
+
+}} // namespace
 
 #endif // __SOCKET_H__

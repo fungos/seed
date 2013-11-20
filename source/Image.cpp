@@ -104,15 +104,15 @@ void Image::Render(const Matrix4f &worldTransform)
 {
 	if (pTexture && pTexture->GetData())
 	{
-		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
 		RendererPacket packet;
 		packet.pTransform = &worldTransform; // FIXME: ortho or billboard
-		packet.nMeshType = Seed::TriangleStrip;
+		packet.nMeshType = eMeshType::TriangleStrip;
 		packet.pVertexBuffer = &cVertexBuffer;
 		packet.pTexture = pTexture;
-		packet.nBlendMode = eBlendOperation;
+		packet.nBlendMode = nBlendOperation;
 		packet.cColor = cColor;
-		packet.iFlags = flags;
+		packet.nFlags = flags;
 		packet.vPivot = vTransformedPivot;
 
 		Rect4f box(0, 0, this->GetWidth(), this->GetHeight());
@@ -175,7 +175,7 @@ bool Image::Load(const String &filename, ResourceManager *res)
 		sFilename = filename;
 		pRes = res;
 
-		pTexture = static_cast<ITexture *>(res->Get(sFilename, Seed::TypeTexture));
+		pTexture = static_cast<ITexture *>(res->Get(sFilename, ITexture::GetTypeId()));
 		this->UpdateCoords();
 
 		bDynamic = false;
@@ -200,7 +200,7 @@ bool Image::Load(Reader &reader, ResourceManager *res)
 
 		pRes = res;
 
-		pTexture = static_cast<ITexture *>(res->Get(sFilename, Seed::TypeTexture));
+		pTexture = static_cast<ITexture *>(res->Get(sFilename, ITexture::GetTypeId()));
 		this->UpdateCoords();
 
 		bDynamic = false;
@@ -225,7 +225,7 @@ bool Image::Write(Writer &writer)
 	if (ret)
 	{
 		writer.OpenNode();
-			writer.WriteString("sType", this->GetClassName().c_str());
+			writer.WriteString("sType", this->GetTypeName());
 			writer.WriteString("sName", sName.c_str());
 			writer.WriteString("sResource", sFilename.c_str());
 
@@ -235,16 +235,6 @@ bool Image::Write(Writer &writer)
 	}
 
 	return ret;
-}
-
-int Image::GetObjectType() const
-{
-	return Seed::TypeImage;
-}
-
-const String Image::GetClassName() const
-{
-	return "Image";
 }
 
 } // namespace

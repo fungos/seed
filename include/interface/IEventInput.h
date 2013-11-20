@@ -39,9 +39,8 @@ namespace Seed {
 class SEED_CORE_API IEventInput : public IEvent
 {
 	public:
-		IEventInput();
-		IEventInput(u32 myId);
-		virtual ~IEventInput();
+		IEventInput() = default;
+		virtual ~IEventInput() {}
 };
 
 } // namespace

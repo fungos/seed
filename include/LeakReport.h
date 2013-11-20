@@ -55,7 +55,8 @@ namespace Seed {
 /// Leak Reporter
 class SEED_CORE_API LeakReport
 {
-	SEED_SINGLETON_DECLARE(LeakReport)
+	SEED_DECLARE_SINGLETON(LeakReport)
+	SEED_DISABLE_COPY(LeakReport)
 
 	public:
 		template <class T>
@@ -116,8 +117,6 @@ class SEED_CORE_API LeakReport
 		void Print();
 
 	private:
-		SEED_DISABLE_COPY(LeakReport);
-
 		struct PointerInfo
 		{
 			void *ptrAddr;

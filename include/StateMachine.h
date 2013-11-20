@@ -40,41 +40,18 @@ namespace Seed {
 /// State Machine Event
 class SEED_CORE_API StateMachineEvent : public IEvent
 {
+	SEED_DECLARE_RTTI(StateMachineEvent, IEvent)
+
 	public:
-		StateMachineEvent()
-			: IEvent(IEvent::TypeStateMachine, 0)
-		{
-		}
-
-		StateMachineEvent(u32 _id)
-			: IEvent(IEvent::TypeStateMachine, _id)
-		{
-		}
-
-		inline void Initialize(u32 _id)
-		{
-			iId = _id;
-		}
-
-		virtual ~StateMachineEvent()
-		{
-		}
-
-		virtual const String GetClassName() const
-		{
-			return "StateMachineEvent";
-		}
-
-		virtual int GetObjectType() const
-		{
-			return Seed::TypeEvent;
-		}
+		StateMachineEvent() = default;
+		virtual ~StateMachineEvent() {}
 };
 
 /// State Machine State
 class SEED_CORE_API StateMachineState
 {
 	public:
+		StateMachineState() = default;
 		virtual ~StateMachineState() {}
 		virtual void OnStart(void *) {}
 		virtual void OnUpdate(f32) {}
@@ -116,6 +93,8 @@ class SEED_CORE_API StateMachineTransition
 /// State Machine
 class SEED_CORE_API StateMachine
 {
+	SEED_DISABLE_COPY(StateMachine)
+
 	public:
 		enum eReturnCode
 		{
@@ -128,8 +107,6 @@ class SEED_CORE_API StateMachine
 	private:
 		StateMachineState *pCurrentState;
 		Vector<StateMachineTransition *> vTransitions;
-
-		SEED_DISABLE_COPY(StateMachine);
 
 	public:
 		StateMachine()

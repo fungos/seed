@@ -73,15 +73,15 @@ void KeyboardSample::OnSystemShutdown(const EventSystem *ev)
 
 void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyUp)
+	if (k == eKey::Up)
 	{
 		// Sum the normalized vector up with the current vector
 		vPlayerVectorDirection += VECTOR_UP;
 	}
 
-	if (k == Seed::KeyLeft)
+	if (k == eKey::Left)
 	{
 		// Sum the normalized vector left with the current vector
 		vPlayerVectorDirection += VECTOR_LEFT;
@@ -91,7 +91,7 @@ void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
 	}
 
-	if (k == Seed::KeyRight)
+	if (k == eKey::Right)
 	{
 		// Sum the normalized vector right with the current vector
 		vPlayerVectorDirection += VECTOR_RIGHT;
@@ -101,7 +101,7 @@ void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
 	}
 
-	if (k == Seed::KeyDown)
+	if (k == eKey::Down)
 	{
 		// Sum the normalized vector down with the current vector
 		vPlayerVectorDirection += VECTOR_DOWN;
@@ -110,29 +110,29 @@ void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 
 void KeyboardSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
 	// Remove the directions
-	if (k == Seed::KeyUp)
+	if (k == eKey::Up)
 	{
 		vPlayerVectorDirection -= VECTOR_UP;
 	}
 
-	if (k == Seed::KeyLeft)
+	if (k == eKey::Left)
 	{
 		vPlayerVectorDirection -= VECTOR_LEFT;
 	}
 
-	if (k == Seed::KeyRight)
+	if (k == eKey::Right)
 	{
 		vPlayerVectorDirection -= VECTOR_RIGHT;
 	}
 
-	if (k == Seed::KeyDown)
+	if (k == eKey::Down)
 	{
 		vPlayerVectorDirection -= VECTOR_DOWN;
 	}
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
 }

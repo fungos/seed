@@ -51,8 +51,8 @@ MapLayerTiled::MapLayerTiled()
 	, ptMapSizeHalf(0.0f, 0.0f)
 	, bRebuildMesh(false)
 {
-	cVertexBuffer.Configure(BufferUsageNeverChange, ElementTypeInt);
-	cElementBuffer.Configure(BufferUsageNeverChange, ElementTypeInt);
+	cVertexBuffer.Configure(eBufferUsage::NeverChange, eElementType::Int);
+	cElementBuffer.Configure(eBufferUsage::NeverChange, eElementType::Int);
 }
 
 MapLayerTiled::~MapLayerTiled()
@@ -215,17 +215,17 @@ void MapLayerTiled::Render(const Matrix4f &worldTransform)
 {
 	if (pTileSet)
 	{
-		ePacketFlags flags = FlagNone;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+		ePacketFlags flags = ePacketFlags::None;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
 
 		RendererPacket packet;
-		packet.nMeshType = Seed::Triangles;
+		packet.nMeshType = eMeshType::Triangles;
 		packet.pVertexBuffer = &cVertexBuffer;
 		packet.pElementBuffer = &cElementBuffer;
 		packet.pTexture = pTileSet->GetTexture();
-		packet.nBlendMode = eBlendOperation;
+		packet.nBlendMode = nBlendOperation;
 		packet.pTransform = &worldTransform;
 		packet.cColor = cColor;
-		packet.iFlags = flags;
+		packet.nFlags = flags;
 		packet.vPivot = vTransformedPivot;
 
 		pRendererDevice->UploadData(&packet);

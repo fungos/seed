@@ -34,6 +34,7 @@
 #include "Log.h"
 #include "Enum.h"
 #include "Container.h"
+#include "interface/IObject.h"
 
 namespace Seed {
 
@@ -43,12 +44,13 @@ class IResource;
 class SEED_CORE_API ResourceGroup
 {
 	friend class ResourceLoader;
+	SEED_DISABLE_COPY(ResourceGroup)
 
 	public:
 		ResourceGroup();
 		virtual ~ResourceGroup();
 
-		void Add(const String &filename, Seed::eObjectType resourceType = Seed::TypeSprite, ResourceManager *res = pResourceManager);
+		void Add(const String &filename, TypeId resourceType, ResourceManager *res = pResourceManager);
 
 	protected:
 		/// Item for loading with Resource Group
@@ -56,10 +58,10 @@ class SEED_CORE_API ResourceGroup
 		{
 			String				filename;
 			IResource			*resource;
-			Seed::eObjectType 	resourceType;
+			TypeId				resourceType;
 			ResourceManager		*resManager;
 			u32					startTime;
-			bool				erased;
+			bool				erased : 1;
 
 			QueueItem()
 				: filename()
@@ -70,8 +72,7 @@ class SEED_CORE_API ResourceGroup
 				, erased(false)
 			{}
 
-			SEED_DISABLE_COPY(QueueItem);
-
+			SEED_DISABLE_COPY(QueueItem)
 		} QueueItem;
 
 		typedef Vector<QueueItem *>		QueueVector;
@@ -86,10 +87,7 @@ class SEED_CORE_API ResourceGroup
 
 	protected:
 		QueueVector		queue;
-		bool			bLoaded;
-
-	private:
-		SEED_DISABLE_COPY(ResourceGroup);
+		bool			bLoaded : 1;
 };
 
 } // namespace

@@ -35,7 +35,7 @@
 namespace Seed {
 
 EventPresentation::EventPresentation(Presentation *p, Renderer *r)
-	: IEvent(TypePresentation, EventIdPresentation)
+	: IEvent()
 	, pPresentation(p)
 	, pRenderer(r)
 {
@@ -53,11 +53,6 @@ Presentation *EventPresentation::GetPresentation() const
 Renderer *EventPresentation::GetRenderer() const
 {
 	return pRenderer;
-}
-
-const String EventPresentation::GetClassName() const
-{
-	return "EventPresentation";
 }
 
 } // namespace

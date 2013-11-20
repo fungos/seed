@@ -359,11 +359,8 @@ void D3D8RendererDevice::TextureRequest(ITexture *texture)
 void D3D8RendererDevice::TextureRequestProcess() const
 {
 	WARNING(FIXME - mutex lock guard here)
-	ITextureVector::iterator it = vTexture.begin();
-	ITextureVector::iterator end = vTexture.end();
-	for (; it != end; ++it)
+	for (auto texture: vTexture)
 	{
-		ITexture *texture = (*it);
 		File *file = texture->GetFile();
 		if (file->GetData())
 		{
@@ -716,11 +713,6 @@ void D3D8RendererDevice::AttachDepthBuffer(u32 buffer)
 bool D3D8RendererDevice::CheckFrameBufferStatus() const
 {
 	WARNING(IMPL - D3D8RendererDevice::CheckFrameBufferStatus())
-}
-
-const String D3D8RendererDevice::GetClassName() const
-{
-	return "D3D8RendererDevice";
 }
 
 }} // namespace

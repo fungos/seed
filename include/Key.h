@@ -32,6 +32,7 @@
 #define __KEY_H__
 
 #include "Defines.h"
+#include "Enum.h"
 
 namespace Seed {
 
@@ -46,7 +47,7 @@ class SEED_CORE_API Key
 		/*!
 		\param value Ascii code or enum value for the key.
 		 */
-		Key(int value = 0); // must not be explicit so == comparator works directly with enum;
+		Key(eKey value = eKey::None); // must not be explicit so == comparator works directly with enum;
 		virtual ~Key();
 
 		/*!
@@ -93,9 +94,6 @@ class SEED_CORE_API Key
 
 	protected:
 		u32 iValue;
-
-	//private:
-		//SEED_DISABLE_COPY(Key);
 };
 
 } // namespace
