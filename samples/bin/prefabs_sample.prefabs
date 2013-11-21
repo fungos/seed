@@ -7,7 +7,7 @@
 		}
 		{
 			sType: ParticleEmitter
-			sName: "Emitter"
+			sName: Emitter
 			sSprite: particle.sprite
 			iAnimation: 12
 			fRotation: 0.0

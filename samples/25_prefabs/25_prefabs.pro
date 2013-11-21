@@ -27,5 +27,4 @@ OTHER_FILES += \
 	../bin/particle.sprite \
 	../bin/prefabs_sample.scene \
 	../bin/prefabs_sample.prefabs \
-	../bin/prefabs_sample.config \
-    ../bin/prefabs_sample.resources
+	../bin/prefabs_sample.config

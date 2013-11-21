@@ -8,6 +8,12 @@
 			sName: Panda2
 		}
 		{
+			sPrefab: Emitter
+			sType: ParticleEmitter
+			sName: Emitter
+			iEmission: 150
+		}
+		{
 			sPrefab: "Camera Template"
 			sType: Camera
 			sName: MainCamera
