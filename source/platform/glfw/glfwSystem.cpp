@@ -58,8 +58,8 @@ int GLFWCALL glfwOnCloseWindow()
 SEED_SINGLETON_DEFINE(System)
 
 System::System()
-	: fLastFrameTime(0)
-	, fFpsTime(0)
+	: fLastFrameTime(0.0f)
+	, fFpsTime(0.0f)
 	, fElapsedTime(0.0f)
 	, iRetraceCount(0)
 	, iFrameRate(0)
@@ -183,18 +183,18 @@ void System::WaitForRetrace()
 	++iRetraceCount;
 
 	if (!fLastFrameTime)
-		fLastFrameTime = pTimer->GetMilliseconds();
+		fLastFrameTime = pTimer->GetSeconds();
 
-	Milliseconds frameMaxTime = 1000.0f / iFrameRate;
+	Seconds frameMaxTime = 1000.0f / iFrameRate;
 
 	do
 	{
 		//hold fps
-		Milliseconds time		= pTimer->GetMilliseconds();
-		Milliseconds frameTime	= time - fLastFrameTime;
-		fFpsTime				+= frameTime;
-		fElapsedTime			+= frameTime;
-		fLastFrameTime			= time;
+		Seconds time		= pTimer->GetSeconds();
+		Seconds frameTime	= time - fLastFrameTime;
+		fFpsTime			+= frameTime;
+		fElapsedTime		+= frameTime;
+		fLastFrameTime		= time;
 	} while (fElapsedTime < frameMaxTime);
 
 	fElapsedTime -= frameMaxTime;
@@ -207,7 +207,7 @@ void System::WaitForRetrace()
 
 	if (fFpsTime > 1000)
 	{
-		//Dbg("FPS: %d", iRetraceCount);
+		Dbg("FPS: %d", iRetraceCount);
 
 		arRetraceCount[iRetraceIndex++] = iRetraceCount;
 		if (iRetraceIndex >= SYSTEM_RETRACE_HISTORY_MAX)

@@ -7,8 +7,7 @@ using namespace Seed;
 class JoystickSample : public IGameApp,
 							public IEventSystemListener,
 							public IEventInputKeyboardListener,
-							public IEventInputJoystickListener,
-							public IEventPresentationListener
+							public IEventInputJoystickListener
 {
 	SEED_DISABLE_COPY(JoystickSample)
 
@@ -17,7 +16,7 @@ class JoystickSample : public IGameApp,
 		virtual ~JoystickSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -33,12 +32,9 @@ class JoystickSample : public IGameApp,
 		virtual void OnInputJoystickDPadMove(const EventInputJoystick *ev);
 		virtual void OnInputJoystickAxisMove(const EventInputJoystick *ev);
 
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
 	protected:
 		Presentation cPres;
-		Image		*pPlayerSprite;
+		Image		*pObject;
 		Vector3f	vPlayerVectorDirection;
 		f32			fVelocity;
 		bool		bPresentationLoaded : 1;

@@ -1,6 +1,6 @@
-#include "sprite_sample.h"
+#include "video_sample.h"
 
-SpriteSample::SpriteSample()
+VideoSample::VideoSample()
 	: cPres()
 	, pObject(nullptr)
 	, pCamera(nullptr)
@@ -14,18 +14,18 @@ SpriteSample::SpriteSample()
 {
 }
 
-SpriteSample::~SpriteSample()
+VideoSample::~VideoSample()
 {
 }
 
-bool SpriteSample::Initialize()
+bool VideoSample::Initialize()
 {
 	IGameApp::Initialize();
 	return cPres.Load("sprite_sample.config", [&](Presentation *pres, Renderer *rend)
 	{
 		UNUSED(rend)
 		pCamera = pres->GetViewportByName("MainView")->GetCamera();
-		pObject = (Sprite *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		pObject = (Video *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Theora");
 
 		pSystem->AddListener(this);
 		pInput->AddKeyboardListener(this);
@@ -35,7 +35,7 @@ bool SpriteSample::Initialize()
 	});
 }
 
-bool SpriteSample::Update(Seconds dt)
+bool VideoSample::Update(Seconds dt)
 {
 	if (!bLoaded || !pObject)
 		return true;
@@ -52,7 +52,7 @@ bool SpriteSample::Update(Seconds dt)
 	return true;
 }
 
-bool SpriteSample::Shutdown()
+bool VideoSample::Shutdown()
 {
 	cPres.Unload();
 	pInput->RemovePointerListener(this);
@@ -62,13 +62,13 @@ bool SpriteSample::Shutdown()
 	return IGameApp::Shutdown();
 }
 
-void SpriteSample::OnSystemShutdown(const EventSystem *ev)
+void VideoSample::OnSystemShutdown(const EventSystem *ev)
 {
 	UNUSED(ev)
 	pSystem->Shutdown();
 }
 
-void SpriteSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+void VideoSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -80,7 +80,7 @@ void SpriteSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->GarbageCollect();
 }
 
-void SpriteSample::OnInputPointerRelease(const EventInputPointer *ev)
+void VideoSample::OnInputPointerRelease(const EventInputPointer *ev)
 {
 	if (!pCamera)
 		return;

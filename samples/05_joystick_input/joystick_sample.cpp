@@ -8,7 +8,7 @@
 
 JoystickSample::JoystickSample()
 	: cPres()
-	, pPlayerSprite(nullptr)
+	, pObject(nullptr)
 	, vPlayerVectorDirection()
 	, fVelocity(0.0f)
 	, bPresentationLoaded(false)
@@ -31,29 +31,25 @@ bool JoystickSample::Initialize()
 	vPlayerVectorDirection = VECTOR_ZERO;
 
 	// Initialize the game by a config file
-	return cPres.Load("joystick_sample.config", this);
+	return cPres.Load("joystick_sample.config",  [&](Presentation *pres, Renderer *rend)
+	{
+		UNUSED(rend)
+
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+		pInput->AddJoystickListener(this);
+
+		pObject = (Image *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		bPresentationLoaded = true;
+	});
 }
 
-void JoystickSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-	pInput->AddJoystickListener(this);
-
-	// Retreive the sprite of player
-	pPlayerSprite = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
-
-	bPresentationLoaded = true;
-}
-
-bool JoystickSample::Update(f32 dt)
+bool JoystickSample::Update(Seconds dt)
 {
 	if (bPresentationLoaded)
 	{
 		// SpriteVector = SpriteVector + DirectionVector * (velocity * deltaTime)
-		pPlayerSprite->SetPosition(pPlayerSprite->GetPosition() + (vPlayerVectorDirection * (fVelocity * dt)));
+		pObject->SetPosition(pObject->GetPosition() + (vPlayerVectorDirection * (fVelocity * dt)));
 	}
 
 	return true;
@@ -95,12 +91,12 @@ void JoystickSample::OnInputJoystickButtonPress(const EventInputJoystick *ev)
 
 	if (k == eInputButton::Button14)
 	{
-		pPlayerSprite = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda2");
+		pObject = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda2");
 	}
 
 	if (k == eInputButton::Button15)
 	{
-		pPlayerSprite = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		pObject = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
 	}
 }
 
@@ -148,8 +144,8 @@ void JoystickSample::OnInputJoystickDPadMove(const EventInputJoystick *ev)
 		vPlayerVectorDirection += VECTOR_LEFT;
 
 		// Change the scale to turn the player sprite
-		if (pPlayerSprite->GetScaleX() < 0)
-			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
+		if (pObject->GetScaleX() < 0)
+			pObject->SetScaleX(pObject->GetScaleX() * -1);
 	}
 
 	if (k == eInputButton::JoystickRight)
@@ -158,8 +154,8 @@ void JoystickSample::OnInputJoystickDPadMove(const EventInputJoystick *ev)
 		vPlayerVectorDirection += VECTOR_RIGHT;
 
 		// Change the scale to turn the player sprite
-		if (pPlayerSprite->GetScaleX() > 0)
-			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
+		if (pObject->GetScaleX() > 0)
+			pObject->SetScaleX(pObject->GetScaleX() * -1);
 	}
 
 	if (k == eInputButton::JoystickDown)

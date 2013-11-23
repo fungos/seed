@@ -1,19 +1,19 @@
-#ifndef _SPRITESAMPLE_H_
-#define _SPRITESAMPLE_H_
+#ifndef _VIDEOSAMPLE_H_
+#define _VIDEOSAMPLE_H_
 
 #include <Seed.h>
 using namespace Seed;
 
-class SpriteSample : public IGameApp,
+class VideoSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
 					public IEventInputPointerListener
 {
-	SEED_DISABLE_COPY(SpriteSample)
+	SEED_DISABLE_COPY(VideoSample)
 
 	public:
-		SpriteSample();
-		virtual ~SpriteSample();
+		VideoSample();
+		virtual ~VideoSample();
 
 		virtual bool Initialize();
 		virtual bool Update(Seconds dt);
@@ -31,7 +31,7 @@ class SpriteSample : public IGameApp,
 	protected:
 		Presentation cPres;
 		ISceneObject *pObject;
-		Camera		 *pCamera;
+		Camera		*pCamera;
 
 		Vector3f	vFrom;
 		Vector3f	vCurrent;
@@ -43,4 +43,4 @@ class SpriteSample : public IGameApp,
 		bool		bLoaded : 1;
 };
 
-#endif // _SPRITESAMPLE_H_
+#endif // _VIDEOSAMPLE_H_

@@ -43,7 +43,6 @@ class Renderer;
 class SceneNode;
 class SceneFileLoader;
 class PrefabFileLoader;
-class IEventPresentationListener;
 
 SEED_DECLARE_CONTAINER(Vector, SceneNode)
 SEED_DECLARE_CONTAINER(Vector, Viewport)
