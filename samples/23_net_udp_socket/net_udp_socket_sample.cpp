@@ -41,7 +41,7 @@ bool NetUDPSocketSample::Initialize()
 	return IGameApp::Initialize();
 }
 
-bool NetUDPSocketSample::Update(f32 dt)
+bool NetUDPSocketSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 

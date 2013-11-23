@@ -11,10 +11,14 @@ PresentationSample::~PresentationSample()
 
 bool PresentationSample::Initialize()
 {
-	return cPres.Load("pres2.config", this);
+	return cPres.Load("pres2.config", [&](Presentation *, Renderer *) {
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+		pInput->AddPointerListener(this);
+	});
 }
 
-bool PresentationSample::Update(f32 dt)
+bool PresentationSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	return true;
@@ -57,13 +61,4 @@ void PresentationSample::OnInputPointerRelease(const EventInputPointer *ev)
 		Log("Click at viewport %s", vp->sName.c_str());
 		Log("Click position %d,%d position inside viewport is at %d,%d", ev->GetX(), ev->GetY(), ev->GetX() - vp->GetX(), ev->GetY() - vp->GetY());
 	}
-}
-
-void PresentationSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
 }

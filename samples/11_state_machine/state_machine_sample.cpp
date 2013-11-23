@@ -5,6 +5,14 @@
 
 StateMachineSample::StateMachineSample()
 	: cPres()
+	, pStateSleeping(nullptr)
+	, pStateWorking(nullptr)
+	, pOnSleepEvent(nullptr)
+	, pOnWorkEvent(nullptr)
+	, cTransSleepToWork()
+	, cTransWorkToSleep()
+	, pAgentData(nullptr)
+	, cAgent()
 {
 }
 
@@ -14,18 +22,21 @@ StateMachineSample::~StateMachineSample()
 
 bool StateMachineSample::Initialize()
 {
-	bool init = cPres.Load("state_machine_sample.config", this);
+	bool init = cPres.Load("state_machine_sample.config", [&](Presentation *, Renderer *) {
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+	});
 
 	// Create the data for state machine
-	pAgentData = New(AgentData());
+	pAgentData = sdNew(AgentData());
 
 	// Create the states
-	pStateSleeping = New(StateSleeping(pAgentData));
-	pStateWorking = New(StateWorking(pAgentData));
+	pStateSleeping = sdNew(StateSleeping(pAgentData));
+	pStateWorking = sdNew(StateWorking(pAgentData));
 
 	// Create the events
-	pOnSleepEvent = New(StateMachineEvent());
-	pOnWorkEvent = New(StateMachineEvent());
+	pOnSleepEvent = sdNew(StateMachineEvent());
+	pOnWorkEvent = sdNew(StateMachineEvent());
 
 	// Create the transitions
 	cTransSleepToWork.Initialize(pStateSleeping, pOnWorkEvent, pStateWorking);
@@ -41,7 +52,7 @@ bool StateMachineSample::Initialize()
 	return init;
 }
 
-bool StateMachineSample::Update(f32 dt)
+bool StateMachineSample::Update(Seconds dt)
 {
 	if (pAgentData->GetFatigue() > 50)
 	{
@@ -66,13 +77,13 @@ bool StateMachineSample::Shutdown()
 	pInput->RemoveKeyboardListener(this);
 	pSystem->RemoveListener(this);
 
-	Delete(pStateSleeping);
-	Delete(pStateWorking);
+	sdDelete(pStateSleeping);
+	sdDelete(pStateWorking);
 
-	Delete(pOnSleepEvent);
-	Delete(pOnWorkEvent);
+	sdDelete(pOnSleepEvent);
+	sdDelete(pOnWorkEvent);
 
-	Delete(pAgentData);
+	sdDelete(pAgentData);
 
 	return IGameApp::Shutdown();
 }
@@ -89,12 +100,4 @@ void StateMachineSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 	if (k == eKey::Escape)
 		pSystem->Shutdown();
-}
-
-void StateMachineSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
 }

@@ -60,16 +60,17 @@ class SEED_CORE_API Image : public ISceneObject
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		using ISceneObject::Load;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual Image *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
 		void UpdateCoords();
 
 	protected:
 		ITexture		*pTexture;
-		ResourceManager *pRes;
 		String			sFilename;
 
 		// Frame related width and heigth used for rendering only

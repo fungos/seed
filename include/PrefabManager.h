@@ -28,70 +28,52 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __GLFW_TIMER_H__
-#define __GLFW_TIMER_H__
+#ifndef PREFABMANAGER_H
+#define PREFABMANAGER_H
 
-#if defined(BUILD_GLFW)
-
-#include "interface/IManager.h"
+#include "Defines.h"
 #include "Singleton.h"
-#include <glfw/glfw.h>
+#include "Container.h"
+#include "Thread.h"
 
-namespace Seed { namespace GLFW {
+namespace Seed {
 
-/// GLFW Timer Module
-class SEED_CORE_API Timer : public IManager
+class IDataObject;
+class Reader;
+
+typedef Map<String, IDataObject *> PrefabMap;
+typedef PrefabMap::iterator PrefabMapIterator;
+
+/// Prefab Manager
+/*!
+Object prefab cache and manager for copy instancing objects
+*/
+class SEED_CORE_API PrefabManager
 {
-	SEED_DECLARE_SINGLETON(Timer)
-	SEED_DECLARE_MANAGER(Timer)
-	SEED_DISABLE_COPY(Timer)
+	SEED_DISABLE_COPY(PrefabManager)
+	SEED_DECLARE_SINGLETON(PrefabManager)
 
+	friend class SceneNode;
+	friend class SceneObjectFactory;
 	public:
-		inline u64 GetMilliseconds() const
-		{
-			u64 ret = glfwGetTime() * 1000;
-			return (ret - fStart);
-		}
+		void Reset();
+		IDataObject *Get(const String &name);
+		void Load(Reader &reader, ResourceManager *res);
 
-		inline void Sleep(u32 ms) const
-		{
-			glfwSleep(ms/1000.f);
-		}
+		void Print();
 
-		// IManager
-		bool Initialize() override
-		{
-			bInitialized = true;
-			fStart = glfwGetTime() * 1000;
-			return true;
-		}
+	protected:
+		void Add(IDataObject *obj);
+		void Remove(IDataObject *res);
+		void Remove(const String &name);
 
-		bool Reset() override
-		{
-			fStart = glfwGetTime() * 1000;
-			return true;
-		}
-
-		bool Shutdown() override
-		{
-			bInitialized = false;
-			return true;
-		}
-
-		bool IsRequired() const override
-		{
-			return true;
-		}
-
-	public:
-		u64 fStart;
+	private:
+		Mutex cMutex;
+		PrefabMap mapPrefabs;
 };
 
-#define pTimer Seed::GLFW::Timer::GetInstance()
+} // namespace
 
-}} // namespace
+#define pPrefabManager PrefabManager::GetInstance()
 
-#else // BUILD_GLFW
-	#error "Include 'Timer.h' instead 'platform/glfw/glfwTimer.h' directly."
-#endif // BUILD_GLFW
-#endif // __GLFW_TIMER_H__
+#endif // PREFABMANAGER_H

@@ -73,23 +73,23 @@ class SEED_CORE_API ISoundSource : public ISceneObject
 
 		virtual bool IsPlaying() const;
 		virtual void Play();
-		virtual void Stop(f32 ms = 0.0f);
+		virtual void Stop(Seconds s = 0.0f);
 		virtual void Pause();
 		virtual void Resume();
 
-		virtual void FadeOut(f32 ms);
-		virtual void FadeIn(f32 ms);
+		virtual void FadeOut(Seconds s);
+		virtual void FadeIn(Seconds s);
 
 		virtual void SetLoop(bool b);
 		virtual bool IsLoop() const;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
-		virtual bool Write(Writer &writer);
-		virtual bool Unload();
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
+		virtual void Set(Reader &reader) override;
 
 		// IRenderable
-		virtual void Render(const Matrix4f &worldTransform);
+		virtual void Render(const Matrix4f &worldTransform) override;
 
 	protected:
 		virtual bool OnLoadFinished()= 0;
@@ -97,12 +97,16 @@ class SEED_CORE_API ISoundSource : public ISceneObject
 
 		virtual eSoundSourceState GetState() const;
 
+		void DoClone(ISoundSource *obj) const;
+
 	protected:
 		ISound *pSound;
-		f32 fVolume;
-		f32 fFadeTime;
-		u64 fStartFadeTime;
+		f32		fVolume;
+		f32		fFadeTime;
+
+		Seconds fStartFadeTime;
 		eSoundSourceState nState;
+
 		bool bLoop : 1;
 		bool bAutoPlay : 1;
 };

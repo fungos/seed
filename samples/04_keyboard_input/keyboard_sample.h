@@ -7,8 +7,7 @@ using namespace Seed;
 class KeyboardSample : public IGameApp,
 							public IEventSystemListener,
 							public IEventInputKeyboardListener,
-							public IEventInputPointerListener,
-							public IEventPresentationListener
+							public IEventInputPointerListener
 {
 	SEED_DISABLE_COPY(KeyboardSample)
 
@@ -17,7 +16,7 @@ class KeyboardSample : public IGameApp,
 		virtual ~KeyboardSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -28,9 +27,6 @@ class KeyboardSample : public IGameApp,
 
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	protected:
 		Presentation cPres;

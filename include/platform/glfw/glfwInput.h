@@ -98,7 +98,7 @@ class SEED_CORE_API Input : public IInput, public IInputPointer, public IInputKe
 		virtual void SetSensitivity(u32 sens, u16 joystick = 0) override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt) override;
+		virtual bool Update(Seconds dt) override;
 
 		// IManager
 		virtual bool Initialize() override;

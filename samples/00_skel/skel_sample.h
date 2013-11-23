@@ -5,8 +5,8 @@
 using namespace Seed;
 
 class SkelSample : public IGameApp,
-							public IEventSystemListener,
-							public IEventInputKeyboardListener
+					public IEventSystemListener,
+					public IEventInputKeyboardListener
 {
 	SEED_DISABLE_COPY(SkelSample)
 
@@ -15,7 +15,7 @@ class SkelSample : public IGameApp,
 		virtual ~SkelSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener

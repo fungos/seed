@@ -1,3 +1,4 @@
+#include "Log.h"
 #include "api/net/Socket.h"
 
 #define TAG "[SocketUDP] "

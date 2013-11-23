@@ -38,6 +38,7 @@
 #include "IEvent.h"
 #include "IEventListener.h"
 #include "Container.h"
+#include "Timer.h"
 
 namespace Seed {
 
@@ -228,7 +229,13 @@ class SEED_CORE_API ISystem : public IManager, public IUpdatable
 		void SendEventSleep(const EventSystem *ev);
 		void SendEventLanguageChanged(const EventSystem *ev);
 
+		const Timer *GetTimer() const
+		{
+			return &mTimer;
+		}
+
 	protected:
+		Timer			mTimer;
 		ListenerVector	vListeners;
 
 		const char		*pStrAppName;
@@ -238,5 +245,7 @@ class SEED_CORE_API ISystem : public IManager, public IUpdatable
 };
 
 } // namespace
+
+#define pTimer pSystem->GetTimer()
 
 #endif // __ISYSTEM_H__

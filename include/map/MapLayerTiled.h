@@ -63,12 +63,14 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		virtual MapLayerTiled *AsTiled() override;
 
 		// SceneNode
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds delta) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual MapLayerTiled *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
 		u32			 *pTileData;

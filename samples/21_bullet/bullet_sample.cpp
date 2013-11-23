@@ -1,14 +1,17 @@
 #include "bullet_sample.h"
 
 BulletSample::BulletSample()
-	: pDynamicsWorld(NULL)
-	, pCollisionConfiguration(NULL)
-	, pDispatcher(NULL)
-	, pOverlappingPairCache(NULL)
-	, pSolver(NULL)
+	: pDynamicsWorld(nullptr)
+	, pCollisionConfiguration(nullptr)
+	, pDispatcher(nullptr)
+	, pOverlappingPairCache(nullptr)
+	, pSolver(nullptr)
+	, pGroundShape(nullptr)
+	, arCollisionShapes()
+	, cGroundTransform()
 	, cPres()
-	, pScene(NULL)
-	, pCamera(NULL)
+	, pScene(nullptr)
+	, pCamera(nullptr)
 {
 }
 
@@ -18,7 +21,7 @@ BulletSample::~BulletSample()
 
 bool BulletSample::Initialize()
 {
-	cPres.Load("bullet_sample.config", this);
+	cPres.Load("bullet_sample.config", [&](Presentation *, Renderer *) { /* TODO */ });
 
 	/*
 	 * Create a World
@@ -38,10 +41,10 @@ bool BulletSample::Initialize()
 
 	// Keep track of the shapes, we release memory at exit.
 	// Make sure to re-use collision shapes among rigid bodies whenever possible!
-	pCollisionShapes.push_back(pGroundShape);
+	arCollisionShapes.push_back(pGroundShape);
 
-	pGroundTransform.setIdentity();
-	pGroundTransform.setOrigin(btVector3(0,-56,0));
+	cGroundTransform.setIdentity();
+	cGroundTransform.setOrigin(btVector3(0,-56,0));
 
 	auto mass = btScalar(0.0f);
 
@@ -53,7 +56,7 @@ bool BulletSample::Initialize()
 		pGroundShape->calculateLocalInertia(mass,localInertia);
 
 	// Using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-	auto myMotionStateRigidBody = new btDefaultMotionState(pGroundTransform);
+	auto myMotionStateRigidBody = new btDefaultMotionState(cGroundTransform);
 	auto rbInfoRigidBody = btRigidBody::btRigidBodyConstructionInfo(mass, myMotionStateRigidBody, pGroundShape, localInertia);
 	auto rigidBody = new btRigidBody(rbInfoRigidBody);
 
@@ -66,7 +69,7 @@ bool BulletSample::Initialize()
 
 	//auto colShape = new btBoxShape(btVector3(1,1,1));
 	auto colShape = new btSphereShape(btScalar(1.));
-	pCollisionShapes.push_back(colShape);
+	arCollisionShapes.push_back(colShape);
 
 	/// Create Dynamic Objects
 	auto startTransform = btTransform();
@@ -93,7 +96,7 @@ bool BulletSample::Initialize()
 	return true;
 }
 
-bool BulletSample::Update(f32 dt)
+bool BulletSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	pDynamicsWorld->stepSimulation(1.f/60.f,10);
@@ -117,13 +120,13 @@ bool BulletSample::Update(f32 dt)
 bool BulletSample::Shutdown()
 {
 	this->DestroyPhysics();
-	Delete(pDynamicsWorld);
-	Delete(pSolver);
-	Delete(pOverlappingPairCache);
-	Delete(pDispatcher);
-	Delete(pCollisionConfiguration);
+	sdDelete(pDynamicsWorld);
+	sdDelete(pSolver);
+	sdDelete(pOverlappingPairCache);
+	sdDelete(pDispatcher);
+	sdDelete(pCollisionConfiguration);
 
-	Delete(pGroundShape);
+	sdDelete(pGroundShape);
 	cPres.Unload();
 
 	pInput->RemovePointerListener(this);
@@ -162,11 +165,6 @@ void BulletSample::OnInputPointerMove(const EventInputPointer *ev)
 }
 
 void BulletSample::OnInputPointerRelease(const EventInputPointer *ev)
-{
-	//TODO
-}
-
-void BulletSample::OnPresentationLoaded(const EventPresentation *ev)
 {
 	//TODO
 }

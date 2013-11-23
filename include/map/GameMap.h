@@ -63,19 +63,21 @@ class SEED_CORE_API GameMap : public ISceneObject
 		const String GetProperty(const String &property) const;
 
 		// SceneNode
-		virtual void Update(f32 dt) override;
+		virtual void Update(Seconds dt) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Reset() override; // call Unload
 
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		// IDataObject
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-		virtual void Reset() override; // call Unload
+		virtual GameMap *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	protected:
 		u32 AddLayerTiled();
 		u32 AddLayerMetadata(Point2u tileSize);
 		u32 AddLayerMosaic();
-		bool LoadTiled(Reader &reader, ResourceManager *res);
+		bool LoadTiled(Reader &reader);
 
 	protected:
 		enum class eLayerType

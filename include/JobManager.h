@@ -35,11 +35,13 @@
 #include "interface/IUpdatable.h"
 #include "Singleton.h"
 #include "Container.h"
+#include "Thread.h"
+
+#include <queue>
 
 namespace Seed {
 
 class Job;
-class IEventJobListener;
 
 /// Job Manager
 class SEED_CORE_API JobManager : public IManager, public IUpdatable
@@ -48,12 +50,11 @@ class SEED_CORE_API JobManager : public IManager, public IUpdatable
 	SEED_DECLARE_MANAGER(JobManager)
 	SEED_DECLARE_CONTAINER(Vector, Job)
 	SEED_DISABLE_COPY(JobManager)
+
 	public:
-		virtual Job *Add(Job *job);
-		virtual void Remove(Job *job);
+		Job *Add(Job *job);
 
 		// IManager
-		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
 
@@ -61,11 +62,19 @@ class SEED_CORE_API JobManager : public IManager, public IUpdatable
 		virtual void Enable() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt) override;
+		virtual bool Update(Seconds dt) override;
+
+	protected:
+		void StartThreads();
 
 	private:
-		JobVector vJob;
-		bool bEnabled : 1;
+		Mutex cMutex;
+
+		std::queue<Job *> vQueue;
+		JobVector vRunning;
+
+		u32 iMaxThreads = 8;
+		bool bEnabled = true;
 };
 
 #define pJobManager JobManager::GetInstance()

@@ -128,8 +128,6 @@ class SEED_CORE_API Configuration : public IObject
 		void SetReaderType(eReaderType readerType);
 		eReaderType GetReaderType() const;
 
-		bool bDebugSprite;
-
 	private:
 		String sWorkingDirectory;
 		String sTitle;
@@ -143,10 +141,13 @@ class SEED_CORE_API Configuration : public IObject
 		u32 iResolutionWidth;
 		u32 iResolutionHeight;
 
-		bool bMultipleInstances;
-		bool bWarningMultipleInstances;
-		bool bFullScreen;
-		bool bShowCursor;
+		bool bMultipleInstances : 1;
+		bool bWarningMultipleInstances : 1;
+		bool bFullScreen : 1;
+		bool bShowCursor : 1;
+
+	public:
+		bool bDebugSprite : 1;
 };
 
 #define pConfiguration Configuration::GetInstance()

@@ -80,11 +80,11 @@ class SEED_CORE_API System : public ISystem
 		virtual bool Reset();
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 
 	private:
-		u64		iLastFrameTime;
-		u64		iFpsTime;
+		f32		fLastFrameTime;
+		f32		fFpsTime;
 		f32		fElapsedTime;
 		u32		iRetraceCount;
 		u32		iFrameRate;

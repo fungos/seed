@@ -28,23 +28,54 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_IOS)
+#include "Thread.h"
 
-#include "Timer.h"
+#define TAG 	"[Thread] "
 
-namespace Seed { namespace iOS {
+namespace Seed {
 
-SEED_SINGLETON_DEFINE(Timer);
-
-Timer::Timer()
-	: fStart(0)
+Thread::Thread()
+	: cThread()
+	, bRunning(false)
 {
 }
 
-Timer::~Timer()
+Thread::~Thread()
 {
+	this->Destroy();
 }
 
-}} // namespace
+void Thread::Create()
+{
+	SEED_ASSERT_MSG(bRunning != true, TAG "Already created.");
 
-#endif // BUILD_IOS
+#if (SEED_USE_THREAD == 1)
+	cThread = std::thread([&](){
+		while (this->Run()) {};
+	});
+
+	std::thread::id defaultId;
+	UNUSED(defaultId)
+	SEED_ASSERT_MSG(defaultId != cThread.get_id(), TAG "Failed to create thread.");
+#else
+	pThreadManager->Add(this);
+#endif
+
+	bRunning = true;
+}
+
+void Thread::Destroy()
+{
+	if (!bRunning)
+		return;
+
+	bRunning = false;
+#if (SEED_USE_THREAD == 1)
+	cThread.join();
+#else
+	pThreadManager->Remove(this);
+#endif
+}
+
+} // namespace
+

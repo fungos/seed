@@ -33,6 +33,7 @@
 #include "Reader.h"
 #include "Log.h"
 #include "ResourceManager.h"
+#include "Memory.h"
 #include "SeedInit.h"
 #include <algorithm>
 
@@ -41,8 +42,7 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(Configuration)
 
 Configuration::Configuration()
-	: bDebugSprite(false)
-	, sWorkingDirectory("./")
+	: sWorkingDirectory("./")
 	, sTitle("")
 	, sDescription("")
 	, sPublisherName("")
@@ -55,6 +55,7 @@ Configuration::Configuration()
 	, bWarningMultipleInstances(false)
 	, bFullScreen(false)
 	, bShowCursor(false)
+	, bDebugSprite(false)
 {
 }
 
@@ -64,7 +65,8 @@ Configuration::~Configuration()
 
 void Configuration::Load(const String &file)
 {
-	File *f = New(File(file));
+	// This must not be async, it is a starting configuration file
+	File *f = sdNew(File(file));
 	if (f && f->GetData())
 	{
 		Reader r(f);
@@ -87,6 +89,7 @@ void Configuration::Load(const String &file)
 
 		// FIXME: A better way to select the renderer (via register/unregister handlers?)
 		// also, a way to detect the default system renderer.
+		// FIXME: Clean up this, only what is really needed.
 		if (renderer == "auto")
 			nRendererDeviceType = eRendererDeviceType::Auto;
 		else if (renderer == "ogl" || renderer == "opengl")
@@ -120,7 +123,7 @@ void Configuration::Load(const String &file)
 		iFrameRate = r.ReadU32("iFrameRate", 60);
 	}
 
-	Delete(f);
+	sdDelete(f);
 }
 
 u32 Configuration::GetResolutionWidth() const

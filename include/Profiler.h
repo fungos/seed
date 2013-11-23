@@ -33,21 +33,23 @@
 
 #if defined(SEED_ENABLE_PROFILER)
 #include "Defines.h"
+
 #include <map>
 #include <stack>
-#include <time.h>
+
+namespace Seed {
 
 #define SEED_FUNCTION_PROFILER					ProfileContext _ctx_func(__PRETTY_FUNCTION__ ); //__FUNCTION__); // Check: MSVC and Xcode
 #define SEED_BEGIN_REGION_PROFILER(name, str)	ProfileContext _c##name(str, Profiler::regionProfilerInstance);
 #define SEED_END_REGION_PROFILER(name)			_c##name.Terminate();
-#define ProfilerReportPrint		Profiler::funcProfilerInstance->Dump(); Profiler::regionProfilerInstance->Dump();
-#define ProfilerTerminate		do { \
-									delete Profiler::funcProfilerInstance; \
-									Profiler::funcProfilerInstance = NULL; \
-									delete Profiler::regionProfilerInstance; \
-									Profiler::regionProfilerInstance = NULL; \
-								} \
-								while (0);
+#define ProfilerReportPrint						Profiler::funcProfilerInstance->Dump(); Profiler::regionProfilerInstance->Dump();
+#define ProfilerTerminate						do { \
+													delete Profiler::funcProfilerInstance; \
+													Profiler::funcProfilerInstance = nullptr; \
+													delete Profiler::regionProfilerInstance; \
+													Profiler::regionProfilerInstance = nullptr; \
+												} \
+												while (0);
 
 class ProfileContext;
 
@@ -118,12 +120,15 @@ class SEED_CORE_API ProfileContext
 
 	private:
 		const char *func;
-		u64 beg;
-		u64 begTotal;
+		Milliseconds beg;
+		Milliseconds begTotal;
 		bool bTerminated;
 
 		Profiler *pProf;
 };
+
+} // namespace
+
 #else
 
 #define SEED_FUNCTION_PROFILER

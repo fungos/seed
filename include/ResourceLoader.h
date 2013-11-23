@@ -33,7 +33,6 @@
 
 #include "interface/IManager.h"
 #include "interface/IUpdatable.h"
-#include "Mutex.h"
 #include "Thread.h"
 #include "Singleton.h"
 #include "Container.h"
@@ -79,7 +78,7 @@ class SEED_CORE_API ResourceLoader : public IManager, public IUpdatable, public 
 		void RemoveListener(IEventResourceLoaderListener *listener);
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 
 		// IManager
 		virtual bool Initialize();
@@ -93,8 +92,7 @@ class SEED_CORE_API ResourceLoader : public IManager, public IUpdatable, public 
 	private:
 		ListenerVector 	vListeners;
 		GroupVector		vGroups;
-		Mutex			*pMutex;
-		bool 			bRunning : 1;
+		Mutex			cMutex;
 };
 
 #define pResourceLoader ResourceLoader::GetInstance()

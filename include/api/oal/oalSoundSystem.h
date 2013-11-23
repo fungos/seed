@@ -63,7 +63,7 @@ class SEED_CORE_API SoundSystem : public ISoundSystem
 		virtual void Resume() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt) override;
+		virtual bool Update(Seconds dt) override;
 
 		// IManager
 		virtual bool Initialize() override;
@@ -71,8 +71,8 @@ class SEED_CORE_API SoundSystem : public ISoundSystem
 		virtual bool Shutdown() override;
 
 	private:
-		void UpdateMusic(f32 dt, IMusic *mus);
-		void UpdateSounds(f32 dt);
+		void UpdateMusic(Seconds dt, IMusic *mus);
+		void UpdateSounds(Seconds dt);
 
 	private:
 		ALCdevice			*pDevice;

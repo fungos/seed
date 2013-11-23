@@ -70,7 +70,7 @@ class SEED_CORE_API System : public ISystem
 		virtual bool Reset();
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 };
 
 #define pSystem Seed::iOS::System::GetInstance()

@@ -129,7 +129,7 @@ namespace Seed {
 		SEED_CORE_API extern String		sWorkDir;
 
 		/// Last frame time
-		SEED_CORE_API extern f32 fCurrentTime;
+		SEED_CORE_API extern Seconds	fCurrentTime;
 	} // namespace
 
 	/// iPhone platform related implementation using iPhoneOS SDK

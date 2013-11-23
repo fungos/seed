@@ -136,7 +136,7 @@ void Music::Reset()
 	this->SetVolume(fVolume);
 }
 
-bool Music::Update(f32 dt)
+bool Music::Update(Seconds dt)
 {
 	UNUSED(dt);
 

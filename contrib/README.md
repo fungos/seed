@@ -26,6 +26,7 @@ GLFW 2.7.7
 - Added platform.h to glfw/ root, with redirect to platform specific headers;
 - Added "#define GLFW_NO_GLU 1" to glfw.h;
 - Added parameter button to GLFWmousewheelfun in glfw.h and platform specific code;
+- Do not use thread implementation;
 
 GLEW
 

@@ -31,14 +31,14 @@
 #include "interface/ISoundSource.h"
 #include "Sound.h"
 #include "SoundSystem.h"
-#include "Timer.h"
+#include "System.h"
 
 #define TAG		"[ISoundSource] "
 
 namespace Seed {
 
 ISoundSource::ISoundSource()
-	: pSound(NULL)
+	: pSound(nullptr)
 	, fVolume(1.0f)
 	, fFadeTime(0.0f)
 	, fStartFadeTime(0)
@@ -52,32 +52,33 @@ ISoundSource::~ISoundSource()
 {
 }
 
-bool ISoundSource::Load(Reader &reader, ResourceManager *res)
+void ISoundSource::Set(Reader &reader)
 {
-	SEED_ASSERT(res);
-	bool ret = false;
+	if (!pSoundSystem->IsInitialized())
+		return;
 
-	if (pSoundSystem->IsInitialized() && this->Unload())
+	sName = reader.ReadString("sName", sName.c_str());
+	auto resource = String("");
+	if (pSound)
+		resource = pSound->GetFilename();
+
+	auto fname = String(reader.ReadString("sResource", resource.c_str()));
+
+	fVolume = reader.ReadF32("fVolume", fVolume);
+	bLoop = reader.ReadBool("bLoop", bLoop);
+	bAutoPlay = reader.ReadBool("bAutoPlay", bAutoPlay);
+
+	ITransformable::Unserialize(reader);
+	IRenderable::Unserialize(reader);
+
+	if (fname != resource)
 	{
-		sName = reader.ReadString("sName", "sound");
-		String fname = reader.ReadString("sResource", "");
-
-		fVolume = reader.ReadF32("fVolume", 1.0f);
-		bLoop = reader.ReadBool("bLoop", false);
-		bAutoPlay = reader.ReadBool("bAutoPlay", false);
-
-		ITransformable::Unserialize(reader);
-		IRenderable::Unserialize(reader);
-
-		pSound = static_cast<Sound *>(res->Get(fname, ISound::GetTypeId()));
-		ret = this->OnLoadFinished();
-
-		pSoundSystem->Add(this);
-		if (bAutoPlay)
-			this->Play();
+		pSound = static_cast<Sound *>(pRes->Get(fname, ISound::GetTypeId()));
+		this->OnLoadFinished();
 	}
 
-	return ret;
+	if (bAutoPlay)
+		this->Play();
 }
 
 bool ISoundSource::Write(Writer &writer)
@@ -101,15 +102,50 @@ bool ISoundSource::Write(Writer &writer)
 
 bool ISoundSource::Unload()
 {
-	bool ret = OnUnloadRequest();
+	auto ret = OnUnloadRequest();
+	sdRelease(pSound);
 	pSoundSystem->Remove(this);
 	nState = eSoundSourceState::None;
+	sName = this->GetTypeName();
 	return ret;
+}
+
+void ISoundSource::DoClone(ISoundSource *obj) const
+{
+	sdAcquire(pSound);
+	obj->GenerateCloneName(sName);
+	obj->pSound = pSound;
+	obj->fVolume = fVolume;
+	obj->fFadeTime = fFadeTime;
+	obj->fStartFadeTime = fStartFadeTime;
+	obj->nState = nState;
+	obj->bLoop = bLoop;
+	obj->bAutoPlay = bAutoPlay;
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
 }
 
 void ISoundSource::SetVolume(f32 vol)
 {
-	SEED_ASSERT_MSG((vol >= 0 || vol <= 1.0f), "Source volume must be between 0 and 1");
+	SEED_ASSERT_MSG((vol >= 0 && vol <= 1.0f), "Source volume must be between 0 and 1");
 	fVolume = vol;
 }
 
@@ -138,9 +174,9 @@ void ISoundSource::Play()
 		nState = eSoundSourceState::Play;
 }
 
-void ISoundSource::Stop(f32 ms)
+void ISoundSource::Stop(Seconds s)
 {
-	UNUSED(ms);
+	UNUSED(s);
 	nState = eSoundSourceState::Stop;
 }
 
@@ -160,22 +196,22 @@ void ISoundSource::Resume()
 	}
 }
 
-void ISoundSource::FadeOut(f32 ms)
+void ISoundSource::FadeOut(Seconds s)
 {
 	if (nState != eSoundSourceState::FadingOut)
 		nState = eSoundSourceState::FadeOut;
 
-	fStartFadeTime = pTimer->GetMilliseconds();
-	fFadeTime = ms;
+	fStartFadeTime = pTimer->GetSeconds();
+	fFadeTime = s;
 }
 
-void ISoundSource::FadeIn(f32 ms)
+void ISoundSource::FadeIn(Seconds s)
 {
 	if (nState != eSoundSourceState::FadingIn)
 		nState = eSoundSourceState::FadeIn;
 
-	fStartFadeTime = pTimer->GetMilliseconds();
-	fFadeTime = ms;
+	fStartFadeTime = pTimer->GetSeconds();
+	fFadeTime = s;
 }
 
 void ISoundSource::SetLoop(bool b)

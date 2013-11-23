@@ -12,5 +12,4 @@ OTHER_FILES += \
 	../bin/frame02.png \
 	../bin/frame03.png \
 	../bin/sprite_sample.scene \
-	../bin/sprite_sample.config \
-	../bin/sprite_panda.sprite
+	../bin/sprite_sample.config

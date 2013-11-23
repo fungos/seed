@@ -355,6 +355,7 @@ enum class eMeshType
 };
 
 /*
+TODO: Remove all this and use shaders.
 TODO: Rewrite blending logic to use Blending classes and use http://www.opengl.org/sdk/docs/man/xhtml/glBlendFuncSeparate.xml
 TODO: Blending based on http://www.w3.org/TR/2009/WD-SVGCompositing-20090430/ and http://kobalicek.com/data/articles/Fog-Graphics.html (Compositing)
 

@@ -241,9 +241,9 @@ bool D3D8RendererDevice::Shutdown()
 	WARNING(FIXME - mutex lock guard here (?))
 	ITextureVector().swap(vTexture);
 
-	int objects = 0;
 	if (mDevice)
 	{
+		int objects = 0;
 		if ((objects = mDevice->Release()) > 0)
 		{
 			Info(TAG "There are %d objects in RendererDevice - shutdown will fail.", objects);

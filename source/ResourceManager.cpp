@@ -31,7 +31,8 @@
 #include "Defines.h"
 #include "Log.h"
 #include "ResourceManager.h"
-#include "Timer.h"
+#include "System.h"
+#include "Memory.h"
 
 #define TAG		"[ResourceManager] "
 
@@ -72,7 +73,7 @@ void ResourceManager::Reset()
 	for (auto each: mapResources)
 	{
 		LOG(TAG "Deallocating %s.", each.first.c_str());
-		Delete(each.second);
+		sdDelete(each.second);
 	}
 
 	ResourceMap().swap(mapResources);
@@ -117,8 +118,8 @@ IResource *ResourceManager::Get(const String &filename, TypeId resourceType)
 void ResourceManager::GarbageCollect()
 {
 #if defined(DEBUG)
-	u64 tbegin = pTimer->GetMilliseconds();
-	u64 tend = 0;
+	Milliseconds tbegin = pTimer->GetMilliseconds();
+	Milliseconds tend = 0;
 #endif // DEBUG
 
 	u32 amount = 0;
@@ -132,7 +133,7 @@ void ResourceManager::GarbageCollect()
 		{
 			amount++;
 			mapResources.erase(it++);
-			Delete(res);
+			sdDelete(res);
 		}
 		else
 		{

@@ -54,7 +54,7 @@ class SEED_CORE_API SceneManager : public IUpdatable
 
 		// IUpdatable
 		/// Scene Manager is responsible for doing Update in all IRenderables, so IRenderables cannot be IUpdatables.
-		virtual bool Update(f32 delta) override;
+		virtual bool Update(Seconds dt) override;
 
 	private:
 		ISceneObjectVector vObject;

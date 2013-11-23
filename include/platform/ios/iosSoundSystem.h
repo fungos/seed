@@ -56,17 +56,11 @@ class SoundSystem : public ISoundSystem
 
 	public:
 		// ISoundSystem
-		//virtual void PlayMusic(IMusic *mus, f32 ms = 0);
-		//virtual void StopMusic(f32 ms = 0, IMusic *mus = NULL);
-		//virtual void StopSounds();
 		virtual void Pause();
 		virtual void Resume();
 
-		//virtual void Add(ISoundSource *src);
-		//virtual void Remove(ISoundSource *src);
-
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 
 		// IManager
 		virtual bool Initialize();
@@ -74,8 +68,8 @@ class SoundSystem : public ISoundSystem
 		virtual bool Shutdown();
 
 	private:
-		void UpdateMusic(f32 dt, IMusic *mus);
-		void UpdateSounds(f32 dt);
+		void UpdateMusic(Seconds dt, IMusic *mus);
+		void UpdateSounds(Seconds dt);
 
 	private:
 		ALCdevice			*pDevice;

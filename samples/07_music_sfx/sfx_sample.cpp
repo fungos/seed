@@ -13,10 +13,18 @@ SfxSample::~SfxSample()
 bool SfxSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("sfx_sample.config", this);
+	return cPres.Load("sfx_sample.config", [&](Presentation *, Renderer *) {
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+		pInput->AddPointerListener(this);
+
+		musTheme.Load("theme.ogg");
+		musTheme.SetVolume(.2f);
+		pSoundSystem->PlayMusic(&musTheme);
+	});
 }
 
-bool SfxSample::Update(f32 dt)
+bool SfxSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	return true;
@@ -54,17 +62,4 @@ void SfxSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 void SfxSample::OnInputPointerRelease(const EventInputPointer *ev)
 {
 	UNUSED(ev)
-}
-
-void SfxSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
-
-	musTheme.Load("theme.ogg");
-	musTheme.SetVolume(.2f);
-	pSoundSystem->PlayMusic(&musTheme);
 }

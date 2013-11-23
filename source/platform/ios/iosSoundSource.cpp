@@ -62,23 +62,23 @@ bool SoundSource::OnLoadFinished()
 	if (err != AL_NO_ERROR)
 		Info(TAG "Could not create OpenAL Source: %4x", err);
 
-	const ALint *buffer = static_cast<const ALint *>(pSound->GetData());
+	auto buffer = static_cast<const ALint *>(pSound->GetData());
 
-    alSourcef(iSource, AL_PITCH, 1.0f);
+	alSourcef(iSource, AL_PITCH, 1.0f);
 	alSource3f(iSource, AL_POSITION, GetX(), GetY(), GetZ());
 	alSource3f(iSource, AL_VELOCITY, 0.0f, 0.0f, 0.0f);
 	alSource3f(iSource, AL_DIRECTION, 0.0f, 0.0f, 0.0f);
 	alSourcei(iSource, AL_LOOPING, bLoop);
-    alSourcef(iSource, AL_ROLLOFF_FACTOR, 1.0f);
+	alSourcef(iSource, AL_ROLLOFF_FACTOR, 1.0f);
 	alSourcef(iSource, AL_MAX_DISTANCE, 1.0f);
 	alSourcef(iSource, AL_REFERENCE_DISTANCE, 1.0f);
 	alSourcef(iSource, AL_PITCH, 1.0f);
 	alSourcef(iSource, AL_GAIN, 1.0f);
 	alSourcei(iSource, AL_BUFFER, *buffer);
-    
+
 	this->SetVolume(fVolume);
-    
-    return true;
+
+	return true;
 }
 
 bool SoundSource::OnUnloadRequest()
@@ -89,9 +89,18 @@ bool SoundSource::OnUnloadRequest()
 	if (iSource)
 		alDeleteSources(1, &iSource);
 
-	sRelease(pSound);
-	
 	return true;
+}
+
+SoundSource *SoundSource::Clone() const
+{
+	auto obj = New(SoundSource);
+
+	// TODO: need testing
+	this->DoClone(obj);
+	this->OnLoadFinished();
+
+	return obj;
 }
 
 void SoundSource::SetVolume(f32 vol)
@@ -135,17 +144,17 @@ void SoundSource::Resume()
 	}
 }
 
-void SoundSource::Update(f32 dt)
+void SoundSource::Update(Seconds dt)
 {
 	UNUSED(dt);
-	
+
 	if (bTransformationChanged)
 	{
 		alSource3f(iSource, AL_POSITION, GetX(), GetY(), GetZ());
 		ITransformable::UpdateTransform();
 	}
 }
-	
+
 }} // namespace
 
 #endif // BUILD_IOS

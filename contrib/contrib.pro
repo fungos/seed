@@ -381,7 +381,7 @@ SOURCES += yajl/yajl_buf.c \
 	lua/lapi.c \
 	glfw/window.c \
 	glfw/time.c \
-	glfw/thread.c \
+#	glfw/thread.c \
 	glfw/tga.c \
 	glfw/stream.c \
 	glfw/joystick.c \
@@ -1000,7 +1000,7 @@ unix:!macx:SOURCES += \
 	glfw/x11/x11_init.c \
 	glfw/x11/x11_joystick.c \
 	glfw/x11/x11_keysym2unicode.c \
-	glfw/x11/x11_thread.c \
+#	glfw/x11/x11_thread.c \
 	glfw/x11/x11_time.c \
 	glfw/x11/x11_window.c
 
@@ -1010,7 +1010,7 @@ macx:OBJECTIVE_SOURCES += \
 	glfw/cocoa/cocoa_glext.m \
 	glfw/cocoa/cocoa_init.m \
 	glfw/cocoa/cocoa_joystick.m \
-	glfw/cocoa/cocoa_thread.c \
+#	glfw/cocoa/cocoa_thread.c \
 	glfw/cocoa/cocoa_time.m \
 	glfw/cocoa/cocoa_window.m
 
@@ -1020,7 +1020,7 @@ win32:SOURCES += \
 	glfw/win32/win32_glext.c \
 	glfw/win32/win32_init.c \
 	glfw/win32/win32_joystick.c \
-	glfw/win32/win32_thread.c \
+#	glfw/win32/win32_thread.c \
 	glfw/win32/win32_time.c \
 	glfw/win32/win32_window.c
 

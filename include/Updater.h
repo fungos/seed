@@ -47,7 +47,7 @@ class SEED_CORE_API Updater
 	SEED_DISABLE_COPY(Updater)
 
 	public:
-		void Run(f32 dt);
+		void Run(Seconds dt);
 		void Add(IUpdatable *obj);
 		void Remove(IUpdatable *obj);
 

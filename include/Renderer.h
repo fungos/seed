@@ -88,14 +88,7 @@ class SEED_CORE_API Renderer : public IUpdatable, public IObject
 		SceneNode *GetScene() const;
 
 		// IUpdatable
-		virtual bool Update(f32 delta) override;
-
-	protected:
-		String sSceneToAttach;
-		SceneNode *pScene;
-		RenderableVector vRenderables;
-		VisibleVector vVisibleRenderables;
-		bool bEnabled : 1;
+		virtual bool Update(Seconds delta) override;
 
 	private:
 		void RenderObjects(const VisibleVector &vec) const;
@@ -103,6 +96,14 @@ class SEED_CORE_API Renderer : public IUpdatable, public IObject
 
 		void Sort(VisibleVector &vec);
 		void Culler(Camera *camera);
+
+	protected:
+		String sPrefabToLoad;
+		String sSceneToAttach;
+		SceneNode *pScene;
+		RenderableVector vRenderables;
+		VisibleVector vVisibleRenderables;
+		bool bEnabled : 1;
 };
 
 inline void Renderer::Setup()

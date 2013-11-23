@@ -39,79 +39,10 @@
 #include "Mutex.h"
 #include "Image.h"
 #include "Texture.h"
+#include "Semaphore.h"
 #include "interface/ISceneObject.h"
 
 #include <oggplay/oggplay.h>
-
-/* FIXME: Somebody please create a Semaphore class! */
-#if defined(linux) || defined(SOLARIS) || defined(AIX) || defined(__FreeBSD__) || defined(LINUX)
-#if defined(BUILD_SDL)
-	#include <SDL/SDL.h>
-	#include <SDL/SDL_thread.h>
-	#include <SDL/SDL_mutex.h>
-	#define SEM_CREATE(p,s)		(!(p = (void *)SDL_CreateSemaphore(s)))
-	#define SEM_SIGNAL(p)		SDL_SemPost((SDL_sem*)p)
-	#define SEM_WAIT(p)			SDL_SemWait((SDL_sem*)p)
-	#define SEM_CLOSE(p)		SDL_DestroySemaphore((SDL_sem*)p)
-	#define SEM_CHECK(p)		if (p)
-	#define SEM_CLEAR(p)		p = 0
-	typedef void*				semaphore;
-#elif defined(BUILD_QT)
-	#if !defined(QT_SEM_WARNING)
-		#warning "Qt Semaphores not tested!"
-		#define QT_SEM_WARNING 1
-	#endif
-	#include <QtCore>
-	#define SEM_CREATE(p, s)	{}
-	#define SEM_SIGNAL(p)		p->release()
-	#define SEM_CLOSE(p)		{}
-	#define SEM_WAIT(p)			p->acquire()
-	#define SEM_CHECK(p)		if (p)
-	#define SEM_CLEAR(p)		{}
-	typedef QSemaphore			*semaphore;
-/*
-	#include <semaphore.h>
-	#if defined(__FreeBSD__)
-		#define SEM_CREATE(p,s) sem_init(&(p), 0, s)
-	#else
-		#define SEM_CREATE(p,s) sem_init(&(p), 1, s)
-	#endif
-	#define SEM_SIGNAL(p)	sem_post(&(p))
-	#define SEM_WAIT(p)		sem_wait(&(p))
-	#define SEM_CLOSE(p)	sem_destroy(&(p))
-	typedef sem_t			semaphore;
-*/
-#endif // BUILD_SDL
-#elif defined(WIN32)
-#include <windows.h>
-	#define SEM_CREATE(p,s) ((p = CreateSemaphore(NULL, (long)(s), (long)(s), NULL)) == 0)
-	#define SEM_SIGNAL(p)   (!ReleaseSemaphore(p, 1, NULL))
-	#define SEM_WAIT(p)     WaitForSingleObject(p, INFINITE)
-	#define SEM_CLOSE(p)    (!CloseHandle(p))
-	#define SEM_CHECK(p)	if (p)
-	#define SEM_CLEAR(p)	p = 0
-	typedef HANDLE          semaphore;
-#elif defined(__APPLE_CC__)
-	#include <SDL/SDL.h>
-	#include <SDL/SDL_thread.h>
-	#include <SDL/SDL_mutex.h>
-	#define SEM_CREATE(p,s)		(!(p = (void *)SDL_CreateSemaphore(s)))
-	#define SEM_SIGNAL(p)		SDL_SemPost((SDL_sem*)p)
-	#define SEM_WAIT(p)			SDL_SemWait((SDL_sem*)p)
-	#define SEM_CLOSE(p)		SDL_DestroySemaphore((SDL_sem*)p)
-	#define SEM_CHECK(p)		if (p)
-	#define SEM_CLEAR(p)		p = 0
-	typedef void*				semaphore;
-/*#elif defined(__APPLE__)
-	//#include <Carbon/Carbon.h>
-	#define SEM_CREATE(p,s) MPCreateSemaphore(s, s, &(p))
-	#define SEM_SIGNAL(p)   MPSignalSemaphore(p)
-	#define SEM_WAIT(p)     MPWaitOnSemaphore(p, kDurationForever)
-	#define SEM_CLOSE(p)    MPDeleteSemaphore(p)
-	#define SEM_CHECK(p)	if (p)
-	#define SEM_CLEAR(p)		p = 0
-	typedef MPSemaphoreID   semaphore;*/
-#endif
 
 namespace Seed {
 
@@ -166,8 +97,8 @@ class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 	public:
 		OggPlay		*pPlayer;
 		u8			*pTexData;
+		Semaphore	*pSem;
 
-		u32			iTime;
 		u32			iDuration;
 		f32			fFps;
 		u32			iFpsDenom;
@@ -175,7 +106,6 @@ class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 		f32			fDelay;
 		u32			iFrameCount;
 		u32			iUntilFrame;
-		u64			iLastFrameTime;
 		u32			iTrack;
 		u32			iTotalFrames;
 
@@ -190,17 +120,17 @@ class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 
 		f32			fTexScaleX;
 		f32			fTexScaleY;
-		f32			fElapsedTime;
+
+		Milliseconds fLastFrameTime;
+		Milliseconds fElapsedTime;
+
+		Texture		cTexture;
 
 		bool		bLoaded : 1;
 		bool		bPaused : 1;
 		bool		bPlaying : 1;
 		bool		bFinished : 1;
 		bool		bTerminateThread : 1;
-		semaphore	sem;
-
-		Texture		cTexture;
-		//Image		cImage;
 };
 
 } // namespace

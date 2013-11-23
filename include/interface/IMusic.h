@@ -65,7 +65,7 @@ class SEED_CORE_API IMusic : public IResource
 		IMusic();
 		virtual ~IMusic();
 
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual const void *GetData() const;
 
 		virtual void SetVolume(f32 volume);

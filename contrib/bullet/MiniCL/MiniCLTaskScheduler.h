@@ -28,7 +28,7 @@ subject to the following restrictions:
 #include <bullet/LinearMath/btAlignedObjectArray.h>
 
 
-#include <bullet/MiniCLTask/MiniCLTask.h>
+#include <bullet/MiniCL/MiniCLTask/MiniCLTask.h>
 
 //just add your commands here, try to keep them globally unique for debugging purposes
 #define CMD_SAMPLE_TASK_COMMAND 10

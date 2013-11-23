@@ -60,14 +60,14 @@ class SEED_CORE_API ResourceGroup
 			IResource			*resource;
 			TypeId				resourceType;
 			ResourceManager		*resManager;
-			u32					startTime;
+			Milliseconds		startTime;
 			bool				erased : 1;
 
 			QueueItem()
 				: filename()
-				, resource(NULL)
+				, resource(nullptr)
 				, resourceType()
-				, resManager(NULL)
+				, resManager(nullptr)
 				, startTime(0)
 				, erased(false)
 			{}

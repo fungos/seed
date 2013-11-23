@@ -157,7 +157,7 @@ bool SoundSystem::Shutdown()
 	return r;
 }
 
-bool SoundSystem::Update(f32 dt)
+bool SoundSystem::Update(Seconds dt)
 {
 	if (bInitialized && !bPaused)
 	{
@@ -175,7 +175,7 @@ bool SoundSystem::Update(f32 dt)
 	return true;
 }
 
-void SoundSystem::UpdateSounds(f32 dt)
+void SoundSystem::UpdateSounds(Seconds dt)
 {
 	UNUSED(dt);
 
@@ -261,7 +261,7 @@ void SoundSystem::UpdateSounds(f32 dt)
 
 			case eSoundSourceState::FadingIn:
 			{
-				f32 elapsed = static_cast<f32>(pTimer->GetMilliseconds() - src->fStartFadeTime);
+				Seconds elapsed = pTimer->GetSeconds() - src->fStartFadeTime;
 				f32 volume = ((elapsed * src->fVolume) / src->fFadeTime);
 				//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
@@ -283,7 +283,7 @@ void SoundSystem::UpdateSounds(f32 dt)
 
 			case eSoundSourceState::FadingOut:
 			{
-				f32 elapsed = src->fFadeTime - static_cast<f32>(pTimer->GetMilliseconds() - src->fStartFadeTime);
+				Seconds elapsed = src->fFadeTime - (pTimer->GetSeconds() - src->fStartFadeTime);
 				f32 volume = ((elapsed * src->fVolume) / src->fFadeTime);
 				//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
@@ -305,7 +305,7 @@ void SoundSystem::UpdateSounds(f32 dt)
 	}
 }
 
-void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
+void SoundSystem::UpdateMusic(Seconds dt, IMusic *m)
 {
 	Music *mus = static_cast<Music *>(m);
 	if (bChanged)
@@ -401,7 +401,7 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 
 		case eMusicState::FadingIn:
 		{
-			f32 elapsed = static_cast<f32>(pTimer->GetMilliseconds()) - fMusicStartFadeTime;
+			Seconds elapsed = pTimer->GetSeconds() - fMusicStartFadeTime;
 			f32 volume = ((elapsed * mus->fVolume) / fMusicFadeTime);
 			//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
@@ -424,10 +424,10 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 		}
 		break;
 
-		/* FIXME: 2009-15-06 | BUG | SDL | Fadeout / Fadein nao estao funcionando (alSourcef AL_GAIN) */
+		/* FIXME: Fadeout / Fadein nao estao funcionando (alSourcef AL_GAIN)? Testar... */
 		case eMusicState::FadingOut:
 		{
-			f32 elapsed = fMusicFadeTime - static_cast<f32>(pTimer->GetMilliseconds()) - fMusicStartFadeTime;
+			Seconds elapsed = fMusicFadeTime - (pTimer->GetSeconds() - fMusicStartFadeTime);
 			f32 volume = ((elapsed * mus->fVolume) / fMusicFadeTime);
 			//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 

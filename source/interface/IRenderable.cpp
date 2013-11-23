@@ -62,9 +62,9 @@ void IRenderable::Render(const Matrix4f &worldTransform)
 	SEED_ABSTRACT_METHOD;
 }
 
-void IRenderable::Update(f32 delta)
+void IRenderable::Update(Seconds dt)
 {
-	UNUSED(delta);
+	UNUSED(dt);
 	SEED_ABSTRACT_METHOD;
 }
 
@@ -86,10 +86,10 @@ bool IRenderable::IsVisible() const
 
 void IRenderable::SetColor(u32 r, u32 g, u32 b, u32 a)
 {
-	cColor.r = r;
-	cColor.g = g;
-	cColor.b = b;
-	cColor.a = a;
+	cColor.r = u8(r);
+	cColor.g = u8(g);
+	cColor.b = u8(b);
+	cColor.a = u8(a);
 	bColorChanged = true;
 }
 
@@ -146,13 +146,13 @@ String IRenderable::GetBlendingName() const
 	String ret = "None";
 	switch (nBlendOperation)
 	{
-		case eBlendMode::Merge:		ret = "Merge";			break;
+		case eBlendMode::Merge:			ret = "Merge";			break;
 		case eBlendMode::Screen:		ret = "Screen";			break;
 		case eBlendMode::Overlay:		ret = "Overlay";		break;
 		case eBlendMode::Lighten:		ret = "Lighten";		break;
 		case eBlendMode::DecalOverlay:	ret = "DecalOverlay";	break;
 		case eBlendMode::ColorDodge:	ret = "ColorDodge";		break;
-		case eBlendMode::ModulateAlpha:ret = "ModulateAlpha";	break;
+		case eBlendMode::ModulateAlpha:	ret = "ModulateAlpha";	break;
 		case eBlendMode::Modulate:		ret = "Modulate";		break;
 		case eBlendMode::Additive:		ret = "Additive";		break;
 		case eBlendMode::Default:
@@ -166,18 +166,19 @@ String IRenderable::GetBlendingName() const
 
 void IRenderable::Unserialize(Reader &reader)
 {
-	bVisible = reader.ReadBool("bVisible", true);
+	bVisible = reader.ReadBool("bVisible", bVisible);
 	if (reader.SelectNode("cColor"))
 	{
-		cColor.r = reader.ReadU32("r", 255);
-		cColor.g = reader.ReadU32("g", 255);
-		cColor.b = reader.ReadU32("b", 255);
-		cColor.a = reader.ReadU32("a", 255);
+		cColor.r = u8(reader.ReadU32("r", cColor.r));
+		cColor.g = u8(reader.ReadU32("g", cColor.g));
+		cColor.b = u8(reader.ReadU32("b", cColor.b));
+		cColor.a = u8(reader.ReadU32("a", cColor.a));
 		reader.UnselectNode();
 	}
 
-	String blending = reader.ReadString("sBlending", "None");
-	this->SetBlendingByName(blending);
+	String blending = reader.ReadString("sBlending", "");
+	if (blending != "")
+		this->SetBlendingByName(blending);
 }
 
 void IRenderable::Serialize(Writer &writer)

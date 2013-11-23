@@ -26,8 +26,8 @@ struct MySharedStruct
 
 SaveSample::SaveSample()
 	: cPres()
-	, pImage(NULL)
-	, pCamera(NULL)
+	, pImage(nullptr)
+	, pCamera(nullptr)
 	, vFrom()
 	, vCurrent()
 	, vTo()
@@ -108,10 +108,24 @@ bool SaveSample::Initialize()
 		Log("Could not prepare the savesystem.");
 	}
 
-	return cPres.Load("save_sample.config", this);
+	return cPres.Load("save_sample.config", [&](Presentation *pres, Renderer *) {
+		pCamera = pres->GetViewportByName("MainView")->GetCamera();
+		pImage = (Image *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+		pInput->AddPointerListener(this);
+
+		MySlotStruct slot;
+		pSaveSystem->Load(0, &slot);
+
+		auto v = Vector3f(slot.fPosX, slot.fPosY, pImage->GetPosition().getZ());
+		vFrom = vTo = v;
+		pImage->SetPosition(v);
+	});
 }
 
-bool SaveSample::Update(f32 dt)
+bool SaveSample::Update(Seconds dt)
 {
 	if (pImage)
 	{
@@ -169,49 +183,30 @@ void SaveSample::OnInputPointerRelease(const EventInputPointer *ev)
 	if (!pCamera)
 		return;
 
-	if (ev->GetReleased() == eInputButton::Left)
+	if (ev->GetReleased() == eInputButton::MouseLeft)
 	{
 		if (pImage)
 			vFrom = pImage->GetPosition();
 
-		vTo.setX(ev->GetX());
-		vTo.setY(ev->GetY());
+		vTo.setX(f32(ev->GetX()));
+		vTo.setY(f32(ev->GetY()));
 		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}
-	else if (ev->GetReleased() == eInputButton::Right)
+	else if (ev->GetReleased() == eInputButton::MouseRight)
 	{
 		bRotate = !bRotate;
 	}
-	else if (ev->GetReleased() == eInputButton::Up)
+	else if (ev->GetReleased() == eInputButton::MouseUp)
 	{
 		fDir = 1.0f;
 		bRotate = true;
 	}
-	else if (ev->GetReleased() == eInputButton::Down)
+	else if (ev->GetReleased() == eInputButton::MouseDown)
 	{
 		fDir = -1.0f;
 		bRotate = true;
 	}
-}
-
-void SaveSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pCamera = cPres.GetViewportByName("MainView")->GetCamera();
-	pImage = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
-
-	MySlotStruct slot;
-	pSaveSystem->Load(0, &slot);
-
-	auto v = Vector3f(slot.fPosX, slot.fPosY, pImage->GetPosition().getZ());
-	vFrom = vTo = v;
-	pImage->SetPosition(v);
 }
 
 bool SaveSample::SaveSystemFlow() const

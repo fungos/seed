@@ -47,17 +47,19 @@ SEED_DECLARE_CONTAINER(Vector, Frame)
 
 class SEED_CORE_API Animation : public IDataObject
 {
+	SEED_DISABLE_COPY(Animation)
 	SEED_DECLARE_RTTI(Animation, IDataObject)
 
 	public:
+		ResourceManager *pRes;
 		FrameVector	vFrames;
 		String		sName;
 		u32			iFps;
 		u32			iIndex;
 		u32			iFrames;
 		u32			iAnimationId;
-		bool		bAnimated;
-		bool		bLoop;
+		bool		bAnimated : 1;
+		bool		bLoop : 1;
 
 		Animation();
 		virtual ~Animation();
@@ -68,6 +70,8 @@ class SEED_CORE_API Animation : public IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual Animation *Clone() const override;
+		virtual void Set(Reader &reader) override;
 };
 
 } // namespace

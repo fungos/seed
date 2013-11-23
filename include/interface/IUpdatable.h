@@ -51,10 +51,10 @@ class SEED_CORE_API IUpdatable
 		/*!
 			\return If update was sucessful
 		 */
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 };
 
-inline bool IUpdatable::Update(f32 dt)
+inline bool IUpdatable::Update(Seconds dt)
 {
 	UNUSED(dt);
 	return true;

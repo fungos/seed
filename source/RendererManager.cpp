@@ -75,7 +75,7 @@ bool RendererManager::Shutdown()
 	return IManager::Shutdown();
 }
 
-bool RendererManager::Update(f32 dt)
+bool RendererManager::Update(Seconds dt)
 {
 	bool ret = true;
 

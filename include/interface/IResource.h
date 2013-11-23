@@ -34,8 +34,8 @@
 #include "Defines.h"
 #include "IObject.h"
 
-#define sAcquire(p)		p->Acquire()
-#define sRelease(p)		{ if (p) p->Release(); p = NULL; }
+#define sdAcquire(p)		p->Acquire()
+#define sdRelease(p)		{ if (p) p->Release(); p = NULL; }
 
 namespace Seed {
 
@@ -68,12 +68,10 @@ class SEED_CORE_API IResource : public IObject
 		u32 GetReferenceCount() const;
 
 	protected:
-		bool			bLoaded : 1;
 		ResourceManager *pRes;
 		String			sFilename;
-
-	private:
 		u32				iRefCount;
+		bool			bLoaded : 1;
 };
 
 } // namespace

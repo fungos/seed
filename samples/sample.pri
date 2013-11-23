@@ -19,7 +19,7 @@ CONFIG(debug, debug|release) {
 unix:!macx {
 		DEFINES += LINUX
 		LIBS += -lseed -lseedcontrib -lGL -lopenal -lX11 -lpthread -lrt
-		QMAKE_CXXFLAGS += -std=c++0x
+		QMAKE_CXXFLAGS += -std=c++0x #-v
 
 		sdl {
 				LIBS += -lSDL -lSDL_image

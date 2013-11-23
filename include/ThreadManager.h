@@ -40,19 +40,19 @@
 
 namespace Seed {
 
-class IThread;
+class Thread;
 
-/// Thread Manager
+/// Thread Manager is used when no threads are enabled to run threads in serial
 class SEED_CORE_API ThreadManager : public IManager, public IUpdatable
 {
 	SEED_DECLARE_SINGLETON(ThreadManager)
 	SEED_DECLARE_MANAGER(ThreadManager)
-	SEED_DECLARE_CONTAINER(Vector, IThread)
+	SEED_DECLARE_CONTAINER(Vector, Thread)
 	SEED_DISABLE_COPY(ThreadManager)
 
 	public:
-		void Add(IThread *thread);
-		void Remove(IThread *thread);
+		void Add(Thread *thread);
+		void Remove(Thread *thread);
 
 		// IManager
 		virtual bool Initialize() override;
@@ -63,10 +63,10 @@ class SEED_CORE_API ThreadManager : public IManager, public IUpdatable
 		virtual void Enable() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt) override;
+		virtual bool Update(Seconds dt) override;
 
 	private:
-		IThreadVector vThread;
+		ThreadVector vThread;
 		bool bEnabled : 1;
 };
 

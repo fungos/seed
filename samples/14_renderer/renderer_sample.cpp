@@ -8,8 +8,8 @@ enum
 };
 
 RendererSample::RendererSample()
-	: pImage(NULL)
-	, pCamera(NULL)
+	: pImage(nullptr)
+	, pCamera(nullptr)
 	, cScene()
 	, cViewport()
 	, cRenderer()
@@ -44,7 +44,29 @@ bool RendererSample::Initialize()
 	gScene = &cScene;
 	/* ------- Rendering Initialization ------- */
 
-	pJobManager->Add(New(FileLoader("renderer_sample.scene", kJobLoadScene, this)));
+	auto cb = [&](Job *self) {
+		auto job = static_cast<FileLoader *>(self);
+
+		if (self->GetState() == eJobState::Completed)
+		{
+			Reader r(job->pFile);
+			gScene->Load(r);
+
+			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
+			cViewport.SetCamera(pCamera);
+
+			pImage = (ISceneObject *)gScene->GetChildByName("Panda");
+			if (pImage)
+				vFrom = vCurrent = pImage->GetPosition();
+		}
+		else if (job->GetState() == eJobState::Aborted)
+		{
+			// ...
+		}
+		Delete(self);
+	};
+
+	pJobManager->Add(New(FileLoader("renderer_sample.scene", cb)));
 	pSystem->AddListener(this);
 	pInput->AddKeyboardListener(this);
 	pInput->AddPointerListener(this);
@@ -52,7 +74,7 @@ bool RendererSample::Initialize()
 	return true;
 }
 
-bool RendererSample::Update(f32 dt)
+bool RendererSample::Update(Seconds dt)
 {
 	if (pImage)
 	{
@@ -129,32 +151,4 @@ void RendererSample::OnInputPointerRelease(const EventInputPointer *ev)
 		fDir = -1.0f;
 		bRotate = true;
 	}
-}
-
-void RendererSample::OnJobCompleted(const EventJob *ev)
-{
-	switch (ev->GetName())
-	{
-		case kJobLoadScene:
-		{
-			auto job = static_cast<FileLoader *>(ev->GetJob());
-			Reader r(job->pFile);
-			gScene->Load(r);
-			Delete(job);
-
-			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
-			cViewport.SetCamera(pCamera);
-
-			pImage = (ISceneObject *)gScene->GetChildByName("Panda");
-			if (pImage)
-				vFrom = vCurrent = pImage->GetPosition();
-		}
-		break;
-	}
-}
-
-void RendererSample::OnJobAborted(const EventJob *ev)
-{
-	auto job = ev->GetJob();
-	Delete(job);
 }

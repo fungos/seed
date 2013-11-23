@@ -38,6 +38,8 @@ namespace Seed {
 /// Base Input Event
 class SEED_CORE_API IEventInput : public IEvent
 {
+	SEED_DISABLE_COPY(IEventInput)
+
 	public:
 		IEventInput() = default;
 		virtual ~IEventInput() {}

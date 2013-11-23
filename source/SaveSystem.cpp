@@ -34,6 +34,7 @@
 #include "Checksum.h"
 #include "System.h"
 #include "FileSystem.h"
+#include "Memory.h"
 
 #define TAG "[SaveSystem] "
 
@@ -141,7 +142,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 	// Check all shared data state
 	if (sharedBlankData != NULL && iSharedDataSize > 0)
 	{
-		void *sharedTestMemory = Alloc(iSharedDataSize);
+		void *sharedTestMemory = sdAlloc(iSharedDataSize);
 
 		error = this->ReadSharedData(sharedTestMemory);
 		if (error != eCartridgeError::None)
@@ -155,13 +156,13 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 			}
 		}
 
-		sFree(sharedTestMemory);
+		sdFree(sharedTestMemory);
 	}
 
 	if (error == eCartridgeError::None)
 	{
 		// Check all slots state
-		void *slotTestMemory = Alloc(iSlotDataSize);
+		void *slotTestMemory = sdAlloc(iSlotDataSize);
 		for (u8 i = 0; i < iTotalSlots; i ++)
 		{
 			error = this->Load(i, slotTestMemory);
@@ -178,7 +179,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 			}
 		}
 
-		sFree(slotTestMemory);
+		sdFree(slotTestMemory);
 	}
 
 	bIsSaving = false;

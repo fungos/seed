@@ -66,7 +66,7 @@ void Music::Reset()
 {
 }
 
-bool Music::Update(f32 dt)
+bool Music::Update(Seconds dt)
 {
 	return true;
 }

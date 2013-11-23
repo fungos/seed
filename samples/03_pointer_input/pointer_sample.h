@@ -7,8 +7,7 @@ using namespace Seed;
 class PointerSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventInputPointerListener,
-					public IEventPresentationListener
+					public IEventInputPointerListener
 {
 	SEED_DISABLE_COPY(PointerSample)
 
@@ -17,7 +16,7 @@ class PointerSample : public IGameApp,
 		virtual ~PointerSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -28,9 +27,6 @@ class PointerSample : public IGameApp,
 
 		// IEventInputPointerListener
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	protected:
 		Presentation cPres;

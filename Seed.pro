@@ -4,8 +4,9 @@ TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
 
-CONFIG += sdl2
+CONFIG += glfw
 CONFIG += staticlib
+#CONFIG += check
 
 CONFIG(debug, debug|release) {
 	DESTDIR =../seed/lib/debug
@@ -59,7 +60,6 @@ SOURCES += source/Viewport.cpp \
 	source/api/directx/DirectXVersion.cpp \
 	source/api/directx/D3D8RendererDevice.cpp \
 	source/interface/ITransformable.cpp \
-	source/interface/IThread.cpp \
 	source/interface/ITexture.cpp \
 	source/interface/ISystem.cpp \
 	source/interface/ISoundSystem.cpp \
@@ -89,34 +89,25 @@ SOURCES += source/Viewport.cpp \
 	source/api/ogl/oglES1RendererDevice.cpp \
 	source/api/theora/Theora.cpp \
 	source/api/yajl/JsonReader.cpp \
-	source/platform/ios/iosTimer.cpp \
-	source/platform/ios/iosThread.cpp \
 	source/platform/ios/iosTexture.cpp \
 	source/platform/ios/iosSystem.cpp \
 	source/platform/ios/iosSoundSystem.cpp \
 	source/platform/ios/iosSoundSource.cpp \
 	source/platform/ios/iosSound.cpp \
 	source/platform/ios/iosScreen.cpp \
-	source/platform/ios/iosMutex.cpp \
 	source/platform/ios/iosMusic.cpp \
 	source/platform/ios/iosInput.cpp \
 	source/platform/pc/pcRendererDevice.cpp \
 	source/platform/pc/pcLog.cpp \
 	source/platform/pc/pcCartridge.cpp \
-	source/platform/qt/qtTimer.cpp \
-	source/platform/qt/qtThread.cpp \
 	source/platform/qt/qtSystem.cpp \
 	source/platform/qt/qtSurface.cpp \
 	source/platform/qt/qtScreen.cpp \
 	source/platform/qt/qtScene.cpp \
-	source/platform/qt/qtMutex.cpp \
 	source/platform/qt/qtInput.cpp \
-	source/platform/sdl/sdlTimer.cpp \
-	source/platform/sdl/sdlThread.cpp \
 	source/platform/sdl/sdlTexture.cpp \
 	source/platform/sdl/sdlSystem.cpp \
 	source/platform/sdl/sdlScreen.cpp \
-	source/platform/sdl/sdlMutex.cpp \
 	source/platform/sdl/sdlInput.cpp \
 	source/api/yajl/JsonWriter.cpp \
 	source/api/net/Address.cpp \
@@ -125,37 +116,29 @@ SOURCES += source/Viewport.cpp \
 	source/interface/IWriter.cpp \
 	source/SceneObjectFactory.cpp \
 	source/Camera.cpp \
-	source/platform/glfw/glfwTimer.cpp \
-	source/platform/glfw/glfwThread.cpp \
 	source/platform/glfw/glfwSystem.cpp \
 	source/platform/glfw/glfwScreen.cpp \
-	source/platform/glfw/glfwMutex.cpp \
 	source/platform/glfw/glfwInput.cpp \
 	source/api/soil/soilTexture.cpp \
 	source/platform/pc/seed_win32.cpp \
 	source/platform/pc/seed_posix.cpp \
 	source/JobManager.cpp \
 	source/Job.cpp \
-	source/EventJob.cpp \
 	source/ThreadManager.cpp \
 	source/api/rocket/RocketInterface.cpp \
 	source/Presentation.cpp \
 	source/EventPresentation.cpp \
 	source/map/GameMap.cpp \
 	source/map/IMapLayer.cpp \
-	source/map/IMetadataObject.cpp \
 	source/map/MapLayerMetadata.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
 	source/map/TileSet.cpp \
 	source/interface/IManager.cpp \
-    source/platform/sdl2/sdl2Timer.cpp \
-    source/platform/sdl2/sdl2Thread.cpp \
-    source/platform/sdl2/sdl2Texture.cpp \
-    source/platform/sdl2/sdl2System.cpp \
-    source/platform/sdl2/sdl2Screen.cpp \
-    source/platform/sdl2/sdl2Mutex.cpp \
-    source/platform/sdl2/sdl2Input.cpp
+    source/PrefabManager.cpp \
+    source/map/MetadataObject.cpp \
+    source/Memory.cpp \
+    source/Thread.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -198,18 +181,18 @@ HEADERS += include/*.h \
 	include/api/soil/soilTexture.h \
 	include/JobManager.h \
 	include/Job.h \
-	include/EventJob.h \
-	include/interface/IEventJobListener.h \
 	include/ThreadManager.h \
 	include/api/rocket/RocketInterface.h \
 	include/interface/IHardwareBuffer.h \
 	include/Presentation.h \
-	include/interface/IEventPresentationListener.h \
 	include/EventPresentation.h \
 	include/map/GameMap.h \
 	include/map/IMapLayer.h \
-	include/map/IMetadataObject.h \
 	include/map/MapLayerMetadata.h \
 	include/map/MapLayerMosaic.h \
 	include/map/MapLayerTiled.h \
-	include/map/TileSet.h
+	include/map/TileSet.h \
+    include/PrefabManager.h \
+    include/map/MetadataObject.h \
+    include/Memory.h \
+    include/Semaphore.h

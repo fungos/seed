@@ -6,8 +6,7 @@ using namespace Seed;
 
 class ParticleSample : public IGameApp,
 					public IEventSystemListener,
-					public IEventInputKeyboardListener,
-					public IEventPresentationListener
+					public IEventInputKeyboardListener
 {
 	SEED_DISABLE_COPY(ParticleSample)
 
@@ -16,7 +15,7 @@ class ParticleSample : public IGameApp,
 		virtual ~ParticleSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -24,9 +23,6 @@ class ParticleSample : public IGameApp,
 
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	protected:
 		Presentation cPres;

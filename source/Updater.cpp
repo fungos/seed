@@ -56,7 +56,7 @@ void Updater::Remove(IUpdatable *obj)
 	vUpdatable -= obj;
 }
 
-void Updater::Run(f32 dt)
+void Updater::Run(Seconds dt)
 {
 	SEED_FUNCTION_PROFILER;
 

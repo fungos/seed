@@ -20,13 +20,13 @@ class Box2DQueryCallback : public b2QueryCallback
 };
 
 Box2DSample::Box2DSample()
-	: pWorld(NULL)
-	, pGround(NULL)
-	, pPick(NULL)
-	, pMouseJoint(NULL)
+	: pWorld(nullptr)
+	, pGround(nullptr)
+	, pPick(nullptr)
+	, pMouseJoint(nullptr)
 	, cPres()
-	, pScene(NULL)
-	, pCamera(NULL)
+	, pScene(nullptr)
+	, pCamera(nullptr)
 	, iId(0)
 {
 }
@@ -37,7 +37,22 @@ Box2DSample::~Box2DSample()
 
 bool Box2DSample::Initialize()
 {
-	cPres.Load("box2d_sample.config", this);
+	cPres.Load("box2d_sample.config", [&](Presentation *pres, Renderer *) {
+		pScene = pres->GetRendererByName("MainRenderer")->GetScene();
+		pCamera = static_cast<Camera *>(pScene->GetChildByName("MainCamera"));
+
+		ISceneObject *obj = pScene->GetChildByName("Ground");
+		obj->SetPosition(pGround->GetPosition().x * M2PIX, pGround->GetPosition().y * M2PIX);
+		obj->SetVisible(true);
+		pGround->SetUserData(obj);
+
+		this->CreateBody(static_cast<Image *>(pScene->GetChildByName("Panda")), 0.0f, 0.0f);
+
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+		pInput->AddPointerListener(this);
+	});
+
 	pWorld = New(b2World(b2Vec2(0.0f, 10.0f)));
 	{
 		b2BodyDef bodyDef;
@@ -58,7 +73,7 @@ bool Box2DSample::Initialize()
 	return true;
 }
 
-bool Box2DSample::Update(f32 dt)
+bool Box2DSample::Update(Seconds dt)
 {
 	pWorld->Step(dt, 8, 3);
 	pWorld->ClearForces();
@@ -66,7 +81,7 @@ bool Box2DSample::Update(f32 dt)
 	for (b2Body *b = pWorld->GetBodyList(); b; b = b->GetNext())
 	{
 		ISceneObject *obj = (ISceneObject *)b->GetUserData();
-		if (obj != NULL)
+		if (obj != nullptr)
 		{
 			b2Vec2 p = b->GetPosition();
 			f32 a = b->GetAngle() * RAD2DEG;
@@ -135,7 +150,7 @@ void Box2DSample::OnInputPointerPress(const EventInputPointer *ev)
 		}
 		else
 		{
-			pPick = NULL;
+			pPick = nullptr;
 		}
 
 		if (pPick)
@@ -179,8 +194,8 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 		if (pPick)
 		{
 			pWorld->DestroyJoint(pMouseJoint);
-			pMouseJoint = NULL;
-			pPick = NULL;
+			pMouseJoint = nullptr;
+			pPick = nullptr;
 		}
 	}
 	else if (ev->GetReleased() == eInputButton::Right)
@@ -197,31 +212,12 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 	}
 }
 
-void Box2DSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pScene = cPres.GetRendererByName("MainRenderer")->GetScene();
-	pCamera = static_cast<Camera *>(pScene->GetChildByName("MainCamera"));
-
-	ISceneObject *obj = pScene->GetChildByName("Ground");
-	obj->SetPosition(pGround->GetPosition().x * M2PIX, pGround->GetPosition().y * M2PIX);
-	obj->SetVisible(true);
-	pGround->SetUserData(obj);
-
-	this->CreateBody(static_cast<Image *>(pScene->GetChildByName("Panda")), 0.0f, 0.0f);
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
-}
-
 void Box2DSample::DestroyPhysics()
 {
 	for (b2Body *b = pWorld->GetBodyList(); b; b = b->GetNext())
 	{
 		ISceneObject *obj = static_cast<ISceneObject *>(b->GetUserData());
-		if (obj != NULL)
+		if (obj != nullptr)
 		{
 			pScene->Remove(obj);
 			Delete(obj);

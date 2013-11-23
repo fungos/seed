@@ -7,8 +7,7 @@ using namespace Seed;
 class SfxSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventInputPointerListener,
-					public IEventPresentationListener
+					public IEventInputPointerListener
 {
 	SEED_DISABLE_COPY(SfxSample)
 
@@ -17,7 +16,7 @@ class SfxSample : public IGameApp,
 		virtual ~SfxSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -28,9 +27,6 @@ class SfxSample : public IGameApp,
 
 		// IEventInputPointerListener
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	private:
 		Presentation cPres;

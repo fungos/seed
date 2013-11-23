@@ -51,7 +51,6 @@
 #include <EventResourceLoader.h>
 #include <EventSystem.h>
 #include <EventMovie.h>
-#include <EventJob.h>
 #include <EventPresentation.h>
 
 #include <File.h>
@@ -64,6 +63,7 @@
 #include <JobManager.h>
 #include <Job.h>
 
+#include <Memory.h>
 #include <LeakReport.h>
 
 #include <Image.h>
@@ -75,17 +75,14 @@
 #include <interface/IEventSystemListener.h>
 #include <interface/IEventFileSystemListener.h>
 #include <interface/IEventMovieListener.h>
-#include <interface/IEventJobListener.h>
-#include <interface/IEventPresentationListener.h>
 #include <interface/IObject.h>
 #include <interface/ISceneObject.h>
 
 #include <Music.h>
-#include <Mutex.h>
 
 #include <map/GameMap.h>
 #include <map/IMapLayer.h>
-#include <map/IMetadataObject.h>
+#include <map/MetadataObject.h>
 #include <map/MapLayerMetadata.h>
 #include <map/MapLayerMosaic.h>
 #include <map/MapLayerTiled.h>

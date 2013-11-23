@@ -8,8 +8,7 @@ using namespace Seed;
 class Box2DSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventInputPointerListener,
-					public IEventPresentationListener
+					public IEventInputPointerListener
 {
 	SEED_DISABLE_COPY(Box2DSample)
 
@@ -18,7 +17,7 @@ class Box2DSample : public IGameApp,
 		virtual ~Box2DSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -31,9 +30,6 @@ class Box2DSample : public IGameApp,
 		virtual void OnInputPointerPress(const EventInputPointer *ev);
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
 		virtual void OnInputPointerMove(const EventInputPointer *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
 
 	private:
 		void CreateBody(Image *img, f32 x, f32 y);

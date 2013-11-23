@@ -27,19 +27,86 @@
 * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
+
 #ifndef __TIMER_H__
 #define __TIMER_H__
 
-#if defined(BUILD_SDL)
-	#include "platform/sdl/sdlTimer.h"
-#elif defined(BUILD_SDL2)
-	#include "platform/sdl2/sdl2Timer.h"
-#elif defined(BUILD_GLFW)
-	#include "platform/glfw/glfwTimer.h"
-#elif defined(BUILD_IOS)
-	#include "platform/ios/iosTimer.h"
-#elif defined(BUILD_QT)
-	#include "platform/qt/qtTimer.h"
-#endif // platform
+#include "Defines.h"
+#include <thread>
+
+namespace Seed {
+
+class SEED_CORE_API Timer
+{
+	public:
+		Timer()
+		{
+			mStart = Clock::now();
+		}
+
+		~Timer()
+		{
+		}
+
+		Timer(const Timer &t)
+			: mStart(t.mStart)
+		{
+		}
+
+		Timer(Timer &&t)
+			: mStart(std::move(t.mStart))
+		{
+			mStart = TimePoint{};
+		}
+
+		Timer &operator=(const Timer &t)
+		{
+			mStart = t.mStart;
+			return *this;
+		}
+
+		Timer &operator=(Timer &&t)
+		{
+			mStart = std::move(t.mStart);
+			return *this;
+		}
+
+		Milliseconds GetMilliseconds() const
+		{
+			auto now = Clock::now();
+			return std::chrono::duration_cast<std::chrono::duration<Milliseconds, std::milli>>(now - mStart).count();
+		}
+
+		Seconds GetSeconds() const
+		{
+			auto now = Clock::now();
+			return std::chrono::duration_cast<std::chrono::duration<Seconds>>(now - mStart).count();
+		}
+
+		void Sleep(Seconds s) const
+		{
+			this->Sleep(Duration(Milliseconds(s * 1000.0f)));
+		}
+
+		void Sleep(Milliseconds ms) const
+		{
+			this->Sleep(Duration(ms));
+		}
+
+		void Sleep(Duration ms) const
+		{
+			std::this_thread::sleep_for(ms);
+		}
+
+		void Reset()
+		{
+			mStart = Clock::now();
+		}
+
+	public:
+		TimePoint mStart;
+};
+
+} // namespace
 
 #endif // __TIMER_H__

@@ -28,54 +28,59 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_QT)
+#ifndef __SEMAPHORE_H__
+#define __SEMAPHORE_H__
 
-#include "platform/qt/qtThread.h"
+#include "Defines.h"
+#include "Thread.h"
+#include <condition_variable>
 
-#define TAG 	"[Thread] "
+namespace Seed {
 
-namespace Seed { namespace QT {
-
-Thread::Thread()
-	: iPriority(7)
+class SEED_CORE_API Semaphore
 {
-}
+	SEED_DISABLE_COPY(Semaphore)
 
-Thread::~Thread()
-{
-	this->Destroy();
-}
+	public:
+		Semaphore(u32 count = 0)
+			: mCount(count)
+		{}
 
-void Thread::Create(s32 priority)
-{
-	this->iPriority = priority;
+		virtual ~Semaphore() {}
 
-	IThread::Create(priority);
+		void Notify()
+		{
+			ScopedMutexLock lock(mMutex);
+			++mCount;
+			mCond.notify_one();
+		}
 
-#if (SEED_USE_THREAD == 1)
-	QThread::start(static_cast<QThread::Priority>(iPriority));
-#endif
-}
+		void Wait()
+		{
+			ScopedMutexLock lock(mMutex);
+			while (!mCount)
+				mCond.wait(lock);
+			--mCount;
+		}
 
-void Thread::Destroy()
-{
-	IThread::Destroy();
-#if (SEED_USE_THREAD == 1)
-	QThread::terminate();
-#endif
-}
+		bool TryWait()
+		{
+			ScopedMutexLock lock(mMutex);
+			if (mCount)
+			{
+				--mCount;
+				return true;
+			}
 
-bool Thread::Run()
-{
-	IThread::Run();
-	return true;
-}
+			return false;
+		}
 
-void Thread::run()
-{
-	this->Run();
-}
+	private:
+		Mutex mMutex;
+		std::condition_variable mCond;
+		u32 mCount;
+};
 
-}} // namespace
+} // namespace
 
-#endif // BUILD_QT
+#endif // __SEMAPHORE_H__

@@ -51,9 +51,6 @@ class SEED_CORE_API IEventInputPointerListener : public IEventListener
 		virtual void OnInputPointerMove(const EventInputPointer *ev)		SEED_PURE_VIRTUAL_EVENT_QUIET
 		virtual void OnInputPointerEnable(const EventInputPointer *ev)		SEED_PURE_VIRTUAL_EVENT_QUIET
 		virtual void OnInputPointerDisable(const EventInputPointer *ev)		SEED_PURE_VIRTUAL_EVENT_QUIET
-
-		//FIXME remove
-		virtual void OnAccelerationChanged(const EventInputMotion *ev)		SEED_PURE_VIRTUAL_EVENT_QUIET
 };
 
 } // namespace

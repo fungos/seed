@@ -50,8 +50,10 @@ static inline void store_Vector3(const vmVector3 &src, float* p)
 
 static inline void store_Quat(const vmQuat &src, float* p)
 {
-	vmQuat vq = src;
-	storeXYZW(vq, p);
+	int *debug = NULL;
+	*debug++;
+	//vmQuat vq = src;
+	//storeXYZW(vq, p);
 }
 
 // Motion Type
