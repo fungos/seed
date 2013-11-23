@@ -148,7 +148,14 @@ SOURCES += source/Viewport.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
 	source/map/TileSet.cpp \
-	source/interface/IManager.cpp
+	source/interface/IManager.cpp \
+    source/platform/sdl2/sdl2Timer.cpp \
+    source/platform/sdl2/sdl2Thread.cpp \
+    source/platform/sdl2/sdl2Texture.cpp \
+    source/platform/sdl2/sdl2System.cpp \
+    source/platform/sdl2/sdl2Screen.cpp \
+    source/platform/sdl2/sdl2Mutex.cpp \
+    source/platform/sdl2/sdl2Input.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
