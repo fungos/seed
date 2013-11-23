@@ -185,9 +185,9 @@ extern "C" { namespace Seed {
 
 namespace Seed {
 	typedef std::chrono::high_resolution_clock Clock;
-	typedef double Milliseconds; // we use the raw numbers directly internally, no conversions needed.
-	typedef float  Seconds; // same here
-	typedef std::chrono::duration<Milliseconds> Duration;
+	typedef long long Milliseconds; // we use the raw numbers directly internally, no conversions needed.
+	typedef float Seconds; // same here
+	typedef std::chrono::duration<Milliseconds, std::milli> Duration;
 	typedef std::chrono::time_point<std::chrono::system_clock> TimePoint;
 }
 

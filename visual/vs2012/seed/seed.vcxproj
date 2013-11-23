@@ -55,7 +55,6 @@
     <ClCompile Include="..\..\..\source\interface\ISoundSystem.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISystem.cpp" />
     <ClCompile Include="..\..\..\source\interface\ITexture.cpp" />
-    <ClCompile Include="..\..\..\source\interface\IThread.cpp" />
     <ClCompile Include="..\..\..\source\interface\ITransformable.cpp" />
     <ClCompile Include="..\..\..\source\interface\IWriter.cpp" />
     <ClCompile Include="..\..\..\source\Job.cpp" />
@@ -75,17 +74,62 @@
     <ClCompile Include="..\..\..\source\Movie.cpp" />
     <ClCompile Include="..\..\..\source\Particle.cpp" />
     <ClCompile Include="..\..\..\source\ParticleEmitter.cpp" />
+    <ClCompile Include="..\..\..\source\platform\glfw\glfwInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\glfw\glfwScreen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\glfw\glfwSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosMusic.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosScreen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSound.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSoundSource.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSoundSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosTexture.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\platform\pc\pcCartridge.cpp" />
     <ClCompile Include="..\..\..\source\platform\pc\pcLog.cpp" />
     <ClCompile Include="..\..\..\source\platform\pc\pcRendererDevice.cpp" />
     <ClCompile Include="..\..\..\source\platform\pc\seed_win32.cpp" />
+    <ClCompile Include="..\..\..\source\platform\qt\qtInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtScreen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtSurface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\platform\sdl\sdlInput.cpp" />
-    <ClCompile Include="..\..\..\source\platform\sdl\sdlMutex.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlScreen.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlSystem.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlTexture.cpp" />
-    <ClCompile Include="..\..\..\source\platform\sdl\sdlThread.cpp" />
-    <ClCompile Include="..\..\..\source\platform\sdl\sdlTimer.cpp" />
     <ClCompile Include="..\..\..\source\PrefabManager.cpp" />
     <ClCompile Include="..\..\..\source\Presentation.cpp" />
     <ClCompile Include="..\..\..\source\Profiler.cpp" />
@@ -102,6 +146,7 @@
     <ClCompile Include="..\..\..\source\SceneObjectFactory.cpp" />
     <ClCompile Include="..\..\..\source\SeedInit.cpp" />
     <ClCompile Include="..\..\..\source\Sprite.cpp" />
+    <ClCompile Include="..\..\..\source\Thread.cpp" />
     <ClCompile Include="..\..\..\source\ThreadManager.cpp" />
     <ClCompile Include="..\..\..\source\Timeline.cpp" />
     <ClCompile Include="..\..\..\source\Updater.cpp" />
@@ -111,6 +156,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Animation.h" />
+    <ClInclude Include="..\..\..\include\api\oal\oalMusic.h" />
+    <ClInclude Include="..\..\..\include\api\oal\oalSound.h" />
+    <ClInclude Include="..\..\..\include\api\oal\oalSoundSource.h" />
+    <ClInclude Include="..\..\..\include\api\oal\oalSoundSystem.h" />
+    <ClInclude Include="..\..\..\include\api\oal\vorbis_util.h" />
     <ClInclude Include="..\..\..\include\Camera.h" />
     <ClInclude Include="..\..\..\include\Cartridge.h" />
     <ClInclude Include="..\..\..\include\Checksum.h" />
@@ -168,7 +218,6 @@
     <ClInclude Include="..\..\..\include\interface\ISoundSystem.h" />
     <ClInclude Include="..\..\..\include\interface\ISystem.h" />
     <ClInclude Include="..\..\..\include\interface\ITexture.h" />
-    <ClInclude Include="..\..\..\include\interface\IThread.h" />
     <ClInclude Include="..\..\..\include\interface\ITransformable.h" />
     <ClInclude Include="..\..\..\include\interface\IUpdatable.h" />
     <ClInclude Include="..\..\..\include\interface\IVideo.h" />
@@ -196,14 +245,77 @@
     <ClInclude Include="..\..\..\include\Number.h" />
     <ClInclude Include="..\..\..\include\Particle.h" />
     <ClInclude Include="..\..\..\include\ParticleEmitter.h" />
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwDefines.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwScreen.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosDefines.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosMusic.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosScreen.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSound.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSoundSource.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSoundSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSystemStub.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosTexture.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosView.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtDefines.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtPch.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtScene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtScreen.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtSurface.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\platform\sdl\sdlDefines.h" />
     <ClInclude Include="..\..\..\include\platform\sdl\sdlInput.h" />
-    <ClInclude Include="..\..\..\include\platform\sdl\sdlMutex.h" />
     <ClInclude Include="..\..\..\include\platform\sdl\sdlScreen.h" />
     <ClInclude Include="..\..\..\include\platform\sdl\sdlSystem.h" />
     <ClInclude Include="..\..\..\include\platform\sdl\sdlTexture.h" />
-    <ClInclude Include="..\..\..\include\platform\sdl\sdlThread.h" />
-    <ClInclude Include="..\..\..\include\platform\sdl\sdlTimer.h" />
     <ClInclude Include="..\..\..\include\Point.h" />
     <ClInclude Include="..\..\..\include\PrefabManager.h" />
     <ClInclude Include="..\..\..\include\Presentation.h" />
@@ -225,6 +337,7 @@
     <ClInclude Include="..\..\..\include\Seed.h" />
     <ClInclude Include="..\..\..\include\SeedInit.h" />
     <ClInclude Include="..\..\..\include\SeedRun.h" />
+    <ClInclude Include="..\..\..\include\Semaphore.h" />
     <ClInclude Include="..\..\..\include\Singleton.h" />
     <ClInclude Include="..\..\..\include\Sound.h" />
     <ClInclude Include="..\..\..\include\SoundSource.h" />
@@ -242,6 +355,11 @@
     <ClInclude Include="..\..\..\include\ViewManager.h" />
     <ClInclude Include="..\..\..\include\Viewport.h" />
     <ClInclude Include="..\..\..\include\Writer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\source\platform\ios\iosView.mm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
+    </None>
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{86AE299C-0A83-4BBF-9718-41E7D1F04071}</ProjectGuid>

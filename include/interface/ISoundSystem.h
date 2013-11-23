@@ -67,7 +67,7 @@ class SEED_CORE_API ISoundSystem : public IManager, public IUpdatable
 		virtual void Mute();
 		virtual void Unmute();
 
-		virtual void PlayMusic(IMusic *mus, f32 ms = 0);
+		virtual void PlayMusic(IMusic *mus, Seconds ms = 0);
 		virtual void StopMusic(f32 ms = 0, IMusic *mus = nullptr);
 		virtual void StopSounds();
 		virtual void Pause();
@@ -88,7 +88,7 @@ class SEED_CORE_API ISoundSystem : public IManager, public IUpdatable
 		f32		fSfxVolumeOrig;
 		f32		fMusicFadeTime;
 
-		Milliseconds fMusicStartFadeTime;
+		Seconds fMusicStartFadeTime;
 
 		bool	bMuted : 1;
 		bool	bChanged : 1;

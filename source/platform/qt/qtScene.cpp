@@ -67,7 +67,7 @@ void Scene::drawBackground(QPainter *painter, const QRectF &)
 
 bool Scene::drawScene()
 {
-	f32 newTime		= pTimer->GetMilliseconds() / 1000.0f;
+	f32 newTime		= f32(pTimer->GetSeconds());
 //	f32 dt			= newTime - fLastTime;
 	fLastTime		= newTime;
 

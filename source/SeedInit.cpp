@@ -281,7 +281,7 @@ void Update()
 		return;
 
 	const f32 maxRate		= 5.0f;
-	Seconds newTime			= pTimer->GetMilliseconds() / 1000.f;
+	Seconds newTime			= pTimer->GetSeconds();
 	Seconds dt				= newTime - Private::fCurrentTime;
 	Private::fCurrentTime	= newTime;
 	Seconds maxFrameDt		= (Seconds(1) / pConfiguration->GetFrameRate()) * maxRate;

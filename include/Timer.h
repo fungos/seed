@@ -83,7 +83,12 @@ class SEED_CORE_API Timer
 			return std::chrono::duration_cast<std::chrono::duration<Seconds>>(now - mStart).count();
 		}
 
-		void Sleep(f32 ms) const
+		void Sleep(Seconds s) const
+		{
+			this->Sleep(Duration(Milliseconds(s * 1000.0f)));
+		}
+
+		void Sleep(Milliseconds ms) const
 		{
 			this->Sleep(Duration(ms));
 		}

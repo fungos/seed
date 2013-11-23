@@ -82,16 +82,16 @@ class SEED_CORE_API System : public ISystem
 		virtual bool Update(Seconds dt) override;
 
 	private:
-		Milliseconds	fLastFrameTime;
-		Milliseconds	fFpsTime;
-		Milliseconds	fElapsedTime;
-		u32				iRetraceCount;
-		u32				iFrameRate;
-		u32				iRetraceIndex;
-		u32				arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
-		bool			bShutdown : 1;
-		bool			bSleeping : 1;
-		bool			bDefaultCursorEnabled : 1;
+		f32		fLastFrameTime;
+		f32		fFpsTime;
+		f32		fElapsedTime;
+		u32		iRetraceCount;
+		u32		iFrameRate;
+		u32		iRetraceIndex;
+		u32		arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
+		bool	bShutdown : 1;
+		bool	bSleeping : 1;
+		bool	bDefaultCursorEnabled : 1;
 };
 
 #define pSystem Seed::SDL::System::GetInstance()

@@ -48,9 +48,9 @@ namespace Seed { namespace SDL {
 SEED_SINGLETON_DEFINE(System)
 
 System::System()
-	: fLastFrameTime(0.0f)
-	, fFpsTime(0.0f)
-	, fElapsedTime(0.0f)
+	: fLastFrameTime(0)
+	, fFpsTime(0)
+	, fElapsedTime(0)
 	, iRetraceCount(0)
 	, iFrameRate(0)
 	, iRetraceIndex(0)
@@ -161,18 +161,18 @@ void System::WaitForRetrace()
 	++iRetraceCount;
 
 	if (!fLastFrameTime)
-		fLastFrameTime = pTimer->GetMilliseconds();
+		fLastFrameTime = f32(pTimer->GetMilliseconds());
 
-	Milliseconds frameMaxTime = 1000.0f / iFrameRate;
+	f32 frameMaxTime = 1000.0f / iFrameRate;
 
 	do
 	{
 		//hold fps
-		Milliseconds time		= pTimer->GetMilliseconds();
-		Milliseconds frameTime	= time - fLastFrameTime;
-		fFpsTime				+= frameTime;
-		fElapsedTime			+= frameTime;
-		fLastFrameTime			= time;
+		f32 time		= f32(pTimer->GetMilliseconds());
+		f32 frameTime	= time - fLastFrameTime;
+		fFpsTime		+= frameTime;
+		fElapsedTime	+= frameTime;
+		fLastFrameTime	= time;
 	} while (fElapsedTime < frameMaxTime);
 
 	fElapsedTime -= frameMaxTime;
@@ -248,7 +248,7 @@ bool System::InitializeHome()
 }
 
 void System::EnableHome()
-{fLastFrameTime
+{
 }
 
 void System::DisableHome()

@@ -118,18 +118,18 @@ void System::WaitForRetrace()
 	++iRetraceCount;
 
 	if (!fLastFrameTime)
-		fLastFrameTime = pTimer->GetMilliseconds();
+		fLastFrameTime = f32(pTimer->GetMilliseconds());
 
-	Milliseconds frameMaxTime = 1000.0f / iFrameRate;
+	f32 frameMaxTime = 1000.0f / iFrameRate;
 
 	do
 	{
 		//hold fps
-		Milliseconds time		= pTimer->GetMilliseconds();
-		Milliseconds frameTime	= time - fLastFrameTime;
-		fFpsTime				+= frameTime;
-		fElapsedTime			+= frameTime;
-		fLastFrameTime			= time;
+		f32 time		= f32(pTimer->GetMilliseconds());
+		f32 frameTime	= time - fLastFrameTime;
+		fFpsTime		+= frameTime;
+		fElapsedTime	+= frameTime;
+		fLastFrameTime	= time;
 	} while (fElapsedTime < frameMaxTime);
 
 	fElapsedTime -= frameMaxTime;

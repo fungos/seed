@@ -141,7 +141,7 @@ bool ResourceLoader::Run()
 			group->SetLoaded();
 	}
 
-	pTimer->Sleep(10.0f);
+	pTimer->Sleep(Milliseconds(10));
 	return this->IsRunning();
 }
 

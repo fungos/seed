@@ -111,10 +111,10 @@ void ISoundSystem::Unmute()
 	}
 }
 
-void ISoundSystem::PlayMusic(IMusic *mus, f32 ms)
+void ISoundSystem::PlayMusic(IMusic *mus, Seconds ms)
 {
 	fMusicFadeTime = ms;
-	fMusicStartFadeTime = pTimer->GetMilliseconds();
+	fMusicStartFadeTime = pTimer->GetSeconds();
 
 	if (pCurrentMusic && mus != pCurrentMusic)
 	{
@@ -166,7 +166,7 @@ void ISoundSystem::StopMusic(f32 ms, IMusic *mus)
 		fMusicFadeTime = ms;
 		if (ms)
 		{
-			fMusicStartFadeTime = pTimer->GetMilliseconds();
+			fMusicStartFadeTime = pTimer->GetSeconds();
 			pCurrentMusic->nState = eMusicState::FadeOut;
 		}
 		else

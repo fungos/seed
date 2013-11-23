@@ -35,6 +35,15 @@
     <Filter Include="api\rocket">
       <UniqueIdentifier>{e317d4a3-b234-4c38-9133-1c54b863c496}</UniqueIdentifier>
     </Filter>
+    <Filter Include="platform\glfw">
+      <UniqueIdentifier>{ad17ce3b-40dd-49f6-a3b3-cb9b555bdfbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\ios">
+      <UniqueIdentifier>{84f6f431-d7bb-4c09-abb4-c8e4bb90900b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="platform\qt">
+      <UniqueIdentifier>{bde528fd-e87b-437a-a7bc-d7e79091a048}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Animation.cpp" />
@@ -134,9 +143,6 @@
     <ClCompile Include="..\..\..\source\interface\ITexture.cpp">
       <Filter>interface</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\interface\IThread.cpp">
-      <Filter>interface</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\interface\ITransformable.cpp">
       <Filter>interface</Filter>
     </ClCompile>
@@ -164,9 +170,6 @@
     <ClCompile Include="..\..\..\source\platform\sdl\sdlInput.cpp">
       <Filter>platform\sdl</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\platform\sdl\sdlMutex.cpp">
-      <Filter>platform\sdl</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\platform\sdl\sdlScreen.cpp">
       <Filter>platform\sdl</Filter>
     </ClCompile>
@@ -174,12 +177,6 @@
       <Filter>platform\sdl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\platform\sdl\sdlTexture.cpp">
-      <Filter>platform\sdl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\platform\sdl\sdlThread.cpp">
-      <Filter>platform\sdl</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\platform\sdl\sdlTimer.cpp">
       <Filter>platform\sdl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\platform\pc\pcCartridge.cpp">
@@ -230,6 +227,55 @@
     <ClCompile Include="..\..\..\source\Manager.cpp" />
     <ClCompile Include="..\..\..\source\Memory.cpp" />
     <ClCompile Include="..\..\..\source\PrefabManager.cpp" />
+    <ClCompile Include="..\..\..\source\Thread.cpp" />
+    <ClCompile Include="..\..\..\source\platform\glfw\glfwInput.cpp">
+      <Filter>platform\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\glfw\glfwScreen.cpp">
+      <Filter>platform\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\glfw\glfwSystem.cpp">
+      <Filter>platform\glfw</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosInput.cpp">
+      <Filter>platform\ios</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosMusic.cpp">
+      <Filter>platform\ios</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosScreen.cpp">
+      <Filter>platform\ios</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSound.cpp">
+      <Filter>platform\ios</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSoundSource.cpp">
+      <Filter>platform\ios</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSoundSystem.cpp">
+      <Filter>platform\ios</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSystem.cpp">
+      <Filter>platform\ios</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosTexture.cpp">
+      <Filter>platform\ios</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtInput.cpp">
+      <Filter>platform\qt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtScene.cpp">
+      <Filter>platform\qt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtScreen.cpp">
+      <Filter>platform\qt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtSurface.cpp">
+      <Filter>platform\qt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtSystem.cpp">
+      <Filter>platform\qt</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Container.h" />
@@ -414,9 +460,6 @@
     <ClInclude Include="..\..\..\include\interface\ITexture.h">
       <Filter>interface</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\interface\IThread.h">
-      <Filter>interface</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\interface\ITransformable.h">
       <Filter>interface</Filter>
     </ClInclude>
@@ -435,9 +478,6 @@
     <ClInclude Include="..\..\..\include\platform\sdl\sdlInput.h">
       <Filter>platform\sdl</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\platform\sdl\sdlMutex.h">
-      <Filter>platform\sdl</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\include\platform\sdl\sdlScreen.h">
       <Filter>platform\sdl</Filter>
     </ClInclude>
@@ -445,12 +485,6 @@
       <Filter>platform\sdl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\platform\sdl\sdlTexture.h">
-      <Filter>platform\sdl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\platform\sdl\sdlThread.h">
-      <Filter>platform\sdl</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\platform\sdl\sdlTimer.h">
       <Filter>platform\sdl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\map\GameMap.h">
@@ -474,5 +508,92 @@
     <ClInclude Include="..\..\..\include\map\TileSet.h">
       <Filter>map</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\Semaphore.h" />
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwDefines.h">
+      <Filter>platform\glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwInput.h">
+      <Filter>platform\glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwScreen.h">
+      <Filter>platform\glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwSystem.h">
+      <Filter>platform\glfw</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosDefines.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosInput.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosMusic.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosScreen.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSound.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSoundSource.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSoundSystem.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSystem.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSystemStub.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosTexture.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosView.h">
+      <Filter>platform\ios</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtDefines.h">
+      <Filter>platform\qt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtInput.h">
+      <Filter>platform\qt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtPch.h">
+      <Filter>platform\qt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtScene.h">
+      <Filter>platform\qt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtScreen.h">
+      <Filter>platform\qt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtSurface.h">
+      <Filter>platform\qt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtSystem.h">
+      <Filter>platform\qt</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\oal\oalMusic.h">
+      <Filter>api\oal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\oal\oalSound.h">
+      <Filter>api\oal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\oal\oalSoundSource.h">
+      <Filter>api\oal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\oal\oalSoundSystem.h">
+      <Filter>api\oal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\oal\vorbis_util.h">
+      <Filter>api\oal</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\source\platform\ios\iosView.mm">
+      <Filter>platform\ios</Filter>
+    </None>
   </ItemGroup>
 </Project>

@@ -174,9 +174,9 @@ void ISoundSource::Play()
 		nState = eSoundSourceState::Play;
 }
 
-void ISoundSource::Stop(f32 ms)
+void ISoundSource::Stop(Seconds s)
 {
-	UNUSED(ms);
+	UNUSED(s);
 	nState = eSoundSourceState::Stop;
 }
 
@@ -196,22 +196,22 @@ void ISoundSource::Resume()
 	}
 }
 
-void ISoundSource::FadeOut(f32 ms)
+void ISoundSource::FadeOut(Seconds s)
 {
 	if (nState != eSoundSourceState::FadingOut)
 		nState = eSoundSourceState::FadeOut;
 
-	fStartFadeTime = pTimer->GetMilliseconds();
-	fFadeTime = ms;
+	fStartFadeTime = pTimer->GetSeconds();
+	fFadeTime = s;
 }
 
-void ISoundSource::FadeIn(f32 ms)
+void ISoundSource::FadeIn(Seconds s)
 {
 	if (nState != eSoundSourceState::FadingIn)
 		nState = eSoundSourceState::FadeIn;
 
-	fStartFadeTime = pTimer->GetMilliseconds();
-	fFadeTime = ms;
+	fStartFadeTime = pTimer->GetSeconds();
+	fFadeTime = s;
 }
 
 void ISoundSource::SetLoop(bool b)

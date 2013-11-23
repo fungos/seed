@@ -56,14 +56,8 @@ class SoundSystem : public ISoundSystem
 
 	public:
 		// ISoundSystem
-		//virtual void PlayMusic(IMusic *mus, f32 ms = 0);
-		//virtual void StopMusic(f32 ms = 0, IMusic *mus = NULL);
-		//virtual void StopSounds();
 		virtual void Pause();
 		virtual void Resume();
-
-		//virtual void Add(ISoundSource *src);
-		//virtual void Remove(ISoundSource *src);
 
 		// IUpdatable
 		virtual bool Update(Seconds dt);

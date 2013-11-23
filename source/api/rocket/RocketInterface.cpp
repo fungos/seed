@@ -310,7 +310,7 @@ size_t RocketInterface::Tell(Rocket::Core::FileHandle file)
 // Rocket::Core::SystemInterface
 float RocketInterface::GetElapsedTime()
 {
-	return static_cast<float>(pTimer->GetMilliseconds() / 1000.0f);
+	return static_cast<float>(pTimer->GetSeconds());
 }
 
 bool RocketInterface::LogMessage(Rocket::Core::Log::Type type, const Rocket::Core::String& message)

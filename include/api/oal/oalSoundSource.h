@@ -60,7 +60,7 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		// ISoundSource
 		virtual void SetLoop(bool b) override;
 		virtual void Play() override;
-		virtual void Stop(f32 ms = 0.0f) override;
+		virtual void Stop(Seconds s = 0.0f) override;
 		virtual void Resume() override;
 
 		virtual void SetVolume(f32 vol) override;

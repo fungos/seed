@@ -82,9 +82,9 @@ class SEED_CORE_API System : public ISystem
 		virtual bool Update(Seconds dt) override;
 
 	private:
-		Seconds	fLastFrameTime;
-		Seconds	fFpsTime;
-		Seconds	fElapsedTime;
+		f32		fLastFrameTime;
+		f32		fFpsTime;
+		f32		fElapsedTime;
 		u32		iRetraceCount;
 		u32		iFrameRate;
 		u32		iRetraceIndex;

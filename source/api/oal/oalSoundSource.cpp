@@ -121,9 +121,9 @@ void SoundSource::SetLoop(bool b)
 	alSourcei(iSource, AL_LOOPING, b);
 }
 
-void SoundSource::Stop(f32 ms)
+void SoundSource::Stop(Seconds s)
 {
-	UNUSED(ms)
+	UNUSED(s)
 
 	alSourceStop(iSource);
 	nState = eSoundSourceState::Stop;
