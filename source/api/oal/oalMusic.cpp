@@ -213,7 +213,7 @@ void Music::Reset()
 	AL_CHECK(alSourceQueueBuffers(iSource, OPENAL_MUSIC_BUFFERS, iBuffers));
 }
 
-bool Music::Update(f32 dt)
+bool Music::Update(Seconds dt)
 {
 	UNUSED(dt);
 

@@ -125,7 +125,7 @@ bool Input::Initialize()
 	return r;
 }
 
-bool Input::Update(f32 dt)
+bool Input::Update(Seconds dt)
 {
 	UNUSED(dt);
 
@@ -369,7 +369,7 @@ f32 Input::GetDistance(u16 joystick) const
 	return 0;
 }
 
-eInputButton Input::GetJoystickButtonCode(u32 button) const 
+eInputButton Input::GetJoystickButtonCode(u32 button) const
 {
 	return eInputButton(button); // FIXME: BUTTON MAPPING
 }

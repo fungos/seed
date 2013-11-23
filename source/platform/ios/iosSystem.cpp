@@ -73,7 +73,7 @@ bool System::Shutdown()
 	return true;
 }
 
-bool System::Update(f32 delta)
+bool System::Update(Seconds delta)
 {
 	UNUSED(delta);
 	return true;

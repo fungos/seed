@@ -57,7 +57,7 @@ class SEED_CORE_API Movie : public ISceneNode
 		void Reset();
 
 		// IRenderable
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds dt) override;
 		virtual void Render(const Matrix4f &) override;
 
 		// IDataObject
@@ -67,7 +67,7 @@ class SEED_CORE_API Movie : public ISceneNode
 		virtual void Set(Reader &reader) override;
 
 	private:
-		f32				fElapsedTime;
+		Seconds			fElapsedTime;
 		TimelineVector	vTimelines;
 		bool			bPlaying : 1;
 };

@@ -60,7 +60,7 @@ bool SoundSystem::Shutdown()
 	return true;
 }
 
-bool SoundSystem::Update(f32 dt)
+bool SoundSystem::Update(Seconds dt)
 {
 	return true;
 }

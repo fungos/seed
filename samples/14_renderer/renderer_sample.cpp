@@ -74,7 +74,7 @@ bool RendererSample::Initialize()
 	return true;
 }
 
-bool RendererSample::Update(f32 dt)
+bool RendererSample::Update(Seconds dt)
 {
 	if (pImage)
 	{

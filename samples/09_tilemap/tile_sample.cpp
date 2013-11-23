@@ -43,7 +43,7 @@ bool TileSample::Initialize()
 	});
 }
 
-bool TileSample::Update(f32 dt)
+bool TileSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 

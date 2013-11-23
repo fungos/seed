@@ -198,7 +198,7 @@ void ParticleEmitter::Reset()
 	bInitialized = false;
 }
 
-void ParticleEmitter::Update(f32 deltaTime)
+void ParticleEmitter::Update(Seconds dt)
 {
 	if (!bInitialized)
 		return;
@@ -219,7 +219,7 @@ void ParticleEmitter::Update(f32 deltaTime)
 
 	if (fAge == -2.0f && cEmitter.fLifetime != -1.0f && fInterval > 0.0f)
 	{
-		fRespawnAge += deltaTime;
+		fRespawnAge += dt;
 
 		if (fRespawnAge >= fInterval)
 		{
@@ -230,7 +230,7 @@ void ParticleEmitter::Update(f32 deltaTime)
 
 	if (fAge >= 0)
 	{
-		fAge += deltaTime;
+		fAge += dt;
 		if (fAge >= cEmitter.fLifetime)
 			fAge = -2.0f;
 	}
@@ -242,7 +242,7 @@ void ParticleEmitter::Update(f32 deltaTime)
 
 		par = &arParticles[i];
 
-		par->fAge += deltaTime;
+		par->fAge += dt;
 		if (par->fAge >= par->fTerminalAge)
 		{
 			arParticles[i].bActive = false;
@@ -259,28 +259,28 @@ void ParticleEmitter::Update(f32 deltaTime)
 		accel2.setY(ang);
 
 		accel2 *= par->fTangentialAccel;
-		par->vVelocity += (accel + accel2) * deltaTime;
-		par->vVelocity.setY(par->vVelocity.getY() + par->fGravity * deltaTime);
+		par->vVelocity += (accel + accel2) * dt;
+		par->vVelocity.setY(par->vVelocity.getY() + par->fGravity * dt);
 
-		par->fSpin += par->fSpinDelta * deltaTime;
-		par->fSize += par->fSizeDelta * deltaTime;
-		par->fColorR += par->fColorDeltaR * deltaTime;
-		par->fColorG += par->fColorDeltaG * deltaTime;
-		par->fColorB += par->fColorDeltaB * deltaTime;
-		par->fColorA += par->fColorDeltaA * deltaTime;
+		par->fSpin += par->fSpinDelta * dt;
+		par->fSize += par->fSizeDelta * dt;
+		par->fColorR += par->fColorDeltaR * dt;
+		par->fColorG += par->fColorDeltaG * dt;
+		par->fColorB += par->fColorDeltaB * dt;
+		par->fColorA += par->fColorDeltaA * dt;
 
 		par->vScale.setX(par->fSize);
 		par->vScale.setY(par->fSize);
 		par->fRotation += par->fSpin;
 
-		par->vPosition += (par->vVelocity * deltaTime);
+		par->vPosition += (par->vVelocity * dt);
 		rBoundingBox.Encapsulate(par->vPosition.getX(), par->vPosition.getY());
 	}
 
 	// Create more particles
 	if (fAge != -2.0f)
 	{
-		auto fParticlesNeeded = cEmitter.iEmission * deltaTime + fEmissionResidue;
+		auto fParticlesNeeded = cEmitter.iEmission * dt + fEmissionResidue;
 		auto iParticlesCreated = static_cast<u32>(Number::Ceil(fParticlesNeeded));
 		fEmissionResidue = fParticlesNeeded - iParticlesCreated;
 
@@ -356,7 +356,7 @@ void ParticleEmitter::Update(f32 deltaTime)
 
 	if (pTemplate)
 	{
-		pTemplate->Update(deltaTime);
+		pTemplate->Update(dt);
 		pTexture = pTemplate->GetTexture();
 		if (pTexture)
 		{

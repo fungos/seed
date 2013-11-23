@@ -62,9 +62,9 @@ void IRenderable::Render(const Matrix4f &worldTransform)
 	SEED_ABSTRACT_METHOD;
 }
 
-void IRenderable::Update(f32 delta)
+void IRenderable::Update(Seconds dt)
 {
-	UNUSED(delta);
+	UNUSED(dt);
 	SEED_ABSTRACT_METHOD;
 }
 

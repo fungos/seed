@@ -17,7 +17,7 @@ bool PresentationSample::Initialize()
 	});
 }
 
-bool PresentationSample::Update(f32 dt)
+bool PresentationSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	return true;

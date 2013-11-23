@@ -33,7 +33,7 @@
 #include "ResourceGroup.h"
 #include "EventResourceLoader.h"
 #include "interface/IEventResourceLoaderListener.h"
-#include "Timer.h"
+#include "System.h"
 #include "Memory.h"
 
 #define TAG		"[ResourceLoader] "
@@ -77,14 +77,14 @@ bool ResourceLoader::Shutdown()
 	return true;
 }
 
-bool ResourceLoader::Update(f32 dt)
+bool ResourceLoader::Update(Seconds dt)
 {
 	UNUSED(dt);
 
 	if (!this->IsRunning())
 		return false;
 
-	ResourceGroup *group = NULL;
+	ResourceGroup *group = nullptr;
 
 	ScopedMutexLock lock(cMutex);
 	if (vGroups.size() > 0)
@@ -123,7 +123,7 @@ bool ResourceLoader::Run()
 {
 	if (this->IsRunning())
 	{
-		ResourceGroup *group = NULL;
+		ResourceGroup *group = nullptr;
 
 		ScopedMutexLock lock(cMutex);
 		if (vGroups.size() > 0)
@@ -141,7 +141,7 @@ bool ResourceLoader::Run()
 			group->SetLoaded();
 	}
 
-	pTimer->Sleep(10);
+	pTimer->Sleep(10.0f);
 	return this->IsRunning();
 }
 

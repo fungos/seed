@@ -145,9 +145,9 @@ void SoundSource::Resume()
 	}
 }
 
-void SoundSource::Update(f32 delta)
+void SoundSource::Update(Seconds dt)
 {
-	UNUSED(delta);
+	UNUSED(dt);
 
 	if (bTransformationChanged)
 	{

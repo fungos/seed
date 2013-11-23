@@ -22,7 +22,7 @@ bool PrefabsSample::Initialize()
 	});
 }
 
-bool PrefabsSample::Update(f32 dt)
+bool PrefabsSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	if (!pSprite && pEmitter)

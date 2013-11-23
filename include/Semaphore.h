@@ -28,23 +28,59 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#if defined(BUILD_IOS)
+#ifndef __SEMAPHORE_H__
+#define __SEMAPHORE_H__
 
-#include "Timer.h"
+#include "Defines.h"
+#include "Thread.h"
+#include <condition_variable>
 
-namespace Seed { namespace iOS {
+namespace Seed {
 
-SEED_SINGLETON_DEFINE(Timer);
-
-Timer::Timer()
-	: fStart(0)
+class SEED_CORE_API Semaphore
 {
-}
+	SEED_DISABLE_COPY(Semaphore)
 
-Timer::~Timer()
-{
-}
+	public:
+		Semaphore(u32 count = 0)
+			: mCount(count)
+		{}
 
-}} // namespace
+		virtual ~Semaphore() {}
 
-#endif // BUILD_IOS
+		void Notify()
+		{
+			ScopedMutexLock lock(mMutex);
+			++mCount;
+			mCond.notify_one();
+		}
+
+		void Wait()
+		{
+			ScopedMutexLock lock(mMutex);
+			while (!mCount)
+				mCond.wait(lock);
+			--mCount;
+		}
+
+		bool TryWait()
+		{
+			ScopedMutexLock lock(mMutex);
+			if (mCount)
+			{
+				--mCount;
+				return true;
+			}
+
+			return false;
+		}
+
+	private:
+		Mutex mMutex;
+		std::condition_variable mCond;
+		u32 mCount;
+};
+
+} // namespace
+
+#endif // __SEMAPHORE_H__

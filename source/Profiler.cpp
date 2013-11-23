@@ -30,9 +30,11 @@
 
 #if defined(SEED_ENABLE_PROFILER)
 
-#include "Timer.h"
+#include "System.h"
 #include "Profiler.h"
 #include "Log.h"
+
+namespace Seed {
 
 #define TAG "[Profiler] "
 #define STORE_VALUE(v) { p->stack[p->pos++] = v; if (p->pos > 256) p->pos = 0; }
@@ -147,7 +149,7 @@ ProfileContext::ProfileContext(const char *f, Profiler *prof)
 	, bTerminated(false)
 	, pProf(prof)
 {
-	begTotal = pTimer->GetMilliseconds(); //clock();
+	begTotal = pTimer->GetMilliseconds();
 	this->Push();
 	this->StartOrContinue();
 }
@@ -220,5 +222,7 @@ void ProfileContext::Pop()
 		stack.pop();
 	this->RestorePrevious();
 }
+
+} // namespace
 
 #endif // SEED_ENABLE_PROFILER

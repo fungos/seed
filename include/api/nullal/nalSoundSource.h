@@ -60,7 +60,7 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		virtual void UpdateVolume();
 
 		// IRenderable
-		virtual void Update(f32 delta);
+		virtual void Update(Seconds dt);
 
 	protected:
 		// ISoundSource

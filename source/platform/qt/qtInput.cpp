@@ -76,7 +76,7 @@ bool Input::Initialize()
 	return r;
 }
 
-bool Input::Update(f32 dt)
+bool Input::Update(Seconds dt)
 {
 	UNUSED(dt);
 	return true;

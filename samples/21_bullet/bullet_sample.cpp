@@ -96,7 +96,7 @@ bool BulletSample::Initialize()
 	return true;
 }
 
-bool BulletSample::Update(f32 dt)
+bool BulletSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	pDynamicsWorld->stepSimulation(1.f/60.f,10);

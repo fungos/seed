@@ -31,7 +31,7 @@
 #include "Defines.h"
 #include "Log.h"
 #include "ResourceManager.h"
-#include "Timer.h"
+#include "System.h"
 #include "Memory.h"
 
 #define TAG		"[ResourceManager] "
@@ -118,8 +118,8 @@ IResource *ResourceManager::Get(const String &filename, TypeId resourceType)
 void ResourceManager::GarbageCollect()
 {
 #if defined(DEBUG)
-	u64 tbegin = pTimer->GetMilliseconds();
-	u64 tend = 0;
+	Milliseconds tbegin = pTimer->GetMilliseconds();
+	Milliseconds tend = 0;
 #endif // DEBUG
 
 	u32 amount = 0;

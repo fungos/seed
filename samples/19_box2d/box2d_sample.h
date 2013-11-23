@@ -17,7 +17,7 @@ class Box2DSample : public IGameApp,
 		virtual ~Box2DSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener

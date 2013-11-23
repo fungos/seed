@@ -52,7 +52,7 @@ class SEED_CORE_API SoundSystem : public ISoundSystem
 		virtual void Resume();
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 
 		// IModule
 		virtual bool Initialize();

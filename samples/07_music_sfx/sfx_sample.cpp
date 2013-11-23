@@ -24,7 +24,7 @@ bool SfxSample::Initialize()
 	});
 }
 
-bool SfxSample::Update(f32 dt)
+bool SfxSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	return true;

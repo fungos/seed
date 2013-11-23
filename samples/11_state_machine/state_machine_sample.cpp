@@ -52,7 +52,7 @@ bool StateMachineSample::Initialize()
 	return init;
 }
 
-bool StateMachineSample::Update(f32 dt)
+bool StateMachineSample::Update(Seconds dt)
 {
 	if (pAgentData->GetFatigue() > 50)
 	{

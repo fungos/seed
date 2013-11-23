@@ -82,7 +82,7 @@ namespace Private
 	f32			fCurrentTime;
 }
 
-ResourceManager *pResourceManager = NULL;
+ResourceManager *pResourceManager = nullptr;
 
 #define MAX_FRAME_DELTA ((1.0f / 60.0f) * 5.0f)
 
@@ -213,7 +213,6 @@ bool Initialize()
 	Info(SEED_TAG "\tResourceLoader: %s", Private::bDisableResourceLoader ? "No" : "Yes");
 
 	ret = ret && pManager->Add(pSystem);
-	ret = ret && pManager->Add(pTimer);
 	ret = ret && pManager->Add(pCartridge);
 	ret = ret && pManager->Add(pScreen);
 	ret = ret && pManager->Add(pRendererDevice);
@@ -281,13 +280,14 @@ void Update()
 	if (!Private::bInitialized)
 		return;
 
-	f32 newTime				= (f32)(pTimer->GetMilliseconds() / 1000.0f);
-	f32 dt					= newTime - Private::fCurrentTime;
+	const f32 maxRate		= 5.0f;
+	Seconds newTime			= pTimer->GetSeconds();
+	Seconds dt				= newTime - Private::fCurrentTime;
 	Private::fCurrentTime	= newTime;
-	f32 frameDelta			= (1.0f / pConfiguration->GetFrameRate()) * 5.0f;
+	Seconds maxFrameDt		= (Seconds(1) / pConfiguration->GetFrameRate()) * maxRate;
 
-	if (dt > frameDelta)
-		dt = frameDelta;
+	if (dt > maxFrameDt)
+		dt = maxFrameDt;
 
 	pUpdater->Run(dt);
 
@@ -328,7 +328,6 @@ void Shutdown()
 	pViewManager->DestroyInstance();
 	pScreen->DestroyInstance();
 	pCartridge->DestroyInstance();
-	pTimer->DestroyInstance();
 	pSystem->DestroyInstance();
 	pFileSystem->DestroyInstance();
 
@@ -337,7 +336,7 @@ void Shutdown()
 	LeakReportPrint;
 
 	Private::bInitialized = false;
-	Private::pApplication = NULL;
+	Private::pApplication = nullptr;
 }
 
 } // namespace

@@ -17,7 +17,7 @@ class TileSample : public IGameApp,
 		virtual ~TileSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener

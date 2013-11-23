@@ -73,7 +73,7 @@ bool Box2DSample::Initialize()
 	return true;
 }
 
-bool Box2DSample::Update(f32 dt)
+bool Box2DSample::Update(Seconds dt)
 {
 	pWorld->Step(dt, 8, 3);
 	pWorld->ClearForces();

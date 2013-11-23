@@ -58,7 +58,7 @@ bool IMusic::Load(const String &filename, ResourceManager *res)
 	return false;
 }
 
-bool IMusic::Update(f32 dt)
+bool IMusic::Update(Seconds dt)
 {
 	UNUSED(dt);
 	SEED_ABSTRACT_METHOD;

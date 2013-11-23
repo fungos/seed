@@ -89,7 +89,6 @@ SOURCES += source/Viewport.cpp \
 	source/api/ogl/oglES1RendererDevice.cpp \
 	source/api/theora/Theora.cpp \
 	source/api/yajl/JsonReader.cpp \
-	source/platform/ios/iosTimer.cpp \
 	source/platform/ios/iosTexture.cpp \
 	source/platform/ios/iosSystem.cpp \
 	source/platform/ios/iosSoundSystem.cpp \
@@ -101,13 +100,11 @@ SOURCES += source/Viewport.cpp \
 	source/platform/pc/pcRendererDevice.cpp \
 	source/platform/pc/pcLog.cpp \
 	source/platform/pc/pcCartridge.cpp \
-	source/platform/qt/qtTimer.cpp \
 	source/platform/qt/qtSystem.cpp \
 	source/platform/qt/qtSurface.cpp \
 	source/platform/qt/qtScreen.cpp \
 	source/platform/qt/qtScene.cpp \
 	source/platform/qt/qtInput.cpp \
-	source/platform/sdl/sdlTimer.cpp \
 	source/platform/sdl/sdlTexture.cpp \
 	source/platform/sdl/sdlSystem.cpp \
 	source/platform/sdl/sdlScreen.cpp \
@@ -119,7 +116,6 @@ SOURCES += source/Viewport.cpp \
 	source/interface/IWriter.cpp \
 	source/SceneObjectFactory.cpp \
 	source/Camera.cpp \
-	source/platform/glfw/glfwTimer.cpp \
 	source/platform/glfw/glfwSystem.cpp \
 	source/platform/glfw/glfwScreen.cpp \
 	source/platform/glfw/glfwInput.cpp \
@@ -198,4 +194,5 @@ HEADERS += include/*.h \
 	include/map/TileSet.h \
     include/PrefabManager.h \
     include/map/MetadataObject.h \
-    include/Memory.h
+    include/Memory.h \
+    include/Semaphore.h

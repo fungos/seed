@@ -66,10 +66,10 @@ void SceneManager::Remove(ISceneObject *obj)
 	vObject -= obj;
 }
 
-bool SceneManager::Update(f32 delta)
+bool SceneManager::Update(Seconds dt)
 {
 	for (auto each: vObject)
-		each->Update(delta);
+		each->Update(dt);
 
 	return true;
 }

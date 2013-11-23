@@ -81,9 +81,9 @@ void Camera::SetView(const Rect4f &rect)
 	rBoundingBox = Rect4f(0.0f, 0.0f, static_cast<f32>(pScreen->GetWidth()), static_cast<f32>(pScreen->GetHeight()));
 }
 
-void Camera::Update(f32 delta)
+void Camera::Update(Seconds dt)
 {
-	UNUSED(delta)
+	UNUSED(dt)
 	bTransformationChanged = this->IsChanged();
 	if (bTransformationChanged)
 	{

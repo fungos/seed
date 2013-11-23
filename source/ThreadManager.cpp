@@ -70,7 +70,7 @@ bool ThreadManager::Shutdown()
 	return IManager::Shutdown();
 }
 
-bool ThreadManager::Update(f32 dt)
+bool ThreadManager::Update(Seconds dt)
 {
 	UNUSED(dt)
 	if (bEnabled)

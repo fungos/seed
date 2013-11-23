@@ -125,7 +125,7 @@ bool SaveSample::Initialize()
 	});
 }
 
-bool SaveSample::Update(f32 dt)
+bool SaveSample::Update(Seconds dt)
 {
 	if (pImage)
 	{

@@ -59,7 +59,7 @@ bool ISceneNode::IsNode() const
 	return true;
 }
 
-void ISceneNode::Update(f32 dt)
+void ISceneNode::Update(Seconds dt)
 {
 	for (auto obj: vChild)
 		obj->Update(dt);

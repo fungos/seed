@@ -67,7 +67,7 @@ class SEED_CORE_API Music : public IMusic
 
 		// IMusic
 		virtual void Reset();
-		virtual bool Update(f32 dt) override;
+		virtual bool Update(Seconds dt) override;
 		virtual const void *GetData() const override;
 
 		virtual void SetVolume(f32 vol) override;

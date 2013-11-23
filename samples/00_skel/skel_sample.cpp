@@ -16,7 +16,7 @@ bool SkelSample::Initialize()
 	return IGameApp::Initialize();
 }
 
-bool SkelSample::Update(f32 dt)
+bool SkelSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	return true;

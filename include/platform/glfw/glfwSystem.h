@@ -79,18 +79,18 @@ class SEED_CORE_API System : public ISystem
 		virtual bool Reset() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt) override;
+		virtual bool Update(Seconds dt) override;
 
 	private:
-		u64		iLastFrameTime;
-		u64		iFpsTime;
-		f32		fElapsedTime;
-		u32		iRetraceCount;
-		u32		iFrameRate;
-		u32		iRetraceIndex;
-		u32		arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
-		bool	bShutdown : 1;
-		bool	bSleeping : 1;
+		Milliseconds	fLastFrameTime;
+		Milliseconds	fFpsTime;
+		Milliseconds	fElapsedTime;
+		u32				iRetraceCount;
+		u32				iFrameRate;
+		u32				iRetraceIndex;
+		u32				arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
+		bool			bShutdown : 1;
+		bool			bSleeping : 1;
 };
 
 #define pSystem Seed::GLFW::System::GetInstance()

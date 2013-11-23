@@ -69,7 +69,7 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		virtual SoundSource *Clone() const override;
 
 		// IRenderable
-		virtual void Update(f32 dt) override;
+		virtual void Update(Seconds dt) override;
 
 	protected:
 		// ISoundSource

@@ -110,13 +110,13 @@ void Movie::AddTimeline(Timeline *timeline)
 	this->Add(timeline->GetObject());
 }
 
-void Movie::Update(f32 delta)
+void Movie::Update(Seconds dt)
 {
 	if (!bPlaying)
 		return;
 
-	fElapsedTime += delta;
-	f32 frame = 1 / 60.0f;
+	fElapsedTime += dt;
+	Seconds frame = Seconds(1.0f / 60.0f);
 
 	if (fElapsedTime >= frame)
 	{
@@ -136,7 +136,7 @@ void Movie::Update(f32 delta)
 		}
 	}
 
-	ISceneNode::Update(delta);
+	ISceneNode::Update(dt);
 }
 
 void Movie::Render(const Matrix4f &)

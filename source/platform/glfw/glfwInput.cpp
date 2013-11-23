@@ -342,7 +342,7 @@ void Input::OnMousePosCb(int xp, int yp)
 	this->SendEventPointerMove(&ev);
 }
 
-bool Input::Update(f32 dt)
+bool Input::Update(Seconds dt)
 {
 	UNUSED(dt);
 

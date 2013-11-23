@@ -103,7 +103,7 @@ class SEED_CORE_API ISoundSource : public ISceneObject
 		ISound *pSound;
 		f32 fVolume;
 		f32 fFadeTime;
-		u64 fStartFadeTime;
+		Milliseconds fStartFadeTime;
 		eSoundSourceState nState;
 		bool bLoop : 1;
 		bool bAutoPlay : 1;

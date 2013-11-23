@@ -32,6 +32,8 @@
 #define __SEED_DEFINES_H__
 
 #include <string>
+#include <chrono>
+
 #include "Config.h"
 
 /*
@@ -180,5 +182,13 @@ extern "C" { namespace Seed {
 	class ResourceManager;
 	SEED_CORE_API extern ResourceManager *pResourceManager;
 }}
+
+namespace Seed {
+	typedef std::chrono::high_resolution_clock Clock;
+	typedef double Milliseconds; // we use the raw numbers directly internally, no conversions needed.
+	typedef float  Seconds; // same here
+	typedef std::chrono::duration<Milliseconds> Duration;
+	typedef std::chrono::time_point<std::chrono::system_clock> TimePoint;
+}
 
 #endif // __SEED_DEFINES_H__

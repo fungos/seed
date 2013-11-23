@@ -144,7 +144,7 @@ void SoundSource::Resume()
 	}
 }
 
-void SoundSource::Update(f32 dt)
+void SoundSource::Update(Seconds dt)
 {
 	UNUSED(dt);
 

@@ -101,7 +101,7 @@ void JobManager::StartThreads()
 	}
 }
 
-bool JobManager::Update(f32 dt)
+bool JobManager::Update(Seconds dt)
 {
 	UNUSED(dt)
 	if (bEnabled)

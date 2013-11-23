@@ -31,20 +31,20 @@
 #include "interface/ISoundSystem.h"
 #include "interface/ISoundSource.h"
 #include "interface/IMusic.h"
-#include "Timer.h"
+#include "System.h"
 
 namespace Seed {
 
 ISoundSystem::ISoundSystem()
-	: pCurrentMusic(NULL)
-	, pNewMusic(NULL)
+	: pCurrentMusic(nullptr)
+	, pNewMusic(nullptr)
 	, vSource()
 	, fMusicVolume(1.0f)
 	, fSfxVolume(1.0f)
 	, fMusicVolumeOrig(1.0f)
 	, fSfxVolumeOrig(1.0f)
-	, fMusicStartFadeTime(0.0f)
 	, fMusicFadeTime(0.0f)
+	, fMusicStartFadeTime(0.0f)
 	, bMuted(false)
 	, bChanged(false)
 	, bPaused(false)
@@ -114,7 +114,7 @@ void ISoundSystem::Unmute()
 void ISoundSystem::PlayMusic(IMusic *mus, f32 ms)
 {
 	fMusicFadeTime = ms;
-	fMusicStartFadeTime = static_cast<f32>(pTimer->GetMilliseconds());
+	fMusicStartFadeTime = pTimer->GetMilliseconds();
 
 	if (pCurrentMusic && mus != pCurrentMusic)
 	{
@@ -156,17 +156,17 @@ void ISoundSystem::StopMusic(f32 ms, IMusic *mus)
 		mus->nState = eMusicState::Stop;
 
 		if (pCurrentMusic == mus)
-			pCurrentMusic = NULL;
+			pCurrentMusic = nullptr;
 
 		if (pNewMusic == mus)
-			pNewMusic = NULL;
+			pNewMusic = nullptr;
 	}
 	else if (pCurrentMusic)
 	{
 		fMusicFadeTime = ms;
 		if (ms)
 		{
-			fMusicStartFadeTime = static_cast<f32>(pTimer->GetMilliseconds());
+			fMusicStartFadeTime = pTimer->GetMilliseconds();
 			pCurrentMusic->nState = eMusicState::FadeOut;
 		}
 		else

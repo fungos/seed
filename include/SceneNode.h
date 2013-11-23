@@ -61,7 +61,7 @@ class SEED_CORE_API ISceneNode : public ISceneObject
 		virtual ISceneObject *GetChildByName(const String &name) const;
 
 		// IRenderable
-		virtual void Update(f32 dt) override;
+		virtual void Update(Seconds dt) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		/*! Unload all children objects deleting only if they are bMarkedForDeletion,

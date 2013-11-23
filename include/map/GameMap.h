@@ -63,7 +63,7 @@ class SEED_CORE_API GameMap : public ISceneObject
 		const String GetProperty(const String &property) const;
 
 		// SceneNode
-		virtual void Update(f32 dt) override;
+		virtual void Update(Seconds dt) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 		virtual void Reset() override; // call Unload
 

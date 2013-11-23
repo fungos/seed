@@ -166,7 +166,7 @@ Point2i MapLayerMosaic::ViewAt(Point2i pos)
 	return Point2i(0, 0);
 }
 
-void MapLayerMosaic::Update(f32 dt)
+void MapLayerMosaic::Update(Seconds dt)
 {
 	cScene.Update(dt);
 }

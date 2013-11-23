@@ -63,7 +63,7 @@ class SEED_CORE_API ThreadManager : public IManager, public IUpdatable
 		virtual void Enable() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt) override;
+		virtual bool Update(Seconds dt) override;
 
 	private:
 		ThreadVector vThread;

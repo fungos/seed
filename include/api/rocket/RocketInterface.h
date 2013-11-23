@@ -119,7 +119,7 @@ class SEED_CORE_API RocketInterface :
 
 		// IRenderable
 		virtual void Render(const Matrix4f &worldTransform) override;
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds dt) override;
 
 	private:
 		// It should be possible to clone, but not for now.

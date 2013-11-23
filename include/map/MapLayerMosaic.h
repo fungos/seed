@@ -84,7 +84,7 @@ class SEED_CORE_API MapLayerMosaic : public IMapLayer
 		virtual ISceneObject *GetChildAt(u32 i) const override;
 
 		// IRenderable
-		virtual void Update(f32 delta);
+		virtual void Update(Seconds delta);
 		virtual void Render(const Matrix4f &worldTransform);
 
 		// IDataObject

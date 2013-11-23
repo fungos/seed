@@ -239,7 +239,7 @@ GameMap *GameMap::Clone() const
 	return obj;
 }
 
-void GameMap::Update(f32 dt)
+void GameMap::Update(Seconds dt)
 {
 	for (decltype(cMapLayers.Size()) i = 0; i < cMapLayers.Size(); i++)
 	{

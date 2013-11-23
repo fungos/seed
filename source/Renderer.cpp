@@ -89,7 +89,7 @@ void Renderer::PushChildNodes(SceneNode *node, SceneNodeVector &v)
 	}
 }
 
-bool Renderer::Update(f32 dt)
+bool Renderer::Update(Seconds dt)
 {
 	UNUSED(dt);
 	SEED_FUNCTION_PROFILER;

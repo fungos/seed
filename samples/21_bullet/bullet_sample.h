@@ -18,7 +18,7 @@ class BulletSample :	public IGameApp,
 		virtual ~BulletSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener

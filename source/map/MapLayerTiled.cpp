@@ -185,7 +185,7 @@ void MapLayerTiled::LoadData(Reader &reader, u32 len)
 	bRebuildMesh = true;
 }
 
-void MapLayerTiled::Update(f32 dt)
+void MapLayerTiled::Update(Seconds dt)
 {
 	UNUSED(dt)
 	if (bRebuildMesh && pTileSet && pTileData)

@@ -80,19 +80,19 @@ class SEED_CORE_API System : public ISystem
 		virtual bool Reset();
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 
 	private:
-		u64		iLastFrameTime;
-		u64		iFpsTime;
-		f32		fElapsedTime;
-		u32		iRetraceCount;
-		u32		iFrameRate;
-		u32		iRetraceIndex;
-		u32		arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
-		bool	bShutdown : 1;
-		bool	bSleeping : 1;
-		QWidget	*pWidget;
+		Milliseconds	fLastFrameTime;
+		Milliseconds	fFpsTime;
+		Milliseconds	fElapsedTime;
+		u32				iRetraceCount;
+		u32				iFrameRate;
+		u32				iRetraceIndex;
+		u32				arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
+		bool			bShutdown : 1;
+		bool			bSleeping : 1;
+		QWidget			*pWidget;
 };
 
 #define pSystem Seed::QT::System::GetInstance()

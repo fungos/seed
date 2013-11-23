@@ -32,7 +32,7 @@
 
 #if SEED_USE_ROCKET_GUI == 1
 
-#include "Timer.h"
+#include "System.h"
 #include "File.h"
 #include "ResourceManager.h"
 #include "RendererDevice.h"
@@ -49,7 +49,7 @@
 namespace Seed { namespace RocketGui {
 
 RocketInterface::RocketInterface()
-	: pCurrent(NULL)
+	: pCurrent(nullptr)
 	, iModifierState(0)
 {
 	cVertexBuffer.Configure(eBufferUsage::EveryFrameChange);
@@ -66,7 +66,7 @@ RocketInterface::~RocketInterface()
 {
 	pRendererDevice->DestroyHardwareBuffer(&cVertexBuffer);
 	pRendererDevice->DestroyHardwareBuffer(&cElementBuffer);
-	pCurrent = NULL;
+	pCurrent = nullptr;
 }
 
 // Rocket::Core::RenderInterface
@@ -165,10 +165,10 @@ void RocketInterface::ReleaseCompiledGeometry(Rocket::Core::CompiledGeometryHand
 {
 	RendererPacket *packet = (RendererPacket *)geometry;
 
-	void *vert = NULL;
+	void *vert = nullptr;
 	packet->pVertexBuffer->GetData(&vert);
 
-	void *elems = NULL;
+	void *elems = nullptr;
 	packet->pElementBuffer->GetData(&elems);
 
 	// inverse order freeing
@@ -380,9 +380,9 @@ void RocketInterface::Render(const Matrix4f &worldTransform)
 		pCurrent->Render();
 }
 
-void RocketInterface::Update(f32 delta)
+void RocketInterface::Update(Seconds dt)
 {
-	UNUSED(delta)
+	UNUSED(dt)
 	if (pCurrent)
 		pCurrent->Update();
 }

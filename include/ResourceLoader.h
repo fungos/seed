@@ -78,7 +78,7 @@ class SEED_CORE_API ResourceLoader : public IManager, public IUpdatable, public 
 		void RemoveListener(IEventResourceLoaderListener *listener);
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 
 		// IManager
 		virtual bool Initialize();

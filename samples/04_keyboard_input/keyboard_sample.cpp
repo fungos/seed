@@ -41,7 +41,7 @@ bool KeyboardSample::Initialize()
 	});
 }
 
-bool KeyboardSample::Update(f32 dt)
+bool KeyboardSample::Update(Seconds dt)
 {
 	if (bPresentationLoaded)
 	{

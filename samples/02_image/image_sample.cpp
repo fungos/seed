@@ -23,7 +23,7 @@ bool ImageSample::Initialize()
 	});
 }
 
-bool ImageSample::Update(f32 dt)
+bool ImageSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	return true;

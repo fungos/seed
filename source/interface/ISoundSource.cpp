@@ -31,7 +31,7 @@
 #include "interface/ISoundSource.h"
 #include "Sound.h"
 #include "SoundSystem.h"
-#include "Timer.h"
+#include "System.h"
 
 #define TAG		"[ISoundSource] "
 

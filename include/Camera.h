@@ -68,7 +68,7 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual ITexture *GetTexture() const;
 
 		// ISceneObject
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds dt) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject

@@ -143,7 +143,7 @@ bool SoundSystem::Shutdown()
 	return r;
 }
 
-bool SoundSystem::Update(f32 dt)
+bool SoundSystem::Update(Seconds dt)
 {
 	if (bInitialized && !bPaused)
 	{
@@ -161,7 +161,7 @@ bool SoundSystem::Update(f32 dt)
 	return true;
 }
 
-void SoundSystem::UpdateSounds(f32 dt)
+void SoundSystem::UpdateSounds(Seconds dt)
 {
 	UNUSED(dt);
 
@@ -291,7 +291,7 @@ void SoundSystem::UpdateSounds(f32 dt)
 	}
 }
 
-void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
+void SoundSystem::UpdateMusic(Seconds dt, IMusic *m)
 {
 	Music *mus = static_cast<Music *>(m);
 	if (bChanged)

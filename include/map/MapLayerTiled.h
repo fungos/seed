@@ -63,7 +63,7 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		virtual MapLayerTiled *AsTiled() override;
 
 		// SceneNode
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds delta) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject

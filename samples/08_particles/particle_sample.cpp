@@ -22,7 +22,7 @@ bool ParticleSample::Initialize()
 	});
 }
 
-bool ParticleSample::Update(f32 dt)
+bool ParticleSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	if (!pSprite && pEmitter)

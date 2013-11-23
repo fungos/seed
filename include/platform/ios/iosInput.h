@@ -77,7 +77,7 @@ class Input : public IInput, public IInputPointer
 		virtual void SetSensitivity(u32 sens, u16 joystick = 0);
 
 		// IUpdatable
-		virtual bool Update(f32 delta);
+		virtual bool Update(Seconds dt);
 
 		// IManager
 		virtual bool Initialize();

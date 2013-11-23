@@ -46,9 +46,10 @@ const char *pcLanguageTable[] =
 };
 
 ISystem::ISystem()
-	: vListeners()
-	, pStrAppName(NULL)
-	, pStrAppDescription(NULL)
+	: mTimer()
+	, vListeners()
+	, pStrAppName(nullptr)
+	, pStrAppDescription(nullptr)
 	, nLanguage(eLanguage::en_US)
 	, bDefaultCursorEnabled(false)
 {
@@ -83,25 +84,25 @@ const char *ISystem::GetLanguageString() const
 const char *ISystem::GetUsername() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 const char *ISystem::GetHomeFolder() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 const char *ISystem::GetApplicationDataFolder() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 const char *ISystem::GetSaveGameFolder() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 void ISystem::EnableDefaultCursor(bool b)

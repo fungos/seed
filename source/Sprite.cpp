@@ -429,14 +429,14 @@ bool Sprite::IsAnimated() const
 	return bAnimation;
 }
 
-void Sprite::Update(f32 delta)
+void Sprite::Update(Seconds dt)
 {
 	if (!bInitialized)
 		return;
 
 	if (bPlaying && bAnimation)
 	{
-		fFrameTime += delta;
+		fFrameTime += dt;
 
 		auto rate = pFrame->fFrameRate;
 		if (fFrameTime > rate)

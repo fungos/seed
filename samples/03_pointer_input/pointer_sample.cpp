@@ -30,7 +30,7 @@ bool PointerSample::Initialize()
 	});
 }
 
-bool PointerSample::Update(f32 dt)
+bool PointerSample::Update(Seconds dt)
 {
 	if (pImage)
 	{
