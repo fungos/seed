@@ -50,14 +50,14 @@ class SEED_CORE_API Semaphore
 
 		void Notify()
 		{
-			ScopedMutexLock lock(mMutex);
+			UniqueMutexLock lock(mMutex);
 			++mCount;
 			mCond.notify_one();
 		}
 
 		void Wait()
 		{
-			ScopedMutexLock lock(mMutex);
+			UniqueMutexLock lock(mMutex);
 			while (!mCount)
 				mCond.wait(lock);
 			--mCount;
@@ -65,7 +65,7 @@ class SEED_CORE_API Semaphore
 
 		bool TryWait()
 		{
-			ScopedMutexLock lock(mMutex);
+			UniqueMutexLock lock(mMutex);
 			if (mCount)
 			{
 				--mCount;

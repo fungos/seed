@@ -8,7 +8,7 @@ enum
 };
 
 RendererSample::RendererSample()
-	: pImage(nullptr)
+	: pObject(nullptr)
 	, pCamera(nullptr)
 	, cScene()
 	, cViewport()
@@ -55,18 +55,18 @@ bool RendererSample::Initialize()
 			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
 			cViewport.SetCamera(pCamera);
 
-			pImage = (ISceneObject *)gScene->GetChildByName("Panda");
-			if (pImage)
-				vFrom = vCurrent = pImage->GetPosition();
+			pObject = (ISceneObject *)gScene->GetChildByName("Panda");
+			if (pObject)
+				vFrom = vCurrent = pObject->GetPosition();
 		}
 		else if (job->GetState() == eJobState::Aborted)
 		{
 			// ...
 		}
-		Delete(self);
+		sdDelete(self);
 	};
 
-	pJobManager->Add(New(FileLoader("renderer_sample.scene", cb)));
+	pJobManager->Add(sdNew(FileLoader("renderer_sample.scene", cb)));
 	pSystem->AddListener(this);
 	pInput->AddKeyboardListener(this);
 	pInput->AddPointerListener(this);
@@ -76,16 +76,16 @@ bool RendererSample::Initialize()
 
 bool RendererSample::Update(Seconds dt)
 {
-	if (pImage)
+	if (pObject)
 	{
 		fElapsed += dt;
 		if (fElapsed > 1.0f)
 			fElapsed = 1.0f;
 
 		vCurrent = ((1.f - fElapsed) * vFrom) + (fElapsed * vTo);
-		pImage->SetPosition(vCurrent);
+		pObject->SetPosition(vCurrent);
 		if (bRotate)
-			pImage->SetRotation(pImage->GetRotation() + fDir);
+			pObject->SetRotation(pObject->GetRotation() + fDir);
 	}
 
 	return true;
@@ -127,26 +127,26 @@ void RendererSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 void RendererSample::OnInputPointerRelease(const EventInputPointer *ev)
 {
-	if (ev->GetReleased() == eInputButton::Left)
+	if (ev->GetReleased() == eInputButton::MouseLeft)
 	{
-		if (pImage)
-			vFrom = pImage->GetPosition();
+		if (pObject)
+			vFrom = pObject->GetPosition();
 
 		vTo.setX(ev->GetX());
 		vTo.setY(ev->GetY());
 		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}
-	else if (ev->GetReleased() == eInputButton::Right)
+	else if (ev->GetReleased() == eInputButton::MouseRight)
 	{
 		bRotate = !bRotate;
 	}
-	else if (ev->GetReleased() == eInputButton::Up)
+	else if (ev->GetReleased() == eInputButton::MouseUp)
 	{
 		fDir = 1.0f;
 		bRotate = true;
 	}
-	else if (ev->GetReleased() == eInputButton::Down)
+	else if (ev->GetReleased() == eInputButton::MouseDown)
 	{
 		fDir = -1.0f;
 		bRotate = true;

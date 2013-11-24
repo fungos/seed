@@ -30,7 +30,7 @@ class PointerSample : public IGameApp,
 
 	protected:
 		Presentation cPres;
-		ISceneObject *pImage;
+		ISceneObject *pObject;
 		Camera		*pCamera;
 
 		Vector3f	vFrom;

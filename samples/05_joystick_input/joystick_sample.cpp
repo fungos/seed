@@ -39,7 +39,7 @@ bool JoystickSample::Initialize()
 		pInput->AddKeyboardListener(this);
 		pInput->AddJoystickListener(this);
 
-		pObject = (Image *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
 		bPresentationLoaded = true;
 	});
 }
@@ -91,12 +91,12 @@ void JoystickSample::OnInputJoystickButtonPress(const EventInputJoystick *ev)
 
 	if (k == eInputButton::Button14)
 	{
-		pObject = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda2");
+		pObject = cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda2");
 	}
 
 	if (k == eInputButton::Button15)
 	{
-		pObject = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		pObject = cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
 	}
 }
 

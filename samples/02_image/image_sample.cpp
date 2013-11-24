@@ -2,7 +2,7 @@
 
 ImageSample::ImageSample()
 	: cPres()
-	, pImage(nullptr)
+	, pObject(nullptr)
 	, pCamera(nullptr)
 {
 }
@@ -16,7 +16,7 @@ bool ImageSample::Initialize()
 	IGameApp::Initialize();
 	return cPres.Load("image_sample.config", [&](Presentation *pres, Renderer *) {
 		pCamera = pres->GetViewportByName("MainView")->GetCamera();
-		pImage = (Image *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
 
 		pSystem->AddListener(this);
 		pInput->AddKeyboardListener(this);

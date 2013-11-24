@@ -63,7 +63,6 @@
 #define SEED_USE_JSON						1
 #define SEED_USE_THEORA						0
 #define SEED_USE_ROCKET_GUI					1
-#define SEED_ENABLE_DEPTH_TEST				0
 
 /*
 Transformable objects have only one pivot for calculating the object position, scale and rotation.

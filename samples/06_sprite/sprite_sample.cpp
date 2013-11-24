@@ -25,7 +25,7 @@ bool SpriteSample::Initialize()
 	{
 		UNUSED(rend)
 		pCamera = pres->GetViewportByName("MainView")->GetCamera();
-		pObject = (Sprite *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
 
 		pSystem->AddListener(this);
 		pInput->AddKeyboardListener(this);

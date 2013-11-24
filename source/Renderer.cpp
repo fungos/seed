@@ -175,11 +175,7 @@ void Renderer::RenderObjects(const VisibleVector &vec) const
 
 void Renderer::Sort(VisibleVector &vec)
 {
-#if !SEED_ENABLE_DEPTH_TEST
 	std::sort(vec.begin(), vec.end(), VisibleObjectDescendingPrioritySort());
-#else
-	UNUSED(vec)
-#endif
 }
 
 void Renderer::Begin() const
