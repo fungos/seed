@@ -138,7 +138,11 @@ SOURCES += source/Viewport.cpp \
     source/PrefabManager.cpp \
     source/map/MetadataObject.cpp \
     source/Memory.cpp \
-    source/Thread.cpp
+    source/Thread.cpp \
+    source/platform/sdl2/sdl2Texture.cpp \
+    source/platform/sdl2/sdl2System.cpp \
+    source/platform/sdl2/sdl2Screen.cpp \
+    source/platform/sdl2/sdl2Input.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -195,4 +199,9 @@ HEADERS += include/*.h \
     include/PrefabManager.h \
     include/map/MetadataObject.h \
     include/Memory.h \
-    include/Semaphore.h
+    include/Semaphore.h \
+    include/platform/sdl2/sdl2Texture.h \
+    include/platform/sdl2/sdl2System.h \
+    include/platform/sdl2/sdl2Screen.h \
+    include/platform/sdl2/sdl2Input.h \
+    include/platform/sdl2/sdl2Defines.h
