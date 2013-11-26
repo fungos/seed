@@ -188,7 +188,7 @@ namespace Seed {
 	typedef long long Milliseconds; // we use the raw numbers directly internally, no conversions needed.
 	typedef float Seconds; // same here
 	typedef std::chrono::duration<Milliseconds, std::milli> Duration;
-	typedef std::chrono::time_point<std::chrono::system_clock> TimePoint;
+	typedef std::chrono::time_point<std::chrono::steady_clock> TimePoint;
 }
 
 #endif // __SEED_DEFINES_H__
