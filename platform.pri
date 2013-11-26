@@ -6,22 +6,22 @@
 
 win32 {
 	INCLUDEPATH += contrib/windows/
-	CONFIG -= glfw
+	CONFIG += glfw
 	CONFIG -= sdl
-	CONFIG += sdl2
+	CONFIG -= sdl2
 }
 
 macx {
 	CONFIG -= sdl
-	CONFIG -= glfw
-	CONFIG += sdl2
+	CONFIG += glfw
+	CONFIG -= sdl2
 	INCLUDEPATH += contrib/osx/
 }
 
 unix {
 	DEFINES += LINUX
 	CONFIG -= sdl
-	CONFIG += sdl2
+	CONFIG -= sdl2
 }
 
 qt {
