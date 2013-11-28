@@ -84,7 +84,7 @@ void Socket::Close()
 	#if defined(_MSC_VER)
 	closesocket(iHandle);
 	#elif defined(__APPLE_CC__) || defined(__linux__)
-	close(iHandle);
+	shutdown(iHandle, SHUT_RDWR);
 	#endif
 
 	bIsOpen = false;

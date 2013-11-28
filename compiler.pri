@@ -12,6 +12,7 @@ USE_CLANG=FALSE
 
 unix {
 	FLAGSXX += -std=c++11
+	FLAGSXX += -stdlib=libc++
 
 	system(which ccache):USE_CCACHE=TRUE
 	system(which clang++):USE_CLANG=TRUE
