@@ -230,7 +230,7 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 			SEED_ASSERT_MSG(!r.empty(), "Viewport requires a renderer name reference - sRenderer");
 
 			Renderer *rend = this->GetRendererByName(r);
-			SEED_ASSERT_FMT(!rend, "Could not find a renderer named %s for viewport %s", r.c_str(), n.c_str());
+			SEED_ASSERT_FMT(rend, "Could not find a renderer named %s for viewport %s", r.c_str(), n.c_str());
 
 			Viewport *vp = sdNew(Viewport);
 			SEED_ASSERT_MSG(vp, "Could instantiate Viewport");
