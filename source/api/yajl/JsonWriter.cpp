@@ -42,7 +42,7 @@ namespace Seed {
 JsonWriter::JsonWriter()
 	: gen()
 {
-	gen = yajl_gen_alloc(NULL);
+	gen = yajl_gen_alloc(nullptr);
 	yajl_gen_config(gen, yajl_gen_beautify, 1);
 }
 

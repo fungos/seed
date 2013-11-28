@@ -81,7 +81,7 @@ void ISceneNode::Add(ISceneObject *obj)
 
 void ISceneNode::Remove(ISceneObject *obj)
 {
-	obj->SetParent(NULL);
+	obj->SetParent(nullptr);
 	vChild -= obj;
 }
 
@@ -112,7 +112,7 @@ ISceneObject *ISceneNode::GetChildByName(const String &name) const
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 bool ISceneNode::Unload()
@@ -147,7 +147,7 @@ void ISceneNode::Dump(u32 level)
 void ISceneNode::Reset()
 {
 	for (auto obj: vChild)
-		obj->SetParent(NULL);
+		obj->SetParent(nullptr);
 
 	ISceneObjectVector().swap(vChild);
 }

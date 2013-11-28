@@ -69,7 +69,7 @@ class SEED_CORE_API IRendererDevice : public IManager
 		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const;
 
 		// Render to Texture support
-		virtual u32 CreateFrameBuffer(ITexture *texture = NULL);
+		virtual u32 CreateFrameBuffer(ITexture *texture = nullptr);
 		virtual void ActivateFrameBuffer(u32 buffer = 0);
 		virtual void DestroyFrameBuffer(u32 buffer);
 		virtual u32 CreateDepthBuffer(u32 w, u32 h);

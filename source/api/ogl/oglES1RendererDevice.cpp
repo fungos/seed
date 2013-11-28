@@ -403,7 +403,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			GLuint h = texture->GetAtlasHeight();
 			const void *data = texture->GetData();
 
-			// if data == NULL then this can be a dynamic texture/render target. we need just the texture id.
+			// if data == nullptr then this can be a dynamic texture/render target. we need just the texture id.
 			if (data)
 			{
 				u32 bpp = texture->GetBytesPerPixel();
@@ -461,7 +461,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			}
 			else if (w && h)// Render Target, 32bits only
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, NULL);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, nullptr);
 			}
 			// else is a dynamic texture from image/video.
 
@@ -554,7 +554,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 
-	void *elemPtr = NULL;
+	void *elemPtr = nullptr;
 #if USE_API_OGL_VBO
 	if (ebo)
 	{

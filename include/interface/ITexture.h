@@ -150,7 +150,7 @@ class SEED_CORE_API ITexture : public IResource
 		NOTE: Update should not be used with temporary buffers (ie. buffers that need be free'd just after Update
 			  request. THIS WILL CRASH. Keep your buffer alive!
 
-		NOTE2: To be safe, before destruction do a Update(NULL).
+		NOTE2: To be safe, before destruction do a Update(nullptr).
 		*/
 		virtual void Update(Color *buffer) = 0;
 

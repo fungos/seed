@@ -57,7 +57,7 @@ struct SEED_CORE_API sOggFile
 	u64		dataRead;
 
 	sOggFile()
-		: dataPtr(NULL)
+		: dataPtr(nullptr)
 		, dataSize(0)
 		, dataRead(0)
 	{}

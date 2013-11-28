@@ -38,10 +38,10 @@
 namespace Seed {
 
 ITexture::ITexture()
-	: pTextureId(NULL)
+	: pTextureId(nullptr)
 	, iTextureId(0)
 	, nTextureCompression(eTextureCompression::None)
-	, pFile(NULL)
+	, pFile(nullptr)
 	, nMinFilter(eTextureFilter::Linear)
 	, nMagFilter(eTextureFilter::Nearest)
 	, iWidth(0)
@@ -77,7 +77,7 @@ File *ITexture::GetFile()
 const void *ITexture::GetData() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 void ITexture::PutPixel(u32 x, u32 y, const Color &px)
@@ -157,7 +157,7 @@ bool ITexture::Load(const String &filename, ResourceManager *res)
 
 		// FIXME: ASYNC
 		pFile = sdNew(File(filename));
-		ret = (pFile->GetData() != NULL);
+		ret = (pFile->GetData() != nullptr);
 	}
 
 	return ret;

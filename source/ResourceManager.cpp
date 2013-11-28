@@ -81,7 +81,7 @@ void ResourceManager::Reset()
 
 IResource *ResourceManager::Get(const String &filename, TypeId resourceType)
 {
-	IResource *res = NULL;
+	IResource *res = nullptr;
 
 	if (mapResources.find(filename) == mapResources.end())
 	{
@@ -90,7 +90,7 @@ IResource *ResourceManager::Get(const String &filename, TypeId resourceType)
 		if (it == mapLoaders.end())
 		{
 			Log(TAG "Resource loader for %s not found.", filename.c_str());
-			return NULL;
+			return nullptr;
 		}
 
 		res = ((*it).second)(filename, this);

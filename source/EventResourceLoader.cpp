@@ -34,7 +34,7 @@ namespace Seed {
 
 EventResourceLoader::EventResourceLoader()
 	: IEvent()
-	, pGroup(NULL)
+	, pGroup(nullptr)
 {
 }
 

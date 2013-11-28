@@ -56,7 +56,7 @@ IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 }
 
 Texture::Texture()
-	: pData(NULL)
+	: pData(nullptr)
 	, iBytesPerPixel(4)
 	, iPitch(0)
 	, iAtlasWidth(0)
@@ -77,7 +77,7 @@ void Texture::Reset()
 
 	this->UnloadTexture();
 
-	pData = NULL;
+	pData = nullptr;
 
 	iBytesPerPixel = 4;
 	iPitch = 0;
@@ -278,7 +278,7 @@ void Texture::UnloadTexture()
 	}
 
 	Free(pData);
-	pTextureId = NULL;
+	pTextureId = nullptr;
 }
 
 void Texture::Close()
@@ -331,7 +331,7 @@ void Texture::LoadPNG(const char *file)
 	//NSString *path = [@"" stringByAppendingString:fname];
 	UIImage *uiImage = [UIImage imageNamed:fname];
 
-	if (NULL == uiImage)
+	if (nullptr == uiImage)
 	{
 		Log("WARNING: Image file %s not found!!!!!!", file);
 		return;
@@ -340,7 +340,7 @@ void Texture::LoadPNG(const char *file)
 	image = [uiImage CGImage];
 	orientation = [uiImage imageOrientation];
 
-	if (image == NULL) return;
+	if (image == nullptr) return;
 
 	info = CGImageGetAlphaInfo(image);
 	hasAlpha = ((info == kCGImageAlphaPremultipliedLast) || (info == kCGImageAlphaPremultipliedFirst) || (info == kCGImageAlphaLast) || (info == kCGImageAlphaFirst) ? YES : NO);
@@ -401,7 +401,7 @@ void Texture::LoadPNG(const char *file)
 	u32 bpp = CGImageGetBitsPerPixel(image);
 	iBytesPerPixel = bpp / 8;
 	data = Alloc(height * width * iBytesPerPixel);
-	SEED_ASSERT_MSG(data != NULL, "ERROR: not enought memory - trying to allocate texture buffer.");
+	SEED_ASSERT_MSG(data != nullptr, "ERROR: not enought memory - trying to allocate texture buffer.");
 
 	switch (pixelFormat)
 	{
@@ -418,7 +418,7 @@ void Texture::LoadPNG(const char *file)
 		break;
 
 		case kTexture2DPixelFormat_A8:
-			context = CGBitmapContextCreate(data, width, height, bpc, iBytesPerPixel * width, NULL, kCGImageAlphaOnly);
+			context = CGBitmapContextCreate(data, width, height, bpc, iBytesPerPixel * width, nullptr, kCGImageAlphaOnly);
 		break;
 
 		default:

@@ -62,7 +62,7 @@ template <eBufferTarget T> struct SEED_CORE_API HardwareBuffer : public IHardwar
 			nElemType = e;
 		}
 
-		inline int GetData(void **data = NULL)
+		inline int GetData(void **data = nullptr)
 		{
 			if (data)
 				*data = pData;

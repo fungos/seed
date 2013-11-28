@@ -103,7 +103,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const override;
 
 		// Render to Texture support
-		virtual u32 CreateFrameBuffer(ITexture *texture = NULL) override;
+		virtual u32 CreateFrameBuffer(ITexture *texture = nullptr) override;
 		virtual void ActivateFrameBuffer(u32 buffer = 0) override;
 		virtual void DestroyFrameBuffer(u32 buffer) override;
 		virtual u32 CreateDepthBuffer(u32 w, u32 h) override;

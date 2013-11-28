@@ -69,7 +69,7 @@ bool IMusic::Update(Seconds dt)
 const void *IMusic::GetData() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 void IMusic::SetVolume(f32 volume)

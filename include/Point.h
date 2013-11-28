@@ -244,7 +244,7 @@ template <class TYPE> class Point
 			return *this;
 		}
 
-		TYPE Angle(const Point<TYPE> *p = NULL) const
+		TYPE Angle(const Point<TYPE> *p = nullptr) const
 		{
 			if (p)
 			{

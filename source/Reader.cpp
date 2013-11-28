@@ -70,12 +70,12 @@ Reader::~Reader()
 	if (pOpaque != &cNullReader)
 		sdDelete(pOpaque);
 
-	pOpaque = NULL;
+	pOpaque = nullptr;
 }
 
 void Reader::Init()
 {
-	if (pOpaque == &cNullReader || pOpaque == NULL)
+	if (pOpaque == &cNullReader || pOpaque == nullptr)
 	{
 		switch (pConfiguration->GetReaderType())
 		{

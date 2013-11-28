@@ -52,12 +52,12 @@ Writer::~Writer()
 	if (pOpaque != &cNullWriter)
 		sdDelete(pOpaque);
 
-	pOpaque = NULL;
+	pOpaque = nullptr;
 }
 
 void Writer::Init()
 {
-	if (pOpaque == &cNullWriter || pOpaque == NULL)
+	if (pOpaque == &cNullWriter || pOpaque == nullptr)
 	{
 		switch (pConfiguration->GetReaderType())
 		{

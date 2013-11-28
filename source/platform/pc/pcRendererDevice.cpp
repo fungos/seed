@@ -53,12 +53,12 @@ RendererDevice::~RendererDevice()
 	if (pApiDevice != &cNull)
 		sdDelete(pApiDevice);
 
-	pApiDevice = NULL;
+	pApiDevice = nullptr;
 }
 
 bool RendererDevice::Initialize()
 {
-	if (pApiDevice != &cNull && pApiDevice != NULL)
+	if (pApiDevice != &cNull && pApiDevice != nullptr)
 		sdDelete(pApiDevice);
 
 	Log(TAG "Initializing...");

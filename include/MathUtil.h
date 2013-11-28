@@ -100,7 +100,7 @@ template <typename T> inline T ZoomToFov(T zoom)
 }
 
 
-inline f32 VectorAngle(const Vector3f &a, const Vector3f *b = NULL)
+inline f32 VectorAngle(const Vector3f &a, const Vector3f *b = nullptr)
 {
 		if (b)
 		{

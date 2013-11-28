@@ -89,7 +89,7 @@ u32 IReader::GetU32(u32 value) const
 const char *IReader::GetKey(u32 atPos) const
 {
 	UNUSED(atPos)
-	return NULL;
+	return nullptr;
 }
 
 s32 IReader::ReadS32(const char *key, s32 value) const

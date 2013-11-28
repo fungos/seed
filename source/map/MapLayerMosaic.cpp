@@ -129,7 +129,7 @@ Sprite *MapLayerMosaic::CreateSprite(const LayerMosaicHeader *entry, u32 prio)
 	UNUSED(prio)
 	WARNING(IMPL - MapLayerMosaic::CreateSprite(...) - Reimplementar)
 
-	Sprite *obj = NULL;
+	Sprite *obj = nullptr;
 
 //	obj = New(SpriteInstantiable());
 //	obj->Load(_F(entry->iSpriteFileId));

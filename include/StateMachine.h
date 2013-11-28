@@ -110,7 +110,7 @@ class SEED_CORE_API StateMachine
 
 	public:
 		StateMachine()
-			: pCurrentState(NULL)
+			: pCurrentState(nullptr)
 			, vTransitions()
 		{}
 
@@ -119,12 +119,12 @@ class SEED_CORE_API StateMachine
 			Vector<StateMachineTransition *>().swap(vTransitions);
 		}
 
-		eReturnCode Initialize(StateMachineState *state, void *userData = NULL)
+		eReturnCode Initialize(StateMachineState *state, void *userData = nullptr)
 		{
 			if (!state)
 				return StateNotFound; //invalid state
 
-			pCurrentState = NULL;
+			pCurrentState = nullptr;
 			unsigned int i = 0;
 
 			for (; i < vTransitions.size(); i++)
@@ -157,7 +157,7 @@ class SEED_CORE_API StateMachine
 			return pCurrentState;
 		}
 
-		eReturnCode OnEvent(StateMachineEvent *evt, void *pUserData = NULL)
+		eReturnCode OnEvent(StateMachineEvent *evt, void *pUserData = nullptr)
 		{
 			unsigned int i = 0;
 

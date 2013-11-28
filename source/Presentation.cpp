@@ -177,7 +177,7 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 	sName = reader.ReadString("sName", "presentation");
 
 	auto rends = reader.SelectArray("aRenderer");
-	SEED_ASSERT_MSG(rends, "At least one renderer is required.");
+	SEED_ASSERT_MSG(rends, "At least one renderer is required, 'aRenderer' is empty or inexistent");
 	if (rends)
 	{
 		for (u32 i = 0; i < rends; i++)
@@ -195,6 +195,7 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 				iPrefabsCount++;
 
 			Renderer *r = sdNew(Renderer);
+			SEED_ASSERT_MSG(r, "Could instantiate Renderer");
 			r->sName = n;
 			r->sSceneToAttach = s;
 			r->sPrefabToLoad = p;
@@ -207,7 +208,7 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 	}
 
 	auto vps = reader.SelectArray("aViewport");
-	SEED_ASSERT_MSG(vps, "At least one viewport is required.");
+	SEED_ASSERT_MSG(vps, "At least one viewport is required,'aViewport'' is empty or inexistent");
 	if (vps)
 	{
 		for (u32 i = 0; i < vps; i++)
@@ -229,13 +230,10 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 			SEED_ASSERT_MSG(!r.empty(), "Viewport requires a renderer name reference - sRenderer");
 
 			Renderer *rend = this->GetRendererByName(r);
-			if (!rend)
-			{
-				Log(TAG "Could not find a renderer named %s for viewport %s", r.c_str(), n.c_str());
-				SEED_ASSERT_MSG(!rend, "Renderer not found.");
-			}
+			SEED_ASSERT_FMT(!rend, "Could not find a renderer named %s for viewport %s", r.c_str(), n.c_str());
 
 			Viewport *vp = sdNew(Viewport);
+			SEED_ASSERT_MSG(vp, "Could instantiate Viewport");
 			vp->SetArea(Rect4u(x, y, w, h));
 			vp->SetRenderer(rend);
 			vp->sName = n;
@@ -248,12 +246,14 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 		reader.UnselectArray();
 	}
 
-	pFinishedScenes  = (bool *)sdAlloc(sizeof(bool) * vRenderer.Size());
+	pFinishedScenes = (bool *)sdAlloc(sizeof(bool) * vRenderer.Size());
+	SEED_ASSERT_MSG(pFinishedScenes, "Could instantiate pFinishedScenes");
 	memset(pFinishedScenes,  0, sizeof(bool) * vRenderer.Size());
 
 	if (iPrefabsCount)
 	{
 		pFinishedPrefabs = (bool *)sdAlloc(sizeof(bool) * iPrefabsCount);
+		SEED_ASSERT_MSG(pFinishedPrefabs, "Could instantiate pFinishedPrefabs");
 		memset(pFinishedPrefabs, 0, sizeof(bool) * iPrefabsCount);
 		this->PrefabsPhase();
 	}
@@ -319,6 +319,9 @@ Viewport *Presentation::GetViewportByName(const String &name)
 
 void Presentation::SceneLoaded(SceneFileLoader *ldr)
 {
+	SEED_ASSERT(ldr);
+	SEED_ASSERT(ldr->pScene);
+	SEED_ASSERT(pFinishedScenes);
 	for (auto obj: vViewport)
 	{
 		if (obj->GetRenderer() == ldr->pRenderer)
@@ -361,6 +364,8 @@ void Presentation::SceneAborted(SceneFileLoader *ldr)
 
 void Presentation::PrefabLoaded(PrefabFileLoader *ldr)
 {
+	SEED_ASSERT(ldr);
+	SEED_ASSERT(pFinishedPrefabs);
 	if (!pFinishedPrefabs[ldr->iId])
 	{
 		Log(TAG "Prefab file '%s' finished loading.", ldr->sFilename.c_str());
@@ -372,6 +377,8 @@ void Presentation::PrefabLoaded(PrefabFileLoader *ldr)
 
 void Presentation::PrefabAborted(PrefabFileLoader *ldr)
 {
+	SEED_ASSERT(ldr);
+	SEED_ASSERT(pFinishedPrefabs);
 	if (!pFinishedPrefabs[ldr->iId])
 	{
 		Log(TAG "Prefab file '%s' failed loading.", ldr->sFilename.c_str());
@@ -383,6 +390,7 @@ void Presentation::PrefabAborted(PrefabFileLoader *ldr)
 
 void Presentation::GotoScenePhase()
 {
+	SEED_ASSERT(pFinishedPrefabs);
 	for (u32 i = 0; i < iPrefabsCount; ++i)
 	{
 		if (!pFinishedPrefabs[i])
@@ -417,6 +425,7 @@ void Presentation::PrefabsPhase()
 			};
 
 			auto ldr = sdNew(PrefabFileLoader(i, obj->sPrefabToLoad, cb));
+			SEED_ASSERT_MSG(ldr, "Could instantiate PrefabFileLoader");
 			ldr->SetResourceManager(pRes);
 
 			Log(TAG "Scheduling prefab loading job: %s.", obj->sPrefabToLoad.c_str());
@@ -440,6 +449,7 @@ void Presentation::ScenesPhase()
 			if (job->GetState() == eJobState::Completed)
 			{
 				auto scene = sdNew(SceneNode);
+				SEED_ASSERT_MSG(scene, "Could instantiate SceneNode");
 				scene->bMarkForDeletion = true;
 
 				Reader r(job->pFile);
@@ -457,6 +467,7 @@ void Presentation::ScenesPhase()
 		};
 
 		auto ldr = sdNew(SceneFileLoader(i, obj->sSceneToAttach, cb));
+		SEED_ASSERT_MSG(ldr, "Could instantiate SceneFileLoader");
 		ldr->SetResourceManager(pRes);
 		ldr->SetRenderer(obj);
 		ldr->SetPresentation(this);
@@ -467,7 +478,6 @@ void Presentation::ScenesPhase()
 		++i;
 	}
 }
-
 
 } // namespace
 

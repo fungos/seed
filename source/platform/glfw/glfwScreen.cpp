@@ -155,12 +155,12 @@ bool Screen::InitializeVideo()
 
 #if defined(WIN32)
 	int dpiX = 0, dpiY = 0;
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	if (hdc)
 	{
 		dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
 		dpiY = GetDeviceCaps(hdc, LOGPIXELSY);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 	}
 
 	int cxScreen = GetSystemMetrics(SM_CXSCREEN);

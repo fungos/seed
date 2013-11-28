@@ -140,7 +140,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 	eCartridgeError ret = eCartridgeError::None;
 
 	// Check all shared data state
-	if (sharedBlankData != NULL && iSharedDataSize > 0)
+	if (sharedBlankData != nullptr && iSharedDataSize > 0)
 	{
 		void *sharedTestMemory = sdAlloc(iSharedDataSize);
 
@@ -244,7 +244,7 @@ eCartridgeError SaveSystem::FormatShared(void *sharedBlankData)
 		return eCartridgeError::NotInitialized;
 	}
 
-	if (iSharedDataSize == 0 || sharedBlankData == NULL)
+	if (iSharedDataSize == 0 || sharedBlankData == nullptr)
 	{
 		bIsSaving = false;
 		return eCartridgeError::None;
@@ -450,7 +450,7 @@ eCartridgeError SaveSystem::ReadSharedData(void *sharedBlankData)
 	if (!bInitialized)
 		return eCartridgeError::NotInitialized;
 
-	if (iSharedDataSize == 0 || sharedBlankData == NULL)
+	if (iSharedDataSize == 0 || sharedBlankData == nullptr)
 		return eCartridgeError::None;
 
 	if (!pCartridge->Read(sizeof(sSaveInfo), sharedBlankData, iSharedDataSize))
@@ -471,7 +471,7 @@ eCartridgeError SaveSystem::WriteSharedData(void *sharedBlankData)
 	if (!bInitialized)
 		return eCartridgeError::NotInitialized;
 
-	if (iSharedDataSize == 0 || sharedBlankData == NULL)
+	if (iSharedDataSize == 0 || sharedBlankData == nullptr)
 		return eCartridgeError::None;
 
 	u32 crc = (u32)pChecksum->Calculate((const char *)sharedBlankData, iSharedDataSize);

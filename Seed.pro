@@ -57,8 +57,6 @@ SOURCES += source/Viewport.cpp \
 	source/Configuration.cpp \
 	source/Checksum.cpp \
 	source/Animation.cpp \
-	source/api/directx/DirectXVersion.cpp \
-	source/api/directx/D3D8RendererDevice.cpp \
 	source/interface/ITransformable.cpp \
 	source/interface/ITexture.cpp \
 	source/interface/ISystem.cpp \
@@ -135,10 +133,10 @@ SOURCES += source/Viewport.cpp \
 	source/map/MapLayerTiled.cpp \
 	source/map/TileSet.cpp \
 	source/interface/IManager.cpp \
-    source/PrefabManager.cpp \
-    source/map/MetadataObject.cpp \
-    source/Memory.cpp \
-    source/Thread.cpp
+	source/PrefabManager.cpp \
+	source/map/MetadataObject.cpp \
+	source/Memory.cpp \
+	source/Thread.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -158,7 +156,6 @@ HEADERS += include/*.h \
 	include/platform/pc/*.h \
 	include/platform/ios/*.h \
 	include/interface/*.h \
-	include/api/directx/*.h \
 	include/api/oal/*.h \
 	include/api/nullal/*.h \
 	include/api/ogl/*.h \
@@ -192,7 +189,7 @@ HEADERS += include/*.h \
 	include/map/MapLayerMosaic.h \
 	include/map/MapLayerTiled.h \
 	include/map/TileSet.h \
-    include/PrefabManager.h \
-    include/map/MetadataObject.h \
-    include/Memory.h \
-    include/Semaphore.h
+	include/PrefabManager.h \
+	include/map/MetadataObject.h \
+	include/Memory.h \
+	include/Semaphore.h

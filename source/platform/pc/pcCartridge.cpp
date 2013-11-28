@@ -47,7 +47,7 @@ SEED_SINGLETON_DEFINE(Cartridge)
 
 Cartridge::Cartridge()
 	: nType(eCartridgeSize::Unlimited)
-	, pData(NULL)
+	, pData(nullptr)
 {
 }
 
@@ -89,7 +89,7 @@ bool Cartridge::Prepare(eCartridgeSize size)
 	iSize = this->GetCardType(size);
 
 	const char *p = pFileSystem->GetWriteableDirectory();
-	SEED_ASSERT_MSG(p!=NULL, "You must set a WriteableDirectory!");
+	SEED_ASSERT_MSG(p, "You must set a WriteableDirectory!");
 
 	memset(strPath, '\0', sizeof(strPath));
 

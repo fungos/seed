@@ -87,10 +87,10 @@ struct RendererPacket
 	f32						fRadius;
 
 	RendererPacket()
-		: pTransform(NULL)
-		, pTexture(NULL)
-		, pVertexBuffer(NULL)
-		, pElementBuffer(NULL)
+		: pTransform(nullptr)
+		, pTexture(nullptr)
+		, pVertexBuffer(nullptr)
+		, pElementBuffer(nullptr)
 		, cColor(0, 0, 0, 255)
 		, nMeshType(eMeshType::TriangleStrip)
 		, nBlendMode(eBlendMode::None)

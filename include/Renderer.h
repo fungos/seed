@@ -49,7 +49,7 @@ struct VisibleObject
 
 	VisibleObject()
 		: mWorldTransform()
-		, pObj(NULL)
+		, pObj(nullptr)
 	{}
 };
 

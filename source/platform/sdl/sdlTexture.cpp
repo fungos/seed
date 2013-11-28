@@ -60,8 +60,8 @@ IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 }
 
 Texture::Texture()
-	: pSurface(NULL)
-	, pData(NULL)
+	: pSurface(nullptr)
+	, pData(nullptr)
 	, iBytesPerPixel(0)
 	, iPitch(0)
 	, iAtlasWidth(0)
@@ -86,8 +86,8 @@ void Texture::Reset()
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);
-	pSurface = NULL;
-	pData = NULL;
+	pSurface = nullptr;
+	pData = nullptr;
 
 	iBytesPerPixel = 0;
 	iPitch = 0;
@@ -163,7 +163,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			{
 				Log(TAG "WARNING: texture size not optimal, changing from %dx%d to %dx%d", iWidth, iHeight, width, height);
 
-				SDL_Surface *pTempSurface = NULL;
+				SDL_Surface *pTempSurface = nullptr;
 				Uint32 rmask, gmask, bmask, amask;
 
 				#if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -182,7 +182,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 
 				SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_OPAQUE);
 				SDL_SetAlpha(pSurface, 0, SDL_ALPHA_OPAQUE);
-				SDL_BlitSurface(pSurface, NULL, pTempSurface, NULL);
+				SDL_BlitSurface(pSurface, nullptr, pTempSurface, nullptr);
 				SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_TRANSPARENT);
 				SDL_SetAlpha(pSurface, 0, SDL_ALPHA_TRANSPARENT);
 
@@ -284,7 +284,7 @@ bool Texture::Unload()
 	if (pSurface)
 		SDL_FreeSurface(pSurface);
 
-	pSurface = NULL;
+	pSurface = nullptr;
 	bLoaded = false;
 
 	return true;
