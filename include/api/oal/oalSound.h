@@ -56,6 +56,7 @@ class SEED_CORE_API Sound : public ISound
 	friend IResource *SoundResourceLoader(const String &filename, ResourceManager *res);
 	friend class SoundSystem;
 	friend class SoundSource;
+	SEED_DISABLE_COPY(Sound)
 
 	public:
 		Sound();
@@ -73,8 +74,6 @@ class SEED_CORE_API Sound : public ISound
 		virtual const void *GetData() const override;
 
 	private:
-		SEED_DISABLE_COPY(Sound);
-
 		ALuint	iBuffer;
 		u32		iSize;
 };

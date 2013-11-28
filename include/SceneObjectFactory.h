@@ -35,12 +35,10 @@
 #include "Singleton.h"
 #include "Reader.h"
 #include "Container.h"
-#include "interface/IEventJobListener.h"
 
 namespace Seed {
 
 class ISceneObject;
-class EventJob;
 
 typedef ISceneObject *(*pSceneObjectFactoryFunc)();
 
@@ -51,32 +49,38 @@ ISceneObject *FactorySoundSource();
 
 class SEED_CORE_API SceneObjectFactory
 {
-	SEED_SINGLETON_DECLARE(SceneObjectFactory)
+	SEED_DECLARE_SINGLETON(SceneObjectFactory)
+	SEED_DISABLE_COPY(SceneObjectFactory)
+
 	public:
 		ISceneObject *Create(const String &type) const;
-		ISceneObject *Load(Reader &reader, ResourceManager *res = pResourceManager) const;
+		ISceneObject *Load(Reader &reader, ResourceManager *res = pResourceManager, bool isPrefab = false) const;
 
 		static void Register(const String &type, pSceneObjectFactoryFunc pfunc);
 		static void Unregister(const String &type);
 
 	private:
-		SEED_DISABLE_COPY(SceneObjectFactory);
+		void LoadInstance(ISceneObject *obj, Reader &reader, ResourceManager *res) const;
 
+	private:
 		static FactoryMap mapFactory;
 };
 
-class SEED_CORE_API SceneObjectFactoryJobLoader : public IEventJobListener
+class SEED_CORE_API SceneObjectJobLoader : public FileLoader
 {
-	public:
-		SceneObjectFactoryJobLoader(ISceneObject *obj);
-		virtual ~SceneObjectFactoryJobLoader();
+	SEED_DISABLE_COPY(SceneObjectJobLoader)
 
-		// IEventJobListener
-		virtual void OnJobCompleted(const EventJob *ev);
-		virtual void OnJobAborted(const EventJob *ev);
+	public:
+		SceneObjectJobLoader(ISceneObject *obj, const String &filename, JobCallback fun)
+			: FileLoader(filename, fun)
+			, pObj(obj)
+		{}
+
+		virtual ~SceneObjectJobLoader() {}
 
 		ISceneObject *pObj;
 };
+
 
 #define pSceneObjectFactory SceneObjectFactory::GetInstance()
 

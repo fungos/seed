@@ -6,15 +6,16 @@ using namespace Seed;
 
 class ImageSample : public IGameApp,
 					public IEventSystemListener,
-					public IEventInputKeyboardListener,
-					public IEventPresentationListener
+					public IEventInputKeyboardListener
 {
+	SEED_DISABLE_COPY(ImageSample)
+
 	public:
 		ImageSample();
 		virtual ~ImageSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -23,15 +24,9 @@ class ImageSample : public IGameApp,
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
 
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(ImageSample);
-
 	protected:
 		Presentation cPres;
-		ISceneObject *pImage;
+		ISceneObject *pObject;
 		Camera		*pCamera;
 };
 

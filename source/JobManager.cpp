@@ -33,8 +33,7 @@
 #include "Log.h"
 #include "Enum.h"
 #include "Job.h"
-#include "EventJob.h"
-#include "interface/IEventJobListener.h"
+#include "Memory.h"
 
 #define TAG		"[JobManager] "
 
@@ -43,8 +42,6 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(JobManager)
 
 JobManager::JobManager()
-	: vJob()
-	, bEnabled(true)
 {
 }
 
@@ -52,64 +49,75 @@ JobManager::~JobManager()
 {
 }
 
-bool JobManager::Initialize()
-{
-	return IModule::Initialize();
-}
-
 bool JobManager::Reset()
 {
-	JobVectorIterator it = vJob.begin();
-	JobVectorIterator end = vJob.end();
-	for (; it != end; ++it)
+	while (vQueue.size())
 	{
-		Job *obj = (*it);
-		obj->Abort();
+		auto job = vQueue.front();
+		vQueue.pop();
+
+		job->Abort();
 	}
+
+	for (auto job: vRunning)
+		job->Abort();
+
+	JobVector().swap(vRunning);
 
 	return true;
 }
 
 bool JobManager::Shutdown()
 {
-	JobVectorIterator it = vJob.begin();
-	JobVectorIterator end = vJob.end();
-	for (; it != end; ++it)
+	while (vQueue.size())
 	{
-		Job *obj = (*it);
-		obj->Destroy();
-		Delete(obj);
+		auto job = vQueue.front();
+		vQueue.pop();
+
+		job->Abort();
 	}
 
-	JobVector().swap(vJob);
-	return IModule::Shutdown();
+	for (auto job: vRunning)
+		job->Destroy();
+
+	JobVector().swap(vRunning);
+
+	return IManager::Shutdown();
 }
 
-bool JobManager::Update(f32 dt)
+void JobManager::StartThreads()
 {
+	if (vQueue.empty())
+		return;
+
+	ScopedMutexLock lock(cMutex);
+	while (vRunning.Size() < iMaxThreads && !vQueue.empty())
+	{
+		auto job = vQueue.front();
+		vQueue.pop();
+
+		vRunning += job;
+		job->Create();
+	}
+}
+
+bool JobManager::Update(Seconds dt)
+{
+	UNUSED(dt)
 	if (bEnabled)
 	{
-		JobVector completed;
-		JobVector aborted;
+		this->StartThreads();
+		auto list = vRunning;
 
-		JobVectorIterator it = vJob.begin();
-		JobVectorIterator end = vJob.end();
-		for (; it != end; ++it)
+		for (auto job: list)
 		{
-			Job *obj = (*it);
-			obj->Update(dt);
-
-			switch (obj->GetState())
+			switch (job->GetState())
 			{
-				case JobCompleted:
+				case eJobState::Completed:
+				case eJobState::Aborted:
 				{
-					completed += obj;
-				}
-				break;
-
-				case JobAborted:
-				{
-					aborted += obj;
+					vRunning -= job;
+					job->OnFinished();
 				}
 				break;
 
@@ -118,27 +126,7 @@ bool JobManager::Update(f32 dt)
 			}
 		}
 
-		it = completed.begin();
-		end = completed.end();
-		for (; it != end; ++it)
-		{
-			Job *obj = (*it);
-			vJob -= obj;
-
-			EventJob ev(obj, obj->iName);
-			obj->pListener->OnJobCompleted(&ev);
-		}
-
-		it = aborted.begin();
-		end = aborted.end();
-		for (; it != end; ++it)
-		{
-			Job *obj = (*it);
-			vJob -= obj;
-
-			EventJob ev(obj, obj->iName);
-			obj->pListener->OnJobAborted(&ev);
-		}
+		this->StartThreads();
 	}
 
 	return true;
@@ -146,18 +134,9 @@ bool JobManager::Update(f32 dt)
 
 Job *JobManager::Add(Job *job)
 {
-//	Log(TAG "Job created");
-	job->Create();
-	vJob += job;
-
+	ScopedMutexLock lock(cMutex);
+	vQueue.push(job);
 	return job;
-}
-
-void JobManager::Remove(Job *job)
-{
-	vJob -= job;
-	job->Destroy();
-//	Log(TAG "Job destroyed");
 }
 
 void JobManager::Disable()
@@ -168,16 +147,6 @@ void JobManager::Disable()
 void JobManager::Enable()
 {
 	bEnabled = true;
-}
-
-const String JobManager::GetClassName() const
-{
-	return "JobManager";
-}
-
-int JobManager::GetObjectType() const
-{
-	return Seed::TypeJobManager;
 }
 
 } // namespace

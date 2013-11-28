@@ -51,6 +51,7 @@ namespace Seed { namespace OAL {
 class SEED_CORE_API SoundSource : public ISoundSource
 {
 	friend class SoundSystem;
+	SEED_DISABLE_COPY(SoundSource)
 
 	public:
 		SoundSource();
@@ -59,23 +60,24 @@ class SEED_CORE_API SoundSource : public ISoundSource
 		// ISoundSource
 		virtual void SetLoop(bool b) override;
 		virtual void Play() override;
-		virtual void Stop(f32 ms = 0.0f) override;
+		virtual void Stop(Seconds s = 0.0f) override;
 		virtual void Resume() override;
 
 		virtual void SetVolume(f32 vol) override;
 		virtual void UpdateVolume() override;
 
+		// IDataObject
+		virtual SoundSource *Clone() const override;
+
 		// IRenderable
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds dt) override;
 
 	protected:
 		// ISoundSource
-		virtual bool OnLoadFinished();
-		virtual bool OnUnloadRequest();
+		virtual bool OnLoadFinished() override;
+		virtual bool OnUnloadRequest() override;
 
 	private:
-		SEED_DISABLE_COPY(SoundSource);
-
 		ALuint iSource;
 };
 

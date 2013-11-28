@@ -33,7 +33,8 @@
 #include "ResourceGroup.h"
 #include "EventResourceLoader.h"
 #include "interface/IEventResourceLoaderListener.h"
-#include "Timer.h"
+#include "System.h"
+#include "Memory.h"
 
 #define TAG		"[ResourceLoader] "
 
@@ -44,8 +45,6 @@ SEED_SINGLETON_DEFINE(ResourceLoader)
 ResourceLoader::ResourceLoader()
 	: vListeners()
 	, vGroups()
-	, bRunning(false)
-	, pMutex(NULL)
 {
 }
 
@@ -55,17 +54,15 @@ ResourceLoader::~ResourceLoader()
 
 bool ResourceLoader::Reset()
 {
-	IModule::Reset();
+	IManager::Reset();
 	return true;
 }
 
 bool ResourceLoader::Initialize()
 {
 	Log(TAG "Initializing...");
-	IModule::Initialize();
-	pMutex = New(Mutex());
+	IManager::Initialize();
 	this->Create();
-	bRunning = true;
 	Log(TAG "Initialization completed.");
 
 	return true;
@@ -73,35 +70,31 @@ bool ResourceLoader::Initialize()
 
 bool ResourceLoader::Shutdown()
 {
-	bRunning = false;
 	this->Destroy();
-	Delete(pMutex);
-	IModule::Shutdown();
+	IManager::Shutdown();
 	Log(TAG "Terminated.");
 
 	return true;
 }
 
-bool ResourceLoader::Update(f32 dt)
+bool ResourceLoader::Update(Seconds dt)
 {
 	UNUSED(dt);
 
-	if (!bRunning)
+	if (!this->IsRunning())
 		return false;
 
-	ResourceGroup *group = NULL;
+	ResourceGroup *group = nullptr;
 
-	pMutex->Lock();
+	ScopedMutexLock lock(cMutex);
 	if (vGroups.size() > 0)
 	{
 		group = (*vGroups.begin());
 	}
-	pMutex->Unlock();
 
 	if (!group)
 		return true;
 
-	pMutex->Lock();
 	if (group->IsLoaded())
 	{
 		EventResourceLoader ev;
@@ -122,24 +115,21 @@ bool ResourceLoader::Update(f32 dt)
 
 		//glResourceManager.Print();
 	}
-	pMutex->Unlock();
 
 	return true;
 }
 
 bool ResourceLoader::Run()
 {
-	bool ret = Thread::Run();
-	if (ret)
+	if (this->IsRunning())
 	{
-		ResourceGroup *group = NULL;
+		ResourceGroup *group = nullptr;
 
-		pMutex->Lock();
+		ScopedMutexLock lock(cMutex);
 		if (vGroups.size() > 0)
 		{
 			group = (*vGroups.begin());
 		}
-		pMutex->Unlock();
 
 		if (!group)
 			return true;
@@ -148,26 +138,19 @@ bool ResourceLoader::Run()
 			return true;
 
 		if (group->Load())
-		{
-			pMutex->Lock();
 			group->SetLoaded();
-			pMutex->Unlock();
-		}
-
-		ret = bRunning;
 	}
 
-	pTimer->Sleep(10);
-	return ret;
+	pTimer->Sleep(Milliseconds(10));
+	return this->IsRunning();
 }
 
 void ResourceLoader::Add(ResourceGroup *group)
 {
-	if (bRunning)
+	if (this->IsRunning())
 	{
-		pMutex->Lock();
+		ScopedMutexLock lock(cMutex);
 		vGroups.push_back(group);
-		pMutex->Unlock();
 	}
 }
 
@@ -193,35 +176,14 @@ void ResourceLoader::RemoveListener(IEventResourceLoaderListener *listener)
 
 void ResourceLoader::SendEventGroupLoaded(const EventResourceLoader *ev)
 {
-	SEED_ASSERT(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
-	{
-		IEventResourceLoaderListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnGroupLoaded(ev);
-	}
 }
 
 void ResourceLoader::SendEventQueueEmpty(const EventResourceLoader *ev)
 {
-	SEED_ASSERT(ev);
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-
-	for (; it != end; ++it)
-	{
-		IEventResourceLoaderListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnQueueEmpty(ev);
-	}
-}
-
-const String ResourceLoader::GetClassName() const
-{
-	return "ResourceLoader";
 }
 
 } // namespace

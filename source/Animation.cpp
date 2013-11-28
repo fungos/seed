@@ -33,13 +33,15 @@
 #include "Log.h"
 #include "Enum.h"
 #include "Frame.h"
+#include "Memory.h"
 
 #define TAG		"[Animation] "
 
 namespace Seed {
 
 Animation::Animation()
-	: vFrames()
+	: pRes(nullptr)
+	, vFrames()
 	, sName()
 	, iFps(0)
 	, iIndex(0)
@@ -55,45 +57,52 @@ Animation::~Animation()
 	this->Unload();
 }
 
+void Animation::Set(Reader &reader)
+{
+	sName = reader.ReadString("sName", sName.c_str());
+	bAnimated = reader.ReadBool("bAnimated", bAnimated);
+	bLoop = reader.ReadBool("bLoop", bLoop);
+	iFps = reader.ReadU32("iFps", iFps);
+
+	iFrames = reader.SelectArray("aFrames");
+	if (iFrames)
+	{
+		for (u32 i = 0; i < iFrames; i++)
+		{
+			auto f = sdNew(Frame);
+			reader.SelectNext();
+			f->Load(reader, pRes);
+			f->iIndex = i;
+
+			if (!f->fFrameRate)
+				f->fFrameRate = 1.0f / static_cast<f32>(iFps);
+
+			vFrames += f;
+		}
+		reader.UnselectArray();
+	}
+	SEED_WARNING(vFrames.Size() == 0, "Animation '%s': has no frames [aFrames].", sName.c_str());
+}
+
 bool Animation::Load(Reader &reader, ResourceManager *res)
 {
 	SEED_ASSERT(res);
 
-	if (this->Unload())
-	{
-		sName = reader.ReadString("sName", "animation");
-		bAnimated = reader.ReadBool("bAnimated", false);
-		bLoop = reader.ReadBool("bLoop", false);
-		iFps = reader.ReadU32("iFps", 60);
-		iFrames = reader.SelectArray("aFrames");
+	if (!this->Unload())
+		return false;
 
-		if (iFrames)
-		{
-			for (u32 i = 0; i < iFrames; i++)
-			{
-				Frame *f = New(Frame);
-				reader.SelectNext();
-				f->Load(reader, res);
-				f->iIndex = i;
-
-				if (!f->fFrameRate)
-					f->fFrameRate = 1.0f / static_cast<f32>(iFps);
-
-				vFrames += f;
-			}
-			reader.UnselectArray();
-		}
-	}
+	pRes = res;
+	this->Set(reader);
 
 	return true;
 }
 
 bool Animation::Write(Writer &writer)
 {
-	bool ret = false;
+	auto ret = false;
 
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteBool("bAnimated", bAnimated);
 		writer.WriteU32("iFps", iFps);
@@ -112,29 +121,36 @@ bool Animation::Write(Writer &writer)
 
 bool Animation::Unload()
 {
-	FrameVectorIterator it = vFrames.begin();
-	FrameVectorIterator end = vFrames.end();
-	for (; it != end; ++it)
-		Delete(*it);
+	for (auto frame: vFrames)
+		sdDelete(frame);
 
 	FrameVector().swap(vFrames);
+	sName = this->GetTypeName();
 
 	return true;
+}
+
+Animation *Animation::Clone() const
+{
+	auto obj = sdNew(Animation);
+
+	obj->GenerateCloneName(sName);
+	obj->iFps = iFps;
+	obj->iIndex = iIndex;
+	obj->iFrames = iFrames;
+	obj->iAnimationId = iAnimationId;
+	obj->bAnimated = bAnimated;
+	obj->bLoop = bLoop;
+
+	for (auto frame: vFrames)
+		obj->vFrames += frame->Clone();
+
+	return obj;
 }
 
 FrameVector *Animation::GetFrames()
 {
 	return &vFrames;
-}
-
-const String Animation::GetClassName() const
-{
-	return "Animation";
-}
-
-int Animation::GetObjectType() const
-{
-	return Seed::TypeAnimation;
 }
 
 } // namespace

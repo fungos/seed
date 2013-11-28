@@ -33,21 +33,23 @@
 
 #if defined(SEED_ENABLE_PROFILER)
 #include "Defines.h"
+
 #include <map>
 #include <stack>
-#include <time.h>
+
+namespace Seed {
 
 #define SEED_FUNCTION_PROFILER					ProfileContext _ctx_func(__PRETTY_FUNCTION__ ); //__FUNCTION__); // Check: MSVC and Xcode
 #define SEED_BEGIN_REGION_PROFILER(name, str)	ProfileContext _c##name(str, Profiler::regionProfilerInstance);
 #define SEED_END_REGION_PROFILER(name)			_c##name.Terminate();
-#define ProfilerReportPrint		Profiler::funcProfilerInstance->Dump(); Profiler::regionProfilerInstance->Dump();
-#define ProfilerTerminate		do { \
-									delete Profiler::funcProfilerInstance; \
-									Profiler::funcProfilerInstance = NULL; \
-									delete Profiler::regionProfilerInstance; \
-									Profiler::regionProfilerInstance = NULL; \
-								} \
-								while (0);
+#define ProfilerReportPrint						Profiler::funcProfilerInstance->Dump(); Profiler::regionProfilerInstance->Dump();
+#define ProfilerTerminate						do { \
+													delete Profiler::funcProfilerInstance; \
+													Profiler::funcProfilerInstance = nullptr; \
+													delete Profiler::regionProfilerInstance; \
+													Profiler::regionProfilerInstance = nullptr; \
+												} \
+												while (0);
 
 class ProfileContext;
 
@@ -77,6 +79,8 @@ typedef std::stack<ProfileContext *> ContextStack;
 /// Profiler
 class SEED_CORE_API Profiler
 {
+	SEED_DISABLE_COPY(Profiler)
+
 	public:
 		Profiler(const char *name);
 		~Profiler();
@@ -90,9 +94,6 @@ class SEED_CORE_API Profiler
 		static Profiler *regionProfilerInstance;
 
 	private:
-		SEED_DISABLE_COPY(Profiler);
-
-	private:
 		const char *pName;
 		FuncTimeMap mapSubjectSlice;
 		FuncTimeMap mapSubjectTotal;
@@ -101,6 +102,8 @@ class SEED_CORE_API Profiler
 /// Profiler Context
 class SEED_CORE_API ProfileContext
 {
+	SEED_DISABLE_COPY(ProfileContext)
+
 	public:
 		ProfileContext(const char *f, Profiler *prof = Profiler::funcProfilerInstance);
 		~ProfileContext();
@@ -116,16 +119,16 @@ class SEED_CORE_API ProfileContext
 		static ContextStack stack;
 
 	private:
-		SEED_DISABLE_COPY(ProfileContext);
-
-	private:
 		const char *func;
-		u64 beg;
-		u64 begTotal;
+		Milliseconds beg;
+		Milliseconds begTotal;
 		bool bTerminated;
 
 		Profiler *pProf;
 };
+
+} // namespace
+
 #else
 
 #define SEED_FUNCTION_PROFILER

@@ -30,6 +30,7 @@
 
 #include "Keyframe.h"
 #include "Enum.h"
+#include "Memory.h"
 #include <algorithm>
 
 namespace Seed {
@@ -44,12 +45,12 @@ Keyframe::Keyframe()
 	, iFrameToJump(-1)
 	, iEvent(KeyframeEventNone)
 	, sName("")
-	, bTween(false)
-	, bBlank(false)
 	, iColorR(255)
 	, iColorG(255)
 	, iColorB(255)
 	, iColorA(255)
+	, bTween(false)
+	, bBlank(false)
 {
 }
 
@@ -60,29 +61,54 @@ Keyframe::~Keyframe()
 
 bool Keyframe::Unload()
 {
+	sName = this->GetTypeName();
 	return true;
 }
 
-bool Keyframe::Load(Reader &reader, ResourceManager *res)
+Keyframe *Keyframe::Clone() const
 {
-	UNUSED(res);
-	bool ret = false;
+	auto obj = sdNew(Keyframe);
+	obj->GenerateCloneName(sName);
 
-	if (this->Unload())
+	obj->ptPos = ptPos;
+	obj->ptPivot = ptPivot;
+	obj->ptScale = ptScale;
+
+	obj->fRotation = fRotation;
+	obj->fEasing = fEasing;
+
+	obj->iFrame = iFrame;
+	obj->iFrameToJump = iFrameToJump;
+	obj->iEvent = iEvent;
+
+	obj->iColorR = iColorR;
+	obj->iColorG = iColorG;
+	obj->iColorB = iColorB;
+	obj->iColorA = iColorA;
+
+	obj->bTween = bTween;
+	obj->bBlank = bBlank;
+
+	return obj;
+}
+
+void Keyframe::Set(Reader &reader)
+{
+	sName = reader.ReadString("sName", sName.c_str());
+	fRotation = reader.ReadF32("fRotation", fRotation);
+	fEasing = reader.ReadF32("fEasing", fEasing);
+
+	iFrame = reader.ReadS32("iFrame", iFrame);
+	SEED_ASSERT_MSG(iFrame != -1, "Keyframe without a frame number");
+
+	iFrameToJump = reader.ReadS32("iGoto", iFrameToJump);
+
+	bTween = reader.ReadBool("bTween", bTween);
+	bBlank = reader.ReadBool("bBlank", bBlank);
+
+	auto event = String(reader.ReadString("sEvent", ""));
+	if (event != "")
 	{
-		sName = reader.ReadString("sName", "keyframe");
-		fRotation = reader.ReadF32("fRotation", 0.0f);
-		fEasing = reader.ReadF32("fEasing", 0.0f);
-
-		iFrame = reader.ReadS32("iFrame", -1);
-		SEED_ASSERT_MSG(iFrame != -1, "Keyframe without a frame number");
-
-		iFrameToJump = reader.ReadS32("iGoto", -1);
-
-		bTween = reader.ReadBool("bTween", false);
-		bBlank = reader.ReadBool("bBlank", false);
-
-		String event(reader.ReadString("sEvent", "none"));
 		std::transform(event.begin(), event.end(), event.begin(), tolower);
 		if (event == "stop")
 		{
@@ -100,47 +126,54 @@ bool Keyframe::Load(Reader &reader, ResourceManager *res)
 		{
 			iEvent = KeyframeEventNone;
 		}
-
-		if (reader.SelectNode("cPosition"))
-		{
-			ptPos.x = reader.ReadF32("x", 0.0f);
-			ptPos.y = reader.ReadF32("y", 0.0f);
-			reader.UnselectNode();
-		}
-
-		if (reader.SelectNode("cPivot"))
-		{
-			ptPivot.x = reader.ReadF32("x", 0.0f);
-			ptPivot.y = reader.ReadF32("y", 0.0f);
-			reader.UnselectNode();
-		}
-
-		if (reader.SelectNode("cScale"))
-		{
-			ptScale.x = reader.ReadF32("x", 1.0f);
-			ptScale.y = reader.ReadF32("y", 1.0f);
-			reader.UnselectNode();
-		}
-
-		if (reader.SelectNode("cColor"))
-		{
-			iColorR = reader.ReadS32("r", 255);
-			iColorG = reader.ReadS32("g", 255);
-			iColorB = reader.ReadS32("b", 255);
-			iColorA = reader.ReadS32("a", 255);
-			reader.UnselectNode();
-		}
-
-		ret = true;
 	}
 
-	return ret;
+	if (reader.SelectNode("cPosition"))
+	{
+		ptPos.x = reader.ReadF32("x", ptPos.x);
+		ptPos.y = reader.ReadF32("y", ptPos.y);
+		reader.UnselectNode();
+	}
+
+	if (reader.SelectNode("cPivot"))
+	{
+		ptPivot.x = reader.ReadF32("x", ptPivot.x);
+		ptPivot.y = reader.ReadF32("y", ptPivot.y);
+		reader.UnselectNode();
+	}
+
+	if (reader.SelectNode("cScale"))
+	{
+		ptScale.x = reader.ReadF32("x", ptScale.x);
+		ptScale.y = reader.ReadF32("y", ptScale.y);
+		reader.UnselectNode();
+	}
+
+	if (reader.SelectNode("cColor"))
+	{
+		iColorR = u8(reader.ReadS32("r", iColorR));
+		iColorG = u8(reader.ReadS32("g", iColorG));
+		iColorB = u8(reader.ReadS32("b", iColorB));
+		iColorA = u8(reader.ReadS32("a", iColorA));
+		reader.UnselectNode();
+	}
+}
+
+bool Keyframe::Load(Reader &reader, ResourceManager *res)
+{
+	UNUSED(res);
+	if (!this->Unload())
+		return false;
+
+	this->Set(reader);
+
+	return true;
 }
 
 bool Keyframe::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteS32("iFrame", iFrame);
 		writer.WriteS32("iGoto", iFrameToJump);
@@ -189,16 +222,6 @@ bool Keyframe::Write(Writer &writer)
 	writer.CloseNode();
 
 	return true;
-}
-
-const String Keyframe::GetClassName() const
-{
-	return "Keyframe";
-}
-
-int Keyframe::GetObjectType() const
-{
-	return Seed::TypeKeyframe;
 }
 
 } // namespace

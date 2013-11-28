@@ -7,15 +7,16 @@ using namespace Seed;
 class PointerSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventInputPointerListener,
-					public IEventPresentationListener
+					public IEventInputPointerListener
 {
+	SEED_DISABLE_COPY(PointerSample)
+
 	public:
 		PointerSample();
 		virtual ~PointerSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -27,24 +28,18 @@ class PointerSample : public IGameApp,
 		// IEventInputPointerListener
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
 
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(PointerSample);
-
 	protected:
 		Presentation cPres;
-		ISceneObject *pImage;
+		ISceneObject *pObject;
 		Camera		*pCamera;
-
-		f32			fElapsed;
-		f32			fDir;
-		bool		bRotate;
 
 		Vector3f	vFrom;
 		Vector3f	vCurrent;
 		Vector3f	vTo;
+
+		f32			fElapsed;
+		f32			fDir;
+		bool		bRotate : 1;
 };
 
 #endif // _POINTERSAMPLE_H_

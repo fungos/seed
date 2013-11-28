@@ -5,15 +5,17 @@
 using namespace Seed;
 
 class SkelSample : public IGameApp,
-							public IEventSystemListener,
-							public IEventInputKeyboardListener
+					public IEventSystemListener,
+					public IEventInputKeyboardListener
 {
+	SEED_DISABLE_COPY(SkelSample)
+
 	public:
 		SkelSample();
 		virtual ~SkelSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -21,9 +23,6 @@ class SkelSample : public IGameApp,
 
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
-
-	private:
-		SEED_DISABLE_COPY(SkelSample);
 };
 
 #endif // _SKEL_SAMPLE_H

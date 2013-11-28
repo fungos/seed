@@ -9,15 +9,16 @@ extern SceneNode *gScene;
 class RendererSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventInputPointerListener,
-					public IEventJobListener
+					public IEventInputPointerListener
 {
+	SEED_DISABLE_COPY(RendererSample)
+
 	public:
 		RendererSample();
 		virtual ~RendererSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -29,27 +30,21 @@ class RendererSample : public IGameApp,
 		// IEventInputPointerListener
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
 
-		// IEventJobListener
-		virtual void OnJobCompleted(const EventJob *ev);
-		virtual void OnJobAborted(const EventJob *ev);
-
-	private:
-		SEED_DISABLE_COPY(RendererSample);
-
 	protected:
-		ISceneObject *pImage;
-		f32			fElapsed;
-		f32			fDir;
-		bool		bRotate;
+		ISceneObject *pObject;
+		Camera		*pCamera;
 
 		SceneNode	cScene;
 		Viewport	cViewport;
-		Camera		*pCamera;
 		Renderer	cRenderer;
 
 		Vector3f	vFrom;
 		Vector3f	vCurrent;
 		Vector3f	vTo;
+
+		f32			fElapsed;
+		f32			fDir;
+		bool		bRotate : 1;
 };
 
 #endif // _RENDERERSAMPLE_H_

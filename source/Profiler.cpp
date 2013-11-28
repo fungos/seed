@@ -30,9 +30,11 @@
 
 #if defined(SEED_ENABLE_PROFILER)
 
-#include "Timer.h"
+#include "System.h"
 #include "Profiler.h"
 #include "Log.h"
+
+namespace Seed {
 
 #define TAG "[Profiler] "
 #define STORE_VALUE(v) { p->stack[p->pos++] = v; if (p->pos > 256) p->pos = 0; }
@@ -109,46 +111,34 @@ void Profiler::Dump()
 #ifdef DEBUG
 	Log(TAG "Dumping %s Totals: %d", pName, (int)mapSubjectTotal.size());
 
-	FuncTimeMapIt it = mapSubjectTotal.begin();
-	FuncTimeMapIt end = mapSubjectTotal.end();
-	for (; it != end; ++it)
+	for (auto each: mapSubjectTotal)
 	{
-		ProfilerEntry *entry = (*it).second;
+		ProfilerEntry *entry = each.second;
 		int calls = entry->calls;
 		float average = static_cast<float>((float)entry->time / (float)calls);
-		Log(TAG "%s: %s [average time %fms, called %d times]", pName, (*it).first, average, calls);
+		Log(TAG "%s: %s [average time %fms, called %d times]", pName, each.first, average, calls);
 	}
 
 	Log(TAG "Dumping %s Slices: %d", pName, (int)mapSubjectSlice.size());
 
-	it = mapSubjectSlice.begin();
-	end = mapSubjectSlice.end();
-	for (; it != end; ++it)
+	for (auto each: mapSubjectSlice)
 	{
-		ProfilerEntry *entry = (*it).second;
+		ProfilerEntry *entry = each.second;
 		int calls = entry->calls;
 		float average = static_cast<float>((float)entry->time / (float)calls);
-		Log(TAG "%s: %s [average time %fms, interrupted %d times]", pName, (*it).first, average, calls);
+		Log(TAG "%s: %s [average time %fms, interrupted %d times]", pName, each.first, average, calls);
 	}
 #endif
 }
 
 void Profiler::Reset()
 {
-	FuncTimeMapIt it = mapSubjectTotal.begin();
-	FuncTimeMapIt end = mapSubjectTotal.end();
-	for (; it != end; ++it)
-	{
-		delete (*it).second;
-	}
+	for (auto each: mapSubjectTotal)
+		delete each.second;
 	mapSubjectTotal.clear();
 
-	it = mapSubjectSlice.begin();
-	end = mapSubjectSlice.end();
-	for (; it != end; ++it)
-	{
-		delete (*it).second;
-	}
+	for (auto each: mapSubjectSlice)
+		delete each.second;
 	mapSubjectSlice.clear();
 }
 
@@ -159,7 +149,7 @@ ProfileContext::ProfileContext(const char *f, Profiler *prof)
 	, bTerminated(false)
 	, pProf(prof)
 {
-	begTotal = pTimer->GetMilliseconds(); //clock();
+	begTotal = pTimer->GetMilliseconds();
 	this->Push();
 	this->StartOrContinue();
 }
@@ -232,5 +222,7 @@ void ProfileContext::Pop()
 		stack.pop();
 	this->RestorePrevious();
 }
+
+} // namespace
 
 #endif // SEED_ENABLE_PROFILER

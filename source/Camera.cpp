@@ -34,6 +34,7 @@
 #include "Enum.h"
 #include "interface/ITexture.h"
 #include "Screen.h"
+#include "Memory.h"
 #include <algorithm>
 
 #define TAG "[Camera] "
@@ -42,19 +43,20 @@ namespace Seed {
 
 ISceneObject *FactoryCamera()
 {
-	return New(Camera());
+	return sdNew(Camera);
 }
 
 Camera::Camera()
-	: pTexture(NULL)
+	: pTexture(nullptr)
 	, aMesh()
-	, nProjection(Seed::Orthogonal)
+	, nProjection(eProjection::Orthogonal)
 	, rViewArea()
 {
 }
 
 Camera::~Camera()
 {
+	this->Unload();
 }
 
 void Camera::SetProjection(eProjection type)
@@ -64,8 +66,8 @@ void Camera::SetProjection(eProjection type)
 
 bool Camera::Contains(ITransformable *obj, Matrix4f &worldMatrix)
 {
-	bool ret = false;
-	if (nProjection == Seed::Orthogonal)
+	auto ret = false;
+	if (nProjection == eProjection::Orthogonal)
 		ret = this->IsInView(obj, worldMatrix);
 	else
 		ret = this->IsInFrustum(obj, worldMatrix);
@@ -79,23 +81,22 @@ void Camera::SetView(const Rect4f &rect)
 	rBoundingBox = Rect4f(0.0f, 0.0f, static_cast<f32>(pScreen->GetWidth()), static_cast<f32>(pScreen->GetHeight()));
 }
 
-void Camera::Update(f32 delta)
+void Camera::Update(Seconds dt)
 {
-	UNUSED(delta)
+	UNUSED(dt)
 	bTransformationChanged = this->IsChanged();
 	if (bTransformationChanged)
 	{
-		f32  x1, y1, x2, y2, z;
-		x2 = vBoundingBox.getX() * 0.5f;
-		y2 = vBoundingBox.getY() * 0.5f;
-		x1 = -x2;
-		y1 = -y2;
-		z = vPos.getZ();
+		auto x2 = vBoundingBox.getX() * 0.5f;
+		auto y2 = vBoundingBox.getY() * 0.5f;
+		auto x1 = -x2;
+		auto y1 = -y2;
+		auto z = vPos.getZ();
 
-		aMesh[0].cVertex = Vector3f(x1, y1, z);
-		aMesh[1].cVertex = Vector3f(x2, y1, z);
-		aMesh[2].cVertex = Vector3f(x1, y2, z);
-		aMesh[3].cVertex = Vector3f(x2, y2, z);
+		aMesh[0].cVertex = Vector3f{x1, y1, z};
+		aMesh[1].cVertex = Vector3f{x2, y1, z};
+		aMesh[2].cVertex = Vector3f{x1, y2, z};
+		aMesh[3].cVertex = Vector3f{x2, y2, z};
 
 		this->UpdateTransform();
 
@@ -106,7 +107,7 @@ void Camera::Update(f32 delta)
 	{
 		bColorChanged = false;
 
-		Color p = cColor;
+		auto p = cColor;
 		aMesh[0].cColor = p;
 		aMesh[1].cColor = p;
 		aMesh[2].cColor = p;
@@ -135,20 +136,25 @@ void Camera::Render(const Matrix4f &worldTransform)
 //	pRendererDevice->UploadData(&packet);
 }
 
+// TODO: TEST
 bool Camera::SetTexture(ITexture *target)
 {
-	bool ret = false;
-	if (target)
-	{
-		ret = (target->GetRenderTarget() > 0);
-		if (!ret)
-			ret = target->EnableRenderTarget(true);
-	}
+	if (pTexture)
+		sdRelease(pTexture);
 
-	if (ret)
-		pTexture = target;
+	pTexture = target;
 
-	return ret;
+	if (!target)
+		return false;
+
+	// if it is not already a render target, try to enable it as one, otherwise abort here
+	if (target->GetRenderTarget() == 0 && !target->EnableRenderTarget(true))
+		return false;
+
+	sdAcquire(target);
+	pTexture = target;
+
+	return true;
 }
 
 ITexture *Camera::GetTexture() const
@@ -158,12 +164,12 @@ ITexture *Camera::GetTexture() const
 
 bool Camera::IsInView(ITransformable *obj, Matrix4f &worldTransform)
 {
+	SEED_ASSERT(obj);
 	worldTransform = mInverse * obj->mTransform;
-	Vector3f op = worldTransform.getTranslation();
-
-	f32 ox = op.getX();
-	f32 oy = op.getY();
-	Rect4f box(ox, oy, obj->GetWidth(), obj->GetHeight());
+	auto op = worldTransform.getTranslation();
+	auto ox = op.getX();
+	auto oy = op.getY();
+	auto box = Rect4f{ox, oy, obj->GetWidth(), obj->GetHeight()};
 	return rBoundingBox.Intersect(ox, oy, box.CircleRadius());
 }
 
@@ -171,58 +177,81 @@ bool Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)
 {
 	UNUSED(obj)
 	UNUSED(worldTransform)
-
 	WARNING(IMPL - Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform))
 
 	return true;
 }
 
-const String Camera::GetClassName() const
-{
-	return "Camera";
-}
-
-int Camera::GetObjectType() const
-{
-	return Seed::TypeCamera;
-}
-
 bool Camera::Unload()
 {
+	sdRelease(pTexture);
+
+	sName = this->GetTypeName();
+	nProjection = eProjection::Orthogonal;
+
 	return true;
 }
 
-bool Camera::Load(Reader &reader, ResourceManager *res)
+Camera *Camera::Clone() const
 {
-	UNUSED(res);
-	bool ret = false;
+	auto obj = sdNew(Camera);
+	obj->GenerateCloneName(sName);
 
-	if (this->Unload())
+	obj->pTexture = nullptr; // we cannot share a render target..?
+	obj->nProjection = nProjection;
+	obj->rViewArea = rViewArea;
+	obj->rBoundingBox = rBoundingBox;
+	obj->mInverse = mInverse;
+
+	memcpy(&obj->aMesh, &aMesh, sizeof(aMesh));
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
+
+	return obj;
+}
+
+void Camera::Set(Reader &reader)
+{
+	sName = reader.ReadString("sName", sName.c_str());
+
+	String proj = reader.ReadString("sProjection", "");
+	if (proj != "")
 	{
-		sName = reader.ReadString("sName", "MainCamera");
-
-		String proj = reader.ReadString("sProjection", "Orthogonal");
 		std::transform(proj.begin(), proj.end(), proj.begin(), ::tolower);
 		if (proj == "perspective")
-			nProjection = Seed::Perspective;
-		else
-			nProjection = Seed::Orthogonal;
-
-		ITransformable::Unserialize(reader);
-		IRenderable::Unserialize(reader);
-
-		ret = true;
+			nProjection = eProjection::Perspective;
+		else if (proj == "orthogonal")
+			nProjection = eProjection::Orthogonal;
 	}
 
-	return ret;
+	ITransformable::Unserialize(reader);
+	IRenderable::Unserialize(reader);
 }
 
 bool Camera::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
-		writer.WriteString("sProjection", nProjection == Seed::Orthogonal ? "Orthogonal" : "Perspective");
+		writer.WriteString("sProjection", nProjection == eProjection::Orthogonal ? "Orthogonal" : "Perspective");
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);

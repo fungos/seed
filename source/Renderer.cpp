@@ -60,9 +60,10 @@ struct SEED_CORE_API VisibleObjectDescendingPrioritySort
 
 
 Renderer::Renderer()
-	: pScene(NULL)
+	: pScene(nullptr)
 	, vRenderables()
 	, vVisibleRenderables()
+	, bEnabled(true)
 {
 }
 
@@ -77,6 +78,7 @@ Renderer::~Renderer()
 
 void Renderer::PushChildNodes(SceneNode *node, SceneNodeVector &v)
 {
+	SEED_ASSERT(node);
 	for (u32 i = 0; i < node->Size(); i++)
 	{
 		ISceneObject *obj = node->GetChildAt(i);
@@ -88,12 +90,12 @@ void Renderer::PushChildNodes(SceneNode *node, SceneNodeVector &v)
 	}
 }
 
-bool Renderer::Update(f32 dt)
+bool Renderer::Update(Seconds dt)
 {
 	UNUSED(dt);
 	SEED_FUNCTION_PROFILER;
 
-	if (!IModule::IsEnabled() || !pScene)
+	if (!this->IsEnabled() || !pScene)
 		return false;
 
 	vRenderables.clear();
@@ -126,8 +128,9 @@ bool Renderer::Update(f32 dt)
 
 void Renderer::Render(Camera *camera)
 {
+	SEED_ASSERT(camera);
 	SEED_FUNCTION_PROFILER;
-	if (pScene && pRendererDevice && pRendererDevice->IsEnabled() && IModule::IsEnabled())
+	if (pScene && pRendererDevice && pRendererDevice->IsEnabled() && this->IsEnabled())
 	{
 		this->Culler(camera);
 
@@ -139,17 +142,14 @@ void Renderer::Render(Camera *camera)
 
 void Renderer::Culler(Camera *camera)
 {
+	SEED_ASSERT(camera);
 	SEED_FUNCTION_PROFILER;
 
 	vVisibleRenderables.clear();
 
-	ConstRenderableVectorIterator it = vRenderables.begin();
-	ConstRenderableVectorIterator end = vRenderables.end();
-
 	VisibleObject visible;
-	for (; it != end; ++it)
+	for (auto obj: vRenderables)
 	{
-		ISceneObject *obj = (*it);
 //		Log("Culling: %s", obj->sName.c_str());
 		SEED_ASSERT(obj);
 
@@ -168,7 +168,6 @@ void Renderer::RenderObjects(const VisibleVector &vec) const
 {
 	ConstVisibleVectorIterator it = vec.begin();
 	ConstVisibleVectorIterator end = vec.end();
-
 	for (; it != end; ++it)
 	{
 		const VisibleObject *obj = &(*it);
@@ -179,11 +178,7 @@ void Renderer::RenderObjects(const VisibleVector &vec) const
 
 void Renderer::Sort(VisibleVector &vec)
 {
-#if !SEED_ENABLE_DEPTH_TEST
 	std::sort(vec.begin(), vec.end(), VisibleObjectDescendingPrioritySort());
-#else
-	UNUSED(vec)
-#endif
 }
 
 void Renderer::Begin() const
@@ -204,11 +199,6 @@ void Renderer::SetScene(SceneNode *node)
 SceneNode *Renderer::GetScene() const
 {
 	return pScene;
-}
-
-const String Renderer::GetClassName() const
-{
-	return "Renderer";
 }
 
 } // namespace

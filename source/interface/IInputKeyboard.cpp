@@ -36,7 +36,7 @@ namespace Seed {
 
 #if defined(DEBUG)
 const char *keyName[] = {
-	"KeyNone", // 0
+	"None", // 0
 	"", // 1
 	"", // 2
 	"", // 3
@@ -44,18 +44,18 @@ const char *keyName[] = {
 	"", // 5
 	"", // 6
 	"", // 7
-	"KeyBackspace",
-	"KeyTab",
+	"Backspace",
+	"Tab",
 	"", // 10
 	"", // 11
-	"KeyClear",
-	"KeyReturn/KeyEnter",
+	"Clear",
+	"Return/Enter",
 	"", // 14
 	"", // 15
 	"", // 16
 	"", // 17
 	"", // 18
-	"KeyPause",
+	"Pause",
 	"", // 20
 	"", // 21
 	"", // 22
@@ -63,113 +63,113 @@ const char *keyName[] = {
 	"", // 24
 	"", // 25
 	"", // 26
-	"KeyEscape",
+	"Escape",
 	"", // 28
 	"", // 29
 	"", // 30
 	"", // 31
 	// Ascii table 1 to 1
-	"KeySpace",
-	"KeyExclam",
-	"KeyQuoteDouble",
-	"KeyNumberSign",
-	"KeyDollar",
-	"KeyPercent",
-	"KeyAmpersand",
-	"KeyApostrophe",
-	"KeyParenLeft",
-	"KeyParenRight",
-	"KeyAsterisk",
-	"KeyPlus",
-	"KeyComma",
-	"KeyMinus",
-	"KeyPeriod",
-	"KeySlash",
-	"Key0",
-	"Key1",
-	"Key2",
-	"Key3",
-	"Key4",
-	"Key5",
-	"Key6",
-	"Key7",
-	"Key8",
-	"Key9",
-	"KeyColon",
-	"KeySemicolon",
-	"KeyLess",
-	"KeyEqual",
-	"KeyGreater",
-	"KeyQuestion",
+	"Space",
+	"Exclam",
+	"QuoteDouble",
+	"NumberSign",
+	"Dollar",
+	"Percent",
+	"Ampersand",
+	"Apostrophe",
+	"ParenLeft",
+	"ParenRight",
+	"Asterisk",
+	"Plus",
+	"Comma",
+	"Minus",
+	"Period",
+	"Slash",
+	"0",
+	"1",
+	"2",
+	"3",
+	"4",
+	"5",
+	"6",
+	"7",
+	"8",
+	"9",
+	"Colon",
+	"Semicolon",
+	"Less",
+	"Equal",
+	"Greater",
+	"Question",
 	"", // @ 64
 	// Both capital and lowercase chars are valid
-	"KeyA",
-	"KeyB",
-	"KeyC",
-	"KeyD",
-	"KeyE",
-	"KeyF",
-	"KeyG",
-	"KeyH",
-	"KeyI",
-	"KeyJ",
-	"KeyK",
-	"KeyL",
-	"KeyM",
-	"KeyN",
-	"KeyO",
-	"KeyP",
-	"KeyQ",
-	"KeyR",
-	"KeyS",
-	"KeyT",
-	"KeyU",
-	"KeyV",
-	"KeyW",
-	"KeyX",
-	"KeyY",
-	"KeyZ",
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z",
 
-	"KeyBracketLeft",
-	"KeyBackslash",
-	"KeyBracketRight",
-	"KeyCircum",
-	"KeyUnderscore",
-	"KeyQuoteLeft/KeyConsole",
+	"BracketLeft",
+	"Backslash",
+	"BracketRight",
+	"Circum",
+	"Underscore",
+	"QuoteLeft/Console",
 
-	"KeyA", // a 97
-	"KeyB",
-	"KeyC",
-	"KeyD",
-	"KeyE",
-	"KeyF",
-	"KeyG",
-	"KeyH",
-	"KeyI",
-	"KeyJ",
-	"KeyK",
-	"KeyL",
-	"KeyM",
-	"KeyN",
-	"KeyO",
-	"KeyP",
-	"KeyQ",
-	"KeyR",
-	"KeyS",
-	"KeyT",
-	"KeyU",
-	"KeyV",
-	"KeyW",
-	"KeyX",
-	"KeyY",
-	"KeyZ", // z 122
+	"A", // a 97
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z", // z 122
 
-	"KeyBraceLeft",
-	"KeyBar/KeyPipe",
-	"KeyBraceRight",
-	"KeyTilde",
+	"BraceLeft",
+	"Bar/Pipe",
+	"BraceRight",
+	"Tilde",
 
-	"KeyDelete", // 127
+	"Delete", // 127
 
 	"", // 128
 	"",
@@ -300,73 +300,73 @@ const char *keyName[] = {
 	"",
 	"",
 
-	"KeyPad0", // 256
-	"KeyPad1",
-	"KeyPad2",
-	"KeyPad3",
-	"KeyPad4",
-	"KeyPad5",
-	"KeyPad6",
-	"KeyPad7",
-	"KeyPad8",
-	"KeyPad9",
-	"KeyPadPeriod",
-	"KeyPadDivide",
-	"KeyPadMultiply",
-	"KeyPadMinus",
-	"KeyPadPlus",
-	"KeyPadEnter",
-	"KeyPadEquals",
+	"Pad0", // 256
+	"Pad1",
+	"Pad2",
+	"Pad3",
+	"Pad4",
+	"Pad5",
+	"Pad6",
+	"Pad7",
+	"Pad8",
+	"Pad9",
+	"PadPeriod",
+	"PadDivide",
+	"PadMultiply",
+	"PadMinus",
+	"PadPlus",
+	"PadEnter",
+	"PadEquals",
 
-	"KeyUp",
-	"KeyDown",
-	"KeyRight",
-	"KeyLeft",
-	"KeyInsert",
-	"KeyHome",
-	"KeyEnd",
-	"KeyPageUp",
-	"KeyPageDown",
+	"Up",
+	"Down",
+	"Right",
+	"Left",
+	"Insert",
+	"Home",
+	"End",
+	"PageUp",
+	"PageDown",
 
-	"KeyF1",
-	"KeyF2",
-	"KeyF3",
-	"KeyF4",
-	"KeyF5",
-	"KeyF6",
-	"KeyF7",
-	"KeyF8",
-	"KeyF9",
-	"KeyF10",
-	"KeyF11",
-	"KeyF12",
-	"KeyF13",
-	"KeyF14",
-	"KeyF15",
+	"F1",
+	"F2",
+	"F3",
+	"F4",
+	"F5",
+	"F6",
+	"F7",
+	"F8",
+	"F9",
+	"F10",
+	"F11",
+	"F12",
+	"F13",
+	"F14",
+	"F15",
 
 	"", // 297
 	"", // 298
 	"", // 299
 
-	"KeyNumLock", // 300
-	"KeyCapsLock",
-	"KeyScrollLock",
+	"NumLock", // 300
+	"CapsLock",
+	"ScrollLock",
 
-	"KeyShiftRight",
-	"KeyShiftLeft",
-	"KeyControlRight",
-	"KeyControlLeft",
-	"KeyAltRight",
-	"KeyAltLeft",
-	"KeyMetaRight",
-	"KeyMetaLeft",
-	"KeySuperLeft",
-	"KeySuperRight",
-	"KeyAltGr",
-	"KeyMenu",
+	"ShiftRight",
+	"ShiftLeft",
+	"ControlRight",
+	"ControlLeft",
+	"AltRight",
+	"AltLeft",
+	"MetaRight",
+	"MetaLeft",
+	"SuperLeft",
+	"SuperRight",
+	"AltGr",
+	"Menu",
 	"", // 315
 
-	"KeyPrintScreen",
+	"PrintScreen",
 
 };
 #endif
@@ -397,15 +397,12 @@ void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 	SEED_ASSERT(ev);
 
 #if defined(DEBUG)
-	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
+	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[static_cast<u32>(ev->GetKey())], ev->GetModifier());
 #endif
 
-	IEventInputKeyboardListenerVectorIterator it = vKeyboardListeners.begin();
-	IEventInputKeyboardListenerVectorIterator end = vKeyboardListeners.end();
-	for (; it != end; ++it)
+	for (auto each: vKeyboardListeners)
 	{
-		(*it)->OnInputKeyboardPress(ev);
-
+		each->OnInputKeyboardPress(ev);
 		if (ev->IsConsumed())
 			break;
 	}
@@ -416,15 +413,12 @@ void IInputKeyboard::SendEventKeyboardRelease(const EventInputKeyboard *ev)
 	SEED_ASSERT(ev);
 
 #if defined(DEBUG)
-	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
+	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[static_cast<u32>(ev->GetKey())], static_cast<u32>(ev->GetModifier()));
 #endif
 
-	IEventInputKeyboardListenerVectorIterator it = vKeyboardListeners.begin();
-	IEventInputKeyboardListenerVectorIterator end = vKeyboardListeners.end();
-	for (; it != end; ++it)
+	for (auto each: vKeyboardListeners)
 	{
-		(*it)->OnInputKeyboardRelease(ev);
-
+		each->OnInputKeyboardRelease(ev);
 		if (ev->IsConsumed())
 			break;
 	}

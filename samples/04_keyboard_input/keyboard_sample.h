@@ -7,15 +7,16 @@ using namespace Seed;
 class KeyboardSample : public IGameApp,
 							public IEventSystemListener,
 							public IEventInputKeyboardListener,
-							public IEventInputPointerListener,
-							public IEventPresentationListener
+							public IEventInputPointerListener
 {
+	SEED_DISABLE_COPY(KeyboardSample)
+
 	public:
 		KeyboardSample();
 		virtual ~KeyboardSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -27,18 +28,12 @@ class KeyboardSample : public IGameApp,
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
 
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(KeyboardSample);
-
 	protected:
 		Presentation cPres;
-		Image		*pPlayerSprite;
+		ISceneObject *pObject;
 		Vector3f	vPlayerVectorDirection;
-		float		fVelocity;
-		bool		bPresentationLoaded;
+		f32			fVelocity;
+		bool		bPresentationLoaded : 1;
 };
 
 #endif // _KEYBOARD_INPUT_SAMPLE_H

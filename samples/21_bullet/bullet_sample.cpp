@@ -1,14 +1,17 @@
 #include "bullet_sample.h"
 
 BulletSample::BulletSample()
-	: pDynamicsWorld(NULL)
-	, pCollisionConfiguration(NULL)
-	, pDispatcher(NULL)
-	, pOverlappingPairCache(NULL)
-	, pSolver(NULL)
+	: pDynamicsWorld(nullptr)
+	, pCollisionConfiguration(nullptr)
+	, pDispatcher(nullptr)
+	, pOverlappingPairCache(nullptr)
+	, pSolver(nullptr)
+	, pGroundShape(nullptr)
+	, arCollisionShapes()
+	, cGroundTransform()
 	, cPres()
-	, pScene(NULL)
-	, pCamera(NULL)
+	, pScene(nullptr)
+	, pCamera(nullptr)
 {
 }
 
@@ -18,7 +21,7 @@ BulletSample::~BulletSample()
 
 bool BulletSample::Initialize()
 {
-	cPres.Load("bullet_sample.config", this);
+	cPres.Load("bullet_sample.config", [&](Presentation *, Renderer *) { /* TODO */ });
 
 	/*
 	 * Create a World
@@ -38,27 +41,24 @@ bool BulletSample::Initialize()
 
 	// Keep track of the shapes, we release memory at exit.
 	// Make sure to re-use collision shapes among rigid bodies whenever possible!
-	pCollisionShapes.push_back(pGroundShape);
+	arCollisionShapes.push_back(pGroundShape);
 
-	pGroundTransform.setIdentity();
-	pGroundTransform.setOrigin(btVector3(0,-56,0));
+	cGroundTransform.setIdentity();
+	cGroundTransform.setOrigin(btVector3(0,-56,0));
 
-	btScalar mass;
-	mass = 0.;
+	auto mass = btScalar(0.0f);
 
 	// Rigidbody is dynamic if and only if mass is non zero, otherwise static
-	bool isDynamic;
-	isDynamic = (mass != 0.f);
+	auto isDynamic = bool(mass != 0.f);
 
-	btVector3 localInertia;
-	localInertia = btVector3(0,0,0);
+	auto localInertia = btVector3(0,0,0);
 	if (isDynamic)
 		pGroundShape->calculateLocalInertia(mass,localInertia);
 
 	// Using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-	btDefaultMotionState* myMotionStateRigidBody = new btDefaultMotionState(pGroundTransform);
-	btRigidBody::btRigidBodyConstructionInfo rbInfoRigidBody(mass, myMotionStateRigidBody, pGroundShape, localInertia);
-	btRigidBody* rigidBody = new btRigidBody(rbInfoRigidBody);
+	auto myMotionStateRigidBody = new btDefaultMotionState(cGroundTransform);
+	auto rbInfoRigidBody = btRigidBody::btRigidBodyConstructionInfo(mass, myMotionStateRigidBody, pGroundShape, localInertia);
+	auto rigidBody = new btRigidBody(rbInfoRigidBody);
 
 	// Add the body to the dynamics world
 	pDynamicsWorld->addRigidBody(rigidBody);
@@ -67,12 +67,12 @@ bool BulletSample::Initialize()
 	 * Create a dynamic rigidbody
 	 */
 
-	//btCollisionShape* colShape = new btBoxShape(btVector3(1,1,1));
-	btCollisionShape* colShape = new btSphereShape(btScalar(1.));
-	pCollisionShapes.push_back(colShape);
+	//auto colShape = new btBoxShape(btVector3(1,1,1));
+	auto colShape = new btSphereShape(btScalar(1.));
+	arCollisionShapes.push_back(colShape);
 
 	/// Create Dynamic Objects
-	btTransform startTransform;
+	auto startTransform = btTransform();
 	startTransform.setIdentity();
 
 	mass = 1.f;
@@ -87,16 +87,16 @@ bool BulletSample::Initialize()
 	startTransform.setOrigin(btVector3(2,10,0));
 
 	//using motionstate is recommended, it provides interpolation capabilities, and only synchronizes 'active' objects
-	btDefaultMotionState* myMotionState = new btDefaultMotionState(startTransform);
-	btRigidBody::btRigidBodyConstructionInfo rbInfo(mass,myMotionState,colShape,localInertia);
-	btRigidBody* body = new btRigidBody(rbInfo);
+	auto myMotionState = new btDefaultMotionState(startTransform);
+	auto rbInfo = btRigidBody::btRigidBodyConstructionInfo(mass,myMotionState,colShape,localInertia);
+	auto body = new btRigidBody(rbInfo);
 
 	pDynamicsWorld->addRigidBody(body);
 
 	return true;
 }
 
-bool BulletSample::Update(f32 dt)
+bool BulletSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	pDynamicsWorld->stepSimulation(1.f/60.f,10);
@@ -104,8 +104,8 @@ bool BulletSample::Update(f32 dt)
 	//print positions of all objects
 	for (int j=pDynamicsWorld->getNumCollisionObjects()-1; j>=0 ;j--)
 	{
-		btCollisionObject* obj = pDynamicsWorld->getCollisionObjectArray()[j];
-		btRigidBody* body = btRigidBody::upcast(obj);
+		auto obj = pDynamicsWorld->getCollisionObjectArray()[j];
+		auto body = btRigidBody::upcast(obj);
 		if (body && body->getMotionState())
 		{
 			btTransform trans;
@@ -120,13 +120,13 @@ bool BulletSample::Update(f32 dt)
 bool BulletSample::Shutdown()
 {
 	this->DestroyPhysics();
-	Delete(pDynamicsWorld);
-	Delete(pSolver);
-	Delete(pOverlappingPairCache);
-	Delete(pDispatcher);
-	Delete(pCollisionConfiguration);
+	sdDelete(pDynamicsWorld);
+	sdDelete(pSolver);
+	sdDelete(pOverlappingPairCache);
+	sdDelete(pDispatcher);
+	sdDelete(pCollisionConfiguration);
 
-	Delete(pGroundShape);
+	sdDelete(pGroundShape);
 	cPres.Unload();
 
 	pInput->RemovePointerListener(this);
@@ -144,13 +144,13 @@ void BulletSample::OnSystemShutdown(const EventSystem *ev)
 
 void BulletSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
 }
 
@@ -165,11 +165,6 @@ void BulletSample::OnInputPointerMove(const EventInputPointer *ev)
 }
 
 void BulletSample::OnInputPointerRelease(const EventInputPointer *ev)
-{
-	//TODO
-}
-
-void BulletSample::OnPresentationLoaded(const EventPresentation *ev)
 {
 	//TODO
 }

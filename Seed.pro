@@ -1,62 +1,22 @@
 TARGET = seed
 TEMPLATE = lib
+
 INCLUDEPATH += include/ contrib/
-DEFINES += SEED_BUILD SEED_ENABLE_PROFILER SEED_ENABLE_OGL20 #SEED_ENABLE_OGLES2
+DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
+
 CONFIG += glfw
-
-#TARGET_EXT = .bc
-#QMAKE_EXT_OBJ = .bc
-#QMAKE_CXXFLAGS += -emit-llvm
-#QMAKE_CXX = clang++
-#QMAKE_CC = clang
-#QMAKE_LIB = llvm-ld -link-as-library -o
-#QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
-#QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj
-
-!editor {
-	CONFIG -= qt
-} else {
-	CONFIG += qt
-}
-
-win32 {
-	INCLUDEPATH += contrib/windows/
-	CONFIG -= glfw
-	CONFIG += sdl
-}
-
-macx {
-	!editor:!glfw {
-		message("Seed for OSX must use GLFW, disabling SDL.")
-		CONFIG -= sdl
-		CONFIG += glfw
-	}
-	INCLUDEPATH += contrib/osx/
-}
-
-unix {
-	DEFINES += LINUX
-	CONFIG += sdl
-}
-
-qt {
-	DEFINES += BUILD_QT
-	QT += opengl
-} else:glfw {
-	DEFINES += BUILD_GLFW
-} else:sdl {
-	DEFINES += BUILD_SDL
-}
+CONFIG += staticlib
+#CONFIG += check
 
 CONFIG(debug, debug|release) {
 	DESTDIR =../seed/lib/debug
-	DEFINES += DEBUG
 } else {
 	DESTDIR = ../seed/lib/release
-	DEFINES += RELEASE
 }
 
-CONFIG += staticlib
+
+include(compiler.pri)
+include(platform.pri)
 
 SOURCES += source/Viewport.cpp \
 	source/ViewManager.cpp \
@@ -78,7 +38,7 @@ SOURCES += source/Viewport.cpp \
 	source/ParticleEmitter.cpp \
 	source/Particle.cpp \
 	source/Movie.cpp \
-	source/ModuleManager.cpp \
+	source/Manager.cpp \
 	source/LeakReport.cpp \
 	source/Keyframe.cpp \
 	source/Key.cpp \
@@ -97,111 +57,77 @@ SOURCES += source/Viewport.cpp \
 	source/Configuration.cpp \
 	source/Checksum.cpp \
 	source/Animation.cpp \
-	source/api/directx/DirectXVersion.cpp \
-	source/api/directx/D3D8RendererDevice.cpp \
-	source/interface/IVideo.cpp \
-	source/interface/IUpdatable.cpp \
 	source/interface/ITransformable.cpp \
-	source/interface/IThread.cpp \
 	source/interface/ITexture.cpp \
 	source/interface/ISystem.cpp \
 	source/interface/ISoundSystem.cpp \
 	source/interface/ISoundSource.cpp \
-	source/interface/ISound.cpp \
 	source/interface/IScreen.cpp \
 	source/interface/ISceneObject.cpp \
 	source/interface/IResource.cpp \
 	source/interface/IRendererDevice.cpp \
 	source/interface/IRenderable.cpp \
 	source/interface/IReader.cpp \
-	source/interface/IObject.cpp \
-	source/interface/IMutex.cpp \
 	source/interface/IMusic.cpp \
-	source/interface/IModule.cpp \
 	source/interface/IInputPointer.cpp \
 	source/interface/IInputMotion.cpp \
 	source/interface/IInputKeyboard.cpp \
 	source/interface/IInputJoystick.cpp \
-	source/interface/IInput.cpp \
 	source/interface/IGameApp.cpp \
-	source/interface/IEventSystemListener.cpp \
-	source/interface/IEventResourceLoaderListener.cpp \
-	source/interface/IEventMovieListener.cpp \
-	source/interface/IEventListener.cpp \
-	source/interface/IEventInputPointerListener.cpp \
-	source/interface/IEventInputMotionListener.cpp \
-	source/interface/IEventInputKeyboardListener.cpp \
-	source/interface/IEventInputJoystickListener.cpp \
-	source/interface/IEventInput.cpp \
-	source/interface/IEventFileSystemListener.cpp \
-	source/interface/IEvent.cpp \
 	source/interface/ICartridge.cpp \
 	source/api/oal/vorbis_util.cpp \
 	source/api/oal/oalSoundSystem.cpp \
 	source/api/oal/oalSoundSource.cpp \
 	source/api/oal/oalSound.cpp \
 	source/api/oal/oalMusic.cpp \
+	source/api/nullal/nalSoundSystem.cpp \
+	source/api/nullal/nalSoundSource.cpp \
+	source/api/nullal/nalSound.cpp \
+	source/api/nullal/nalMusic.cpp \
 	source/api/ogl/oglES1RendererDevice.cpp \
 	source/api/theora/Theora.cpp \
 	source/api/yajl/JsonReader.cpp \
-	source/platform/ios/iosTimer.cpp \
-	source/platform/ios/iosThread.cpp \
 	source/platform/ios/iosTexture.cpp \
 	source/platform/ios/iosSystem.cpp \
 	source/platform/ios/iosSoundSystem.cpp \
 	source/platform/ios/iosSoundSource.cpp \
 	source/platform/ios/iosSound.cpp \
 	source/platform/ios/iosScreen.cpp \
-	source/platform/ios/iosMutex.cpp \
 	source/platform/ios/iosMusic.cpp \
 	source/platform/ios/iosInput.cpp \
 	source/platform/pc/pcRendererDevice.cpp \
 	source/platform/pc/pcLog.cpp \
 	source/platform/pc/pcCartridge.cpp \
-	source/platform/qt/qtTimer.cpp \
-	source/platform/qt/qtThread.cpp \
 	source/platform/qt/qtSystem.cpp \
 	source/platform/qt/qtSurface.cpp \
 	source/platform/qt/qtScreen.cpp \
 	source/platform/qt/qtScene.cpp \
-	source/platform/qt/qtMutex.cpp \
 	source/platform/qt/qtInput.cpp \
-	source/platform/sdl/sdlTimer.cpp \
-	source/platform/sdl/sdlThread.cpp \
 	source/platform/sdl/sdlTexture.cpp \
 	source/platform/sdl/sdlSystem.cpp \
 	source/platform/sdl/sdlScreen.cpp \
-	source/platform/sdl/sdlMutex.cpp \
 	source/platform/sdl/sdlInput.cpp \
 	source/api/yajl/JsonWriter.cpp \
 	source/api/net/Address.cpp \
 	source/api/net/Socket.cpp \
 	source/Writer.cpp \
 	source/interface/IWriter.cpp \
-	source/interface/IDataObject.cpp \
 	source/SceneObjectFactory.cpp \
 	source/Camera.cpp \
-	source/platform/glfw/glfwTimer.cpp \
-	source/platform/glfw/glfwThread.cpp \
 	source/platform/glfw/glfwSystem.cpp \
 	source/platform/glfw/glfwScreen.cpp \
-	source/platform/glfw/glfwMutex.cpp \
 	source/platform/glfw/glfwInput.cpp \
 	source/api/soil/soilTexture.cpp \
 	source/platform/pc/seed_win32.cpp \
 	source/platform/pc/seed_posix.cpp \
 	source/JobManager.cpp \
 	source/Job.cpp \
-	source/EventJob.cpp \
-	source/interface/IEventJobListener.cpp \
 	source/ThreadManager.cpp \
 	source/api/rocket/RocketInterface.cpp \
 	source/Presentation.cpp \
 	source/EventPresentation.cpp \
-	source/interface/IEventPresentationListener.cpp \
 	source/map/GameMap.cpp \
 	source/map/IMapLayer.cpp \
-	source/map/IMetadataObject.cpp \
 	source/map/MapLayerMetadata.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
@@ -218,6 +144,11 @@ SOURCES += source/Viewport.cpp \
 	source/api/ogl/ogl20RendererDevice.cpp \
 	source/api/ogl/ogl20Shader.cpp \
 	source/api/ogl/ogl20ShaderProgram.cpp
+	source/interface/IManager.cpp \
+	source/PrefabManager.cpp \
+	source/map/MetadataObject.cpp \
+	source/Memory.cpp \
+	source/Thread.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -237,8 +168,8 @@ HEADERS += include/*.h \
 	include/platform/pc/*.h \
 	include/platform/ios/*.h \
 	include/interface/*.h \
-	include/api/directx/*.h \
 	include/api/oal/*.h \
+	include/api/nullal/*.h \
 	include/api/ogl/*.h \
 	include/api/theora/*.h \
 	include/api/yajl/*.h \
@@ -259,17 +190,13 @@ HEADERS += include/*.h \
 	include/api/soil/soilTexture.h \
 	include/JobManager.h \
 	include/Job.h \
-	include/EventJob.h \
-	include/interface/IEventJobListener.h \
 	include/ThreadManager.h \
 	include/api/rocket/RocketInterface.h \
 	include/interface/IHardwareBuffer.h \
 	include/Presentation.h \
-	include/interface/IEventPresentationListener.h \
 	include/EventPresentation.h \
 	include/map/GameMap.h \
 	include/map/IMapLayer.h \
-	include/map/IMetadataObject.h \
 	include/map/MapLayerMetadata.h \
 	include/map/MapLayerMosaic.h \
 	include/map/MapLayerTiled.h \
@@ -286,5 +213,7 @@ HEADERS += include/*.h \
 	include/api/ogl/ogl20RendererDevice.h \
 	include/api/ogl/ogl20Shader.h \
 	include/api/ogl/ogl20ShaderProgram.h
-
-
+	include/PrefabManager.h \
+	include/map/MetadataObject.h \
+	include/Memory.h \
+	include/Semaphore.h

@@ -9,15 +9,16 @@ using namespace Seed;
 class BulletSample :	public IGameApp,
 						public IEventSystemListener,
 						public IEventInputKeyboardListener,
-						public IEventInputPointerListener,
-						public IEventPresentationListener
+						public IEventInputPointerListener
 {
+	SEED_DISABLE_COPY(BulletSample)
+
 	public:
 		BulletSample();
 		virtual ~BulletSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -31,12 +32,7 @@ class BulletSample :	public IGameApp,
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
 		virtual void OnInputPointerMove(const EventInputPointer *ev);
 
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
 	private:
-		SEED_DISABLE_COPY(BulletSample);
-
 		void CreateBody(Image *img, f32 x, f32 y);
 		void DestroyPhysics();
 
@@ -48,8 +44,8 @@ class BulletSample :	public IGameApp,
 		btSequentialImpulseConstraintSolver	*pSolver;
 
 		btCollisionShape*							pGroundShape;
-		btAlignedObjectArray<btCollisionShape*>		pCollisionShapes;
-		btTransform									pGroundTransform;
+		btAlignedObjectArray<btCollisionShape*>		arCollisionShapes;
+		btTransform									cGroundTransform;
 
 
 		Presentation	cPres;

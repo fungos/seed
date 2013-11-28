@@ -32,7 +32,6 @@
 #define __RENDERER_H__
 
 #include "interface/IUpdatable.h"
-#include "interface/IModule.h"
 #include "SceneNode.h"
 
 namespace Seed {
@@ -50,14 +49,16 @@ struct VisibleObject
 
 	VisibleObject()
 		: mWorldTransform()
-		, pObj(NULL)
+		, pObj(nullptr)
 	{}
 };
 
 /// Renderer
-class SEED_CORE_API Renderer : public IUpdatable, public IModule
+class SEED_CORE_API Renderer : public IUpdatable, public IObject
 {
-	DECLARE_CONTAINER_TYPE(Vector, SceneNode)
+	SEED_DECLARE_CONTAINER(Vector, SceneNode)
+	SEED_DISABLE_COPY(Renderer)
+	SEED_DECLARE_RTTI(Renderer, IObject)
 
 	typedef Vector<VisibleObject> VisibleVector;
 	typedef VisibleVector::iterator VisibleVectorIterator;
@@ -77,30 +78,55 @@ class SEED_CORE_API Renderer : public IUpdatable, public IModule
 		virtual void Begin() const;
 		virtual void End() const;
 
+		void Setup();
+		void Teardown();
+		void Disable();
+		void Enable();
+		bool IsEnabled() const;
+
 		void SetScene(SceneNode *node);
 		SceneNode *GetScene() const;
 
 		// IUpdatable
-		virtual bool Update(f32 delta) override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-
-	protected:
-		String sSceneToAttach;
-		SceneNode *pScene;
-		RenderableVector vRenderables;
-		VisibleVector vVisibleRenderables;
+		virtual bool Update(Seconds delta) override;
 
 	private:
-		SEED_DISABLE_COPY(Renderer);
-
 		void RenderObjects(const VisibleVector &vec) const;
 		void PushChildNodes(SceneNode *, SceneNodeVector &vec);
 
 		void Sort(VisibleVector &vec);
 		void Culler(Camera *camera);
+
+	protected:
+		String sPrefabToLoad;
+		String sSceneToAttach;
+		SceneNode *pScene;
+		RenderableVector vRenderables;
+		VisibleVector vVisibleRenderables;
+		bool bEnabled : 1;
 };
+
+inline void Renderer::Setup()
+{}
+
+inline void Renderer::Teardown()
+{}
+
+inline void Renderer::Disable()
+{
+	bEnabled = false;
+}
+
+inline void Renderer::Enable()
+{
+	bEnabled = true;
+}
+
+inline bool Renderer::IsEnabled() const
+{
+	return bEnabled;
+}
+
 
 } // namespace
 

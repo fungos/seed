@@ -46,6 +46,7 @@ IResource *TextureResourceLoader(const String &filename, ResourceManager *res = 
 class SEED_CORE_API Texture : public ITexture
 {
 	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);
+	SEED_DISABLE_COPY(Texture)
 
 	public:
 		Texture();
@@ -61,7 +62,7 @@ class SEED_CORE_API Texture : public ITexture
 
 		virtual void Update(Color *buffer) override;
 		virtual void Reset() override;
-		virtual bool Load(const String &desc, u32 width, u32 height, Color *buffer = NULL, u32 atlasWidth = 0, u32 atlasHeight = 0, bool copy = false) override; // O que acontece no Reload?
+		virtual bool Load(const String &desc, u32 width, u32 height, Color *buffer = nullptr, u32 atlasWidth = 0, u32 atlasHeight = 0, bool copy = false) override; // O que acontece no Reload?
 		virtual void Close() override;
 
 		virtual u32 GetAtlasWidth() const override;
@@ -76,8 +77,6 @@ class SEED_CORE_API Texture : public ITexture
 		void UnloadTexture();
 
 	private:
-		SEED_DISABLE_COPY(Texture);
-
 		u8 *pData;
 
 		u32 iBytesPerPixel;
@@ -86,7 +85,7 @@ class SEED_CORE_API Texture : public ITexture
 		u32 iAtlasWidth;
 		u32 iAtlasHeight;
 
-		bool bCopy;
+		bool bCopy : 1;
 };
 
 }} // namespace

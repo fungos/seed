@@ -29,14 +29,18 @@
 */
 
 #include "map/MapLayerMetadata.h"
-#include "map/IMetadataObject.h"
+#include "map/MetadataObject.h"
 #include "Screen.h"
+#include "Memory.h"
 
 namespace Seed {
 
-MapLayerMetadata::MapLayerMetadata(Point2u tileSize)
-	: pRes(NULL)
+MapLayerMetadata::MapLayerMetadata(Point2f tileSize)
+	: pRes(nullptr)
 	, ptTileSize(tileSize)
+	, ptSize(0.0f, 0.0f)
+	, ptMapSize(0.0f, 0.0f)
+	, ptHalfSize(0.0f, 0.0f)
 {
 }
 
@@ -47,50 +51,79 @@ MapLayerMetadata::~MapLayerMetadata()
 
 void MapLayerMetadata::Reset()
 {
-//	IMetadataObjectVectorIterator it = vObjects.begin();
-//	IMetadataObjectVectorIterator end = vObjects.end();
-//	for (; it != end; ++it)
-//	{
-//		Delete(*it);
-//	}
-
-//	IMetadataObjectVector().swap(vObjects);
-
-	IMapLayer::Unload(); // to clear them
-	pRes = NULL;
+	this->Unload();
+	pRes = nullptr;
 }
 
-bool MapLayerMetadata::Load(Reader &reader, ResourceManager *res)
+bool MapLayerMetadata::Unload()
 {
-	bool ret = false;
+	IMapLayer::Unload();
 
-	if (this->Unload())
-	{
-		pRes = res;
+	// ptTileSize = Point2f(0.0f, 0.0f); // Do not clear tilesize.
+	ptMapSize = Point2f(0.0f, 0.0f);
+	ptHalfSize = Point2f(0.0f, 0.0f);
 
-		f32 h = reader.ReadF32("height", 0.0f);
-		f32 w = reader.ReadF32("width", 0.0f);
-		ptMapSize.x = w * ptTileSize.x;
-		ptMapSize.y = h * ptTileSize.y;
-		ptHalfSize.x = ptMapSize.x * 0.5f;
-		ptHalfSize.y = ptMapSize.y * 0.5f;
+	return true;
+}
 
-		this->ReadMapLayer(reader);
-		this->ReadProperties(reader);
-		this->SetWidth(ptMapSize.x);
-		this->SetHeight(ptMapSize.y);
+void MapLayerMetadata::Set(Reader &reader)
+{
+	ptSize.x = reader.ReadF32("width", ptSize.x);
+	ptSize.y = reader.ReadF32("height", ptSize.y);
+	ptMapSize = ptSize * ptTileSize;
+	ptHalfSize = ptMapSize * 0.5f;
 
-		// overwrite readmaplayer x,y - I don't know if these values are used anyway
-		this->SetPosition(-ptHalfSize.x - (ptTileSize.x * 0.5f), -ptHalfSize.y - (ptTileSize.y * 0.5f));
+	this->ReadMapLayer(reader);
+	this->ReadProperties(reader);
+	this->SetWidth(ptMapSize.x);
+	this->SetHeight(ptMapSize.y);
 
-		u32 len = reader.SelectArray("objects");
-		this->LoadData(reader, len);
-		reader.UnselectArray();
+	// overwrite readmaplayer x,y - I don't know if these values are used anyway
+	this->SetPosition(-ptHalfSize.x - (ptTileSize.x * 0.5f), -ptHalfSize.y - (ptTileSize.y * 0.5f));
 
-		ret = true;
-	}
+	auto len = reader.SelectArray("objects");
+	this->LoadData(reader, len);
+	reader.UnselectArray();
+}
 
-	return ret;
+bool MapLayerMetadata::Write(Writer &writer)
+{
+	UNUSED(writer)
+	WARNING(IMPL - MapLayerMetadata::Write(...));
+	return false;
+}
+
+MapLayerMetadata *MapLayerMetadata::Clone() const
+{
+	auto obj = sdNew(MapLayerMetadata(ptTileSize));
+	obj->GenerateCloneName(sName);
+
+	obj->pRes = pRes;
+	obj->ptTileSize = ptTileSize;
+	obj->ptMapSize = ptMapSize;
+	obj->ptHalfSize = ptHalfSize;
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
+
+	return obj;
 }
 
 void MapLayerMetadata::LoadData(Reader &reader, u32 len)
@@ -99,7 +132,7 @@ void MapLayerMetadata::LoadData(Reader &reader, u32 len)
 	{
 		reader.SelectNext();
 
-		IMetadataObject *obj = New(IMetadataObject());
+		auto obj = sdNew(MetadataObject);
 		obj->Load(reader, pRes);
 		obj->bMarkForDeletion = true;
 		this->Add(obj);
@@ -108,13 +141,8 @@ void MapLayerMetadata::LoadData(Reader &reader, u32 len)
 
 void MapLayerMetadata::Render(const Matrix4f &worldTransform)
 {
-	ISceneObjectVectorIterator it = vChild.begin();
-	ISceneObjectVectorIterator end = vChild.end();
-	for (; it != end; ++it)
-	{
-		ISceneObject *obj = (*it);
+	for (auto obj: vChild)
 		obj->Render(worldTransform);
-	}
 }
 
 MapLayerMetadata *MapLayerMetadata::AsMetadata()

@@ -48,6 +48,9 @@ Orthogonal or Perspective Camera with support to render to texture.
 */
 class SEED_CORE_API Camera : public ISceneObject
 {
+	SEED_DISABLE_COPY(Camera)
+	SEED_DECLARE_RTTI(Camera, ISceneObject)
+
 	public:
 		Camera();
 		virtual ~Camera();
@@ -65,25 +68,20 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual ITexture *GetTexture() const;
 
 		// ISceneObject
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds dt) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+		virtual Camera *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	protected:
 		virtual bool IsInView(ITransformable *obj, Matrix4f &worldTransform);
 		virtual bool IsInFrustum(ITransformable *obj, Matrix4f &worldTransform);
 
 	protected:
-		SEED_DISABLE_COPY(Camera);
-
 		ITexture	*pTexture;
 		sVertex		aMesh[4];
 		eProjection nProjection;

@@ -2,8 +2,8 @@
 
 ImageSample::ImageSample()
 	: cPres()
-	, pImage(NULL)
-	, pCamera(NULL)
+	, pObject(nullptr)
+	, pCamera(nullptr)
 {
 }
 
@@ -14,10 +14,16 @@ ImageSample::~ImageSample()
 bool ImageSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("image_sample.config", this);
+	return cPres.Load("image_sample.config", [&](Presentation *pres, Renderer *) {
+		pCamera = pres->GetViewportByName("MainView")->GetCamera();
+		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+	});
 }
 
-bool ImageSample::Update(f32 dt)
+bool ImageSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	return true;
@@ -40,23 +46,12 @@ void ImageSample::OnSystemShutdown(const EventSystem *ev)
 
 void ImageSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
-}
-
-void ImageSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pCamera = cPres.GetViewportByName("MainView")->GetCamera();
-	pImage = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
 }

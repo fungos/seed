@@ -59,6 +59,7 @@ class SEED_CORE_API Music : public IMusic
 {
 	friend IResource *MusicResourceLoader(const String &filename, ResourceManager *res);
 	friend class SoundSystem;
+	SEED_DISABLE_COPY(Music)
 
 	public:
 		Music();
@@ -66,7 +67,7 @@ class SEED_CORE_API Music : public IMusic
 
 		// IMusic
 		virtual void Reset();
-		virtual bool Update(f32 dt) override;
+		virtual bool Update(Seconds dt) override;
 		virtual const void *GetData() const override;
 
 		virtual void SetVolume(f32 vol) override;
@@ -80,8 +81,6 @@ class SEED_CORE_API Music : public IMusic
 		virtual bool DoStream(ALuint buffer);
 
 	private:
-		SEED_DISABLE_COPY(Music);
-
 		File			*pFile;
 		ALuint			iBuffers[OPENAL_MUSIC_BUFFERS];
 		ALuint			iSource;
@@ -92,7 +91,7 @@ class SEED_CORE_API Music : public IMusic
 		sOggFile		oggFile;
 		ov_callbacks	vorbisCb;
 		ALenum			eFormat;
-		bool			bLoop;
+		bool			bLoop : 1;
 };
 
 }} // namespace

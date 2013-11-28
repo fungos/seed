@@ -34,7 +34,6 @@
 #include "interface/IDataObject.h"
 #include "ResourceManager.h"
 #include "Container.h"
-#include "Mutex.h"
 
 namespace Seed {
 
@@ -42,21 +41,31 @@ class Viewport;
 class Camera;
 class Renderer;
 class SceneNode;
-class RendererSceneLoader;
-class IEventPresentationListener;
+class SceneFileLoader;
+class PrefabFileLoader;
 
-DECLARE_CONTAINER_TYPE(Vector, SceneNode)
-DECLARE_CONTAINER_TYPE(Vector, Viewport)
-DECLARE_CONTAINER_TYPE(Vector, Renderer)
+SEED_DECLARE_CONTAINER(Vector, SceneNode)
+SEED_DECLARE_CONTAINER(Vector, Viewport)
+SEED_DECLARE_CONTAINER(Vector, Renderer)
 
 class SEED_CORE_API Presentation : public IDataObject
 {
 	friend class RendererSceneLoader;
+	/*!
+	* \brief Callback
+	* Callback to execute when the presentation load is finished. If the presentation load was aborted due some error,
+	* it will call the callback with a renderer parameter with the faulty rebderer, otherwise the renderer will be null.
+	* All renderers loaded in a presentation can be queried/get by name.
+	*/
+	typedef std::function<void(Presentation *, Renderer *)> Callback;
+	SEED_DISABLE_COPY(Presentation)
+	SEED_DECLARE_RTTI(Presentation, IDataObject)
+
 	public:
 		Presentation();
 		virtual ~Presentation();
 
-		bool Load(const String &filename, IEventPresentationListener *listener, ResourceManager *res = pResourceManager);
+		bool Load(const String &filename, Callback cb, ResourceManager *res = pResourceManager);
 
 		Renderer *GetRendererByName(const String &name);
 		Viewport *GetViewportByName(const String &name);
@@ -65,24 +74,34 @@ class SEED_CORE_API Presentation : public IDataObject
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	protected:
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager);
 
 	private:
-		SEED_DISABLE_COPY(Presentation);
-		void SceneLoaded(RendererSceneLoader *ldr);
-		void SceneAborted(RendererSceneLoader *ldr);
+		void SceneLoaded(SceneFileLoader *ldr);
+		void SceneAborted(SceneFileLoader *ldr);
 
-		IEventPresentationListener *pListener;
+		void PrefabLoaded(PrefabFileLoader *ldr);
+		void PrefabAborted(PrefabFileLoader *ldr);
+
+		void GotoScenePhase();
+		void PrefabsPhase();
+		void ScenesPhase();
+
+		// IDataObject
+		virtual Presentation *Clone() const override { SEED_ASSERT("[Presentation] Not clonable."); return nullptr; }
+		virtual void Set(Reader &) override {}
+
+	private:
 		ResourceManager *pRes;
+		bool *pFinishedScenes;
+		bool *pFinishedPrefabs;
+		u32 iPrefabsCount;
+
+		Callback fnCallback;
 		ViewportVector vViewport;
 		RendererVector vRenderer;
 		SceneNodeVector vScenes;
-		bool *pFinished;
 };
 
 

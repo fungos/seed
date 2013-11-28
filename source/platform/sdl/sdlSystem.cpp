@@ -48,9 +48,9 @@ namespace Seed { namespace SDL {
 SEED_SINGLETON_DEFINE(System)
 
 System::System()
-	: iLastFrameTime(0)
-	, iFpsTime(0)
-	, fElapsedTime(0.0f)
+	: fLastFrameTime(0)
+	, fFpsTime(0)
+	, fElapsedTime(0)
 	, iRetraceCount(0)
 	, iFrameRate(0)
 	, iRetraceIndex(0)
@@ -105,7 +105,7 @@ bool System::Shutdown()
 	return true;
 }
 
-bool System::Update(f32 dt)
+bool System::Update(Seconds dt)
 {
 	UNUSED(dt);
 
@@ -160,19 +160,19 @@ void System::WaitForRetrace()
 {
 	++iRetraceCount;
 
-	if (!iLastFrameTime)
-		iLastFrameTime = pTimer->GetMilliseconds();
+	if (!fLastFrameTime)
+		fLastFrameTime = f32(pTimer->GetMilliseconds());
 
-	f32 frameMaxTime			= 1000.0f / iFrameRate;
+	f32 frameMaxTime = 1000.0f / iFrameRate;
 
 	do
 	{
 		//hold fps
-		u64 time		= pTimer->GetMilliseconds();
-		u64 frameTime	= time - iLastFrameTime;
-		iFpsTime		+= frameTime;
-		fElapsedTime	+= (f32)frameTime;
-		iLastFrameTime	= time;
+		f32 time		= f32(pTimer->GetMilliseconds());
+		f32 frameTime	= time - fLastFrameTime;
+		fFpsTime		+= frameTime;
+		fElapsedTime	+= frameTime;
+		fLastFrameTime	= time;
 	} while (fElapsedTime < frameMaxTime);
 
 	fElapsedTime -= frameMaxTime;
@@ -183,15 +183,15 @@ void System::WaitForRetrace()
 	if ((fElapsedTime / frameMaxTime) > MAX_FRAMESKIP_THRESHOLD)
 		fElapsedTime = 0;
 
-	if (iFpsTime > 1000)
+	if (fFpsTime > 1000)
 	{
-		Dbg("FPS: %d", iRetraceCount);
+		//Dbg("FPS: %d", iRetraceCount);
 
 		arRetraceCount[iRetraceIndex++] = iRetraceCount;
 		if (iRetraceIndex >= SYSTEM_RETRACE_HISTORY_MAX)
 			iRetraceIndex = 0;
 
-		iFpsTime -= 1000;
+		fFpsTime -= 1000;
 		iRetraceCount = 0;
 	}
 }

@@ -31,7 +31,7 @@
 #ifndef __ISOUND_SYSTEM_H__
 #define __ISOUND_SYSTEM_H__
 
-#include "IModule.h"
+#include "IManager.h"
 #include "IUpdatable.h"
 #include "Container.h"
 
@@ -47,10 +47,12 @@ class ISoundSource;
 /**
 Interface for sound implementations.
 */
-class SEED_CORE_API ISoundSystem : public IModule, public IUpdatable
+class SEED_CORE_API ISoundSystem : public IManager, public IUpdatable
 {
+	SEED_DISABLE_COPY(ISoundSystem)
+
 	protected:
-		DECLARE_CONTAINER_TYPE(Vector, ISoundSource)
+		SEED_DECLARE_CONTAINER(Vector, ISoundSource)
 
 	public:
 		ISoundSystem();
@@ -65,8 +67,8 @@ class SEED_CORE_API ISoundSystem : public IModule, public IUpdatable
 		virtual void Mute();
 		virtual void Unmute();
 
-		virtual void PlayMusic(IMusic *mus, f32 ms = 0);
-		virtual void StopMusic(f32 ms = 0, IMusic *mus = NULL);
+		virtual void PlayMusic(IMusic *mus, Seconds ms = 0);
+		virtual void StopMusic(f32 ms = 0, IMusic *mus = nullptr);
 		virtual void StopSounds();
 		virtual void Pause();
 		virtual void Resume();
@@ -74,28 +76,23 @@ class SEED_CORE_API ISoundSystem : public IModule, public IUpdatable
 		virtual void Add(ISoundSource *src);
 		virtual void Remove(ISoundSource *src);
 
-		// IObject
-		virtual const String GetClassName() const;
-
 	protected:
 		IMusic	*pCurrentMusic;
 		IMusic	*pNewMusic;
 
 		ISoundSourceVector	vSource;
 
-		f32 	fMusicVolume;
+		f32		fMusicVolume;
 		f32		fSfxVolume;
-		f32 	fMusicVolumeOrig;
+		f32		fMusicVolumeOrig;
 		f32		fSfxVolumeOrig;
-		f32		fMusicStartFadeTime;
 		f32		fMusicFadeTime;
 
-		bool	bMuted;
-		bool	bChanged;
-		bool	bPaused;
+		Seconds fMusicStartFadeTime;
 
-	private:
-		SEED_DISABLE_COPY(ISoundSystem);
+		bool	bMuted : 1;
+		bool	bChanged : 1;
+		bool	bPaused : 1;
 };
 
 } // namespace

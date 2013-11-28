@@ -44,6 +44,8 @@ namespace Seed {
 /// JSON Data writer
 class SEED_CORE_API JsonWriter: public IWriter
 {
+	SEED_DISABLE_COPY(JsonWriter)
+
 	public:
 		JsonWriter();
 		virtual ~JsonWriter();
@@ -61,8 +63,6 @@ class SEED_CORE_API JsonWriter: public IWriter
 		virtual void CloseNode() override;
 
 	private:
-		SEED_DISABLE_COPY(JsonWriter);
-
 		yajl_gen gen;
 };
 

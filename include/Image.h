@@ -44,6 +44,9 @@ ISceneObject *FactoryImage();
 /// Renderable Static Image
 class SEED_CORE_API Image : public ISceneObject
 {
+	SEED_DISABLE_COPY(Image)
+	SEED_DECLARE_RTTI(Image, ISceneObject)
+
 	public:
 		Image();
 		Image(const String &filename, ResourceManager *res = pResourceManager);
@@ -53,26 +56,21 @@ class SEED_CORE_API Image : public ISceneObject
 		bool Load(const String &filename, ResourceManager *res = pResourceManager);
 
 		// IRenderable
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds dt) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		using ISceneObject::Load;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-
-		// IObject
-		virtual int GetObjectType() const override;
-		virtual const String GetClassName() const override;
+		virtual Image *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
-		SEED_DISABLE_COPY(Image);
-
 		void UpdateCoords();
 
 	protected:
 		ITexture		*pTexture;
-		ResourceManager *pRes;
 		String			sFilename;
 
 		// Frame related width and heigth used for rendering only
@@ -83,7 +81,7 @@ class SEED_CORE_API Image : public ISceneObject
 		VertexBuffer cVertexBuffer;
 		sVertex vert[4];
 
-		bool bDynamic;
+		bool bDynamic : 1;
 };
 
 } // namespace

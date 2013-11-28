@@ -33,16 +33,17 @@
 #include "Screen.h"
 #include "ResourceManager.h"
 #include "Image.h"
+#include "Memory.h"
 
 #define TILE(x, y) pTileData[(x) + (ptMapSize.y * (y))]
 
 namespace Seed {
 
 MapLayerTiled::MapLayerTiled()
-	: pTileData(NULL)
-	, pVertex(NULL)
-	, pElements(NULL)
-	, pTileSet(NULL)
+	: pTileData(nullptr)
+	, pVertex(nullptr)
+	, pElements(nullptr)
+	, pTileSet(nullptr)
 	, cVertexBuffer()
 	, cElementBuffer()
 	, iDataLen(0)
@@ -51,8 +52,8 @@ MapLayerTiled::MapLayerTiled()
 	, ptMapSizeHalf(0.0f, 0.0f)
 	, bRebuildMesh(false)
 {
-	cVertexBuffer.Configure(BufferUsageNeverChange, ElementTypeInt);
-	cElementBuffer.Configure(BufferUsageNeverChange, ElementTypeInt);
+	cVertexBuffer.Configure(eBufferUsage::NeverChange, eElementType::Int);
+	cElementBuffer.Configure(eBufferUsage::NeverChange, eElementType::Int);
 }
 
 MapLayerTiled::~MapLayerTiled()
@@ -63,39 +64,101 @@ MapLayerTiled::~MapLayerTiled()
 	this->Unload();
 }
 
-bool MapLayerTiled::Unload()
+void MapLayerTiled::Set(Reader &reader)
 {
-	sFree(pElements);
-	sFree(pVertex);
-	sFree(pTileData);
-	pTileSet = NULL;
+	u32 len = reader.SelectArray("data");
+	this->LoadData(reader, len);
+	reader.UnselectArray();
 
-	return true;
+	// map size is in tiles and is only important to tile based maps, so we read it here
+	this->SetMapSize(Point2u(reader.ReadU32("width", ptMapSize.x), reader.ReadU32("height", ptMapSize.y)));
+
+	// read the generic map info in base class
+	this->ReadMapLayer(reader);
+	this->ReadProperties(reader);
 }
 
-bool MapLayerTiled::Load(Reader &reader, ResourceManager *res)
+bool MapLayerTiled::Write(Writer &writer)
 {
-	UNUSED(res)
+	UNUSED(writer)
+	WARNING(IMPL - MapLayerTiled::Writer(...))
+	return false;
+}
 
-	bool ret = false;
+bool MapLayerTiled::Unload()
+{
+	sdFree(pElements);
+	sdFree(pVertex);
+	sdFree(pTileData);
 
-	if (this->Unload())
+	ptTileSize = Point2u(0, 0);
+	ptMapSizeHalf = Point2f(0.0f, 0.0f);
+	ptMapSize = Point2u(0, 0);
+	pTileSet = nullptr;
+	sName = this->GetTypeName();
+
+	return IMapLayer::Unload();
+}
+
+MapLayerTiled *MapLayerTiled::Clone() const
+{
+	auto obj = sdNew(MapLayerTiled);
+	obj->GenerateCloneName(sName);
+
+	if (iDataLen)
 	{
-		u32 len = reader.SelectArray("data");
-		this->LoadData(reader, len);
-		reader.UnselectArray();
-
-		// map size is in tiles and is only important to tile based maps, so we read it here
-		this->SetMapSize(Point2u(reader.ReadU32("width", 0), reader.ReadU32("height", 0)));
-
-		// read the generic map info in base class
-		this->ReadMapLayer(reader);
-		this->ReadProperties(reader);
-
-		ret = true;
+		obj->pTileData = (u32 *)sdAlloc(sizeof(u32) * iDataLen);
+		memcpy(obj->pTileData, pTileData, sizeof(u32) * iDataLen);
 	}
 
-	return ret;
+	u32 vertexAmount = ptMapSize.x * ptMapSize.y * 4;
+	u32 elementAmount = ptMapSize.x * ptMapSize.y * 6;
+
+	obj->pVertex = (sVertex *)sdAlloc(sizeof(sVertex) * vertexAmount);
+	obj->pElements = (u32 *)sdAlloc(sizeof(u32) * elementAmount);
+
+	memcpy(obj->pVertex, pVertex, sizeof(sVertex) * vertexAmount);
+	memcpy(obj->pElements, pElements, sizeof(u32) * elementAmount);
+
+	obj->pTileSet = pTileSet->Clone();
+	obj->cVertexBuffer.SetData(obj->pVertex, cVertexBuffer.iLength);
+	obj->cElementBuffer.SetData(obj->pElements, cElementBuffer.iLength);
+
+	obj->iDataLen = iDataLen;
+	obj->ptTileSize = ptTileSize;
+	obj->ptMapSize = ptMapSize;
+	obj->ptMapSizeHalf = ptMapSizeHalf;
+
+	obj->bRebuildMesh = bRebuildMesh;
+	obj->bResizeMap = bResizeMap;
+
+	for (auto child: vChild)
+	{
+		auto cln = static_cast<ISceneObject *>(child->Clone());
+		obj->vChild += cln;
+	}
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
+
+	return obj;
 }
 
 void MapLayerTiled::LoadData(Reader &reader, u32 len)
@@ -104,8 +167,8 @@ void MapLayerTiled::LoadData(Reader &reader, u32 len)
 	{
 		if (iDataLen != len)
 		{
-			sFree(pTileData);
-			pTileData = (u32 *)Alloc(sizeof(u32) * len);
+			sdFree(pTileData);
+			pTileData = (u32 *)sdAlloc(sizeof(u32) * len);
 		}
 
 		for (u32 i = 0; i < len; i++)
@@ -116,13 +179,13 @@ void MapLayerTiled::LoadData(Reader &reader, u32 len)
 	}
 
 	if (!len)
-		sFree(pTileData);
+		sdFree(pTileData);
 
 	iDataLen = len;
 	bRebuildMesh = true;
 }
 
-void MapLayerTiled::Update(f32 dt)
+void MapLayerTiled::Update(Seconds dt)
 {
 	UNUSED(dt)
 	if (bRebuildMesh && pTileSet && pTileData)
@@ -135,11 +198,11 @@ void MapLayerTiled::Update(f32 dt)
 
 		if (bResizeMap)
 		{
-			sFree(pElements);
-			sFree(pVertex);
+			sdFree(pElements);
+			sdFree(pVertex);
 
-			pVertex = (sVertex *)Alloc(sizeof(sVertex) * vertexAmount);
-			pElements = (u32 *)Alloc(sizeof(u32) * elementAmount);
+			pVertex = (sVertex *)sdAlloc(sizeof(sVertex) * vertexAmount);
+			pElements = (u32 *)sdAlloc(sizeof(u32) * elementAmount);
 		}
 
 		memset(pVertex, '\0', sizeof(sVertex) * vertexAmount);
@@ -215,17 +278,17 @@ void MapLayerTiled::Render(const Matrix4f &worldTransform)
 {
 	if (pTileSet)
 	{
-		ePacketFlags flags = FlagNone;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+		ePacketFlags flags = ePacketFlags::None;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
 
 		RendererPacket packet;
-		packet.nMeshType = Seed::Triangles;
+		packet.nMeshType = eMeshType::Triangles;
 		packet.pVertexBuffer = &cVertexBuffer;
 		packet.pElementBuffer = &cElementBuffer;
 		packet.pTexture = pTileSet->GetTexture();
-		packet.nBlendMode = eBlendOperation;
+		packet.nBlendMode = nBlendOperation;
 		packet.pTransform = &worldTransform;
 		packet.cColor = cColor;
-		packet.iFlags = flags;
+		packet.nFlags = flags;
 		packet.vPivot = vTransformedPivot;
 
 		pRendererDevice->UploadData(&packet);

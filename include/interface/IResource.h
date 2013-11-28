@@ -34,8 +34,8 @@
 #include "Defines.h"
 #include "IObject.h"
 
-#define sAcquire(p)		p->Acquire()
-#define sRelease(p)		{ if (p) p->Release(); p = NULL; }
+#define sdAcquire(p)		p->Acquire()
+#define sdRelease(p)		{ if (p) p->Release(); p = nullptr; }
 
 namespace Seed {
 
@@ -45,6 +45,8 @@ class ResourceManager;
 class SEED_CORE_API IResource : public IObject
 {
 	friend class ResourceManager;
+	SEED_DISABLE_COPY(IResource)
+	SEED_DECLARE_RTTI(IResource, IObject)
 
 	public:
 		IResource();
@@ -66,15 +68,10 @@ class SEED_CORE_API IResource : public IObject
 		u32 GetReferenceCount() const;
 
 	protected:
-		bool			bLoaded;
 		ResourceManager *pRes;
 		String			sFilename;
-
-	private:
-		SEED_DISABLE_COPY(IResource);
-
-	private:
 		u32				iRefCount;
+		bool			bLoaded : 1;
 };
 
 } // namespace

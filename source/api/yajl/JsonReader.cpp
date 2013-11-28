@@ -40,9 +40,9 @@
 namespace Seed {
 
 JsonReader::JsonReader()
-	: pRootNode(NULL)
-	, pCurNode(NULL)
-	, pCurArray(NULL)
+	: pRootNode(nullptr)
+	, pCurNode(nullptr)
+	, pCurArray(nullptr)
 	, qStackNode()
 	, qStackArray()
 	, qStackArrayPos()
@@ -53,15 +53,15 @@ JsonReader::JsonReader()
 JsonReader::~JsonReader()
 {
 	yajl_tree_free(pRootNode);
-	pRootNode = NULL;
-	pCurNode = NULL;
-	pCurArray = NULL;
+	pRootNode = nullptr;
+	pCurNode = nullptr;
+	pCurArray = nullptr;
 	iPos = 0;
 }
 
 JsonReader::JsonReader(const JsonReader &other)
 	: IReader(other)
-	, pRootNode(NULL)
+	, pRootNode(nullptr)
 	, pCurNode(other.pCurNode)
 	, pCurArray(other.pCurArray)
 	, qStackNode()
@@ -72,9 +72,9 @@ JsonReader::JsonReader(const JsonReader &other)
 }
 
 JsonReader::JsonReader(const yajl_val node)
-	: pRootNode(NULL)
+	: pRootNode(nullptr)
 	, pCurNode(node)
-	, pCurArray(NULL)
+	, pCurArray(nullptr)
 	, qStackNode()
 	, qStackArray()
 	, qStackArrayPos()
@@ -86,7 +86,7 @@ JsonReader &JsonReader::operator=(const JsonReader &other)
 {
 	if (this != &other)
 	{
-		pRootNode = NULL;
+		pRootNode = nullptr;
 		pCurNode = other.pCurNode;
 		pCurArray = other.pCurArray;
 		iPos = other.iPos;
@@ -105,7 +105,7 @@ bool JsonReader::Load(const void *data)
 	yajl_tree_free(pRootNode);
 	pCurNode = pRootNode = yajl_tree_parse((const char *)data, err, sizeof(err));
 
-	if (pCurNode != NULL)
+	if (pCurNode != nullptr)
 	{
 		ret = true;
 	}
@@ -133,7 +133,7 @@ bool JsonReader::Load(IReader &reader)
 	pCurArray = static_cast<const JsonReader *>(&reader)->pCurArray;
 	iPos = static_cast<const JsonReader *>(&reader)->iPos;
 
-	if (pCurNode != NULL)
+	if (pCurNode != nullptr)
 		ret = true;
 
 	return ret;
@@ -181,7 +181,7 @@ const char *JsonReader::GetKey(u32 atPos) const
 	if (YAJL_IS_OBJECT(pCurNode) && pCurNode->u.object.len > atPos)
 		return  pCurNode->u.object.keys[atPos];
 
-	return NULL;
+	return nullptr;
 }
 
 s32 JsonReader::ReadS32(const char *key, s32 value) const

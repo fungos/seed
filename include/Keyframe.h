@@ -40,6 +40,9 @@ namespace Seed {
 /// Movie Keyframe
 class SEED_CORE_API Keyframe : public IDataObject
 {
+	SEED_DISABLE_COPY(Keyframe)
+	SEED_DECLARE_RTTI(Keyframe, IDataObject)
+
 	public:
 		enum
 		{
@@ -57,10 +60,8 @@ class SEED_CORE_API Keyframe : public IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+		virtual Keyframe *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	public:
 		Point2f		ptPos;
@@ -76,16 +77,13 @@ class SEED_CORE_API Keyframe : public IDataObject
 
 		String		sName;
 
-		bool		bTween;
-		bool		bBlank;
-
 		u8			iColorR;
 		u8			iColorG;
 		u8			iColorB;
 		u8			iColorA;
 
-	private:
-		SEED_DISABLE_COPY(Keyframe);
+		bool		bTween : 1;
+		bool		bBlank : 1;
 };
 
 } // namespace

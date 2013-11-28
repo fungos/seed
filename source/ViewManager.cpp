@@ -44,7 +44,7 @@ SEED_SINGLETON_DEFINE(ViewManager)
 
 ViewManager::ViewManager()
 	: vViewport()
-	, pCurrentViewport(NULL)
+	, pCurrentViewport(nullptr)
 	, bEnabled(true)
 {
 }
@@ -56,13 +56,11 @@ ViewManager::~ViewManager()
 
 bool ViewManager::Initialize()
 {
-	IModule::Initialize();
+	IManager::Initialize();
 
-	ViewportVectorIterator it = vViewport.begin();
-	ViewportVectorIterator end = vViewport.end();
-	for (; it != end; ++it)
+	for (auto each: vViewport)
 	{
-		(*it)->GetRenderer()->Initialize();
+		each->GetRenderer()->Setup(); // redundante?
 	}
 
 	return true;
@@ -76,16 +74,14 @@ bool ViewManager::Reset()
 
 bool ViewManager::Shutdown()
 {
-	ViewportVectorIterator it = vViewport.begin();
-	ViewportVectorIterator end = vViewport.end();
-	for (; it != end; ++it)
+	for (auto each: vViewport)
 	{
-		(*it)->GetRenderer()->Shutdown();
+		each->GetRenderer()->Teardown(); // redundante?
 	}
 
 	this->Reset();
 
-	return IModule::Shutdown();
+	return IManager::Shutdown();
 }
 
 void ViewManager::Add(Viewport *view)
@@ -115,16 +111,11 @@ void ViewManager::Render()
 	{
 		pRendererDevice->BackbufferClear();
 
-		ViewportVectorIterator it = vViewport.begin();
-		ViewportVectorIterator end = vViewport.end();
-		for (; it != end; ++it)
-		{
-			pCurrentViewport = (*it);
-			pCurrentViewport->Render();
-		}
+		for (auto each: vViewport)
+			each->Render();
 	}
 
-	pCurrentViewport = NULL;
+	pCurrentViewport = nullptr;
 }
 
 Renderer *ViewManager::GetCurrentRenderer() const
@@ -142,32 +133,20 @@ Viewport *ViewManager::GetCurrentViewport() const
 
 Viewport *ViewManager::GetViewportAt(u32 x, u32 y)
 {
-	Viewport *ret = NULL;
+	Viewport *ret = nullptr;
 	if (bEnabled)
 	{
-		ViewportVectorIterator it = vViewport.begin();
-		ViewportVectorIterator end = vViewport.end();
-		for (; it != end; ++it)
+		for (auto each: vViewport)
 		{
-			if ((*it)->Contains(x, y))
+			if (each->Contains(x, y))
 			{
-				ret = (*it);
+				ret = each;
 				break;
 			}
 		}
 	}
 
 	return ret;
-}
-
-const String ViewManager::GetClassName() const
-{
-	return "ViewManager";
-}
-
-int ViewManager::GetObjectType() const
-{
-	return Seed::TypeViewManager;
 }
 
 } // namespace

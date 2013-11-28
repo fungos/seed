@@ -68,8 +68,8 @@ namespace Seed { namespace OAL {
 SEED_SINGLETON_DEFINE(SoundSystem)
 
 SoundSystem::SoundSystem()
-	: pDevice(NULL)
-	, pContext(NULL)
+	: pDevice(nullptr)
+	, pContext(nullptr)
 {
 	this->Reset();
 }
@@ -83,7 +83,7 @@ bool SoundSystem::Initialize()
 	Log(TAG "Initializing...");
 	bool r = this->Reset();
 
-	pDevice = alcOpenDevice(NULL);
+	pDevice = alcOpenDevice(nullptr);
 	if (!pDevice)
 	{
 		Info(TAG "WARNING: Could not open OpenAL device - running wihtout sound!");
@@ -92,7 +92,7 @@ bool SoundSystem::Initialize()
 	}
 	else
 	{
-		pContext = alcCreateContext(pDevice, NULL);
+		pContext = alcCreateContext(pDevice, nullptr);
 		if (!pContext)
 		{
 			Info(TAG "WARNING: Could not create OpenAL context - running without sound!");
@@ -101,7 +101,7 @@ bool SoundSystem::Initialize()
 		}
 		else
 		{
-			IModule::Initialize();
+			IManager::Initialize();
 			alcMakeContextCurrent(pContext);
 
 			ALCint v1 = 0;
@@ -125,21 +125,17 @@ bool SoundSystem::Reset()
 		fMusicStartFadeTime = 0.0f;
 		fMusicFadeTime = 0.0f;
 
-		ISoundSourceVectorIterator it = vSource.begin();
-		ISoundSourceVectorIterator end = vSource.end();
-		for (; it != end; ++it)
-				(*it)->Stop();
+		for (auto each: vSource)
+				each->Stop();
 
-		it = vSource.begin();
-		end = vSource.end();
-		for (; it != end; ++it)
-			(*it)->Unload();
+		for (auto each: vSource)
+			each->Unload();
 
 		ISoundSourceVector().swap(vSource);
 
 		this->StopMusic();
-		pCurrentMusic = NULL;
-		pNewMusic = NULL;
+		pCurrentMusic = nullptr;
+		pNewMusic = nullptr;
 	}
 	return true;
 }
@@ -155,13 +151,13 @@ bool SoundSystem::Shutdown()
 		alcDestroyContext(pContext);
 		alcCloseDevice(pDevice);
 
-		IModule::Shutdown();
+		IManager::Shutdown();
 		Log(TAG "Terminated.");
 	}
 	return r;
 }
 
-bool SoundSystem::Update(f32 dt)
+bool SoundSystem::Update(Seconds dt)
 {
 	if (bInitialized && !bPaused)
 	{
@@ -179,43 +175,39 @@ bool SoundSystem::Update(f32 dt)
 	return true;
 }
 
-void SoundSystem::UpdateSounds(f32 dt)
+void SoundSystem::UpdateSounds(Seconds dt)
 {
 	UNUSED(dt);
 
 	if (bChanged)
 	{
-		ISoundSourceVectorIterator it = vSource.begin();
-		ISoundSourceVectorIterator end = vSource.end();
-		for (; it != end; ++it)
-			(*it)->UpdateVolume();
+		for (auto each: vSource)
+			each->UpdateVolume();
 	}
 
-	ISoundSourceVector::iterator it = vSource.begin();
-	ISoundSourceVector::iterator end = vSource.begin();
-	for (; it != end; ++it)
+	for (auto each: vSource)
 	{
-		SoundSource *src = static_cast<SoundSource *>(*it);
+		auto src = static_cast<SoundSource *>(each);
 
 		eSoundSourceState state = src->GetState();
-		if (state == SourceNone)
+		if (state == eSoundSourceState::None)
 			continue;
 
 		switch (state)
 		{
-			case Seed::SourcePlay:
+			case eSoundSourceState::Play:
 			{
-				src->eState = Seed::SourcePlayStarted;
+				src->nState = eSoundSourceState::PlayStarted;
 			}
 			break;
 
-			case Seed::SourcePlayStarted:
+			case eSoundSourceState::PlayStarted:
 			{
-				src->eState = Seed::SourcePlaying;
+				src->nState = eSoundSourceState::Playing;
 			}
 			break;
 
-			case Seed::SourcePlaying:
+			case eSoundSourceState::Playing:
 			{
 				ALint alstate = 0;
 				alGetSourcei(src->iSource, AL_SOURCE_STATE, &alstate); // Quando volta do fadein essa porra ta ficando STOPPED!
@@ -229,53 +221,53 @@ void SoundSystem::UpdateSounds(f32 dt)
 					else
 					{
 						Log(TAG "Source stopped...");
-						src->eState = Seed::SourceStopped;
+						src->nState = eSoundSourceState::Stopped;
 					}
 				}
 			}
 			break;
 
-			case Seed::SourceStop:
+			case eSoundSourceState::Stop:
 			{
 				alSourceStop(src->iSource);
-				src->eState = Seed::SourceStopped;
+				src->nState = eSoundSourceState::Stopped;
 			}
 			break;
 
-			case Seed::SourceStopped:
+			case eSoundSourceState::Stopped:
 			{
-				src->eState = Seed::SourceNone;
+				src->nState = eSoundSourceState::None;
 			}
 			break;
 
-			case Seed::SourcePause:
+			case eSoundSourceState::Pause:
 			{
-				src->eState = Seed::SourcePaused;
+				src->nState = eSoundSourceState::Paused;
 			}
 			break;
 
-			case Seed::SourcePaused:
+			case eSoundSourceState::Paused:
 			{
 			}
 			break;
 
-			case Seed::SourceFadeIn:
+			case eSoundSourceState::FadeIn:
 			{
-				src->eState = Seed::SourceFadingIn;
+				src->nState = eSoundSourceState::FadingIn;
 				alSourcePlay(src->iSource);
 				alSourcef(src->iSource, AL_GAIN, 0.1f);
 			}
 			break;
 
-			case Seed::SourceFadingIn:
+			case eSoundSourceState::FadingIn:
 			{
-				f32 elapsed = static_cast<f32>(pTimer->GetMilliseconds() - src->fStartFadeTime);
+				Seconds elapsed = pTimer->GetSeconds() - src->fStartFadeTime;
 				f32 volume = ((elapsed * src->fVolume) / src->fFadeTime);
 				//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
 				if (elapsed >= src->fFadeTime)
 				{
-					src->eState = Seed::SourcePlaying;
+					src->nState = eSoundSourceState::Playing;
 					alSourcef(src->iSource, AL_GAIN, src->fVolume * pSoundSystem->GetSfxVolume());
 				}
 				else
@@ -283,22 +275,22 @@ void SoundSystem::UpdateSounds(f32 dt)
 			}
 			break;
 
-			case Seed::SourceFadeOut:
+			case eSoundSourceState::FadeOut:
 			{
-				src->eState = Seed::SourceFadingOut;
+				src->nState = eSoundSourceState::FadingOut;
 			}
 			break;
 
-			case Seed::SourceFadingOut:
+			case eSoundSourceState::FadingOut:
 			{
-				f32 elapsed = src->fFadeTime - static_cast<f32>(pTimer->GetMilliseconds() - src->fStartFadeTime);
+				Seconds elapsed = src->fFadeTime - (pTimer->GetSeconds() - src->fStartFadeTime);
 				f32 volume = ((elapsed * src->fVolume) / src->fFadeTime);
 				//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
 				if (elapsed <= 0.0f)
 				{
 					alSourcef(src->iSource, AL_GAIN, 0.0f);
-					src->eState = Seed::SourceStopped;
+					src->nState = eSoundSourceState::Stopped;
 					alSourceStop(src->iSource);
 					alSourcef(src->iSource, AL_GAIN, src->fVolume * pSoundSystem->GetSfxVolume());
 				}
@@ -313,28 +305,28 @@ void SoundSystem::UpdateSounds(f32 dt)
 	}
 }
 
-void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
+void SoundSystem::UpdateMusic(Seconds dt, IMusic *m)
 {
 	Music *mus = static_cast<Music *>(m);
 	if (bChanged)
 		mus->UpdateVolume();
 
-	switch (mus->eState)
+	switch (mus->nState)
 	{
-		case Seed::MusicPlay:
+		case eMusicState::Play:
 		{
-			mus->eState = Seed::MusicPlayStarted;
+			mus->nState = eMusicState::PlayStarted;
 		}
 		break;
 
-		case Seed::MusicPlayStarted:
+		case eMusicState::PlayStarted:
 		{
 			alSourcePlay(mus->iSource);
-			mus->eState = Seed::MusicPlaying;
+			mus->nState = eMusicState::Playing;
 		}
 		break;
 
-		case Seed::MusicPlaying:
+		case eMusicState::Playing:
 		{
 			ALint state = 0;
 			alGetSourcei(mus->iSource, AL_SOURCE_STATE, &state);
@@ -350,7 +342,7 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 				else // finished or underrung...
 				{
 					Log(TAG "Music stopped...");
-					mus->eState = Seed::MusicStopped;
+					mus->nState = eMusicState::Stopped;
 				}
 			}
 			else
@@ -360,20 +352,20 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 		}
 		break;
 
-		case Seed::MusicStop:
+		case eMusicState::Stop:
 		{
 			alSourceStop(mus->iSource);
-			mus->eState = Seed::MusicStopped;
+			mus->nState = eMusicState::Stopped;
 		}
 		break;
 
-		case Seed::MusicStopped:
+		case eMusicState::Stopped:
 		{
-			mus->eState = Seed::MusicNone;
+			mus->nState = eMusicState::None;
 			if (mus == pCurrentMusic)
 			{
 				pCurrentMusic = pNewMusic;
-				pNewMusic = NULL;
+				pNewMusic = nullptr;
 			}
 
 			if (mus->bAutoUnload)
@@ -387,35 +379,35 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 		}
 		break;
 
-		case Seed::MusicPause:
+		case eMusicState::Pause:
 		{
-			mus->eState = Seed::MusicPaused;
+			mus->nState = eMusicState::Paused;
 		}
 		break;
 
-		case Seed::MusicPaused:
+		case eMusicState::Paused:
 		{
 			alSourcePause(mus->iSource);
 		}
 		break;
 
-		case Seed::MusicFadeIn:
+		case eMusicState::FadeIn:
 		{
-			mus->eState = Seed::MusicFadingIn;
+			mus->nState = eMusicState::FadingIn;
 			alSourcef(mus->iSource, AL_GAIN, 0.1f);
 			alSourcePlay(mus->iSource);
 		}
 		break;
 
-		case Seed::MusicFadingIn:
+		case eMusicState::FadingIn:
 		{
-			f32 elapsed = static_cast<f32>(pTimer->GetMilliseconds()) - fMusicStartFadeTime;
+			Seconds elapsed = pTimer->GetSeconds() - fMusicStartFadeTime;
 			f32 volume = ((elapsed * mus->fVolume) / fMusicFadeTime);
 			//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
 			if (elapsed >= fMusicFadeTime)
 			{
-				mus->eState = Seed::MusicPlaying;
+				mus->nState = eMusicState::Playing;
 				alSourcef(mus->iSource, AL_GAIN, mus->fVolume * pSoundSystem->GetMusicVolume());
 			}
 			else
@@ -426,23 +418,23 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 		}
 		break;
 
-		case Seed::MusicFadeOut:
+		case eMusicState::FadeOut:
 		{
-			mus->eState = Seed::MusicFadingOut;
+			mus->nState = eMusicState::FadingOut;
 		}
 		break;
 
-		/* FIXME: 2009-15-06 | BUG | SDL | Fadeout / Fadein nao estao funcionando (alSourcef AL_GAIN) */
-		case Seed::MusicFadingOut:
+		/* FIXME: Fadeout / Fadein nao estao funcionando (alSourcef AL_GAIN)? Testar... */
+		case eMusicState::FadingOut:
 		{
-			f32 elapsed = fMusicFadeTime - static_cast<f32>(pTimer->GetMilliseconds()) - fMusicStartFadeTime;
+			Seconds elapsed = fMusicFadeTime - (pTimer->GetSeconds() - fMusicStartFadeTime);
 			f32 volume = ((elapsed * mus->fVolume) / fMusicFadeTime);
 			//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
 			if (elapsed <= 0.0f)
 			{
 				alSourcef(mus->iSource, AL_GAIN, 0.0f);
-				mus->eState = Seed::MusicStopped;
+				mus->nState = eMusicState::Stopped;
 			}
 			else
 			{
@@ -451,7 +443,7 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 		}
 		break;
 
-		case Seed::MusicNone:
+		case eMusicState::None:
 		default:
 		break;
 	}
@@ -461,34 +453,30 @@ void SoundSystem::Pause()
 {
 	ISoundSystem::Pause();
 
-	ISoundSourceVector::iterator it = vSource.begin();
-	ISoundSourceVector::iterator end = vSource.begin();
-	for (; it != end; ++it)
+	for (auto each: vSource)
 	{
-		SoundSource *src = static_cast<SoundSource *>(*it);
+		auto src = static_cast<SoundSource *>(each);
 		src->Pause();
 		alSourcePause(src->iSource);
 	}
 
 	if (pCurrentMusic)
-		static_cast<Music *>(pCurrentMusic)->eState = Seed::MusicPaused;
+		static_cast<Music *>(pCurrentMusic)->nState = eMusicState::Paused;
 
 	if (pNewMusic)
-		static_cast<Music *>(pNewMusic)->eState = Seed::MusicPaused;
+		static_cast<Music *>(pNewMusic)->nState = eMusicState::Paused;
 }
 
 void SoundSystem::Resume()
 {
-	ISoundSourceVectorIterator it = vSource.begin();
-	ISoundSourceVectorIterator end = vSource.end();
-	for (; it != end; ++it)
-		(*it)->Resume();
+	for (auto each: vSource)
+		each->Resume();
 
 	if (pCurrentMusic)
-		static_cast<Music *>(pCurrentMusic)->eState = Seed::MusicPlay;
+		static_cast<Music *>(pCurrentMusic)->nState = eMusicState::Play;
 
 	if (pNewMusic)
-		static_cast<Music *>(pNewMusic)->eState = Seed::MusicPlay;
+		static_cast<Music *>(pNewMusic)->nState = eMusicState::Play;
 
 	ISoundSystem::Resume();
 }

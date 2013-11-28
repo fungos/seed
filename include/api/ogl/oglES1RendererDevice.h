@@ -75,8 +75,9 @@ namespace OpenGL {
 class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
+	SEED_DECLARE_CONTAINER(Vector, ITexture)
+	SEED_DISABLE_COPY(OGLES1RendererDevice)
 
-	DECLARE_CONTAINER_TYPE(Vector, ITexture)
 	public:
 		OGLES1RendererDevice();
 		virtual ~OGLES1RendererDevice();
@@ -102,7 +103,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const override;
 
 		// Render to Texture support
-		virtual u32 CreateFrameBuffer(ITexture *texture = NULL) override;
+		virtual u32 CreateFrameBuffer(ITexture *texture = nullptr) override;
 		virtual void ActivateFrameBuffer(u32 buffer = 0) override;
 		virtual void DestroyFrameBuffer(u32 buffer) override;
 		virtual u32 CreateDepthBuffer(u32 w, u32 h) override;
@@ -127,7 +128,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const override;
 		virtual void DrawLines(f32 *points, u32 len, const Color &color) const override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
@@ -136,16 +137,14 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		mutable ITextureVector vTexture;
 
 	private:
-		SEED_DISABLE_COPY(OGLES1RendererDevice);
-
 		int GetOpenGLBufferUsageType(eBufferUsage usage) const;
 		int GetOpenGLBufferTargetType(eBufferTarget type) const;
 		int GetOpenGLMeshType(eMeshType type) const;
 		int GetOpenGLElementType(eElementType type) const;
 		int GetOpenGLElementSizeByType(eElementType type) const;
 
-		bool bHasFrameBuffer;
-		bool bNeedPowerOfTwoTexture;
+		bool bHasFrameBuffer : 1;
+		bool bNeedPowerOfTwoTexture : 1;
 };
 
 }} // namespace

@@ -44,6 +44,8 @@ class SEED_CORE_API ITransformable
 {
 	friend class ParticleEmitter; // argh. fix this please.
 	friend class Camera;
+	SEED_DISABLE_COPY(ITransformable)
+
 	public:
 		ITransformable();
 		virtual ~ITransformable();
@@ -132,7 +134,7 @@ class SEED_CORE_API ITransformable
 		/**
 		When a Transformable has a parent it will inherit all it's properies.
 		If you use a instanced Transformable and delete it, you're responsable
-		to set the parent of this object to NULL or we can crash badly.
+		to set the parent of this object to null or we can crash badly.
 		\param Set a Transformable as parent for this object
 		 */
 		virtual void SetParent(ITransformable *pParent);
@@ -154,10 +156,7 @@ class SEED_CORE_API ITransformable
 		Vector3f vBoundingBox;
 		f32 fBoundingCircleRadius;
 		f32 fRotation;
-		bool bTransformationChanged;
-
-	private:
-		SEED_DISABLE_COPY(ITransformable);
+		bool bTransformationChanged : 1;
 };
 
 /// Transformable ascending predicate

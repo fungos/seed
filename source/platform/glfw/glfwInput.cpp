@@ -110,7 +110,7 @@ Input::Input()
 	, iAxesMax(0)
 	, iButtonsMax(0)
 	, arJoyInfo()
-	, nModifiers(ModifierNone)
+	, iModifiers(static_cast<u32>(eModifier::None))
 {
 	memset(arJoyInfo, '\0', sizeof(arJoyInfo));
 }
@@ -168,17 +168,19 @@ bool Input::Initialize()
 	return r;
 }
 
-static int _glfwSpecialKeys[70] = {
-	KeyNone, KeyEscape, KeyF1, KeyF2, KeyF3, KeyF4, KeyF5, KeyF6, KeyF7, KeyF8, KeyF9, KeyF10, KeyF11, KeyF12, KeyF13, KeyF14, KeyF15,
-	KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, KeyNone, // F16-F25
-	KeyUp, KeyDown, KeyLeft, KeyRight, KeyShiftLeft, KeyShiftRight, KeyControlLeft, KeyControlRight, KeyAltLeft, KeyAltRight, KeyTab,
-	KeyEnter, KeyBackspace, KeyInsert, KeyDelete, KeyPageUp, KeyPageDown, KeyHome, KeyEnd, KeyPad0, KeyPad1, KeyPad2, KeyPad3, KeyPad4,
-	KeyPad5, KeyPad6, KeyPad7, KeyPad8, KeyPad9, KeyPadDivide, KeyPadMultiply, KeyPadMinus, KeyPadPlus, KeyPadPeriod, KeyPadEquals,
-	KeyPadEnter, KeyNumLock, KeyCapsLock, KeyScrollLock, KeyPause, KeyMetaLeft, KeyMetaRight, KeyMenu
+static eKey _glfwSpecialKeys[70] = {
+	eKey::None, eKey::Escape, eKey::F1, eKey::F2, eKey::F3, eKey::F4, eKey::F5, eKey::F6, eKey::F7, eKey::F8, eKey::F9, eKey::F10, eKey::F11, eKey::F12, eKey::F13, eKey::F14, eKey::F15,
+	eKey::None, eKey::None, eKey::None, eKey::None, eKey::None, eKey::None, eKey::None, eKey::None, eKey::None, eKey::None, // F16-F25
+	eKey::Up, eKey::Down, eKey::Left, eKey::Right, eKey::ShiftLeft, eKey::ShiftRight, eKey::ControlLeft, eKey::ControlRight, eKey::AltLeft, eKey::AltRight, eKey::Tab,
+	eKey::Enter, eKey::Backspace, eKey::Insert, eKey::Delete, eKey::PageUp, eKey::PageDown, eKey::Home, eKey::End, eKey::Pad0, eKey::Pad1, eKey::Pad2, eKey::Pad3, eKey::Pad4,
+	eKey::Pad5, eKey::Pad6, eKey::Pad7, eKey::Pad8, eKey::Pad9, eKey::PadDivide, eKey::PadMultiply, eKey::PadMinus, eKey::PadPlus, eKey::PadPeriod, eKey::PadEquals,
+	eKey::PadEnter, eKey::NumLock, eKey::CapsLock, eKey::ScrollLock, eKey::Pause, eKey::MetaLeft, eKey::MetaRight, eKey::Menu
 };
 
 void Input::OnKeyCb(int key, int action)
 {
+	eKey nk = eKey::None;
+
 	if (key > GLFW_KEY_LAST)
 		return;
 
@@ -187,47 +189,47 @@ void Input::OnKeyCb(int key, int action)
 		switch (key)
 		{
 			case GLFW_KEY_LALT:
-				nModifiers |= ModifierAltLeft;
+				iModifiers |= static_cast<u32>(eModifier::AltLeft);
 			break;
 
 			case GLFW_KEY_RALT:
-				nModifiers |= (int)ModifierAltRight;
+				iModifiers |= static_cast<u32>(eModifier::AltRight);
 			break;
 
 			case GLFW_KEY_LSHIFT:
-				nModifiers |= ModifierShiftLeft;
+				iModifiers |= static_cast<u32>(eModifier::ShiftLeft);
 			break;
 
 			case GLFW_KEY_RSHIFT:
-				nModifiers |= ModifierShiftRight;
+				iModifiers |= static_cast<u32>(eModifier::ShiftRight);
 			break;
 
 			case GLFW_KEY_LCTRL:
-				nModifiers |= ModifierControlLeft;
+				iModifiers |= static_cast<u32>(eModifier::ControlLeft);
 			break;
 
 			case GLFW_KEY_RCTRL:
-				nModifiers |= ModifierControlRight;
+				iModifiers |= static_cast<u32>(eModifier::ControlRight);
 			break;
 
 			case GLFW_KEY_LSUPER:
-				nModifiers |= ModifierMetaLeft;
+				iModifiers |= static_cast<u32>(eModifier::MetaLeft);
 			break;
 
 			case GLFW_KEY_RSUPER:
-				nModifiers |= ModifierMetaRight;
+				iModifiers |= static_cast<u32>(eModifier::MetaRight);
 			break;
 
 			case GLFW_KEY_CAPS_LOCK:
-				nModifiers |= ModifierCapsLock;
+				iModifiers |= static_cast<u32>(eModifier::CapsLock);
 			break;
 
 			case GLFW_KEY_KP_NUM_LOCK:
-				nModifiers |= ModifierNumLock;
+				iModifiers |= static_cast<u32>(eModifier::NumLock);
 			break;
 
 			case GLFW_KEY_SCROLL_LOCK:
-				nModifiers |= ModifierScrollLock;
+				iModifiers |= static_cast<u32>(eModifier::ScrollLock);
 			break;
 
 			default:
@@ -235,9 +237,11 @@ void Input::OnKeyCb(int key, int action)
 		}
 
 		if (key >= GLFW_KEY_SPECIAL)
-			key = _glfwSpecialKeys[key-GLFW_KEY_SPECIAL];
+			nk = _glfwSpecialKeys[key-GLFW_KEY_SPECIAL];
+		else
+			nk = static_cast<eKey>(key);
 
-		EventInputKeyboard ev(key, nModifiers, key, key);
+		EventInputKeyboard ev(nk, static_cast<eModifier>(iModifiers), static_cast<u32>(nk), static_cast<u32>(nk));
 		this->SendEventKeyboardPress(&ev);
 	}
 	else
@@ -245,47 +249,47 @@ void Input::OnKeyCb(int key, int action)
 		switch (key)
 		{
 			case GLFW_KEY_LALT:
-				nModifiers ^= ModifierAltLeft;
+				iModifiers ^= static_cast<u32>(eModifier::AltLeft);
 			break;
 
 			case GLFW_KEY_RALT:
-				nModifiers ^= ModifierAltRight;
+				iModifiers ^= static_cast<u32>(eModifier::AltRight);
 			break;
 
 			case GLFW_KEY_LSHIFT:
-				nModifiers ^= ModifierShiftLeft;
+				iModifiers ^= static_cast<u32>(eModifier::ShiftLeft);
 			break;
 
 			case GLFW_KEY_RSHIFT:
-				nModifiers ^= ModifierShiftRight;
+				iModifiers ^= static_cast<u32>(eModifier::ShiftRight);
 			break;
 
 			case GLFW_KEY_LCTRL:
-				nModifiers ^= ModifierControlLeft;
+				iModifiers ^= static_cast<u32>(eModifier::ControlLeft);
 			break;
 
 			case GLFW_KEY_RCTRL:
-				nModifiers ^= ModifierControlRight;
+				iModifiers ^= static_cast<u32>(eModifier::ControlRight);
 			break;
 
 			case GLFW_KEY_LSUPER:
-				nModifiers ^= ModifierMetaLeft;
+				iModifiers ^= static_cast<u32>(eModifier::MetaLeft);
 			break;
 
 			case GLFW_KEY_RSUPER:
-				nModifiers ^= ModifierMetaRight;
+				iModifiers ^= static_cast<u32>(eModifier::MetaRight);
 			break;
 
 			case GLFW_KEY_CAPS_LOCK:
-				nModifiers ^= ModifierCapsLock;
+				iModifiers ^= static_cast<u32>(eModifier::CapsLock);
 			break;
 
 			case GLFW_KEY_KP_NUM_LOCK:
-				nModifiers ^= ModifierNumLock;
+				iModifiers ^= static_cast<u32>(eModifier::NumLock);
 			break;
 
 			case GLFW_KEY_SCROLL_LOCK:
-				nModifiers ^= ModifierScrollLock;
+				iModifiers ^= static_cast<u32>(eModifier::ScrollLock);
 			break;
 
 			default:
@@ -293,9 +297,11 @@ void Input::OnKeyCb(int key, int action)
 		}
 
 		if (key >= GLFW_KEY_SPECIAL)
-			key = _glfwSpecialKeys[key-GLFW_KEY_SPECIAL];
+			nk = _glfwSpecialKeys[key-GLFW_KEY_SPECIAL];
+		else
+			nk = static_cast<eKey>(key);
 
-		EventInputKeyboard ev(key, nModifiers, key, key);
+		EventInputKeyboard ev(nk, static_cast<eModifier>(iModifiers), static_cast<u32>(nk), static_cast<u32>(nk));
 		this->SendEventKeyboardRelease(&ev);
 	}
 }
@@ -308,12 +314,12 @@ void Input::OnMouseButtonCb(int button, int action)
 
 	if (action == GLFW_RELEASE)
 	{
-		const EventInputPointer ev(0, 0, 0, this->GetButtonCode(button), xp, yp);
+		const EventInputPointer ev(0, eInputButton::None, eInputButton::None, this->GetMouseButtonCode(button), xp, yp);
 		this->SendEventPointerRelease(&ev);
 	}
 	else
 	{
-		const EventInputPointer ev(0, this->GetButtonCode(button), 0, 0, xp, yp);
+		const EventInputPointer ev(0, this->GetMouseButtonCode(button), eInputButton::None, eInputButton::None, xp, yp);
 		this->SendEventPointerPress(&ev);
 	}
 }
@@ -332,11 +338,11 @@ void Input::OnMousePosCb(int xp, int yp)
 	iOldY = iY;
 	iY = yp;
 
-	EventInputPointer ev(0, 0, 0, 0, xp, yp);
+	EventInputPointer ev(0, eInputButton::None, eInputButton::None, eInputButton::None, xp, yp);
 	this->SendEventPointerMove(&ev);
 }
 
-bool Input::Update(f32 dt)
+bool Input::Update(Seconds dt)
 {
 	UNUSED(dt);
 
@@ -351,21 +357,28 @@ bool Input::Update(f32 dt)
 		int amount = glfwGetJoystickPos(i, axes, iAxesMax);
 		for (int axis = 0; axis < amount; axis++)
 		{
-			const EventInputJoystick ev(i, 0, 0, 0, axis, axes[axis]);
+			const EventInputJoystick ev(i, eInputButton::None, eInputButton::None, eInputButton::None, axis, axes[axis]);
 			this->SendEventJoystickAxisMove(&ev);
 		}
 
 		amount = glfwGetJoystickButtons(i, buttons, iButtonsMax);
 		for (int btn = 0; btn < amount; btn++)
 		{
+			eInputButton btnCode = this->GetJoystickButtonCode(btn);
+
 			if (buttons[btn] == GLFW_PRESS)
 			{
-				const EventInputJoystick ev(i, btn, 0, 0, 0, 0);
-				this->SendEventJoystickButtonPress(&ev);
+				const EventInputJoystick ev(i, btnCode, eInputButton::None, eInputButton::None, 0, 0);
+
+				if(btnCode == eInputButton::JoystickUp || btnCode == eInputButton::JoystickRight ||
+					btnCode == eInputButton::JoystickDown || btnCode == eInputButton::JoystickLeft)
+					this->SendEventJoystickDPadMove(&ev);
+				else
+					this->SendEventJoystickButtonPress(&ev);
 			}
 			else
 			{
-				const EventInputJoystick ev(i, 0, 0, btn, 0, 0);
+				const EventInputJoystick ev(i, eInputButton::None, eInputButton::None, btnCode, 0, 0);
 				this->SendEventJoystickButtonRelease(&ev);
 			}
 		}
@@ -377,7 +390,7 @@ bool Input::Update(f32 dt)
 bool Input::Reset()
 {
 	memset(arJoyInfo, '\0', sizeof(arJoyInfo));
-	nModifiers = ModifierNone;
+	iModifiers = static_cast<u32>(eModifier::None);
 	return true;
 }
 
@@ -444,37 +457,77 @@ f32 Input::GetDistance(u16 joystick) const
 	return 0;
 }
 
-Seed::eInputButton Input::GetButtonCode(u32 button) const
+eInputButton Input::GetMouseButtonCode(u32 button) const
 {
-	Seed::eInputButton btn = Seed::ButtonInvalid;
+	eInputButton btn = eInputButton::Invalid;
 
 	if (button == GLFW_MOUSE_BUTTON_LEFT)
-		btn = Seed::ButtonLeft;
+		btn = eInputButton::MouseLeft;
 	else if (button == GLFW_MOUSE_BUTTON_RIGHT)
-		btn = Seed::ButtonRight;
+		btn = eInputButton::MouseRight;
 	else if (button == GLFW_MOUSE_BUTTON_MIDDLE)
-		btn = Seed::ButtonMiddle;
+		btn = eInputButton::MouseMiddle;
 	else if (button == GLFW_MOUSE_BUTTON_4)
-		btn = Seed::Button5;
+		btn = eInputButton::Button5;
 	else if (button == GLFW_MOUSE_BUTTON_5)
-		btn = Seed::Button6;
+		btn = eInputButton::Button6;
 	else if (button == GLFW_MOUSE_BUTTON_6)
-		btn = Seed::Button7;
+		btn = eInputButton::Button7;
 	else if (button == GLFW_MOUSE_BUTTON_7)
-		btn = Seed::Button8;
+		btn = eInputButton::Button8;
 	else if (button == GLFW_MOUSE_BUTTON_8)
-		btn = Seed::Button9;
+		btn = eInputButton::Button9;
 	else if (button == GLFW_MOUSE_BUTTON_LAST + 1)
-		btn = Seed::ButtonDown;
+		btn = eInputButton::MouseDown;
 	else if (button == GLFW_MOUSE_BUTTON_LAST + 2)
-		btn = Seed::ButtonUp;
+		btn = eInputButton::MouseUp;
+
+	return btn;
+}
+
+eInputButton Input::GetJoystickButtonCode(u32 button) const
+{
+	eInputButton btn = eInputButton::Invalid;
+
+	if (button == GLFW_JOYSTICK_1)
+		btn = eInputButton::Button0;
+	else if (button == GLFW_JOYSTICK_2)
+		btn = eInputButton::Button1;
+	else if (button == GLFW_JOYSTICK_3)
+		btn = eInputButton::Button2;
+	else if (button == GLFW_JOYSTICK_4)
+		btn = eInputButton::Button3;
+	else if (button == GLFW_JOYSTICK_5)
+		btn = eInputButton::Button4;
+	else if (button == GLFW_JOYSTICK_6)
+		btn = eInputButton::Button5;
+	else if (button == GLFW_JOYSTICK_7)
+		btn = eInputButton::Button6;
+	else if (button == GLFW_JOYSTICK_8)
+		btn = eInputButton::Button7;
+	else if (button == GLFW_JOYSTICK_9)
+		btn = eInputButton::Button8;
+	else if (button == GLFW_JOYSTICK_10)
+		btn = eInputButton::Button9;
+	else if (button == GLFW_JOYSTICK_11)
+		btn = eInputButton::Button10;
+	else if (button == GLFW_JOYSTICK_12)
+		btn = eInputButton::Button11;
+	else if (button == GLFW_JOYSTICK_13)
+		btn = eInputButton::Button12;
+	else if (button == GLFW_JOYSTICK_14)
+		btn = eInputButton::Button13;
+	else if (button == GLFW_JOYSTICK_15)
+		btn = eInputButton::Button14;
+	else if (button == GLFW_JOYSTICK_16)
+		btn = eInputButton::Button15;
 
 	return btn;
 }
 
 u32 Input::ConvertButtonFlags(u32 flags)
 {
-	return this->GetButtonCode(flags);
+	return static_cast<u32>(this->GetMouseButtonCode(flags));
 }
 
 u32 Input::GetSensitivity(u16 joystick) const

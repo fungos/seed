@@ -31,7 +31,8 @@
 #include "Defines.h"
 #include "Log.h"
 #include "ResourceManager.h"
-#include "Timer.h"
+#include "System.h"
+#include "Memory.h"
 
 #define TAG		"[ResourceManager] "
 
@@ -69,21 +70,19 @@ ResourceManager::~ResourceManager()
 
 void ResourceManager::Reset()
 {
-	ResourceMapIterator it = mapResources.begin();
-	ResourceMapIterator end = mapResources.end();
-	for (; it != end; ++it)
+	for (auto each: mapResources)
 	{
-		LOG(TAG "Deallocating %s.", (*it).first.c_str());
-		Delete((*it).second);
+		LOG(TAG "Deallocating %s.", each.first.c_str());
+		sdDelete(each.second);
 	}
 
 	ResourceMap().swap(mapResources);
 }
 
-IResource *ResourceManager::Get(const String &filename, Seed::eObjectType resourceType)
+IResource *ResourceManager::Get(const String &filename, TypeId resourceType)
 {
-	IResource *res = NULL;
-    
+	IResource *res = nullptr;
+
 	if (mapResources.find(filename) == mapResources.end())
 	{
 		Log(TAG "Resource %s not found in '%s'.", filename.c_str(), sName.c_str());
@@ -91,7 +90,7 @@ IResource *ResourceManager::Get(const String &filename, Seed::eObjectType resour
 		if (it == mapLoaders.end())
 		{
 			Log(TAG "Resource loader for %s not found.", filename.c_str());
-			return NULL;
+			return nullptr;
 		}
 
 		res = ((*it).second)(filename, this);
@@ -119,8 +118,8 @@ IResource *ResourceManager::Get(const String &filename, Seed::eObjectType resour
 void ResourceManager::GarbageCollect()
 {
 #if defined(DEBUG)
-	u64 tbegin = pTimer->GetMilliseconds();
-	u64 tend = 0;
+	Milliseconds tbegin = pTimer->GetMilliseconds();
+	Milliseconds tend = 0;
 #endif // DEBUG
 
 	u32 amount = 0;
@@ -134,7 +133,7 @@ void ResourceManager::GarbageCollect()
 		{
 			amount++;
 			mapResources.erase(it++);
-			Delete(res);
+			sdDelete(res);
 		}
 		else
 		{
@@ -150,39 +149,34 @@ void ResourceManager::GarbageCollect()
 #endif // DEBUG
 }
 
-void ResourceManager::Unload(Seed::eObjectType resourceType)
+void ResourceManager::Unload(TypeId resourceType)
 {
-	ResourceMapIterator it = mapResources.begin();
-	ResourceMapIterator end = mapResources.end();
-	for (; it != end; ++it)
+	for (auto each: mapResources)
 	{
-		IResource *res = (*it).second;
+		IResource *res = each.second;
 
-		if (res->GetObjectType() == resourceType)
+		if (res->GetTypeId() == resourceType)
 		{
-			Log(TAG "Unloading %s %s.", res->GetClassName().c_str(), (*it).first.c_str());
+			Log(TAG "Unloading %s %s.", res->GetTypeName(), each.first.c_str());
 			res->Unload();
 		}
 	}
 }
 
-void ResourceManager::Reload(Seed::eObjectType resourceType)
+void ResourceManager::Reload(TypeId resourceType)
 {
-	ResourceMapIterator it = mapResources.begin();
-	ResourceMapIterator end = mapResources.end();
-	for (; it != end; ++it)
+	for (auto each: mapResources)
 	{
-		IResource *res = (*it).second;
-
-		if (res->GetObjectType() == resourceType)
+		IResource *res = each.second;
+		if (res->GetTypeId() == resourceType)
 		{
-			Log(TAG "Reloading %s %s.", res->GetClassName().c_str(), (*it).first.c_str());
+			Log(TAG "Reloading %s %s.", res->GetTypeName(), each.first.c_str());
 			res->Load(res->sFilename, res->pRes);
 		}
 	}
 }
 
-void ResourceManager::Register(Seed::eObjectType resourceType, pResourceLoaderFunc pfunc)
+void ResourceManager::Register(TypeId resourceType, pResourceLoaderFunc pfunc)
 {
 	if (mapLoaders.find(resourceType) != mapLoaders.end())
 	{
@@ -193,7 +187,7 @@ void ResourceManager::Register(Seed::eObjectType resourceType, pResourceLoaderFu
 	mapLoaders[resourceType] = pfunc;
 }
 
-void ResourceManager::Unregister(Seed::eObjectType resourceType)
+void ResourceManager::Unregister(TypeId resourceType)
 {
 	LoaderMapIterator it = mapLoaders.find(resourceType);
 
@@ -234,13 +228,10 @@ void ResourceManager::PrintUsedMemoryByResource()
 {
 	u32 total = 0;
 
-	ResourceMapIterator it = mapResources.begin();
-	ResourceMapIterator end = mapResources.end();
-	for (; it != end; ++it)
+	for (auto each: mapResources)
 	{
-		IResource *res = (*it).second;
-
-		Dbg(TAG "Resource: %s Memory: %d References: %d Type: %s", res->sFilename.c_str(), res->GetUsedMemory(), res->GetReferenceCount(), res->GetClassName().c_str());
+		IResource *res = each.second;
+		Dbg(TAG "Resource: %s Memory: %d References: %d Type: %s", res->sFilename.c_str(), res->GetUsedMemory(), res->GetReferenceCount(), res->GetTypeName());
 		total += res->GetUsedMemory();
 	}
 
@@ -251,11 +242,9 @@ u32 ResourceManager::GetTotalUsedMemory()
 {
 	u32 total = 0;
 
-	ResourceMapIterator it = mapResources.begin();
-	ResourceMapIterator end = mapResources.end();
-	for (; it != end; ++it)
+	for (auto each: mapResources)
 	{
-		IResource *res = (*it).second;
+		IResource *res = each.second;
 		total += res->GetUsedMemory();
 	}
 
@@ -268,14 +257,12 @@ void ResourceManager::Print()
 	u32 cnt = 0;
 	Log(TAG "Listing %d loaded resources in '%s':", mapResources.size(), sName.c_str());
 
-	ResourceMapIterator it = mapResources.begin();
-	ResourceMapIterator end = mapResources.end();
-	for (; it != end; ++it)
+	for (auto each: mapResources)
 	{
-		IResource *res = (*it).second;
-		const String name = (*it).first;
+		IResource *res = each.second;
+		const String name = each.first;
 
-		Log(TAG "\t%s [%s] [%d]", name.c_str(), res->GetClassName().c_str(), res->GetReferenceCount());
+		Log(TAG "\t%s [%s] [%d]", name.c_str(), res->GetTypeName(), res->GetReferenceCount());
 		cnt++;
 	}
 

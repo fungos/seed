@@ -36,6 +36,7 @@
 #include "Log.h"
 #include "SoundSystem.h"
 #include "Reader.h"
+#include "Memory.h"
 
 #define TAG "[Music] "
 
@@ -50,18 +51,18 @@ namespace Seed { namespace OAL {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 {
-	Music *music = New(Music());
+	auto music = sdNew(Music);
 	music->Load(filename, res);
 
 	return music;
 }
 
 Music::Music()
-	: pFile(NULL)
+	: pFile(nullptr)
 	, iBuffers()
 	, iSource(0)
-	, vorbisInfo(NULL)
-	, vorbisComment(NULL)
+	, vorbisInfo(nullptr)
+	, vorbisComment(nullptr)
 	, oggStream()
 	, oggFile()
 	, vorbisCb()
@@ -108,10 +109,10 @@ bool Music::Load(const String &filename, ResourceManager *res)
 
 		// TODO: Now File will load all data to a memory allocated buffer, for music this means something big if we are in a resource limited device.
 		//		 We need to make File able to memmap the file contents to a virtual memory address so this will be transparent to the vorbis reader
-		//		 as it will be streaming from disk Agree?. ~Danny
+		//		 as it will be streaming from disk.
 		//		 Also reading resources from different platforms (asynchronous like dvd reading on wii or nacl web files) will be more natural.
-		WARNING(TODO - Move to async file loading)
-		pFile = New(File(sFilename));
+		// FIXME: ASYNC
+		pFile = sdNew(File(sFilename));
 		oggFile.dataPtr = pFile->GetData();
 		oggFile.dataRead = 0;
 		oggFile.dataSize = pFile->GetSize();
@@ -121,7 +122,7 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		vorbisCb.seek_func = vorbis_seek;
 		vorbisCb.tell_func = vorbis_tell;
 
-		if (ov_open_callbacks(&oggFile, &oggStream, NULL, 0, vorbisCb) != 0)
+		if (ov_open_callbacks(&oggFile, &oggStream, nullptr, 0, vorbisCb) != 0)
 		{
 			Log(TAG "Could not read ogg stream (%s).", filename.c_str());
 			memset(&oggFile, '\0', sizeof(oggFile));
@@ -159,7 +160,7 @@ bool Music::Unload()
 		return true;
 
 	pSoundSystem->StopMusic(0, this);
-	eState = Seed::MusicStopped;
+	nState = eMusicState::Stopped;
 	eFormat = AL_FORMAT_MONO16;
 	fVolume = 1.0f;
 
@@ -187,7 +188,7 @@ bool Music::Unload()
 
 	ov_clear(&oggStream);
 	bLoaded = false;
-	Delete(pFile);
+	sdDelete(pFile);
 
 	return true;
 }
@@ -212,7 +213,7 @@ void Music::Reset()
 	AL_CHECK(alSourceQueueBuffers(iSource, OPENAL_MUSIC_BUFFERS, iBuffers));
 }
 
-bool Music::Update(f32 dt)
+bool Music::Update(Seconds dt)
 {
 	UNUSED(dt);
 
@@ -230,7 +231,7 @@ bool Music::Update(f32 dt)
 	}
 
 	if (!active)
-		eState = MusicStopped;
+		nState = eMusicState::Stopped;
 
 	return active;
 }

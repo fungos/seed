@@ -3,8 +3,9 @@
 SceneNode *gScene;
 
 TileSample::TileSample()
-	: pPlayer(NULL)
-	, pCamera(NULL)
+	: pPlayer(nullptr)
+	, pCamera(nullptr)
+	, pMap(nullptr)
 	, cPres()
 	, vDir()
 	, fSpeed(5.0f)
@@ -18,10 +19,31 @@ TileSample::~TileSample()
 
 bool TileSample::Initialize()
 {
-	return cPres.Load("tile_sample.config", this);
+	return cPres.Load("tile_sample.config", [&](Presentation *pres, Renderer *) {
+		gScene = pres->GetRendererByName("MainRenderer")->GetScene();
+		pCamera = pres->GetViewportByName("MainView")->GetCamera();
+
+		pPlayer = (ISceneObject *)gScene->GetChildByName("Player");
+
+		pMap = (GameMap *)gScene->GetChildByName("GameMap");
+		pCamera->SetParent(pPlayer);
+		vDir = Vector3f(0.0f, 0.0f, 0.0f);
+
+		/* How to read the various properties in a tiled map */
+		auto mapName = pMap->GetProperty("map_name");
+		auto layerVelocity = pMap->GetLayerByName("Ground")->GetProperty("velocity");
+		auto type = pMap->GetTileSet("Desert")->GetProperty("terrain_type");
+		auto tileProp1 = pMap->GetTileSet("Desert")->GetTileProperty(1, "type");
+		auto tileProp30 = pMap->GetTileSet("Desert")->GetTileProperty(30, "type");
+
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+
+		bLoaded = true;
+	});
 }
 
-bool TileSample::Update(f32 dt)
+bool TileSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 
@@ -58,20 +80,20 @@ void TileSample::OnSystemShutdown(const EventSystem *ev)
 
 void TileSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
-	u32 v = ev->GetKey().GetValue();
+	auto k = ev->GetKey();
 
-	switch (v)
+	switch (k)
 	{
-		case Seed::KeyW:
+		case eKey::W:
 			vDir.setY(-fSpeed);
 		break;
-		case Seed::KeyS:
+		case eKey::S:
 			vDir.setY(fSpeed);
 		break;
-		case Seed::KeyA:
+		case eKey::A:
 			vDir.setX(-fSpeed);
 		break;
-		case Seed::KeyD:
+		case eKey::D:
 			vDir.setX(fSpeed);
 		break;
 		default: return;
@@ -80,56 +102,31 @@ void TileSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 
 void TileSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
-		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
-		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
-		pResourceManager->GarbageCollect();
-
-	u32 v = ev->GetKey().GetValue();
-	switch (v)
+	switch (k)
 	{
-		case Seed::KeyW:
+		case eKey::Escape:
+			pSystem->Shutdown();
+		break;
+		case eKey::F1:
+			pResourceManager->Print();
+		break;
+		case eKey::F2:
+			pResourceManager->GarbageCollect();
+		break;
+		case eKey::W:
 			vDir.setY(0.0f);
 		break;
-		case Seed::KeyS:
+		case eKey::S:
 			vDir.setY(0.0f);
 		break;
-		case Seed::KeyA:
+		case eKey::A:
 			vDir.setX(0.0f);
 		break;
-		case Seed::KeyD:
+		case eKey::D:
 			vDir.setX(0.0f);
 		break;
 		default: return;
 	}
-}
-
-void TileSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	gScene = cPres.GetRendererByName("MainRenderer")->GetScene();
-	pCamera = cPres.GetViewportByName("MainView")->GetCamera();
-
-	pPlayer = (ISceneObject *)gScene->GetChildByName("Player");
-
-	pMap = (GameMap *)gScene->GetChildByName("Map");
-	pCamera->SetParent(pPlayer);
-	vDir = Vector3f(0.0f, 0.0f, 0.0f);
-
-	/* How to read the various properties in a tiled map */
-	String mapName = pMap->GetProperty("map_name");
-	String layerVelocity = pMap->GetLayerByName("Ground")->GetProperty("velocity");
-	String type = pMap->GetTileSet("Desert")->GetProperty("terrain_type");
-	String tileProp1 = pMap->GetTileSet("Desert")->GetTileProperty(1, "type");
-	String tileProp30 = pMap->GetTileSet("Desert")->GetTileProperty(30, "type");
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-
-	bLoaded = true;
 }

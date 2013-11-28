@@ -34,7 +34,7 @@ namespace Seed {
 
 IMusic::IMusic()
 	: fVolume(1.0f)
-	, eState(Seed::MusicNone)
+	, nState(Seed::eMusicState::None)
 	, bAutoUnload(false)
 {
 }
@@ -58,7 +58,7 @@ bool IMusic::Load(const String &filename, ResourceManager *res)
 	return false;
 }
 
-bool IMusic::Update(f32 dt)
+bool IMusic::Update(Seconds dt)
 {
 	UNUSED(dt);
 	SEED_ABSTRACT_METHOD;
@@ -69,7 +69,7 @@ bool IMusic::Update(f32 dt)
 const void *IMusic::GetData() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 void IMusic::SetVolume(f32 volume)
@@ -85,16 +85,6 @@ f32 IMusic::GetVolume() const
 void IMusic::SetAutoUnload(bool b)
 {
 	bAutoUnload = b;
-}
-
-int IMusic::GetObjectType() const
-{
-	return Seed::TypeMusic;
-}
-
-const String IMusic::GetClassName() const
-{
-	return "IMusic";
 }
 
 void IMusic::Play()
@@ -114,11 +104,11 @@ void IMusic::Pause()
 
 bool IMusic::IsPlaying() const
 {
-	return ((eState != MusicStopped) &&
-			(eState != MusicStop) &&
-			(eState != MusicPause) &&
-			(eState != MusicPaused) &&
-			(eState != MusicNone));
+	return ((nState != eMusicState::Stopped) &&
+			(nState != eMusicState::Stop) &&
+			(nState != eMusicState::Pause) &&
+			(nState != eMusicState::Paused) &&
+			(nState != eMusicState::None));
 }
 
 } // namespace

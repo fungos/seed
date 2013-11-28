@@ -4,20 +4,16 @@
 #include <Seed.h>
 using namespace Seed;
 
-#define TYPE_AGENTDATA (Seed::TypeUser + 1)
-
 class AgentData : public IObject
 {
+	SEED_DECLARE_RTTI(AgentData, IObject)
+
 	public:
 		AgentData();
 		virtual ~AgentData();
 
 		virtual u32 GetFatigue();
 		virtual void SetFatigue(u32);
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
 
 	private:
 		u32 iFatigue;

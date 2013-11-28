@@ -53,24 +53,22 @@ namespace Seed { namespace PC {
 /// PC Cartridge
 class SEED_CORE_API Cartridge : public ICartridge
 {
-	SEED_SINGLETON_DECLARE(Cartridge)
+	SEED_DECLARE_SINGLETON(Cartridge)
+	SEED_DECLARE_MANAGER(Cartridge)
+	SEED_DISABLE_COPY(Cartridge)
+
 	public:
 		// ICartridge
 		virtual bool Prepare(eCartridgeSize size) override;
 		virtual bool Read(u32 src, void *dest, u32 len) override;
 		virtual bool Write(u32 dest, const void *src, u32 len) override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	private:
-		SEED_DISABLE_COPY(Cartridge);
-
 		u32 GetCardType(eCartridgeSize size);
 		bool CreateSaveFile();
 		bool Verify(const char *filename, u32 filesize);
@@ -78,8 +76,7 @@ class SEED_CORE_API Cartridge : public ICartridge
 
 	private:
 		char strPath[PC_MAX_PATH];
-		u32 iType;
-		s32 iCurrentSlot;
+		eCartridgeSize nType;
 		u8 *pData;
 };
 

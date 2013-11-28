@@ -32,7 +32,7 @@
 #define __GAME_APP_H__
 
 #include "IUpdatable.h"
-#include "IModule.h"
+#include "IManager.h"
 #include "ResourceManager.h"
 
 namespace Seed {
@@ -42,13 +42,14 @@ namespace Seed {
 Game application interface. This is responsible for pre-initialization setup (being deprecated soon) and Seed modules configurations.
 You can reimplement WriteOut, WriteErr and WriteDbg to a better suited output of your platform.
 */
-class SEED_CORE_API IGameApp : public IUpdatable, public IModule
+class SEED_CORE_API IGameApp : public IManager, public IUpdatable
 {
+	SEED_DECLARE_MANAGER(IGameApp)
+	SEED_DISABLE_COPY(IGameApp)
+
 	public:
 		IGameApp();
 		virtual ~IGameApp();
-
-		virtual bool Shutdown();
 
 		/// Print output level string
 		virtual void WriteOut(const char *msg);
@@ -62,15 +63,11 @@ class SEED_CORE_API IGameApp : public IUpdatable, public IModule
 		/// Get user resource manager
 		ResourceManager *GetResourceManager();
 
-		// IObject
-		virtual const String GetClassName() const;
-		virtual int GetObjectType() const;
+		// IManager
+		virtual bool Shutdown() override;
 
 	protected:
 		ResourceManager	cResourceManager;
-
-	private:
-		SEED_DISABLE_COPY(IGameApp);
 };
 
 } // namespace

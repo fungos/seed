@@ -32,12 +32,13 @@
 #define __ISYSTEM_H__
 
 #include "Log.h"
-#include "IModule.h"
+#include "IManager.h"
 #include "IUpdatable.h"
 #include "Enum.h"
 #include "IEvent.h"
 #include "IEventListener.h"
 #include "Container.h"
+#include "Timer.h"
 
 namespace Seed {
 
@@ -48,10 +49,11 @@ class IEventSystemListener;
 /**
 Platform system interface.
 */
-class SEED_CORE_API ISystem : public IModule, public IUpdatable
+class SEED_CORE_API ISystem : public IManager, public IUpdatable
 {
 	typedef Vector<IEventSystemListener *>	ListenerVector;
 	typedef ListenerVector::iterator		ListenerIterator;
+	SEED_DISABLE_COPY(ISystem)
 
 	public:
 		ISystem();
@@ -93,6 +95,12 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 			Initializes the home button class.
 		 */
 		virtual bool InitializeHome() = 0;
+
+		//! Execute before opening home screen.
+		/*!
+			Execute before opening home screen.
+		 */
+		virtual void OnHomeCalled() = 0;
 
 		//! Goes to the system data manager if available.
 		/*!
@@ -210,11 +218,8 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 		void AddListener(IEventSystemListener *listener);
 		void RemoveListener(IEventSystemListener *listener);
 
-		// IModule
+		// IManager
 		virtual bool IsRequired() const;
-
-		// IObject
-		virtual const String GetClassName() const;
 
 		void SendEventReset(const EventSystem *ev);
 		void SendEventShutdown(const EventSystem *ev);
@@ -224,18 +229,23 @@ class SEED_CORE_API ISystem : public IModule, public IUpdatable
 		void SendEventSleep(const EventSystem *ev);
 		void SendEventLanguageChanged(const EventSystem *ev);
 
+		const Timer *GetTimer() const
+		{
+			return &mTimer;
+		}
+
 	protected:
+		Timer			mTimer;
 		ListenerVector	vListeners;
 
 		const char		*pStrAppName;
 		const char		*pStrAppDescription;
 		Seed::eLanguage	nLanguage;
-		bool			bDefaultCursorEnabled;
-
-	private:
-		SEED_DISABLE_COPY(ISystem);
+		bool			bDefaultCursorEnabled : 1;
 };
 
 } // namespace
+
+#define pTimer pSystem->GetTimer()
 
 #endif // __ISYSTEM_H__

@@ -2,14 +2,15 @@
 
 SpriteSample::SpriteSample()
 	: cPres()
-	, pSprite(NULL)
-	, pCamera(NULL)
-	, fElapsed(0.0f)
-	, fDir(1.0f)
-	, bRotate(false)
+	, pObject(nullptr)
+	, pCamera(nullptr)
 	, vFrom()
 	, vCurrent()
 	, vTo()
+	, fElapsed(0.0f)
+	, fDir(1.0f)
+	, bRotate(false)
+	, bLoaded(false)
 {
 }
 
@@ -20,26 +21,33 @@ SpriteSample::~SpriteSample()
 bool SpriteSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("sprite_sample.config", this);
+	return cPres.Load("sprite_sample.config", [&](Presentation *pres, Renderer *rend)
+	{
+		UNUSED(rend)
+		pCamera = pres->GetViewportByName("MainView")->GetCamera();
+		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+		pInput->AddPointerListener(this);
+
+		bLoaded = true;
+	});
 }
 
-bool SpriteSample::Update(f32 dt)
+bool SpriteSample::Update(Seconds dt)
 {
-	//#warning FIXME - Find a way to guarantee that all jobs finished before finishing scene loading (SceneObjectFactory.cpp)
-	if (!pSprite && cPres.GetRendererByName("MainRenderer")->GetScene())
-		pSprite = (Sprite *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+	if (!bLoaded || !pObject)
+		return true;
 
-	if (pSprite)
-	{
-		fElapsed += dt;
-		if (fElapsed > 1.0f)
-			fElapsed = 1.0f;
+	fElapsed += dt;
+	if (fElapsed > 1.0f)
+		fElapsed = 1.0f;
 
-		vCurrent = ((1.f - fElapsed) * vFrom) + (fElapsed * vTo);
-		pSprite->SetPosition(vCurrent);
-		if (bRotate)
-			pSprite->SetRotation(pSprite->GetRotation() + fDir);
-	}
+	vCurrent = ((1.f - fElapsed) * vFrom) + (fElapsed * vTo);
+	pObject->SetPosition(vCurrent);
+	if (bRotate)
+		pObject->SetRotation(pObject->GetRotation() + fDir);
 
 	return true;
 }
@@ -62,13 +70,13 @@ void SpriteSample::OnSystemShutdown(const EventSystem *ev)
 
 void SpriteSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
 }
 
@@ -77,40 +85,28 @@ void SpriteSample::OnInputPointerRelease(const EventInputPointer *ev)
 	if (!pCamera)
 		return;
 
-	if (ev->GetReleased() == Seed::ButtonLeft)
+	if (ev->GetReleased() == eInputButton::MouseLeft)
 	{
-		if (pSprite)
-			vFrom = pSprite->GetPosition();
+		if (pObject)
+			vFrom = pObject->GetPosition();
 
-		vTo.setX(ev->GetX());
-		vTo.setY(ev->GetY());
+		vTo.setX(f32(ev->GetX()));
+		vTo.setY(f32(ev->GetY()));
 		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}
-	else if (ev->GetReleased() == Seed::ButtonRight)
+	else if (ev->GetReleased() == eInputButton::MouseRight)
 	{
 		bRotate = !bRotate;
 	}
-	else if (ev->GetReleased() == Seed::ButtonUp)
+	else if (ev->GetReleased() == eInputButton::MouseUp)
 	{
 		fDir = 1.0f;
 		bRotate = true;
 	}
-	else if (ev->GetReleased() == Seed::ButtonDown)
+	else if (ev->GetReleased() == eInputButton::MouseDown)
 	{
 		fDir = -1.0f;
 		bRotate = true;
 	}
-}
-
-void SpriteSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pCamera = cPres.GetViewportByName("MainView")->GetCamera();
-	pSprite = (Sprite *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
 }

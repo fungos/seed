@@ -34,6 +34,7 @@
 #include "Checksum.h"
 #include "System.h"
 #include "FileSystem.h"
+#include "Memory.h"
 
 #define TAG "[SaveSystem] "
 
@@ -48,7 +49,7 @@ SaveSystem::SaveSystem()
 	, iSlotDataSize(0)
 	, iSharedDataSize(0)
 	, iID(0)
-	, cardType(Cartridge512b)
+	, cardType(eCartridgeSize::Unlimited)
 	, bInitialized(false)
 	, pcSaveGameFolder()
 {
@@ -83,7 +84,7 @@ eCartridgeError SaveSystem::Initialize(eCartridgeSize type)
 		Log(TAG "WARNING: SaveSystem Initilaize being called more than once. FIX IT.");
 	}
 
-	return Seed::ErrorNone;
+	return eCartridgeError::None;
 }
 
 eCartridgeError SaveSystem::Check()
@@ -109,7 +110,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 	if (!bInitialized)
 	{
 		Log(TAG "Save System not initialized!");
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 	}
 
 	bIsSaving = true;
@@ -124,53 +125,53 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 	{
 		Log(TAG "Cartridge %d bytes of space, slot size and header require %d bytes.", pCartridge->GetSize(), requiredSize);
 		bIsSaving = false;
-		return Seed::ErrorInvalidArgument;
+		return eCartridgeError::InvalidArgument;
 	}
 
 	// Test access to the card
 	error = this->Check();
 
-	if (error != Seed::ErrorNone)
+	if (error != eCartridgeError::None)
 	{
 		bIsSaving = false;
 		return error;
 	}
 
-	eCartridgeError ret = Seed::ErrorNone;
+	eCartridgeError ret = eCartridgeError::None;
 
 	// Check all shared data state
-	if (sharedBlankData != NULL && iSharedDataSize > 0)
+	if (sharedBlankData != nullptr && iSharedDataSize > 0)
 	{
-		void *sharedTestMemory = Alloc(iSharedDataSize);
+		void *sharedTestMemory = sdAlloc(iSharedDataSize);
 
 		error = this->ReadSharedData(sharedTestMemory);
-		if (error != Seed::ErrorNone)
+		if (error != eCartridgeError::None)
 		{
 			ret = error;
 
-			if (error == Seed::ErrorDataCorrupt)
+			if (error == eCartridgeError::DataCorrupt)
 			{
 				Log(TAG "Shared data CRC check failed, formatting...");
 				this->FormatShared(sharedBlankData);
 			}
 		}
 
-		sFree(sharedTestMemory);
+		sdFree(sharedTestMemory);
 	}
 
-	if (error == Seed::ErrorNone)
+	if (error == eCartridgeError::None)
 	{
 		// Check all slots state
-		void *slotTestMemory = Alloc(iSlotDataSize);
+		void *slotTestMemory = sdAlloc(iSlotDataSize);
 		for (u8 i = 0; i < iTotalSlots; i ++)
 		{
 			error = this->Load(i, slotTestMemory);
 
-			if (error != Seed::ErrorNone)
+			if (error != eCartridgeError::None)
 			{
 				ret = error;
 
-				if (error == Seed::ErrorDataCorrupt)
+				if (error == eCartridgeError::DataCorrupt)
 				{
 					Log(TAG "Slot %d CRC check failed, formatting...", i);
 					this->FormatSlot(i, slotBlankData);
@@ -178,7 +179,7 @@ eCartridgeError SaveSystem::Prepare(u32 myId, void *slotBlankData, u32 slotDataS
 			}
 		}
 
-		sFree(slotTestMemory);
+		sdFree(slotTestMemory);
 	}
 
 	bIsSaving = false;
@@ -196,14 +197,14 @@ eCartridgeError SaveSystem::FormatCard(void *slotBlankData, void *sharedBlankDat
 	if (!bInitialized)
 	{
 		bIsSaving = false;
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 	}
 
 	header.iID = iID;
 	header.iLastSlot = 0;
 	error = this->WriteHeaderData(&header);
 
-	if (error != Seed::ErrorNone)
+	if (error != eCartridgeError::None)
 	{
 		bIsSaving = false;
 		return error;
@@ -212,7 +213,7 @@ eCartridgeError SaveSystem::FormatCard(void *slotBlankData, void *sharedBlankDat
 	if (sharedBlankData)
 	{
 		error = this->FormatShared(sharedBlankData);
-		if (error != Seed::ErrorNone)
+		if (error != eCartridgeError::None)
 		{
 			bIsSaving = false;
 			return error;
@@ -222,7 +223,7 @@ eCartridgeError SaveSystem::FormatCard(void *slotBlankData, void *sharedBlankDat
 	for (u8 i = 0; i < iTotalSlots; i++)
 	{
 		error = this->FormatSlot(i, slotBlankData);
-		if (error != Seed::ErrorNone)
+		if (error != eCartridgeError::None)
 		{
 			bIsSaving = false;
 			return error;
@@ -230,7 +231,7 @@ eCartridgeError SaveSystem::FormatCard(void *slotBlankData, void *sharedBlankDat
 	}
 
 	bIsSaving = false;
-	return Seed::ErrorNone;
+	return eCartridgeError::None;
 }
 
 eCartridgeError SaveSystem::FormatShared(void *sharedBlankData)
@@ -240,13 +241,13 @@ eCartridgeError SaveSystem::FormatShared(void *sharedBlankData)
 	if (!bInitialized)
 	{
 		bIsSaving = false;
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 	}
 
-	if (iSharedDataSize == 0 || sharedBlankData == NULL)
+	if (iSharedDataSize == 0 || sharedBlankData == nullptr)
 	{
 		bIsSaving = false;
-		return Seed::ErrorNone;
+		return eCartridgeError::None;
 	}
 
 	u32 sharedBlankDataCRC	= (u32)pChecksum->Calculate((const char *)sharedBlankData, iSharedDataSize);
@@ -266,7 +267,7 @@ eCartridgeError SaveSystem::FormatShared(void *sharedBlankData)
 	this->Wait();
 
 	bIsSaving = false;
-	return Seed::ErrorNone;
+	return eCartridgeError::None;
 }
 
 eCartridgeError SaveSystem::FormatSlot(u8 slot, void *slotBlankData)
@@ -276,14 +277,14 @@ eCartridgeError SaveSystem::FormatSlot(u8 slot, void *slotBlankData)
 	if (!bInitialized)
 	{
 		bIsSaving = false;
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 	}
 
 	if (slot > iTotalSlots)
 	{
 		Log(TAG "Maximum of %d save game slots allowed.", iTotalSlots);
 		bIsSaving = false;
-		return Seed::ErrorInvalidArgument;
+		return eCartridgeError::InvalidArgument;
 	}
 
 	u32 blankDataCRC = (u32)pChecksum->Calculate((const char *)slotBlankData, iSlotDataSize);
@@ -304,7 +305,7 @@ eCartridgeError SaveSystem::FormatSlot(u8 slot, void *slotBlankData)
 	this->Wait();
 
 	bIsSaving = false;
-	return Seed::ErrorNone;
+	return eCartridgeError::None;
 }
 
 eCartridgeError SaveSystem::Load(u32 slot, void *loadAddress, void *sharedData)
@@ -312,12 +313,12 @@ eCartridgeError SaveSystem::Load(u32 slot, void *loadAddress, void *sharedData)
 	u32 slotCRC;
 
 	if (!bInitialized)
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 
 	if (slot > iTotalSlots)
 	{
 		Log(TAG "Maximum of %d save game slots allowed.", iTotalSlots);
-		return Seed::ErrorInvalidArgument;
+		return eCartridgeError::InvalidArgument;
 	}
 
 	u32 offset 		= pCartridge->GetOffsetForSlot(sizeof(sSaveInfo), iSharedDataSize, iSlotDataSize, slot);
@@ -329,14 +330,14 @@ eCartridgeError SaveSystem::Load(u32 slot, void *loadAddress, void *sharedData)
 	if (!pCartridge->Read(offsetCrc, &slotCRC, sizeof(u32)))
 		return pCartridge->GetLastError();
 
-	eCartridgeError error = Seed::ErrorNone;
+	eCartridgeError error = eCartridgeError::None;
 	if (slotCRC != (u32)pChecksum->Calculate((const char *)loadAddress, iSlotDataSize))
 	{
 		Log(TAG "Slot CRC Failed.");
-		error = Seed::ErrorDataCorrupt;
+		error = eCartridgeError::DataCorrupt;
 	}
 
-	if (error == Seed::ErrorNone)
+	if (error == eCartridgeError::None)
 		 error = this->ReadSharedData(sharedData);
 
 	this->Wait();
@@ -350,11 +351,11 @@ eCartridgeError SaveSystem::GetLastUsedSlot(u32 *lastSlot)
 	sSaveInfo header;
 
 	if (!bInitialized)
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 
 	error = this->ReadHeaderData(&header);
 
-	if (error == Seed::ErrorNone)
+	if (error == eCartridgeError::None)
 	   *lastSlot = header.iLastSlot;
 
 	return error;
@@ -367,21 +368,21 @@ eCartridgeError SaveSystem::Save(u32 slot, void *slotData, void *sharedData)
 	if (!bInitialized)
 	{
 		bIsSaving = false;
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 	}
 
 	if (slot > iTotalSlots)
 	{
 		Log(TAG "Maximum of %d save game slots allowed.", iTotalSlots);
 		bIsSaving = false;
-		return Seed::ErrorInvalidArgument;
+		return eCartridgeError::InvalidArgument;
 	}
 
 	sSaveInfo header;
 	header.iID 			= iID;
 	header.iLastSlot 	= slot;
 	eCartridgeError error = this->WriteHeaderData(&header);
-	if (error != Seed::ErrorNone)
+	if (error != eCartridgeError::None)
 	{
 		Log(TAG "Error updating header information.");
 		bIsSaving = false;
@@ -415,7 +416,7 @@ eCartridgeError SaveSystem::Save(u32 slot, void *slotData, void *sharedData)
 eCartridgeError SaveSystem::ReadHeaderData(sSaveInfo *header)
 {
 	if (!bInitialized)
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 
 	if (!pCartridge->Read(0, header, sizeof(sSaveInfo)))
 		return pCartridge->GetLastError();
@@ -423,34 +424,34 @@ eCartridgeError SaveSystem::ReadHeaderData(sSaveInfo *header)
 	if (header->iID == iID)
 	{
 		if (header->iCRC == (u32)pChecksum->Calculate((const char *)header, sizeof(sSaveInfo) - sizeof(u32)))
-			return Seed::ErrorNone;
+			return eCartridgeError::None;
 
-		return Seed::ErrorDataCorrupt;
+		return eCartridgeError::DataCorrupt;
 	}
 
-	return Seed::ErrorNotFormatted;
+	return eCartridgeError::NotFormatted;
 }
 
 eCartridgeError SaveSystem::WriteHeaderData(sSaveInfo *header)
 {
 	if (!bInitialized)
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 
 	header->iCRC = (u32)pChecksum->Calculate((const char *)header, sizeof(sSaveInfo) - sizeof(u32));
 
 	if (!pCartridge->Write(0, header, sizeof(sSaveInfo)))
 		return pCartridge->GetLastError();
 
-	return Seed::ErrorNone;
+	return eCartridgeError::None;
 }
 
 eCartridgeError SaveSystem::ReadSharedData(void *sharedBlankData)
 {
 	if (!bInitialized)
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 
-	if (iSharedDataSize == 0 || sharedBlankData == NULL)
-		return Seed::ErrorNone;
+	if (iSharedDataSize == 0 || sharedBlankData == nullptr)
+		return eCartridgeError::None;
 
 	if (!pCartridge->Read(sizeof(sSaveInfo), sharedBlankData, iSharedDataSize))
 		return pCartridge->GetLastError();
@@ -460,18 +461,18 @@ eCartridgeError SaveSystem::ReadSharedData(void *sharedBlankData)
 		return pCartridge->GetLastError();
 
 	if (crc == (u32)pChecksum->Calculate((const char *)sharedBlankData, iSharedDataSize))
-		return Seed::ErrorNone;
+		return eCartridgeError::None;
 
-	return Seed::ErrorDataCorrupt;
+	return eCartridgeError::DataCorrupt;
 }
 
 eCartridgeError SaveSystem::WriteSharedData(void *sharedBlankData)
 {
 	if (!bInitialized)
-		return Seed::ErrorNotInitialized;
+		return eCartridgeError::NotInitialized;
 
-	if (iSharedDataSize == 0 || sharedBlankData == NULL)
-		return Seed::ErrorNone;
+	if (iSharedDataSize == 0 || sharedBlankData == nullptr)
+		return eCartridgeError::None;
 
 	u32 crc = (u32)pChecksum->Calculate((const char *)sharedBlankData, iSharedDataSize);
 
@@ -481,7 +482,7 @@ eCartridgeError SaveSystem::WriteSharedData(void *sharedBlankData)
 	if (!pCartridge->Write((u32)sizeof(sSaveInfo) + iSharedDataSize, &crc, sizeof(u32)))
 		return pCartridge->GetLastError();
 
-	return Seed::ErrorNone;
+	return eCartridgeError::None;
 }
 
 void SaveSystem::Wait()

@@ -39,22 +39,18 @@ namespace Seed {
 /// Sound interface
 class SEED_CORE_API ISound : public IResource
 {
+	SEED_DISABLE_COPY(ISound)
+	SEED_DECLARE_RTTI(ISound, IResource)
+
 	public:
-		ISound();
-		virtual ~ISound();
+		ISound() = default;
+		virtual ~ISound() {}
 
 		virtual const void *GetData() const = 0;
 
 		// IResource
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager) = 0;
 		virtual bool Unload() = 0;
-
-		// IObject
-		virtual int GetObjectType() const;
-		virtual const String GetClassName() const;
-
-	private:
-		SEED_DISABLE_COPY(ISound);
 };
 
 } // namespace

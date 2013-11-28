@@ -37,11 +37,10 @@
 #include "SceneNode.h"
 #include "SceneManager.h"
 #include "JobManager.h"
-#include "EventJob.h"
 #include "Screen.h"
-#include "interface/IEventJobListener.h"
-#include "interface/IEventPresentationListener.h"
 #include "EventPresentation.h"
+#include "PrefabManager.h"
+#include "Memory.h"
 
 #define TAG "[Presentation] "
 
@@ -84,56 +83,71 @@ enum
 	kPresentationSceneLoaded
 };
 
-class RendererSceneLoader : public IEventJobListener
+class SceneFileLoader : public FileLoader
 {
+	SEED_DISABLE_COPY(SceneFileLoader)
+
 	friend class Presentation;
 	public:
-		RendererSceneLoader(Presentation *parent, ResourceManager *res, Renderer *renderer, u32 myId)
-			: pParent(parent)
-			, pRes(res)
-			, pRenderer(renderer)
-			, iId(myId)
+		SceneFileLoader(u32 unique, const String &filename, JobCallback fun)
+			: FileLoader(filename, fun)
+			, iId(unique)
 		{
 		}
 
-		// IEventJobListener
-		virtual void OnJobCompleted(const EventJob *ev)
-		{
-			switch (ev->GetName())
-			{
-				case kPresentationSceneLoaded:
-				{
-					FileLoader *job = (FileLoader *)ev->GetJob();
-					Reader r(job->pFile);
-					SceneNode *scene = New(SceneNode());
-					scene->Load(r, pRes);
-					Delete(job);
+		virtual ~SceneFileLoader() {}
 
-					pRenderer->SetScene(scene);
-					pScene = scene;
-					pParent->SceneLoaded(this);
-				}
-				break;
-			}
+		void SetPresentation(Presentation *parent)
+		{
+			pParent = parent;
 		}
 
-		virtual void OnJobAborted(const EventJob *ev)
+		void SetResourceManager(ResourceManager *res)
 		{
-			Job *job = ev->GetJob();
-			Delete(job);
+			pRes = res;
 		}
 
-		Presentation *pParent;
-		ResourceManager *pRes;
-		Renderer *pRenderer;
-		SceneNode *pScene;
-		u32 iId;
+		void SetRenderer(Renderer *renderer)
+		{
+			pRenderer = renderer;
+		}
+
+	protected:
+		Presentation *pParent = nullptr;
+		ResourceManager *pRes = nullptr;
+		Renderer *pRenderer = nullptr;
+		SceneNode *pScene = nullptr;
+		u32 iId = 0;
+};
+
+class PrefabFileLoader : public FileLoader
+{
+	SEED_DISABLE_COPY(PrefabFileLoader)
+
+	friend class Presentation;
+	public:
+		PrefabFileLoader(u32 unique, const String &filename, JobCallback fun)
+			: FileLoader(filename, fun)
+			, iId(unique)
+		{
+		}
+
+		virtual ~PrefabFileLoader() {}
+
+		void SetResourceManager(ResourceManager *res)
+		{
+			pRes = res;
+		}
+
+	protected:
+		ResourceManager *pRes = nullptr;
+		u32 iId = 0;
 };
 
 Presentation::Presentation()
-	: pListener(NULL)
-	, pRes(NULL)
-	, pFinished(NULL)
+	: pRes(nullptr)
+	, pFinishedScenes(nullptr)
+	, pFinishedPrefabs(nullptr)
 {
 }
 
@@ -142,11 +156,11 @@ Presentation::~Presentation()
 	this->Unload();
 }
 
-bool Presentation::Load(const String &filename, IEventPresentationListener *listener, ResourceManager *res)
+bool Presentation::Load(const String &filename, Callback cb, ResourceManager *res)
 {
-	SEED_ASSERT(listener);
-	pListener = listener;
+	fnCallback = cb;
 
+	// FIXME: ASYNC
 	File f(filename);
 	Reader r(&f);
 	return this->Load(r, res);
@@ -155,96 +169,100 @@ bool Presentation::Load(const String &filename, IEventPresentationListener *list
 bool Presentation::Load(Reader &reader, ResourceManager *res)
 {
 	pRes = res;
-	bool ret = false;
-	if (this->Unload())
+
+	if (!this->Unload())
+		return false;
+
+	iPrefabsCount = 0;
+	sName = reader.ReadString("sName", "presentation");
+
+	auto rends = reader.SelectArray("aRenderer");
+	SEED_ASSERT_MSG(rends, "At least one renderer is required, 'aRenderer' is empty or inexistent");
+	if (rends)
 	{
-		sName = reader.ReadString("sName", "presentation");
-		u32 rends = reader.SelectArray("aRenderer");
-		SEED_ASSERT_MSG(rends, "At least one renderer is required.");
-		if (rends)
+		for (u32 i = 0; i < rends; i++)
 		{
-			for (u32 i = 0; i < rends; i++)
-			{
-				reader.SelectNext();
+			reader.SelectNext();
 
-				String n = reader.ReadString("sName", "");
-				SEED_ASSERT_MSG(!n.empty(), "Renderer requires a name - sName");
+			String n = reader.ReadString("sName", "");
+			SEED_ASSERT_MSG(!n.empty(), "Renderer requires a name - sName");
 
-				String s = reader.ReadString("sScene", "");
-				SEED_ASSERT_MSG(!s.empty(), "A scene file is required - sScene");
+			String s = reader.ReadString("sScene", "");
+			SEED_ASSERT_MSG(!s.empty(), "A scene file is required - sScene");
 
-				Renderer *r = New(Renderer());
-				r->sName = n;
-				r->sSceneToAttach = s;
+			String p = reader.ReadString("sPrefabs", "");
+			if (!p.empty())
+				iPrefabsCount++;
 
-				Log(TAG "Renderer %s created.", n.c_str());
-				vRenderer += r;
-				pRendererManager->Add(r);
-			}
-			reader.UnselectArray();
+			Renderer *r = sdNew(Renderer);
+			SEED_ASSERT_MSG(r, "Could instantiate Renderer");
+			r->sName = n;
+			r->sSceneToAttach = s;
+			r->sPrefabToLoad = p;
+
+			Log(TAG "Renderer %s created.", n.c_str());
+			vRenderer += r;
+			pRendererManager->Add(r);
 		}
-
-		u32 vps = reader.SelectArray("aViewport");
-		SEED_ASSERT_MSG(vps, "At least one viewport is required.");
-		if (vps)
-		{
-			for (u32 i = 0; i < vps; i++)
-			{
-				reader.SelectNext();
-
-				String n = reader.ReadString("sName", "");
-				SEED_ASSERT_MSG(!n.empty(), "Viewport requires a name - sName");
-
-				u32 x = reader.ReadU32("iX", 0);
-				u32 y = reader.ReadU32("iY", 0);
-				u32 w = reader.ReadU32("iWidth", pScreen->GetWidth());
-				u32 h = reader.ReadU32("iHeight", pScreen->GetHeight());
-
-				String c = reader.ReadString("sCamera", "");
-				SEED_ASSERT_MSG(!c.empty(), "Viewport requires a camera name reference - sCamera");
-
-				String r = reader.ReadString("sRenderer", "");
-				SEED_ASSERT_MSG(!r.empty(), "Viewport requires a renderer name reference - sRenderer");
-
-				Renderer *rend = this->GetRendererByName(r);
-				if (!rend)
-				{
-					Log(TAG "Could not find a renderer named %s for viewport %s", r.c_str(), n.c_str());
-					SEED_ASSERT_MSG(!rend, "Renderer not found.");
-				}
-
-				Viewport *vp = New(Viewport());
-				vp->SetArea(Rect4u(x, y, w, h));
-				vp->SetRenderer(rend);
-				vp->sName = n;
-				vp->sCameraNameToAttach = c;
-
-				Log(TAG "Viewport %s (at %dx%d size: %dx%d) created.", n.c_str(), x, y, w, h);
-				vViewport += vp;
-				pViewManager->Add(vp);
-			}
-			reader.UnselectArray();
-		}
-
-		pFinished = (bool *)Alloc(sizeof(bool) * vRenderer.Size());
-		memset(pFinished, 0, sizeof(bool) * vRenderer.Size());
-
-		// After all json parsing, we can start the scene loading jobs
-		// so we guarantee that we have all our reference names
-		RendererVectorIterator it = vRenderer.begin();
-		RendererVectorIterator end = vRenderer.end();
-		for (int  i = 0; it != end; ++it, ++i)
-		{
-			Renderer *obj = (*it);
-			RendererSceneLoader *ldr = New(RendererSceneLoader(this, pRes, obj, i));
-			Log(TAG "Scheduling scene job for scene %s.", obj->sSceneToAttach.c_str());
-			pJobManager->Add(New(FileLoader(obj->sSceneToAttach, kPresentationSceneLoaded, ldr)));
-		}
-
-		ret = true;
+		reader.UnselectArray();
 	}
 
-	return ret;
+	auto vps = reader.SelectArray("aViewport");
+	SEED_ASSERT_MSG(vps, "At least one viewport is required,'aViewport'' is empty or inexistent");
+	if (vps)
+	{
+		for (u32 i = 0; i < vps; i++)
+		{
+			reader.SelectNext();
+
+			String n = reader.ReadString("sName", "");
+			SEED_ASSERT_MSG(!n.empty(), "Viewport requires a name - sName");
+
+			u32 x = reader.ReadU32("iX", 0);
+			u32 y = reader.ReadU32("iY", 0);
+			u32 w = reader.ReadU32("iWidth", pScreen->GetWidth());
+			u32 h = reader.ReadU32("iHeight", pScreen->GetHeight());
+
+			String c = reader.ReadString("sCamera", "");
+			SEED_ASSERT_MSG(!c.empty(), "Viewport requires a camera name referenceRendererSceneLoader - sCamera");
+
+			String r = reader.ReadString("sRenderer", "");
+			SEED_ASSERT_MSG(!r.empty(), "Viewport requires a renderer name reference - sRenderer");
+
+			Renderer *rend = this->GetRendererByName(r);
+			SEED_ASSERT_FMT(rend, "Could not find a renderer named %s for viewport %s", r.c_str(), n.c_str());
+
+			Viewport *vp = sdNew(Viewport);
+			SEED_ASSERT_MSG(vp, "Could instantiate Viewport");
+			vp->SetArea(Rect4u(x, y, w, h));
+			vp->SetRenderer(rend);
+			vp->sName = n;
+			vp->sCameraNameToAttach = c;
+
+			Log(TAG "Viewport %s (at %dx%d size: %dx%d) created.", n.c_str(), x, y, w, h);
+			vViewport += vp;
+			pViewManager->Add(vp);
+		}
+		reader.UnselectArray();
+	}
+
+	pFinishedScenes = (bool *)sdAlloc(sizeof(bool) * vRenderer.Size());
+	SEED_ASSERT_MSG(pFinishedScenes, "Could instantiate pFinishedScenes");
+	memset(pFinishedScenes,  0, sizeof(bool) * vRenderer.Size());
+
+	if (iPrefabsCount)
+	{
+		pFinishedPrefabs = (bool *)sdAlloc(sizeof(bool) * iPrefabsCount);
+		SEED_ASSERT_MSG(pFinishedPrefabs, "Could instantiate pFinishedPrefabs");
+		memset(pFinishedPrefabs, 0, sizeof(bool) * iPrefabsCount);
+		this->PrefabsPhase();
+	}
+	else
+	{
+		this->ScenesPhase();
+	}
+
+	return true;
 }
 
 bool Presentation::Write(Writer &writer)
@@ -255,48 +273,34 @@ bool Presentation::Write(Writer &writer)
 
 bool Presentation::Unload()
 {
-	sFree(pFinished);
+	sdFree(pFinishedScenes);
+	sdFree(pFinishedPrefabs);
 
+	for (auto obj: vViewport)
 	{
-		ViewportVectorIterator it = vViewport.begin();
-		ViewportVectorIterator end = vViewport.end();
-		for (; it != end; ++it)
-		{
-			Viewport *obj = (*it);
-			Log(TAG "Destroying viewport %s.", obj->sName.c_str());
-			pViewManager->Remove(obj);
-			Delete(obj);
-		}
-		vViewport.clear();
-		ViewportVector().swap(vViewport);
+		Log(TAG "Destroying viewport %s.", obj->sName.c_str());
+		pViewManager->Remove(obj);
+		sdDelete(obj);
 	}
+	vViewport.clear();
+	ViewportVector().swap(vViewport);
 
+	for (auto obj: vRenderer)
 	{
-		RendererVectorIterator it = vRenderer.begin();
-		RendererVectorIterator end = vRenderer.end();
-		for (; it != end; ++it)
-		{
-			Renderer *obj = (*it);
-			Log(TAG "Destroying renderer %s.", obj->sName.c_str());
-			pRendererManager->Remove(obj);
-			Delete(obj);
-		}
-		vRenderer.clear();
-		RendererVector().swap(vRenderer);
+		Log(TAG "Destroying renderer %s.", obj->sName.c_str());
+		pRendererManager->Remove(obj);
+		sdDelete(obj);
 	}
+	vRenderer.clear();
+	RendererVector().swap(vRenderer);
 
+	for (auto obj: vScenes)
 	{
-		SceneNodeVectorIterator it = vScenes.begin();
-		SceneNodeVectorIterator end = vScenes.end();
-		for (; it != end; ++it)
-		{
-			SceneNode *obj = (*it);
-			Log(TAG "Destroying scene %s.", obj->sName.c_str());
-			Delete(obj);
-		}
-		vScenes.clear();
-		SceneNodeVector().swap(vScenes);
+		Log(TAG "Destroying scene %s.", obj->sName.c_str());
+		sdDelete(obj);
 	}
+	vScenes.clear();
+	SceneNodeVector().swap(vScenes);
 
 	return true;
 }
@@ -313,70 +317,166 @@ Viewport *Presentation::GetViewportByName(const String &name)
 	return (*it);
 }
 
-void Presentation::SceneLoaded(RendererSceneLoader *ldr)
+void Presentation::SceneLoaded(SceneFileLoader *ldr)
 {
+	SEED_ASSERT(ldr);
+	SEED_ASSERT(ldr->pScene);
+	SEED_ASSERT(pFinishedScenes);
+	for (auto obj: vViewport)
 	{
-		ViewportVectorIterator it = vViewport.begin();
-		ViewportVectorIterator end = vViewport.end();
-		for (; it != end; ++it)
+		if (obj->GetRenderer() == ldr->pRenderer)
 		{
-			Viewport *obj = (*it);
-			if (obj->GetRenderer() == ldr->pRenderer)
+			Camera *cam = (Camera *)ldr->pScene->GetChildByName(obj->sCameraNameToAttach);
+			obj->SetCamera(cam);
+
+			// So we do not add dupes in vScenes
+			if (!pFinishedScenes[ldr->iId])
 			{
 				Log(TAG "Scene %s finished loading.", ldr->pScene->sName.c_str());
 				vScenes += ldr->pScene;
-				Camera *cam = (Camera *)ldr->pScene->GetChildByName(obj->sCameraNameToAttach);
-				obj->SetCamera(cam);
-
-				pFinished[ldr->iId] = true;
+				pFinishedScenes[ldr->iId] = true;
 			}
 		}
 	}
 
-	vScenes.Unique();
-	Delete(ldr);
-
 	for (u32 i = 0; i < vRenderer.Size(); ++i)
 	{
-		if (!pFinished[i])
+		if (!pFinishedScenes[i])
 			return;
 	}
 
+	for (auto obj: vScenes)
 	{
-		SceneNodeVectorIterator it = vScenes.begin();
-		SceneNodeVectorIterator end = vScenes.end();
-		for (; it != end; ++it)
-		{
-			SceneNode *obj = (*it);
-			Log(TAG "Adding scene %s to the scene manager.", obj->sName.c_str());
-			pSceneManager->Add(obj);
-		}
+		Log(TAG "Adding scene %s to the scene manager.", obj->sName.c_str());
+		pSceneManager->Add(obj);
+	}
 
-		if (pListener)
+	if (fnCallback)
+		fnCallback(this, nullptr);
+}
+
+void Presentation::SceneAborted(SceneFileLoader *ldr)
+{
+	if (fnCallback)
+		fnCallback(this, ldr->pRenderer);
+}
+
+
+void Presentation::PrefabLoaded(PrefabFileLoader *ldr)
+{
+	SEED_ASSERT(ldr);
+	SEED_ASSERT(pFinishedPrefabs);
+	if (!pFinishedPrefabs[ldr->iId])
+	{
+		Log(TAG "Prefab file '%s' finished loading.", ldr->sFilename.c_str());
+		pFinishedPrefabs[ldr->iId] = true;
+	}
+
+	this->GotoScenePhase();
+}
+
+void Presentation::PrefabAborted(PrefabFileLoader *ldr)
+{
+	SEED_ASSERT(ldr);
+	SEED_ASSERT(pFinishedPrefabs);
+	if (!pFinishedPrefabs[ldr->iId])
+	{
+		Log(TAG "Prefab file '%s' failed loading.", ldr->sFilename.c_str());
+		pFinishedPrefabs[ldr->iId] = true;
+	}
+
+	this->GotoScenePhase();
+}
+
+void Presentation::GotoScenePhase()
+{
+	SEED_ASSERT(pFinishedPrefabs);
+	for (u32 i = 0; i < iPrefabsCount; ++i)
+	{
+		if (!pFinishedPrefabs[i])
+			return;
+	}
+
+	this->ScenesPhase();
+}
+
+void Presentation::PrefabsPhase()
+{
+	auto i = u32{0};
+	for (auto obj: vRenderer)
+	{
+		if (!obj->sPrefabToLoad.empty())
 		{
-			EventPresentation ev(this, NULL);
-			pListener->OnPresentationLoaded(&ev);
+			auto cb = [&](Job *self) {
+				auto job = static_cast<PrefabFileLoader *>(self);
+
+				if (job->GetState() == eJobState::Completed)
+				{
+					Reader r(job->pFile);
+					pPrefabManager->Load(r, job->pRes);
+
+					this->PrefabLoaded(job);
+				}
+				else if (job->GetState() == eJobState::Aborted)
+				{
+					this->PrefabAborted(job);
+				}
+				sdDelete(self);
+			};
+
+			auto ldr = sdNew(PrefabFileLoader(i, obj->sPrefabToLoad, cb));
+			SEED_ASSERT_MSG(ldr, "Could instantiate PrefabFileLoader");
+			ldr->SetResourceManager(pRes);
+
+			Log(TAG "Scheduling prefab loading job: %s.", obj->sPrefabToLoad.c_str());
+			pJobManager->Add(ldr);
+
+			++i;
 		}
 	}
 }
 
-void Presentation::SceneAborted(RendererSceneLoader *ldr)
+void Presentation::ScenesPhase()
 {
-	if (pListener)
+	// After all json parsing, we can start the scene loading jobs
+	// so we guarantee that we have all our reference names
+	auto i = u32{0};
+	for (auto obj: vRenderer)
 	{
-		EventPresentation ev(this, ldr->pRenderer);
-		pListener->OnPresentationAborted(&ev);
+		auto cb = [&](Job *self) {
+			auto job = static_cast<SceneFileLoader *>(self);
+
+			if (job->GetState() == eJobState::Completed)
+			{
+				auto scene = sdNew(SceneNode);
+				SEED_ASSERT_MSG(scene, "Could instantiate SceneNode");
+				scene->bMarkForDeletion = true;
+
+				Reader r(job->pFile);
+				scene->Load(r, job->pRes);
+
+				job->pRenderer->SetScene(scene);
+				job->pScene = scene;
+				job->pParent->SceneLoaded(job);
+			}
+			else if (job->GetState() == eJobState::Aborted)
+			{
+				job->pParent->SceneAborted(job);
+			}
+			sdDelete(self);
+		};
+
+		auto ldr = sdNew(SceneFileLoader(i, obj->sSceneToAttach, cb));
+		SEED_ASSERT_MSG(ldr, "Could instantiate SceneFileLoader");
+		ldr->SetResourceManager(pRes);
+		ldr->SetRenderer(obj);
+		ldr->SetPresentation(this);
+
+		Log(TAG "Scheduling scene job for scene %s.", obj->sSceneToAttach.c_str());
+		pJobManager->Add(ldr);
+
+		++i;
 	}
-}
-
-const String Presentation::GetClassName() const
-{
-	return "Presentation";
-}
-
-int Presentation::GetObjectType() const
-{
-	return Seed::TypeAnimation;
 }
 
 } // namespace

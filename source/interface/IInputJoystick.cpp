@@ -37,6 +37,27 @@ namespace Seed {
 IInputJoystick::IInputJoystick()
 	: vJoystickListeners()
 {
+#if defined(DEBUG)
+	buttonsName[0] = "None";
+	buttonsName[1] = "Button0";
+	buttonsName[2] = "Button1";
+	buttonsName[4] = "Button2";
+	buttonsName[8] = "Button3";
+	buttonsName[16] = "JoystickUp";
+	buttonsName[32] = "JoystickRight";
+	buttonsName[64] = "JoystickDown";
+	buttonsName[128] = "JoystickLeft";
+	buttonsName[256] = "Button8";
+	buttonsName[512] = "Button9";
+	buttonsName[1024] = "Button10";
+	buttonsName[2048] = "Button11";
+	buttonsName[4096] = "Button12";
+	buttonsName[8192] = "Button13";
+	buttonsName[16384] = "Button14";
+	buttonsName[32768] = "Button15";
+	buttonsName[65536] = "Invalid";
+	buttonsName[131072] = "All";
+#endif
 }
 
 IInputJoystick::~IInputJoystick()
@@ -64,40 +85,37 @@ void IInputJoystick::SendEventJoystickButtonPress(const EventInputJoystick *ev)
 {
 	SEED_ASSERT(ev);
 
-	IEventInputJoystickListenerVectorIterator it = vJoystickListeners.begin();
-	IEventInputJoystickListenerVectorIterator end = vJoystickListeners.end();
-	for (; it != end; ++it)
-		(*it)->OnInputJoystickButtonPress(ev);
+#if defined(DEBUG)
+	Dbg(">>>> Joystick Button Press: %s Value: 0x%04x", buttonsName[static_cast<u32>(ev->GetPressed())].c_str(), static_cast<u32>(ev->GetPressed()));
+#endif
+
+	for (auto each: vJoystickListeners)
+		each->OnInputJoystickButtonPress(ev);
 }
 
 void IInputJoystick::SendEventJoystickButtonRelease(const EventInputJoystick *ev)
 {
 	SEED_ASSERT(ev);
 
-	IEventInputJoystickListenerVectorIterator it = vJoystickListeners.begin();
-	IEventInputJoystickListenerVectorIterator end = vJoystickListeners.end();
-	for (; it != end; ++it)
-		(*it)->OnInputJoystickButtonRelease(ev);
+	for (auto each: vJoystickListeners)
+		each->OnInputJoystickButtonRelease(ev);
 }
 
 void IInputJoystick::SendEventJoystickDPadMove(const EventInputJoystick *ev)
 {
 	SEED_ASSERT(ev);
 
-	IEventInputJoystickListenerVectorIterator it = vJoystickListeners.begin();
-	IEventInputJoystickListenerVectorIterator end = vJoystickListeners.end();
-	for (; it != end; ++it)
-		(*it)->OnInputJoystickDPadMove(ev);
+#if defined(DEBUG)
+	Dbg(">>>> Joystick Button Dpad Press: %s Value: 0x%04x", buttonsName[static_cast<u32>(ev->GetPressed())].c_str(), static_cast<u32>(ev->GetPressed()));
+#endif
+	for (auto each: vJoystickListeners)
+		each->OnInputJoystickDPadMove(ev);
 }
 
 void IInputJoystick::SendEventJoystickAxisMove(const EventInputJoystick *ev)
 {
-	SEED_ASSERT(ev);
-
-	IEventInputJoystickListenerVectorIterator it = vJoystickListeners.begin();
-	IEventInputJoystickListenerVectorIterator end = vJoystickListeners.end();
-	for (; it != end; ++it)
-		(*it)->OnInputJoystickAxisMove(ev);
+	for (auto each: vJoystickListeners)
+		each->OnInputJoystickAxisMove(ev);
 }
 
 } // namespace

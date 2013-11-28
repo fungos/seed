@@ -7,7 +7,10 @@
 #define VECTOR_ZERO		Vector3f(0, 0, 0);
 
 KeyboardSample::KeyboardSample()
-	: fVelocity(0.0f)
+	: cPres()
+	, pObject(nullptr)
+	, vPlayerVectorDirection()
+	, fVelocity(0.0f)
 	, bPresentationLoaded(false)
 {
 }
@@ -28,29 +31,20 @@ bool KeyboardSample::Initialize()
 	vPlayerVectorDirection = VECTOR_ZERO;
 
 	// Initialize the game by a config file
-	return cPres.Load("keyboard_sample.config", this);
+	return cPres.Load("keyboard_sample.config", [&](Presentation *pres, Renderer *) {
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+
+		// Retreive the sprite of player
+		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		bPresentationLoaded = true;
+	});
 }
 
-void KeyboardSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-
-	// Retreive the sprite of player
-	pPlayerSprite = (Image *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
-
-	bPresentationLoaded = true;
-}
-
-bool KeyboardSample::Update(f32 dt)
+bool KeyboardSample::Update(Seconds dt)
 {
 	if (bPresentationLoaded)
-	{
-		// SpriteVector = SpriteVector + DirectionVector * (velocity * deltaTime)
-		pPlayerSprite->SetPosition(pPlayerSprite->GetPosition() + (vPlayerVectorDirection * (fVelocity * dt)));
-	}
+		pObject->SetPosition(pObject->GetPosition() + (vPlayerVectorDirection * (fVelocity * dt)));
 
 	return true;
 }
@@ -73,35 +67,35 @@ void KeyboardSample::OnSystemShutdown(const EventSystem *ev)
 
 void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyUp)
+	if (k == eKey::Up)
 	{
 		// Sum the normalized vector up with the current vector
 		vPlayerVectorDirection += VECTOR_UP;
 	}
 
-	if (k == Seed::KeyLeft)
+	if (k == eKey::Left)
 	{
 		// Sum the normalized vector left with the current vector
 		vPlayerVectorDirection += VECTOR_LEFT;
 
 		// Change the scale to turn the player sprite
-		if (pPlayerSprite->GetScaleX() < 0)
-			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
+		if (pObject->GetScaleX() < 0)
+			pObject->SetScaleX(pObject->GetScaleX() * -1);
 	}
 
-	if (k == Seed::KeyRight)
+	if (k == eKey::Right)
 	{
 		// Sum the normalized vector right with the current vector
 		vPlayerVectorDirection += VECTOR_RIGHT;
 
 		// Change the scale to turn the player sprite
-		if (pPlayerSprite->GetScaleX() > 0)
-			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
+		if (pObject->GetScaleX() > 0)
+			pObject->SetScaleX(pObject->GetScaleX() * -1);
 	}
 
-	if (k == Seed::KeyDown)
+	if (k == eKey::Down)
 	{
 		// Sum the normalized vector down with the current vector
 		vPlayerVectorDirection += VECTOR_DOWN;
@@ -110,29 +104,29 @@ void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 
 void KeyboardSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
 	// Remove the directions
-	if (k == Seed::KeyUp)
+	if (k == eKey::Up)
 	{
 		vPlayerVectorDirection -= VECTOR_UP;
 	}
 
-	if (k == Seed::KeyLeft)
+	if (k == eKey::Left)
 	{
 		vPlayerVectorDirection -= VECTOR_LEFT;
 	}
 
-	if (k == Seed::KeyRight)
+	if (k == eKey::Right)
 	{
 		vPlayerVectorDirection -= VECTOR_RIGHT;
 	}
 
-	if (k == Seed::KeyDown)
+	if (k == eKey::Down)
 	{
 		vPlayerVectorDirection -= VECTOR_DOWN;
 	}
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
 }

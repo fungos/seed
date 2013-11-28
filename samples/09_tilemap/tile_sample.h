@@ -8,15 +8,16 @@ extern SceneNode *gScene;
 
 class TileSample : public IGameApp,
 					public IEventSystemListener,
-					public IEventInputKeyboardListener,
-					public IEventPresentationListener
+					public IEventInputKeyboardListener
 {
+	SEED_DISABLE_COPY(TileSample)
+
 	public:
 		TileSample();
 		virtual ~TileSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -26,22 +27,15 @@ class TileSample : public IGameApp,
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
 		virtual void OnInputKeyboardPress(const EventInputKeyboard *ev);
 
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(TileSample);
-
 	protected:
-
 		ISceneObject	*pPlayer;
 		Camera			*pCamera;
+		GameMap			*pMap;
 		Presentation	cPres;
 		Vector3f		vDir;
 		float			fSpeed;
 		bool			bLoaded;
 
-		GameMap			*pMap;
 };
 
 #endif // _TILESAMPLE_H_

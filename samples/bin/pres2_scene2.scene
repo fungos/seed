@@ -1,6 +1,6 @@
 {
 	sType: SceneNode
-	sName: MainScene
+	sName: Scene2
 	aObjects: [
 		{
 			sType: Image

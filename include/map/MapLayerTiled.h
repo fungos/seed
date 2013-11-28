@@ -46,6 +46,7 @@ class Image;
 class SEED_CORE_API MapLayerTiled : public IMapLayer
 {
 	friend class GameMap;
+	SEED_DISABLE_COPY(MapLayerTiled)
 
 	public:
 		MapLayerTiled();
@@ -62,16 +63,16 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		virtual MapLayerTiled *AsTiled() override;
 
 		// SceneNode
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds delta) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual MapLayerTiled *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
-		SEED_DISABLE_COPY(MapLayerTiled);
-
 		u32			 *pTileData;
 		sVertex		 *pVertex;
 		u32			 *pElements;
@@ -84,8 +85,8 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		Point2u ptMapSize;
 		Point2f ptMapSizeHalf;
 
-		bool	bRebuildMesh;
-		bool	bResizeMap;
+		bool	bRebuildMesh : 1;
+		bool	bResizeMap : 1;
 };
 
 } // namespace

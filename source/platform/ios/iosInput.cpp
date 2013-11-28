@@ -71,9 +71,9 @@ bool Input::Initialize()
 	return r;
 }
 
-bool Input::Update(f32 delta)
+bool Input::Update(Seconds dt)
 {
-	UNUSED(delta);
+	UNUSED(dt);
 	for (u32 i = 0; i < PLATFORM_MAX_INPUT; i++)
 	{
 		memcpy(&oldState[i], &curState[i], sizeof(curState[i]));

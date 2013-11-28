@@ -1,3 +1,4 @@
+#include "Log.h"
 #include "api/net/Socket.h"
 
 #define TAG "[SocketUDP] "
@@ -6,8 +7,9 @@ namespace Seed { namespace Net
 {
 
 Socket::Socket()
-	: bIsOpen(false)
+	: cAddress()
 	, iHandle(0)
+	, bIsOpen(false)
 {
 	#if defined(_MSC_VER)
 	// Initialize the socket
@@ -25,7 +27,7 @@ Socket::Socket()
 	setsockopt(iHandle, SOL_SOCKET, SO_BROADCAST, &optval, sizeof(optval));
 	#endif
 
-	if(iHandle <= 0)
+	if (iHandle <= 0)
 	{
 		Log(TAG "failed to create socket");
 	}
@@ -82,7 +84,7 @@ void Socket::Close()
 	#if defined(_MSC_VER)
 	closesocket(iHandle);
 	#elif defined(__APPLE_CC__) || defined(__linux__)
-	close(iHandle);
+	shutdown(iHandle, SHUT_RDWR);
 	#endif
 
 	bIsOpen = false;
@@ -116,7 +118,7 @@ int Socket::Receive(Address &sender, void *data, int size)
 
 	int receivedBytes = recvfrom(iHandle, (char*)data, size, 0, (sockaddr*)&from, &fromLength);
 
-	if(receivedBytes <= 0)
+	if (receivedBytes <= 0)
 		return 0;
 
 	unsigned int address = ntohl(from.sin_addr.s_addr);
@@ -126,4 +128,5 @@ int Socket::Receive(Address &sender, void *data, int size)
 
 	return receivedBytes;
 }
-}}
+
+}} // namespace

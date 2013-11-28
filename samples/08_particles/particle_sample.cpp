@@ -2,8 +2,8 @@
 
 ParticleSample::ParticleSample()
 	: cPres()
-	, pEmitter(NULL)
-	, pSprite(NULL)
+	, pObject(nullptr)
+	, pEmitter(nullptr)
 	, iAnimation(0)
 {
 }
@@ -15,17 +15,21 @@ ParticleSample::~ParticleSample()
 bool ParticleSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("particle_sample.config", this);
+	return cPres.Load("particle_sample.config", [&](Presentation *pres, Renderer *) {
+		pEmitter = (ParticleEmitter *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Emitter");
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+	});
 }
 
-bool ParticleSample::Update(f32 dt)
+bool ParticleSample::Update(Seconds dt)
 {
 	UNUSED(dt)
-	if (!pSprite && pEmitter)
+	if (!pObject && pEmitter)
 	{
-		pSprite = pEmitter->GetSprite();
-		if (pSprite)
-			iAnimation = pSprite->GetCurrentAnimation();
+		pObject = pEmitter->GetSprite();
+		if (pObject)
+			iAnimation = pObject->GetCurrentAnimation();
 	}
 
 	return true;
@@ -49,39 +53,28 @@ void ParticleSample::OnSystemShutdown(const EventSystem *ev)
 
 void ParticleSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pLeakReport->Print();
-	else if (k == Seed::KeyF3)
+	else if (k == eKey::F3)
 		pResourceManager->GarbageCollect();
-	else if (k == Seed::KeyLeft)
+	else if (k == eKey::Left)
 		iAnimation--;
-	else if (k == Seed::KeyRight)
+	else if (k == eKey::Right)
 		iAnimation++;
 
-	if (pSprite)
+	if (pObject)
 	{
 		if (iAnimation < 0)
-			iAnimation = pSprite->GetAnimationCount() - 1;
-		else if (iAnimation >= (s32)pSprite->GetAnimationCount())
+			iAnimation = pObject->GetAnimationCount() - 1;
+		else if (iAnimation >= (s32)pObject->GetAnimationCount())
 			iAnimation = 0;
 
-		pSprite->SetAnimation(iAnimation);
+		pObject->SetAnimation(iAnimation);
 	}
-}
-
-
-void ParticleSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pEmitter = (ParticleEmitter *)cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Emitter");
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
 }

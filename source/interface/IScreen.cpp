@@ -44,7 +44,7 @@ IScreen::IScreen()
 	, iHeight(0)
 	, iWidth(0)
 	, iFadeStatus(0)
-	, nFadeType(kFadeIn)
+	, nFadeType(eFade::In)
 	, bFading(false)
 {
 }
@@ -112,7 +112,7 @@ void IScreen::FadeOut()
 		return;
 
 	bFading = true;
-	nFadeType = kFadeOut;
+	nFadeType = eFade::Out;
 	iFadeStatus = FADE_OUT_TRANS;
 }
 
@@ -122,7 +122,7 @@ void IScreen::FadeIn()
 		return;
 
 	bFading = true;
-	nFadeType = kFadeIn;
+	nFadeType = eFade::In;
 	iFadeStatus = FADE_OUT_SOLID;
 }
 
@@ -137,7 +137,7 @@ void IScreen::ApplyFade()
 	if (bFading == false)
 		return;
 
-	if (nFadeType == kFadeIn)
+	if (nFadeType == eFade::In)
 	{
 		iFadeStatus -= FADE_INCREMENT;
 		if (iFadeStatus <= FADE_OUT_TRANS)
@@ -163,11 +163,6 @@ void IScreen::ApplyFade()
 bool IScreen::IsRequired() const
 {
 	return true;
-}
-
-const String IScreen::GetClassName() const
-{
-	return "Screen";
 }
 
 } // namespace

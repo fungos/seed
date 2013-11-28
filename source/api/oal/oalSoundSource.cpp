@@ -35,6 +35,7 @@
 #include "SoundSystem.h"
 #include "Sound.h"
 #include "Log.h"
+#include "Memory.h"
 #include "SeedInit.h"
 
 #define TAG		"[SoundSource] "
@@ -56,13 +57,13 @@ bool SoundSource::OnLoadFinished()
 	ALenum err = 0;
 	if (iSource)
 		alDeleteSources(1, &iSource);
-	
+
 	alGenSources(1, &iSource);
 	err = alGetError();
 	if (err != AL_NO_ERROR)
 		Info(TAG "Could not create OpenAL Source: %4x", err);
 
-	const ALint *buffer = static_cast<const ALint *>(pSound->GetData());
+	auto buffer = static_cast<const ALint *>(pSound->GetData());
 
 	alDistanceModel(AL_LINEAR_DISTANCE);
 	alSource3f(iSource, AL_POSITION, GetX(), GetY(), GetZ());
@@ -89,8 +90,6 @@ bool SoundSource::OnUnloadRequest()
 	if (iSource)
 		alDeleteSources(1, &iSource);
 
-	sRelease(pSound);
-
 	return true;
 }
 
@@ -105,39 +104,50 @@ void SoundSource::UpdateVolume()
 	alSourcef(iSource, AL_GAIN, fVolume * pSoundSystem->GetSfxVolume());
 }
 
+SoundSource *SoundSource::Clone() const
+{
+	auto obj = sdNew(SoundSource);
+
+	// TODO: TEST
+	this->DoClone(obj);
+	obj->OnLoadFinished();
+
+	return obj;
+}
+
 void SoundSource::SetLoop(bool b)
 {
 	ISoundSource::SetLoop(b);
 	alSourcei(iSource, AL_LOOPING, b);
 }
 
-void SoundSource::Stop(f32 ms)
+void SoundSource::Stop(Seconds s)
 {
-	UNUSED(ms)
+	UNUSED(s)
 
 	alSourceStop(iSource);
-	eState = Seed::SourceStop;
+	nState = eSoundSourceState::Stop;
 }
 
 void SoundSource::Play()
 {
 	alSourceStop(iSource);
 	alSourcePlay(iSource);
-	eState = Seed::SourcePlaying;
+	nState = eSoundSourceState::Playing;
 }
 
 void SoundSource::Resume()
 {
-	if (eState == SourcePause || eState == SourcePaused)
+	if (nState == eSoundSourceState::Pause || nState == eSoundSourceState::Paused)
 	{
 		alSourcePlay(iSource);
-		eState = SourcePlay;
+		nState = eSoundSourceState::Play;
 	}
 }
 
-void SoundSource::Update(f32 delta)
+void SoundSource::Update(Seconds dt)
 {
-	UNUSED(delta);
+	UNUSED(dt);
 
 	if (bTransformationChanged)
 	{

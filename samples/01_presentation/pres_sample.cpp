@@ -11,10 +11,13 @@ PresentationSample::~PresentationSample()
 
 bool PresentationSample::Initialize()
 {
-	return cPres.Load("pres1.config", this);
+	return cPres.Load("pres1.config", [&](Presentation *, Renderer *) {
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+	});
 }
 
-bool PresentationSample::Update(f32 dt)
+bool PresentationSample::Update(Seconds dt)
 {
 	UNUSED(dt)
 	return true;
@@ -38,20 +41,12 @@ void PresentationSample::OnSystemShutdown(const EventSystem *ev)
 
 void PresentationSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
-}
-
-void PresentationSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
 }

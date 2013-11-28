@@ -46,6 +46,9 @@ class IEventMovieListener;
 /// Movie Timeline
 class SEED_CORE_API Timeline : public IDataObject
 {
+	SEED_DISABLE_COPY(Timeline)
+	SEED_DECLARE_RTTI(Timeline, IDataObject)
+
 	typedef Map<u32, Keyframe *> KeyframeMap;
 	typedef KeyframeMap::iterator KeyframeMapIterator;
 
@@ -87,14 +90,10 @@ class SEED_CORE_API Timeline : public IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+		virtual Timeline *Clone() const override;
+		virtual void Set(Reader &reader);
 
 	private:
-		SEED_DISABLE_COPY(Timeline);
-
 		s32 FindNextKeyframe();
 		s32 FindPreviousKeyframe();
 		s32 FindKeyframeByName(const String &name);
@@ -102,6 +101,7 @@ class SEED_CORE_API Timeline : public IDataObject
 		f32 EaseQuadPercent(f32 time, f32 begin, f32 change, f32 duration, f32 easing);
 
 	private:
+		ResourceManager		*pRes;
 		Movie				*pParent;
 		ISceneObject		*pObject;
 		IEventMovieListener *pListener;

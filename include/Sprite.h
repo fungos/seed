@@ -53,10 +53,12 @@ Animated Sprite
 */
 class SEED_CORE_API Sprite : public ISceneObject
 {
+	SEED_DECLARE_CONTAINER(Vector, Animation)
+	SEED_DECLARE_CONTAINER(Vector, Frame)
+	SEED_DECLARE_RTTI(Sprite, ISceneObject)
+
 	friend class ParticleEmitter;
 	public:
-		DECLARE_CONTAINER_TYPE(Vector, Animation)
-		DECLARE_CONTAINER_TYPE(Vector, Frame)
 		friend class ResourceLoader;
 
 	public:
@@ -98,17 +100,14 @@ class SEED_CORE_API Sprite : public ISceneObject
 //		virtual void Initialize();
 
 		// ISceneObject
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds dt) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+		virtual Sprite *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	protected:
 		virtual void ReconfigureAnimation();
@@ -130,13 +129,13 @@ class SEED_CORE_API Sprite : public ISceneObject
 		sVertex cVertex[4];
 		VertexBuffer cVertexBuffer;
 
-		bool bInitialized;
-		bool bChanged;
-		bool bAnimation;
-		bool bLoop;
-		bool bPlaying;
-		bool bFinished;
-		bool bIsCopy;
+		bool bInitialized : 1;
+		bool bChanged : 1;
+		bool bAnimation : 1;
+		bool bLoop : 1;
+		bool bPlaying : 1;
+		bool bFinished : 1;
+		bool bIsCopy : 1;
 };
 
 } // namespace

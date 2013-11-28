@@ -41,17 +41,17 @@
 												\
 												static inline type *GetInstance() \
 												{ \
-													if (type::Instance == NULL) \
+													if (type::Instance == nullptr) \
 														type::Instance = new type(); \
 													return type::Instance; \
 												} \
 												static inline void DestroyInstance() \
 												{ \
 													delete type::Instance; \
-													type::Instance = NULL; \
+													type::Instance = nullptr; \
 												}
 
-#define SEED_SINGLETON_HEAP_DEFINE(type)		type *type::Instance = NULL;
+#define SEED_SINGLETON_HEAP_DEFINE(type)		type *type::Instance = nullptr;
 												//type *const p##type = type::GetInstance();
 
 #define SEED_SINGLETON_STACK_DECLARE(type)	\
@@ -76,12 +76,12 @@
 
 #if SEED_SINGLETON_HEAP == 1
 
-#define SEED_SINGLETON_DECLARE					SEED_SINGLETON_HEAP_DECLARE
+#define SEED_DECLARE_SINGLETON					SEED_SINGLETON_HEAP_DECLARE
 #define SEED_SINGLETON_DEFINE					SEED_SINGLETON_HEAP_DEFINE
 
 #else
 
-#define SEED_SINGLETON_DECLARE					SEED_SINGLETON_STACK_DECLARE
+#define SEED_DECLARE_SINGLETON					SEED_SINGLETON_STACK_DECLARE
 #define SEED_SINGLETON_DEFINE					SEED_SINGLETON_STACK_DEFINE
 
 #endif

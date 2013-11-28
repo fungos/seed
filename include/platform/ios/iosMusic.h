@@ -48,13 +48,15 @@ class SEED_CORE_API Music : public IMusic
 	friend IResource *MusicResourceLoader(const String &filename, ResourceManager *res);
 	friend class SoundSystem;
 
+	SEED_DISABLE_COPY(Music)
+
 	public:
 		Music();
 		virtual ~Music();
 
 		// IMusic
 		virtual void Reset();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual const void *GetData() const;
 
 		virtual void SetVolume(f32 vol);
@@ -68,11 +70,8 @@ class SEED_CORE_API Music : public IMusic
 		void FadeVolume(f32 vol);
 
 	private:
-		SEED_DISABLE_COPY(Music);
-
-	private:
 		void	*pAVPlayer;
-		bool	bLoop;
+		bool	bLoop : 1;
 };
 
 }} // namespace

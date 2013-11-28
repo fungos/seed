@@ -40,21 +40,17 @@ namespace Seed {
 /// Pointer device input event listener
 class SEED_CORE_API IEventInputPointerListener : public IEventListener
 {
+	SEED_DISABLE_COPY(IEventInputPointerListener)
+
 	public:
-		IEventInputPointerListener();
-		virtual ~IEventInputPointerListener();
+		IEventInputPointerListener() = default;
+		virtual ~IEventInputPointerListener() {}
 
-		virtual void OnInputPointerPress(const EventInputPointer *ev);
-		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-		virtual void OnInputPointerMove(const EventInputPointer *ev);
-		virtual void OnInputPointerEnable(const EventInputPointer *ev);
-		virtual void OnInputPointerDisable(const EventInputPointer *ev);
-
-		//FIXME remove
-		virtual void OnAccelerationChanged(const EventInputMotion *ev);
-
-	private:
-		SEED_DISABLE_COPY(IEventInputPointerListener);
+		virtual void OnInputPointerPress(const EventInputPointer *ev)		SEED_PURE_VIRTUAL_EVENT_QUIET
+		virtual void OnInputPointerRelease(const EventInputPointer *ev)		SEED_PURE_VIRTUAL_EVENT_QUIET
+		virtual void OnInputPointerMove(const EventInputPointer *ev)		SEED_PURE_VIRTUAL_EVENT_QUIET
+		virtual void OnInputPointerEnable(const EventInputPointer *ev)		SEED_PURE_VIRTUAL_EVENT_QUIET
+		virtual void OnInputPointerDisable(const EventInputPointer *ev)		SEED_PURE_VIRTUAL_EVENT_QUIET
 };
 
 } // namespace

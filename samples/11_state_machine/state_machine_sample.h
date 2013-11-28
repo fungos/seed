@@ -8,15 +8,16 @@ class AgentData;
 
 class StateMachineSample : public IGameApp,
 						   public IEventSystemListener,
-						   public IEventInputKeyboardListener,
-						   public IEventPresentationListener
+						   public IEventInputKeyboardListener
 {
+	SEED_DISABLE_COPY(StateMachineSample)
+
 	public:
 		StateMachineSample();
 		virtual ~StateMachineSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -24,12 +25,6 @@ class StateMachineSample : public IGameApp,
 
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(StateMachineSample);
 
 	protected:
 		Presentation		cPres;

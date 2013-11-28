@@ -40,6 +40,7 @@ namespace Seed {
 ISceneObject::ISceneObject()
 	: ITransformable()
 	, IRenderable()
+	, pRes(nullptr)
 	, bMarkForDeletion(false)
 {
 }
@@ -52,6 +53,17 @@ ISceneObject::~ISceneObject()
 bool ISceneObject::IsNode() const
 {
 	return false;
+}
+
+bool ISceneObject::Load(Reader &reader, ResourceManager *res)
+{
+	if (!this->Unload())
+		return false;
+
+	pRes = res;
+	this->Set(reader);
+
+	return true;
 }
 
 } // namespace

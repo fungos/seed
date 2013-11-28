@@ -81,7 +81,7 @@ void system_version()
 
 bool create_directory(const wchar_t *path)
 {
-	CreateDirectoryW(path, NULL);
+	CreateDirectoryW(path, nullptr);
 	u32 err = GetLastError();
 
 	return (err == 0);
@@ -183,7 +183,7 @@ bool system_check_multiple_instance()
 	HANDLE handleProcess;
 	LPCTSTR lpName = (LPCTSTR)Seed::pConfiguration->GetApplicationTitle().c_str();
 
-	handleProcess = CreateMutex(NULL, CREATE_MUTEX_INITIAL_OWNER, lpName);
+	handleProcess = CreateMutex(nullptr, CREATE_MUTEX_INITIAL_OWNER, lpName);
 	error = GetLastError();
 	if (!handleProcess)
 	{
@@ -192,12 +192,12 @@ bool system_check_multiple_instance()
 	}
 	else if (error == ERROR_ALREADY_EXISTS)
 	{
-		HWND hWnd = FindWindowA(NULL, Seed::pConfiguration->GetApplicationTitle().c_str());
+		HWND hWnd = FindWindowA(nullptr, Seed::pConfiguration->GetApplicationTitle().c_str());
 		if (hWnd)
 		{
 			if (Seed::pConfiguration->GetWarningMultipleInstances())
 			{
-				MessageBoxA(NULL, "There is already an instance of this application running!", Seed::pConfiguration->GetApplicationTitle().c_str(), MB_ICONWARNING);
+				MessageBoxA(nullptr, "There is already an instance of this application running!", Seed::pConfiguration->GetApplicationTitle().c_str(), MB_ICONWARNING);
 			}
 #if (_WIN32_WINNT >= 0x0500)
 			SwitchToThisWindow(hWnd, false);

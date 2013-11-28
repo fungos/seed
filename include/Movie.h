@@ -40,9 +40,11 @@ namespace Seed {
 ISceneObject *FactoryMovie();
 
 /// Movie
-class SEED_CORE_API Movie : public SceneNode
+class SEED_CORE_API Movie : public ISceneNode
 {
-	DECLARE_CONTAINER_TYPE(Vector, Timeline)
+	SEED_DECLARE_CONTAINER(Vector, Timeline)
+	SEED_DISABLE_COPY(Movie)
+	SEED_DECLARE_RTTI(Movie, ISceneNode)
 
 	public:
 		Movie();
@@ -55,24 +57,19 @@ class SEED_CORE_API Movie : public SceneNode
 		void Reset();
 
 		// IRenderable
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds dt) override;
 		virtual void Render(const Matrix4f &) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+		virtual Movie *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
-		SEED_DISABLE_COPY(Movie);
-
-		f32				fElapsedTime;
+		Seconds			fElapsedTime;
 		TimelineVector	vTimelines;
-		bool			bPlaying;
+		bool			bPlaying : 1;
 };
 
 } // namespace

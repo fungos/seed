@@ -33,6 +33,7 @@
 #include "FileSystem.h"
 #include "Log.h"
 #include "Enum.h"
+#include "Memory.h"
 
 #define TAG		"[File] "
 
@@ -40,8 +41,8 @@ namespace Seed {
 
 File::File()
 	: IObject()
-	, pHandle(NULL)
-	, pData(NULL)
+	, pHandle(nullptr)
+	, pData(nullptr)
 	, sFilename()
 	, iSize(0)
 {
@@ -49,8 +50,8 @@ File::File()
 
 File::File(const String &filename)
 	: IObject()
-	, pHandle(NULL)
-	, pData(NULL)
+	, pHandle(nullptr)
+	, pData(nullptr)
 	, sFilename(filename)
 	, iSize(0)
 {
@@ -94,7 +95,7 @@ bool File::Open()
 
 void File::Close()
 {
-	Delete(pData);
+	sdFree(pData);
 	if (pHandle)
 		PHYSFS_close(pHandle);
 	iSize = 0;
@@ -121,13 +122,13 @@ u8 *File::GetData() const
 
 	if (this->Check())
 	{
-		pData = (u8 *)Alloc(iSize + 1);
+		pData = (u8 *)sdAlloc(iSize + 1);
 		pData[iSize] = 0;
 		if (PHYSFS_read(pHandle, pData, iSize, 1) != -1)
 			return pData;
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 u32 File::GetSize() const
@@ -140,46 +141,38 @@ const String &File::GetName() const
 	return sFilename;
 }
 
-const String File::GetClassName() const
-{
-	return "File";
-}
 
-int File::GetObjectType() const
-{
-	return Seed::TypeFile;
-}
-
-
-FileLoader::FileLoader(const String &filename, u32 name, IEventJobListener *listener)
-	: Job(name, listener)
+FileLoader::FileLoader(const String &filename, JobCallback fun)
+	: Job(fun)
 	, sFilename(filename)
-	, pFile(NULL)
+	, pFile(nullptr)
 {
 }
 
 FileLoader::~FileLoader()
 {
-	Delete(pFile);
+	sdDelete(pFile);
 }
 
 bool FileLoader::Run()
 {
-//	Log("Job Run %s", sFilename.c_str());
-	cMutex.Lock();
-	bool run = (nState == JobRunning);
-	cMutex.Unlock();
+	Log("[Job:FileLoader] Load: %s", sFilename.c_str());
+
+	cMutex.lock();
+	bool run = (nState == eJobState::Running);
+	cMutex.unlock();
 
 	if (run)
 	{
-		pFile = New(File(sFilename));
+		pFile = sdNew(File(sFilename));
 		pFile->GetData();
-		Log("[FileJob] Loading file %s (%d bytes)", sFilename.c_str(), pFile->GetSize());
+		Log("[Job:FileLoader] Loaded: %s (%d bytes)", sFilename.c_str(), pFile->GetSize());
 
-		cMutex.Lock();
-		nState = JobCompleted;
-		cMutex.Unlock();
-//		Log("Job Run completed %s", sFilename.c_str());
+		cMutex.lock();
+		nState = eJobState::Completed;
+		cMutex.unlock();
+
+		Log("[Job:FileLoader] Completed: %s", sFilename.c_str());
 	}
 
 	return false;

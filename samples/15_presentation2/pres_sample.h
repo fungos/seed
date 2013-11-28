@@ -7,15 +7,16 @@ using namespace Seed;
 class PresentationSample : public IGameApp,
 					public IEventSystemListener,
 					public IEventInputKeyboardListener,
-					public IEventInputPointerListener,
-					public IEventPresentationListener
+					public IEventInputPointerListener
 {
+	SEED_DISABLE_COPY(PresentationSample)
+
 	public:
 		PresentationSample();
 		virtual ~PresentationSample();
 
 		virtual bool Initialize();
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 		virtual bool Shutdown();
 
 		// IEventSystemListener
@@ -26,12 +27,6 @@ class PresentationSample : public IGameApp,
 
 		// IEventInputPointerListener
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-
-		// IEventPresentationListener
-		virtual void OnPresentationLoaded(const EventPresentation *ev);
-
-	private:
-		SEED_DISABLE_COPY(PresentationSample);
 
 	protected:
 		Presentation cPres;

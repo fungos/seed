@@ -31,7 +31,7 @@
 #ifndef __IRENDERER_DEVICE_H__
 #define __IRENDERER_DEVICE_H__
 
-#include "interface/IModule.h"
+#include "interface/IManager.h"
 #include "Enum.h"
 #include "Rect.h"
 
@@ -42,8 +42,11 @@ class ITexture;
 struct IHardwareBuffer;
 
 /// Rendering device interface
-class SEED_CORE_API IRendererDevice : public IModule
+class SEED_CORE_API IRendererDevice : public IManager
 {
+	SEED_DECLARE_MANAGER(IRendererDevice)
+	SEED_DISABLE_COPY(IRendererDevice)
+
 	public:
 		IRendererDevice();
 		virtual ~IRendererDevice();
@@ -66,7 +69,7 @@ class SEED_CORE_API IRendererDevice : public IModule
 		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const;
 
 		// Render to Texture support
-		virtual u32 CreateFrameBuffer(ITexture *texture = NULL);
+		virtual u32 CreateFrameBuffer(ITexture *texture = nullptr);
 		virtual void ActivateFrameBuffer(u32 buffer = 0);
 		virtual void DestroyFrameBuffer(u32 buffer);
 		virtual u32 CreateDepthBuffer(u32 w, u32 h);
@@ -99,12 +102,6 @@ class SEED_CORE_API IRendererDevice : public IModule
 		// Other
 		virtual void Update();
 		virtual bool IsRequired() const;
-
-		// IObject
-		virtual const String GetClassName() const;
-
-	private:
-		SEED_DISABLE_COPY(IRendererDevice);
 };
 
 } // namespace

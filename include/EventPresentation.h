@@ -40,6 +40,9 @@ class Renderer;
 
 class SEED_CORE_API EventPresentation: public IEvent
 {
+	SEED_DISABLE_COPY(EventPresentation)
+	SEED_DECLARE_RTTI(EventPresentation, IEvent)
+
 	public:
 		EventPresentation(Presentation *p, Renderer *r);
 		virtual ~EventPresentation();
@@ -49,20 +52,14 @@ class SEED_CORE_API EventPresentation: public IEvent
 
 		/**
 		 * In case of loading error, return the renderer that failed to load.
-		 * But Renderer will be NULL in case of success, so you shouldn't use
+		 * But Renderer will be null in case of success, so you shouldn't use
 		 * ev->GetRenderer() inside OnPresentationLoaded().
 		 */
 		Renderer *GetRenderer() const;
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	protected:
 		Presentation	*pPresentation;
 		Renderer		*pRenderer;
-
-	private:
-		SEED_DISABLE_COPY(EventPresentation);
 };
 
 } // namespace

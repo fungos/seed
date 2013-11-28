@@ -31,7 +31,8 @@
 #include "ResourceGroup.h"
 #include "interface/IResource.h"
 #include "ResourceManager.h"
-#include "Timer.h"
+#include "System.h"
+#include "Memory.h"
 
 namespace Seed {
 
@@ -46,32 +47,28 @@ ResourceGroup::~ResourceGroup()
 	Vector<QueueItem *>().swap(queue);
 }
 
-void ResourceGroup::Add(const String &filename, Seed::eObjectType resourceType, ResourceManager *res)
+void ResourceGroup::Add(const String &filename, TypeId resourceType, ResourceManager *res)
 {
-	QueueItem *pNewItem 	= New(QueueItem());
-	pNewItem->filename 		= filename;
-	pNewItem->resource 		= NULL;
-	pNewItem->resourceType 	= resourceType;
-	pNewItem->resManager	= res;
-	pNewItem->startTime		= (u32)pTimer->GetMilliseconds();
-	pNewItem->erased		= false;
+	auto newItem			= sdNew(QueueItem());
+	newItem->filename 		= filename;
+	newItem->resource 		= nullptr;
+	newItem->resourceType 	= resourceType;
+	newItem->resManager		= res;
+	newItem->startTime		= pTimer->GetMilliseconds();
+	newItem->erased			= false;
 
-	queue += pNewItem;
+	queue += newItem;
 }
 
 bool ResourceGroup::Load()
 {
-	QueueVectorIterator it = queue.begin();
-	QueueVectorIterator end = queue.end();
-	for (; it != end; ++it)
+	for (auto each: queue)
 	{
-		QueueItem *pQueueItem = (*it);
-		if (pQueueItem->resource)
+		if (each->resource)
 			continue;
 
-		IResource *res;
-		res = pQueueItem->resManager->Get(pQueueItem->filename, pQueueItem->resourceType);
-		pQueueItem->resource = res;
+		IResource *res = each->resManager->Get(each->filename, each->resourceType);
+		each->resource = res;
 	}
 
 	return true;
@@ -79,13 +76,10 @@ bool ResourceGroup::Load()
 
 bool ResourceGroup::Unload()
 {
-	QueueVectorIterator it = queue.begin();
-	QueueVectorIterator end = queue.end();
-	for (; it != end; ++it)
+	for (auto each: queue)
 	{
-		QueueItem *pQueueItem = (*it);
-		sRelease(pQueueItem->resource);
-		Delete(pQueueItem);
+		sdRelease(each->resource);
+		sdDelete(each);
 	}
 
 	queue.clear();

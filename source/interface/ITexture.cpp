@@ -33,16 +33,17 @@
 #include "Log.h"
 #include "RendererDevice.h"
 #include "ResourceManager.h"
+#include "Memory.h"
 
 namespace Seed {
 
 ITexture::ITexture()
-	: pTextureId(NULL)
+	: pTextureId(nullptr)
 	, iTextureId(0)
-	, nTextureCompression(TextureCompressionNone)
-	, pFile(NULL)
-	, nMinFilter(Seed::TextureFilterLinear)
-	, nMagFilter(Seed::TextureFilterNearest)
+	, nTextureCompression(eTextureCompression::None)
+	, pFile(nullptr)
+	, nMinFilter(eTextureFilter::Linear)
+	, nMagFilter(eTextureFilter::Nearest)
 	, iWidth(0)
 	, iHeight(0)
 	, iRenderTargetId(0)
@@ -57,13 +58,13 @@ ITexture::~ITexture()
 
 void ITexture::Reset()
 {
-	Delete(pFile);
+	sdDelete(pFile);
 
 	iWidth = 0;
 	iHeight = 0;
 
-	nMinFilter = Seed::TextureFilterLinear;
-	nMagFilter = Seed::TextureFilterNearest;
+	nMinFilter = eTextureFilter::Linear;
+	nMagFilter = eTextureFilter::Nearest;
 
 	this->DisableRenderTarget();
 }
@@ -76,7 +77,7 @@ File *ITexture::GetFile()
 const void *ITexture::GetData() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 void ITexture::PutPixel(u32 x, u32 y, const Color &px)
@@ -134,12 +135,12 @@ eTextureCompression ITexture::GetCompressionType() const
 
 void ITexture::Close()
 {
-	Delete(pFile);
+	sdDelete(pFile);
 }
 
 bool ITexture::Unload()
 {
-	Delete(pFile);
+	sdDelete(pFile);
 	return true;
 }
 
@@ -154,9 +155,9 @@ bool ITexture::Load(const String &filename, ResourceManager *res)
 		pRes = res;
 		sFilename = filename;
 
-		WARNING(TODO - Move to async file loading)
-		pFile = New(File(filename));
-		ret = (pFile->GetData() != NULL);
+		// FIXME: ASYNC
+		pFile = sdNew(File(filename));
+		ret = (pFile->GetData() != nullptr);
 	}
 
 	return ret;
@@ -178,7 +179,7 @@ bool ITexture::Load(const String &desc, u32 width, u32 height, Color *buffer, u3
 
 void ITexture::SetFilter(eTextureFilterType type, eTextureFilter filter)
 {
-	if (type == Seed::TextureFilterTypeMin)
+	if (type == eTextureFilterType::Min)
 		nMinFilter = filter;
 	else
 		nMagFilter = filter;
@@ -188,7 +189,7 @@ eTextureFilter ITexture::GetFilter(eTextureFilterType type) const
 {
 	eTextureFilter filter = nMinFilter;
 
-	if (type == Seed::TextureFilterTypeMag)
+	if (type == eTextureFilterType::Mag)
 		filter = nMagFilter;
 
 	return filter;
@@ -221,7 +222,8 @@ bool ITexture::EnableRenderTarget(bool useDepthBuffer)
 			pRendererDevice->ActivateDepthBuffer();
 		}
 
-		if (!(ret = pRendererDevice->CheckFrameBufferStatus()))
+		ret = pRendererDevice->CheckFrameBufferStatus();
+		if (!ret)
 			this->DisableRenderTarget();
 
 		pRendererDevice->ActivateFrameBuffer();
@@ -242,16 +244,6 @@ void ITexture::DisableRenderTarget()
 u32 ITexture::GetRenderTarget() const
 {
 	return iRenderTargetId;
-}
-
-int ITexture::GetObjectType() const
-{
-	return Seed::TypeTexture;
-}
-
-const String ITexture::GetClassName() const
-{
-	return "ITexture";
 }
 
 } // namespace

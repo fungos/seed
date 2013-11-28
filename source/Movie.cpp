@@ -30,6 +30,7 @@
 
 #include "Movie.h"
 #include "Log.h"
+#include "Memory.h"
 
 #define TAG "[Movie] "
 
@@ -37,7 +38,7 @@ namespace Seed {
 
 ISceneObject *FactoryMovie()
 {
-	return New(Movie());
+	return sdNew(Movie);
 }
 
 Movie::Movie()
@@ -59,12 +60,47 @@ bool Movie::Unload()
 	{
 		Timeline *obj = *vTimelines.begin();
 		vTimelines.erase(vTimelines.begin());
-		Delete(obj);
+		sdDelete(obj);
 	}
 
 	TimelineVector().swap(vTimelines);
+	sName = this->GetTypeName();
 
 	return true;
+}
+
+Movie *Movie::Clone() const
+{
+	auto obj = sdNew(Movie);
+	obj->GenerateCloneName(sName);
+
+	obj->fElapsedTime = fElapsedTime;
+	obj->bPlaying = bPlaying;
+
+	for (auto each: vTimelines)
+		obj->vTimelines += each->Clone();
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
+
+	return obj;
 }
 
 void Movie::AddTimeline(Timeline *timeline)
@@ -74,23 +110,20 @@ void Movie::AddTimeline(Timeline *timeline)
 	this->Add(timeline->GetObject());
 }
 
-void Movie::Update(f32 delta)
+void Movie::Update(Seconds dt)
 {
 	if (!bPlaying)
 		return;
 
-	fElapsedTime += delta;
-	f32 frame = 1 / 60.0f;
+	fElapsedTime += dt;
+	Seconds frame = Seconds(1.0f / 60.0f);
 
 	if (fElapsedTime >= frame)
 	{
 		fElapsedTime -= frame;
 
-		TimelineVectorIterator it = vTimelines.begin();
-		TimelineVectorIterator end = vTimelines.end();
-		for (; it != end; ++it)
+		for (auto obj: vTimelines)
 		{
-			Timeline *obj = (*it);
 			if (bTransformationChanged)
 			{
 				obj->SetLocalPosition(this->GetPivotX(), this->GetPivotY());
@@ -103,7 +136,7 @@ void Movie::Update(f32 delta)
 		}
 	}
 
-	SceneNode::Update(delta);
+	ISceneNode::Update(dt);
 }
 
 void Movie::Render(const Matrix4f &)
@@ -124,89 +157,62 @@ void Movie::Stop()
 
 void Movie::Rewind()
 {
-	TimelineVectorIterator it = vTimelines.begin();
-	TimelineVectorIterator end = vTimelines.end();
-	for (; it != end; ++it)
-		(*it)->Rewind();
+	for (auto each: vTimelines)
+		each->Rewind();
 }
 
 void Movie::Reset()
 {
-	TimelineVectorIterator it = vTimelines.begin();
-	TimelineVectorIterator end = vTimelines.end();
-	for (; it != end; ++it)
-		(*it)->Reset();
+	for (auto each: vTimelines)
+		each->Reset();
 }
 
-bool Movie::Load(Reader &reader, ResourceManager *res)
+void Movie::Set(Reader &reader)
 {
-	SEED_ASSERT(res);
-	bool ret = false;
+	sName = reader.ReadString("sName", sName.c_str());
 
-	if (this->Unload())
+	ITransformable::Unserialize(reader);
+	IRenderable::Unserialize(reader);
+
+	u32 timelines = reader.SelectArray("aTimelines");
+	if (timelines)
 	{
-		sName = reader.ReadString("sName", "movie");
-
-		ITransformable::Unserialize(reader);
-		IRenderable::Unserialize(reader);
-
-		u32 timelines = reader.SelectArray("aTimelines");
-		if (timelines)
+		for (u32 i = 0; i < timelines; i++)
 		{
-			for (u32 i = 0; i < timelines; i++)
-			{
-				reader.SelectNext();
+			reader.SelectNext();
 
-				Timeline *obj = New(Timeline);
-				obj->Load(reader, res);
-				vTimelines += obj;
+			auto obj = sdNew(Timeline);
+			obj->Load(reader, pRes);
+			vTimelines += obj;
 
-				ISceneObject *o = obj->GetObject();
-				this->Add(o);
-			}
-			reader.UnselectArray();
-
-			ret = true;
+			auto o = obj->GetObject();
+			this->Add(o);
 		}
-		else
-		{
-			Log(TAG " WARNING: No timeline found in the movie '%s'", sName.c_str());
-		}
+		reader.UnselectArray();
 	}
-
-	return ret;
+	SEED_WARNING(!vTimelines.Size(), "Movie '%s': Has no timelines [aTimelines].", sName.c_str());
 }
 
 bool Movie::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);
 
 		writer.OpenArray("aTimelines");
-		u32 lines  = (u32)vTimelines.Size();
+		auto lines = u32(vTimelines.Size());
 		for (u32 i = 0; i < lines; i++)
 		{
-			Timeline *line = vTimelines[i];
+			auto line = vTimelines[i];
 			line->Write(writer);
 		}
 		writer.CloseArray();
 	writer.CloseNode();
 
 	return true;
-}
-
-const String Movie::GetClassName() const
-{
-	return "Movie";
-}
-
-int Movie::GetObjectType() const
-{
-	return Seed::TypeMovie;
 }
 
 } // namespace

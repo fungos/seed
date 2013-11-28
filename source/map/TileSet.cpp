@@ -30,18 +30,20 @@
 
 #include "map/TileSet.h"
 #include "Texture.h"
+#include "Memory.h"
 
 namespace Seed {
 
 TileSet::TileSet()
-	: pTexture(NULL)
-	, pTileUV(NULL)
+	: pTexture(nullptr)
+	, pTileUV(nullptr)
 	, mProperties()
 	, mTileProperties()
 	, iFirstId(1)
 	, iMargin(0)
 	, iSpacing(0)
 	, ptTileSize(0, 0)
+	, ptTiles(0, 0)
 {
 }
 
@@ -50,101 +52,122 @@ TileSet::~TileSet()
 	this->Unload();
 }
 
-bool TileSet::Load(Reader &reader, ResourceManager *res)
+void TileSet::RebuildUVMapping()
 {
-	bool ret = false;
+	auto rInvWidth = 1.0f / pTexture->GetAtlasWidth(); // full width from image, not only frame area
+	auto rInvHeight = 1.0f / pTexture->GetAtlasHeight(); // full height from image, not only frame area
 
-	if (this->Unload())
+	auto pixY = iMargin;
+	for (u32 y = 0; y < ptTiles.y; y++)
 	{
-		sName = reader.ReadString("name", "TileSet");
-		iFirstId = reader.ReadU32("firstgid", 1);
-		iMargin = reader.ReadU32("margin", 0);
-		iSpacing = reader.ReadU32("spacing", 0);
-		ptTileSize.x = reader.ReadU32("tileheight", 32);
-		ptTileSize.y = reader.ReadU32("tilewidth", 32);
-
-		if (reader.SelectNode("properties"))
+		auto pixX = iMargin;
+		for (u32 x = 0; x < ptTiles.x; x++)
 		{
-			u32 k = 0;
-			while (1)
-			{
-				const char *key = reader.GetKey(k++);
-				if (!key)
-					break;
+			auto uv = &pTileUV[(x) + (ptTiles.x * (y))];
 
-				mProperties[key] = reader.ReadString(key, "");
-			}
-			reader.UnselectNode();
+			uv->x1 = f32((pixX + 0.1f) * rInvWidth);
+			uv->x2 = f32((pixX + 0.1f + ptTileSize.x) * rInvWidth);
+			uv->y1 = f32((pixY + 0.1f) * rInvHeight);
+			uv->y2 = f32((pixY + 0.1f + ptTileSize.y) * rInvHeight);
+
+			pixX += iSpacing + ptTileSize.x;
 		}
 
-		if (reader.SelectNode("tileproperties"))
+		pixY += iSpacing + ptTileSize.y;
+	}
+}
+
+void TileSet::Set(Reader &reader)
+{
+	sName = reader.ReadString("name", sName.c_str());
+	iFirstId = reader.ReadU32("firstgid", iFirstId);
+	iMargin = reader.ReadU32("margin", iMargin);
+	iSpacing = reader.ReadU32("spacing", iSpacing);
+	ptTileSize.x = reader.ReadU32("tileheight", ptTileSize.x);
+	ptTileSize.y = reader.ReadU32("tilewidth", ptTileSize.y);
+
+	// properties are accomulatives
+	if (reader.SelectNode("properties"))
+	{
+		auto k = 0;
+		while (1)
 		{
-			u32 k = 0;
-			while (1)
-			{
-				const char *key = reader.GetKey(k++);
-				if (!key)
-					break;
+			const char *key = reader.GetKey(k++);
+			if (!key)
+				break;
 
-				if (reader.SelectNode(key))
-				{
-					u32 kv = atoi(key) + iFirstId;
-					u32 ks = 0;
-					while (1)
-					{
-						const char *keyStr = reader.GetKey(ks++);
-						if (!keyStr)
-							break;
-
-						mTileProperties[kv][keyStr] = reader.ReadString(keyStr, "");
-					}
-
-					reader.UnselectNode();
-				}
-			}
-			reader.UnselectNode();
+			mProperties[key] = reader.ReadString(key, "");
 		}
-
-		u32 texW = reader.ReadU32("imagewidth", 0);
-		u32 texH = reader.ReadU32("imageheight", 0);
-		String file = reader.ReadString("image");
-		pTexture = static_cast<ITexture *>(res->Get(file, Seed::TypeTexture));
-		pTexture->SetFilter(Seed::TextureFilterTypeMin, Seed::TextureFilterNearest);
-		pTexture->SetFilter(Seed::TextureFilterTypeMag, Seed::TextureFilterNearest);
-
-		ret = (pTexture->GetWidth() == texW && pTexture->GetHeight() == texH);
-		if (ret)
-		{
-			u32 tilesW = texW / ptTileSize.x;
-			u32 tilesH = texH / ptTileSize.y;
-
-			f32 rInvWidth = 1.0f / pTexture->GetAtlasWidth(); // full width from image, not only frame area
-			f32 rInvHeight = 1.0f / pTexture->GetAtlasHeight(); // full height from image, not only frame area
-
-			pTileUV = NewArray(Rect4f, (tilesW * tilesH));
-
-			u32 pixY = iMargin;
-			for (u32 y = 0; y < tilesH; y++)
-			{
-				u32 pixX = iMargin;
-				for (u32 x = 0; x < tilesW; x++)
-				{
-					Rect4f *uv = &pTileUV[(x) + (tilesW * (y))];
-
-					uv->x1 = static_cast<f32>((pixX + 0.1f) * rInvWidth);
-					uv->x2 = static_cast<f32>((pixX + 0.1f + ptTileSize.x) * rInvWidth);
-					uv->y1 = static_cast<f32>((pixY + 0.1f) * rInvHeight);
-					uv->y2 = static_cast<f32>((pixY + 0.1f + ptTileSize.y) * rInvHeight);
-
-					pixX += iSpacing + ptTileSize.x;
-				}
-
-				pixY += iSpacing + ptTileSize.y;
-			}
-		}
+		reader.UnselectNode();
 	}
 
-	return ret;
+	if (reader.SelectNode("tileproperties"))
+	{
+		auto k = 0;
+		while (1)
+		{
+			const char *key = reader.GetKey(k++);
+			if (!key)
+				break;
+
+			if (reader.SelectNode(key))
+			{
+				auto kv = atoi(key) + iFirstId;
+				auto ks = 0;
+				while (1)
+				{
+					const char *keyStr = reader.GetKey(ks++);
+					if (!keyStr)
+						break;
+
+					mTileProperties[kv][keyStr] = reader.ReadString(keyStr, "");
+				}
+
+				reader.UnselectNode();
+			}
+		}
+		reader.UnselectNode();
+	}
+
+	auto texW = reader.ReadU32("imagewidth", 0);
+	auto texH = reader.ReadU32("imageheight", 0);
+	auto file = String(reader.ReadString("image"));
+	if (texW && texH && file != "")
+	{
+		sdRelease(pTexture);
+
+		pTexture = static_cast<ITexture *>(pRes->Get(file, ITexture::GetTypeId()));
+		pTexture->SetFilter(eTextureFilterType::Min, eTextureFilter::Nearest);
+		pTexture->SetFilter(eTextureFilterType::Mag, eTextureFilter::Nearest);
+		SEED_WARNING(pTexture->GetWidth() != texW || pTexture->GetHeight() != texH, "%s: TileSet error: texture size is different from specified image size ('%s').", sName.c_str(), file.c_str());
+
+		auto tilesW = texW / ptTileSize.x;
+		auto tilesH = texH / ptTileSize.y;
+
+		if (ptTiles.x != tilesW || ptTiles.y != tilesH)
+		{
+			sdDeleteArray(pTileUV);
+			pTileUV = sdNewArray(Rect4f, (tilesW * tilesH));
+		}
+
+		ptTiles.x = tilesW;
+		ptTiles.y = tilesH;
+	}
+
+	SEED_ASSERT_FMT(pTileUV != nullptr, "%s: Could not create texture mapping.", sName.c_str());
+	this->RebuildUVMapping();
+}
+
+bool TileSet::Load(Reader &reader, ResourceManager *res)
+{
+	SEED_ASSERT(res)
+	if (!this->Unload())
+		return false;
+
+	pRes = res;
+	this->Set(reader);
+
+	return true;
 }
 
 bool TileSet::Write(Writer &writer)
@@ -158,9 +181,43 @@ bool TileSet::Unload()
 {
 	Map<u32, Map<String, String> >().swap(mTileProperties);
 	Map<String, String>().swap(mProperties);
-	DeleteArray(pTileUV);
-	sRelease(pTexture);
+	sdDeleteArray(pTileUV);
+	sdRelease(pTexture);
+
+	iFirstId = 1;
+	iMargin = 0;
+	iSpacing = 0;
+	ptTileSize = Point2u(0, 0);
+	ptTiles = Point2u(0, 0);
+
+	sName = this->GetTypeName();
+
 	return true;
+}
+
+TileSet *TileSet::Clone() const
+{
+	auto obj = sdNew(TileSet);
+	obj->GenerateCloneName(sName);
+
+	auto tilesW = pTexture->GetWidth() / ptTileSize.x;
+	auto tilesH = pTexture->GetHeight() / ptTileSize.y;
+
+	sdAcquire(pTexture);
+	obj->pTileUV = sdNewArray(Rect4f, (tilesW * tilesH));
+	memcpy(&obj->pTileUV, &pTileUV, sizeof(Rect4f) * (tilesW * tilesH));
+
+	obj->pTexture = pTexture;
+	obj->pTileUV = pTileUV;
+	obj->mProperties = mProperties;
+	obj->mTileProperties = mTileProperties;
+
+	obj->iFirstId = iFirstId;
+	obj->iMargin = iMargin;
+	obj->iSpacing = iSpacing;
+	obj->ptTileSize = ptTileSize;
+
+	return obj;
 }
 
 u32 TileSet::GetFirstTileId() const
@@ -170,11 +227,11 @@ u32 TileSet::GetFirstTileId() const
 
 const Rect4f *TileSet::GetTileUV(u32 tileId) const
 {
-	Rect4f *ret = NULL;
+	Rect4f *ret = nullptr;
 
 	if (tileId)
 	{
-		SEED_ASSERT_MSG((s32)tileId - (s32)iFirstId >= 0, "Wrong tile id.");
+		SEED_ASSERT_MSG(s32(tileId) - s32(iFirstId) >= 0, "Wrong tile id.");
 		ret = &pTileUV[tileId - iFirstId];
 		SEED_ASSERT_MSG(ret, "No tile with given id");
 	}
@@ -184,7 +241,7 @@ const Rect4f *TileSet::GetTileUV(u32 tileId) const
 
 const ITexture *TileSet::GetTexture() const
 {
-	return this->pTexture;
+	return pTexture;
 }
 
 const String &TileSet::GetProperty(const String &property) const
@@ -199,16 +256,6 @@ const String &TileSet::GetTileProperty(u32 tileId, const String &property) const
 		return mTileProperties.at(tileId).at(property);
 
 	return empty;
-}
-
-const String TileSet::GetClassName() const
-{
-	return "TileSet";
-}
-
-int TileSet::GetObjectType() const
-{
-	return Seed::TypeTileSet;
 }
 
 } // namespace

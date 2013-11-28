@@ -36,59 +36,28 @@
 
 namespace Seed {
 
-enum eEventId
-{
-	EventIdUndefined = 0,
-	EventIdPointerInput,
-	EventIdJoystickInput,
-	EventIdMotionInput,
-	EventIdKeyboardInput,
-	EventIdSystem,
-	EventIdResourceLoader,
-	EventIdFileSystem,
-	EventIdMovie,
-	EventIdJob,
-	EventIdPresentation
-};
-
 /// Base Event
 class SEED_CORE_API IEvent : public IObject
 {
+	SEED_DISABLE_COPY(IEvent)
+	SEED_DECLARE_RTTI(IEvent, IObject)
+
 	public:
-		enum eType
+		IEvent() = default;
+		virtual ~IEvent() {}
+
+		void Consume()
 		{
-			TypeUndefined	 	= 0,
-			TypeStateMachine	= 1,
-			TypeInput			= 2,
-			TypeSystem			= 3,
-			TypeResource		= 4,
-			TypeMovie			= 5,
-			TypeJob				= 6,
-			TypePresentation	= 7,
-			TypeUser			= 0x1000
-		};
+			bConsumed = true;
+		}
 
-	public:
-		IEvent();
-		IEvent(eType myType, u32 myId);
-		virtual ~IEvent();
-
-		u32 GetId() const;
-		eType GetEventType();
-		void Consume();
-		bool IsConsumed() const;
-
-		// IObject
-		virtual int GetObjectType() const override;
-		virtual const String GetClassName() const override;
-	
-	private:
-		SEED_DISABLE_COPY(IEvent);
+		bool IsConsumed() const
+		{
+			return bConsumed;
+		}
 
 	protected:
-		eType	iType;
-		u32		iId;
-		bool	bConsumed;
+		bool bConsumed = false;
 };
 
 } // namespace

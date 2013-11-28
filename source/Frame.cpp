@@ -33,6 +33,7 @@
 #include "Log.h"
 #include "Enum.h"
 #include "Texture.h"
+#include "Memory.h"
 #include "SeedInit.h"
 
 #define TAG		"[Frame] "
@@ -40,7 +41,7 @@
 namespace Seed {
 
 Frame::Frame()
-	: pTexture(NULL)
+	: pTexture(nullptr)
 	, sName()
 	, sTexture()
 	, iFps(0)
@@ -64,58 +65,80 @@ Frame::~Frame()
 	this->Unload();
 }
 
+void Frame::Configure()
+{
+	if (iFps)
+		fFrameRate = 1.0f / static_cast<f32>(iFps);
+
+	auto rInvWidth = 1.0f / pTexture->GetAtlasWidth(); // full width from image, not only frame area
+	auto rInvHeight = 1.0f / pTexture->GetAtlasHeight(); // full height from image, not only frame area
+
+	iHalfWidth = iWidth >> 1;
+	iHalfHeight = iHeight >> 1;
+
+	fTexS0 = static_cast<f32>((iX + 0.1f) * rInvWidth);
+	fTexS1 = static_cast<f32>((iX + 0.1f + iWidth) * rInvWidth);
+	fTexT0 = static_cast<f32>((iY + 0.1f) * rInvHeight);
+	fTexT1 = static_cast<f32>((iY + 0.1f + iHeight) * rInvHeight);
+}
+
+void Frame::Set(Reader &reader)
+{
+	sName = reader.ReadString("sName", sName.c_str());
+
+	auto tex = String(reader.ReadString("sResource", sTexture.c_str()));
+	if (tex != sTexture)
+	{
+		sdRelease(pTexture);
+		tex = sTexture;
+		pTexture = static_cast<ITexture *>(pRes->Get(sTexture, ITexture::GetTypeId()));
+		iX = 0;
+		iY = 0;
+		iWidth = pTexture->GetWidth();
+		iHeight = pTexture->GetHeight();
+	}
+
+	if (reader.SelectNode("cBoundary"))
+	{
+		iX = reader.ReadU32("iX", 0);
+		iY = reader.ReadU32("iY", 0);
+		iWidth = reader.ReadU32("iWidth", iWidth);
+		iHeight = reader.ReadU32("iHeight", iHeight);
+		reader.UnselectNode();
+	}
+
+	iFps = reader.ReadU32("iFps", iFps);
+
+	this->Configure();
+}
+
 bool Frame::Load(Reader &reader, ResourceManager *res)
 {
 	SEED_ASSERT(res);
 
-	if (this->Unload())
-	{
-		sName = reader.ReadString("sName", "frame");
+	if (!this->Unload())
+		return false;
 
-		sTexture = reader.ReadString("sResource", "default");
-		pTexture = static_cast<ITexture *>(res->Get(sTexture, Seed::TypeTexture));
+	sTexture = reader.ReadString("sResource", sTexture.c_str());
+	SEED_ASSERT_MSG(sTexture != "", "sResource not set in frame");
 
-		if (reader.SelectNode("cBoundary"))
-		{
-			iX = reader.ReadU32("iX", 0);
-			iY = reader.ReadU32("iY", 0);
-			iWidth = reader.ReadU32("iWidth", pTexture->GetWidth());
-			iHeight = reader.ReadU32("iHeight", pTexture->GetHeight());
-			reader.UnselectNode();
-		}
-		else
-		{
-			iX = 0;
-			iY = 0;
-			iWidth = pTexture->GetWidth();
-			iHeight = pTexture->GetHeight();
-		}
+	pTexture = static_cast<ITexture *>(res->Get(sTexture, ITexture::GetTypeId()));
+	iX = 0;
+	iY = 0;
+	iWidth = pTexture->GetWidth();
+	iHeight = pTexture->GetHeight();
 
-		iFps = reader.ReadU32("iFps", 0);
-		if (iFps)
-			fFrameRate = 1.0f / static_cast<f32>(iFps);
-
-		f32 rInvWidth = 1.0f / pTexture->GetAtlasWidth(); // full width from image, not only frame area
-		f32 rInvHeight = 1.0f / pTexture->GetAtlasHeight(); // full height from image, not only frame area
-
-		iHalfWidth = iWidth >> 1;
-		iHalfHeight = iHeight >> 1;
-
-		fTexS0 = static_cast<f32>((iX + 0.1f) * rInvWidth);
-		fTexS1 = static_cast<f32>((iX + 0.1f + iWidth) * rInvWidth);
-		fTexT0 = static_cast<f32>((iY + 0.1f) * rInvHeight);
-		fTexT1 = static_cast<f32>((iY + 0.1f + iHeight) * rInvHeight);
-	}
+	this->Set(reader);
 
 	return true;
 }
 
 bool Frame::Write(Writer &writer)
 {
-	bool ret = false;
+	auto ret = false;
 
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
 		writer.WriteString("sResource", sTexture.c_str());
 		if (iFps)
@@ -138,10 +161,10 @@ bool Frame::Write(Writer &writer)
 bool Frame::Unload()
 {
 	if (pTexture)
-		sRelease(pTexture);
+		sdRelease(pTexture);
 
-	pTexture = NULL;
-	sName = "";
+	pTexture = nullptr;
+	sName = this->GetTypeName();
 	sTexture = "";
 	iFps = 0;
 	iIndex = 0;
@@ -158,14 +181,29 @@ bool Frame::Unload()
 	return true;
 }
 
-const String Frame::GetClassName() const
+Frame *Frame::Clone() const
 {
-	return "Frame";
-}
+	auto obj = sdNew(Frame);
+	obj->GenerateCloneName(sName);
 
-int Frame::GetObjectType() const
-{
-	return Seed::TypeFrame;
+	sdAcquire(pTexture);
+	obj->pTexture = pTexture;
+	obj->sTexture = sTexture;
+	obj->iFps = iFps;
+	obj->iIndex = iIndex;
+	obj->iX = iX;
+	obj->iY = iY;
+	obj->iWidth = iWidth;
+	obj->iHeight = iHeight;
+	obj->iHalfWidth = iHalfWidth;
+	obj->iHalfHeight = iHalfHeight;
+	obj->fFrameRate = fFrameRate;
+	obj->fTexS0 = fTexS0;
+	obj->fTexS1 = fTexS1;
+	obj->fTexT0 = fTexT0;
+	obj->fTexT1 = fTexT1;
+
+	return obj;
 }
 
 } // namespace

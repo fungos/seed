@@ -33,25 +33,28 @@
 
 #if (SEED_USE_THREAD == 0)
 
-#include "interface/IModule.h"
+#include "interface/IManager.h"
 #include "interface/IUpdatable.h"
 #include "Singleton.h"
 #include "Container.h"
 
 namespace Seed {
 
-class IThread;
+class Thread;
 
-/// Thread Manager
-class SEED_CORE_API ThreadManager : public IModule, public IUpdatable
+/// Thread Manager is used when no threads are enabled to run threads in serial
+class SEED_CORE_API ThreadManager : public IManager, public IUpdatable
 {
-	SEED_SINGLETON_DECLARE(ThreadManager)
-	DECLARE_CONTAINER_TYPE(Vector, IThread)
-	public:
-		void Add(IThread *thread);
-		void Remove(IThread *thread);
+	SEED_DECLARE_SINGLETON(ThreadManager)
+	SEED_DECLARE_MANAGER(ThreadManager)
+	SEED_DECLARE_CONTAINER(Vector, Thread)
+	SEED_DISABLE_COPY(ThreadManager)
 
-		// IModule
+	public:
+		void Add(Thread *thread);
+		void Remove(Thread *thread);
+
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
@@ -60,17 +63,11 @@ class SEED_CORE_API ThreadManager : public IModule, public IUpdatable
 		virtual void Enable() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt) override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+		virtual bool Update(Seconds dt) override;
 
 	private:
-		SEED_DISABLE_COPY(ThreadManager);
-
-		IThreadVector vThread;
-		bool bEnabled;
+		ThreadVector vThread;
+		bool bEnabled : 1;
 };
 
 #define pThreadManager ThreadManager::GetInstance()

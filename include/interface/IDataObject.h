@@ -45,16 +45,18 @@ Interface for basic object
 */
 class SEED_CORE_API IDataObject : public IObject
 {
+	SEED_DISABLE_COPY(IDataObject)
+	SEED_DECLARE_RTTI(IDataObject, IObject)
+
 	public:
-		IDataObject();
-		virtual ~IDataObject();
+		IDataObject() = default;
+		virtual ~IDataObject() {}
 
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) = 0;
 		virtual bool Write(Writer &writer) = 0;
 		virtual bool Unload() = 0;
-
-	private:
-		SEED_DISABLE_COPY(IDataObject);
+		virtual IDataObject *Clone() const = 0;
+		virtual void Set(Reader &reader) = 0;
 };
 
 } // namespace

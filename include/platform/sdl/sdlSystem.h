@@ -43,12 +43,15 @@ namespace Seed { namespace SDL {
 /// SDL System Module
 class SEED_CORE_API System : public ISystem
 {
-	SEED_SINGLETON_DECLARE(System)
+	SEED_DECLARE_SINGLETON(System)
+	SEED_DECLARE_MANAGER(System)
+	SEED_DISABLE_COPY(System)
+
 	public:
 		// ISystem
 		virtual void GoToMenu() override;
 		virtual void Sleep() override;
-		virtual void OnHomeCalled();
+		virtual void OnHomeCalled() override;
 		virtual void WaitForRetrace() override;
 		virtual void HangUp() override;
 		virtual void GoToDataManager() override;
@@ -70,27 +73,25 @@ class SEED_CORE_API System : public ISystem
 		virtual const char *GetApplicationDataFolder() const override;
 		virtual const char *GetSaveGameFolder() const override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Shutdown() override;
 		virtual bool Reset() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt) override;
+		virtual bool Update(Seconds dt) override;
 
 	private:
-		SEED_DISABLE_COPY(System);
-
-		u64		iLastFrameTime;
-		u64		iFpsTime;
+		f32		fLastFrameTime;
+		f32		fFpsTime;
 		f32		fElapsedTime;
 		u32		iRetraceCount;
 		u32		iFrameRate;
 		u32		iRetraceIndex;
 		u32		arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
-		bool	bShutdown;
-		bool	bSleeping;
-		bool	bDefaultCursorEnabled;
+		bool	bShutdown : 1;
+		bool	bSleeping : 1;
+		bool	bDefaultCursorEnabled : 1;
 };
 
 #define pSystem Seed::SDL::System::GetInstance()

@@ -27,7 +27,7 @@
 #define SEED_NAME					"Seed SDK"
 #define SEED_COPYRIGHT				"Copyright (c) 2008-2009 Seed Framework Team"
 
-#define SEED_MESSAGE		SEED_NAME " " SEED_VERSION_STRING " [" SEED_PLATFORM_NAME " " SEED_TYPE " " SEED_LICENSE "]\n" SEED_COPYRIGHT
+#define SEED_BANNER					SEED_NAME " " SEED_VERSION_STRING " [" SEED_PLATFORM_NAME " " SEED_TYPE " " SEED_LICENSE "]\n" SEED_COPYRIGHT
 
 #if defined(DEBUG)
 	#define SEED_TYPE "Debug"
@@ -51,8 +51,9 @@
 	#define SEED_PLATFORM_NAME "NativeClient"
 #endif // BUILD_IOS
 
-#if __GNUG__ && __GNUC_MINOR__ < 7
-	#define override
+#if defined(__GNUG__) && __GNUC_MINOR__ < 7 && !defined(__clang__)
+	//#define override
+	#error Unsupported compiler - uncomment things here at your own risk.
 #endif
 
 //================================================================================
@@ -62,7 +63,6 @@
 #define SEED_USE_JSON						1
 #define SEED_USE_THEORA						0
 #define SEED_USE_ROCKET_GUI					1
-#define SEED_ENABLE_DEPTH_TEST				0
 
 /*
 Transformable objects have only one pivot for calculating the object position, scale and rotation.

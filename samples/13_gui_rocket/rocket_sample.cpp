@@ -4,10 +4,10 @@
 #include <Rocket/Controls.h>
 
 RocketSample::RocketSample()
-	: pScene(NULL)
-	, pI(NULL)
-	, pContext(NULL)
-	, pDoc(NULL)
+	: pScene(nullptr)
+	, pI(nullptr)
+	, pContext(nullptr)
+	, pDoc(nullptr)
 	, cPres()
 	, sDocument("")
 	, bLoaded(false)
@@ -21,7 +21,14 @@ RocketSample::~RocketSample()
 bool RocketSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("rocket_sample.config", this);
+	return cPres.Load("rocket_sample.config", [&](Presentation *pres, Renderer *) {
+		pScene = pres->GetRendererByName("MainRenderer")->GetScene();
+
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
+
+		this->InitializeGUI();
+	});
 }
 
 bool RocketSample::Shutdown()
@@ -43,29 +50,18 @@ void RocketSample::OnSystemShutdown(const EventSystem *ev)
 
 void RocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	Key k = ev->GetKey();
+	auto k = ev->GetKey();
 
-	if (k == Seed::KeyEscape)
+	if (k == eKey::Escape)
 		pSystem->Shutdown();
-	else if (k == Seed::KeyF1)
+	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == Seed::KeyF2)
+	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
-	else if (k == Seed::KeyF5)
+	else if (k == eKey::F5)
 		this->ReloadGUI();
-	else if (k == Seed::KeyF12)
+	else if (k == eKey::F12)
 		Rocket::Debugger::SetVisible(!Rocket::Debugger::IsVisible());
-}
-
-void RocketSample::OnPresentationLoaded(const EventPresentation *ev)
-{
-	UNUSED(ev)
-	pScene = cPres.GetRendererByName("MainRenderer")->GetScene();
-
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-
-	this->InitializeGUI();
 }
 
 bool RocketSample::UnloadGUI()
@@ -76,7 +72,7 @@ bool RocketSample::UnloadGUI()
 		pDoc->Hide();
 		pContext->UnloadDocument(pDoc);
 		pDoc->RemoveReference();
-		pDoc = NULL;
+		pDoc = nullptr;
 	}
 
 	bLoaded = false;
@@ -94,7 +90,7 @@ bool RocketSample::LoadGUI(const String &doc)
 	{
 		Log("Loading GUI Document");
 		pDoc = pContext->LoadDocument(doc.c_str());
-		if (pDoc != NULL)
+		if (pDoc != nullptr)
 			pDoc->Show();
 
 		sDocument = doc;
@@ -106,7 +102,7 @@ bool RocketSample::LoadGUI(const String &doc)
 
 bool RocketSample::InitializeGUI()
 {
-	pI = New(RocketInterface());
+	pI = sdNew(RocketInterface());
 	pI->sName = "RocketGUI";
 	Rocket::Core::SetRenderInterface(pI);
 	Rocket::Core::SetFileInterface(pI);
@@ -115,7 +111,7 @@ bool RocketSample::InitializeGUI()
 	Rocket::Controls::Initialise();
 
 	pContext = Rocket::Core::CreateContext("main", Rocket::Core::Vector2i(pScreen->GetWidth(), pScreen->GetHeight()));
-	if (pContext == NULL)
+	if (pContext == nullptr)
 	{
 		Rocket::Core::Shutdown();
 		return false;
@@ -152,5 +148,5 @@ void RocketSample::ReleaseGUI()
 	bLoaded = false;
 
 	pScene->Remove(pI);
-	Delete(pI);
+	sdDelete(pI);
 }
