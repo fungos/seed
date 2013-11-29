@@ -28,62 +28,64 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_DEVICE_H__
-#define __RENDERER_DEVICE_H__
+#include "interface/IShaderProgram.h"
+#include "Enum.h"
 
-#if defined(BUILD_IOS)
-	#include "platform/pc/pcRendererDevice.h"
+#define TAG		"[IShaderProgram]"
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+namespace Seed
+{
 
-#elif defined(BUILD_SDL) || defined(BUILD_GLFW)
-	#include "platform/pc/pcRendererDevice.h"
+IShaderProgram::IShaderProgram()
+	: iProgramId(0)
+	, bLinked(false)
+	, bActive(false)
+	, vShaders()
+	, mAttributes()
+{
+}
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+IShaderProgram::~IShaderProgram()
+{
+}
 
-	#if defined(SEED_ENABLE_OGL20)
-	#include "api/ogl/ogl20RendererDevice.h"
-	#endif
+void IShaderProgram::Use()
+{
+	SEED_ABSTRACT_METHOD;
+}
 
-	#if defined(SEED_ENABLE_OGL30)
-	#include "api/ogl/ogl30RendererDevice.h"
-	#endif
+void IShaderProgram::Unbind()
+{
+	SEED_ABSTRACT_METHOD;
+}
 
-	#if defined(SEED_ENABLE_OGL40)
-	#include "api/ogl/ogl40RendererDevice.h"
-	#endif
+void IShaderProgram::AttachShader(IShader *shader)
+{
+	UNUSED(shader);
+	SEED_ABSTRACT_METHOD;
+}
 
-	#if defined(SEED_ENABLE_D3D8)
-	#include "api/directx/D3D8RendererDevice.h"
-	#endif
+void IShaderProgram::BindAttribute(u32 index, String attribName)
+{
+	UNUSED(index);
+	UNUSED(attribName);
+	SEED_ABSTRACT_METHOD;
+}
 
-	#if defined(SEED_ENABLE_D3D9)
-	#include "api/directx/D3D9RendererDevice.h"
-	#endif
+void IShaderProgram::Link()
+{
+	SEED_ABSTRACT_METHOD;
+}
 
-	#if defined(SEED_ENABLE_D3D10)
-	#include "api/directx/D3D10RendererDevice.h"
-	#endif
+const String IShaderProgram::GetClassName() const
+{
+	return "IShaderProgram";
+}
 
-	#if defined(SEED_ENABLE_D3D11)
-	#include "api/directx/D3D11RendererDevice.h"
-	#endif
+eProjection IShaderProgram::GetObjectType() const
+{
+	return eProjection::TypeShaderProgram;
+}
 
-	using namespace Seed::PC;
-#elif defined(BUILD_QT)
-//	#include "platform/qt/qtRendererDevice.h"
-	#include "platform/pc/pcRendererDevice.h"
-	#include "api/ogl/oglES1RendererDevice.h"
-#endif
+} // namespace
 
-#include "interface/IHardwareBuffer.h"
-
-#endif // __RENDERER_DEVICE_H__

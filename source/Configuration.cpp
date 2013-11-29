@@ -42,20 +42,20 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(Configuration)
 
 Configuration::Configuration()
-	: sWorkingDirectory("./")
-	, sTitle("")
-	, sDescription("")
-	, sPublisherName("")
-	, nRendererDeviceType(eRendererDeviceType::Auto)
-	, nReaderType(eReaderType::Default)
-	, iFrameRate(60)
-	, iResolutionWidth(800)
-	, iResolutionHeight(600)
-	, bMultipleInstances(false)
-	, bWarningMultipleInstances(false)
-	, bFullScreen(false)
-	, bShowCursor(false)
-	, bDebugSprite(false)
+    : sWorkingDirectory("./")
+    , sTitle("")
+    , sDescription("")
+    , sPublisherName("")
+    , nRendererDeviceType(eRendererDeviceType::Auto)
+    , nReaderType(eReaderType::Default)
+    , iFrameRate(60)
+    , iResolutionWidth(800)
+    , iResolutionHeight(600)
+    , bMultipleInstances(false)
+    , bWarningMultipleInstances(false)
+    , bFullScreen(false)
+    , bShowCursor(false)
+    , bDebugSprite(false)
 {
 }
 
@@ -65,185 +65,187 @@ Configuration::~Configuration()
 
 void Configuration::Load(const String &file)
 {
-	// This must not be async, it is a starting configuration file
-	File *f = sdNew(File(file));
-	if (f && f->GetData())
-	{
-		Reader r(f);
-		bDebugSprite = r.ReadBool("bDebugSprite", false);
-		bMultipleInstances = r.ReadBool("bMultipleInstances", false);
-		bWarningMultipleInstances = r.ReadBool("bWarningMultipleInstances", false);
-		bFullScreen = r.ReadBool("bFullScreen", false);
-		bShowCursor = r.ReadBool("bShowCursor", false);
+    // This must not be async, it is a starting configuration file
+    File *f = sdNew(File(file));
+    if (f && f->GetData())
+    {
+        Reader r(f);
+        bDebugSprite = r.ReadBool("bDebugSprite", false);
+        bMultipleInstances = r.ReadBool("bMultipleInstances", false);
+        bWarningMultipleInstances = r.ReadBool("bWarningMultipleInstances", false);
+        bFullScreen = r.ReadBool("bFullScreen", false);
+        bShowCursor = r.ReadBool("bShowCursor", false);
 
-		// Overwritten by command line
-		if (!Private::bDisableResourceLoader)
-			Private::bDisableResourceLoader = r.ReadBool("bDisableResourceLoader", false);
-		if (!Private::bDisableThread)
-			Private::bDisableThread = r.ReadBool("bDisableThread", false);
-		if (!Private::bDisableSound)
-			Private::bDisableSound = r.ReadBool("bDisableSound", false);
+        // Overwritten by command line
+        if (!Private::bDisableResourceLoader)
+            Private::bDisableResourceLoader = r.ReadBool("bDisableResourceLoader", false);
+        if (!Private::bDisableThread)
+            Private::bDisableThread = r.ReadBool("bDisableThread", false);
+        if (!Private::bDisableSound)
+            Private::bDisableSound = r.ReadBool("bDisableSound", false);
 
-		String renderer = r.ReadString("sRendererDevice", "auto");
-		std::transform(renderer.begin(), renderer.end(), renderer.begin(), ::tolower);
+        String renderer = r.ReadString("sRendererDevice", "auto");
+        std::transform(renderer.begin(), renderer.end(), renderer.begin(), ::tolower);
 
-		// FIXME: A better way to select the renderer (via register/unregister handlers?)
-		// also, a way to detect the default system renderer.
-		// FIXME: Clean up this, only what is really needed.
-		if (renderer == "auto")
-			nRendererDeviceType = eRendererDeviceType::Auto;
-		else if (renderer == "ogl" || renderer == "opengl")
-			nRendererDeviceType = eRendererDeviceType::OpenGLAny;
-		else if (renderer == "ogles1" || renderer == "opengl es1")
-			nRendererDeviceType = eRendererDeviceType::OpenGLES1;
-		else if (renderer == "ogl2" || renderer == "opengl 2.x")
-			nRendererDeviceType = eRendererDeviceType::OpenGL2x;
-		else if (renderer == "ogl3" || renderer == "opengl 3.x")
-			nRendererDeviceType = eRendererDeviceType::OpenGL3x;
-		else if (renderer == "ogl4" || renderer == "opengl 4.x")
-			nRendererDeviceType = eRendererDeviceType::OpenGL4x;
-		else if (renderer == "dx8" || renderer == "directx 8")
-			nRendererDeviceType = eRendererDeviceType::DirectX8;
-		else if (renderer == "dx9" || renderer == "directx 9")
-			nRendererDeviceType = eRendererDeviceType::DirectX9;
-		else if (renderer == "dx10" || renderer == "directx 10")
-			nRendererDeviceType = eRendererDeviceType::DirectX10;
-		else if (renderer == "dx11" || renderer == "directx 11")
-			nRendererDeviceType = eRendererDeviceType::DirectX11;
-		else
-			Log("[Configuration] Unknown renderer %s - fallbacking to OpenGL 1.x.", renderer.c_str());
+        // FIXME: A better way to select the renderer (via register/unregister handlers?)
+        // also, a way to detect the default system renderer.
+        // FIXME: Clean up this, only what is really needed.
+        if (renderer == "auto")
+            nRendererDeviceType = eRendererDeviceType::Auto;
+        else if (renderer == "ogl" || renderer == "opengl")
+            nRendererDeviceType = eRendererDeviceType::OpenGLAny;
+        else if (renderer == "ogles1" || renderer == "opengl es1")
+            nRendererDeviceType = eRendererDeviceType::OpenGLES1;
+        else if (renderer == "ogles2" || renderer == "opengl es2")
+            nRendererDeviceType = eRendererDeviceType::OpenGLES2;
+        else if (renderer == "ogl2" || renderer == "opengl 2.x")
+            nRendererDeviceType = eRendererDeviceType::OpenGL2x;
+        else if (renderer == "ogl3" || renderer == "opengl 3.x")
+            nRendererDeviceType = eRendererDeviceType::OpenGL3x;
+        else if (renderer == "ogl4" || renderer == "opengl 4.x")
+            nRendererDeviceType = eRendererDeviceType::OpenGL4x;
+        else if (renderer == "dx8" || renderer == "directx 8")
+            nRendererDeviceType = eRendererDeviceType::DirectX8;
+        else if (renderer == "dx9" || renderer == "directx 9")
+            nRendererDeviceType = eRendererDeviceType::DirectX9;
+        else if (renderer == "dx10" || renderer == "directx 10")
+            nRendererDeviceType = eRendererDeviceType::DirectX10;
+        else if (renderer == "dx11" || renderer == "directx 11")
+            nRendererDeviceType = eRendererDeviceType::DirectX11;
+        else
+            Log("[Configuration] Unknown renderer %s - fallbacking to OpenGL 1.x.", renderer.c_str());
 
-		sWorkingDirectory = r.ReadString("sWorkingDirectory", "./");
-		sTitle = r.ReadString("sTitle", "");
-		sDescription = r.ReadString("sDescription", "");
-		sPublisherName = r.ReadString("sPublisherName", "");
+        sWorkingDirectory = r.ReadString("sWorkingDirectory", "./");
+        sTitle = r.ReadString("sTitle", "");
+        sDescription = r.ReadString("sDescription", "");
+        sPublisherName = r.ReadString("sPublisherName", "");
 
-		iResolutionWidth = r.ReadU32("iResolutionWidth", 800);
-		iResolutionHeight = r.ReadU32("iResolutionHeight", 600);
-		iFrameRate = r.ReadU32("iFrameRate", 60);
-	}
+        iResolutionWidth = r.ReadU32("iResolutionWidth", 800);
+        iResolutionHeight = r.ReadU32("iResolutionHeight", 600);
+        iFrameRate = r.ReadU32("iFrameRate", 60);
+    }
 
-	sdDelete(f);
+    sdDelete(f);
 }
 
 u32 Configuration::GetResolutionWidth() const
 {
-	return iResolutionWidth;
+    return iResolutionWidth;
 }
 
 u32 Configuration::GetResolutionHeight() const
 {
-	return iResolutionHeight;
+    return iResolutionHeight;
 }
 
 void Configuration::SetWorkingDirectory(const String path)
 {
-	sWorkingDirectory = path;
+    sWorkingDirectory = path;
 }
 
 const String &Configuration::GetWorkingDirectory() const
 {
-	return sWorkingDirectory;
+    return sWorkingDirectory;
 }
 
 void Configuration::SetFrameRate(u32 frameRate)
 {
-	iFrameRate = frameRate;
+    iFrameRate = frameRate;
 }
 
 u32 Configuration::GetFrameRate() const
 {
-	return iFrameRate;
+    return iFrameRate;
 }
 
 void Configuration::SetApplicationTitle(const String &title)
 {
-	sTitle = title;
+    sTitle = title;
 }
 
 const String &Configuration::GetApplicationTitle() const
 {
-	return sTitle;
+    return sTitle;
 }
 
 void Configuration::SetApplicationDescription(const String &desc)
 {
-	sDescription = desc;
+    sDescription = desc;
 }
 
 bool Configuration::IsCursorEnabled() const
 {
-	return bShowCursor;
+    return bShowCursor;
 }
 
 void Configuration::EnableCursor(bool b)
 {
-	bShowCursor = b;
+    bShowCursor = b;
 }
 
 const String &Configuration::GetPublisherName() const
 {
-	return sPublisherName;
+    return sPublisherName;
 }
 
 void Configuration::SetPublisherName(const String desc)
 {
-	sPublisherName = desc;
+    sPublisherName = desc;
 }
 
 const String &Configuration::GetApplicationDescription() const
 {
-	return sDescription;
+    return sDescription;
 }
 
 void Configuration::SetCanHaveMultipleInstances(bool enable)
 {
-	bMultipleInstances = enable;
+    bMultipleInstances = enable;
 }
 
 bool Configuration::GetCanHaveMultipleInstances() const
 {
-	return bMultipleInstances;
+    return bMultipleInstances;
 }
 
 void Configuration::SetWarningMultipleInstances(bool warnUser)
 {
-	bWarningMultipleInstances = warnUser;
+    bWarningMultipleInstances = warnUser;
 }
 
 bool Configuration::GetWarningMultipleInstances() const
 {
-	return bWarningMultipleInstances;
+    return bWarningMultipleInstances;
 }
 
 void Configuration::SetFullScreen(bool enable)
 {
-	bFullScreen = enable;
+    bFullScreen = enable;
 }
 
 bool Configuration::GetFullScreen() const
 {
-	return bFullScreen;
+    return bFullScreen;
 }
 
 void Configuration::SetRendererDeviceType(eRendererDeviceType deviceType)
 {
-	nRendererDeviceType = deviceType;
+    nRendererDeviceType = deviceType;
 }
 
 eRendererDeviceType Configuration::GetRendererDeviceType() const
 {
-	return nRendererDeviceType;
+    return nRendererDeviceType;
 }
 
 void Configuration::SetReaderType(eReaderType readerType)
 {
-	nReaderType = readerType;
+    nReaderType = readerType;
 }
 
 eReaderType Configuration::GetReaderType() const
 {
-	return nReaderType;
+    return nReaderType;
 }
 
 } // namespace

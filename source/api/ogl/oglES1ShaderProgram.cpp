@@ -28,62 +28,44 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_DEVICE_H__
-#define __RENDERER_DEVICE_H__
+#include "ShaderProgram.h"
 
-#if defined(BUILD_IOS)
-	#include "platform/pc/pcRendererDevice.h"
+#if defined (BUILD_IOS) && !defined(SEED_ENABLE_OGLES2)
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+#include <OpenGLES/ES1/gl.h>
 
-#elif defined(BUILD_SDL) || defined(BUILD_GLFW)
-	#include "platform/pc/pcRendererDevice.h"
+#define TAG "[Shader] "
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+namespace Seed { namespace OpenGL {
 
-	#if defined(SEED_ENABLE_OGL20)
-	#include "api/ogl/ogl20RendererDevice.h"
-	#endif
+OGLES1ShaderProgram::OGLES1ShaderProgram()
+{
+}
 
-	#if defined(SEED_ENABLE_OGL30)
-	#include "api/ogl/ogl30RendererDevice.h"
-	#endif
+OGLES1ShaderProgram::~OGLES1ShaderProgram()
+{
+}
 
-	#if defined(SEED_ENABLE_OGL40)
-	#include "api/ogl/ogl40RendererDevice.h"
-	#endif
+void OGLES1ShaderProgram::Use()
+{
+}
 
-	#if defined(SEED_ENABLE_D3D8)
-	#include "api/directx/D3D8RendererDevice.h"
-	#endif
+void OGLES1ShaderProgram::Unbind()
+{
+}
 
-	#if defined(SEED_ENABLE_D3D9)
-	#include "api/directx/D3D9RendererDevice.h"
-	#endif
+void OGLES1ShaderProgram::AttachShader(Seed::IShader *shader)
+{
+}
 
-	#if defined(SEED_ENABLE_D3D10)
-	#include "api/directx/D3D10RendererDevice.h"
-	#endif
+void OGLES1ShaderProgram::BindAttribute(u32 index, String attribName)
+{
+}
 
-	#if defined(SEED_ENABLE_D3D11)
-	#include "api/directx/D3D11RendererDevice.h"
-	#endif
+void OGLES1ShaderProgram::Link()
+{
+}
 
-	using namespace Seed::PC;
-#elif defined(BUILD_QT)
-//	#include "platform/qt/qtRendererDevice.h"
-	#include "platform/pc/pcRendererDevice.h"
-	#include "api/ogl/oglES1RendererDevice.h"
-#endif
+}} // namespace
 
-#include "interface/IHardwareBuffer.h"
-
-#endif // __RENDERER_DEVICE_H__
+#endif // BUILD_IOS && !SEED_ENABLE_OGLES2

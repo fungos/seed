@@ -283,7 +283,7 @@ void Texture::UnloadTexture()
 
 void Texture::Close()
 {
-	stFile.Close();
+	//stFile.Close();
 	Free(pData);
 }
 

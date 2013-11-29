@@ -35,6 +35,48 @@ namespace Seed {
 
 enum class eProjection
 {
+	// Assets
+	TypeTexture = 0,
+	TypeImage,
+	TypeSprite,
+	TypeAnimation,
+	TypeFrame,
+	TypeSound,
+	TypeMusic,
+	TypeEvent,
+	TypeMovie,
+	TypeTimeline,
+	TypeKeyframe,
+	TypeScene,
+	TypeSoundSource,
+	TypeSoundListener,
+	TypeParticleEmitter,
+	TypeCamera,
+	TypeGameMap,
+	TypeTileSet,
+	TypeShader,
+	TypeShaderProgram,
+
+	// Managers
+	TypeViewManager,
+	TypeRendererManager,
+	TypeJobManager,
+	TypeThreadManager,
+	TypeRocketInterface,
+	TypeShaderManager,
+
+	// System
+	TypeFile,
+	TypeConfiguration,
+	TypeViewport,
+	TypePresentation,
+	TypeInterfaceModule,
+	TypeInterfaceRenderable,
+	TypeInterfaceBaseApp,
+	TypeInterfaceGameApp,
+
+	// From here just user defines types
+	TypeUser,
 	Orthogonal,
 	Perspective
 };
@@ -67,6 +109,7 @@ enum class eRendererDeviceType
 {
 	Auto,
 	OpenGLES1,
+	OpenGLES2,
 	OpenGL1x,
 	OpenGL2x,
 	OpenGL3x,
@@ -79,7 +122,15 @@ enum class eRendererDeviceType
 	DirectXAny
 };
 
-enum class eTextureCompression
+enum eShaderType
+{
+	ShaderTypeVertex,
+	ShaderTypeFragment,
+	ShaderTypeGeometry,
+	ShaderTypeTesselation
+};
+
+enum eTextureCompression
 {
 	None,
 	RGB_PVRTC_2BPPV1

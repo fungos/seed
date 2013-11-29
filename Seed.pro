@@ -2,7 +2,7 @@ TARGET = seed
 TEMPLATE = lib
 
 INCLUDEPATH += include/ contrib/
-DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
+DEFINES += SEED_BUILD SEED_ENABLE_PROFILER SEED_ENABLE_OGLES2
 
 CONFIG += glfw
 CONFIG += staticlib
@@ -132,6 +132,18 @@ SOURCES += source/Viewport.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
 	source/map/TileSet.cpp \
+	source/api/ogl/oglES2RendererDevice.cpp \
+	source/interface/IShader.cpp \
+	source/interface/IShaderProgram.cpp \
+	source/ShaderManager.cpp \
+	source/api/ogl/oglES1Shader.cpp \
+	source/api/ogl/oglES1ShaderProgram.cpp \
+	source/api/ogl/oglES2Shader.cpp \
+	source/api/ogl/oglES2ShaderProgram.cpp \
+	source/map/TileSet.cpp \
+	source/api/ogl/ogl20RendererDevice.cpp \
+	source/api/ogl/ogl20Shader.cpp \
+	source/api/ogl/ogl20ShaderProgram.cpp \
 	source/interface/IManager.cpp \
 	source/PrefabManager.cpp \
 	source/map/MetadataObject.cpp \
@@ -189,6 +201,18 @@ HEADERS += include/*.h \
 	include/map/MapLayerMosaic.h \
 	include/map/MapLayerTiled.h \
 	include/map/TileSet.h \
+	include/api/ogl/oglES2RendererDevice.h \
+	include/interface/IShader.h \
+	include/Shader.h \
+	include/interface/IShaderProgram.h \
+	include/ShaderProgram.h \
+	include/ShaderManager.h \
+	include/api/ogl/oglES2Shader.h \
+	include/api/ogl/oglES2ShaderProgram.h \
+	include/map/TileSet.h \
+	include/api/ogl/ogl20RendererDevice.h \
+	include/api/ogl/ogl20Shader.h \
+	include/api/ogl/ogl20ShaderProgram.h \
 	include/PrefabManager.h \
 	include/map/MetadataObject.h \
 	include/Memory.h \

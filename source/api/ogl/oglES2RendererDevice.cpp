@@ -30,14 +30,16 @@
 
 #include "RendererDevice.h"
 
-#if defined(USE_API_OGL) && !defined(SEED_ENABLE_OGLES2)
+#if defined(SEED_ENABLE_OGLES2)
 
 #include "Log.h"
 #include "Screen.h"
 #include "Texture.h"
 #include "Vertex.h"
-
-
+#include "Shader.h"
+#include "ShaderProgram.h"
+#include "ShaderManager.h"
+#include "Enum.h"
 
 #if defined(BUILD_SDL)
 #undef NO_SDL_GLEXT
@@ -48,9 +50,9 @@
 #if defined(BUILD_IOS)
 	#define PIXEL_FORMAT_32 GL_RGBA
 	#include "platform/ios/iosView.h"
-	#include <OpenGLES/ES1/gl.h>
-	#include <OpenGLES/ES1/glext.h>
-	#define _OPENGL_ES1		1
+	#include <OpenGLES/ES2/gl.h>
+	#include <OpenGLES/ES2/glext.h>
+	#define _OPENGL_ES2		1
 	#define GL_RGBA8 GL_RGBA8_OES
 	#ifndef GL_FRAMEBUFFER
 	#define GL_FRAMEBUFFER GL_FRAMEBUFFER_OES
@@ -90,7 +92,7 @@
 	#else
 		#define PIXEL_FORMAT_32 GL_BGRA
 	#endif
-	#define _OPENGL_15		1
+	#define _OPENGL_2		1
 	#if defined(__APPLE_CC__)
 		#include <OpenGL/gl.h>
 		#include <OpenGL/glext.h>
@@ -119,15 +121,11 @@
 #define GL_ELEMTYPE(x)	this->GetOpenGLElementType(x)
 #define GL_ELEMSIZE(x)	this->GetOpenGLElementSizeByType(x)
 
-#define TAG "[OGLES1RendererDevice] "
-
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
+#define TAG "[OGLES2RendererDevice] "
 
 namespace Seed { namespace OpenGL {
 
-OGLES1RendererDevice::OGLES1RendererDevice()
+OGLES2RendererDevice::OGLES2RendererDevice()
 	: vTexture()
 	, bHasFrameBuffer(false)
 	, bNeedPowerOfTwoTexture(true)
@@ -153,9 +151,9 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 	// check device ext
 #endif
 
-#if defined(_OPENGL_ES1)
-	pScreen->frameBuffer = 0;
-	pScreen->renderBuffer = 0;
+#if defined(_OPENGL_ES2)
+	pScreen->frameBuffer = 1;
+	pScreen->renderBuffer = 1;
 #endif
 
 	char *version = (char *)glGetString(GL_VERSION);
@@ -168,12 +166,12 @@ OGLES1RendererDevice::OGLES1RendererDevice()
 	Log(TAG "Initialization completed.");
 }
 
-OGLES1RendererDevice::~OGLES1RendererDevice()
+OGLES2RendererDevice::~OGLES2RendererDevice()
 {
 	this->Reset();
 }
 
-bool OGLES1RendererDevice::Initialize()
+bool OGLES2RendererDevice::Initialize()
 {
 	bool ret = IRendererDevice::Initialize();
 
@@ -189,27 +187,27 @@ bool OGLES1RendererDevice::Initialize()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 #endif
 
-	this->Enable2D();
+	//this->Enable2D();
 
 	GL_TRACE("END Initialize")
 	return ret;
 }
 
-bool OGLES1RendererDevice::Reset()
+bool OGLES2RendererDevice::Reset()
 {
-	WARNING(FIXME - mutex lock guard here)
+	#warning FIXME - mutex lock guard here (?)
 	ITextureVector().swap(vTexture);
 	return true;
 }
 
-bool OGLES1RendererDevice::Shutdown()
+bool OGLES2RendererDevice::Shutdown()
 {
 	this->Disable2D();
 	this->Reset();
 	return IRendererDevice::Shutdown();
 }
 
-void OGLES1RendererDevice::BackbufferClear(const Color &color) const
+void OGLES2RendererDevice::BackbufferClear(const Color &color) const
 {
 	GL_TRACE("BEGIN BackbufferClear")
 	glClearColor(color.r / 255.0f, color.g / 255.0f, color.b / 255.0f, color.a / 255.0f);
@@ -217,38 +215,39 @@ void OGLES1RendererDevice::BackbufferClear(const Color &color) const
 	GL_TRACE("END BackbufferClear")
 }
 
-void OGLES1RendererDevice::Begin() const
+void OGLES2RendererDevice::Begin() const
 {
 	GL_TRACE("BEGIN Begin")
+
 	this->TextureRequestProcess();
 
-#if defined(_OPENGL_ES1)
-	glBindFramebuffer(GL_FRAMEBUFFER, pScreen->frameBuffer);
-	glBindRenderbuffer(GL_RENDERBUFFER, pScreen->renderBuffer);
+#if defined(_OPENGL_ES2)
+	//glBindFramebuffer(GL_FRAMEBUFFER, pScreen->frameBuffer);
+	//glBindRenderbuffer(GL_RENDERBUFFER, pScreen->renderBuffer);
 #endif
 
-	glEnableClientState(GL_VERTEX_ARRAY);
-	glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-	glEnableClientState(GL_COLOR_ARRAY);
+	//glEnableClientState(GL_VERTEX_ARRAY);
+	//glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+	//glEnableClientState(GL_COLOR_ARRAY);
 
-	glPushMatrix();
-	glLoadIdentity();
+	//glPushMatrix();
+	//glLoadIdentity();
 	GL_TRACE("END Begin")
 }
 
-void OGLES1RendererDevice::End() const
+void OGLES2RendererDevice::End() const
 {
 	GL_TRACE("BEGIN End")
-	glPopMatrix();
-	pScreen->ApplyFade();
+	//glPopMatrix();
+	//pScreen->ApplyFade();
 
-	glDisableClientState(GL_COLOR_ARRAY);
-	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-	glDisableClientState(GL_VERTEX_ARRAY);
+	//glDisableClientState(GL_COLOR_ARRAY);
+	//glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+	//glDisableClientState(GL_VERTEX_ARRAY);
 	GL_TRACE("END End");
 }
 
-void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &color) const
+void OGLES2RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &color) const
 {
 	GL_TRACE("BEGIN SetBlendingOperation")
 	switch (mode)
@@ -348,7 +347,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 	GL_TRACE("END SetBlendingOperation")
 }
 
-void OGLES1RendererDevice::SetTextureParameters(const ITexture *texture) const
+void OGLES2RendererDevice::SetTextureParameters(const ITexture *texture) const
 {
 	GL_TRACE("BEGIN SetTextureParameters")
 	SEED_ASSERT(texture);
@@ -371,26 +370,28 @@ void OGLES1RendererDevice::SetTextureParameters(const ITexture *texture) const
 	GL_TRACE("END SetTextureParameters")
 }
 
-void OGLES1RendererDevice::TextureRequestAbort(ITexture *texture)
+void OGLES2RendererDevice::TextureRequestAbort(ITexture *texture)
 {
-	WARNING(FIXME - mutex lock guard here)
+	#warning FIXME - mutex lock guard here
 	vTexture -= texture;
 }
 
-void OGLES1RendererDevice::TextureRequest(ITexture *texture)
+void OGLES2RendererDevice::TextureRequest(ITexture *texture)
 {
-	WARNING(FIXME - mutex lock guard here)
+	#warning FIXME - mutex lock guard here
 	vTexture += texture;
 }
 
-void OGLES1RendererDevice::TextureRequestProcess() const
+void OGLES2RendererDevice::TextureRequestProcess() const
 {
-	WARNING(FIXME - mutex lock guard here)
+	#warning FIXME - mutex lock guard here
 
 	GL_TRACE("BEGIN TextureRequestProcess")
-
-	for (auto texture: vTexture)
+	ITextureVector::iterator it = vTexture.begin();
+	ITextureVector::iterator end = vTexture.end();
+	for (; it != end; ++it)
 	{
+		ITexture *texture = (*it);
 		if (texture)
 		{
 			GLint tex = 0;
@@ -403,7 +404,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			GLuint h = texture->GetAtlasHeight();
 			const void *data = texture->GetData();
 
-			// if data == nullptr then this can be a dynamic texture/render target. we need just the texture id.
+			// if data == NULL then this can be a dynamic texture/render target. we need just the texture id.
 			if (data)
 			{
 				u32 bpp = texture->GetBytesPerPixel();
@@ -411,7 +412,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 				switch (texture->GetCompressionType())
 				{
 #if defined(BUILD_IOS)
-					case eTextureCompression::RGB_PVRTC_2BPPV1:
+					case TextureCompression_RGB_PVRTC_2BPPV1:
 					{
 						//GLuint bpp = 2;
 						GLsizei size = w * h * bpp / 8;
@@ -424,7 +425,6 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 					break;
 #endif
 
-					case eTextureCompression::None:
 					default:
 					{
 						switch (bpp)
@@ -461,7 +461,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			}
 			else if (w && h)// Render Target, 32bits only
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, nullptr);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, NULL);
 			}
 			// else is a dynamic texture from image/video.
 
@@ -474,7 +474,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 	GL_TRACE("END TextureRequestProcess")
 }
 
-void OGLES1RendererDevice::TextureUnload(ITexture *texture)
+void OGLES2RendererDevice::TextureUnload(ITexture *texture)
 {
 	GL_TRACE("BEGIN TextureUnload")
 	SEED_ASSERT(texture);
@@ -483,7 +483,7 @@ void OGLES1RendererDevice::TextureUnload(ITexture *texture)
 	GL_TRACE("END TextureUnload")
 }
 
-void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
+void OGLES2RendererDevice::TextureDataUpdate(ITexture *texture)
 {
 	GL_TRACE("BEGIN TextureDataUpdate")
 	SEED_ASSERT(texture);
@@ -523,7 +523,7 @@ void OGLES1RendererDevice::TextureDataUpdate(ITexture *texture)
 	GL_TRACE("END TextureDataUpdate")
 }
 
-void OGLES1RendererDevice::UploadData(void *userData)
+void OGLES2RendererDevice::UploadData(void *userData)
 {
 	GL_TRACE("BEGIN UploadData")
 
@@ -554,7 +554,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 
-	void *elemPtr = nullptr;
+	void *elemPtr = NULL;
 #if USE_API_OGL_VBO
 	if (ebo)
 	{
@@ -587,11 +587,10 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	if (ebo)
 		elemPtr = ebo->pData;
 
-	sVertex *data = static_cast<sVertex *>(vbo->pData);
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &data[0].cColor);
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &vbo->pData[0].cColor);
 	if (texture)
-		glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &data[0].cCoords);
-	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &data[0].cVertex);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cCoords);
+	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cVertex);
 #endif
 
 	if (!ebo)
@@ -624,19 +623,17 @@ void OGLES1RendererDevice::UploadData(void *userData)
 			pRendererDevice->DrawCircle(op.getX(), op.getY(), packet->fRadius, Color(255, 0, 255, 255));
 		}
 
-//		glPointSize(5.0f);
-//		if (!ebo)
-//			glDrawArrays(GL_POINTS, 0, vbo->iLength);
-//		else
-//			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
+		glPointSize(5.0f);
+		if (!ebo)
+			glDrawArrays(GL_POINTS, 0, vbo->iLength);
+		else
+			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
 
-		glPointSize(7.0f);
-        #if !defined (BUILD_IOS)
-            glBegin(GL_POINTS);
-                glColor3f(1.0f, 0.0f, 1.0f);
-                glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
-            glEnd();
-        #endif
+//		glPointSize(7.0f);
+//		glBegin(GL_POINTS);
+//			glColor3f(1.0f, 0.0f, 1.0f);
+//			glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
+//		glEnd();
 
 		Vector3f op = packet->pTransform->getTranslation();
 		pRendererDevice->DrawCircle(pivot.getX() + op.getX(), pivot.getY() + op.getY(), 3, Color(255, 0, 255, 255));
@@ -646,37 +643,37 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	}
 }
 
-int OGLES1RendererDevice::GetOpenGLBufferUsageType(eBufferUsage usage) const
+int OGLES2RendererDevice::GetOpenGLBufferUsageType(eBufferUsage usage) const
 {
 	int usages[static_cast<u32>(eBufferUsage::Count)] = {GL_STATIC_DRAW, GL_DYNAMIC_DRAW, GL_STREAM_DRAW};
 	return usages[static_cast<u32>(usage)];
 }
 
-int OGLES1RendererDevice::GetOpenGLElementType(eElementType type) const
+int OGLES2RendererDevice::GetOpenGLElementType(eElementType type) const
 {
 	int types[static_cast<u32>(eElementType::Count)] = {GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, GL_UNSIGNED_INT};
 	return types[static_cast<u32>(type)];
 }
 
-int OGLES1RendererDevice::GetOpenGLElementSizeByType(eElementType type) const
+int OGLES2RendererDevice::GetOpenGLElementSizeByType(eElementType type) const
 {
 	int sizes[static_cast<u32>(eElementType::Count)] = {1, 2, 4};
 	return sizes[static_cast<u32>(type)];
 }
 
-int OGLES1RendererDevice::GetOpenGLBufferTargetType(eBufferTarget type) const
+int OGLES2RendererDevice::GetOpenGLBufferTargetType(eBufferTarget type) const
 {
 	int types[static_cast<u32>(eBufferTarget::Count)] = {GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER};
 	return types[static_cast<u32>(type)];
 }
 
-int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const
+int OGLES2RendererDevice::GetOpenGLMeshType(eMeshType type) const
 {
 	int types[static_cast<u32>(eMeshType::MeshTypeCount)] = {GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_LINES, GL_LINE_STRIP, GL_LINE_LOOP};
 	return types[static_cast<u32>(type)];
 }
 
-void OGLES1RendererDevice::DestroyHardwareBuffer(IHardwareBuffer *buf) const
+void OGLES2RendererDevice::DestroyHardwareBuffer(IHardwareBuffer *buf) const
 {
 	if (buf->iBuffer)
 	{
@@ -685,12 +682,12 @@ void OGLES1RendererDevice::DestroyHardwareBuffer(IHardwareBuffer *buf) const
 	}
 }
 
-void OGLES1RendererDevice::BackbufferFill(const Color &color) const
+void OGLES2RendererDevice::BackbufferFill(const Color &color) const
 {
 	GL_TRACE("BEGIN BackbufferFill")
 	const f32 h = static_cast<f32>(pScreen->GetHeight());
 	const f32 w  =static_cast<f32>(pScreen->GetWidth());
-	const GLfloat vertices[] = {0.0f, 0.0f,	0.0f, h, w,0.0f, w, h};
+	const GLfloat vertices[] = {0.0f, 0.0f, 0.0f, h, w, 0.0f, w, h};
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -712,7 +709,7 @@ void OGLES1RendererDevice::BackbufferFill(const Color &color) const
 	GL_TRACE("END BackbufferFill")
 }
 
-u32 OGLES1RendererDevice::CreateFrameBuffer(ITexture *texture)
+u32 OGLES2RendererDevice::CreateFrameBuffer(ITexture *texture)
 {
 	GL_TRACE("BEGIN CreateFrameBuffer")
 	GLuint fb;
@@ -729,7 +726,7 @@ u32 OGLES1RendererDevice::CreateFrameBuffer(ITexture *texture)
 	return fb;
 }
 
-void OGLES1RendererDevice::DestroyFrameBuffer(u32 buffer)
+void OGLES2RendererDevice::DestroyFrameBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN DestroyFrameBuffer")
 
@@ -741,7 +738,7 @@ void OGLES1RendererDevice::DestroyFrameBuffer(u32 buffer)
 	GL_TRACE("END DestroyFrameBuffer")
 }
 
-u32 OGLES1RendererDevice::CreateDepthBuffer(u32 w, u32 h)
+u32 OGLES2RendererDevice::CreateDepthBuffer(u32 w, u32 h)
 {
 	GL_TRACE("BEGIN CreateDepthBuffer")
 	GLuint db;
@@ -757,7 +754,7 @@ u32 OGLES1RendererDevice::CreateDepthBuffer(u32 w, u32 h)
 	return db;
 }
 
-void OGLES1RendererDevice::DestroyDepthBuffer(u32 buffer)
+void OGLES2RendererDevice::DestroyDepthBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN DestroyDepthBuffer")
 
@@ -768,7 +765,7 @@ void OGLES1RendererDevice::DestroyDepthBuffer(u32 buffer)
 	GL_TRACE("END DestroyDepthBuffer")
 }
 
-void OGLES1RendererDevice::AttachDepthBuffer(u32 buffer)
+void OGLES2RendererDevice::AttachDepthBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN AttachDepthBuffer")
 
@@ -779,7 +776,7 @@ void OGLES1RendererDevice::AttachDepthBuffer(u32 buffer)
 	GL_TRACE("END AttachDepthBuffer")
 }
 
-void OGLES1RendererDevice::ActivateFrameBuffer(u32 buffer)
+void OGLES2RendererDevice::ActivateFrameBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN ActivateFrameBuffer")
 
@@ -790,7 +787,7 @@ void OGLES1RendererDevice::ActivateFrameBuffer(u32 buffer)
 	GL_TRACE("END ActivateFrameBuffer")
 }
 
-void OGLES1RendererDevice::ActivateDepthBuffer(u32 buffer)
+void OGLES2RendererDevice::ActivateDepthBuffer(u32 buffer)
 {
 	GL_TRACE("BEGIN ActivateDepthBuffer")
 
@@ -801,7 +798,7 @@ void OGLES1RendererDevice::ActivateDepthBuffer(u32 buffer)
 	GL_TRACE("END ActivateDepthBuffer")
 }
 
-bool OGLES1RendererDevice::CheckFrameBufferStatus() const
+bool OGLES2RendererDevice::CheckFrameBufferStatus() const
 {
 #if defined(USE_API_OGL_RT)
 	GL_TRACE("BEGIN CheckFrameBufferStatus")
@@ -814,7 +811,7 @@ bool OGLES1RendererDevice::CheckFrameBufferStatus() const
 #endif
 }
 
-void OGLES1RendererDevice::EnableScissor(bool b) const
+void OGLES2RendererDevice::EnableScissor(bool b) const
 {
 	if (b)
 		glEnable(GL_SCISSOR_TEST);
@@ -822,19 +819,19 @@ void OGLES1RendererDevice::EnableScissor(bool b) const
 		glDisable(GL_SCISSOR_TEST);
 }
 
-void OGLES1RendererDevice::SetScissor(f32 x, f32 y, f32 w, f32 h) const
+void OGLES2RendererDevice::SetScissor(f32 x, f32 y, f32 w, f32 h) const
 {
-	glScissor(GLint(x), GLint(y), GLsizei(w), GLsizei(h));
+	glScissor(x, y, w, h);
 }
 
-void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
+void OGLES2RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
 	GL_TRACE("BEGIN SetViewport")
 	glViewport(static_cast<GLint>(x), static_cast<GLint>(y), static_cast<GLsizei>(w), static_cast<GLsizei>(h));
 	GL_TRACE("END SetViewport")
 }
 
-void OGLES1RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const
+void OGLES2RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const
 {
 	GL_TRACE("BEGIN DrawCircle")
 	static const int points = 50;
@@ -871,7 +868,7 @@ void OGLES1RendererDevice::DrawCircle(f32 x, f32 y, f32 radius, const Color &col
 	GL_TRACE("END DrawCircle")
 }
 
-void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill) const
+void OGLES2RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &color, bool fill) const
 {
 	GL_TRACE("BEGIN DrawRect")
 	GLfloat vertices[8];
@@ -929,7 +926,7 @@ void OGLES1RendererDevice::DrawRect(f32 x, f32 y, f32 w, f32 h, const Color &col
 	GL_TRACE("END DrawRect")
 }
 
-void OGLES1RendererDevice::DrawLines(f32 *points, u32 len, const Color &color) const
+void OGLES2RendererDevice::DrawLines(f32 *points, u32 len, const Color &color) const
 {
 	GL_TRACE("BEGIN DrawLines")
 	GLfloat *vertices = points;
@@ -955,7 +952,7 @@ void OGLES1RendererDevice::DrawLines(f32 *points, u32 len, const Color &color) c
 	GL_TRACE("END DrawLines")
 }
 
-void OGLES1RendererDevice::Enable2D() const
+void OGLES2RendererDevice::Enable2D() const
 {
 	GL_TRACE("BEGIN Enable2D")
 #if !defined(BUILD_QT)
@@ -963,7 +960,7 @@ void OGLES1RendererDevice::Enable2D() const
 	glPushMatrix();
 	glLoadIdentity();
 
-#if defined(_OPENGL_ES1)
+#if defined(_OPENGL_ES2)
 	glOrthof(0.0f, pScreen->GetWidth(), pScreen->GetHeight(), 0, SEED_MAX_PRIORITY, -SEED_MAX_PRIORITY);
 #else
 	glOrtho(0.0f, pScreen->GetWidth(), pScreen->GetHeight(), 0, SEED_MAX_PRIORITY, -SEED_MAX_PRIORITY);
@@ -985,7 +982,7 @@ void OGLES1RendererDevice::Enable2D() const
 	GL_TRACE("END Enable2D")
 }
 
-void OGLES1RendererDevice::Disable2D() const
+void OGLES2RendererDevice::Disable2D() const
 {
 	GL_TRACE("BEGIN Disable2D")
 #if !defined(BUILD_QT)
@@ -998,7 +995,7 @@ void OGLES1RendererDevice::Disable2D() const
 	GL_TRACE("END Disable2D")
 }
 
-bool OGLES1RendererDevice::NeedPowerOfTwoTextures() const
+bool OGLES2RendererDevice::NeedPowerOfTwoTextures() const
 {
 	return bNeedPowerOfTwoTexture;
 }

@@ -28,62 +28,74 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_DEVICE_H__
-#define __RENDERER_DEVICE_H__
+#include "interface/IShader.h"
+#include "Enum.h"
+#include "Memory.h"
 
-#if defined(BUILD_IOS)
-	#include "platform/pc/pcRendererDevice.h"
+namespace Seed {
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+IShader::IShader()
+	: pFile(NULL),
+	bLoaded(false),
+	bCompiled(false),
+	iShaderType(ShaderTypeVertex),
+	iShaderHandle(0)
+{
+}
 
-#elif defined(BUILD_SDL) || defined(BUILD_GLFW)
-	#include "platform/pc/pcRendererDevice.h"
+IShader::~IShader()
+{
+}
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+void IShader::Compile() const
+{
+	SEED_ABSTRACT_METHOD;
+}
 
-	#if defined(SEED_ENABLE_OGL20)
-	#include "api/ogl/ogl20RendererDevice.h"
-	#endif
+u32 IShader::GetShaderHandle() const
+{
+	SEED_ABSTRACT_METHOD;
+	return 0;
+}
 
-	#if defined(SEED_ENABLE_OGL30)
-	#include "api/ogl/ogl30RendererDevice.h"
-	#endif
+File* IShader::GetFile()
+{
+	return pFile;
+}
 
-	#if defined(SEED_ENABLE_OGL40)
-	#include "api/ogl/ogl40RendererDevice.h"
-	#endif
+bool IShader::Unload()
+{
+	sdDelete(pFile);
+	return true;
+}
 
-	#if defined(SEED_ENABLE_D3D8)
-	#include "api/directx/D3D8RendererDevice.h"
-	#endif
+bool IShader::Load(const String &filename, ResourceManager *res)
+{
+	SEED_ASSERT(res);
+	pRes = res;
 
-	#if defined(SEED_ENABLE_D3D9)
-	#include "api/directx/D3D9RendererDevice.h"
-	#endif
+	bool ret = false;
+	if (this->Unload())
+	{
+		pRes = res;
+		sFilename = filename;
 
-	#if defined(SEED_ENABLE_D3D10)
-	#include "api/directx/D3D10RendererDevice.h"
-	#endif
+		#warning TODO - Move to async file loading
+		pFile = sdNew(File(filename));
+		ret = (pFile->GetData() != NULL);
+	}
 
-	#if defined(SEED_ENABLE_D3D11)
-	#include "api/directx/D3D11RendererDevice.h"
-	#endif
+	return ret;
+}
 
-	using namespace Seed::PC;
-#elif defined(BUILD_QT)
-//	#include "platform/qt/qtRendererDevice.h"
-	#include "platform/pc/pcRendererDevice.h"
-	#include "api/ogl/oglES1RendererDevice.h"
-#endif
+eProjection IShader::GetObjectType() const
+{
+	return eProjection::TypeShader;
+}
 
-#include "interface/IHardwareBuffer.h"
+const String IShader::GetClassName() const
+{
+	return "IShader";
+}
 
-#endif // __RENDERER_DEVICE_H__
+} // namespace

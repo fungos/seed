@@ -28,62 +28,59 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_DEVICE_H__
-#define __RENDERER_DEVICE_H__
+#include "ShaderProgram.h"
 
-#if defined(BUILD_IOS)
-	#include "platform/pc/pcRendererDevice.h"
+#if defined(SEED_ENABLE_OGL20)
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+#include "Shader.h"
+#include <OpenGL/gl.h>
 
-#elif defined(BUILD_SDL) || defined(BUILD_GLFW)
-	#include "platform/pc/pcRendererDevice.h"
+#define TAG "[Shader] "
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+namespace Seed { namespace OpenGL {
 
-	#if defined(SEED_ENABLE_OGL20)
-	#include "api/ogl/ogl20RendererDevice.h"
-	#endif
+OGL20ShaderProgram::OGL20ShaderProgram(String name)
+{
+	sName = name;
 
-	#if defined(SEED_ENABLE_OGL30)
-	#include "api/ogl/ogl30RendererDevice.h"
-	#endif
+	// Create the shader program
+	iProgramId = glCreateProgram();
+}
 
-	#if defined(SEED_ENABLE_OGL40)
-	#include "api/ogl/ogl40RendererDevice.h"
-	#endif
+OGL20ShaderProgram::~OGL20ShaderProgram()
+{
+}
 
-	#if defined(SEED_ENABLE_D3D8)
-	#include "api/directx/D3D8RendererDevice.h"
-	#endif
+void OGL20ShaderProgram::Use()
+{
+	glUseProgram(iProgramId);
+	bActive = true;
+}
 
-	#if defined(SEED_ENABLE_D3D9)
-	#include "api/directx/D3D9RendererDevice.h"
-	#endif
+void OGL20ShaderProgram::Unbind()
+{
+	glUseProgram(0);
+	bActive = false;
+}
 
-	#if defined(SEED_ENABLE_D3D10)
-	#include "api/directx/D3D10RendererDevice.h"
-	#endif
+void OGL20ShaderProgram::AttachShader(IShader *shader)
+{
+	vShaders += shader;
+	glAttachShader(iProgramId, shader->GetShaderHandle());
+}
 
-	#if defined(SEED_ENABLE_D3D11)
-	#include "api/directx/D3D11RendererDevice.h"
-	#endif
+void OGL20ShaderProgram::BindAttribute(const u32 index, const String attribName)
+{
+	mAttributes[attribName] = index;
+	glBindAttribLocation(iProgramId, index, attribName.c_str());
+}
 
-	using namespace Seed::PC;
-#elif defined(BUILD_QT)
-//	#include "platform/qt/qtRendererDevice.h"
-	#include "platform/pc/pcRendererDevice.h"
-	#include "api/ogl/oglES1RendererDevice.h"
-#endif
+void OGL20ShaderProgram::Link()
+{
+	glLinkProgram(iProgramId);
+	bLinked = true;
+}
 
-#include "interface/IHardwareBuffer.h"
+}} // namespace
 
-#endif // __RENDERER_DEVICE_H__
+#endif // SEED_ENABLE_OGL20

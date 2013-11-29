@@ -1,7 +1,8 @@
-#ifndef _TESTBASE_H_
-#define _TESTBASE_H_
+#ifndef _TESTBASE_OGLES2_H_
+#define _TESTBASE_OGLES2_H_
 
 #include <Seed.h>
+
 #include <ShaderManager.h>
 #include <ShaderProgram.h>
 #include <Shader.h>
@@ -11,11 +12,11 @@ using namespace Seed::OpenGL;
 
 extern SceneNode *gScene;
 
-class TestBase : public IGameApp, public IEventSystemListener, public IEventInputKeyboardListener, public IEventJobListener
+class TestBaseOGLES2 : public IGameApp, public IEventSystemListener, public IEventInputKeyboardListener, public IEventJobListener
 {
 	public:
-		TestBase();
-		virtual ~TestBase();
+		TestBaseOGLES2();
+		virtual ~TestBaseOGLES2();
 
 		virtual bool Initialize();
 		virtual bool Update(f32 dt);
@@ -33,21 +34,16 @@ class TestBase : public IGameApp, public IEventSystemListener, public IEventInpu
 		virtual void OnJobAborted(const EventJob *ev);
 
 	private:
-		SEED_DISABLE_COPY(TestBase);
+		SEED_DISABLE_COPY(TestBaseOGLES2);
 
 	protected:
-		Seed::RocketGui::RocketInterface *pRocketInterface;
-		SceneNode	cScene;
-		Viewport	cViewport;
-		Camera		cCamera;
-		Camera		cCameraTex;
-		Texture		cRenderTarget;
-		Renderer	cRenderer;
-		Sprite		sptLogo;
-//		Music		musTheme;
-//		SoundSource sfxSound;
-//		Movie		mvSample;
-//		ParticleEmitter cEmitter;
+		SceneNode                   cScene;
+		Viewport                    cViewport;
+		Camera                      cCamera;
+		Camera                      cCameraTex;
+		Texture                     cRenderTarget;
+		Renderer                    cRenderer;
+		Sprite                      sptLogo;
 };
 
 #endif // _TESTBASE_H_

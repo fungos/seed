@@ -28,62 +28,31 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_DEVICE_H__
-#define __RENDERER_DEVICE_H__
+#ifndef __OGL20_SHADER_PROGRAM_H__
+#define __OGL20_SHADER_PROGRAM_H__
 
-#if defined(BUILD_IOS)
-	#include "platform/pc/pcRendererDevice.h"
+#include "Defines.h"
+#include "interface/IShaderProgram.h"
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+namespace Seed { namespace OpenGL {
 
-#elif defined(BUILD_SDL) || defined(BUILD_GLFW)
-	#include "platform/pc/pcRendererDevice.h"
+class SEED_CORE_API OGL20ShaderProgram : public IShaderProgram
+{
+	public:
+		OGL20ShaderProgram(String name);
+		virtual ~OGL20ShaderProgram();
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+		virtual void Use();
+		virtual void Unbind();
+		virtual void AttachShader(IShader *shader);
+		virtual void BindAttribute(const u32 index, const String attribName);
+		virtual void Link();
 
-	#if defined(SEED_ENABLE_OGL20)
-	#include "api/ogl/ogl20RendererDevice.h"
-	#endif
+	private:
+		SEED_DISABLE_COPY(OGL20ShaderProgram);
 
-	#if defined(SEED_ENABLE_OGL30)
-	#include "api/ogl/ogl30RendererDevice.h"
-	#endif
+};
 
-	#if defined(SEED_ENABLE_OGL40)
-	#include "api/ogl/ogl40RendererDevice.h"
-	#endif
+}} // namespace
 
-	#if defined(SEED_ENABLE_D3D8)
-	#include "api/directx/D3D8RendererDevice.h"
-	#endif
-
-	#if defined(SEED_ENABLE_D3D9)
-	#include "api/directx/D3D9RendererDevice.h"
-	#endif
-
-	#if defined(SEED_ENABLE_D3D10)
-	#include "api/directx/D3D10RendererDevice.h"
-	#endif
-
-	#if defined(SEED_ENABLE_D3D11)
-	#include "api/directx/D3D11RendererDevice.h"
-	#endif
-
-	using namespace Seed::PC;
-#elif defined(BUILD_QT)
-//	#include "platform/qt/qtRendererDevice.h"
-	#include "platform/pc/pcRendererDevice.h"
-	#include "api/ogl/oglES1RendererDevice.h"
-#endif
-
-#include "interface/IHardwareBuffer.h"
-
-#endif // __RENDERER_DEVICE_H__
+#endif // __OGL20_SHADER_PROGRAM_H__

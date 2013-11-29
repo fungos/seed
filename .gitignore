@@ -49,6 +49,10 @@ tests/bin/tests
 *__Debug/
 *__Release/
 
+# Xcode user files #
+####################
+*.xcuserdatad/
+
 # Visual Studio    #
 ###################
 /visual/vs2012/Debug/
@@ -98,8 +102,3 @@ tests/bin/tests
 /visual/vs2012/Sample_12_savesystem/Release/
 /visual/vs2012/Sample_13_gui_rocket/Release/
 /visual/vs2012/sample_07_music_sfx/Release/
-
-# XCode Files       #
-#####################
-*.xcuserdatad/
-

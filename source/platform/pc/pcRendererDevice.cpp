@@ -92,7 +92,7 @@ bool RendererDevice::Initialize()
 		case eRendererDeviceType::OpenGL2x:
 		{
 			Info(TAG "Creating renderer device OpenGL 2.x");
-			pApiDevice = New(OGL2xRendererDevice());
+			pApiDevice = sdNew(Seed::OpenGL::OGL20RendererDevice());
 		}
 		break;
 #endif
@@ -101,7 +101,7 @@ bool RendererDevice::Initialize()
 		case eRendererDeviceType::OpenGL3x:
 		{
 			Info(TAG "Creating renderer device OpenGL 3.x");
-			pApiDevice = New(OGL3xRendererDevice());
+			pApiDevice = sdNew(OGL3xRendererDevice());
 		}
 		break;
 #endif
@@ -110,7 +110,7 @@ bool RendererDevice::Initialize()
 		case eRendererDeviceType::OpenGL4x:
 		{
 			Info(TAG "Creating renderer device OpenGL 4.x");
-			pApiDevice = New(OGL4xRendererDevice());
+			pApiDevice = sdNew(OGL4xRendererDevice());
 		}
 		break;
 #endif
@@ -119,7 +119,7 @@ bool RendererDevice::Initialize()
 		case eRendererDeviceType::DirectX8:
 		{
 			Info(TAG "Creating renderer device DirectX 8.1");
-			pApiDevice = New(Seed::DirectX::D3D8RendererDevice());
+			pApiDevice = sdNew(Seed::DirectX::D3D8RendererDevice());
 		}
 		break;
 #endif
@@ -128,7 +128,7 @@ bool RendererDevice::Initialize()
 		case eRendererDeviceType::DirectX9:
 		{
 			Info(TAG "Creating renderer device DirectX 9.0c");
-			pApiDevice = New(D3D9RendererDevice());
+			pApiDevice = sdNew(D3D9RendererDevice());
 		}
 		break;
 #endif
@@ -137,7 +137,7 @@ bool RendererDevice::Initialize()
 		case eRendererDeviceType::DirectX10:
 		{
 			Info(TAG "Creating renderer device DirectX 10");
-			pApiDevice = New(D3D10RendererDevice());
+			pApiDevice = sdNew(D3D10RendererDevice());
 		}
 		break;
 #endif
@@ -146,19 +146,29 @@ bool RendererDevice::Initialize()
 		case eRendererDeviceType::DirectX11:
 		{
 			Info(TAG "Creating renderer device DirectX 11");
-			pApiDevice = New(D3D11RendererDevice());
+			pApiDevice = sdNew(D3D11RendererDevice());
 		}
 		break;
 #endif
 
+#if defined(SEED_ENABLE_OGLES2)
+		case eRendererDeviceType::OpenGLES2:
+		{
+			Info(TAG "Creating renderer device OpenGLES 2");
+			pApiDevice = sdNew(Seed::OpenGL::OGLES2RendererDevice());
+		}
+		break;
+#else
 		case eRendererDeviceType::OpenGLES1:
 		case eRendererDeviceType::OpenGL1x:
+
 		default:
 		{
 			Info(TAG "Creating renderer device OpenGL 1.5/ES 1");
 			pApiDevice = sdNew(Seed::OpenGL::OGLES1RendererDevice);
 		}
 		break;
+#endif
 	}
 
 	bool ret = pApiDevice->Initialize();

@@ -28,62 +28,62 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_DEVICE_H__
-#define __RENDERER_DEVICE_H__
+#ifndef __SHADER_H__
+#define __SHADER_H__
+
+/*
+GLSL Version	OpenGL Version
+	1.10.59		2.0
+	1.20.8		2.1
+	1.30.10		3.0
+	1.40.08		3.1
+	1.50.11		3.2
+	3.30.6		3.3
+	4.00.9		4.0
+	4.10.6		4.1
+	4.20.11		4.2
+	4.30.8		4.3
+	4.40		4.4
+*/
 
 #if defined(BUILD_IOS)
-	#include "platform/pc/pcRendererDevice.h"
-
 	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
+	#include "api/ogl/oglES2Shader.h"
 	#else
-	#include "api/ogl/oglES1RendererDevice.h"
+	#include "api/ogl/oglES1Shader.h"
 	#endif
 
 #elif defined(BUILD_SDL) || defined(BUILD_GLFW)
-	#include "platform/pc/pcRendererDevice.h"
-
 	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
+	#include "api/ogl/oglES2Shader.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL20)
-	#include "api/ogl/ogl20RendererDevice.h"
+	#include "api/ogl/ogl20Shader.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL30)
-	#include "api/ogl/ogl30RendererDevice.h"
+	#include "api/ogl/ogl3Shader.h"
 	#endif
 
 	#if defined(SEED_ENABLE_OGL40)
-	#include "api/ogl/ogl40RendererDevice.h"
+	#include "api/ogl/ogl4Shader.h"
 	#endif
 
 	#if defined(SEED_ENABLE_D3D8)
-	#include "api/directx/D3D8RendererDevice.h"
 	#endif
 
 	#if defined(SEED_ENABLE_D3D9)
-	#include "api/directx/D3D9RendererDevice.h"
 	#endif
 
 	#if defined(SEED_ENABLE_D3D10)
-	#include "api/directx/D3D10RendererDevice.h"
 	#endif
 
 	#if defined(SEED_ENABLE_D3D11)
-	#include "api/directx/D3D11RendererDevice.h"
 	#endif
 
-	using namespace Seed::PC;
 #elif defined(BUILD_QT)
-//	#include "platform/qt/qtRendererDevice.h"
-	#include "platform/pc/pcRendererDevice.h"
-	#include "api/ogl/oglES1RendererDevice.h"
+	#include "api/ogl/oglES1Shader.h"
 #endif
 
-#include "interface/IHardwareBuffer.h"
-
-#endif // __RENDERER_DEVICE_H__
+#endif // __SHADER_H__

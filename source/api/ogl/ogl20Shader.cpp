@@ -28,62 +28,62 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_DEVICE_H__
-#define __RENDERER_DEVICE_H__
+#include "Shader.h"
 
-#if defined(BUILD_IOS)
-	#include "platform/pc/pcRendererDevice.h"
+#if defined(SEED_ENABLE_OGL20)
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+#include <OpenGL/gl.h>
 
-#elif defined(BUILD_SDL) || defined(BUILD_GLFW)
-	#include "platform/pc/pcRendererDevice.h"
+#define TAG "[Shader] "
 
-	#if defined(SEED_ENABLE_OGLES2)
-	#include "api/ogl/oglES2RendererDevice.h"
-	#else
-	#include "api/ogl/oglES1RendererDevice.h"
-	#endif
+namespace Seed { namespace OpenGL {
 
-	#if defined(SEED_ENABLE_OGL20)
-	#include "api/ogl/ogl20RendererDevice.h"
-	#endif
+OGL20Shader::OGL20Shader(eShaderType type)
+{
+	iShaderType = type;
+	bLoaded = false;
+	bCompiled = false;
+	switch (iShaderType)
+	{
+		case ShaderTypeVertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
+		case ShaderTypeFragment : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
+		case ShaderTypeGeometry : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
+		case ShaderTypeTesselation : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Tesselation shader not suported yet."); break; }
+	}
+}
 
-	#if defined(SEED_ENABLE_OGL30)
-	#include "api/ogl/ogl30RendererDevice.h"
-	#endif
+OGL20Shader::~OGL20Shader()
+{
+}
 
-	#if defined(SEED_ENABLE_OGL40)
-	#include "api/ogl/ogl40RendererDevice.h"
-	#endif
+bool OGL20Shader::Load(const String &filename, ResourceManager *res)
+{
+	if(IShader::Load(filename, res))
+	{
+		const char* shaderData = (const char*)pFile->GetData();
+		glShaderSource(iShaderHandle, 1, &shaderData, NULL);
+		bLoaded = true;
+	}
+	else
+		Log(TAG "ERROR: Could not find/load shader %s.", filename.c_str());
 
-	#if defined(SEED_ENABLE_D3D8)
-	#include "api/directx/D3D8RendererDevice.h"
-	#endif
+	return bLoaded;
+}
 
-	#if defined(SEED_ENABLE_D3D9)
-	#include "api/directx/D3D9RendererDevice.h"
-	#endif
+void OGL20Shader::Compile() const
+{
+	if(bLoaded)
+	{
+		glCompileShader(iShaderHandle);
+		//bCompiled = true;
+	}
+}
 
-	#if defined(SEED_ENABLE_D3D10)
-	#include "api/directx/D3D10RendererDevice.h"
-	#endif
+u32 OGL20Shader::GetShaderHandle() const
+{
+	return iShaderHandle;
+}
 
-	#if defined(SEED_ENABLE_D3D11)
-	#include "api/directx/D3D11RendererDevice.h"
-	#endif
+}} // namespace
 
-	using namespace Seed::PC;
-#elif defined(BUILD_QT)
-//	#include "platform/qt/qtRendererDevice.h"
-	#include "platform/pc/pcRendererDevice.h"
-	#include "api/ogl/oglES1RendererDevice.h"
-#endif
-
-#include "interface/IHardwareBuffer.h"
-
-#endif // __RENDERER_DEVICE_H__
+#endif // SEED_ENABLE_OGL20
