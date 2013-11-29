@@ -55,7 +55,7 @@ class SEED_CORE_API IShader : public IResource
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 
 		// IObject
-		virtual int GetObjectType() const;
+		virtual eProjection GetObjectType() const;
 		virtual const String GetClassName() const;
 
 	protected:

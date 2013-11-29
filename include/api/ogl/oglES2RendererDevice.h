@@ -76,7 +76,7 @@ class SEED_CORE_API OGLES2RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
 
-	DECLARE_CONTAINER_TYPE(Vector, ITexture)
+	SEED_DECLARE_CONTAINER(Vector, ITexture)
 	public:
 		OGLES2RendererDevice();
 		virtual ~OGLES2RendererDevice();

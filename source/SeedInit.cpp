@@ -227,7 +227,7 @@ bool Initialize()
 	pPrefabManager->GetInstance();
 
 #if defined(SEED_ENABLE_OGLES2) || defined(SEED_ENABLE_OGL20)
-	ret = ret && pModuleManager->Add(pShaderManager);
+	ret = ret && pManager->Add(pShaderManager);
 #endif
 
 	if (!Private::bDisableSound)

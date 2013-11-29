@@ -30,6 +30,7 @@
 
 #include "interface/IShader.h"
 #include "Enum.h"
+#include "Memory.h"
 
 namespace Seed {
 
@@ -64,7 +65,7 @@ File* IShader::GetFile()
 
 bool IShader::Unload()
 {
-	Delete(pFile);
+	sdDelete(pFile);
 	return true;
 }
 
@@ -80,16 +81,16 @@ bool IShader::Load(const String &filename, ResourceManager *res)
 		sFilename = filename;
 
 		#warning TODO - Move to async file loading
-		pFile = New(File(filename));
+		pFile = sdNew(File(filename));
 		ret = (pFile->GetData() != NULL);
 	}
 
 	return ret;
 }
 
-int IShader::GetObjectType() const
+eProjection IShader::GetObjectType() const
 {
-	return Seed::TypeShader;
+	return eProjection::TypeShader;
 }
 
 const String IShader::GetClassName() const

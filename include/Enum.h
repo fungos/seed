@@ -107,19 +107,19 @@ enum class eReaderType
 
 enum class eRendererDeviceType
 {
-	RendererDeviceAuto,
-	RendererDeviceOpenGLES1,
-	RendererDeviceOpenGLES2,
-	RendererDeviceOpenGL1x,
-	RendererDeviceOpenGL2x,
-	RendererDeviceOpenGL3x,
-	RendererDeviceOpenGL4x,
-	RendererDeviceOpenGLAny,
-	RendererDeviceDirectX8,
-	RendererDeviceDirectX9,
-	RendererDeviceDirectX10,
-	RendererDeviceDirectX11,
-	RendererDeviceDirectXAny
+	Auto,
+	OpenGLES1,
+	OpenGLES2,
+	OpenGL1x,
+	OpenGL2x,
+	OpenGL3x,
+	OpenGL4x,
+	OpenGLAny,
+	DirectX8,
+	DirectX9,
+	DirectX10,
+	DirectX11,
+	DirectXAny
 };
 
 enum eShaderType

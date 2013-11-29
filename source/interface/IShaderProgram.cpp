@@ -31,7 +31,7 @@
 #include "interface/IShaderProgram.h"
 #include "Enum.h"
 
-#define TAG		"[IIShaderProgram]"
+#define TAG		"[IShaderProgram]"
 
 namespace Seed
 {
@@ -82,9 +82,9 @@ const String IShaderProgram::GetClassName() const
 	return "IShaderProgram";
 }
 
-int IShaderProgram::GetObjectType() const
+eProjection IShaderProgram::GetObjectType() const
 {
-	return Seed::TypeShaderProgram;
+	return eProjection::TypeShaderProgram;
 }
 
 } // namespace

@@ -188,7 +188,7 @@ void ShaderManager::Remove(const String &shaderPogramName)
 
 bool ShaderManager::Initialize()
 {
-	IModule::Initialize();
+	IManager::Initialize();
 	return true;
 }
 
@@ -199,7 +199,7 @@ bool ShaderManager::Reset()
 
 bool ShaderManager::Shutdown()
 {
-	return IModule::Shutdown();
+	return IManager::Shutdown();
 }
 
 void ShaderManager::Disable()
@@ -210,18 +210,6 @@ void ShaderManager::Disable()
 void ShaderManager::Enable()
 {
 	bEnabled = true;
-}
-
-// IObject
-
-const String ShaderManager::GetClassName() const
-{
-	return "ShaderManager";
-}
-
-int ShaderManager::GetObjectType() const
-{
-	return Seed::TypeShaderManager;
 }
 
 } // namespace

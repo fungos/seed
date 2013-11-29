@@ -31,7 +31,7 @@
 #ifndef __SHADERMANAGER_H__
 #define __SHADERMANAGER_H__
 
-#include "interface/IModule.h"
+#include "interface/IManager.h"
 #include "Singleton.h"
 #include "Container.h"
 
@@ -46,9 +46,11 @@ typedef ShaderProgramMap::iterator ShaderProgramMapIterator;
 typedef Map<String, IShader*> ShaderMap;
 typedef ShaderMap::iterator ShaderMapIterator;
 
-class SEED_CORE_API ShaderManager : public IModule
+class SEED_CORE_API ShaderManager : public IManager
 {
-	SEED_SINGLETON_DECLARE(ShaderManager)
+	SEED_DECLARE_SINGLETON(ShaderManager)
+	SEED_DECLARE_MANAGER(ShaderManager)
+	SEED_DISABLE_COPY(ShaderManager)
 
 	public:
 		virtual u32 GetProgramId(const String &shaderProgramName);
@@ -71,13 +73,7 @@ class SEED_CORE_API ShaderManager : public IModule
 		virtual void Disable() override;
 		virtual void Enable() override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	private:
-		SEED_DISABLE_COPY(ShaderManager);
-
 		ShaderProgramMap		mShaderPrograms;
 		ShaderMap				mShaders;
 		IShaderProgram			*pCurrentProgram;

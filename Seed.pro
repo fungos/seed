@@ -2,7 +2,7 @@ TARGET = seed
 TEMPLATE = lib
 
 INCLUDEPATH += include/ contrib/
-DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
+DEFINES += SEED_BUILD SEED_ENABLE_PROFILER SEED_ENABLE_OGLES2
 
 CONFIG += glfw
 CONFIG += staticlib
@@ -143,7 +143,7 @@ SOURCES += source/Viewport.cpp \
 	source/map/TileSet.cpp \
 	source/api/ogl/ogl20RendererDevice.cpp \
 	source/api/ogl/ogl20Shader.cpp \
-	source/api/ogl/ogl20ShaderProgram.cpp
+	source/api/ogl/ogl20ShaderProgram.cpp \
 	source/interface/IManager.cpp \
 	source/PrefabManager.cpp \
 	source/map/MetadataObject.cpp \
@@ -212,7 +212,7 @@ HEADERS += include/*.h \
 	include/map/TileSet.h \
 	include/api/ogl/ogl20RendererDevice.h \
 	include/api/ogl/ogl20Shader.h \
-	include/api/ogl/ogl20ShaderProgram.h
+	include/api/ogl/ogl20ShaderProgram.h \
 	include/PrefabManager.h \
 	include/map/MetadataObject.h \
 	include/Memory.h \
