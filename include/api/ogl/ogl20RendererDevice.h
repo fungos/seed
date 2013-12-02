@@ -76,7 +76,7 @@ class SEED_CORE_API OGL20RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
 
-	DECLARE_CONTAINER_TYPE(Vector, ITexture)
+	SEED_DECLARE_CONTAINER(Vector, ITexture)
 	public:
 		OGL20RendererDevice();
 		virtual ~OGL20RendererDevice();
