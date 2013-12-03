@@ -29,8 +29,8 @@
 #include "SDL_DirectFB_modes.h"
 #include "SDL_DirectFB_window.h"
 
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_mouse_c.h"
+#include "SDL2/video/SDL_sysvideo.h"
+#include "SDL2/events/SDL_mouse_c.h"
 
 static SDL_Cursor *DirectFB_CreateDefaultCursor(void);
 static SDL_Cursor *DirectFB_CreateCursor(SDL_Surface * surface,

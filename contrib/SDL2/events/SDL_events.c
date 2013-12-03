@@ -27,7 +27,7 @@
 #include "SDL2/SDL_syswm.h"
 #include "SDL2/SDL_thread.h"
 #include "SDL2/events/SDL_events_c.h"
-#include "../timer/SDL_timer_c.h"
+#include "SDL2/timer/SDL_timer_c.h"
 #if !SDL_JOYSTICK_DISABLED
 #include "../joystick/SDL_joystick_c.h"
 #endif

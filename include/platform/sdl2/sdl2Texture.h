@@ -79,7 +79,7 @@ class SEED_CORE_API Texture : public ITexture
 
 		SDL_Texture *pTexture;
 
-		void *pData;
+		u8 *pData;
 
 		u32 iBytesPerPixel;
 		u32 iPitch;

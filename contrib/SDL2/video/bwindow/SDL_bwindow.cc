@@ -21,7 +21,7 @@
 #include "SDL2/SDL_config.h"
 
 #if SDL_VIDEO_DRIVER_BWINDOW
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 #include "SDL_BWin.h"
 #include <new>

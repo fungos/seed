@@ -25,9 +25,9 @@
 #include "SDL2/SDL_main.h"
 #include "SDL2/SDL_video.h"
 #include "SDL2/SDL_mouse.h"
-#include "SDL_system.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
+#include "SDL2/SDL_system.h"
+#include "SDL2/video/SDL_sysvideo.h"
+#include "SDL2/video/SDL_pixels_c.h"
 
 #include "SDL_windowsvideo.h"
 #include "SDL_windowsframebuffer.h"

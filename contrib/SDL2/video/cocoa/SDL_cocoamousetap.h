@@ -23,7 +23,7 @@
 #ifndef _SDL_cocoamousetap_h
 #define _SDL_cocoamousetap_h
 
-#include "SDL_cocoamouse.h"
+#include "SDL2/video/cocoa/SDL_cocoamouse.h"
 
 extern void Cocoa_InitMouseEventTap(SDL_MouseData *driverdata);
 extern void Cocoa_QuitMouseEventTap(SDL_MouseData *driverdata);

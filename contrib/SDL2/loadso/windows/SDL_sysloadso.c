@@ -27,7 +27,7 @@
 
 #include "../../core/windows/SDL_windows.h"
 
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 
 void *
 SDL_LoadObject(const char *sofile)

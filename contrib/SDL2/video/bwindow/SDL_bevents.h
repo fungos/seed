@@ -22,7 +22,7 @@
 #ifndef SDL_BEVENTS_H
 #define SDL_BEVENTS_H
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 #ifdef __cplusplus
 extern "C" {

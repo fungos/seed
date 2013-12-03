@@ -25,9 +25,9 @@
 #include "../../core/windows/SDL_windows.h"
 
 #include "SDL2/SDL_assert.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_keyboard_c.h"
+#include "SDL2/video/SDL_sysvideo.h"
+#include "SDL2/video/SDL_pixels_c.h"
+#include "SDL2/events/SDL_keyboard_c.h"
 
 #include "SDL_windowsvideo.h"
 #include "SDL_windowswindow.h"

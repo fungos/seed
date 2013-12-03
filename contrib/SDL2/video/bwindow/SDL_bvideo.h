@@ -27,7 +27,7 @@ extern "C" {
 #endif
 
 #include "../../main/beos/SDL_BeApp.h"
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 
 extern void BE_VideoQuit(_THIS);

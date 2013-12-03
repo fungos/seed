@@ -36,7 +36,7 @@ extern "C" {
 #include "SDL2/SDL_video.h"
 
 /* Local includes */
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 #include "../../video/bwindow/SDL_bkeyboard.h"
 #include "../../video/bwindow/SDL_bframebuffer.h"
 

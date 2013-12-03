@@ -23,10 +23,10 @@
 
 #if SDL_VIDEO_DRIVER_COCOA
 
-#include "SDL_cocoavideo.h"
+#include "SDL2/video/cocoa/SDL_cocoavideo.h"
 #include "SDL2/SDL_shape.h"
-#include "SDL_cocoashape.h"
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/cocoa/SDL_cocoashape.h"
+#include "SDL2/video/SDL_sysvideo.h"
 #include "SDL2/SDL_assert.h"
 
 SDL_WindowShaper*

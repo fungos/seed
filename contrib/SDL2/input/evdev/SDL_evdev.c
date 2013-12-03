@@ -62,7 +62,7 @@ static _THIS = NULL;
 #include "SDL2/SDL_endian.h"
 #include "../../core/linux/SDL_udev.h"
 #include "SDL_scancode.h"
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 
 /* This isn't defined in older Linux kernel headers */
 #ifndef SYN_DROPPED

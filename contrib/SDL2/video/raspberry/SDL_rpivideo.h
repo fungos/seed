@@ -23,7 +23,7 @@
 #define __SDL_RPIVIDEO_H__
 
 #include "SDL2/SDL_config.h"
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 #include "bcm_host.h"
 #include "GLES/gl.h"

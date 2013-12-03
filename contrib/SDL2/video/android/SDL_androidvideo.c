@@ -27,10 +27,10 @@
 
 #include "SDL2/SDL_video.h"
 #include "SDL2/SDL_mouse.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_windowevents_c.h"
+#include "SDL2/video/SDL_sysvideo.h"
+#include "SDL2/video/SDL_pixels_c.h"
+#include "SDL2/events/SDL_events_c.h"
+#include "SDL2/events/SDL_windowevents_c.h"
 
 #include "SDL_androidvideo.h"
 #include "SDL_androidclipboard.h"

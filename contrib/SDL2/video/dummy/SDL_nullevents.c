@@ -25,7 +25,7 @@
 /* Being a null driver, there's no event stream. We just define stubs for
    most of the API. */
 
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 
 #include "SDL_nullvideo.h"
 #include "SDL_nullevents_c.h"

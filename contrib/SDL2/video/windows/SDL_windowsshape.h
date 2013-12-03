@@ -26,7 +26,7 @@
 
 #include "SDL2/SDL_video.h"
 #include "SDL2/SDL_shape.h"
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 #include "../SDL_shape_internals.h"
 
 typedef struct {

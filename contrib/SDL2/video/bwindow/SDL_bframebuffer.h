@@ -28,7 +28,7 @@ extern "C" {
 
 #define DRAWTHREAD
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 extern int BE_CreateWindowFramebuffer(_THIS, SDL_Window * window,
                                        Uint32 * format,

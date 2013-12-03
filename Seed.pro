@@ -4,7 +4,7 @@ TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
 
-CONFIG += glfw
+CONFIG += sdl2
 CONFIG += staticlib
 #CONFIG += check
 

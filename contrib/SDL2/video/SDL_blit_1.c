@@ -21,8 +21,8 @@
 #include "SDL2/SDL_config.h"
 
 #include "SDL2/SDL_video.h"
-#include "SDL_blit.h"
-#include "SDL_sysvideo.h"
+#include "SDL2/video/SDL_blit.h"
+#include "SDL2/video/SDL_sysvideo.h"
 #include "SDL2/SDL_endian.h"
 
 /* Functions to blit from 8-bit surfaces to other surfaces */

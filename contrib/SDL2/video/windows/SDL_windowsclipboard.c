@@ -24,7 +24,7 @@
 
 #include "SDL_windowsvideo.h"
 #include "SDL_windowswindow.h"
-#include "../../events/SDL_clipboardevents_c.h"
+#include "SDL2/events/SDL_clipboardevents_c.h"
 
 
 #ifdef UNICODE

@@ -24,10 +24,10 @@
 
 #include "SDL2/SDL_assert.h"
 #include "SDL2/SDL_hints.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
+#include "SDL2/video/SDL_sysvideo.h"
+#include "SDL2/video/SDL_pixels_c.h"
+#include "SDL2/events/SDL_keyboard_c.h"
+#include "SDL2/events/SDL_mouse_c.h"
 
 #include "SDL_x11video.h"
 #include "SDL_x11mouse.h"

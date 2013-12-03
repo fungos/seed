@@ -37,7 +37,7 @@
 #include "SDL2/SDL_timer.h"
 #include "SDL2/SDL_audio.h"
 #include "../SDL_audiomem.h"
-#include "../SDL_audio_c.h"
+#include "SDL2/audio/SDL_audio_c.h"
 #include "SDL_qsa_audio.h"
 
 /* default channel communication parameters */

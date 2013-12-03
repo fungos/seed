@@ -23,7 +23,7 @@
 #ifndef _SDL_uikitmodes_h
 #define _SDL_uikitmodes_h
 
-#include "SDL_uikitvideo.h"
+#include "SDL2/video/uikit/SDL_uikitvideo.h"
 
 typedef struct
 {

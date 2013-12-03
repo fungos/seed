@@ -49,12 +49,12 @@
 #include <ForceFeedback/ForceFeedbackConstants.h>
 
 #include "SDL2/SDL_joystick.h"
-#include "../SDL_sysjoystick.h"
-#include "../SDL_joystick_c.h"
+#include "SDL2/joystick/SDL_sysjoystick.h"
+#include "SDL2/joystick/SDL_joystick_c.h"
 #include "SDL_sysjoystick_c.h"
 #include "SDL2/SDL_events.h"
 #if !SDL_EVENTS_DISABLED
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 #endif
 
 

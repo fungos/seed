@@ -41,9 +41,9 @@
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_hints.h"
 #include "SDL2/SDL_joystick.h"
-#include "../SDL_sysjoystick.h"
+#include "SDL2/joystick/SDL_sysjoystick.h"
 #if !SDL_EVENTS_DISABLED
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 #endif
 
 #define INITGUID /* Only set here, if set twice will cause mingw32 to break. */

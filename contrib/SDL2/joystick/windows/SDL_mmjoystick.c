@@ -30,8 +30,8 @@
 
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_joystick.h"
-#include "../SDL_sysjoystick.h"
-#include "../SDL_joystick_c.h"
+#include "SDL2/joystick/SDL_sysjoystick.h"
+#include "SDL2/joystick/SDL_joystick_c.h"
 
 #ifdef REGSTR_VAL_JOYOEMNAME 
 #undef REGSTR_VAL_JOYOEMNAME 

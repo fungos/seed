@@ -25,7 +25,7 @@
 
 #include "SDL_keycode.h"
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>

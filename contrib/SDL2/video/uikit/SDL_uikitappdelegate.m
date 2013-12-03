@@ -22,15 +22,15 @@
 
 #if SDL_VIDEO_DRIVER_UIKIT
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 #include "SDL2/SDL_assert.h"
 #include "SDL2/SDL_hints.h"
-#include "SDL_system.h"
+#include "SDL2/SDL_system.h"
 #include "SDL2/SDL_main.h"
 
-#include "SDL_uikitappdelegate.h"
-#include "SDL_uikitmodes.h"
-#include "../../events/SDL_events_c.h"
+#include "SDL2/video/uikit/SDL_uikitappdelegate.h"
+#include "SDL2/video/uikit/SDL_uikitmodes.h"
+#include "SDL2/events/SDL_events_c.h"
 
 #ifdef main
 #undef main

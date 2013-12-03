@@ -11,11 +11,11 @@
   freely, subject to the following restrictions:
 
   1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
+	 claim that you wrote the original software. If you use this software
+	 in a product, an acknowledgment in the product documentation would be
+	 appreciated but is not required.
   2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
+	 misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
 #include "SDL2/SDL_config.h"
@@ -28,16 +28,16 @@
 #include <ApplicationServices/ApplicationServices.h>
 #include <Cocoa/Cocoa.h>
 
-#include "SDL_keycode.h"
-#include "../SDL_sysvideo.h"
+#include "SDL2/SDL_keyboard.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
-#include "SDL_cocoaclipboard.h"
-#include "SDL_cocoaevents.h"
-#include "SDL_cocoakeyboard.h"
-#include "SDL_cocoamodes.h"
-#include "SDL_cocoamouse.h"
-#include "SDL_cocoaopengl.h"
-#include "SDL_cocoawindow.h"
+#include "SDL2/video/cocoa/SDL_cocoaclipboard.h"
+#include "SDL2/video/cocoa/SDL_cocoaevents.h"
+#include "SDL2/video/cocoa/SDL_cocoakeyboard.h"
+#include "SDL2/video/cocoa/SDL_cocoamodes.h"
+#include "SDL2/video/cocoa/SDL_cocoamouse.h"
+#include "SDL2/video/cocoa/SDL_cocoaopengl.h"
+#include "SDL2/video/cocoa/SDL_cocoawindow.h"
 
 /* Private display data */
 
@@ -45,12 +45,12 @@
 
 typedef struct SDL_VideoData
 {
-    SInt32 osversion;
-    unsigned int modifierFlags;
-    void *key_layout;
-    SDLTranslatorResponder *fieldEdit;
-    NSInteger clipboard_count;
-    Uint32 screensaver_activity;
+	SInt32 osversion;
+	unsigned int modifierFlags;
+	void *key_layout;
+	SDLTranslatorResponder *fieldEdit;
+	NSInteger clipboard_count;
+	Uint32 screensaver_activity;
 } SDL_VideoData;
 
 /* Utility functions */

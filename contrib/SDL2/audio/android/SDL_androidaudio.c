@@ -25,7 +25,7 @@
 /* Output audio to Android */
 
 #include "SDL2/SDL_audio.h"
-#include "../SDL_audio_c.h"
+#include "SDL2/audio/SDL_audio_c.h"
 #include "SDL_androidaudio.h"
 
 #include "../../core/android/SDL_android.h"

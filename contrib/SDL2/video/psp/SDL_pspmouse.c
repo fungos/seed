@@ -24,7 +24,7 @@
 
 #include "SDL2/SDL_error.h"
 #include "SDL2/SDL_mouse.h"
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 
 #include "SDL_pspmouse_c.h"
 

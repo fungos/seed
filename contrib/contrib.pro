@@ -3,16 +3,12 @@ QT -= qt
 TARGET = seedcontrib
 TEMPLATE = lib
 
-#TARGET_EXT = .bc
-#QMAKE_EXT_OBJ = .bc
-#QMAKE_CXXFLAGS += -emit-llvm
-#QMAKE_CXX = clang++
-#QMAKE_CC = clang
-#QMAKE_LIB = llvm-ld
-#QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
-#QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj
-
 QMAKE_CXXFLAGS -= -fno-rtti
+
+CONFIG += staticlib sdl2
+
+include(../compiler.pri)
+include(../platform.pri)
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../lib/debug
@@ -26,9 +22,6 @@ CONFIG(debug, debug|release) {
 INCLUDEPATH += bullet/
 DEFINES += USE_MINICL
 # bullet
-
-
-CONFIG += staticlib
 
 SOURCES += yajl/yajl_buf.c \
 	yajl/yajl_alloc.c \
@@ -1012,7 +1005,33 @@ macx:OBJECTIVE_SOURCES += \
 	glfw/cocoa/cocoa_joystick.m \
 #	glfw/cocoa/cocoa_thread.c \
 	glfw/cocoa/cocoa_time.m \
-	glfw/cocoa/cocoa_window.m
+	glfw/cocoa/cocoa_window.m \
+	SDL2/video/uikit/SDL_uikitwindow.m \
+	SDL2/video/uikit/SDL_uikitviewcontroller.m \
+	SDL2/video/uikit/SDL_uikitview.m \
+	SDL2/video/uikit/SDL_uikitvideo.m \
+	SDL2/video/uikit/SDL_uikitopenglview.m \
+	SDL2/video/uikit/SDL_uikitopengles.m \
+	SDL2/video/uikit/SDL_uikitmodes.m \
+	SDL2/video/uikit/SDL_uikitmessagebox.m \
+	SDL2/video/uikit/SDL_uikitevents.m \
+	SDL2/video/uikit/SDL_uikitappdelegate.m \
+	SDL2/video/cocoa/SDL_cocoawindow.m \
+	SDL2/video/cocoa/SDL_cocoavideo.m \
+	SDL2/video/cocoa/SDL_cocoashape.m \
+	SDL2/video/cocoa/SDL_cocoaopengl.m \
+	SDL2/video/cocoa/SDL_cocoamousetap.m \
+	SDL2/video/cocoa/SDL_cocoamouse.m \
+	SDL2/video/cocoa/SDL_cocoamodes.m \
+	SDL2/video/cocoa/SDL_cocoamessagebox.m \
+	SDL2/video/cocoa/SDL_cocoakeyboard.m \
+	SDL2/video/cocoa/SDL_cocoaevents.m \
+	SDL2/video/cocoa/SDL_cocoaclipboard.m \
+	#SDL2/joystick/iphoneos/SDLUIAccelerationDelegate.m \
+	#SDL2/joystick/iphoneos/SDL_sysjoystick.m \
+	#SDL2/filesystem/cocoa/SDL_sysfilesystem.m \
+	#SDL2/power/uikit/SDL_syspower.m \
+	SDL2/file/cocoa/SDL_rwopsbundlesupport.m
 
 win32:SOURCES += \
 	glfw/win32/win32_enable.c \
@@ -2270,30 +2289,4 @@ OTHER_FILES += \
 	lua/Makefile \
 	README.md \
 	flash/Console.as \
-	SDL2/video/uikit/SDL_uikitwindow.m \
-	SDL2/video/uikit/SDL_uikitviewcontroller.m \
-	SDL2/video/uikit/SDL_uikitview.m \
-	SDL2/video/uikit/SDL_uikitvideo.m \
-	SDL2/video/uikit/SDL_uikitopenglview.m \
-	SDL2/video/uikit/SDL_uikitopengles.m \
-	SDL2/video/uikit/SDL_uikitmodes.m \
-	SDL2/video/uikit/SDL_uikitmessagebox.m \
-	SDL2/video/uikit/SDL_uikitevents.m \
-	SDL2/video/uikit/SDL_uikitappdelegate.m \
-	SDL2/video/cocoa/SDL_cocoawindow.m \
-	SDL2/video/cocoa/SDL_cocoavideo.m \
-	SDL2/video/cocoa/SDL_cocoashape.m \
-	SDL2/video/cocoa/SDL_cocoaopengl.m \
-	SDL2/video/cocoa/SDL_cocoamousetap.m \
-	SDL2/video/cocoa/SDL_cocoamouse.m \
-	SDL2/video/cocoa/SDL_cocoamodes.m \
-	SDL2/video/cocoa/SDL_cocoamessagebox.m \
-	SDL2/video/cocoa/SDL_cocoakeyboard.m \
-	SDL2/video/cocoa/SDL_cocoaevents.m \
-	SDL2/video/cocoa/SDL_cocoaclipboard.m \
-	SDL2/joystick/iphoneos/SDLUIAccelerationDelegate.m \
-	SDL2/joystick/iphoneos/SDL_sysjoystick.m \
-	SDL2/filesystem/cocoa/SDL_sysfilesystem.m \
-	SDL2/power/uikit/SDL_syspower.m \
-	SDL2/file/cocoa/SDL_rwopsbundlesupport.m
 

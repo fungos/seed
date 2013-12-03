@@ -21,7 +21,7 @@
 #include "SDL2/SDL_config.h"
 
 #include "SDL2/SDL_rect.h"
-#include "SDL_rect_c.h"
+#include "SDL2/video/SDL_rect_c.h"
 
 
 SDL_bool

@@ -23,7 +23,7 @@
 #ifndef _SDL_cocoamouse_h
 #define _SDL_cocoamouse_h
 
-#include "SDL_cocoavideo.h"
+#include "SDL2/video/cocoa/SDL_cocoavideo.h"
 
 extern void Cocoa_InitMouse(_THIS);
 extern void Cocoa_HandleMouseEvent(_THIS, NSEvent * event);

@@ -37,11 +37,11 @@
 
 #include "SDL2/SDL_audio.h"
 #include "../SDL_audiomem.h"
-#include "../SDL_audio_c.h"
+#include "SDL2/audio/SDL_audio_c.h"
 #include "SDL_sndioaudio.h"
 
 #ifdef SDL_AUDIO_DRIVER_SNDIO_DYNAMIC
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #endif
 
 static struct sio_hdl * (*SNDIO_sio_open)(const char *, unsigned int, int);

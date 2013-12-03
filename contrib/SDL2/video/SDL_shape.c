@@ -23,7 +23,7 @@
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_assert.h"
 #include "SDL2/SDL_video.h"
-#include "SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 #include "SDL2/SDL_pixels.h"
 #include "SDL2/SDL_surface.h"
 #include "SDL2/SDL_shape.h"

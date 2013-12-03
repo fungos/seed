@@ -32,11 +32,11 @@
 #include "SDL2/SDL_timer.h"
 #include "SDL2/SDL_audio.h"
 #include "../SDL_audiomem.h"
-#include "../SDL_audio_c.h"
+#include "SDL2/audio/SDL_audio_c.h"
 #include "SDL_alsa_audio.h"
 
 #ifdef SDL_AUDIO_DRIVER_ALSA_DYNAMIC
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #endif
 
 static int (*ALSA_snd_pcm_open)

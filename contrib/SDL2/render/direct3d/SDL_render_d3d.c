@@ -25,9 +25,9 @@
 #include "../../core/windows/SDL_windows.h"
 
 #include "SDL2/SDL_hints.h"
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #include "SDL2/SDL_syswm.h"
-#include "SDL_system.h"
+#include "SDL2/SDL_system.h"
 #include "../SDL_sysrender.h"
 #include "../../video/windows/SDL_windowsvideo.h"
 

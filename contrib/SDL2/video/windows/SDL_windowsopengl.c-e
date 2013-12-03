@@ -23,7 +23,7 @@
 #if SDL_VIDEO_DRIVER_WINDOWS
 
 #include "SDL2/SDL_assert.h"
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #include "SDL_windowsvideo.h"
 
 /* WGL implementation of SDL OpenGL support */

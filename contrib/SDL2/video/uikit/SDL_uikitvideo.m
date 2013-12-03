@@ -26,15 +26,15 @@
 
 #include "SDL2/SDL_video.h"
 #include "SDL2/SDL_mouse.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
+#include "SDL2/video/SDL_sysvideo.h"
+#include "SDL2/video/SDL_pixels_c.h"
+#include "SDL2/events/SDL_events_c.h"
 
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitevents.h"
-#include "SDL_uikitmodes.h"
-#include "SDL_uikitwindow.h"
-#include "SDL_uikitopengles.h"
+#include "SDL2/video/uikit/SDL_uikitvideo.h"
+#include "SDL2/video/uikit/SDL_uikitevents.h"
+#include "SDL2/video/uikit/SDL_uikitmodes.h"
+#include "SDL2/video/uikit/SDL_uikitwindow.h"
+#include "SDL2/video/uikit/SDL_uikitopengles.h"
 
 #define UIKITVID_DRIVER_NAME "uikit"
 

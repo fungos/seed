@@ -25,7 +25,7 @@
 
 #include "../../core/windows/SDL_windows.h"
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 #if defined(_MSC_VER)
 #include <msctf.h>
@@ -46,7 +46,7 @@
 #include "SDL_windowsopengl.h"
 #include "SDL_windowswindow.h"
 #include "SDL2/SDL_events.h"
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 
 
 #if WINVER < 0x0601

@@ -24,7 +24,7 @@
 
 #include <android/log.h>
 
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 
 #include "SDL_androidkeyboard.h"
 

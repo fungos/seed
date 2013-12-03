@@ -43,9 +43,9 @@
 #include "SDL2/SDL_timer.h"
 #include "SDL2/SDL_audio.h"
 #include "../SDL_audiomem.h"
-#include "../SDL_audio_c.h"
+#include "SDL2/audio/SDL_audio_c.h"
 #include "SDL_pulseaudio.h"
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 
 #if (PA_API_VERSION < 12)
 /** Return non-zero if the passed state is one of the connected states */

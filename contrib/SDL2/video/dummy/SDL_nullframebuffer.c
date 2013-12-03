@@ -22,7 +22,7 @@
 
 #if SDL_VIDEO_DRIVER_DUMMY
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 #include "SDL_nullframebuffer_c.h"
 
 

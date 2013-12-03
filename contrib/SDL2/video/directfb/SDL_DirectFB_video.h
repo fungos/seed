@@ -27,7 +27,7 @@
 #include <directfb.h>
 #include <directfb_version.h>
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 #include "SDL_scancode.h"
 #include "SDL2/SDL_render.h"
 

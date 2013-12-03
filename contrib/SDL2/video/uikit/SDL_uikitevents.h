@@ -21,7 +21,7 @@
 #ifndef _SDL_uikitevents_h
 #define _SDL_uikitevents_h
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 extern void UIKit_PumpEvents(_THIS);
 

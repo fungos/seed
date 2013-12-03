@@ -33,7 +33,7 @@
 
 #include "SDL2/SDL_syswm.h"
 
-#include "../SDL_pixels_c.h"
+#include "SDL2/video/SDL_pixels_c.h"
 
 int
 DirectFB_CreateWindow(_THIS, SDL_Window * window)

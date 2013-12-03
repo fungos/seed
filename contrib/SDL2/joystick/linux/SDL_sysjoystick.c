@@ -38,13 +38,13 @@
 #include "SDL2/SDL_assert.h"
 #include "SDL2/SDL_joystick.h"
 #include "SDL2/SDL_endian.h"
-#include "../SDL_sysjoystick.h"
-#include "../SDL_joystick_c.h"
+#include "SDL2/joystick/SDL_sysjoystick.h"
+#include "SDL2/joystick/SDL_joystick_c.h"
 #include "SDL_sysjoystick_c.h"
 
 /* !!! FIXME: move this somewhere else. */
 #if !SDL_EVENTS_DISABLED
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 #endif
 
 /* This isn't defined in older Linux kernel headers */

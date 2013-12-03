@@ -36,7 +36,7 @@
 #include "SDL2/SDL_audio.h"
 #include "SDL2/SDL_stdinc.h"
 #include "../SDL_audiomem.h"
-#include "../SDL_audio_c.h"
+#include "SDL2/audio/SDL_audio_c.h"
 #include "SDL_paudio.h"
 
 #define DEBUG_AUDIO 0

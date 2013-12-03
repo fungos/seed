@@ -22,16 +22,16 @@
 
 #if SDL_VIDEO_DRIVER_UIKIT
 
-#include "SDL_uikitopengles.h"
-#include "SDL_uikitopenglview.h"
-#include "SDL_uikitappdelegate.h"
-#include "SDL_uikitmodes.h"
-#include "SDL_uikitwindow.h"
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../power/uikit/SDL_syspower.h"
-#include "SDL_loadso.h"
+#include "SDL2/video/uikit/SDL_uikitopengles.h"
+#include "SDL2/video/uikit/SDL_uikitopenglview.h"
+#include "SDL2/video/uikit/SDL_uikitappdelegate.h"
+#include "SDL2/video/uikit/SDL_uikitmodes.h"
+#include "SDL2/video/uikit/SDL_uikitwindow.h"
+#include "SDL2/video/SDL_sysvideo.h"
+#include "SDL2/events/SDL_keyboard_c.h"
+#include "SDL2/events/SDL_mouse_c.h"
+#include "SDL2/power/uikit/SDL_syspower.h"
+#include "SDL2/SDL_loadso.h"
 #include <dlfcn.h>
 
 static int UIKit_GL_Initialize(_THIS);

@@ -43,7 +43,9 @@ namespace Seed { namespace SDL2 {
 /// SDL System Module
 class SEED_CORE_API System : public ISystem
 {
-	SEED_SINGLETON_DECLARE(System)
+	SEED_DECLARE_SINGLETON(System)
+	SEED_DECLARE_MANAGER(System)
+	SEED_DISABLE_COPY(System)
 	public:
 		// ISystem
 		virtual void GoToMenu() override;
@@ -79,8 +81,6 @@ class SEED_CORE_API System : public ISystem
 		virtual bool Update(f32 dt) override;
 
 	private:
-		SEED_DISABLE_COPY(System);
-
 		u64		iLastFrameTime;
 		u64		iFpsTime;
 		f32		fElapsedTime;

@@ -24,7 +24,7 @@
 
 #include "SDL_windowsvideo.h"
 
-#include "../../events/SDL_keyboard_c.h"
+#include "SDL2/events/SDL_keyboard_c.h"
 #include "../../events/scancodes_windows.h"
 
 #include <imm.h>

@@ -32,7 +32,7 @@
 #define dlsym(x,y) dlsym(x, "_" y)
 #endif
 
-#include "SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 typedef struct SDL_EGL_VideoData
 {

@@ -37,6 +37,9 @@
 #include "Screen.h"
 #include "RendererDevice.h"
 #include "Configuration.h"
+#include "Memory.h"
+#include <soil/SOIL.h>
+#include <soil/image_helper.h>
 
 #define TAG "[Texture] "
 
@@ -52,7 +55,7 @@ enum eImageFormat
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 {
-	Texture *image = New(Texture());
+	auto image = sdNew(Texture());
 	image->Load(filename, res);
 
 	return image;
@@ -81,7 +84,7 @@ void Texture::Reset()
 	this->UnloadTexture();
 
 	if (bCopy)
-		sFree(pData);
+		sdFree(pData);
 
 	pTexture = NULL;
 	pData = NULL;
@@ -95,52 +98,22 @@ void Texture::Reset()
 bool Texture::Load(const String &filename, ResourceManager *res)
 {
 #if defined(EMSCRIPTEN) || defined(__FLASHPLAYER)
-	if (1)
+	SDL_Surface *tmp = IMG_Load(filename.c_str());
+	if (!tmp)
 	{
-		SDL_Surface *tmp = IMG_Load(filename.c_str());
-		if (!tmp)
-		{
-			Log(TAG "Could not load image file: %s", filename.c_str());
-			Info(TAG "IMG_Load ERROR: %s\n", IMG_GetError());
-			SEED_ASSERT(false);
-		}
+		Log(TAG "Could not load image file: %s", filename.c_str());
+		Info(TAG "IMG_Load ERROR: %s\n", IMG_GetError());
+		SEED_ASSERT(false);
+	}
 #else
 	if (ITexture::Load(filename, res))
 	{
-		SDL_RWops *rwops = SDL_RWFromConstMem(pFile->GetData(), pFile->GetSize());
+		int channels = 4, h = 0, w = 0;
+		pData = SOIL_load_image_from_memory(pFile->GetData(), pFile->GetSize(), &w, &h, &channels, 0);
+		SEED_ASSERT_MSG(pData, "Could not load texture data.");
 
-		size_t extpos = SDL_strlen(pFile->GetName().c_str());
-		const char *ext = pFile->GetName().c_str() - 3;
-		ext = &ext[extpos];
-
-		u32 format = PNG;
-		if (!SDL_strcasecmp(pImageFormatTable[TGA], ext))
-			format = TGA;
-		else if (!SDL_strcasecmp(pImageFormatTable[JPG], ext))
-			format = JPG;
-
-		SDL_Surface *surface = IMG_LoadTyped_RW(rwops, 1, const_cast<char *>(pImageFormatTable[format]));
-
-		if (!surface)
-		{
-			Info(TAG "IMG_Load_RW ERROR: %s\n", IMG_GetError());
-
-			if (format == PNG)
-				Info(TAG "Make sure that libpng12-0.dll and zlib1.dll are in the exact same folder than this application binary.");
-
-			SEED_ASSERT(false);
-		}
-#endif
-		if (surface->format->BitsPerPixel != 32)
-		{
-			SDL_SetSurfaceAlphaMod(surface, SDL_ALPHA_OPAQUE);
-		}
-
-		SEED_ASSERT(surface);
-
-		iWidth = surface->w;
-		iHeight = surface->h;
-
+		iAtlasWidth = iWidth = w;
+		iAtlasHeight = iHeight = h;
 		/*
 		If the image isn't power of two, we need fix it.
 		*/
@@ -158,47 +131,25 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			{
 				Log(TAG "WARNING: texture size not optimal, changing from %dx%d to %dx%d", iWidth, iHeight, width, height);
 
-				SDL_Surface *tempSurface = NULL;
-				Uint32 rmask, gmask, bmask, amask;
+				unsigned char *resampled = (unsigned char*)sdAlloc(channels * width * height);
+				up_scale_image(pData, iWidth, iHeight, channels, resampled, width, height);
 
-				#if SDL_BYTEORDER == SDL_BIG_ENDIAN
-					rmask = 0xff000000;
-					gmask = 0x00ff0000;
-					bmask = 0x0000ff00;
-					amask = 0x000000ff;
-				#else
-					rmask = 0x000000ff;
-					gmask = 0x0000ff00;
-					bmask = 0x00ff0000;
-					amask = 0xff000000;
-				#endif
-
-				tempSurface = SDL_CreateRGBSurface(SDL_SWSURFACE , width, height, 32, bmask, gmask, rmask, amask);
-
-				SDL_SetSurfaceAlphaMod(tempSurface, SDL_ALPHA_OPAQUE);
-				SDL_SetSurfaceAlphaMod(surface, SDL_ALPHA_OPAQUE);
-				SDL_BlitSurface(surface, NULL, tempSurface, NULL);
-				SDL_SetSurfaceAlphaMod(tempSurface, SDL_ALPHA_TRANSPARENT);
-				SDL_SetSurfaceAlphaMod(surface, SDL_ALPHA_TRANSPARENT);
-
-				SDL_FreeSurface(surface);
-				surface = tempSurface;
+				SOIL_free_image_data(pData);
+				pData = resampled;
+				iAtlasWidth = width;
+				iAtlasHeight = height;
 			}
 		}
+#endif
 
-		// FIXME: Must divide by res_width , res_height - not by screen width/height
-		iAtlasWidth = surface->w;
-		iAtlasHeight = surface->h;
+		// Create a surface
+		SDL_Surface *surface = SDL_CreateRGBSurfaceFrom(pData, 16, 16, 16, 16*2, 0x0f00, 0x00f0, 0x000f, 0xf000);
 
-		// Lets keep the iWidth and iHeight the original one so the sprite rect can match it.
-		// For texture UV mapping, we use the relation between original W and H and the converted texture W and H.
-		//iWidth = pSurface->w;
-		//iHeight = pSurface->h;
-
-		iBytesPerPixel = surface->format->BytesPerPixel;
-		iPitch = surface->pitch;
-		pData = surface->pixels;
+		// Create a Texture
 		pTexture = SDL_CreateTextureFromSurface(pScreen->GetRenderer(), surface);
+
+		iBytesPerPixel = channels;
+		iPitch = SEED_ROUND_UP(iAtlasWidth, 32);
 		pRendererDevice->TextureRequest(this);
 		bLoaded = true;
 
@@ -217,8 +168,8 @@ bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32
 	if (buffer)
 	{
 #ifndef _MSC_VER
-		SEED_ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
-		SEED_ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
+		SEED_ASSERT_MSG(SEED_ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
+		SEED_ASSERT_MSG(SEED_ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
 #endif
 	}
 
@@ -237,16 +188,16 @@ bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32
 			iAtlasHeight = atlasHeight;
 
 		iBytesPerPixel = sizeof(Color); // FIXME: parametized?
-		iPitch = ROUND_UP(width, 32); // FIXME: parametized?
+		iPitch = SEED_ROUND_UP(width, 32); // FIXME: parametized?
 
 		if (copy)
 		{
-			pData = (u8 *)Alloc(iAtlasWidth * iAtlasHeight * iBytesPerPixel);
+			pData = (u8 *)sdAlloc(iAtlasWidth * iAtlasHeight * iBytesPerPixel);
 			memcpy(pData, buffer, iAtlasWidth * iAtlasHeight * iBytesPerPixel);
 		}
 		else
 		{
-			pData = buffer;
+			pData = static_cast<u8 *>((void *)buffer);
 		}
 
 		pRendererDevice->TextureRequest(this);
@@ -262,16 +213,14 @@ void Texture::Close()
 	ITexture::Close();
 
 	if (bCopy)
-		sFree(pData);
+		sdFree(pData);
 
 	bCopy = false;
 }
 
 void Texture::Update(Color *data)
 {
-	//this->UnloadTexture();
-	//pRendererDevice->TextureRequest(this, &iTextureId);
-	pData = data;
+	pData = static_cast<u8 *>((void *)data);
 	if (data)
 		pRendererDevice->TextureDataUpdate(this);
 }
@@ -284,10 +233,10 @@ bool Texture::Unload()
 		this->UnloadTexture();
 
 	if (bCopy)
-		sFree(pData);
+		sdFree(pData);
 
 	if (pTexture)
-		Delete(pTexture);
+		sdDelete(pTexture);
 
 	pTexture = NULL;
 	bLoaded = false;

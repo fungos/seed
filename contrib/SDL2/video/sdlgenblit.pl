@@ -375,7 +375,7 @@ sub output_copyinc
 {
     print FILE <<__EOF__;
 #include "SDL2/SDL_video.h"
-#include "SDL_blit.h"
+#include "SDL2/video/SDL_blit.h"
 #include "SDL_blit_auto.h"
 
 __EOF__

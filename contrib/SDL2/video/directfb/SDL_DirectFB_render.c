@@ -27,7 +27,7 @@
 #include "SDL2/SDL_syswm.h"
 #include "SDL_DirectFB_shape.h"
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 #include "../../render/SDL_sysrender.h"
 
 #ifndef DFB_VERSION_ATLEAST

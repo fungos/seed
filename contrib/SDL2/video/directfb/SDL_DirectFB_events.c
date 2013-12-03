@@ -30,10 +30,10 @@
 
 #include "SDL2/SDL_syswm.h"
 
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_mouse_c.h"
+#include "SDL2/events/SDL_keyboard_c.h"
+#include "SDL2/events/SDL_windowevents_c.h"
+#include "SDL2/events/SDL_events_c.h"
 #include "../../events/scancodes_linux.h"
 #include "../../events/scancodes_xfree86.h"
 

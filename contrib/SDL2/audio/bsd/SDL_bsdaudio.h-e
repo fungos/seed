@@ -23,7 +23,7 @@
 #ifndef _SDL_bsdaudio_h
 #define _SDL_bsdaudio_h
 
-#include "../SDL_sysaudio.h"
+#include "SDL2/audio/SDL_sysaudio.h"
 
 #define _THIS   SDL_AudioDevice *this
 

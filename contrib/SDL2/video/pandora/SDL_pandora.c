@@ -23,13 +23,13 @@
 #if SDL_VIDEO_DRIVER_PANDORA
 
 /* SDL internals */
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 #include "SDL_version.h"
 #include "SDL2/SDL_syswm.h"
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #include "SDL2/SDL_events.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_keyboard_c.h"
+#include "SDL2/events/SDL_mouse_c.h"
+#include "SDL2/events/SDL_keyboard_c.h"
 
 /* PND declarations */
 #include "SDL_pandora.h"

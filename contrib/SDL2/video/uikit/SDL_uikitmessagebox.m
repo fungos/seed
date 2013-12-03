@@ -23,7 +23,7 @@
 #if SDL_VIDEO_DRIVER_UIKIT
 
 #include "SDL2/SDL.h"
-#include "SDL_uikitvideo.h"
+#include "SDL2/video/uikit/SDL_uikitvideo.h"
 
 
 /* Display a UIKit message box */

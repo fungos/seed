@@ -23,7 +23,7 @@
 #ifndef _SDL_nullvideo_h
 #define _SDL_nullvideo_h
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 #endif /* _SDL_nullvideo_h */
 

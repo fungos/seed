@@ -22,7 +22,7 @@
 #ifndef _SDL_DirectFB_events_h
 #define _SDL_DirectFB_events_h
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 /* Functions to be exported */
 extern void DirectFB_InitKeyboard(_THIS);

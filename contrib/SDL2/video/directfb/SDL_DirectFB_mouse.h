@@ -24,7 +24,7 @@
 
 #include <directfb.h>
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 typedef struct _DFB_CursorData DFB_CursorData;
 struct _DFB_CursorData

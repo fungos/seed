@@ -30,7 +30,7 @@
 #include "SDL_DirectFB_window.h"
 
 #include <directfbgl.h>
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #endif
 
 #if SDL_DIRECTFB_OPENGL

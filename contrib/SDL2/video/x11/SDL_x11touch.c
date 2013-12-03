@@ -25,7 +25,7 @@
 #include "SDL_x11video.h"
 #include "SDL_x11touch.h"
 #include "SDL_x11xinput2.h"
-#include "../../events/SDL_touch_c.h"
+#include "SDL2/events/SDL_touch_c.h"
 
 
 void

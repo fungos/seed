@@ -26,8 +26,8 @@
 #include <stdio.h>      /* For the definition of NULL */
 #include <stdlib.h>
 
-#include "../SDL_sysjoystick.h"
-#include "../SDL_joystick_c.h"
+#include "SDL2/joystick/SDL_sysjoystick.h"
+#include "SDL2/joystick/SDL_joystick_c.h"
 
 #include "SDL2/SDL_events.h"
 #include "SDL2/SDL_error.h"

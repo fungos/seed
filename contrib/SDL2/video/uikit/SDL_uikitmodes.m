@@ -23,7 +23,7 @@
 #if SDL_VIDEO_DRIVER_UIKIT
 
 #include "SDL2/SDL_assert.h"
-#include "SDL_uikitmodes.h"
+#include "SDL2/video/uikit/SDL_uikitmodes.h"
 
 
 BOOL SDL_UIKit_supports_multiple_displays = NO;

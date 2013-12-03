@@ -27,15 +27,15 @@
 #include "SDL2/SDL_mouse.h"
 #include "SDL2/SDL_assert.h"
 #include "SDL2/SDL_hints.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
-#include "../../events/SDL_events_c.h"
+#include "SDL2/video/SDL_sysvideo.h"
+#include "SDL2/video/SDL_pixels_c.h"
+#include "SDL2/events/SDL_events_c.h"
 
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitevents.h"
-#include "SDL_uikitmodes.h"
-#include "SDL_uikitwindow.h"
-#import "SDL_uikitappdelegate.h"
+#include "SDL2/video/uikit/SDL_uikitvideo.h"
+#include "SDL2/video/uikit/SDL_uikitevents.h"
+#include "SDL2/video/uikit/SDL_uikitmodes.h"
+#include "SDL2/video/uikit/SDL_uikitwindow.h"
+#import "SDL2/video/uikit/SDL_uikitappdelegate.h"
 
 #import "SDL_uikitopenglview.h"
 

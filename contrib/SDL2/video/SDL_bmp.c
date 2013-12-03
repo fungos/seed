@@ -34,7 +34,7 @@
 
 #include "SDL2/SDL_video.h"
 #include "SDL2/SDL_endian.h"
-#include "SDL_pixels_c.h"
+#include "SDL2/video/SDL_pixels_c.h"
 
 #define SAVE_32BIT_BMP
 

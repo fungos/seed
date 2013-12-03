@@ -29,9 +29,9 @@
 
 #include "SDL2/SDL_timer.h"
 #include "SDL2/SDL_audio.h"
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #include "../SDL_audiomem.h"
-#include "../SDL_audio_c.h"
+#include "SDL2/audio/SDL_audio_c.h"
 #include "SDL_nasaudio.h"
 
 static struct SDL_PrivateAudioData *this2 = NULL;

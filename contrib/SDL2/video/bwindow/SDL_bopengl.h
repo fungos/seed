@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 
 extern int BE_GL_LoadLibrary(_THIS, const char *path);                  /* FIXME */

@@ -26,8 +26,8 @@
 
 #include "SDL2/SDL_video.h"
 #include "SDL2/SDL_mouse.h"
-#include "../SDL_sysvideo.h"
-#include "../SDL_pixels_c.h"
+#include "SDL2/video/SDL_sysvideo.h"
+#include "SDL2/video/SDL_pixels_c.h"
 
 #include "SDL_x11video.h"
 #include "SDL_x11framebuffer.h"
@@ -42,7 +42,7 @@
 /* !!! FIXME: move dbus stuff to somewhere under src/core/linux ... */
 #if SDL_USE_LIBDBUS
 /* we never link directly to libdbus. */
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 static const char *dbus_library = "libdbus-1.so.3";
 static void *dbus_handle = NULL;
 

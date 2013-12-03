@@ -29,7 +29,7 @@
 #include "SDL2/core/android/SDL_android.h"
 #include <EGL/egl.h>
 
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 #include "../../video/android/SDL_androidkeyboard.h"
 #include "../../video/android/SDL_androidtouch.h"
 #include "../../video/android/SDL_androidvideo.h"

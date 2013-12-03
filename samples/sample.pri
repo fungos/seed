@@ -29,7 +29,7 @@ unix:!macx {
 macx {
 		DEFINES += LINUX
 		INCLUDEPATH += ../../contrib/osx/
-		LIBS += -lseed -lseedcontrib -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit
+		LIBS += -lseed -lseedcontrib -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit -framework CoreFoundation -framework CoreAudio -framework AudioUnit -framework ForceFeedback -framework Carbon -framework AudioToolbox
 		CONFIG -= sdl
 		CONFIG -= glfw
 		CONFIG += sdl2
@@ -38,9 +38,9 @@ macx {
 		APP_QML_FILES.path = Contents/Resources
 		QMAKE_BUNDLE_DATA += APP_QML_FILES
 
-		sdl2 {
-				LIBS += -lSDL -lSDL_image
-		}
+		#sdl2 {
+		#		LIBS += -lSDL -lSDL_image
+		#}
 }
 
 win32 {

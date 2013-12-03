@@ -73,8 +73,8 @@
 #endif
 
 #include "SDL2/SDL_joystick.h"
-#include "../SDL_sysjoystick.h"
-#include "../SDL_joystick_c.h"
+#include "SDL2/joystick/SDL_sysjoystick.h"
+#include "SDL2/joystick/SDL_joystick_c.h"
 
 #define MAX_UHID_JOYS   16
 #define MAX_JOY_JOYS    2

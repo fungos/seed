@@ -24,7 +24,7 @@
 #define _SDL_diskaudio_h
 
 #include "SDL2/SDL_rwops.h"
-#include "../SDL_sysaudio.h"
+#include "SDL2/audio/SDL_sysaudio.h"
 
 /* Hidden "this" pointer for the audio functions */
 #define _THIS   SDL_AudioDevice *this

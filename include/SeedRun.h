@@ -41,7 +41,7 @@ int SeedRun(int argc, char **argv, const char *config = "app.config")
 		while (!pSystem->IsShuttingDown())
 		{
 			Seed::Update();
-			pTimer->Sleep(Milliseconds(1));
+			//pTimer->Sleep(Milliseconds(1));
 		}
 	}
 	Seed::Shutdown();

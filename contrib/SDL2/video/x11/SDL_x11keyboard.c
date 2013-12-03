@@ -24,7 +24,7 @@
 
 #include "SDL_x11video.h"
 
-#include "../../events/SDL_keyboard_c.h"
+#include "SDL2/events/SDL_keyboard_c.h"
 #include "../../events/scancodes_darwin.h"
 #include "../../events/scancodes_xfree86.h"
 

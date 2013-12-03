@@ -29,7 +29,7 @@
 #include "SDL_gamecontrollerdb.h"
 
 #if !SDL_EVENTS_DISABLED
-#include "../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 #endif
 #define ABS(_x) ((_x) < 0 ? -(_x) : (_x))
 

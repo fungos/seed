@@ -25,8 +25,8 @@
 #include <android/log.h>
 
 #include "SDL2/SDL_events.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
+#include "SDL2/events/SDL_mouse_c.h"
+#include "SDL2/events/SDL_touch_c.h"
 #include "SDL2/SDL_log.h"
 
 #include "SDL_androidtouch.h"

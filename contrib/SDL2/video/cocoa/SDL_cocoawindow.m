@@ -24,15 +24,15 @@
 
 #include "SDL2/SDL_syswm.h"
 #include "SDL2/SDL_timer.h"  /* For SDL_GetTicks() */
-#include "../SDL_sysvideo.h"
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
-#include "../../events/SDL_windowevents_c.h"
-#include "SDL_cocoavideo.h"
-#include "SDL_cocoashape.h"
-#include "SDL_cocoamouse.h"
-#include "SDL_cocoaopengl.h"
+#include "SDL2/video/SDL_sysvideo.h"
+#include "SDL2/events/SDL_keyboard_c.h"
+#include "SDL2/events/SDL_mouse_c.h"
+#include "SDL2/events/SDL_touch_c.h"
+#include "SDL2/events/SDL_windowevents_c.h"
+#include "SDL2/video/cocoa/SDL_cocoavideo.h"
+#include "SDL2/video/cocoa/SDL_cocoashape.h"
+#include "SDL2/video/cocoa/SDL_cocoamouse.h"
+#include "SDL2/video/cocoa/SDL_cocoaopengl.h"
 
 #if MAC_OS_X_VERSION_MAX_ALLOWED < 1070
 /* Taken from AppKit/NSOpenGLView.h in 10.8 SDK. */

@@ -29,7 +29,7 @@
 #include "SDL2/SDL_hints.h"
 
 #if !SDL_EVENTS_DISABLED
-#include "../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 #endif
 
 static SDL_bool SDL_joystick_allows_background_events = SDL_FALSE;

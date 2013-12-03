@@ -219,14 +219,14 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 			case SDL_KEYDOWN:
 			{
-				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode);
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), GetModifierCode(event.key.keysym.mod), event.key.keysym.scancode);
 				this->SendEventKeyboardPress(&ev);
 			}
 			break;
 
 			case SDL_KEYUP:
 			{
-				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), event.key.keysym.mod, event.key.keysym.scancode);
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), GetModifierCode(event.key.keysym.mod), event.key.keysym.scancode);
 				this->SendEventKeyboardRelease(&ev);
 			}
 			break;
@@ -244,7 +244,7 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 				x = iX = event.motion.x;
 				y = iY = event.motion.y;
 
-				EventInputPointer ev(0, 0, 0, 0, x, y);
+				EventInputPointer ev(0, eInputButton::None, eInputButton::None, eInputButton::None, x, y);
 				this->SendEventPointerMove(&ev);
 			}
 			break;
@@ -255,7 +255,7 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 				x = iX = event.motion.x;
 				y = iY = event.motion.y;
 
-				const EventInputPointer ev(0, 0, 0, this->ConvertButtonFlags(event.button.button), x, y);
+				const EventInputPointer ev(0, eInputButton::None, eInputButton::None, eInputButton(this->ConvertButtonFlags(event.button.button)), x, y);
 				this->SendEventPointerRelease(&ev);
 			}
 			break;
@@ -266,35 +266,35 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 				x = iX = event.motion.x;
 				y = iY = event.motion.y;
 
-				const EventInputPointer ev(0, this->ConvertButtonFlags(event.button.button), 0, 0, x, y);
+				const EventInputPointer ev(0, eInputButton(this->ConvertButtonFlags(event.button.button)), eInputButton::None, eInputButton::None, x, y);
 				this->SendEventPointerPress(&ev);
 			}
 			break;
 
 			case SDL_JOYBUTTONDOWN:
 			{
-				const EventInputJoystick ev(event.jbutton.which, event.jbutton.button, 0, 0, 0, 0);
+				const EventInputJoystick ev(event.jbutton.which, this->GetJoystickButtonCode(event.jbutton.button), eInputButton::None, eInputButton::None, 0, 0);
 				this->SendEventJoystickButtonPress(&ev);
 			}
 			break;
 
 			case SDL_JOYBUTTONUP:
 			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, event.jbutton.button, 0, 0);
+				const EventInputJoystick ev(event.jbutton.which, eInputButton::None, eInputButton::None, this->GetJoystickButtonCode(event.jbutton.button), 0, 0);
 				this->SendEventJoystickButtonRelease(&ev);
 			}
 			break;
 
 			case SDL_JOYAXISMOTION:
 			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, 0, event.jaxis.axis, event.jaxis.value);
+				const EventInputJoystick ev(event.jbutton.which, eInputButton::None, eInputButton::None, eInputButton::None, event.jaxis.axis, event.jaxis.value);
 				this->SendEventJoystickAxisMove(&ev);
 			}
 			break;
 
 			case SDL_JOYHATMOTION:
 			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, 0, event.jhat.hat, event.jhat.value);
+				const EventInputJoystick ev(event.jbutton.which, eInputButton::None, eInputButton::None, eInputButton::None, event.jhat.hat, event.jhat.value);
 				this->SendEventJoystickDPadMove(&ev);
 			}
 			break;
@@ -378,31 +378,11 @@ f32 Input::GetDistance(u16 joystick) const
 	return 0;
 }
 
-Seed::eInputButton Input::GetButtonCode(u32 button) const
-{
-	Seed::eInputButton btn = Seed::ButtonInvalid;
-
-	if (button & SDL_BUTTON_LMASK)
-		btn = Seed::ButtonLeft;
-	else if (button & SDL_BUTTON_RMASK)
-		btn = Seed::ButtonRight;
-	else if (button & SDL_BUTTON_MMASK)
-		btn = Seed::ButtonMiddle;
-	//else if (button & SDL_BUTTON(SDL_BUTTON_WHEELUP))
-	else if (button & SDL_BUTTON(SDL_MOUSEBUTTONUP))
-		btn = Seed::ButtonUp;
-	//else if (button & SDL_BUTTON(SDL_BUTTON_WHEELDOWN))
-	else if (button & SDL_BUTTON(SDL_MOUSEBUTTONDOWN))
-		btn = Seed::ButtonDown;
-
-	return btn;
-}
-
 u32 Input::ConvertButtonFlags(u32 flags)
 {
 	u32 converted = 0;
 
-	converted |= this->GetButtonCode(SDL_BUTTON(flags));
+	converted |= u32(this->GetMouseButtonCode(SDL_BUTTON(flags)));
 
 	return converted;
 }
@@ -430,10 +410,10 @@ void Input::SetSensitivity(u32 sens, u16 joystick)
 	UNUSED(joystick);
 }
 
-Seed::eKey Input::GetKeyCode(u32 key) const
+eKey Input::GetKeyCode(u32 key) const
 {
 	if (key >= 'a' && key <= 'z')
-		return static_cast<Seed::eKey>(Seed::KeyA + (key - 'a'));
+		return static_cast<eKey>(u32(eKey::A) + (key - 'a'));
 	else
 	{
 		Seed::eKey k = static_cast<Seed::eKey>(key);
@@ -441,7 +421,7 @@ Seed::eKey Input::GetKeyCode(u32 key) const
 	}
 }
 
-Seed::eModifier Input::GetModifierCode(u32 mod) const
+eModifier Input::GetModifierCode(u32 mod) const
 {
 	Seed::eModifier m = static_cast<Seed::eModifier>(mod);
 

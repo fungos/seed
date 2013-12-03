@@ -21,7 +21,7 @@
 #ifndef _SDL_uikitopengles
 #define _SDL_uikitopengles
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 extern int UIKit_GL_MakeCurrent(_THIS, SDL_Window * window,
                                 SDL_GLContext context);

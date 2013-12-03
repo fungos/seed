@@ -21,7 +21,7 @@
 #include "SDL2/SDL_config.h"
 
 #include "SDL2/SDL_video.h"
-#include "SDL_blit.h"
+#include "SDL2/video/SDL_blit.h"
 
 
 #ifdef __SSE__

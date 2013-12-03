@@ -25,7 +25,7 @@
 #include "SDL2/SDL_assert.h"
 #include "SDL_windowsvideo.h"
 
-#include "../../events/SDL_mouse_c.h"
+#include "SDL2/events/SDL_mouse_c.h"
 
 
 HCURSOR SDL_cursor = NULL;

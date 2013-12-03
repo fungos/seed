@@ -27,7 +27,7 @@
 */
 
 #include "SDL2/SDL_video.h"
-#include "SDL_blit.h"
+#include "SDL2/video/SDL_blit.h"
 
 /* This isn't ready for general consumption yet - it should be folded
    into the general blitting mechanism.

@@ -33,12 +33,12 @@
 #include "SDL2/SDL_timer.h"
 #include "SDL2/SDL_audio.h"
 #include "../SDL_audiomem.h"
-#include "../SDL_audio_c.h"
+#include "SDL2/audio/SDL_audio_c.h"
 #include "SDL_artsaudio.h"
 
 #ifdef SDL_AUDIO_DRIVER_ARTS_DYNAMIC
 #include "SDL_name.h"
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #else
 #define SDL_NAME(X)	X
 #endif

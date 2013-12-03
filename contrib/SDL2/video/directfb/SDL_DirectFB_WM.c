@@ -25,7 +25,7 @@
 #include "SDL_DirectFB_video.h"
 #include "SDL_DirectFB_window.h"
 
-#include "../../events/SDL_windowevents_c.h"
+#include "SDL2/events/SDL_windowevents_c.h"
 
 #define COLOR_EXPAND(col) col.r, col.g, col.b, col.a
 

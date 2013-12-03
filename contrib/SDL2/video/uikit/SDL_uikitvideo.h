@@ -23,7 +23,7 @@
 
 #include <UIKit/UIKit.h>
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 #ifndef __IPHONE_6_0
 /* This enum isn't available in older SDKs, but we use it for our own purposes on iOS 5.1 and for the system on iOS 6.0 */

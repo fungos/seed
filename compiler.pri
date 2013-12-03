@@ -18,6 +18,14 @@ unix {
 	system(which clang++):USE_CLANG=TRUE
 }
 
+macx {
+	DEFINES += __MACOSX__
+
+	sdl2 {
+		DEFINES += TARGET_API_MAC_CARBON TARGET_API_MAC_OSX _THREAD_SAFE USE_API_SOIL
+	}
+}
+
 contains(USE_CCACHE, TRUE) {
 	!check {
 		CCACHE="ccache"

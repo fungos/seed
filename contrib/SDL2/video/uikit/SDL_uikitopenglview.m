@@ -24,8 +24,8 @@
 
 #include <QuartzCore/QuartzCore.h>
 #include <OpenGLES/EAGLDrawable.h>
-#include "SDL_uikitopenglview.h"
-#include "SDL_uikitmessagebox.h"
+#include "SDL2/video/uikit/SDL_uikitopenglview.h"
+#include "SDL2/video/uikit/SDL_uikitmessagebox.h"
 
 
 @implementation SDL_uikitopenglview

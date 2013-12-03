@@ -28,9 +28,9 @@
 #include "SDL2/SDL_error.h"
 #include "SDL2/SDL_timer.h"
 #include "../SDL_audiomem.h"
-#include "../SDL_audio_c.h"
+#include "SDL2/audio/SDL_audio_c.h"
 #include "../SDL_audiodev_c.h"
-#include "../SDL_sysaudio.h"
+#include "SDL2/audio/SDL_sysaudio.h"
 #include "SDL_pspaudio.h"
 
 #include <pspaudio.h>

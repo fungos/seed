@@ -24,8 +24,8 @@
 #if SDL_VIDEO_DRIVER_RPI
 
 #include "../../events/SDL_sysevents.h"
-#include "../../events/SDL_events_c.h"
-#include "../../events/SDL_keyboard_c.h"
+#include "SDL2/events/SDL_events_c.h"
+#include "SDL2/events/SDL_keyboard_c.h"
 #include "SDL_rpivideo.h"
 #include "SDL_rpievents_c.h"
 

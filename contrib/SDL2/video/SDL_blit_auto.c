@@ -24,7 +24,7 @@
 /* *INDENT-OFF* */
 
 #include "SDL2/SDL_video.h"
-#include "SDL_blit.h"
+#include "SDL2/video/SDL_blit.h"
 #include "SDL_blit_auto.h"
 
 static void SDL_Blit_RGB888_RGB888_Scale(SDL_BlitInfo *info)

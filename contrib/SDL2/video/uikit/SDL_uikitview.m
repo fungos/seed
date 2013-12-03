@@ -24,16 +24,16 @@
 
 #include "SDL_uikitview.h"
 
-#include "../../events/SDL_keyboard_c.h"
-#include "../../events/SDL_mouse_c.h"
-#include "../../events/SDL_touch_c.h"
+#include "SDL2/events/SDL_keyboard_c.h"
+#include "SDL2/events/SDL_mouse_c.h"
+#include "SDL2/events/SDL_touch_c.h"
 
 #if SDL_IPHONE_KEYBOARD
 #include "keyinfotable.h"
 #endif
-#include "SDL_uikitappdelegate.h"
-#include "SDL_uikitmodes.h"
-#include "SDL_uikitwindow.h"
+#include "SDL2/video/uikit/SDL_uikitappdelegate.h"
+#include "SDL2/video/uikit/SDL_uikitmodes.h"
+#include "SDL2/video/uikit/SDL_uikitwindow.h"
 
 @implementation SDL_uikitview
 

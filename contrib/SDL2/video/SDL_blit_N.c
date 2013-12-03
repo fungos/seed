@@ -23,7 +23,7 @@
 #include "SDL2/SDL_video.h"
 #include "SDL2/SDL_endian.h"
 #include "SDL2/SDL_cpuinfo.h"
-#include "SDL_blit.h"
+#include "SDL2/video/SDL_blit.h"
 
 #include "SDL2/SDL_assert.h"
 

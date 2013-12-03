@@ -22,10 +22,10 @@
 
 #if SDL_VIDEO_DRIVER_UIKIT
 
-#include "../../events/SDL_events_c.h"
+#include "SDL2/events/SDL_events_c.h"
 
-#include "SDL_uikitvideo.h"
-#include "SDL_uikitevents.h"
+#include "SDL2/video/uikit/SDL_uikitvideo.h"
+#include "SDL2/video/uikit/SDL_uikitevents.h"
 
 #import <Foundation/Foundation.h>
 

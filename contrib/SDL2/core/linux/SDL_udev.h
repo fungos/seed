@@ -30,7 +30,7 @@
 #define SDL_USE_LIBUDEV 1
 #endif
 
-#include "SDL_loadso.h"
+#include "SDL2/SDL_loadso.h"
 #include "SDL2/SDL_events.h"
 #include <libudev.h>
 #include <sys/time.h>

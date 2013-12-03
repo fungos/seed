@@ -22,7 +22,7 @@
 
 /* Useful functions and variables from SDL_pixel.c */
 
-#include "SDL_blit.h"
+#include "SDL2/video/SDL_blit.h"
 
 /* Pixel format functions */
 extern int SDL_InitFormat(SDL_PixelFormat * format, Uint32 pixel_format);

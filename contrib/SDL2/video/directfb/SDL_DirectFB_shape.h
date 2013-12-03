@@ -24,7 +24,7 @@
 
 #include <directfb.h>
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 #include "SDL2/SDL_shape.h"
 
 typedef struct {

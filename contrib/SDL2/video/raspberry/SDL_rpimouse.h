@@ -22,7 +22,7 @@
 #ifndef _SDL_RPI_mouse_h
 #define _SDL_RPI_mouse_h
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 typedef struct _RPI_CursorData RPI_CursorData;
 struct _RPI_CursorData

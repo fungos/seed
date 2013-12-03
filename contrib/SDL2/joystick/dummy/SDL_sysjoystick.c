@@ -25,8 +25,8 @@
 /* This is the system specific header for the SDL joystick API */
 
 #include "SDL2/SDL_joystick.h"
-#include "../SDL_sysjoystick.h"
-#include "../SDL_joystick_c.h"
+#include "SDL2/joystick/SDL_sysjoystick.h"
+#include "SDL2/joystick/SDL_joystick_c.h"
 
 /* Function to scan the system for joysticks.
  * It should return 0, or -1 on an unrecoverable fatal error.

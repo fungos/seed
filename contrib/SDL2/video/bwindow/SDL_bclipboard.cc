@@ -29,7 +29,7 @@
 
 #include "SDL_BWin.h"
 #include "SDL2/SDL_timer.h"
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 #ifdef __cplusplus
 extern "C" {

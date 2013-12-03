@@ -26,7 +26,7 @@
 extern "C" {
 #endif
 
-#include "../SDL_sysvideo.h"
+#include "SDL2/video/SDL_sysvideo.h"
 
 extern int32 BE_ColorSpaceToBitsPerPixel(uint32 colorspace);
 extern int32 BE_BPPToSDLPxFormat(int32 bpp);
