@@ -28,54 +28,30 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "interface/IShaderProgram.h"
-#include "Enum.h"
+#ifndef OGLHEADERS_H
+#define OGLHEADERS_H
 
-#define TAG		"[IShaderProgram]"
+#if !defined(BUILD_IOS)
+	#include "glew/glew.h"
+#endif
 
-namespace Seed
-{
+#if defined(BUILD_SDL)
+	#define NO_SDL_GLEXT	1
+	#include <SDL/SDL_opengl.h>
+#endif
 
-IShaderProgram::IShaderProgram()
-	: iProgramId(0)
-	, bLinked(false)
-	, bActive(false)
-	, vShaders()
-	, mAttributes()
-{
-}
+#if defined(_MSC_VER)
+	#pragma comment(lib, "opengl32.lib")
+	#pragma comment(lib, "glu32.lib")
+#endif
 
-IShaderProgram::~IShaderProgram()
-{
-}
+#if defined(BUILD_IOS)
+#elif defined(__APPLE_CC__)
+	#include <OpenGL/gl.h>
+	#include <OpenGL/glext.h>
+#else
+	#include <GL/gl.h>
+	#include <GL/glext.h>
+#endif
 
-void IShaderProgram::Use()
-{
-	SEED_ABSTRACT_METHOD;
-}
-
-void IShaderProgram::Unbind()
-{
-	SEED_ABSTRACT_METHOD;
-}
-
-void IShaderProgram::AttachShader(IShader *shader)
-{
-	UNUSED(shader);
-	SEED_ABSTRACT_METHOD;
-}
-
-void IShaderProgram::BindAttribute(u32 index, String attribName)
-{
-	UNUSED(index);
-	UNUSED(attribName);
-	SEED_ABSTRACT_METHOD;
-}
-
-void IShaderProgram::Link()
-{
-	SEED_ABSTRACT_METHOD;
-}
-
-} // namespace
-
+#endif // OGLHEADERS_H

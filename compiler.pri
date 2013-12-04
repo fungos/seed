@@ -40,7 +40,12 @@ contains(USE_CLANG, TRUE) {
 QMAKE_CXXFLAGS += $$FLAGSXX #-emit-llvm
 QMAKE_CXX="$$CCACHE $$COMPXX"
 QMAKE_CC="$$CCACHE $$COMP"
-QMAKE_LFLAGS="-stdlib=libc++ -lc++abi"
+QMAKE_LFLAGS += -stdlib=libc++
+
+macx {
+	QMAKE_LFLAGS += -lc++abi
+}
+
 #QMAKE_LIB=llvm-ld -link-as-library -o
 #QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
 #QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj

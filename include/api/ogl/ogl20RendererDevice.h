@@ -31,39 +31,15 @@
 #ifndef __OGL20_RENDERER_DEVICE_H__
 #define __OGL20_RENDERER_DEVICE_H__
 
-#if !defined(BUILD_IOS)
-#include "glew/glew.h"
-#endif
-
-#if defined(_MSC_VER)
-#pragma comment(lib, "opengl32.lib")
-#pragma comment(lib, "glu32.lib")
-#endif
-
 #include "Defines.h"
-#include "Enum.h"
-#include "Vertex.h"
-#include "Container.h"
 
 #if defined(SEED_ENABLE_OGL20)
 
+#include "api/ogl/oglHeaders.h"
+#include "Enum.h"
+#include "Vertex.h"
+#include "Container.h"
 #include "interface/IRendererDevice.h"
-
-#if defined(BUILD_SDL) && defined(_MSC_VER)
-#define NO_SDL_GLEXT	1
-#include <SDL/SDL_opengl.h>
-#elif defined(BUILD_SDL)
-#define NO_SDL_GLEXT	1
-#include <SDL/SDL_opengl.h>
-#endif
-
-#if defined(BUILD_IOS)
-#include <OpenGLES/ES2/gl.h>
-#elif defined(__APPLE_CC__)
-#include <OpenGL/glext.h>
-#else
-#include <GL/glext.h>
-#endif
 
 namespace Seed {
 

@@ -39,10 +39,11 @@ namespace Seed {
 
 class IShader;
 
-class SEED_CORE_API IShaderProgram : IObject
+class SEED_CORE_API IShaderProgram : public IObject // Soon to be IDataObject
 {
-	SEED_DECLARE_CONTAINER(Vector, IShader)
 	SEED_DISABLE_COPY(IShaderProgram)
+	SEED_DECLARE_RTTI(IShaderProgram, IObject)
+	SEED_DECLARE_CONTAINER(Vector, IShader)
 
 	public:
 		IShaderProgram();
@@ -53,11 +54,11 @@ class SEED_CORE_API IShaderProgram : IObject
 		virtual void AttachShader(IShader *shader) = 0;
 		virtual void BindAttribute(u32 index, String attribName) = 0;
 		virtual void Link() = 0;
-		inline u32 GetID() const { return iProgramId; }
 
-		// IObject
-		virtual const String GetClassName() const;
-		virtual eProjection GetObjectType() const;
+		u32 GetID() const
+		{
+			return iProgramId;
+		}
 
 	protected:
 		u32						iProgramId;
@@ -66,7 +67,6 @@ class SEED_CORE_API IShaderProgram : IObject
 		bool					bActive;
 		mutable IShaderVector	vShaders;
 		Map<String, u32>		mAttributes;
-
 };
 
 } // end namespace

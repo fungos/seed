@@ -30,10 +30,13 @@
 
 #include "ShaderProgram.h"
 
-#if defined (BUILD_IOS) && defined(SEED_ENABLE_OGLES2)
+#if defined(SEED_ENABLE_OGLES2) // We may have Android and Angle for OpenGL ES
+
+#if defined(BUILD_IOS)
+#include <OpenGLES/ES2/gl.h>
+#endif
 
 #include "Shader.h"
-#include <OpenGLES/ES2/gl.h>
 
 #define TAG "[Shader] "
 
@@ -83,4 +86,4 @@ void OGLES2ShaderProgram::Link()
 
 }} // namespace
 
-#endif // BUILD_IOS && SEED_ENABLE_OGLES2
+#endif // SEED_ENABLE_OGLES2

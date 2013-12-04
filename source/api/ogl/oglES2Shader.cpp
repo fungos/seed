@@ -30,26 +30,27 @@
 
 #include "Shader.h"
 
-#if defined (BUILD_IOS) && defined(SEED_ENABLE_OGLES2)
+#if defined(SEED_ENABLE_OGLES2) // We may have Android and Angle for OpenGL ES
 
+#if defined(BUILD_IOS)
 #include <OpenGLES/ES2/gl.h>
+#endif
 
 #define TAG "[Shader] "
 
 namespace Seed { namespace OpenGL {
 
-OGLES2Shader::OGLES2Shader(eShaderType type)
+OGLES2Shader::OGLES2Shader(eShaderType type) // Remove, lazy construction, ie. HardwareBuffer.
+	: IShader()
 {
 	iShaderType = type;
-	bLoaded = false;
-	bCompiled = false;
 	switch (iShaderType)
 	{
-		case ShaderTypeVertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
-		case ShaderTypeFragment : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
-		case ShaderTypeGeometry : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
-		case ShaderTypeTesselation : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Tesselation shader not suported yet."); break; }
+		case eShaderType::Vertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
+		case eShaderType::Pixel : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
+		default: { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
 	}
+
 }
 
 OGLES2Shader::~OGLES2Shader()
@@ -58,7 +59,7 @@ OGLES2Shader::~OGLES2Shader()
 
 bool OGLES2Shader::Load(const String &filename, ResourceManager *res)
 {
-	if(IShader::Load(filename, res))
+	if (IShader::Load(filename, res))
 	{
 		const char* shaderData = (const char*)pFile->GetData();
 		glShaderSource(iShaderHandle, 1, &shaderData, NULL);
@@ -72,7 +73,7 @@ bool OGLES2Shader::Load(const String &filename, ResourceManager *res)
 
 void OGLES2Shader::Compile() const
 {
-	if(bLoaded)
+	if (bLoaded)
 	{
 		glCompileShader(iShaderHandle);
 		//bCompiled = true;
@@ -86,4 +87,4 @@ u32 OGLES2Shader::GetShaderHandle() const
 
 }} // namespace
 
-#endif // BUILD_IOS && SEED_ENABLE_OGLES2
+#endif // SEED_ENABLE_OGLES2

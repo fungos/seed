@@ -32,8 +32,8 @@
 
 #if defined(SEED_ENABLE_OGL20)
 
+#include "api/ogl/oglHeaders.h"
 #include "Shader.h"
-#include <OpenGL/gl.h>
 
 #define TAG "[Shader] "
 

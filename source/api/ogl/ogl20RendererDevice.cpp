@@ -32,6 +32,7 @@
 
 #if defined(SEED_ENABLE_OGL20)
 
+#include "api/ogl/oglHeaders.h"
 #include "Log.h"
 #include "Screen.h"
 #include "Texture.h"
@@ -40,12 +41,6 @@
 #include "ShaderProgram.h"
 #include "ShaderManager.h"
 #include "Enum.h"
-
-#if defined(BUILD_SDL)
-#undef NO_SDL_GLEXT
-#define NO_SDL_GLEXT	1
-#include <SDL/SDL_opengl.h>
-#endif
 
 #if defined(BUILD_IOS)
 	#define PIXEL_FORMAT_32 GL_RGBA
@@ -92,15 +87,6 @@
 	#else
 		#define PIXEL_FORMAT_32 GL_BGRA
 	#endif
-	#define _OPENGL_2		1
-	#if defined(__APPLE_CC__)
-		#include <OpenGL/gl.h>
-		#include <OpenGL/glext.h>
-	#else
-		#include <GL/gl.h>
-		#include <GL/glext.h>
-	#endif
-
 	#if defined(BUILD_SDL)
 		#include "platform/sdl/sdlDefines.h"
 	#endif

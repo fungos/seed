@@ -32,18 +32,11 @@
 
 #if defined(USE_API_OGL) && !defined(SEED_ENABLE_OGLES2)
 
+#include "api/ogl/oglHeaders.h"
 #include "Log.h"
 #include "Screen.h"
 #include "Texture.h"
 #include "Vertex.h"
-
-
-
-#if defined(BUILD_SDL)
-#undef NO_SDL_GLEXT
-#define NO_SDL_GLEXT	1
-#include <SDL/SDL_opengl.h>
-#endif
 
 #if defined(BUILD_IOS)
 	#define PIXEL_FORMAT_32 GL_RGBA
@@ -90,15 +83,6 @@
 	#else
 		#define PIXEL_FORMAT_32 GL_BGRA
 	#endif
-	#define _OPENGL_15		1
-	#if defined(__APPLE_CC__)
-		#include <OpenGL/gl.h>
-		#include <OpenGL/glext.h>
-	#else
-		#include <GL/gl.h>
-		#include <GL/glext.h>
-	#endif
-
 	#if defined(BUILD_SDL)
 		#include "platform/sdl/sdlDefines.h"
 	#endif
@@ -631,12 +615,12 @@ void OGLES1RendererDevice::UploadData(void *userData)
 //			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
 
 		glPointSize(7.0f);
-        #if !defined (BUILD_IOS)
-            glBegin(GL_POINTS);
-                glColor3f(1.0f, 0.0f, 1.0f);
-                glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
-            glEnd();
-        #endif
+		#if !defined (BUILD_IOS)
+			glBegin(GL_POINTS);
+				glColor3f(1.0f, 0.0f, 1.0f);
+				glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
+			glEnd();
+		#endif
 
 		Vector3f op = packet->pTransform->getTranslation();
 		pRendererDevice->DrawCircle(pivot.getX() + op.getX(), pivot.getY() + op.getY(), 3, Color(255, 0, 255, 255));

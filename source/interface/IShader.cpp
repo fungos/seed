@@ -35,11 +35,11 @@
 namespace Seed {
 
 IShader::IShader()
-	: pFile(NULL),
-	bLoaded(false),
-	bCompiled(false),
-	iShaderType(ShaderTypeVertex),
-	iShaderHandle(0)
+	: pFile(nullptr)
+	, iShaderType(eShaderType::Pixel)
+	, iShaderHandle(0)
+	, bLoaded(false)
+	, bCompiled(false)
 {
 }
 
@@ -80,22 +80,12 @@ bool IShader::Load(const String &filename, ResourceManager *res)
 		pRes = res;
 		sFilename = filename;
 
-		#warning TODO - Move to async file loading
+		// FIXME: ASYNC
 		pFile = sdNew(File(filename));
-		ret = (pFile->GetData() != NULL);
+		ret = (pFile->GetData() != nullptr);
 	}
 
 	return ret;
-}
-
-eProjection IShader::GetObjectType() const
-{
-	return eProjection::TypeShader;
-}
-
-const String IShader::GetClassName() const
-{
-	return "IShader";
 }
 
 } // namespace

@@ -38,6 +38,9 @@ namespace Seed { namespace OpenGL {
 
 class SEED_CORE_API OGL20Shader : public IShader
 {
+	SEED_DISABLE_COPY(OGL20Shader)
+	SEED_DECLARE_RTTI(OGL20Shader, IShader)
+
 	public:
 		OGL20Shader(eShaderType type);
 		virtual ~OGL20Shader();
@@ -46,9 +49,6 @@ class SEED_CORE_API OGL20Shader : public IShader
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual void Compile() const;
 		virtual u32 GetShaderHandle() const;
-
-	private:
-		SEED_DISABLE_COPY(OGL20Shader);
 };
 
 }} // namespace

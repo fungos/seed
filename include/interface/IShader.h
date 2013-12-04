@@ -40,6 +40,9 @@ namespace Seed {
 
 class SEED_CORE_API IShader : public IResource
 {
+	SEED_DISABLE_COPY(IShader)
+	SEED_DECLARE_RTTI(IShader, IResource)
+
 	public:
 		IShader();
 		virtual ~IShader();
@@ -54,19 +57,12 @@ class SEED_CORE_API IShader : public IResource
 		virtual bool Unload();
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 
-		// IObject
-		virtual eProjection GetObjectType() const;
-		virtual const String GetClassName() const;
-
 	protected:
 		File		*pFile;
-		bool		bLoaded;
-		bool		bCompiled;
 		eShaderType	iShaderType;
 		u32			iShaderHandle;
-
-	private:
-		SEED_DISABLE_COPY(IShader);
+		bool		bLoaded : 1;
+		bool		bCompiled : 1;
 };
 
 } // end namespace

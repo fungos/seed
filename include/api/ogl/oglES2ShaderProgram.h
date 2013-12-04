@@ -38,6 +38,9 @@ namespace Seed { namespace OpenGL {
 
 class SEED_CORE_API OGLES2ShaderProgram : public IShaderProgram
 {
+	SEED_DISABLE_COPY(OGLES2ShaderProgram)
+	SEED_DECLARE_RTTI(OGLES2ShaderProgram, IShaderProgram)
+
 	public:
 		OGLES2ShaderProgram(String name);
 		virtual ~OGLES2ShaderProgram();
@@ -47,10 +50,6 @@ class SEED_CORE_API OGLES2ShaderProgram : public IShaderProgram
 		virtual void AttachShader(IShader *shader);
 		virtual void BindAttribute(const u32 index, const String attribName);
 		virtual void Link();
-
-	private:
-		SEED_DISABLE_COPY(OGLES2ShaderProgram);
-
 };
 
 }} // namespace

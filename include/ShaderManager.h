@@ -74,10 +74,10 @@ class SEED_CORE_API ShaderManager : public IManager
 		virtual void Enable() override;
 
 	private:
-		ShaderProgramMap		mShaderPrograms;
-		ShaderMap				mShaders;
-		IShaderProgram			*pCurrentProgram;
-		bool					bEnabled;
+		ShaderProgramMap	mShaderPrograms;
+		ShaderMap			mShaders;
+		IShaderProgram		*pCurrentProgram;
+		bool				bEnabled;
 };
 
 #define pShaderManager ShaderManager::GetInstance()

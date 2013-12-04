@@ -132,7 +132,6 @@ SOURCES += source/Viewport.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
 	source/map/TileSet.cpp \
-	source/api/ogl/oglES2RendererDevice.cpp \
 	source/interface/IShader.cpp \
 	source/interface/IShaderProgram.cpp \
 	source/ShaderManager.cpp \
@@ -140,7 +139,7 @@ SOURCES += source/Viewport.cpp \
 	source/api/ogl/oglES1ShaderProgram.cpp \
 	source/api/ogl/oglES2Shader.cpp \
 	source/api/ogl/oglES2ShaderProgram.cpp \
-	source/map/TileSet.cpp \
+	source/api/ogl/oglES2RendererDevice.cpp \
 	source/api/ogl/ogl20RendererDevice.cpp \
 	source/api/ogl/ogl20Shader.cpp \
 	source/api/ogl/ogl20ShaderProgram.cpp \
@@ -216,4 +215,5 @@ HEADERS += include/*.h \
 	include/PrefabManager.h \
 	include/map/MetadataObject.h \
 	include/Memory.h \
-	include/Semaphore.h
+	include/Semaphore.h \
+	include/api/ogl/oglHeaders.h

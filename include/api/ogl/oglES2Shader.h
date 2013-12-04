@@ -38,6 +38,9 @@ namespace Seed { namespace OpenGL {
 
 class SEED_CORE_API OGLES2Shader : public IShader
 {
+	SEED_DISABLE_COPY(OGLES2Shader)
+	SEED_DECLARE_RTTI(OGLES2Shader, IShader)
+
 	public:
 		OGLES2Shader(eShaderType type);
 		virtual ~OGLES2Shader();
@@ -46,9 +49,6 @@ class SEED_CORE_API OGLES2Shader : public IShader
 		virtual bool Load(const String &filename, ResourceManager *res = pResourceManager);
 		virtual void Compile() const;
 		virtual u32 GetShaderHandle() const;
-
-	private:
-		SEED_DISABLE_COPY(OGLES2Shader);
 };
 
 }} // namespace

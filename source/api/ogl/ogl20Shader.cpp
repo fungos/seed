@@ -32,23 +32,22 @@
 
 #if defined(SEED_ENABLE_OGL20)
 
-#include <OpenGL/gl.h>
+#include "api/ogl/oglHeaders.h"
 
 #define TAG "[Shader] "
 
 namespace Seed { namespace OpenGL {
 
-OGL20Shader::OGL20Shader(eShaderType type)
+OGL20Shader::OGL20Shader(eShaderType type) // Remove, lazy construction, ie. HardwareBuffer.
+	: IShader()
 {
 	iShaderType = type;
-	bLoaded = false;
-	bCompiled = false;
+
 	switch (iShaderType)
 	{
-		case ShaderTypeVertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
-		case ShaderTypeFragment : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
-		case ShaderTypeGeometry : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
-		case ShaderTypeTesselation : { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Tesselation shader not suported yet."); break; }
+		case eShaderType::Vertex: { iShaderHandle = glCreateShader(GL_VERTEX_SHADER); break; }
+		case eShaderType::Pixel : { iShaderHandle = glCreateShader(GL_FRAGMENT_SHADER); break; }
+		default: { iShaderHandle = 0; SEED_ASSERT_MSG(iShaderHandle, "ERROR: Geometry shader not suported yet."); break; }
 	}
 }
 
@@ -58,7 +57,7 @@ OGL20Shader::~OGL20Shader()
 
 bool OGL20Shader::Load(const String &filename, ResourceManager *res)
 {
-	if(IShader::Load(filename, res))
+	if (IShader::Load(filename, res))
 	{
 		const char* shaderData = (const char*)pFile->GetData();
 		glShaderSource(iShaderHandle, 1, &shaderData, NULL);
@@ -72,7 +71,7 @@ bool OGL20Shader::Load(const String &filename, ResourceManager *res)
 
 void OGL20Shader::Compile() const
 {
-	if(bLoaded)
+	if (bLoaded)
 	{
 		glCompileShader(iShaderHandle);
 		//bCompiled = true;
