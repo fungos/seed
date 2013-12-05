@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	pres_sample.cpp
 
@@ -11,3 +9,5 @@ OTHER_FILES += \
 	../bin/pres1_scene1.scene \
 	../bin/pres1_app.config \
 	../bin/pres1.config
+
+include("../sample.pri")

@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	particle_sample.cpp
 
@@ -27,3 +25,5 @@ OTHER_FILES += \
 	../bin/particle.sprite \
 	../bin/particle_sample.scene \
 	../bin/particle_sample.config
+
+include("../sample.pri")

@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	tile_sample.cpp
 
@@ -13,3 +11,5 @@ OTHER_FILES += \
 	../bin/tile_map.json \
 	../bin/tile_sample.scene \
 	../bin/tile_sample.config
+
+include("../sample.pri")
