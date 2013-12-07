@@ -18,8 +18,7 @@ CONFIG(debug, debug|release) {
 include(compiler.pri)
 include(platform.pri)
 
-SOURCES += source/Viewport.cpp \
-	source/ViewManager.cpp \
+SOURCES += source/ViewManager.cpp \
 	source/Updater.cpp \
 	source/Timeline.cpp \
 	source/Sprite.cpp \
@@ -30,8 +29,10 @@ SOURCES += source/Viewport.cpp \
 	source/ResourceManager.cpp \
 	source/ResourceLoader.cpp \
 	source/ResourceGroup.cpp \
-	source/RendererManager.cpp \
-	source/Renderer.cpp \
+	source/renderer/RendererManager.cpp \
+	source/renderer/Renderer.cpp \
+	source/renderer/Camera.cpp \
+	source/renderer/Viewport.cpp \
 	source/Reader.cpp \
 	source/Rand.cpp \
 	source/Profiler.cpp \
@@ -113,7 +114,6 @@ SOURCES += source/Viewport.cpp \
 	source/Writer.cpp \
 	source/interface/IWriter.cpp \
 	source/SceneObjectFactory.cpp \
-	source/Camera.cpp \
 	source/platform/glfw/glfwSystem.cpp \
 	source/platform/glfw/glfwScreen.cpp \
 	source/platform/glfw/glfwInput.cpp \
@@ -125,7 +125,6 @@ SOURCES += source/Viewport.cpp \
 	source/ThreadManager.cpp \
 	source/api/rocket/RocketInterface.cpp \
 	source/Presentation.cpp \
-	source/EventPresentation.cpp \
 	source/map/GameMap.cpp \
 	source/map/IMapLayer.cpp \
 	source/map/MapLayerMetadata.cpp \
@@ -178,7 +177,6 @@ HEADERS += include/*.h \
 	include/api/yajl/JsonWriter.h \
 	include/interface/IDataObject.h \
 	include/SceneObjectFactory.h \
-	include/Camera.h \
 	include/platform/glfw/glfwTimer.h \
 	include/platform/glfw/glfwThread.h \
 	include/platform/glfw/glfwSystem.h \
@@ -193,7 +191,6 @@ HEADERS += include/*.h \
 	include/api/rocket/RocketInterface.h \
 	include/interface/IHardwareBuffer.h \
 	include/Presentation.h \
-	include/EventPresentation.h \
 	include/map/GameMap.h \
 	include/map/IMapLayer.h \
 	include/map/MapLayerMetadata.h \
@@ -214,6 +211,10 @@ HEADERS += include/*.h \
 	include/api/ogl/ogl20ShaderProgram.h \
 	include/PrefabManager.h \
 	include/map/MetadataObject.h \
+	include/renderer/Renderer.h \
+	include/renderer/RendererManager.h \
+	include/renderer/Camera.h \
+	include/renderer/Viewport.h \
 	include/Memory.h \
 	include/Semaphore.h \
 	include/api/ogl/oglHeaders.h

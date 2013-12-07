@@ -181,7 +181,7 @@ bool OGL20RendererDevice::Initialize()
 
 bool OGL20RendererDevice::Reset()
 {
-	#warning FIXME - mutex lock guard here (?)
+	WARNING(FIXME - mutex lock guard here)
 	ITextureVector().swap(vTexture);
 	return true;
 }
@@ -358,20 +358,19 @@ void OGL20RendererDevice::SetTextureParameters(const ITexture *texture) const
 
 void OGL20RendererDevice::TextureRequestAbort(ITexture *texture)
 {
-	#warning FIXME - mutex lock guard here
+	WARNING(FIXME - mutex lock guard here)
 	vTexture -= texture;
 }
 
 void OGL20RendererDevice::TextureRequest(ITexture *texture)
 {
-	#warning FIXME - mutex lock guard here
+	WARNING(FIXME - mutex lock guard here)
 	vTexture += texture;
 }
 
 void OGL20RendererDevice::TextureRequestProcess() const
 {
-	#warning FIXME - mutex lock guard here
-
+	WARNING(FIXME - mutex lock guard here)
 	GL_TRACE("BEGIN TextureRequestProcess")
 	ITextureVector::iterator it = vTexture.begin();
 	ITextureVector::iterator end = vTexture.end();

@@ -32,7 +32,8 @@
 #include "Sprite.h"
 #include "Image.h"
 #include "ParticleEmitter.h"
-#include "Camera.h"
+#include "renderer/Camera.h"
+#include "renderer/Renderer.h"
 #include "Frame.h"
 #include "map/GameMap.h"
 #include "map/MetadataObject.h"
@@ -77,6 +78,7 @@ SEED_CREATE_DEFINITION(MapLayerMosaic)
 SEED_CREATE_DEFINITION(MapLayerTiled)
 SEED_CREATE_DEFINITION(TileSet)
 SEED_CREATE_DEFINITION(GameMap)
+SEED_CREATE_DEFINITION(Renderer)
 
 #undef SEED_CREATE_DEFINITION_DELETE
 #undef SEED_CREATE_DEFINITION_NEW

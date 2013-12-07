@@ -32,9 +32,9 @@
 #include "Defines.h"
 #include "Log.h"
 #include "Enum.h"
-#include "Viewport.h"
 #include "RendererDevice.h"
-#include "Renderer.h"
+#include "renderer/Viewport.h"
+#include "renderer/Renderer.h"
 
 #define TAG		"[ViewManager] "
 

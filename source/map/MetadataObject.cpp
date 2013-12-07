@@ -114,7 +114,7 @@ void MetadataObject::Set(Reader &reader)
 bool MetadataObject::Write(Writer &writer)
 {
 	UNUSED(writer)
-	WARNING(IMPL - MetadataObject::Write(Writer &writer))
+	WARNING(IMPL - MapLayerTiled::Write(...))
 	return true;
 }
 

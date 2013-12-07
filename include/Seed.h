@@ -39,7 +39,6 @@
 #include <Profiler.h>
 
 #include <Cartridge.h>
-#include <Camera.h>
 #include <Checksum.h>
 #include <Container.h>
 
@@ -51,7 +50,6 @@
 #include <EventResourceLoader.h>
 #include <EventSystem.h>
 #include <EventMovie.h>
-#include <EventPresentation.h>
 
 #include <File.h>
 #include <FileSystem.h>
@@ -99,8 +97,12 @@
 #include <ResourceManager.h>
 #include <ResourceLoader.h>
 #include <ResourceGroup.h>
-#include <Renderer.h>
+
 #include <RendererDevice.h>
+#include <renderer/Camera.h>
+#include <renderer/Renderer.h>
+#include <renderer/Viewport.h>
+#include <renderer/RendererManager.h>
 
 #include <SaveSystem.h>
 #include <SceneNode.h>
@@ -121,9 +123,7 @@
 #include <Timeline.h>
 #include <Movie.h>
 
-#include <Viewport.h>
 #include <ViewManager.h>
-#include <RendererManager.h>
 
 #include <SeedInit.h>
 #include <SeedRun.h>

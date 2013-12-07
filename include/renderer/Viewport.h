@@ -28,106 +28,72 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __RENDERER_H__
-#define __RENDERER_H__
+#ifndef __VIEWPORT_H__
+#define __VIEWPORT_H__
 
-#include "interface/IUpdatable.h"
-#include "SceneNode.h"
+#include "Defines.h"
+#include "Rect.h"
+#include "interface/IObject.h"
 
 namespace Seed {
 
-class ISceneObject;
-class ISceneNode;
-class ITexture;
+class Renderer;
 class Camera;
 class Presentation;
+class SceneNode;
 
-struct VisibleObject
+/// Viewport Interface
+/**
+Interface for working with viewports.
+*/
+class SEED_CORE_API Viewport : public IObject
 {
-	Matrix4f mWorldTransform;
-	ISceneObject *pObj;
-
-	VisibleObject()
-		: mWorldTransform()
-		, pObj(nullptr)
-	{}
-};
-
-/// Renderer
-class SEED_CORE_API Renderer : public IUpdatable, public IObject
-{
-	SEED_DECLARE_CONTAINER(Vector, SceneNode)
-	SEED_DISABLE_COPY(Renderer)
-	SEED_DECLARE_RTTI(Renderer, IObject)
-
-	typedef Vector<VisibleObject> VisibleVector;
-	typedef VisibleVector::iterator VisibleVectorIterator;
-	typedef VisibleVector::const_iterator ConstVisibleVectorIterator;
-
-	typedef Vector<ISceneObject *> RenderableVector;
-	typedef RenderableVector::iterator RenderableVectorIterator;
-	typedef RenderableVector::const_iterator ConstRenderableVectorIterator;
+	SEED_DISABLE_COPY(Viewport)
+	SEED_DECLARE_RTTI(Viewport, IObject)
 
 	friend class Presentation;
 	public:
-		Renderer();
-		virtual ~Renderer();
+		Viewport();
+		virtual ~Viewport();
 
-		virtual void Render(Camera *camera);
+		void Render();
 
-		virtual void Begin() const;
-		virtual void End() const;
+		void SetRenderer(Renderer *renderer);
+		Renderer *GetRenderer() const;
 
-		void Setup();
-		void Teardown();
-		void Disable();
-		void Enable();
-		bool IsEnabled() const;
+		void SetCamera(Camera *camera);
+		Camera *GetCamera() const;
 
 		void SetScene(SceneNode *node);
 		SceneNode *GetScene() const;
 
-		// IUpdatable
-		virtual bool Update(Seconds delta) override;
+		void SetArea(const Rect4u &rect);
+		void SetPosition(u32 x, u32 y);
+		void SetWidth(u32 w);
+		void SetHeight(u32 h);
 
-	private:
-		void RenderObjects(const VisibleVector &vec) const;
-		void PushChildNodes(SceneNode *, SceneNodeVector &vec);
+		u32 GetX() const;
+		u32 GetY() const;
+		u32 GetWidth() const;
+		u32 GetHeight() const;
 
-		void Sort(VisibleVector &vec);
-		void Culler(Camera *camera);
+		bool Contains(u32 x, u32 y);
 
 	protected:
-		String sPrefabToLoad;
-		String sSceneToAttach;
-		SceneNode *pScene;
-		RenderableVector vRenderables;
-		VisibleVector vVisibleRenderables;
-		bool bEnabled : 1;
+		Renderer	*pRenderer;
+		Camera		*pCamera;
+		SceneNode	*pScene;
+
+		u32		iX;
+		u32		iY;
+		u32		iWidth;
+		u32		iHeight;
+
+		String	sCameraNameToAttach;
+		String	sSceneToAttach;
 };
-
-inline void Renderer::Setup()
-{}
-
-inline void Renderer::Teardown()
-{}
-
-inline void Renderer::Disable()
-{
-	bEnabled = false;
-}
-
-inline void Renderer::Enable()
-{
-	bEnabled = true;
-}
-
-inline bool Renderer::IsEnabled() const
-{
-	return bEnabled;
-}
-
 
 } // namespace
 
-#endif // __RENDERER_H__
+
+#endif // __VIEWPORT_H__

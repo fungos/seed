@@ -114,23 +114,26 @@ struct Color
 
 typedef Color Color4b;
 
+#include "Log.h"
+
 // Debugging
 #if defined(DEBUG)
-	#include "Log.h"
-	#define SEED_ASSERT(x)					if (!(x)) { Err("%s:%d: " #x, __FILE__, __LINE__); HALT}
-	#define SEED_ASSERT_MSG(x, msg)			if (!(x)) { Err("%s:%d: (" #x "): " #msg, __FILE__, __LINE__); HALT}
-	#define SEED_ASSERT_FMT(x, msg, ...)	if (!(x)) { Err("%s:%d: (" #x "): " #msg, __FILE__, __LINE__, __VA_ARGS__); HALT}
-	#define SEED_WARNING(x, msg, ...)		if (x)    { Wrn("%s:%d: WARNING: (" #x "): " #msg, __FILE__, __LINE__, __VA_ARGS__); }
-
 	#if defined(__GNUC__)
 		#define __FUNC__					__PRETTY_FUNCTION__
 	#else
 		#define __FUNC__					__FUNCSIG__
 	#endif
 
-	#define SEED_ABSTRACT_METHOD		Dbg(SEED_TAG "WARNING: Calling an 'abstract' method: [%s] (%s:%d).", __FUNC__, __FILE__, __LINE__);
-	#define SEED_DEPRECATED_METHOD		Dbg(SEED_TAG "WARNING: Calling a deprected method, please fix it: [%s] (%s:%d)", __FUNC__, __FILE__, __LINE__);
+	#define SEED_ASSERT(x)					if (!(x)) { Err("%s:%d: " #x, __FILE__, __LINE__); HALT}
+	#define SEED_ASSERT_MSG(x, msg)			if (!(x)) { Err("%s:%d: (" #x "): " #msg, __FILE__, __LINE__); HALT}
+	#define SEED_ASSERT_FMT(x, msg, ...)	if (!(x)) { Err("%s:%d: (" #x "): " #msg, __FILE__, __LINE__, __VA_ARGS__); HALT}
+	#define SEED_WARNING(x, msg, ...)		if (x)    { Wrn("%s:%d: WARNING: (" #x "): " #msg, __FILE__, __LINE__, __VA_ARGS__); }
+	#define SEED_CHECK_RETURN(x, ret, msg, ...)	if (!(x)) { Err("%s:%d: ERROR: (" #x "): " #msg, __FILE__, __LINE__); return ret; }
+	#define SEED_ABSTRACT_METHOD			Dbg(SEED_TAG "WARNING: Calling an 'abstract' method: [%s] (%s:%d).", __FUNC__, __FILE__, __LINE__);
+	#define SEED_DEPRECATED_METHOD			Dbg(SEED_TAG "WARNING: Calling a deprected method, please fix it: [%s] (%s:%d)", __FUNC__, __FILE__, __LINE__);
 #else
+	#define SEED_CHECK_RETURN(x, ret, msg, ...)	if (!(x)) { Err("ERROR: " #msg); return ret; }
+
 	#define SEED_ABSTRACT_METHOD
 	#define SEED_DEPRECATED_METHOD
 
@@ -148,7 +151,7 @@ typedef Color Color4b;
 
 #endif // DEBUG
 
-#define SEED_INVALID_ID					0xFFFFFFFF
+#define SEED_INVALID_ID						0xFFFFFFFF
 
 #define SEED_CLAMP(val,min,max) 			((val) = (((val) < (min)) ? (min) : ((val) > (max)) ? (max) : (val)))
 #define SEED_ROUND_UP(value, alignment)		(((intptr_t)(value) + (alignment-1)) & ~(alignment-1))
@@ -158,9 +161,9 @@ typedef Color Color4b;
 #define SEED_ALIGN_FLOOR(ptr, align)		((u8 *)(ptr) - ( SEED_PTR_OFF(ptr) & ((align) - 1)))
 #define SEED_ALIGN_CEIL(ptr, align)			((u8 *)(ptr) + (-SEED_PTR_OFF(ptr) & ((align) - 1)))
 
-#define SEED_DISABLE_COPY(Class)		private:										\
-											Class(const Class &) = delete;				\
-											Class &operator=(const Class &) = delete;	\
+#define SEED_DISABLE_COPY(Class)			private:										\
+												Class(const Class &) = delete;				\
+												Class &operator=(const Class &) = delete;	\
 
 #define SEED_COMPILE_TIME_ASSERT(name, x)	typedef int __seed_compile_assert_ ## name[(x) * 2 - 1]
 

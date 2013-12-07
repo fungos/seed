@@ -28,66 +28,56 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __VIEWPORT_H__
-#define __VIEWPORT_H__
+#ifndef __RENDERER_MANAGER_H__
+#define __RENDERER_MANAGER_H__
 
-#include "Defines.h"
-#include "Rect.h"
-#include "interface/IObject.h"
+#include "interface/IManager.h"
+#include "interface/IUpdatable.h"
+#include "Singleton.h"
+#include "Container.h"
 
 namespace Seed {
 
 class Renderer;
-class Camera;
-class Presentation;
+class Reader;
+class Writer;
 
-/// Viewport Interface
-/**
-Interface for working with viewports.
-*/
-class SEED_CORE_API Viewport : public IObject
+/// Renderer Manager
+class SEED_CORE_API RendererManager : public IManager, public IUpdatable
 {
-	SEED_DISABLE_COPY(Viewport)
-	SEED_DECLARE_RTTI(Viewport, IObject)
+	SEED_DECLARE_SINGLETON(RendererManager)
+	SEED_DECLARE_MANAGER(RendererManager)
+	SEED_DECLARE_CONTAINER(Vector, Renderer)
+	SEED_DISABLE_COPY(RendererManager)
 
-	friend class Presentation;
 	public:
-		Viewport();
-		virtual ~Viewport();
+		void Add(Renderer *renderer);
+		void Remove(Renderer *renderer);
 
-		void Render();
+		bool Load(Reader &reader, ResourceManager *res);
+		bool Write(Writer &writer);
 
-		void SetRenderer(Renderer *renderer);
-		Renderer *GetRenderer() const;
+		const Renderer *Get(const String &name) const;
 
-		void SetCamera(Camera *camera);
-		Camera *GetCamera() const;
+		// IManager
+		virtual bool Initialize() override;
+		virtual bool Reset() override;
+		virtual bool Shutdown() override;
 
-		void SetArea(const Rect4u &rect);
-		void SetPosition(u32 x, u32 y);
-		void SetWidth(u32 w);
-		void SetHeight(u32 h);
+		virtual void Disable() override;
+		virtual void Enable() override;
 
-		u32 GetX() const;
-		u32 GetY() const;
-		u32 GetWidth() const;
-		u32 GetHeight() const;
+		// IUpdatable
+		virtual bool Update(Seconds dt) override;
 
-		bool Contains(u32 x, u32 y);
-
-	protected:
-		Renderer	*pRenderer;
-		Camera		*pCamera;
-
-		u32		iX;
-		u32		iY;
-		u32		iWidth;
-		u32		iHeight;
-
-		String	sCameraNameToAttach;
+	private:
+		RendererVector vTemplates;
+		RendererVector vRenderer;
+		bool bEnabled : 1;
 };
+
+#define pRendererManager RendererManager::GetInstance()
 
 } // namespace
 
-
-#endif // __VIEWPORT_H__
+#endif // __RENDERER_MANAGER_H__
