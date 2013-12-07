@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	joystick_sample.cpp
 
@@ -13,3 +11,5 @@ OTHER_FILES += \
 	../bin/joystick_app.config \
 	../bin/joystick_sample.config \
 	../bin/joystick_sample.scene
+
+include("../sample.pri")

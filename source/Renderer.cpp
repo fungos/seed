@@ -60,7 +60,7 @@ struct SEED_CORE_API VisibleObjectDescendingPrioritySort
 
 
 Renderer::Renderer()
-	: pScene(NULL)
+	: pScene(nullptr)
 	, vRenderables()
 	, vVisibleRenderables()
 	, bEnabled(true)
@@ -78,6 +78,7 @@ Renderer::~Renderer()
 
 void Renderer::PushChildNodes(SceneNode *node, SceneNodeVector &v)
 {
+	SEED_ASSERT(node);
 	for (u32 i = 0; i < node->Size(); i++)
 	{
 		ISceneObject *obj = node->GetChildAt(i);
@@ -127,6 +128,7 @@ bool Renderer::Update(Seconds dt)
 
 void Renderer::Render(Camera *camera)
 {
+	SEED_ASSERT(camera);
 	SEED_FUNCTION_PROFILER;
 	if (pScene && pRendererDevice && pRendererDevice->IsEnabled() && this->IsEnabled())
 	{
@@ -140,6 +142,7 @@ void Renderer::Render(Camera *camera)
 
 void Renderer::Culler(Camera *camera)
 {
+	SEED_ASSERT(camera);
 	SEED_FUNCTION_PROFILER;
 
 	vVisibleRenderables.clear();
@@ -175,11 +178,7 @@ void Renderer::RenderObjects(const VisibleVector &vec) const
 
 void Renderer::Sort(VisibleVector &vec)
 {
-#if !SEED_ENABLE_DEPTH_TEST
 	std::sort(vec.begin(), vec.end(), VisibleObjectDescendingPrioritySort());
-#else
-	UNUSED(vec)
-#endif
 }
 
 void Renderer::Begin() const

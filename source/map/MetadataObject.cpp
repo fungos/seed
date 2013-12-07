@@ -171,11 +171,11 @@ MetadataObject *MetadataObject::Clone() const
 
 void MetadataObject::Render(const Matrix4f &worldTransform)
 {
-	Vector3f t = worldTransform.getTranslation();
-	f32 x = this->GetX();
-	f32 y = this->GetY();
-	f32 w = this->GetWidth();
-	f32 h = this->GetHeight();
+	auto t = worldTransform.getTranslation();
+	auto x = this->GetX();
+	auto y = this->GetY();
+	auto w = this->GetWidth();
+	auto h = this->GetHeight();
 
 	switch (nType)
 	{
@@ -219,12 +219,12 @@ void MetadataObject::ReadVertices(Reader &reader, u32 size)
 	pVertices = (f32 *)sdAlloc(sizeof(f32) * size * 2); // POD
 	pCached = (f32 *)sdAlloc(sizeof(f32) * size * 2);
 
-	f32 x = 0.0f;
-	f32 y = 0.0f;
-	f32 minX = 999999.f;
-	f32 minY = 999999.f;
-	f32 maxX = -999999.f;
-	f32 maxY = -999999.f;
+	auto x = 0.0f;
+	auto y = 0.0f;
+	auto minX = 999999.f;
+	auto minY = 999999.f;
+	auto maxX = -999999.f;
+	auto maxY = -999999.f;
 
 	for (u32 i = 0, p = 0; i < size; i++)
 	{
@@ -271,7 +271,7 @@ const f32 *MetadataObject::GetVertices() const
 
 const String MetadataObject::GetProperty(const String &property) const
 {
-	Map<String, String>::const_iterator it = mProperties.find(property);
+	const auto it = mProperties.find(property);
 	return it == mProperties.end() ? "" : it->second;
 }
 

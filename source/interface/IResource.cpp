@@ -33,7 +33,7 @@
 namespace Seed {
 
 IResource::IResource()
-	: pRes(NULL)
+	: pRes(nullptr)
 	, sFilename()
 	, iRefCount(0)
 	, bLoaded(false)

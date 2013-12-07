@@ -89,7 +89,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 		vorbisCb.seek_func = vorbis_seek;
 		vorbisCb.tell_func = vorbis_tell;
 
-		if (ov_open_callbacks(&oggFile, &oggStream, NULL, 0, vorbisCb) != 0)
+		if (ov_open_callbacks(&oggFile, &oggStream, nullptr, 0, vorbisCb) != 0)
 		{
 			Log(TAG "Could not read ogg file from memory");
 			memset(&oggFile, '\0', sizeof(oggFile));

@@ -30,20 +30,13 @@
 
 #include "RendererDevice.h"
 
-#if defined(USE_API_OGL)
+#if defined(USE_API_OGL) && !defined(SEED_ENABLE_OGLES2)
 
+#include "api/ogl/oglHeaders.h"
 #include "Log.h"
 #include "Screen.h"
 #include "Texture.h"
 #include "Vertex.h"
-
-
-
-#if defined(BUILD_SDL)
-#undef NO_SDL_GLEXT
-#define NO_SDL_GLEXT	1
-#include <SDL/SDL_opengl.h>
-#endif
 
 #if defined(BUILD_IOS)
 	#define PIXEL_FORMAT_32 GL_RGBA
@@ -90,15 +83,6 @@
 	#else
 		#define PIXEL_FORMAT_32 GL_BGRA
 	#endif
-	#define _OPENGL_15		1
-	#if defined(__APPLE_CC__)
-		#include <OpenGL/gl.h>
-		#include <OpenGL/glext.h>
-	#else
-		#include <GL/gl.h>
-		#include <GL/glext.h>
-	#endif
-
 	#if defined(BUILD_SDL)
 		#include "platform/sdl/sdlDefines.h"
 	#endif
@@ -403,7 +387,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			GLuint h = texture->GetAtlasHeight();
 			const void *data = texture->GetData();
 
-			// if data == NULL then this can be a dynamic texture/render target. we need just the texture id.
+			// if data == nullptr then this can be a dynamic texture/render target. we need just the texture id.
 			if (data)
 			{
 				u32 bpp = texture->GetBytesPerPixel();
@@ -461,7 +445,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			}
 			else if (w && h)// Render Target, 32bits only
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, NULL);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, nullptr);
 			}
 			// else is a dynamic texture from image/video.
 
@@ -554,7 +538,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 
-	void *elemPtr = NULL;
+	void *elemPtr = nullptr;
 #if USE_API_OGL_VBO
 	if (ebo)
 	{
@@ -615,7 +599,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 			glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, vbo->iLength);
 			glPopAttrib();
 		#else
-			glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
+			glDrawArrays(GL_LINE_STRIP, 0, vbo->iLength);
 		#endif
 
 		if (packet->fRadius)
@@ -631,10 +615,12 @@ void OGLES1RendererDevice::UploadData(void *userData)
 //			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
 
 		glPointSize(7.0f);
-		glBegin(GL_POINTS);
-			glColor3f(1.0f, 0.0f, 1.0f);
-			glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
-		glEnd();
+		#if !defined (BUILD_IOS)
+			glBegin(GL_POINTS);
+				glColor3f(1.0f, 0.0f, 1.0f);
+				glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
+			glEnd();
+		#endif
 
 		Vector3f op = packet->pTransform->getTranslation();
 		pRendererDevice->DrawCircle(pivot.getX() + op.getX(), pivot.getY() + op.getY(), 3, Color(255, 0, 255, 255));

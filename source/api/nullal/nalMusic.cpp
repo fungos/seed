@@ -82,7 +82,7 @@ void Music::UpdateVolume()
 
 const void *Music::GetData() const
 {
-	return NULL;
+	return nullptr;
 }
 
 }} // namespace

@@ -49,7 +49,7 @@ class IVideo : public ITransformable
 		//virtual void Reset();
 		//virtual bool Unload();
 
-		//virtual bool Update(f32 delta);
+		//virtual bool Update(Seconds dt);
 
 	public:
 		u32	iDuration = 0;

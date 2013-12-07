@@ -56,7 +56,7 @@ class SEED_CORE_API Image : public ISceneObject
 		bool Load(const String &filename, ResourceManager *res = pResourceManager);
 
 		// IRenderable
-		virtual void Update(f32 delta) override;
+		virtual void Update(Seconds dt) override;
 		virtual void Render(const Matrix4f &worldTransform) override;
 
 		// IDataObject

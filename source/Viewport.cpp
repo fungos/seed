@@ -37,8 +37,8 @@
 namespace Seed {
 
 Viewport::Viewport()
-	: pRenderer(NULL)
-	, pCamera(NULL)
+	: pRenderer(nullptr)
+	, pCamera(nullptr)
 	, iX(0)
 	, iY(0)
 	, iWidth(0)

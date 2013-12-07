@@ -26,8 +26,8 @@ class ParticleSample : public IGameApp,
 
 	protected:
 		Presentation cPres;
+		Sprite *pObject;
 		ParticleEmitter *pEmitter;
-		Sprite *pSprite;
 		s32	iAnimation;
 };
 

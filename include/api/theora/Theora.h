@@ -36,7 +36,6 @@
 #if SEED_USE_THEORA == 1 && !defined(BUILD_IOS)
 
 #include "Thread.h"
-#include "Mutex.h"
 #include "Image.h"
 #include "Texture.h"
 #include "Semaphore.h"
@@ -82,8 +81,7 @@ class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 		virtual void PlayToFrame(u32 frame);
 
 		// IRenderable
-		virtual void Update(f32 delta) override;
-		virtual void Render() override;
+		virtual void Update(Seconds dt) override;
 
 		// Thread
 		virtual bool Run() override;

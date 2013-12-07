@@ -51,7 +51,7 @@ SEED_SINGLETON_DEFINE(Screen)
 Screen::Screen()
 	: iHandle(0)
 	, surfaceSize(0)
-	, pSurface(NULL)
+	, pSurface(nullptr)
 	, bFullScreen(false)
 	, iBPP(32)
 	, iFlags(0)
@@ -132,7 +132,7 @@ bool Screen::Prepare()
 	if (bFullScreen)
 		iFlags |= SDL_FULLSCREEN;
 
-	return (videoInfo != NULL);
+	return (videoInfo != nullptr);
 }
 
 bool Screen::Initialize()
@@ -171,7 +171,7 @@ bool Screen::InitializeVideo()
 	if (pSurface)
 	{
 		SDL_FreeSurface(pSurface);
-		pSurface = NULL;
+		pSurface = nullptr;
 	}
 
 #if defined(__APPLE_CC__) || defined(__linux__)
@@ -193,12 +193,12 @@ bool Screen::InitializeVideo()
 
 #if defined(WIN32)
 	int dpiX = 0, dpiY = 0;
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	if (hdc)
 	{
 		dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
 		dpiY = GetDeviceCaps(hdc, LOGPIXELSY);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 	}
 
 	int cxScreen = GetSystemMetrics(SM_CXSCREEN);
@@ -240,14 +240,14 @@ bool Screen::InitializeVideo()
 			HWND hWnd = info.window;
 			iHandle = (u32)hWnd;
 
-			const HANDLE bigIcon = ::LoadImageA(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
+			const HANDLE bigIcon = ::LoadImageA(nullptr, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
 			if (bigIcon)
 			{
 				icon = true;
 				::SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)bigIcon);
 			}
 
-			const HANDLE lilIcon = ::LoadImageA(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
+			const HANDLE lilIcon = ::LoadImageA(nullptr, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
 			if (bigIcon)
 			{
 				icon = true;
@@ -262,7 +262,7 @@ bool Screen::InitializeVideo()
 			{
 				Uint32 colorkey = SDL_MapRGB(icon->format, 255, 0, 255);
 				SDL_SetColorKey(icon, SDL_SRCCOLORKEY, colorkey);
-				SDL_WM_SetIcon(icon, NULL);
+				SDL_WM_SetIcon(icon, nullptr);
 			}
 		}
 	}
@@ -284,7 +284,7 @@ bool Screen::Shutdown()
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);
-	pSurface = NULL;
+	pSurface = nullptr;
 
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 

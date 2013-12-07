@@ -164,6 +164,7 @@ ITexture *Camera::GetTexture() const
 
 bool Camera::IsInView(ITransformable *obj, Matrix4f &worldTransform)
 {
+	SEED_ASSERT(obj);
 	worldTransform = mInverse * obj->mTransform;
 	auto op = worldTransform.getTranslation();
 	auto ox = op.getX();

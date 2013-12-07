@@ -21,11 +21,11 @@ VideoSample::~VideoSample()
 bool VideoSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("sprite_sample.config", [&](Presentation *pres, Renderer *rend)
+	return cPres.Load("video_sample.config", [&](Presentation *pres, Renderer *rend)
 	{
 		UNUSED(rend)
 		pCamera = pres->GetViewportByName("MainView")->GetCamera();
-		pObject = (Video *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Theora");
+		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Theora");
 
 		pSystem->AddListener(this);
 		pInput->AddKeyboardListener(this);

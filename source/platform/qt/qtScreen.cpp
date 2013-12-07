@@ -49,7 +49,7 @@ namespace Seed { namespace QT {
 
 SEED_SINGLETON_DEFINE(Screen)
 
-Scene *Screen::pScene = NULL;
+Scene *Screen::pScene = nullptr;
 
 Screen::Screen()
 {
@@ -98,7 +98,7 @@ bool Screen::Shutdown()
 	bool r = this->Reset();
 
 	Delete(pScene);
-	pScene = NULL;
+	pScene = nullptr;
 	IManager::Shutdown();
 	Log(TAG "Terminated.");
 

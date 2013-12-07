@@ -67,7 +67,7 @@ bool Sound::Unload()
 
 const void *Sound::GetData() const
 {
-	return NULL;
+	return nullptr;
 }
 
 u32 Sound::GetUsedMemory() const

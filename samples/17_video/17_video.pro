@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	video_sample.cpp
 
@@ -10,3 +8,5 @@ OTHER_FILES += \
 	../bin/video_app.config \
 	../bin/video_sample.scene \
 	../bin/video_sample.config
+
+include("../sample.pri")

@@ -2,7 +2,7 @@ TARGET = seed
 TEMPLATE = lib
 
 INCLUDEPATH += include/ contrib/
-DEFINES += SEED_BUILD SEED_ENABLE_PROFILER
+DEFINES += SEED_BUILD SEED_ENABLE_PROFILER SEED_ENABLE_OGL20
 
 CONFIG += sdl2
 CONFIG += staticlib
@@ -57,8 +57,6 @@ SOURCES += source/Viewport.cpp \
 	source/Configuration.cpp \
 	source/Checksum.cpp \
 	source/Animation.cpp \
-	source/api/directx/DirectXVersion.cpp \
-	source/api/directx/D3D8RendererDevice.cpp \
 	source/interface/ITransformable.cpp \
 	source/interface/ITexture.cpp \
 	source/interface/ISystem.cpp \
@@ -134,6 +132,17 @@ SOURCES += source/Viewport.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
 	source/map/TileSet.cpp \
+	source/interface/IShader.cpp \
+	source/interface/IShaderProgram.cpp \
+	source/ShaderManager.cpp \
+	source/api/ogl/oglES1Shader.cpp \
+	source/api/ogl/oglES1ShaderProgram.cpp \
+	source/api/ogl/oglES2Shader.cpp \
+	source/api/ogl/oglES2ShaderProgram.cpp \
+	source/api/ogl/oglES2RendererDevice.cpp \
+	source/api/ogl/ogl20RendererDevice.cpp \
+	source/api/ogl/ogl20Shader.cpp \
+	source/api/ogl/ogl20ShaderProgram.cpp \
 	source/interface/IManager.cpp \
 	source/PrefabManager.cpp \
 	source/map/MetadataObject.cpp \
@@ -162,7 +171,6 @@ HEADERS += include/*.h \
 	include/platform/pc/*.h \
 	include/platform/ios/*.h \
 	include/interface/*.h \
-	include/api/directx/*.h \
 	include/api/oal/*.h \
 	include/api/nullal/*.h \
 	include/api/ogl/*.h \
@@ -196,10 +204,23 @@ HEADERS += include/*.h \
 	include/map/MapLayerMosaic.h \
 	include/map/MapLayerTiled.h \
 	include/map/TileSet.h \
+	include/api/ogl/oglES2RendererDevice.h \
+	include/interface/IShader.h \
+	include/Shader.h \
+	include/interface/IShaderProgram.h \
+	include/ShaderProgram.h \
+	include/ShaderManager.h \
+	include/api/ogl/oglES2Shader.h \
+	include/api/ogl/oglES2ShaderProgram.h \
+	include/map/TileSet.h \
+	include/api/ogl/ogl20RendererDevice.h \
+	include/api/ogl/ogl20Shader.h \
+	include/api/ogl/ogl20ShaderProgram.h \
 	include/PrefabManager.h \
 	include/map/MetadataObject.h \
 	include/Memory.h \
 	include/Semaphore.h \
+	include/api/ogl/oglHeaders.h \
 	include/platform/sdl2/sdl2Texture.h \
 	include/platform/sdl2/sdl2System.h \
 	include/platform/sdl2/sdl2Screen.h \

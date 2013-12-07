@@ -96,6 +96,8 @@ void Configuration::Load(const String &file)
 			nRendererDeviceType = eRendererDeviceType::OpenGLAny;
 		else if (renderer == "ogles1" || renderer == "opengl es1")
 			nRendererDeviceType = eRendererDeviceType::OpenGLES1;
+		else if (renderer == "ogles2" || renderer == "opengl es2")
+			nRendererDeviceType = eRendererDeviceType::OpenGLES2;
 		else if (renderer == "ogl2" || renderer == "opengl 2.x")
 			nRendererDeviceType = eRendererDeviceType::OpenGL2x;
 		else if (renderer == "ogl3" || renderer == "opengl 3.x")

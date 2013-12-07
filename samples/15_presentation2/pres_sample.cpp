@@ -55,7 +55,7 @@ void PresentationSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 void PresentationSample::OnInputPointerRelease(const EventInputPointer *ev)
 {
-	if (ev->GetReleased() == eInputButton::Left)
+	if (ev->GetReleased() == eInputButton::MouseLeft)
 	{
 		auto vp = pViewManager->GetViewportAt(ev->GetX(), ev->GetY());
 		Log("Click at viewport %s", vp->sName.c_str());

@@ -2,8 +2,8 @@
 
 ParticleSample::ParticleSample()
 	: cPres()
+	, pObject(nullptr)
 	, pEmitter(nullptr)
-	, pSprite(nullptr)
 	, iAnimation(0)
 {
 }
@@ -25,11 +25,11 @@ bool ParticleSample::Initialize()
 bool ParticleSample::Update(Seconds dt)
 {
 	UNUSED(dt)
-	if (!pSprite && pEmitter)
+	if (!pObject && pEmitter)
 	{
-		pSprite = pEmitter->GetSprite();
-		if (pSprite)
-			iAnimation = pSprite->GetCurrentAnimation();
+		pObject = pEmitter->GetSprite();
+		if (pObject)
+			iAnimation = pObject->GetCurrentAnimation();
 	}
 
 	return true;
@@ -68,13 +68,13 @@ void ParticleSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 	else if (k == eKey::Right)
 		iAnimation++;
 
-	if (pSprite)
+	if (pObject)
 	{
 		if (iAnimation < 0)
-			iAnimation = pSprite->GetAnimationCount() - 1;
-		else if (iAnimation >= (s32)pSprite->GetAnimationCount())
+			iAnimation = pObject->GetAnimationCount() - 1;
+		else if (iAnimation >= (s32)pObject->GetAnimationCount())
 			iAnimation = 0;
 
-		pSprite->SetAnimation(iAnimation);
+		pObject->SetAnimation(iAnimation);
 	}
 }

@@ -31,24 +31,17 @@
 #ifndef __OGLES1_RENDERER_DEVICE_H__
 #define __OGLES1_RENDERER_DEVICE_H__
 
-#if !defined(BUILD_IOS)
-#include "glew/glew.h"
-#endif
-
-#if defined(_MSC_VER)
-#pragma comment(lib, "opengl32.lib")
-#pragma comment(lib, "glu32.lib")
-#endif
-
 #include "Defines.h"
-#include "Enum.h"
-#include "Vertex.h"
-#include "Container.h"
 
 #if defined(USE_API_OGL)
 
+#include "api/ogl/oglHeaders.h"
+#include "Enum.h"
+#include "Vertex.h"
+#include "Container.h"
 #include "interface/IRendererDevice.h"
 
+<<<<<<< HEAD
 #if defined(BUILD_SDL) && defined(_MSC_VER)
 	#define NO_SDL_GLEXT	1
 	#include <SDL/SDL_opengl.h>
@@ -69,6 +62,10 @@
 	#include <SDL2/SDL_opengl.h>
 #else
 	#include <GL/glext.h>
+=======
+#if defined(BUILD_IOS)
+#include <OpenGLES/ES1/gl.h>
+>>>>>>> develop
 #endif
 
 namespace Seed {
@@ -109,7 +106,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const override;
 
 		// Render to Texture support
-		virtual u32 CreateFrameBuffer(ITexture *texture = NULL) override;
+		virtual u32 CreateFrameBuffer(ITexture *texture = nullptr) override;
 		virtual void ActivateFrameBuffer(u32 buffer = 0) override;
 		virtual void DestroyFrameBuffer(u32 buffer) override;
 		virtual u32 CreateDepthBuffer(u32 w, u32 h) override;

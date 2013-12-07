@@ -34,8 +34,9 @@
 
 #include "api/theora/Theora.h"
 #include "Log.h"
-#include "Timer.h"
+#include "System.h"
 #include "Screen.h"
+#include "Memory.h"
 
 #define TAG "[Theora] "
 #define OGGPLAY_BUFFER_SIZE		20
@@ -101,7 +102,7 @@ bool Theora::Unload()
 	bPlaying = false;
 	bPaused = true;
 
-	Free(pTexData);
+	sdFree(pTexData);
 
 	return true;
 }
@@ -113,7 +114,6 @@ bool Theora::Run()
 	{
 		if (bPlaying && !bFinished)
 		{
-	test:
 			OggPlayErrorCode r = E_OGGPLAY_TIMEOUT;
 			if (pSem)
 				pSem->Wait();
@@ -126,7 +126,7 @@ bool Theora::Run()
 			if (r != E_OGGPLAY_CONTINUE && r != E_OGGPLAY_USER_INTERRUPT)
 			{
 				bFinished = true;
-				pTimer->Sleep(10);
+				pTimer->Sleep(Milliseconds(10));
 				if (pSem)
 					pSem->Wait();
 			}
@@ -142,14 +142,14 @@ bool Theora::Run()
 			oggplay_close(pPlayer);
 	}
 
-	pTimer->Sleep(10);
+	pTimer->Sleep(Milliseconds(10));
 	//Log("%d", bTerminateThread);
 	return ret && this->IsRunning();
 }
 
 bool Theora::Load(const String &filename)
 {
-	return this->Load(filename, pResourceManager, pool);
+	return this->Load(filename, pResourceManager);
 }
 
 bool Theora::Load(const String &filename, ResourceManager *res)
@@ -158,7 +158,7 @@ bool Theora::Load(const String &filename, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		OggPlayReader *reader = oggplay_file_reader_new(filename);
+		OggPlayReader *reader = oggplay_file_reader_new(filename.c_str());
 		pPlayer = oggplay_open_with_reader(reader);
 
 		bLoaded = false;
@@ -204,7 +204,7 @@ bool Theora::Load(const String &filename, ResourceManager *res)
 		else
 		{
 			reader = nullptr;
-			Log(TAG "ERROR: could not initialise oggplay with '%s'", filename);
+			Log(TAG "ERROR: could not initialise oggplay with '%s'", filename.c_str());
 		}
 	}
 
@@ -433,7 +433,7 @@ void Theora::ProcessVideoData(OggPlayVideoData *data)
 	}*/
 
 	oggplay_yuv2bgra(&yuv, &rgb);
-	cTexture.Update(static_cast<uPixel *>((void *)pTexData));
+	cTexture.Update(static_cast<Color *>((void *)pTexData));
 }
 
 bool Theora::WaitFrameRate()
@@ -477,13 +477,13 @@ void Theora::ConfigureRendering()
 	{
 		//pTexData = reinterpret_cast<u8 *>(calloc(1, po2_width * po2_height * 4));
 		u32 size = po2_width * po2_height * 4;
-		pTexData = reinterpret_cast<u8 *>(Alloc(size));
-		MEMSET(pTexData, '\0', size);
+		pTexData = reinterpret_cast<u8 *>(sdAlloc(size));
+		memset(pTexData, '\0', size);
 		iTexWidth = po2_width;
 		iTexHeight = po2_height;
 	}
 
-	cTexture.Load(ROUND_UP(iWidth, 32), iHeight, static_cast<uPixel *>((void *)pTexData), iTexWidth, iTexHeight);
+	cTexture.Load("Theora Video", SEED_ROUND_UP(iWidth, 32), iHeight, static_cast<Color *>((void *)pTexData), iTexWidth, iTexHeight, false);
 	Image::Load(&cTexture);
 
 	bTerminateThread = false;
@@ -495,12 +495,6 @@ void Theora::ConfigureRendering()
 	this->Create();
 	this->Run();
 }
-
-void Theora::Render()
-{
-	Image::Render();
-}
-
 
 } // namespace
 

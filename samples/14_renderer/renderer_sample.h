@@ -31,7 +31,7 @@ class RendererSample : public IGameApp,
 		virtual void OnInputPointerRelease(const EventInputPointer *ev);
 
 	protected:
-		ISceneObject *pImage;
+		ISceneObject *pObject;
 		Camera		*pCamera;
 
 		SceneNode	cScene;

@@ -1,4 +1,5 @@
 #include "box2d_sample.h"
+#include "Memory.h"
 #include <sstream>
 
 #define DEG2RAD		0.0174532925199432957f
@@ -53,7 +54,7 @@ bool Box2DSample::Initialize()
 		pInput->AddPointerListener(this);
 	});
 
-	pWorld = New(b2World(b2Vec2(0.0f, 10.0f)));
+	pWorld = sdNew(b2World(b2Vec2(0.0f, 10.0f)));
 	{
 		b2BodyDef bodyDef;
 		bodyDef.type = b2_staticBody;
@@ -95,7 +96,7 @@ bool Box2DSample::Update(Seconds dt)
 bool Box2DSample::Shutdown()
 {
 	this->DestroyPhysics();
-	Delete(pWorld);
+	sdDelete(pWorld);
 
 	cPres.Unload();
 
@@ -131,7 +132,7 @@ void Box2DSample::OnInputPointerPress(const EventInputPointer *ev)
 	p.setY(ev->GetY());
 	p += pCamera->GetPosition();
 
-	if (ev->GetPressed() == eInputButton::Left)
+	if (ev->GetPressed() == eInputButton::MouseLeft)
 	{
 		auto mx = p.getX() * PIX2M;
 		auto my = p.getY() * PIX2M;
@@ -189,7 +190,7 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 	p.setY(ev->GetY());
 	p += pCamera->GetPosition();
 
-	if (ev->GetReleased() == eInputButton::Left)
+	if (ev->GetReleased() == eInputButton::MouseLeft)
 	{
 		if (pPick)
 		{
@@ -198,9 +199,9 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 			pPick = nullptr;
 		}
 	}
-	else if (ev->GetReleased() == eInputButton::Right)
+	else if (ev->GetReleased() == eInputButton::MouseRight)
 	{
-		auto img = New(Image("frame03.png"));
+		auto img = sdNew(Image("frame03.png"));
 		img->bMarkForDeletion = true;
 
 		std::stringstream ss;
@@ -220,7 +221,7 @@ void Box2DSample::DestroyPhysics()
 		if (obj != nullptr)
 		{
 			pScene->Remove(obj);
-			Delete(obj);
+			sdDelete(obj);
 			pWorld->DestroyBody(b);
 		}
 	}

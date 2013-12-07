@@ -26,6 +26,22 @@ bool TestBase::Initialize()
 	pInput->AddKeyboardListener(this);
 
 	/* ------- Rendering Initialization ------- */
+	pShaderManager->Add("Simple", New(OGL20ShaderProgram("Simple")));
+
+	pShaderManager->AttachShader("SimpleVertex", New(OGL20Shader(ShaderTypeVertex)));
+	pShaderManager->AttachShader("SimpleFragment", New(OGL20Shader(ShaderTypeFragment)));
+	pShaderManager->LoadShaderSource("SimpleVertex", "shaders/simple.vs", pResourceManager);
+	pShaderManager->LoadShaderSource("SimpleFragment", "shaders/simple.fs", pResourceManager);
+
+	pShaderManager->CompileShader("SimpleVertex");
+	pShaderManager->CompileShader("SimpleFragment");
+	pShaderManager->AttachShaderToProgram("Simple", "SimpleVertex");
+	pShaderManager->AttachShaderToProgram("Simple", "SimpleFragment");
+
+	pShaderManager->BindAttribute("Simple", 0, "vPosition");
+
+	pShaderManager->LinkShaderProgram("Simple");
+
 	cScene.SetZ(0);
 	cRenderer.SetScene(&cScene);
 
@@ -71,7 +87,7 @@ bool TestBase::Initialize()
 //		cScene.Add(&mvSample);
 //	}
 
-	pJobManager->Add(New(FileLoader("main.scene", kJobLoadScene, this)));
+	pJobManager->Add(New(FileLoader("scenes/main.scene", kJobLoadScene, this)));
 //	pJobManager->Add(New(FileLoader("anim.sprite", kJobLoadAnim, this)));
 //	pJobManager->Add(New(FileLoader("teste.emitter", kJobLoadEmitter, this)));
 //	cScene.Add(&sptLogo);
@@ -125,7 +141,7 @@ bool TestBase::Initialize()
 bool TestBase::Update(f32 dt)
 {
 	UNUSED(dt)
-//	pRendererDevice->DrawRect(100, 100, 50, 50, Color(255, 0, 255, 255), true);
+	pRendererDevice->DrawRect(50, 50, 100, 100, Color(255, 0, 255, 255), true);
 	return true;
 }
 

@@ -35,7 +35,7 @@
 #include "IObject.h"
 
 #define sdAcquire(p)		p->Acquire()
-#define sdRelease(p)		{ if (p) p->Release(); p = NULL; }
+#define sdRelease(p)		{ if (p) p->Release(); p = nullptr; }
 
 namespace Seed {
 

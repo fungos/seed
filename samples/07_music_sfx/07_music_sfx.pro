@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	sfx_sample.cpp
 
@@ -12,3 +10,5 @@ OTHER_FILES += \
 	../bin/sfx_sample.config \
 	../bin/sfx.ogg \
 	../bin/theme.ogg
+
+include("../sample.pri")

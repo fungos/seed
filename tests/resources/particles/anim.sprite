@@ -1,0 +1,34 @@
+{
+	"sType": "sprite",
+	"sName": "PandaSprite",
+	"cScale": {"x": 1, "y": 1, "z": 1},
+	"cPosition": {"z": 100},
+	"sBlending": "none",
+	"cColor": {
+		"r": 255,
+		"g": 255,
+		"b": 255,
+		"a": 255
+	},
+	"aAnimations": [
+		{
+			"bAnimated": true,
+			"bLoop": true,
+			"iFps": 25,
+			"aFrames": [
+				{
+					"sName": "frame 1",
+					"sTexture": "resources/textures/frame01.png"
+				},
+				{
+					"sName": "frame 2",
+					"sTexture": "resources/textures/frame02.png"
+				},
+				{
+					"sName": "frame 3",
+					"sTexture": "resources/textures/frame03.png"
+				}
+			]
+		}
+	]
+}

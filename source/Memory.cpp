@@ -34,94 +34,54 @@
 #include "ParticleEmitter.h"
 #include "Camera.h"
 #include "Frame.h"
+#include "map/GameMap.h"
+#include "map/MetadataObject.h"
+#include "map/MapLayerMetadata.h"
+#include "map/MapLayerTiled.h"
+#include "map/MapLayerMosaic.h"
+#include "map/TileSet.h"
 #include "interface/IDataObject.h"
 
 namespace Seed {
 
 #ifdef DEBUG
-template<>
-void SeedLogDelete(IDataObject *ptr)
-{
-	pLeakReport->LogDelete((IObject *)ptr);
-	delete ptr;
-}
 
-template<>
-void SeedLogDelete(ISceneObject *ptr)
-{
-	pLeakReport->LogDelete((IObject *)ptr);
-	delete ptr;
-}
+#define SEED_CREATE_DEFINITION_NEW(type)			template <>	\
+													type *SeedLogNew(type *obj, const char *stmt, const char *file, int line, const char *func) \
+													{ \
+														pLeakReport->LogNew((IObject *)obj, stmt, file, line, func); \
+														return obj; \
+													}
 
-template<>
-Sprite *SeedLogNew(Sprite *obj, const char *stmt, const char *file, int line, const char *func)
-{
-	pLeakReport->LogNew((IObject *)obj, stmt, file, line, func);
-	return obj;
-}
+#define SEED_CREATE_DEFINITION_DELETE(type)			template <>	\
+													void SeedLogDelete(type *ptr) \
+													{ \
+														pLeakReport->LogDelete((IObject *)ptr); \
+														delete ptr; \
+													}
 
-template<>
-void SeedLogDelete(Sprite *ptr)
-{
-	pLeakReport->LogDelete((IObject *)ptr);
-	delete ptr;
-}
+#define SEED_CREATE_DEFINITION(type)				SEED_CREATE_DEFINITION_NEW(type) \
+													SEED_CREATE_DEFINITION_DELETE(type)
 
-template<>
-Image *SeedLogNew(Image *obj, const char *stmt, const char *file, int line, const char *func)
-{
-	pLeakReport->LogNew((IObject *)obj, stmt, file, line, func);
-	return obj;
-}
 
-template<>
-void SeedLogDelete(Image *ptr)
-{
-	pLeakReport->LogDelete((IObject *)ptr);
-	delete ptr;
-}
+SEED_CREATE_DEFINITION_DELETE(IDataObject)
+SEED_CREATE_DEFINITION_DELETE(ISceneObject)
+SEED_CREATE_DEFINITION(Sprite)
+SEED_CREATE_DEFINITION(Image)
+SEED_CREATE_DEFINITION(Camera)
+SEED_CREATE_DEFINITION(Frame)
+SEED_CREATE_DEFINITION(ParticleEmitter)
+SEED_CREATE_DEFINITION(MetadataObject)
+SEED_CREATE_DEFINITION(MapLayerMetadata)
+SEED_CREATE_DEFINITION(MapLayerMosaic)
+SEED_CREATE_DEFINITION(MapLayerTiled)
+SEED_CREATE_DEFINITION(TileSet)
+SEED_CREATE_DEFINITION(GameMap)
 
-template<>
-ParticleEmitter *SeedLogNew(ParticleEmitter *obj, const char *stmt, const char *file, int line, const char *func)
-{
-	pLeakReport->LogNew((IObject *)obj, stmt, file, line, func);
-	return obj;
-}
+#undef SEED_CREATE_DEFINITION_DELETE
+#undef SEED_CREATE_DEFINITION_NEW
+#undef SEED_CREATE_DEFINITION
 
-template<>
-void SeedLogDelete(ParticleEmitter *ptr)
-{
-	pLeakReport->LogDelete((IObject *)ptr);
-	delete ptr;
-}
-
-template<>
-Camera *SeedLogNew(Camera *obj, const char *stmt, const char *file, int line, const char *func)
-{
-	pLeakReport->LogNew((IObject *)obj, stmt, file, line, func);
-	return obj;
-}
-
-template<>
-void SeedLogDelete(Camera *ptr)
-{
-	pLeakReport->LogDelete((IObject *)ptr);
-	delete ptr;
-}
-
-template<>
-Frame *SeedLogNew(Frame *obj, const char *stmt, const char *file, int line, const char *func)
-{
-	pLeakReport->LogNew((IObject *)obj, stmt, file, line, func);
-	return obj;
-}
-
-template<>
-void SeedLogDelete(Frame *ptr)
-{
-	pLeakReport->LogDelete((IObject *)ptr);
-	delete ptr;
-}
 #endif
 
 }

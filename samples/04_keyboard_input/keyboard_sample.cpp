@@ -8,7 +8,7 @@
 
 KeyboardSample::KeyboardSample()
 	: cPres()
-	, pPlayerSprite(nullptr)
+	, pObject(nullptr)
 	, vPlayerVectorDirection()
 	, fVelocity(0.0f)
 	, bPresentationLoaded(false)
@@ -36,7 +36,7 @@ bool KeyboardSample::Initialize()
 		pInput->AddKeyboardListener(this);
 
 		// Retreive the sprite of player
-		pPlayerSprite = (Image *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
 		bPresentationLoaded = true;
 	});
 }
@@ -44,10 +44,7 @@ bool KeyboardSample::Initialize()
 bool KeyboardSample::Update(Seconds dt)
 {
 	if (bPresentationLoaded)
-	{
-		// SpriteVector = SpriteVector + DirectionVector * (velocity * deltaTime)
-		pPlayerSprite->SetPosition(pPlayerSprite->GetPosition() + (vPlayerVectorDirection * (fVelocity * dt)));
-	}
+		pObject->SetPosition(pObject->GetPosition() + (vPlayerVectorDirection * (fVelocity * dt)));
 
 	return true;
 }
@@ -84,8 +81,8 @@ void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		vPlayerVectorDirection += VECTOR_LEFT;
 
 		// Change the scale to turn the player sprite
-		if (pPlayerSprite->GetScaleX() < 0)
-			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
+		if (pObject->GetScaleX() < 0)
+			pObject->SetScaleX(pObject->GetScaleX() * -1);
 	}
 
 	if (k == eKey::Right)
@@ -94,8 +91,8 @@ void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		vPlayerVectorDirection += VECTOR_RIGHT;
 
 		// Change the scale to turn the player sprite
-		if (pPlayerSprite->GetScaleX() > 0)
-			pPlayerSprite->SetScaleX(pPlayerSprite->GetScaleX() * -1);
+		if (pObject->GetScaleX() > 0)
+			pObject->SetScaleX(pObject->GetScaleX() * -1);
 	}
 
 	if (k == eKey::Down)

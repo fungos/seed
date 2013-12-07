@@ -54,8 +54,8 @@ namespace Seed { namespace iOS {
 SEED_SINGLETON_DEFINE(SoundSystem);
 
 SoundSystem::SoundSystem()
-	: pDevice(NULL)
-	, pContext(NULL)
+	: pDevice(nullptr)
+	, pContext(nullptr)
 {
 	this->Reset();
 }
@@ -69,7 +69,7 @@ bool SoundSystem::Initialize()
 	Log(TAG "Initializing...");
 	bool r = this->Reset();
 
-	pDevice = alcOpenDevice(NULL);
+	pDevice = alcOpenDevice(nullptr);
 	if (!pDevice)
 	{
 		Info(TAG "WARNING: Could not open OpenAL device - running wihtout sound!");
@@ -78,7 +78,7 @@ bool SoundSystem::Initialize()
 	}
 	else
 	{
-		pContext = alcCreateContext(pDevice, NULL);
+		pContext = alcCreateContext(pDevice, nullptr);
 		if (!pContext)
 		{
 			Info(TAG "WARNING: Could not create OpenAL context - running without sound!");
@@ -120,8 +120,8 @@ bool SoundSystem::Reset()
 		ISoundSourceVector().swap(vSource);
 
 		this->StopMusic();
-		pCurrentMusic = NULL;
-		pNewMusic = NULL;
+		pCurrentMusic = nullptr;
+		pNewMusic = nullptr;
 	}
 	return true;
 }
@@ -330,7 +330,7 @@ void SoundSystem::UpdateMusic(Seconds dt, IMusic *m)
 			if (mus == pCurrentMusic)
 			{
 				pCurrentMusic = pNewMusic;
-				pNewMusic = NULL;
+				pNewMusic = nullptr;
 			}
 
 			if (mus->bAutoUnload)

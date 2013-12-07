@@ -118,11 +118,7 @@ void Scene::setStates(f32 aspect)
 	// Save previous Renderer state
 	glPushAttrib(GL_DEPTH_BUFFER_BIT);
 
-#if SEED_ENABLE_DEPTH_TEST
 	glEnable(GL_DEPTH_TEST);
-#else
-	glDisable(GL_DEPTH_TEST);
-#endif
 
 	glAlphaFunc(GL_GREATER, 0.1f);
 	glEnable(GL_ALPHA_TEST);

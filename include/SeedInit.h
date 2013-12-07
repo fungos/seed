@@ -100,7 +100,7 @@ namespace Seed {
 
 	/// Get the version of the linked Seed
 	/**
-	Get the linked library version number, you can pass NULL to ignore any parameter.
+	Get the linked library version number, you can pass null to ignore any parameter.
 	*/
 	SEED_CORE_API void GetVersion(u32 *major, u32 *middle, u32 *minor);
 

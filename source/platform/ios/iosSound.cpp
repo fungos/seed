@@ -51,11 +51,11 @@
 typedef ALvoid AL_APIENTRY (*alBufferDataStaticProcPtr) (const ALint bid, ALenum format, ALvoid *data, ALsizei size, ALsizei freq);
 ALvoid  alBufferDataStaticProc(const ALint bid, ALenum format, ALvoid *data, ALsizei size, ALsizei freq)
 {
-	static alBufferDataStaticProcPtr proc = NULL;
+	static alBufferDataStaticProcPtr proc = nullptr;
 
-	if (proc == NULL)
+	if (proc == nullptr)
 	{
-		proc = (alBufferDataStaticProcPtr)alcGetProcAddress(NULL, (const ALCchar *)"alBufferDataStatic");
+		proc = (alBufferDataStaticProcPtr)alcGetProcAddress(nullptr, (const ALCchar *)"alBufferDataStatic");
 	}
 
 	if (proc)
@@ -76,7 +76,7 @@ Sound::Sound()
 	, iSize(0)
 	, iFreq(0)
 	, eFormat(0)
-	, pData(NULL)
+	, pData(nullptr)
 {
 }
 
@@ -139,7 +139,7 @@ void Sound::ReadData(const char *file)
 	AudioStreamBasicDescription theFileFormat;
 	UInt32                      thePropertySize = sizeof(theFileFormat);
 	AudioFileID                 afid = 0;
-	void						*theData = NULL;
+	void						*theData = nullptr;
 	UInt32						dataSize = 0;
 
 	NSString *root = [NSString stringWithCString: iosGetRootPath() encoding: [NSString defaultCStringEncoding]];
@@ -150,7 +150,7 @@ void Sound::ReadData(const char *file)
 	path = [@AUDIO_DATA_PATH stringByAppendingString: path];
 	path = [root stringByAppendingString: path];
 
-	CFURLRef fileURL = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)path, kCFURLPOSIXPathStyle, false);
+	CFURLRef fileURL = CFURLCreateWithFileSystemPath(nullptr, (CFStringRef)path, kCFURLPOSIXPathStyle, false);
 	err = AudioFileOpenURL(fileURL, kAudioFileReadPermission, 0, &afid);
 	if (err)
 		{ Log(TAG "ReadAudioData: file %s%s%s not found, Error = %ld.", AUDIO_DATA_PATH, file, AUDIO_DATA_EXT, err); goto Exit; }

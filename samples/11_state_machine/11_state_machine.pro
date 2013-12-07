@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	data/agent_data.cpp \
 	state_machine_sample.cpp \
@@ -17,3 +15,5 @@ OTHER_FILES += \
 	../bin/state_machine_sample.config \
 	../bin/state_machine_sample.scene \
 	../bin/frame03.png
+
+include("../sample.pri")

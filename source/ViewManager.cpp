@@ -44,7 +44,7 @@ SEED_SINGLETON_DEFINE(ViewManager)
 
 ViewManager::ViewManager()
 	: vViewport()
-	, pCurrentViewport(NULL)
+	, pCurrentViewport(nullptr)
 	, bEnabled(true)
 {
 }
@@ -115,7 +115,7 @@ void ViewManager::Render()
 			each->Render();
 	}
 
-	pCurrentViewport = NULL;
+	pCurrentViewport = nullptr;
 }
 
 Renderer *ViewManager::GetCurrentRenderer() const
@@ -133,7 +133,7 @@ Viewport *ViewManager::GetCurrentViewport() const
 
 Viewport *ViewManager::GetViewportAt(u32 x, u32 y)
 {
-	Viewport *ret = NULL;
+	Viewport *ret = nullptr;
 	if (bEnabled)
 	{
 		for (auto each: vViewport)

@@ -56,7 +56,7 @@ IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 }
 
 Texture::Texture()
-	: pData(NULL)
+	: pData(nullptr)
 	, iBytesPerPixel(0)
 	, iPitch(0)
 	, iAtlasWidth(0)
@@ -80,7 +80,7 @@ void Texture::Reset()
 		sdFree(pData)
 	else if (pData)
 		SOIL_free_image_data(pData);
-	pData = NULL;
+	pData = nullptr;
 
 	iBytesPerPixel = 0;
 	iPitch = 0;
@@ -213,7 +213,7 @@ bool Texture::Unload()
 	if (pData)
 		SOIL_free_image_data(pData);
 
-	pData = NULL;
+	pData = nullptr;
 	bLoaded = false;
 	bCopy = false;
 

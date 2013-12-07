@@ -134,7 +134,7 @@ class SEED_CORE_API ITransformable
 		/**
 		When a Transformable has a parent it will inherit all it's properies.
 		If you use a instanced Transformable and delete it, you're responsable
-		to set the parent of this object to NULL or we can crash badly.
+		to set the parent of this object to null or we can crash badly.
 		\param Set a Transformable as parent for this object
 		 */
 		virtual void SetParent(ITransformable *pParent);

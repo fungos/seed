@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	rocket_sample.cpp
 
@@ -20,3 +18,5 @@ OTHER_FILES += \
 	../bin/Delicious-Italic.otf \
 	../bin/Delicious-Bold.otf \
 	../bin/Delicious-BoldItalic.otf
+
+include("../sample.pri")

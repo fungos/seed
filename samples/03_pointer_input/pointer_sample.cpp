@@ -2,7 +2,7 @@
 
 PointerSample::PointerSample()
 	: cPres()
-	, pImage(nullptr)
+	, pObject(nullptr)
 	, pCamera(nullptr)
 	, vFrom()
 	, vCurrent()
@@ -22,7 +22,7 @@ bool PointerSample::Initialize()
 	IGameApp::Initialize();
 	return cPres.Load("pointer_sample.config", [&](Presentation *pres, Renderer *) {
 		pCamera = pres->GetViewportByName("MainView")->GetCamera();
-		pImage = (Image *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
 
 		pSystem->AddListener(this);
 		pInput->AddKeyboardListener(this);
@@ -32,16 +32,16 @@ bool PointerSample::Initialize()
 
 bool PointerSample::Update(Seconds dt)
 {
-	if (pImage)
+	if (pObject)
 	{
 		fElapsed += dt;
 		if (fElapsed > 1.0f)
 			fElapsed = 1.0f;
 
 		vCurrent = ((1.f - fElapsed) * vFrom) + (fElapsed * vTo);
-		pImage->SetPosition(vCurrent);
+		pObject->SetPosition(vCurrent);
 		if (bRotate)
-			pImage->SetRotation(pImage->GetRotation() + fDir);
+			pObject->SetRotation(pObject->GetRotation() + fDir);
 	}
 
 	return true;
@@ -82,8 +82,8 @@ void PointerSample::OnInputPointerRelease(const EventInputPointer *ev)
 
 	if (ev->GetReleased() == eInputButton::MouseLeft)
 	{
-		if (pImage)
-			vFrom = pImage->GetPosition();
+		if (pObject)
+			vFrom = pObject->GetPosition();
 
 		vTo.setX(ev->GetX());
 		vTo.setY(ev->GetY());

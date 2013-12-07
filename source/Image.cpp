@@ -79,9 +79,9 @@ Image::~Image()
 	this->Unload();
 }
 
-void Image:: Update(f32 delta)
+void Image::Update(Seconds dt)
 {
-	UNUSED(delta);
+	UNUSED(dt);
 	if (!this->IsChanged())
 		return;
 

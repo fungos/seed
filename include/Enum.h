@@ -67,6 +67,7 @@ enum class eRendererDeviceType
 {
 	Auto,
 	OpenGLES1,
+	OpenGLES2,
 	OpenGL1x,
 	OpenGL2x,
 	OpenGL3x,
@@ -77,6 +78,17 @@ enum class eRendererDeviceType
 	DirectX10,
 	DirectX11,
 	DirectXAny
+};
+
+// http://msdn.microsoft.com/en-us/library/windows/desktop/ff476882(v=vs.85).aspx
+enum class eShaderType
+{
+	Fetch,		//! Input Assembler
+	Vertex,		//! Vertex Shader
+	Hull,		//! Hull Shader
+	Domain,		//! Domain Shader
+	Geometry,	//! Geometry Shader
+	Pixel		//! Fragment Shader
 };
 
 enum class eTextureCompression

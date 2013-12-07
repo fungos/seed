@@ -2,7 +2,12 @@
 #define _TESTBASE_H_
 
 #include <Seed.h>
+#include <ShaderManager.h>
+#include <ShaderProgram.h>
+#include <Shader.h>
+
 using namespace Seed;
+using namespace Seed::OpenGL;
 
 extern SceneNode *gScene;
 

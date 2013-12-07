@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	bullet_sample.cpp
 
@@ -12,3 +10,5 @@ OTHER_FILES += \
 	../bin/ground.png \
 	../bin/bullet_sample.scene \
 	../bin/bullet_sample.config
+
+include("../sample.pri")

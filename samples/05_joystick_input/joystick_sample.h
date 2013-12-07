@@ -34,7 +34,7 @@ class JoystickSample : public IGameApp,
 
 	protected:
 		Presentation cPres;
-		Image		*pObject;
+		ISceneObject *pObject;
 		Vector3f	vPlayerVectorDirection;
 		f32			fVelocity;
 		bool		bPresentationLoaded : 1;

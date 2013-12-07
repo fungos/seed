@@ -37,6 +37,7 @@
 
 typedef std::mutex Mutex;
 typedef std::lock_guard<Mutex> ScopedMutexLock;
+typedef std::unique_lock<Mutex> UniqueMutexLock;
 
 namespace Seed {
 

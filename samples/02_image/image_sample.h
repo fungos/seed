@@ -26,7 +26,7 @@ class ImageSample : public IGameApp,
 
 	protected:
 		Presentation cPres;
-		ISceneObject *pImage;
+		ISceneObject *pObject;
 		Camera		*pCamera;
 };
 

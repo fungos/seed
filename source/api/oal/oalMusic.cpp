@@ -58,11 +58,11 @@ IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 }
 
 Music::Music()
-	: pFile(NULL)
+	: pFile(nullptr)
 	, iBuffers()
 	, iSource(0)
-	, vorbisInfo(NULL)
-	, vorbisComment(NULL)
+	, vorbisInfo(nullptr)
+	, vorbisComment(nullptr)
 	, oggStream()
 	, oggFile()
 	, vorbisCb()
@@ -122,7 +122,7 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		vorbisCb.seek_func = vorbis_seek;
 		vorbisCb.tell_func = vorbis_tell;
 
-		if (ov_open_callbacks(&oggFile, &oggStream, NULL, 0, vorbisCb) != 0)
+		if (ov_open_callbacks(&oggFile, &oggStream, nullptr, 0, vorbisCb) != 0)
 		{
 			Log(TAG "Could not read ogg stream (%s).", filename.c_str());
 			memset(&oggFile, '\0', sizeof(oggFile));
