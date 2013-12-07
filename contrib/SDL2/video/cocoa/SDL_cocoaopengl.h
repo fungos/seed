@@ -11,11 +11,11 @@
   freely, subject to the following restrictions:
 
   1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
+	 claim that you wrote the original software. If you use this software
+	 in a product, an acknowledgment in the product documentation would be
+	 appreciated but is not required.
   2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
+	 misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
 #include "SDL2/SDL_config.h"
@@ -30,22 +30,21 @@
 
 struct SDL_GLDriverData
 {
-    int initialized;
+	int initialized;
 };
 
 @interface SDLOpenGLContext : NSOpenGLContext {
-    SDL_atomic_t dirty;
-    SDL_Window *window;
+	SDL_atomic_t dirty;
+	SDL_Window *window;
 }
 
 - (id)initWithFormat:(NSOpenGLPixelFormat *)format
-        shareContext:(NSOpenGLContext *)share;
+		shareContext:(NSOpenGLContext *)share;
 - (void)scheduleUpdate;
 - (void)updateIfNeeded;
 - (void)setWindow:(SDL_Window *)window;
 
 @end
-
 
 /* OpenGL functions */
 extern int Cocoa_GL_LoadLibrary(_THIS, const char *path);
@@ -53,9 +52,9 @@ extern void *Cocoa_GL_GetProcAddress(_THIS, const char *proc);
 extern void Cocoa_GL_UnloadLibrary(_THIS);
 extern SDL_GLContext Cocoa_GL_CreateContext(_THIS, SDL_Window * window);
 extern int Cocoa_GL_MakeCurrent(_THIS, SDL_Window * window,
-                                SDL_GLContext context);
+								SDL_GLContext context);
 extern void Cocoa_GL_GetDrawableSize(_THIS, SDL_Window * window,
-                                     int * w, int * h);
+									 int * w, int * h);
 extern int Cocoa_GL_SetSwapInterval(_THIS, int interval);
 extern int Cocoa_GL_GetSwapInterval(_THIS);
 extern void Cocoa_GL_SwapWindow(_THIS, SDL_Window * window);

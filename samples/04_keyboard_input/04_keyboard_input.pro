@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	keyboard_sample.cpp
 
@@ -11,3 +9,5 @@ OTHER_FILES += \
 	../bin/keyboard_app.config \
 	../bin/keyboard_sample.config \
 	../bin/keyboard_sample.scene
+
+include("../sample.pri")

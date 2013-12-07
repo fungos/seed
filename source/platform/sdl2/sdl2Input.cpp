@@ -387,6 +387,16 @@ u32 Input::ConvertButtonFlags(u32 flags)
 	return converted;
 }
 
+eInputButton Input::GetMouseButtonCode(u32 button) const
+{
+	return eInputButton::None;
+}
+
+eInputButton Input::GetJoystickButtonCode(u32 button) const
+{
+	return eInputButton::None;
+}
+
 u32 Input::GetSensitivity(u16 joystick) const
 {
 	UNUSED(joystick);

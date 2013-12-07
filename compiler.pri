@@ -11,7 +11,7 @@ USE_CCACHE=FALSE
 USE_CLANG=FALSE
 
 unix {
-	FLAGSXX += -std=c++11
+	FLAGSXX += -std=gnu++11
 	FLAGSXX += -stdlib=libc++
 
 	system(which ccache):USE_CCACHE=TRUE
@@ -19,10 +19,12 @@ unix {
 }
 
 macx {
+	FLAGSXX += -x c++
 	DEFINES += __MACOSX__
 
 	sdl2 {
-		DEFINES += TARGET_API_MAC_CARBON TARGET_API_MAC_OSX _THREAD_SAFE USE_API_SOIL
+		LIBS += -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit -framework QTKit -framework CoreFoundation -framework CoreAudio -framework AudioUnit -framework ForceFeedback -framework Carbon -framework AudioToolbox
+		DEFINES += TARGET_API_MAC_OSX _THREAD_SAFE USE_API_SOIL
 	}
 }
 
@@ -48,6 +50,7 @@ contains(USE_CLANG, TRUE) {
 QMAKE_CXXFLAGS += $$FLAGSXX #-emit-llvm
 QMAKE_CXX="$$CCACHE $$COMPXX"
 QMAKE_CC="$$CCACHE $$COMP"
-QMAKE_LIB=llvm-ld -link-as-library -o
+QMAKE_LFLAGS += -stdlib=libc++
+#QMAKE_LIB=llvm-ld -link-as-library -o
 #QMAKE_RUN_CXX = $(CXX) $(CXXFLAGS) $(INCPATH) -c $src -o $obj
 #QMAKE_RUN_CC = $(CC) $(CCFLAGS) $(INCPATH) -c $src -o $obj

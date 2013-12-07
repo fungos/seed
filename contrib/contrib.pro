@@ -7,8 +7,8 @@ QMAKE_CXXFLAGS -= -fno-rtti
 
 CONFIG += staticlib sdl2
 
-include(../compiler.pri)
 include(../platform.pri)
+include(../compiler.pri)
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../lib/debug
@@ -873,30 +873,21 @@ SOURCES += yajl/yajl_buf.c \
 	SDL2/audio/dummy/SDL_dummyaudio.c \
 	SDL2/audio/dsp/SDL_dspaudio.c \
 	SDL2/audio/disk/SDL_diskaudio.c \
-	SDL2/audio/directsound/SDL_directsound.c \
-	SDL2/audio/bsd/SDL_bsdaudio.c \
-	SDL2/audio/baudio/SDL_beaudio.cc \
+#	SDL2/audio/bsd/SDL_bsdaudio.c \
+#	SDL2/audio/baudio/SDL_beaudio.cc \
 	SDL2/audio/arts/SDL_artsaudio.c \
-	SDL2/audio/android/SDL_androidaudio.c \
+#	SDL2/audio/android/SDL_androidaudio.c \
 	SDL2/audio/alsa/SDL_alsa_audio.c \
 	SDL2/audio/SDL_mixer.c \
-	SDL2/audio/xaudio2/SDL_xaudio2.c \
 	SDL2/audio/SDL_audiocvt.c \
 	SDL2/audio/coreaudio/SDL_coreaudio.c \
 #	SDL2/joystick/dummy/SDL_sysjoystick.c \
-#	SDL2/joystick/darwin/SDL_sysjoystick.c \
 #	SDL2/joystick/bsd/SDL_sysjoystick.c \
-	SDL2/joystick/beos/SDL_bejoystick.cc \
+#	SDL2/joystick/beos/SDL_bejoystick.cc \
 	SDL2/joystick/SDL_joystick.c \
 	SDL2/joystick/SDL_gamecontroller.c \
-	SDL2/joystick/linux/SDL_sysjoystick.c \
-	SDL2/joystick/windows/SDL_mmjoystick.c \
-	SDL2/joystick/windows/SDL_dxjoystick.c \
 #	SDL2/joystick/android/SDL_sysjoystick.c \
-	SDL2/haptic/linux/SDL_syshaptic.c \
 #	SDL2/haptic/dummy/SDL_syshaptic.c \
-#	SDL2/haptic/darwin/SDL_syshaptic.c \
-#	SDL2/haptic/windows/SDL_syshaptic.c \
 	SDL2/haptic/SDL_haptic.c \
 	SDL2/render/software/SDL_rotate.c \
 	SDL2/render/software/SDL_render_sw.c \
@@ -911,40 +902,25 @@ SOURCES += yajl/yajl_buf.c \
 	SDL2/render/opengles/SDL_render_gles.c \
 	SDL2/render/opengl/SDL_shaders_gl.c \
 	SDL2/render/opengl/SDL_render_gl.c \
-	SDL2/render/direct3d/SDL_render_d3d.c \
 	SDL2/render/SDL_yuv_sw.c \
 	SDL2/render/SDL_render.c \
-#	SDL2/filesystem/windows/SDL_sysfilesystem.c \
-	SDL2/filesystem/unix/SDL_sysfilesystem.c \
 #	SDL2/filesystem/dummy/SDL_sysfilesystem.c \
 #	SDL2/filesystem/beos/SDL_sysfilesystem.cc \
 	SDL2/input/evdev/SDL_evdev.c \
-	SDL2/loadso/windows/SDL_sysloadso.c \
 #	SDL2/loadso/dummy/SDL_sysloadso.c \
-#	SDL2/loadso/dlopen/SDL_sysloadso.c \
 #	SDL2/loadso/beos/SDL_sysloadso.c \
-	SDL2/main/windows/SDL_windows_main.c \
-	SDL2/main/dummy/SDL_dummy_main.c \
-	SDL2/main/android/SDL_android_main.c \
-	SDL2/main/beos/SDL_BeApp.cc \
-#	SDL2/thread/windows/SDL_systls.c \
-#	SDL2/thread/windows/SDL_systhread.c \
-#	SDL2/thread/windows/SDL_syssem.c \
-#	SDL2/thread/windows/SDL_sysmutex.c \
+#	SDL2/main/dummy/SDL_dummy_main.c \
+#	SDL2/main/android/SDL_android_main.c \
+#	SDL2/main/beos/SDL_BeApp.cc \
 	SDL2/thread/SDL_thread.c \
+#	SDL2/thread/beos/SDL_systls.c \
+#	SDL2/thread/beos/SDL_systhread.c \
+#	SDL2/thread/beos/SDL_syssem.c \
 #	SDL2/thread/generic/SDL_systls.c \
 #	SDL2/thread/generic/SDL_systhread.c \
 #	SDL2/thread/generic/SDL_syssem.c \
 #	SDL2/thread/generic/SDL_sysmutex.c \
 #	SDL2/thread/generic/SDL_syscond.c \
-#	SDL2/thread/beos/SDL_systls.c \
-#	SDL2/thread/beos/SDL_systhread.c \
-#	SDL2/thread/beos/SDL_syssem.c \
-	SDL2/thread/pthread/SDL_systls.c \
-	SDL2/thread/pthread/SDL_syssem.c \
-	SDL2/thread/pthread/SDL_sysmutex.c \
-	SDL2/thread/pthread/SDL_syscond.c \
-	SDL2/thread/pthread/SDL_systhread.c \
 	SDL2/test/SDL_test_random.c \
 	SDL2/test/SDL_test_md5.c \
 	SDL2/test/SDL_test_log.c \
@@ -960,10 +936,7 @@ SOURCES += yajl/yajl_buf.c \
 	SDL2/test/SDL_test_compare.c \
 	SDL2/test/SDL_test_common.c \
 	SDL2/test/SDL_test_assert.c \
-#	SDL2/power/windows/SDL_syspower.c \
 	SDL2/power/SDL_power.c \
-	SDL2/power/macosx/SDL_syspower.c \
-#	SDL2/power/linux/SDL_syspower.c \
 #	SDL2/power/beos/SDL_syspower.c \
 #	SDL2/power/android/SDL_syspower.c \
 	SDL2/atomic/SDL_spinlock.c \
@@ -995,7 +968,43 @@ unix:!macx:SOURCES += \
 	glfw/x11/x11_keysym2unicode.c \
 #	glfw/x11/x11_thread.c \
 	glfw/x11/x11_time.c \
-	glfw/x11/x11_window.c
+	glfw/x11/x11_window.c \
+	SDL2/loadso/dlopen/SDL_sysloadso.c \
+	SDL2/power/linux/SDL_syspower.c \
+	SDL2/thread/pthread/SDL_systls.c \
+	SDL2/thread/pthread/SDL_syssem.c \
+	SDL2/thread/pthread/SDL_sysmutex.c \
+	SDL2/thread/pthread/SDL_syscond.c \
+	SDL2/thread/pthread/SDL_systhread.c \
+	SDL2/filesystem/unix/SDL_sysfilesystem.c \
+	SDL2/haptic/linux/SDL_syshaptic.c \
+	SDL2/joystick/linux/SDL_sysjoystick.c
+
+macx:SOURCES += \
+	SDL2/loadso/dlopen/SDL_sysloadso.c \
+	SDL2/power/macosx/SDL_syspower.c \
+	SDL2/thread/pthread/SDL_systls.c \
+	SDL2/thread/pthread/SDL_syssem.c \
+	SDL2/thread/pthread/SDL_sysmutex.c \
+	SDL2/thread/pthread/SDL_syscond.c \
+	SDL2/thread/pthread/SDL_systhread.c \
+	SDL2/filesystem/unix/SDL_sysfilesystem.c \
+	SDL2/haptic/darwin/SDL_syshaptic.c \
+	SDL2/joystick/darwin/SDL_sysjoystick.c
+
+macx:OBJECTIVE_HEADERS += \
+	SDL2/video/cocoa/SDL_cocoawindow.h \
+	SDL2/video/cocoa/SDL_cocoavideo.h \
+	SDL2/video/cocoa/SDL_cocoashape.h \
+	SDL2/video/cocoa/SDL_cocoaopengl.h \
+	SDL2/video/cocoa/SDL_cocoamousetap.h \
+	SDL2/video/cocoa/SDL_cocoamouse.h \
+	SDL2/video/cocoa/SDL_cocoamodes.h \
+	SDL2/video/cocoa/SDL_cocoamessagebox.h \
+	SDL2/video/cocoa/SDL_cocoakeyboard.h \
+	SDL2/video/cocoa/SDL_cocoaevents.h \
+	SDL2/video/cocoa/SDL_cocoaclipboard.h \
+	SDL2/file/cocoa/SDL_rwopsbundlesupport.h
 
 macx:OBJECTIVE_SOURCES += \
 	glfw/cocoa/cocoa_enable.m \
@@ -1016,22 +1025,22 @@ macx:OBJECTIVE_SOURCES += \
 	SDL2/video/uikit/SDL_uikitmessagebox.m \
 	SDL2/video/uikit/SDL_uikitevents.m \
 	SDL2/video/uikit/SDL_uikitappdelegate.m \
+	#SDL2/joystick/iphoneos/SDLUIAccelerationDelegate.m \
+	#SDL2/joystick/iphoneos/SDL_sysjoystick.m \
+	#SDL2/filesystem/cocoa/SDL_sysfilesystem.m \
+	#SDL2/power/uikit/SDL_syspower.m \
+	SDL2/file/cocoa/SDL_rwopsbundlesupport.m \
 	SDL2/video/cocoa/SDL_cocoawindow.m \
-	SDL2/video/cocoa/SDL_cocoavideo.m \
 	SDL2/video/cocoa/SDL_cocoashape.m \
-	SDL2/video/cocoa/SDL_cocoaopengl.m \
 	SDL2/video/cocoa/SDL_cocoamousetap.m \
-	SDL2/video/cocoa/SDL_cocoamouse.m \
 	SDL2/video/cocoa/SDL_cocoamodes.m \
 	SDL2/video/cocoa/SDL_cocoamessagebox.m \
 	SDL2/video/cocoa/SDL_cocoakeyboard.m \
 	SDL2/video/cocoa/SDL_cocoaevents.m \
 	SDL2/video/cocoa/SDL_cocoaclipboard.m \
-	#SDL2/joystick/iphoneos/SDLUIAccelerationDelegate.m \
-	#SDL2/joystick/iphoneos/SDL_sysjoystick.m \
-	#SDL2/filesystem/cocoa/SDL_sysfilesystem.m \
-	#SDL2/power/uikit/SDL_syspower.m \
-	SDL2/file/cocoa/SDL_rwopsbundlesupport.m
+	SDL2/video/cocoa/SDL_cocoamouse.m \
+	SDL2/video/cocoa/SDL_cocoavideo.m \
+	SDL2/video/cocoa/SDL_cocoaopengl.m
 
 win32:SOURCES += \
 	glfw/win32/win32_enable.c \
@@ -1041,7 +1050,21 @@ win32:SOURCES += \
 	glfw/win32/win32_joystick.c \
 #	glfw/win32/win32_thread.c \
 	glfw/win32/win32_time.c \
-	glfw/win32/win32_window.c
+	glfw/win32/win32_window.c \
+	SDL2/loadso/windows/SDL_sysloadso.c \
+	SDL2/power/windows/SDL_syspower.c \
+	SDL2/thread/windows/SDL_systls.c \
+	SDL2/thread/windows/SDL_systhread.c \
+	SDL2/thread/windows/SDL_syssem.c \
+	SDL2/thread/windows/SDL_sysmutex.c \
+	SDL2/filesystem/windows/SDL_sysfilesystem.c \
+	SDL2/main/windows/SDL_windows_main.c \
+	SDL2/haptic/windows/SDL_syshaptic.c \
+	SDL2/joystick/windows/SDL_mmjoystick.c \
+	SDL2/joystick/windows/SDL_dxjoystick.c \
+	SDL2/audio/xaudio2/SDL_xaudio2.c \
+#	SDL2/audio/directsound/SDL_directsound.c \
+#	SDL2/render/direct3d/SDL_render_d3d.c
 
 unix:!macx:HEADERS += glfw/x11/platform.h
 macx:HEADERS += glfw/cocoa/platform.h
@@ -2064,7 +2087,6 @@ HEADERS += yajl/api/yajl_version.h \
 	SDL2/events/scancodes_darwin.h \
 	SDL2/events/default_cursor.h \
 	SDL2/events/blank_cursor.h \
-	SDL2/file/cocoa/SDL_rwopsbundlesupport.h \
 	SDL2/haptic/SDL_syshaptic.h \
 	SDL2/haptic/SDL_haptic_c.h \
 	SDL2/input/evdev/SDL_evdev.h \
@@ -2177,17 +2199,6 @@ HEADERS += yajl/api/yajl_version.h \
 	SDL2/video/directfb/SDL_DirectFB_modes.h \
 	SDL2/video/directfb/SDL_DirectFB_events.h \
 	SDL2/video/directfb/SDL_DirectFB_dyn.h \
-	SDL2/video/cocoa/SDL_cocoawindow.h \
-	SDL2/video/cocoa/SDL_cocoavideo.h \
-	SDL2/video/cocoa/SDL_cocoashape.h \
-	SDL2/video/cocoa/SDL_cocoaopengl.h \
-	SDL2/video/cocoa/SDL_cocoamousetap.h \
-	SDL2/video/cocoa/SDL_cocoamouse.h \
-	SDL2/video/cocoa/SDL_cocoamodes.h \
-	SDL2/video/cocoa/SDL_cocoamessagebox.h \
-	SDL2/video/cocoa/SDL_cocoakeyboard.h \
-	SDL2/video/cocoa/SDL_cocoaevents.h \
-	SDL2/video/cocoa/SDL_cocoaclipboard.h \
 	SDL2/video/bwindow/SDL_bwindow.h \
 	SDL2/video/bwindow/SDL_BWin.h \
 	SDL2/video/bwindow/SDL_bvideo.h \
