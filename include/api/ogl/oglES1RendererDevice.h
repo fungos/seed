@@ -41,31 +41,8 @@
 #include "Container.h"
 #include "interface/IRendererDevice.h"
 
-<<<<<<< HEAD
-#if defined(BUILD_SDL) && defined(_MSC_VER)
-	#define NO_SDL_GLEXT	1
-	#include <SDL/SDL_opengl.h>
-#elif defined(BUILD_SDL2) && defined(_MSC_VER)
-	#define NO_SDL_GLEXT	1
-	#include <SDL2/SDL_opengl.h>
-#elif defined(BUILD_SDL)
-	#define NO_SDL_GLEXT	1
-	#include <SDL/SDL_opengl.h>
-#endif
-
-#if defined(BUILD_IOS)
-	#include <OpenGLES/ES1/gl.h>
-#elif defined(__APPLE_CC__) && !defined(BUILD_SDL2)
-	#include <OpenGL/glext.h>
-#elif defined(__APPLE_CC__) && defined(BUILD_SDL2)
-	//#define NO_SDL_GLEXT	1
-	#include <SDL2/SDL_opengl.h>
-#else
-	#include <GL/glext.h>
-=======
 #if defined(BUILD_IOS)
 #include <OpenGLES/ES1/gl.h>
->>>>>>> develop
 #endif
 
 namespace Seed {

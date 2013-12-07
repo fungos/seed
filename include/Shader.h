@@ -53,7 +53,7 @@ GLSL Version	OpenGL Version
 	#include "api/ogl/oglES1Shader.h"
 	#endif
 
-#elif defined(BUILD_SDL) || defined(BUILD_GLFW)
+#elif defined(BUILD_SDL) || defined(BUILD_GLFW) || defined(BUILD_SDL2)
 	#if defined(SEED_ENABLE_OGLES2)
 	#include "api/ogl/oglES2Shader.h"
 	#endif
