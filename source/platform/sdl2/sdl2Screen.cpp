@@ -303,7 +303,7 @@ void Screen::ToggleFullscreen()
 	// reload textures
 	bFullScreen = !bFullScreen;
 #if defined(__linux__)
-	SDL_WM_ToggleFullScreen(pSurface);
+	//SDL_WM_ToggleFullScreen(pSurface);
 #else
 	//iFlags ^= SDL_FULLSCREEN;
 
