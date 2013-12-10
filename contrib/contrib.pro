@@ -100,7 +100,7 @@ SOURCES += yajl/yajl_buf.c \
 	physfs/platform/pocketpc.c \
 	physfs/platform/os2.c \
 	physfs/platform/macosx.c \
-	physfs/platform/beos.cpp \
+#	physfs/platform/beos.cpp \
 	physfs/archivers/zip.c \
 	physfs/archivers/wad.c \
 	physfs/archivers/qpak.c \
@@ -880,7 +880,6 @@ SOURCES += yajl/yajl_buf.c \
 	SDL2/audio/alsa/SDL_alsa_audio.c \
 	SDL2/audio/SDL_mixer.c \
 	SDL2/audio/SDL_audiocvt.c \
-	SDL2/audio/coreaudio/SDL_coreaudio.c \
 #	SDL2/joystick/dummy/SDL_sysjoystick.c \
 #	SDL2/joystick/bsd/SDL_sysjoystick.c \
 #	SDL2/joystick/beos/SDL_bejoystick.cc \
@@ -990,7 +989,8 @@ macx:SOURCES += \
 	SDL2/thread/pthread/SDL_systhread.c \
 	SDL2/filesystem/unix/SDL_sysfilesystem.c \
 	SDL2/haptic/darwin/SDL_syshaptic.c \
-	SDL2/joystick/darwin/SDL_sysjoystick.c
+	SDL2/joystick/darwin/SDL_sysjoystick.c \
+	SDL2/audio/coreaudio/SDL_coreaudio.c \
 
 macx:OBJECTIVE_HEADERS += \
 	SDL2/video/cocoa/SDL_cocoawindow.h \
@@ -1067,7 +1067,10 @@ win32:SOURCES += \
 #	SDL2/render/direct3d/SDL_render_d3d.c
 
 unix:!macx:HEADERS += glfw/x11/platform.h
-macx:HEADERS += glfw/cocoa/platform.h
+
+macx:HEADERS += glfw/cocoa/platform.h \
+	SDL2/audio/coreaudio/SDL_coreaudio.h
+
 win32:HEADERS += glfw/win32/platform.h
 
 HEADERS += yajl/api/yajl_version.h \
@@ -2066,7 +2069,6 @@ HEADERS += yajl/api/yajl_version.h \
 	SDL2/audio/disk/SDL_diskaudio.h \
 	SDL2/audio/directsound/SDL_directsound.h \
 	SDL2/audio/directsound/directx.h \
-	SDL2/audio/coreaudio/SDL_coreaudio.h \
 	SDL2/audio/bsd/SDL_bsdaudio.h \
 	SDL2/audio/baudio/SDL_beaudio.h \
 	SDL2/audio/arts/SDL_artsaudio.h \

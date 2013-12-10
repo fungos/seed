@@ -18,6 +18,13 @@ unix {
 	system(which clang++):USE_CLANG=TRUE
 }
 
+unix:!macx {
+	sdl2 {
+		LIBS += -lm -ldl -lpthread -lrt -lc++abi
+		DEFINES += _THREAD_SAFE USE_API_SOIL SDL_TIMER_UNIX SDL_JOYSTICK_LINUX SDL_INPUT_LINUXEV SDL_INPUT_LINUXKD
+	}
+}
+
 macx {
 	FLAGSXX += -x c++
 	DEFINES += __MACOSX__

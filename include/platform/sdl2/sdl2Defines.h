@@ -72,8 +72,6 @@ using namespace Seed::SOIL;
 // I think this is not necessary with SDL2
 #if defined(__APPLE_CC__) && (__APPLE_CC__ < 5666)
 #include <SDL2_image/SDL_image.h>
-#else
-#include <SDL/SDL_image.h>
 #endif
 
 #if defined(__MWERKS__)
