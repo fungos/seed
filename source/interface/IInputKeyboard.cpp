@@ -169,7 +169,7 @@ const char *keyName[] = {
 	"BraceRight",
 	"Tilde",
 
-	"Delete", // 127
+	"", // 127
 
 	"", // 128
 	"",
@@ -220,7 +220,7 @@ const char *keyName[] = {
 	"",
 	"",
 	"",
-	"",
+	"Delete",
 	"",
 	"",
 	"", // 180
@@ -300,33 +300,7 @@ const char *keyName[] = {
 	"",
 	"",
 
-	"Pad0", // 256
-	"Pad1",
-	"Pad2",
-	"Pad3",
-	"Pad4",
-	"Pad5",
-	"Pad6",
-	"Pad7",
-	"Pad8",
-	"Pad9",
-	"PadPeriod",
-	"PadDivide",
-	"PadMultiply",
-	"PadMinus",
-	"PadPlus",
-	"PadEnter",
-	"PadEquals",
-
-	"Up",
-	"Down",
-	"Right",
-	"Left",
-	"Insert",
-	"Home",
-	"End",
-	"PageUp",
-	"PageDown",
+	"CapsLock",
 
 	"F1",
 	"F2",
@@ -340,33 +314,239 @@ const char *keyName[] = {
 	"F10",
 	"F11",
 	"F12",
+
+	"PrintScreen",
+	"ScrollLock",
+
+	"Pause",
+	"Insert",
+	"Home",
+	"PageUp",
+	"", //275
+	"End",
+	"PageDown",
+
+	"Right",
+	"Left",
+	"Down",
+	"Up",
+
+	"NumLock",
+	"PadDivide",
+	"PadMultiply",
+	"PadMinus",
+	"PadPlus",
+	"PadEnter",
+
+	"Pad1",
+	"Pad2",
+	"Pad3",
+	"Pad4",
+	"Pad5",
+	"Pad6",
+	"Pad7",
+	"Pad8",
+	"Pad9",
+	"Pad0",
+
+	"PadPeriod",
+	"", //299
+	"Application",
+	"Power",
+	"PadEquals",
+
 	"F13",
 	"F14",
 	"F15",
+	"F16",
+	"F17",
+	"F18",
+	"F19",
+	"F20",
+	"F21",
+	"F22",
+	"F23",
+	"F24",
 
-	"", // 297
-	"", // 298
-	"", // 299
-
-	"NumLock", // 300
-	"CapsLock",
-	"ScrollLock",
-
-	"ShiftRight",
-	"ShiftLeft",
-	"ControlRight",
-	"ControlLeft",
-	"AltRight",
-	"AltLeft",
-	"MetaRight",
-	"MetaLeft",
-	"SuperLeft",
-	"SuperRight",
-	"AltGr",
+	"Execute",
+	"Help",
 	"Menu",
-	"", // 315
+	"Select",
+	"Stop",
+	"Again",
+	"Undo",
+	"Cut",
+	"Copy",
+	"Paste",
+	"Find",
+	"Mute",
+	"VolumeUp",
+	"VolumeDown",
+	"", //329
+	"", //330
+	"", //331
+	"PadComma",
+	"PadEqualsAS400",
 
-	"PrintScreen",
+	"", //334
+	"", //335
+	"", //336
+	"", //337
+	"", //338
+	"", //339
+	"", //340
+	"", //341
+	"", //342
+	"", //343
+	"", //344
+	"", //345
+	"", //346
+	"", //347
+	"", // 348
+	"", // 349
+	"", // 350
+	"", // 351
+
+	"AalterAse",
+	"SysReq",
+	"Cancel",
+	"Clear",
+	"Prior",
+	"Return2",
+	"Separator",
+	"Out",
+	"Oper",
+	"ClearAgain",
+	"Crsel",
+	"Exsel",
+
+	"", //364
+	"", //365
+	"", //366
+	"", //367
+	"", //368
+	"", //369
+	"", //370
+	"", //371
+	"", //372
+	"", //373
+	"", //374
+
+	"Pad00",
+	"Pad000",
+
+	"ThousandsSeparator",
+	"DecimalSeparator",
+	"CurrencyUnit",
+	"CurrencySubunit",
+
+	"PadLeftParen",
+	"PadRightParen",
+	"PadLeftBrace",
+	"PadRightBrace",
+	"PadTab",
+	"PadBackspace",
+
+	"PadA",
+	"PadB",
+	"PadC",
+	"PadD",
+	"PadE",
+	"PadF",
+
+	"PadXor",
+	"PadPower",
+	"PadPercent",
+	"PadLess",
+	"PadGreater",
+	"PadAmpersand",
+	"PadDBLampersand",
+	"PadVerticalBar",
+	"PadDBLVerticalBar",
+	"PadCplon",
+	"PadHash",
+	"PadSpace",
+	"PadAt",
+	"PadExclam",
+	"PadMemStore",
+	"PadMemRecall",
+	"PadMemClear",
+	"PadMemAdd",
+	"PadMemSubtract",
+	"PadMemMultiply",
+	"PadMemDivide",
+	"PadPlusMinus",
+	"PadClear",
+	"PadClearEntry",
+	"PadBinary",
+	"PadOctal",
+	"PadDecimal",
+	"PadHexaDecimal",
+
+	"", //421
+	"", //422
+
+	"LeftCtrl",
+	"LeftShift",
+	"LeftAlt",
+	"LeftGui",
+	"RightCtrl",
+	"RightShift",
+	"RightAlt",
+	"RightGui",
+
+	"", //431
+	"", //432
+	"", //433
+	"", //434
+	"", //435
+	"", //436
+	"", //437
+	"", //438
+	"", //439
+	"", //440
+	"", //441
+	"", //442
+	"", //443
+	"", //444
+	"", //445
+	"", //446
+	"", //447
+	"", //448
+	"", //449
+	"", //450
+	"", //451
+	"", //452
+	"", //453
+	"", //454
+	"", //455
+
+	"Mode",
+	"AudioNext",
+	"AudioPrev",
+	"AudioStop",
+	"AudioPlay",
+	"AudioMute",
+	"MediaSelect",
+	"Www",
+	"Mail",
+	"Calculator",
+	"Computer",
+	"AcSearch",
+	"AcHome",
+	"AcBack",
+	"AcForward",
+	"AcStop",
+	"AcRefresh",
+	"AcBookMarks",
+	"BrightnessDown",
+	"BrightnessUp",
+	"DisplaySwitch",
+	"KbDillumToggle",
+	"KbDillumDown",
+	"KbDillumUp",
+	"Eject",
+	"Sleep",
 
 };
 #endif

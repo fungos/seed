@@ -389,12 +389,21 @@ u32 Input::ConvertButtonFlags(u32 flags)
 
 eInputButton Input::GetMouseButtonCode(u32 button) const
 {
-	return eInputButton::None;
+	eInputButton btn = eInputButton::Invalid;
+
+	if (button & SDL_BUTTON_LMASK)
+		btn = eInputButton::MouseLeft;
+	else if (button & SDL_BUTTON_RMASK)
+		btn = eInputButton::MouseRight;
+	else if (button & SDL_BUTTON_MMASK)
+		btn = eInputButton::MouseMiddle;
+
+	return btn;
 }
 
 eInputButton Input::GetJoystickButtonCode(u32 button) const
 {
-	return eInputButton::None;
+	return eInputButton(button); // FIXME: BUTTON MAPPING
 }
 
 u32 Input::GetSensitivity(u16 joystick) const
@@ -426,6 +435,13 @@ eKey Input::GetKeyCode(u32 key) const
 		return static_cast<eKey>(u32(eKey::A) + (key - 'a'));
 	else
 	{
+		// The SDL2 keycodes has changed.
+		// This is here only for testing
+		if (key > static_cast<u32>(Seed::eKey::Last) - 1)
+		{
+			key = key - sdl2KeyCodeFactor; // I need to review this constant
+		}
+
 		Seed::eKey k = static_cast<Seed::eKey>(key);
 		return k;
 	}

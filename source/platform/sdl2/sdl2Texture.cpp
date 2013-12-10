@@ -143,7 +143,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 #endif
 
 		// Create a surface
-		SDL_Surface *surface = SDL_CreateRGBSurfaceFrom(pData, 16, 16, 16, 16*2, 0x0f00, 0x00f0, 0x000f, 0xf000);
+		SDL_Surface *surface = SDL_CreateRGBSurfaceFrom(pData, iAtlasWidth, iAtlasHeight, 16, 16*2, 0x0f00, 0x00f0, 0x000f, 0xf000);
 
 		// Create a Texture
 		pTexture = SDL_CreateTextureFromSurface(pScreen->GetRenderer(), surface);
