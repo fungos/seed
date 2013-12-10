@@ -35,7 +35,7 @@
 	#include "api/nullal/nalMusic.h"
 	using namespace Seed::NAL;
 #else
-	#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW)
+	#if defined(BUILD_SDL) || defined(BUILD_QT) || defined(BUILD_GLFW) || defined(BUILD_SDL2)
 		#include "api/oal/oalMusic.h"
 	#elif defined(BUILD_IOS)
 		#include "platform/ios/iosMusic.h"

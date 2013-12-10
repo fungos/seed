@@ -18,6 +18,23 @@ unix {
 	system(which clang++):USE_CLANG=TRUE
 }
 
+unix:!macx {
+	sdl2 {
+		LIBS += -lm -ldl -lpthread -lrt -lc++abi
+		DEFINES += _THREAD_SAFE USE_API_SOIL SDL_TIMER_UNIX SDL_JOYSTICK_LINUX SDL_INPUT_LINUXEV SDL_INPUT_LINUXKD
+	}
+}
+
+macx {
+	FLAGSXX += -x c++
+	DEFINES += __MACOSX__
+
+	sdl2 {
+		LIBS += -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit -framework QTKit -framework CoreFoundation -framework CoreAudio -framework AudioUnit -framework ForceFeedback -framework Carbon -framework AudioToolbox
+		DEFINES += TARGET_API_MAC_OSX _THREAD_SAFE USE_API_SOIL
+	}
+}
+
 contains(USE_CCACHE, TRUE) {
 	!check {
 		CCACHE="ccache"

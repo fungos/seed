@@ -33,6 +33,8 @@
 
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlScreen.h"
+#elif defined(BUILD_SDL2)
+	#include "platform/sdl2/sdl2Screen.h"
 #elif defined(BUILD_GLFW)
 	#include "platform/glfw/glfwScreen.h"
 #elif defined(BUILD_IOS)
