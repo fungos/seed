@@ -11,11 +11,11 @@
   freely, subject to the following restrictions:
 
   1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
+	 claim that you wrote the original software. If you use this software
+	 in a product, an acknowledgment in the product documentation would be
+	 appreciated but is not required.
   2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
+	 misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
 
@@ -28,19 +28,19 @@
 #include <directfb_version.h>
 
 #include "SDL2/video/SDL_sysvideo.h"
-#include "SDL_scancode.h"
+#include "SDL2/SDL_scancode.h"
 #include "SDL2/SDL_render.h"
 
 #include "SDL2/SDL_log.h"
 
 #define DFB_VERSIONNUM(X, Y, Z)                     \
-    ((X)*1000 + (Y)*100 + (Z))
+	((X)*1000 + (Y)*100 + (Z))
 
 #define DFB_COMPILEDVERSION \
-    DFB_VERSIONNUM(DIRECTFB_MAJOR_VERSION, DIRECTFB_MINOR_VERSION, DIRECTFB_MICRO_VERSION)
+	DFB_VERSIONNUM(DIRECTFB_MAJOR_VERSION, DIRECTFB_MINOR_VERSION, DIRECTFB_MICRO_VERSION)
 
 #define DFB_VERSION_ATLEAST(X, Y, Z) \
-    (DFB_COMPILEDVERSION >= DFB_VERSIONNUM(X, Y, Z))
+	(DFB_COMPILEDVERSION >= DFB_VERSIONNUM(X, Y, Z))
 
 #if (DFB_VERSION_ATLEAST(1,0,0))
 #ifdef SDL_VIDEO_OPENGL
@@ -89,11 +89,11 @@
 #define SDL_DFB_DEBUG(x...) SDL_LogDebug(SDL_LOG_CATEGORY_VIDEO, x)
 
 static SDL_INLINE DFBResult sdl_dfb_check(DFBResult ret, const char *src_file, int src_line) {
-    if (ret != DFB_OK) {
-        SDL_DFB_LOG("%s (%d):%s", src_file, src_line, DirectFBErrorString (ret) );
-        SDL_SetError("%s:%s", SDL_DFB_CONTEXT, DirectFBErrorString (ret) );
-    }
-    return ret;
+	if (ret != DFB_OK) {
+		SDL_DFB_LOG("%s (%d):%s", src_file, src_line, DirectFBErrorString (ret) );
+		SDL_SetError("%s:%s", SDL_DFB_CONTEXT, DirectFBErrorString (ret) );
+	}
+	return ret;
 }
 
 #define SDL_DFB_CHECK(x...) do { sdl_dfb_check( x, __FILE__, __LINE__); } while (0)
@@ -110,14 +110,14 @@ static SDL_INLINE DFBResult sdl_dfb_check(DFBResult ret, const char *src_file, i
 
 
 #define SDL_DFB_CALLOC(r, n, s) \
-     do {                                           \
-          r = SDL_calloc (n, s);                    \
-          if (!(r)) {                               \
-               SDL_DFB_ERR("Out of memory");        \
-               SDL_OutOfMemory();                   \
-               goto error;                          \
-          }                                         \
-     } while (0)
+	 do {                                           \
+		  r = SDL_calloc (n, s);                    \
+		  if (!(r)) {                               \
+			   SDL_DFB_ERR("Out of memory");        \
+			   SDL_OutOfMemory();                   \
+			   goto error;                          \
+		  }                                         \
+	 } while (0)
 
 #define SDL_DFB_ALLOC_CLEAR(r, s) SDL_DFB_CALLOC(r, 1, s)
 
@@ -130,36 +130,36 @@ static SDL_INLINE DFBResult sdl_dfb_check(DFBResult ret, const char *src_file, i
 typedef struct _DFB_KeyboardData DFB_KeyboardData;
 struct _DFB_KeyboardData
 {
-    const SDL_Scancode  *map;       /* keyboard scancode map */
-    int             map_size;   /* size of map */
-    int             map_adjust; /* index adjust */
-    int             is_generic; /* generic keyboard */
-    int id;
+	const SDL_Scancode  *map;       /* keyboard scancode map */
+	int             map_size;   /* size of map */
+	int             map_adjust; /* index adjust */
+	int             is_generic; /* generic keyboard */
+	int id;
 };
 
 typedef struct _DFB_DeviceData DFB_DeviceData;
 struct _DFB_DeviceData
 {
-    int initialized;
+	int initialized;
 
-    IDirectFB           *dfb;
-    int                 num_mice;
-    int                 mouse_id[0x100];
-    int                 num_keyboard;
-    DFB_KeyboardData    keyboard[10];
-    SDL_Window          *firstwin;
+	IDirectFB           *dfb;
+	int                 num_mice;
+	int                 mouse_id[0x100];
+	int                 num_keyboard;
+	DFB_KeyboardData    keyboard[10];
+	SDL_Window          *firstwin;
 
-    int                 use_yuv_underlays;
-    int                 use_yuv_direct;
-    int                 use_linux_input;
-    int                 has_own_wm;
+	int                 use_yuv_underlays;
+	int                 use_yuv_direct;
+	int                 use_linux_input;
+	int                 has_own_wm;
 
 
-    /* window grab */
-    SDL_Window          *grabbed_window;
+	/* window grab */
+	SDL_Window          *grabbed_window;
 
-    /* global events */
-    IDirectFBEventBuffer *events;
+	/* global events */
+	IDirectFBEventBuffer *events;
 };
 
 Uint32 DirectFB_DFBToSDLPixelFormat(DFBSurfacePixelFormat pixelformat);

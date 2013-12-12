@@ -40,7 +40,7 @@
 /* #define SDL_AUDIO_DRIVER_FUSIONSOUND_DYNAMIC "libfusionsound.so" */
 
 #ifdef SDL_AUDIO_DRIVER_FUSIONSOUND_DYNAMIC
-#include "SDL_name.h"
+#include "SDL2/SDL_name.h"
 #include "SDL2/SDL_loadso.h"
 #else
 #define SDL_NAME(X) X

@@ -37,7 +37,7 @@
 #include "SDL_artsaudio.h"
 
 #ifdef SDL_AUDIO_DRIVER_ARTS_DYNAMIC
-#include "SDL_name.h"
+#include "SDL2/SDL_name.h"
 #include "SDL2/SDL_loadso.h"
 #else
 #define SDL_NAME(X)	X

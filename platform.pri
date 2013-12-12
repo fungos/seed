@@ -12,16 +12,26 @@ win32 {
 }
 
 macx {
+	DEFINES += __MACOSX__
 	CONFIG -= sdl
 	CONFIG -= glfw
 	CONFIG += sdl2
 	INCLUDEPATH += contrib/osx/
+
+	sdl2 {
+		LIBS += -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit -framework QTKit -framework CoreFoundation -framework CoreAudio -framework AudioUnit -framework ForceFeedback -framework Carbon -framework AudioToolbox
+		DEFINES += TARGET_API_MAC_OSX _THREAD_SAFE USE_API_SOIL
+	}
 }
 
 unix:!macx {
-	DEFINES += LINUX
+	DEFINES += __LINUX__
 	CONFIG -= sdl
 	CONFIG += sdl2
+
+	sdl2 {
+		DEFINES += _THREAD_SAFE USE_API_SOIL
+	}
 }
 
 qt {

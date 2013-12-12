@@ -11,30 +11,30 @@
   freely, subject to the following restrictions:
 
   1. The origin of this software must not be misrepresented; you must not
-     claim that you wrote the original software. If you use this software
-     in a product, an acknowledgment in the product documentation would be
-     appreciated but is not required.
+	 claim that you wrote the original software. If you use this software
+	 in a product, an acknowledgment in the product documentation would be
+	 appreciated but is not required.
   2. Altered source versions must be plainly marked as such, and must not be
-     misrepresented as being the original software.
+	 misrepresented as being the original software.
   3. This notice may not be removed or altered from any source distribution.
 */
 
 #ifndef _UIKIT_KeyInfo
 #define _UIKIT_KeyInfo
 
-#include "SDL_scancode.h"
+#include "SDL2/SDL_scancode.h"
 
 /*
-    This file is used by the keyboard code in SDL_uikitview.m to convert between characters
-    passed in from the iPhone's virtual keyboard, and tuples of SDL_Scancode and SDL_keymods.
-    For example unicharToUIKeyInfoTable['a'] would give you the scan code and keymod for lower
-    case a.
+	This file is used by the keyboard code in SDL_uikitview.m to convert between characters
+	passed in from the iPhone's virtual keyboard, and tuples of SDL_Scancode and SDL_keymods.
+	For example unicharToUIKeyInfoTable['a'] would give you the scan code and keymod for lower
+	case a.
 */
 
 typedef struct
 {
-    SDL_Scancode code;
-    Uint16 mod;
+	SDL_Scancode code;
+	Uint16 mod;
 } UIKitKeyInfo;
 
 /* So far only ASCII characters here */

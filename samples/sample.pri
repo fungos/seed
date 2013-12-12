@@ -17,7 +17,7 @@ CONFIG(debug, debug|release) {
 }
 
 unix:!macx {
-		DEFINES += LINUX
+		DEFINES += LINUX USE_API_SOIL
 		LIBS += -lseed -lseedcontrib -lGL -lopenal -lX11 -lm -ldl -lpthread -lrt -lc++abi
 		QMAKE_CXXFLAGS += -std=c++11 #-v
 }
