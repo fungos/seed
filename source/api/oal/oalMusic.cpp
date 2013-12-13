@@ -69,7 +69,6 @@ Music::Music()
 	, eFormat(AL_FORMAT_MONO16)
 	, bLoop(true)
 {
-	memset(iBuffers, '\0', sizeof(iBuffers));
 }
 
 Music::~Music()

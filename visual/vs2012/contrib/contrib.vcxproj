@@ -479,18 +479,6 @@
     <ClInclude Include="..\..\..\contrib\freetype\src\gxvalid\gxvalid.h" />
     <ClInclude Include="..\..\..\contrib\freetype\src\gxvalid\gxverror.h" />
     <ClInclude Include="..\..\..\contrib\freetype\src\gxvalid\gxvmod.h" />
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\inffixed.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zconf.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zlib.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zutil.h">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClInclude>
     <ClInclude Include="..\..\..\contrib\freetype\src\otvalid\otvalid.h" />
     <ClInclude Include="..\..\..\contrib\freetype\src\otvalid\otverror.h" />
     <ClInclude Include="..\..\..\contrib\freetype\src\otvalid\otvgpos.h" />
@@ -1199,13 +1187,7 @@
     <ClCompile Include="..\..\..\contrib\freetype\src\gxvalid\gxvfgen.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
-    <ClCompile Include="..\..\..\contrib\freetype\src\gzip\adler32.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\..\contrib\freetype\src\gzip\ftgzip.c" />
-    <ClCompile Include="..\..\..\contrib\freetype\src\gzip\zutil.c">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
-    </ClCompile>
     <ClCompile Include="..\..\..\contrib\freetype\src\lzw\ftlzw.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\otvalid\otvalid.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\pcf\pcf.c" />

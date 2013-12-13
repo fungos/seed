@@ -1420,18 +1420,6 @@
     <ClInclude Include="..\..\..\contrib\freetype\src\gxvalid\gxvmod.h">
       <Filter>freetype\src\gxvalid</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\inffixed.h">
-      <Filter>freetype\src\gzip</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zconf.h">
-      <Filter>freetype\src\gzip</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zlib.h">
-      <Filter>freetype\src\gzip</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\contrib\freetype\src\gzip\zutil.h">
-      <Filter>freetype\src\gzip</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\contrib\freetype\src\otvalid\otvalid.h">
       <Filter>freetype\src\otvalid</Filter>
     </ClInclude>
@@ -3651,13 +3639,7 @@
     <ClCompile Include="..\..\..\contrib\freetype\src\gxvalid\gxvfgen.c">
       <Filter>freetype\src\gxvalid</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\contrib\freetype\src\gzip\adler32.c">
-      <Filter>freetype\src\gzip</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\contrib\freetype\src\gzip\ftgzip.c">
-      <Filter>freetype\src\gzip</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\contrib\freetype\src\gzip\zutil.c">
       <Filter>freetype\src\gzip</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\freetype\src\lzw\ftlzw.c">

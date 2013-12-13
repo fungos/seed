@@ -130,7 +130,6 @@
     <ClCompile Include="..\..\..\source\platform\sdl2\sdl2Input.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl2\sdl2Screen.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl2\sdl2System.cpp" />
-    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2Texture.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlInput.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlScreen.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlSystem.cpp" />
@@ -321,7 +320,6 @@
     <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Input.h" />
     <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Screen.h" />
     <ClInclude Include="..\..\..\include\platform\sdl2\sdl2System.h" />
-    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Texture.h" />
     <ClInclude Include="..\..\..\include\platform\sdl\sdlDefines.h" />
     <ClInclude Include="..\..\..\include\platform\sdl\sdlInput.h" />
     <ClInclude Include="..\..\..\include\platform\sdl\sdlScreen.h" />
@@ -419,7 +417,7 @@
       <PreprocessorDefinitions>_DEBUG;_LIB;BUILD_SDL2;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4521;4275</DisableSpecificWarnings>
-      <ExceptionHandling>false</ExceptionHandling>
+      <ExceptionHandling>Sync</ExceptionHandling>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

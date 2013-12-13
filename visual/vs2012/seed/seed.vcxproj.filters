@@ -291,9 +291,6 @@
     <ClCompile Include="..\..\..\source\platform\sdl2\sdl2System.cpp">
       <Filter>platform\sdl2</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2Texture.cpp">
-      <Filter>platform\sdl2</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\api\soil\soilTexture.cpp">
       <Filter>api\soil</Filter>
     </ClCompile>
@@ -621,9 +618,6 @@
       <Filter>platform\sdl2</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\platform\sdl2\sdl2System.h">
-      <Filter>platform\sdl2</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Texture.h">
       <Filter>platform\sdl2</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\soil\soilTexture.h">
