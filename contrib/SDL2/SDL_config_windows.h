@@ -143,11 +143,11 @@ typedef unsigned int uintptr_t;
 #endif
 
 /* Enable various audio drivers */
-#define SDL_AUDIO_DRIVER_DSOUND 1
-#define SDL_AUDIO_DRIVER_XAUDIO2    1
-#define SDL_AUDIO_DRIVER_WINMM  1
-#define SDL_AUDIO_DRIVER_DISK   1
-#define SDL_AUDIO_DRIVER_DUMMY  1
+#define SDL_AUDIO_DRIVER_DSOUND 0
+#define SDL_AUDIO_DRIVER_XAUDIO2    0
+#define SDL_AUDIO_DRIVER_WINMM  0
+#define SDL_AUDIO_DRIVER_DISK   0
+#define SDL_AUDIO_DRIVER_DUMMY  0
 
 /* Enable various input drivers */
 #define SDL_JOYSTICK_DINPUT 1
@@ -163,11 +163,11 @@ typedef unsigned int uintptr_t;
 #define SDL_TIMER_WINDOWS   1
 
 /* Enable various video drivers */
-#define SDL_VIDEO_DRIVER_DUMMY  1
+#define SDL_VIDEO_DRIVER_DUMMY  0
 #define SDL_VIDEO_DRIVER_WINDOWS    1
 
 #ifndef SDL_VIDEO_RENDER_D3D
-#define SDL_VIDEO_RENDER_D3D    1
+#define SDL_VIDEO_RENDER_D3D    0
 #endif
 
 /* Enable OpenGL support */
@@ -185,7 +185,7 @@ typedef unsigned int uintptr_t;
 #define SDL_POWER_WINDOWS 1
 
 /* Enable filesystem support */
-#define SDL_FILESYSTEM_WINDOWS  1
+#define SDL_FILESYSTEM_WINDOWS  0
 
 /* Enable assembly routines (Win64 doesn't have inline asm) */
 #ifndef _WIN64

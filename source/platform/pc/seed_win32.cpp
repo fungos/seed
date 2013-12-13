@@ -30,7 +30,7 @@
 
 #include "platform/pc/platform.h"
 
-#if defined(WIN32)
+#if defined(__WINDOWS__)
 
 #include "Defines.h"
 #include "Log.h"

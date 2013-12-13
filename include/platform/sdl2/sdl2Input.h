@@ -42,7 +42,7 @@
 
 #define MAX_JOYSTICKS 32
 
-constexpr u32 sdl2KeyCodeFactor{1073741625};
+const u32 sdl2KeyCodeFactor = 1073741625;
 
 namespace Seed { namespace SDL2 {
 

@@ -68,6 +68,7 @@ using namespace Seed::SOIL;
 #include <wchar.h>
 
 #include <SDL2/SDL.h>
+#undef main
 
 // I think this is not necessary with SDL2
 #if defined(__APPLE_CC__) && (__APPLE_CC__ < 5666)

@@ -278,6 +278,63 @@
     <Filter Include="yajl\api">
       <UniqueIdentifier>{b3b9f7d3-c5fb-4f2a-8114-6d61f284c7c7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SDL2">
+      <UniqueIdentifier>{214403c8-beed-4ec3-8fc6-755a6c6bb82d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\atomic">
+      <UniqueIdentifier>{65a5d780-07be-475f-95b5-e818627cfb9f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\core">
+      <UniqueIdentifier>{c2ad7766-75c2-4fb7-9360-f398ff079b20}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\cpuinfo">
+      <UniqueIdentifier>{8ec460a8-bfcb-4577-9205-7d8a011e696c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\events">
+      <UniqueIdentifier>{e62e1466-46cb-4890-b754-27af87c7ad80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\haptic">
+      <UniqueIdentifier>{80630cf3-bf7c-435c-9f5f-90760fa8fc87}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\input">
+      <UniqueIdentifier>{62d321e2-c268-4cec-b0ad-8ba07a1f8fdb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\libm">
+      <UniqueIdentifier>{8d116e35-dedb-4c83-913f-491dd566de36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\loadso">
+      <UniqueIdentifier>{a32ee27f-81a0-49fc-8cde-7b8c898b3776}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\main">
+      <UniqueIdentifier>{4a742ba6-c0f0-4ac2-9bf9-ef3958c0d584}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\render">
+      <UniqueIdentifier>{b7e2357d-27af-4f3d-95b4-e860414f97b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\stdlib">
+      <UniqueIdentifier>{640f916f-f856-416a-897f-a5368337a9ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\thread">
+      <UniqueIdentifier>{4cbf4ab9-63a0-4692-8d2c-c492bd32cd06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\timer">
+      <UniqueIdentifier>{269707c1-2ea0-4339-a06a-575c12e55a9a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\video">
+      <UniqueIdentifier>{796854b6-62e4-45c3-925e-4082b560d2d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\video\windows">
+      <UniqueIdentifier>{a98f2e96-9d7d-44bf-b786-049ff74a5513}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\audio">
+      <UniqueIdentifier>{769e749b-0aac-401f-a33b-365c61b734bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\file">
+      <UniqueIdentifier>{f23277a7-676f-403b-89a3-2ea642f026eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SDL2\thread\generic">
+      <UniqueIdentifier>{ed8f5a9c-af05-4359-9d0b-d84d45a58a93}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\contrib\Box2D\Box2D.h">
@@ -2533,6 +2590,390 @@
     <ClInclude Include="..\..\..\contrib\yajl\api\yajl_version.h">
       <Filter>yajl\api</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_thread.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_timer.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_touch.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_types.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_version.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_video.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\begin_code.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\close_code.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_assert.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_assert_c.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_atomic.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_audio.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_bits.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_blendmode.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_clipboard.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_config.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_config_windows.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_copying.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_cpuinfo.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_endian.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_error.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_error_c.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_events.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_filesystem.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_gamecontroller.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_gesture.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_haptic.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_hints.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_joystick.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_keyboard.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_keycode.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_loadso.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_log.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_main.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_messagebox.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_mouse.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_mutex.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_name.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_opengl.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_opengles.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_opengles2.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_pixels.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_platform.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_power.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_quit.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_rect.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_render.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_revision.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_rwops.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_scancode.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_shape.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_stdinc.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_surface.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_system.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\SDL_syswm.h">
+      <Filter>SDL2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\core\windows\SDL_windows.h">
+      <Filter>SDL2\core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\blank_cursor.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\default_cursor.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\scancodes_darwin.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\scancodes_linux.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\scancodes_windows.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\scancodes_xfree86.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_clipboardevents_c.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_dropevents_c.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_events_c.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_gesture_c.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_keyboard_c.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_mouse_c.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_sysevents.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_touch_c.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_windowevents_c.h">
+      <Filter>SDL2\events</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\haptic\SDL_haptic_c.h">
+      <Filter>SDL2\haptic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\haptic\SDL_syshaptic.h">
+      <Filter>SDL2\haptic</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\input\evdev\SDL_evdev.h">
+      <Filter>SDL2\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\joystick\SDL_gamecontrollerdb.h">
+      <Filter>SDL2\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\joystick\SDL_joystick_c.h">
+      <Filter>SDL2\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\joystick\SDL_sysjoystick.h">
+      <Filter>SDL2\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\joystick\windows\SDL_dxjoystick_c.h">
+      <Filter>SDL2\input</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\libm\math_libm.h">
+      <Filter>SDL2\libm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\libm\math_private.h">
+      <Filter>SDL2\libm</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\mmx.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\SDL_sysrender.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\SDL_yuv_sw_c.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\opengl\SDL_glfuncs.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\opengl\SDL_shaders_gl.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\thread\SDL_systhread.h">
+      <Filter>SDL2\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\thread\SDL_thread_c.h">
+      <Filter>SDL2\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\thread\windows\SDL_systhread_c.h">
+      <Filter>SDL2\thread</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\timer\SDL_timer_c.h">
+      <Filter>SDL2\timer</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_blit_copy.h">
+      <Filter>SDL2\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_blit_slow.h">
+      <Filter>SDL2\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_egl.h">
+      <Filter>SDL2\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_pixels_c.h">
+      <Filter>SDL2\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_rect_c.h">
+      <Filter>SDL2\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_RLEaccel_c.h">
+      <Filter>SDL2\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_shape_internals.h">
+      <Filter>SDL2\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_sysvideo.h">
+      <Filter>SDL2\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_blit.h">
+      <Filter>SDL2\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_blit_auto.h">
+      <Filter>SDL2\video</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsclipboard.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsevents.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsframebuffer.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowskeyboard.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmessagebox.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmodes.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmouse.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsopengl.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsshape.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsvideo.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowswindow.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\wmmsg.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_msctf.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_vkeys.h">
+      <Filter>SDL2\video\windows</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_blendfillrect.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_blendline.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_blendpoint.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_draw.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_drawline.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_drawpoint.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_render_sw_c.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_rotate.h">
+      <Filter>SDL2\render</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\audio\SDL_audio_c.h">
+      <Filter>SDL2\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\audio\SDL_audiodev_c.h">
+      <Filter>SDL2\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\audio\SDL_audiomem.h">
+      <Filter>SDL2\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\audio\SDL_sysaudio.h">
+      <Filter>SDL2\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\audio\SDL_wave.h">
+      <Filter>SDL2\audio</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\SDL2\audio\winmm\SDL_winmm.h">
+      <Filter>SDL2\audio</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\contrib\Box2D\Dynamics\b2Body.cpp">
@@ -4164,6 +4605,330 @@
     <ClCompile Include="..\..\..\contrib\freetype\src\bdf\bdf.c">
       <Filter>freetype\src\bdf</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\SDL.c">
+      <Filter>SDL2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\SDL_assert.c">
+      <Filter>SDL2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\SDL_error.c">
+      <Filter>SDL2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\SDL_hints.c">
+      <Filter>SDL2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\SDL_log.c">
+      <Filter>SDL2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\atomic\SDL_atomic.c">
+      <Filter>SDL2\atomic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\atomic\SDL_spinlock.c">
+      <Filter>SDL2\atomic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\core\windows\SDL_windows.c">
+      <Filter>SDL2\core</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\cpuinfo\SDL_cpuinfo.c">
+      <Filter>SDL2\cpuinfo</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_clipboardevents.c">
+      <Filter>SDL2\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_dropevents.c">
+      <Filter>SDL2\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_events.c">
+      <Filter>SDL2\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_gesture.c">
+      <Filter>SDL2\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_keyboard.c">
+      <Filter>SDL2\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_mouse.c">
+      <Filter>SDL2\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_quit.c">
+      <Filter>SDL2\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_touch.c">
+      <Filter>SDL2\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_windowevents.c">
+      <Filter>SDL2\events</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\haptic\SDL_haptic.c">
+      <Filter>SDL2\haptic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\haptic\windows\SDL_syshaptic.c">
+      <Filter>SDL2\haptic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\input\evdev\SDL_evdev.c">
+      <Filter>SDL2\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\joystick\SDL_gamecontroller.c">
+      <Filter>SDL2\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\joystick\SDL_joystick.c">
+      <Filter>SDL2\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\joystick\windows\SDL_dxjoystick.c">
+      <Filter>SDL2\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\joystick\windows\SDL_mmjoystick.c">
+      <Filter>SDL2\input</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\e_atan2.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\e_log.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\e_pow.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\e_rem_pio2.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\e_sqrt.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\k_cos.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\k_rem_pio2.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\k_sin.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\s_atan.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\s_copysign.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\s_cos.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\s_fabs.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\s_floor.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\s_scalbn.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\libm\s_sin.c">
+      <Filter>SDL2\libm</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\loadso\windows\SDL_sysloadso.c">
+      <Filter>SDL2\loadso</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\power\SDL_power.c">
+      <Filter>SDL2\main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\power\windows\SDL_syspower.c">
+      <Filter>SDL2\main</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\SDL_render.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\SDL_yuv_mmx.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\SDL_yuv_sw.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\opengl\SDL_render_gl.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\opengl\SDL_shaders_gl.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_getenv.c">
+      <Filter>SDL2\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_iconv.c">
+      <Filter>SDL2\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_malloc.c">
+      <Filter>SDL2\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_qsort.c">
+      <Filter>SDL2\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_stdlib.c">
+      <Filter>SDL2\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_string.c">
+      <Filter>SDL2\stdlib</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\thread\SDL_thread.c">
+      <Filter>SDL2\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\thread\windows\SDL_sysmutex.c">
+      <Filter>SDL2\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\thread\windows\SDL_syssem.c">
+      <Filter>SDL2\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\thread\windows\SDL_systhread.c">
+      <Filter>SDL2\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\thread\windows\SDL_systls.c">
+      <Filter>SDL2\thread</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\timer\SDL_timer.c">
+      <Filter>SDL2\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\timer\windows\SDL_systimer.c">
+      <Filter>SDL2\timer</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_N.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_slow.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_bmp.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_clipboard.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_egl.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_fillrect.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_pixels.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_rect.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_RLEaccel.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_shape.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_stretch.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_surface.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_video.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_0.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_1.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_A.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_auto.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_copy.c">
+      <Filter>SDL2\video</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsclipboard.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsevents.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsframebuffer.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowskeyboard.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmessagebox.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmodes.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmouse.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsopengl.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsshape.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsvideo.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowswindow.c">
+      <Filter>SDL2\video\windows</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\direct3d\SDL_render_d3d.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_blendfillrect.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_blendline.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_blendpoint.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_drawline.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_drawpoint.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_render_sw.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_rotate.c">
+      <Filter>SDL2\render</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_audio.c">
+      <Filter>SDL2\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_audiocvt.c">
+      <Filter>SDL2\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_audiodev.c">
+      <Filter>SDL2\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_audiotypecvt.c">
+      <Filter>SDL2\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_mixer.c">
+      <Filter>SDL2\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_wave.c">
+      <Filter>SDL2\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\audio\winmm\SDL_winmm.c">
+      <Filter>SDL2\audio</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\file\SDL_rwops.c">
+      <Filter>SDL2\file</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\SDL2\thread\generic\SDL_syscond.c">
+      <Filter>SDL2\thread\generic</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\contrib\bullet\BulletMultiThreaded\SpuNarrowPhaseCollisionTask\readme.txt">
@@ -4210,5 +4975,49 @@
     <None Include="..\..\..\contrib\Rocket\Source\Core\Pool.inl">
       <Filter>Rocket\Source\Core</Filter>
     </None>
+    <None Include="..\..\..\contrib\SDL2\doxyfile">
+      <Filter>SDL2</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\joystick\sort_controllers.py">
+      <Filter>SDL2\input</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsclipboard.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsevents.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsframebuffer.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowskeyboard.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmessagebox.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmodes.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmouse.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsopengl.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsshape.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsvideo.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+    <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowswindow.c-e">
+      <Filter>SDL2\video\windows</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\contrib\SDL2\main\windows\version.rc">
+      <Filter>SDL2\main</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>
