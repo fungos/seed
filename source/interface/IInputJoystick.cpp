@@ -46,7 +46,7 @@ IInputJoystick::IInputJoystick()
 	buttonsName[16] = "JoystickUp";
 	buttonsName[32] = "JoystickRight";
 	buttonsName[64] = "JoystickDown";
-	buttonsName[128] = "JoystickLeft";
+	buttonsName[7] = "JoystickLeft";
 	buttonsName[256] = "Button8";
 	buttonsName[512] = "Button9";
 	buttonsName[1024] = "Button10";

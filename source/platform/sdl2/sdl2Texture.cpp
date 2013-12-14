@@ -38,20 +38,13 @@
 #include "RendererDevice.h"
 #include "Configuration.h"
 #include "Memory.h"
+#include "SDL2/render/SDL_sysrender.h"
 #include <soil/SOIL.h>
 #include <soil/image_helper.h>
 
 #define TAG "[Texture] "
 
 namespace Seed { namespace SDL2 {
-
-const char *pImageFormatTable[] = {"TGA", "PNG", "JPG"};
-enum eImageFormat
-{
-	TGA,
-	PNG,
-	JPG
-};
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 {
@@ -97,15 +90,6 @@ void Texture::Reset()
 
 bool Texture::Load(const String &filename, ResourceManager *res)
 {
-#if defined(EMSCRIPTEN) || defined(__FLASHPLAYER)
-	SDL_Surface *tmp = IMG_Load(filename.c_str());
-	if (!tmp)
-	{
-		Log(TAG "Could not load image file: %s", filename.c_str());
-		Info(TAG "IMG_Load ERROR: %s\n", IMG_GetError());
-		SEED_ASSERT(false);
-	}
-#else
 	if (ITexture::Load(filename, res))
 	{
 		int channels = 4, h = 0, w = 0;
@@ -140,13 +124,18 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 				iAtlasHeight = height;
 			}
 		}
-#endif
 
 		// Create a surface
 		SDL_Surface *surface = SDL_CreateRGBSurfaceFrom(pData, iAtlasWidth, iAtlasHeight, 16, 16*2, 0x0f00, 0x00f0, 0x000f, 0xf000);
 
+		// Removes the unecessary raw image
+		sdDelete(pData);
+		ITexture::Unload();
+
 		// Create a Texture
 		pTexture = SDL_CreateTextureFromSurface(pScreen->GetRenderer(), surface);
+
+		pData = static_cast<u8 *>(pTexture->pixels);
 
 		iBytesPerPixel = channels;
 		iPitch = SEED_ROUND_UP(iAtlasWidth, 32);
