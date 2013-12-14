@@ -299,7 +299,7 @@ void Screen::ToggleFullscreen()
 {
 	bFullScreen = !bFullScreen;
 
-	if (bFullScreen)
+	if (!bFullScreen)
 	{
 		// Switch to WINDOWED mode
 		if (SDL_SetWindowFullscreen(pWindow, SDL_FALSE) < 0)

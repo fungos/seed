@@ -69,7 +69,7 @@ void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
-	if(k == eKey::Q)
+	if(k == eKey::Enter)
 	{
 		pScreen->ToggleFullscreen();
 	}
