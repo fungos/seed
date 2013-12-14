@@ -297,37 +297,24 @@ void Screen::ToggleCursor()
 
 void Screen::ToggleFullscreen()
 {
-	// destroy opengl textures
-	// change video mode
-	// reconfigure opengl context
-	// reload textures
 	bFullScreen = !bFullScreen;
-#if defined(__linux__)
-	//SDL_WM_ToggleFullScreen(pSurface);
-#else
-	//iFlags ^= SDL_FULLSCREEN;
 
-	pResourceManager->Unload(ITexture::GetTypeId());
-	pRendererDevice->Shutdown();
-	this->InitializeVideo();
-	this->EnableCursor(pConfiguration->IsCursorEnabled());
-	pRendererDevice->Initialize();
-	pResourceManager->Reload(ITexture::GetTypeId());
-
-#if defined(WIN32)
-	if (!bFullScreen)
+	if (bFullScreen)
 	{
-		RECT rcTmp,rectWindow;
-		GetClientRect(GetActiveWindow(), &rcTmp);
-		rectWindow.left = 0;
-		rectWindow.top = 0;
-		rectWindow.right = rcTmp.right;
-		rectWindow.bottom = rcTmp.bottom;
-
-		SetWindowPos(GetActiveWindow(), HWND_TOP, rectWindow.left, rectWindow.top, rectWindow.right, rectWindow.bottom, SWP_SHOWWINDOW);
+		// Switch to WINDOWED mode
+		if (SDL_SetWindowFullscreen(pWindow, SDL_FALSE) < 0)
+		{
+			Info(TAG "CRITICAL: Setting windowed failed: '%s'.", SDL_GetError());
+		}
 	}
-#endif
-#endif
+	else
+	{
+		// Switch to FULLSCREEN mode
+		if (SDL_SetWindowFullscreen(pWindow, SDL_TRUE) < 0)
+		{
+			Info(TAG "CRITICAL: Setting fullscreen failed: '%s'.", SDL_GetError());
+		}
+	}
 }
 
 bool Screen::HasWindowedMode() const

@@ -69,6 +69,11 @@ void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
+	if(k == eKey::Q)
+	{
+		pScreen->ToggleFullscreen();
+	}
+
 	if (k == eKey::Up)
 	{
 		// Sum the normalized vector up with the current vector

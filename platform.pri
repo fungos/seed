@@ -28,7 +28,6 @@ unix:!macx {
 	DEFINES += __LINUX__
 	CONFIG -= sdl
 	CONFIG += sdl2
-
 	sdl2 {
 		DEFINES += _THREAD_SAFE USE_API_SOIL
 	}
