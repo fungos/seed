@@ -125,17 +125,31 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			}
 		}
 
+		Uint32 rmask, gmask, bmask, amask;
+
+		#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+			rmask = 0xff000000;
+			gmask = 0x00ff0000;
+			bmask = 0x0000ff00;
+			amask = 0x000000ff;
+		#else
+			rmask = 0x000000ff;
+			gmask = 0x0000ff00;
+			bmask = 0x00ff0000;
+			amask = 0xff000000;
+		#endif
+
 		// Create a surface
-		SDL_Surface *surface = SDL_CreateRGBSurfaceFrom(pData, iAtlasWidth, iAtlasHeight, 16, 16*2, 0x0f00, 0x00f0, 0x000f, 0xf000);
+		SDL_Surface *surface = SDL_CreateRGBSurfaceFrom(pData, iAtlasWidth, iAtlasHeight, 16, 32, rmask, gmask, bmask, amask);
 
 		// Removes the unecessary raw image
-		sdDelete(pData);
+		//sdDelete(pData);
 		ITexture::Unload();
 
 		// Create a Texture
 		pTexture = SDL_CreateTextureFromSurface(pScreen->GetRenderer(), surface);
 
-		pData = static_cast<u8 *>(pTexture->pixels);
+		//pData = static_cast<u8 *>(pTexture->pixels);
 
 		iBytesPerPixel = channels;
 		iPitch = SEED_ROUND_UP(iAtlasWidth, 32);
