@@ -59,7 +59,6 @@ System::System()
 	, bSleeping(false)
 	, bDefaultCursorEnabled(false)
 {
-	memset(arRetraceCount, '\0', sizeof(arRetraceCount));
 }
 
 System::~System()

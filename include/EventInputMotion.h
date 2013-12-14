@@ -43,7 +43,7 @@ class SEED_CORE_API EventInputMotion : public IEventInput
 	SEED_DECLARE_RTTI(EventInputMotion, IEventInput)
 
 	public:
-		EventInputMotion(u32 j, Vector3f ptAcc, f32 fMag, f32 fVel);
+		EventInputMotion(u32 j, const Vector3f &ptAcc, f32 fMag, f32 fVel);
 		virtual ~EventInputMotion();
 
 		u32 GetJoystick() const;

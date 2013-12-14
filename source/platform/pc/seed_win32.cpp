@@ -30,23 +30,15 @@
 
 #include "platform/pc/platform.h"
 
-#if defined(WIN32)
+#if defined(_MSC_VER)
 
 #include "Defines.h"
 #include "Log.h"
 #include "Configuration.h"
-
-#pragma push_macro("Delete")
-#pragma push_macro("Free")
-#undef Free
-#undef Delete
 #include <io.h>
 #include <windows.h>
 #include <winuser.h>
 #include <tchar.h>
-#pragma pop_macro("Free")
-#pragma pop_macro("Delete")
-
 
 #define TAG	"[Platform] "
 

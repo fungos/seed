@@ -314,7 +314,7 @@ void MapLayerTiled::SetMapSize(Point2u mapSize)
 	bResizeMap = true;
 }
 
-u32 MapLayerTiled::GetTileAt(Vector3f pos) const
+u32 MapLayerTiled::GetTileAt(const Vector3f &pos) const
 {
 	s32 x = static_cast<s32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
 	s32 y = static_cast<s32>((pos.getY() / ptTileSize.y) + ptMapSizeHalf.y);

@@ -131,10 +131,6 @@
 #include <api/theora/Theora.h>
 #include <api/rocket/RocketInterface.h>
 
-#if defined(BUILD_SDL) || defined(BUILD_SDL2) && defined(WIN32)
-#undef main
-#endif
-
 namespace Seed {}
 
 #endif // __SEED_H__

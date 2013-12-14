@@ -69,6 +69,7 @@ using namespace Seed::SOIL;
 #include <wchar.h>
 
 #include <SDL2/SDL.h>
+#undef main
 
 #if defined(__MWERKS__)
 #pragma warning off (10342)
