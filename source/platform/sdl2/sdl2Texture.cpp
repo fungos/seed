@@ -140,7 +140,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		#endif
 
 		// Create a surface
-		SDL_Surface *surface = SDL_CreateRGBSurfaceFrom(pData, iAtlasWidth, iAtlasHeight, 16, 32, rmask, gmask, bmask, amask);
+		SDL_Surface *surface = SDL_CreateRGBSurfaceFrom(pData, iAtlasWidth, iAtlasHeight, 16, 32, bmask, gmask, rmask, amask);
 
 		// Removes the unecessary raw image
 		//sdDelete(pData);
