@@ -43,6 +43,7 @@
 #define USE_API_GLEW		1
 #define USE_API_OGL_VBO		1
 #define USE_API_OGL_RT		1
+#define USE_API_SOIL		1
 #endif
 
 namespace Seed

@@ -20,7 +20,7 @@ macx {
 
 	sdl2 {
 		LIBS += -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit -framework QTKit -framework CoreFoundation -framework CoreAudio -framework AudioUnit -framework ForceFeedback -framework Carbon -framework AudioToolbox
-		DEFINES += TARGET_API_MAC_OSX _THREAD_SAFE USE_API_SOIL
+		DEFINES += TARGET_API_MAC_OSX _THREAD_SAFE
 	}
 }
 
@@ -29,7 +29,7 @@ unix:!macx {
 	CONFIG -= sdl
 	CONFIG += sdl2
 	sdl2 {
-		DEFINES += _THREAD_SAFE USE_API_SOIL
+		DEFINES += _THREAD_SAFE
 	}
 }
 

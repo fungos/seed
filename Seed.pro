@@ -148,7 +148,6 @@ SOURCES += source/Viewport.cpp \
 	source/map/MetadataObject.cpp \
 	source/Memory.cpp \
 	source/Thread.cpp \
-	source/platform/sdl2/sdl2Texture.cpp \
 	source/platform/sdl2/sdl2System.cpp \
 	source/platform/sdl2/sdl2Screen.cpp \
 	source/platform/sdl2/sdl2Input.cpp
@@ -221,7 +220,6 @@ HEADERS += include/*.h \
 	include/Memory.h \
 	include/Semaphore.h \
 	include/api/ogl/oglHeaders.h \
-	include/platform/sdl2/sdl2Texture.h \
 	include/platform/sdl2/sdl2System.h \
 	include/platform/sdl2/sdl2Screen.h \
 	include/platform/sdl2/sdl2Input.h \
