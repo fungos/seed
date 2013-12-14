@@ -26,7 +26,7 @@
 #include "SDL_DirectFB_dyn.h"
 
 #ifdef SDL_VIDEO_DRIVER_DIRECTFB_DYNAMIC
-#include "SDL_name.h"
+#include "SDL2/SDL_name.h"
 #include "SDL2/SDL_loadso.h"
 
 #define DFB_SYM(ret, name, args, al, func) ret (*name) args;

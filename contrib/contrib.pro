@@ -750,9 +750,9 @@ SOURCES += yajl/yajl_buf.c \
 	Rocket/Source/Debugger/DebugGeometry.cpp \
 	Rocket/Source/Debugger/DebugPlugin.cpp \
 	Rocket/Source/Debugger/DebugSystemInterface.cpp \
-	SDL2/core/windows/SDL_windows.c \
-	SDL2/core/linux/SDL_udev.c \
-	SDL2/core/android/SDL_android.c \
+#	SDL2/core/windows/SDL_windows.c \
+#	SDL2/core/linux/SDL_udev.c \
+#	SDL2/core/android/SDL_android.c \
 	SDL2/stdlib/SDL_string.c \
 	SDL2/stdlib/SDL_stdlib.c \
 	SDL2/stdlib/SDL_qsort.c \
@@ -792,17 +792,17 @@ SOURCES += yajl/yajl_buf.c \
 	SDL2/video/x11/SDL_x11clipboard.c \
 	SDL2/video/x11/imKStoUCS.c \
 	SDL2/video/x11/edid-parse.c \
-	SDL2/video/windows/SDL_windowswindow.c \
-	SDL2/video/windows/SDL_windowsvideo.c \
-	SDL2/video/windows/SDL_windowsshape.c \
-	SDL2/video/windows/SDL_windowsopengl.c \
-	SDL2/video/windows/SDL_windowsmouse.c \
-	SDL2/video/windows/SDL_windowsmodes.c \
-	SDL2/video/windows/SDL_windowsmessagebox.c \
-	SDL2/video/windows/SDL_windowskeyboard.c \
-	SDL2/video/windows/SDL_windowsframebuffer.c \
-	SDL2/video/windows/SDL_windowsevents.c \
-	SDL2/video/windows/SDL_windowsclipboard.c \
+#	SDL2/video/windows/SDL_windowswindow.c \
+#	SDL2/video/windows/SDL_windowsvideo.c \
+#	SDL2/video/windows/SDL_windowsshape.c \
+#	SDL2/video/windows/SDL_windowsopengl.c \
+#	SDL2/video/windows/SDL_windowsmouse.c \
+#	SDL2/video/windows/SDL_windowsmodes.c \
+#	SDL2/video/windows/SDL_windowsmessagebox.c \
+#	SDL2/video/windows/SDL_windowskeyboard.c \
+#	SDL2/video/windows/SDL_windowsframebuffer.c \
+#	SDL2/video/windows/SDL_windowsevents.c \
+#	SDL2/video/windows/SDL_windowsclipboard.c \
 	SDL2/video/SDL_video.c \
 	SDL2/video/SDL_surface.c \
 	SDL2/video/SDL_stretch.c \
@@ -822,54 +822,54 @@ SOURCES += yajl/yajl_buf.c \
 	SDL2/video/SDL_blit_A.c \
 	SDL2/video/SDL_blit_1.c \
 	SDL2/video/SDL_blit_0.c \
-	SDL2/video/raspberry/SDL_rpivideo.c \
-	SDL2/video/raspberry/SDL_rpiopengles.c \
-	SDL2/video/raspberry/SDL_rpimouse.c \
-	SDL2/video/raspberry/SDL_rpievents.c \
-	SDL2/video/pandora/SDL_pandora.c \
-	SDL2/video/pandora/SDL_pandora_events.c \
+#	SDL2/video/raspberry/SDL_rpivideo.c \
+#	SDL2/video/raspberry/SDL_rpiopengles.c \
+#	SDL2/video/raspberry/SDL_rpimouse.c \
+#	SDL2/video/raspberry/SDL_rpievents.c \
+#	SDL2/video/pandora/SDL_pandora.c \
+#	SDL2/video/pandora/SDL_pandora_events.c \
 	SDL2/video/dummy/SDL_nullvideo.c \
 	SDL2/video/dummy/SDL_nullframebuffer.c \
 	SDL2/video/dummy/SDL_nullevents.c \
-	SDL2/video/directfb/SDL_DirectFB_WM.c \
-	SDL2/video/directfb/SDL_DirectFB_window.c \
-	SDL2/video/directfb/SDL_DirectFB_video.c \
-	SDL2/video/directfb/SDL_DirectFB_shape.c \
-	SDL2/video/directfb/SDL_DirectFB_render.c \
-	SDL2/video/directfb/SDL_DirectFB_opengl.c \
-	SDL2/video/directfb/SDL_DirectFB_mouse.c \
-	SDL2/video/directfb/SDL_DirectFB_modes.c \
-	SDL2/video/directfb/SDL_DirectFB_events.c \
-	SDL2/video/directfb/SDL_DirectFB_dyn.c \
-	SDL2/video/bwindow/SDL_bwindow.cc \
-	SDL2/video/bwindow/SDL_bvideo.cc \
-	SDL2/video/bwindow/SDL_bopengl.cc \
-	SDL2/video/bwindow/SDL_bmodes.cc \
-	SDL2/video/bwindow/SDL_bkeyboard.cc \
-	SDL2/video/bwindow/SDL_bframebuffer.cc \
-	SDL2/video/bwindow/SDL_bevents.cc \
-	SDL2/video/bwindow/SDL_bclipboard.cc \
-	SDL2/video/android/SDL_androidwindow.c \
-	SDL2/video/android/SDL_androidvideo.c \
-	SDL2/video/android/SDL_androidtouch.c \
-	SDL2/video/android/SDL_androidkeyboard.c \
-	SDL2/video/android/SDL_androidgl.c \
-	SDL2/video/android/SDL_androidevents.c \
-	SDL2/video/android/SDL_androidclipboard.c \
+#	SDL2/video/directfb/SDL_DirectFB_WM.c \
+#	SDL2/video/directfb/SDL_DirectFB_window.c \
+#	SDL2/video/directfb/SDL_DirectFB_video.c \
+#	SDL2/video/directfb/SDL_DirectFB_shape.c \
+#	SDL2/video/directfb/SDL_DirectFB_render.c \
+#	SDL2/video/directfb/SDL_DirectFB_opengl.c \
+#	SDL2/video/directfb/SDL_DirectFB_mouse.c \
+#	SDL2/video/directfb/SDL_DirectFB_modes.c \
+#	SDL2/video/directfb/SDL_DirectFB_events.c \
+#	SDL2/video/directfb/SDL_DirectFB_dyn.c \
+#	SDL2/video/bwindow/SDL_bwindow.cc \
+#	SDL2/video/bwindow/SDL_bvideo.cc \
+#	SDL2/video/bwindow/SDL_bopengl.cc \
+#	SDL2/video/bwindow/SDL_bmodes.cc \
+#	SDL2/video/bwindow/SDL_bkeyboard.cc \
+#	SDL2/video/bwindow/SDL_bframebuffer.cc \
+#	SDL2/video/bwindow/SDL_bevents.cc \
+#	SDL2/video/bwindow/SDL_bclipboard.cc \
+#	SDL2/video/android/SDL_androidwindow.c \
+#	SDL2/video/android/SDL_androidvideo.c \
+#	SDL2/video/android/SDL_androidtouch.c \
+#	SDL2/video/android/SDL_androidkeyboard.c \
+#	SDL2/video/android/SDL_androidgl.c \
+#	SDL2/video/android/SDL_androidevents.c \
+#	SDL2/video/android/SDL_androidclipboard.c \
 	SDL2/timer/SDL_timer.c \
 	SDL2/audio/SDL_wave.c \
 	SDL2/audio/SDL_audiotypecvt.c \
 	SDL2/audio/SDL_audiodev.c \
 	SDL2/audio/SDL_audio.c \
-	SDL2/audio/winmm/SDL_winmm.c \
-	SDL2/audio/sun/SDL_sunaudio.c \
-	SDL2/audio/sndio/SDL_sndioaudio.c \
-	SDL2/audio/qsa/SDL_qsa_audio.c \
-	SDL2/audio/pulseaudio/SDL_pulseaudio.c \
-	SDL2/audio/paudio/SDL_paudio.c \
-	SDL2/audio/nas/SDL_nasaudio.c \
-	SDL2/audio/fusionsound/SDL_fsaudio.c \
-	SDL2/audio/esd/SDL_esdaudio.c \
+#	SDL2/audio/winmm/SDL_winmm.c \
+#	SDL2/audio/sun/SDL_sunaudio.c \
+#	SDL2/audio/sndio/SDL_sndioaudio.c \
+#	SDL2/audio/qsa/SDL_qsa_audio.c \
+#	SDL2/audio/pulseaudio/SDL_pulseaudio.c \
+#	SDL2/audio/paudio/SDL_paudio.c \
+#	SDL2/audio/nas/SDL_nasaudio.c \
+#	SDL2/audio/fusionsound/SDL_fsaudio.c \
+#	SDL2/audio/esd/SDL_esdaudio.c \
 	SDL2/audio/dummy/SDL_dummyaudio.c \
 	SDL2/audio/dsp/SDL_dspaudio.c \
 	SDL2/audio/disk/SDL_diskaudio.c \
@@ -877,7 +877,7 @@ SOURCES += yajl/yajl_buf.c \
 #	SDL2/audio/baudio/SDL_beaudio.cc \
 	SDL2/audio/arts/SDL_artsaudio.c \
 #	SDL2/audio/android/SDL_androidaudio.c \
-	SDL2/audio/alsa/SDL_alsa_audio.c \
+#	SDL2/audio/alsa/SDL_alsa_audio.c \
 	SDL2/audio/SDL_mixer.c \
 	SDL2/audio/SDL_audiocvt.c \
 #	SDL2/joystick/dummy/SDL_sysjoystick.c \
@@ -2274,6 +2274,7 @@ HEADERS += yajl/api/yajl_version.h \
 	SDL2/SDL_config.h \
 	SDL2/SDL_config_wiz.h \
 	SDL2/SDL_config_windows.h \
+	SDL2/SDL_config_linux.h \
 	SDL2/SDL_config_psp.h \
 	SDL2/SDL_config_pandora.h \
 	SDL2/SDL_config_minimal.h \
@@ -2289,7 +2290,6 @@ HEADERS += yajl/api/yajl_version.h \
 	SDL2/close_code.h \
 	SDL2/begin_code.h \
 	SDL2/SDL_revision.h
-
 
 OTHER_FILES += \
 	physfs/CREDITS.txt \

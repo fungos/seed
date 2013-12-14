@@ -30,7 +30,7 @@
 
 #include "SDL2/SDL_stdinc.h"
 #include "SDL2/SDL_error.h"
-#include "SDL_keycode.h"
+#include "SDL2/SDL_keycode.h"
 #include "SDL2/SDL_video.h"
 
 #include "SDL2/begin_code.h"
