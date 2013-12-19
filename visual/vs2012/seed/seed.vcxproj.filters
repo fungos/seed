@@ -44,6 +44,12 @@
     <Filter Include="platform\qt">
       <UniqueIdentifier>{bde528fd-e87b-437a-a7bc-d7e79091a048}</UniqueIdentifier>
     </Filter>
+    <Filter Include="platform\sdl2">
+      <UniqueIdentifier>{be5a0ed2-3daf-4354-a9e2-476e5b406dd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\soil">
+      <UniqueIdentifier>{a4c6751b-9811-4522-b8b5-45a059141b8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Animation.cpp" />
@@ -275,6 +281,18 @@
     </ClCompile>
     <ClCompile Include="..\..\..\source\platform\qt\qtSystem.cpp">
       <Filter>platform\qt</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2Input.cpp">
+      <Filter>platform\sdl2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2Screen.cpp">
+      <Filter>platform\sdl2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2System.cpp">
+      <Filter>platform\sdl2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\soil\soilTexture.cpp">
+      <Filter>api\soil</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -589,6 +607,21 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\oal\vorbis_util.h">
       <Filter>api\oal</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Defines.h">
+      <Filter>platform\sdl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Input.h">
+      <Filter>platform\sdl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Screen.h">
+      <Filter>platform\sdl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2System.h">
+      <Filter>platform\sdl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\soil\soilTexture.h">
+      <Filter>api\soil</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

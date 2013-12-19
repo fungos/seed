@@ -415,7 +415,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 						{
 							case 4:
 							{
-								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, data);
+								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
 							}
 							break;
 

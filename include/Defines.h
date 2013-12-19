@@ -51,6 +51,10 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #pragma warning(disable:4530)
 #pragma warning(disable:4996) // _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable:4251) // stl + dll
+#pragma warning(disable:4324) // structure was padded due to __declspec(align())
+#pragma warning(disable:4316) // object allocated on the heap may not be aligned X
+#pragma warning(disable:4351) // new behavior: elements of array 'X' will be default initialized
+#pragma warning(disable:4275) // non dll-interface class 'X' used as base for dll-interface class 'Y'
 #else
 //#define override
 #endif

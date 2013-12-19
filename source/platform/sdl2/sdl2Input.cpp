@@ -143,10 +143,11 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 	{
 		switch (event.type)
 		{
-			#if defined(WIN32) && defined(DEBUG)
+			#if defined(WIN32) && defined(DEBUG)/*
 			case SDL_SYSWMEVENT:
 			{
-				switch (event.syswm.msg->msg)
+				SDL_SysWMmsg *msg = (SDL_SysWMmsg *)event.syswm.msg;
+				switch (msg->win.msg)
 				{
 					case WM_SYSCOMMAND:
 					case WM_IME_SETCONTEXT:
@@ -214,7 +215,7 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 					break;
 				}
 			}
-			break;
+			break;*/
 			#endif
 
 			case SDL_KEYDOWN:

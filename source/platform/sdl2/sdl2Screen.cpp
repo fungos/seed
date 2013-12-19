@@ -39,6 +39,7 @@
 
 #if defined(WIN32)
 #define USER_DEFAULT_SCREEN_DPI	96
+#include <WinUser.h>
 #include <SDL/SDL_syswm.h>
 #endif
 
@@ -131,22 +132,7 @@ bool Screen::InitializeVideo()
 		pWindow = NULL;
 	}
 
-#if defined(__APPLE_CC__) || defined(__linux__)
 	this->SetupOpenGL();
-#else
-	eRendererDeviceType type = pConfiguration->GetRendererDeviceType();
-	if (type == Seed::RendererDeviceOpenGL1x || type == Seed::RendererDeviceOpenGL2x ||
-		type == Seed::RendererDeviceOpenGL3x || type == Seed::RendererDeviceOpenGL4x)
-	{
-		this->SetupOpenGL();
-	}
-	else
-	{
-#if !defined(SEED_ENABLE_D3D8) && !defined(SEED_ENABLE_D3D9) && !defined(SEED_ENABLE_D3D10) && !defined(SEED_ENABLE_D3D11)
-		this->SetupOpenGL();
-#endif
-	}
-#endif
 
 #if defined(WIN32)
 	int dpiX = 0, dpiY = 0;
