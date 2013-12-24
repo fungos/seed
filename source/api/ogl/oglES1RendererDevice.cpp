@@ -78,7 +78,7 @@
 	#define GL_ENABLE_BIT 0
 	#define GL_CURRENT_BIT 0
 #else
-	#if defined(__APPLE_CC__) || defined(BUILD_GLFW)
+	#if defined(__APPLE_CC__) || defined(BUILD_GLFW) || defined(BUILD_SDL2)
 		#define PIXEL_FORMAT_32 GL_RGBA
 	#else
 		#define PIXEL_FORMAT_32 GL_BGRA
@@ -415,7 +415,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 						{
 							case 4:
 							{
-								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+								glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, data);
 							}
 							break;
 

@@ -50,11 +50,7 @@
 #include <SDL/SDL_syswm.h>
 #endif
 
-#if defined(EMSCRIPTEN)
-#define SDL_EVENT_KEY_WHICH 0
-#else
 #define SDL_EVENT_KEY_WHICH event.key.which
-#endif
 
 #define TAG "[Input] "
 
@@ -80,7 +76,6 @@ bool Input::Shutdown()
 
 	for (u32 i = 0; i < iJoystickCount; i++)
 	{
-
 		//if (SDL_JoystickOpened(i))
 		if (parJoy[i])
 			SDL_JoystickClose(parJoy[i]);
@@ -465,7 +460,6 @@ bool Input::IsPointer() const
 	return true;
 }
 
-//bool Input::IsMotion() const;
 bool Input::IsJoystick() const
 {
 	return iJoystickCount > 0;
