@@ -335,6 +335,48 @@
     <Filter Include="SDL2\thread\generic">
       <UniqueIdentifier>{ed8f5a9c-af05-4359-9d0b-d84d45a58a93}</UniqueIdentifier>
     </Filter>
+    <Filter Include="otterui">
+      <UniqueIdentifier>{a0af6897-4946-41b2-be91-74485769d892}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\inc">
+      <UniqueIdentifier>{41d545b2-9b3b-40ff-b8c4-4d998f239a64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\src">
+      <UniqueIdentifier>{e1a0c181-55b0-4c9d-aeec-e1a60426255a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\src\Common">
+      <UniqueIdentifier>{c8e2be15-b9c4-4154-a2b3-c060c54a6598}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\src\Data">
+      <UniqueIdentifier>{6250f3cc-bc06-4853-a58b-1e20ca8f20ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\src\Graphics">
+      <UniqueIdentifier>{68cedb8e-4b65-4685-810c-c2d7ec344615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\src\Math">
+      <UniqueIdentifier>{ac6de7cc-d91c-4dde-803b-a07a98770aee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\src\Memory">
+      <UniqueIdentifier>{7bf36d71-aa5d-4367-9c29-8ac3feda9787}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\src\utf8proc">
+      <UniqueIdentifier>{c794b29b-6a4e-4746-a078-4601644727b8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\src\Utilities">
+      <UniqueIdentifier>{13506237-e5a0-4100-b52c-de443ea376c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\inc\Common">
+      <UniqueIdentifier>{c4ec651c-21a8-45c6-b9bf-7563239a4460}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\inc\Graphics">
+      <UniqueIdentifier>{cc462f70-6887-4ab1-9663-ac29e6c8adb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\inc\Interfaces">
+      <UniqueIdentifier>{55394416-dd30-477b-b602-f30234548134}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="otterui\inc\Math">
+      <UniqueIdentifier>{fe65d7ea-b637-46b0-ba81-973b9d5293c5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\contrib\Box2D\Box2D.h">
@@ -2962,6 +3004,114 @@
     <ClInclude Include="..\..\..\contrib\SDL2\audio\winmm\SDL_winmm.h">
       <Filter>SDL2\audio</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\src\Font.h">
+      <Filter>otterui\src</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\src\Common\Log.h">
+      <Filter>otterui\src\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\src\Data\OtterData.h">
+      <Filter>otterui\src\Data</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\src\Memory\Memory.h">
+      <Filter>otterui\src\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\src\Memory\MemoryManager.h">
+      <Filter>otterui\src\Memory</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\src\utf8proc\utf8proc.h">
+      <Filter>otterui\src\utf8proc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\src\Utilities\Utilities.h">
+      <Filter>otterui\src\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Button.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Control.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Group.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Label.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Mask.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Otter.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Scene.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Slider.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Sprite.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\System.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Table.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Toggle.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\View.h">
+      <Filter>otterui\inc</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\Array.h">
+      <Filter>otterui\inc\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\BaseTypes.h">
+      <Filter>otterui\inc\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\Event.h">
+      <Filter>otterui\inc\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\Platforms.h">
+      <Filter>otterui\inc\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\Types.h">
+      <Filter>otterui\inc\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\UTF8String.h">
+      <Filter>otterui\inc\Common</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Graphics\Graphics.h">
+      <Filter>otterui\inc\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Interfaces\IFileSystem.h">
+      <Filter>otterui\inc\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Interfaces\IPlugin.h">
+      <Filter>otterui\inc\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Interfaces\IRenderer.h">
+      <Filter>otterui\inc\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Interfaces\ISoundSystem.h">
+      <Filter>otterui\inc\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Math\Matrix4.h">
+      <Filter>otterui\inc\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Math\Vector2.h">
+      <Filter>otterui\inc\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Math\Vector3.h">
+      <Filter>otterui\inc\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Math\Vector4.h">
+      <Filter>otterui\inc\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Math\VectorMath.h">
+      <Filter>otterui\inc\Math</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\contrib\Box2D\Dynamics\b2Body.cpp">
@@ -4910,6 +5060,90 @@
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\thread\generic\SDL_syscond.c">
       <Filter>SDL2\thread\generic</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Button.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Control.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Font.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Group.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Label.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Mask.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Otter.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Scene.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Slider.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Sprite.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\System.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Table.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Toggle.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\View.cpp">
+      <Filter>otterui\src</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Common\UTF8String.cpp">
+      <Filter>otterui\src\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Data\OtterData.cpp">
+      <Filter>otterui\src\Data</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Graphics\Graphics.cpp">
+      <Filter>otterui\src\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Math\Matrix4.cpp">
+      <Filter>otterui\src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Math\Vector3.cpp">
+      <Filter>otterui\src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Math\Vector4.cpp">
+      <Filter>otterui\src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Math\VectorMath.cpp">
+      <Filter>otterui\src\Math</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Memory\Memory.cpp">
+      <Filter>otterui\src\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Memory\MemoryManager.cpp">
+      <Filter>otterui\src\Memory</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\utf8proc\utf8proc.cpp">
+      <Filter>otterui\src\utf8proc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\utf8proc\utf8proc_data.cpp">
+      <Filter>otterui\src\utf8proc</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Utilities\Utilities.cpp">
+      <Filter>otterui\src\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Common\otLog.cpp">
+      <Filter>otterui\src\Common</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\contrib\otterui\src\Math\otVector2.cpp">
+      <Filter>otterui\src\Math</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

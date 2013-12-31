@@ -54,19 +54,19 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;C:\Projects\seed\contrib\otterui\inc;C:\Projects\seed\contrib\otterui\src;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\..\lib\</OutDir>
     <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;C:\Projects\seed\contrib\otterui\inc;C:\Projects\seed\contrib\otterui\src;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\..\lib\</OutDir>
     <TargetName>$(ProjectName)_d</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;$(IncludePath)</IncludePath>
+    <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;C:\Projects\seed\contrib\otterui\inc;C:\Projects\seed\contrib\otterui\src;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\..\lib\</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
@@ -75,7 +75,7 @@
       </PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PLATFORM_WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4068;4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -89,7 +89,7 @@
       </PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PLATFORM_WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4068;4275</DisableSpecificWarnings>
     </ClCompile>
     <Link>
@@ -105,7 +105,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PLATFORM_WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -584,6 +584,42 @@
     <ClInclude Include="..\..\..\contrib\lua\lzio.h" />
     <ClInclude Include="..\..\..\contrib\ogg\ogg.h" />
     <ClInclude Include="..\..\..\contrib\ogg\os_types.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Button.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\Array.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\BaseTypes.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\Event.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\Platforms.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\Types.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Common\UTF8String.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Control.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Graphics\Graphics.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Group.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Interfaces\IFileSystem.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Interfaces\IPlugin.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Interfaces\IRenderer.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Interfaces\ISoundSystem.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Label.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Mask.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Math\Matrix4.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Math\Vector2.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Math\Vector3.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Math\Vector4.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Math\VectorMath.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Otter.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Scene.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Slider.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Sprite.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\System.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Table.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\Toggle.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\inc\View.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\src\Common\Log.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\src\Data\OtterData.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\src\Font.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\src\Memory\Memory.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\src\Memory\MemoryManager.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\src\utf8proc\utf8proc.h" />
+    <ClInclude Include="..\..\..\contrib\otterui\src\Utilities\Utilities.h" />
     <ClInclude Include="..\..\..\contrib\physfs\extras\abs-file.h" />
     <ClInclude Include="..\..\..\contrib\physfs\extras\globbing.h" />
     <ClInclude Include="..\..\..\contrib\physfs\extras\ignorecase.h" />
@@ -1598,6 +1634,34 @@
     <ClCompile Include="..\..\..\contrib\lua\lzio.c" />
     <ClCompile Include="..\..\..\contrib\ogg\bitwise.c" />
     <ClCompile Include="..\..\..\contrib\ogg\framing.c" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Button.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Common\otLog.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Common\UTF8String.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Control.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Data\OtterData.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Font.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Graphics\Graphics.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Group.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Label.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Mask.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Math\Matrix4.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Math\otVector2.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Math\Vector3.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Math\Vector4.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Math\VectorMath.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Memory\Memory.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Memory\MemoryManager.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Otter.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Scene.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Slider.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Sprite.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\System.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Table.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Toggle.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\utf8proc\utf8proc.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\utf8proc\utf8proc_data.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\Utilities\Utilities.cpp" />
+    <ClCompile Include="..\..\..\contrib\otterui\src\View.cpp" />
     <ClCompile Include="..\..\..\contrib\physfs\archivers\dir.c" />
     <ClCompile Include="..\..\..\contrib\physfs\archivers\grp.c" />
     <ClCompile Include="..\..\..\contrib\physfs\archivers\hog.c" />

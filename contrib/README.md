@@ -11,6 +11,11 @@ libRocket 1.2.1 bc8b334d2f477f250a885de68c9f621e297faf1c
 - Renamed Debugger/Plugin.cpp to Debugger/DebugPlugin.cpp (qmake);
 - Renamed Debugger/SystemInterface.cpp to Debugger/DebugSystemInterface.cpp (qmake);
 
+OtterUI 1.3.6.3 3de4464203a253cd5b89d36bd0bdefbe2f965fca
+
+- (temporary) Renamed Log.cpp to otLog.cpp to avoid conflict with libRocket.
+- (temporary) Renamed Vector2.cpp to otVector2.cpp to avoid conflict with libRocket.
+
 FreeType 2.4.10
 
 - Includes from <ft2build.h> to <freetype/ft2build.h>;
@@ -27,6 +32,10 @@ GLFW 2.7.7
 - Added "#define GLFW_NO_GLU 1" to glfw.h;
 - Added parameter button to GLFWmousewheelfun in glfw.h and platform specific code;
 - Do not use thread implementation;
+
+SDL2
+
+[Describe here all modifications on SDL2 needed to get working within contrib]
 
 GLEW
 
