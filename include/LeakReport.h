@@ -42,12 +42,12 @@
 
 #define SEED_LEAK_MAX			128
 
-#define pLeakReport				LeakReport::GetInstance()
-#define LeakReportPrint			pLeakReport->Print();
-
 namespace Seed {
 
 #if defined(DEBUG)
+
+#define pLeakReport				LeakReport::GetInstance()
+#define LeakReportPrint()		do { pLeakReport->Print(); } while(0)
 
 /// Leak Reporter
 class SEED_CORE_API LeakReport
@@ -126,12 +126,15 @@ class SEED_CORE_API LeakReport
 
 #else
 
+#define pLeakReport
+#define LeakReportPrint()	do {} while(0)
+
 class SEED_CORE_API LeakReport
 {
-	SEED_DECLARE_SINGLETON(LeakReport)
-	SEED_DISABLE_COPY(LeakReport)
-
 	public:
+		LeakReport() {}
+		~LeakReport() {}
+
 		template <class T>
 		T *LogNew(T *ptr, const char *, const char *, int, const char *)
 		{

@@ -457,17 +457,17 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\include\;$(ProjectDir)..\..\..\contrib\;$(ProjectDir)..\..\..\contrib\windows\;$(ProjectDir)..\..\..\;$(IncludePath)</IncludePath>
-    <OutDir>$(ProjectDir)..\..\..\lib\</OutDir>
-    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>..\..\..\lib\$(IntDir)</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\include\;$(ProjectDir)..\..\..\contrib\;$(ProjectDir)..\..\..\contrib\windows\;$(ProjectDir)..\..\..\;$(IncludePath)</IncludePath>
-    <OutDir>$(ProjectDir)..\..\..\lib\</OutDir>
-    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>..\..\..\lib\$(IntDir)</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
     <IncludePath>$(ProjectDir)..\..\..\include\;$(ProjectDir)..\..\..\contrib\;$(ProjectDir)..\..\..\contrib\windows\;$(ProjectDir)..\..\..\;$(IncludePath)</IncludePath>
-    <OutDir>$(ProjectDir)..\..\..\lib\</OutDir>
+    <OutDir>..\..\..\lib\$(IntDir)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
     <ClCompile>
@@ -484,6 +484,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">
     <ClCompile>
@@ -500,6 +503,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
     <ClCompile>
@@ -518,6 +524,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

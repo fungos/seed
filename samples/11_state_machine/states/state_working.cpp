@@ -1,5 +1,5 @@
 #include "state_working.h"
-#include "data/agent_data.h"
+#include "../data/agent_data.h"
 
 StateWorking::StateWorking(AgentData *agentData)
 	: pAgentData(agentData)

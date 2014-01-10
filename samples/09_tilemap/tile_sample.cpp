@@ -25,7 +25,7 @@ bool TileSample::Initialize()
 
 		pPlayer = (ISceneObject *)gScene->GetChildByName("Player");
 
-		pMap = (GameMap *)gScene->GetChildByName("GameMap");
+		pMap = (GameMap *)gScene->GetChildByName("Map");
 		pCamera->SetParent(pPlayer);
 		vDir = Vector3f(0.0f, 0.0f, 0.0f);
 

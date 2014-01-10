@@ -128,8 +128,8 @@ void Box2DSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 void Box2DSample::OnInputPointerPress(const EventInputPointer *ev)
 {
 	Vector3f p;
-	p.setX(ev->GetX());
-	p.setY(ev->GetY());
+	p.setX(f32(ev->GetX()));
+	p.setY(f32(ev->GetY()));
 	p += pCamera->GetPosition();
 
 	if (ev->GetPressed() == eInputButton::MouseLeft)
@@ -171,8 +171,8 @@ void Box2DSample::OnInputPointerPress(const EventInputPointer *ev)
 void Box2DSample::OnInputPointerMove(const EventInputPointer *ev)
 {
 	Vector3f p;
-	p.setX(ev->GetX());
-	p.setY(ev->GetY());
+	p.setX(f32(ev->GetX()));
+	p.setY(f32(ev->GetY()));
 	p += pCamera->GetPosition();
 
 	if (pPick)
@@ -186,8 +186,8 @@ void Box2DSample::OnInputPointerMove(const EventInputPointer *ev)
 void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 {
 	Vector3f p;
-	p.setX(ev->GetX());
-	p.setY(ev->GetY());
+	p.setX(f32(ev->GetX()));
+	p.setY(f32(ev->GetY()));
 	p += pCamera->GetPosition();
 
 	if (ev->GetReleased() == eInputButton::MouseLeft)

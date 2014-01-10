@@ -55,19 +55,19 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;C:\Projects\seed\contrib\otterui\inc;C:\Projects\seed\contrib\otterui\src;$(IncludePath)</IncludePath>
-    <OutDir>$(ProjectDir)..\..\..\lib\</OutDir>
-    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(ProjectDir)..\..\..\lib\$(IntDir)</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;C:\Projects\seed\contrib\otterui\inc;C:\Projects\seed\contrib\otterui\src;$(IncludePath)</IncludePath>
-    <OutDir>$(ProjectDir)..\..\..\lib\</OutDir>
-    <TargetName>$(ProjectName)_d</TargetName>
+    <OutDir>$(ProjectDir)..\..\..\lib\$(IntDir)</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;C:\Projects\seed\contrib\otterui\inc;C:\Projects\seed\contrib\otterui\src;$(IncludePath)</IncludePath>
-    <OutDir>$(ProjectDir)..\..\..\lib\</OutDir>
+    <OutDir>$(ProjectDir)..\..\..\lib\$(IntDir)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
     <ClCompile>
@@ -82,6 +82,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">
     <ClCompile>
@@ -96,6 +99,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
     <ClCompile>
@@ -113,6 +119,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\contrib\Box2D\Box2D.h" />
@@ -547,15 +556,19 @@
     <ClInclude Include="..\..\..\contrib\glew\wglew.h" />
     <ClInclude Include="..\..\..\contrib\glfw\glfw.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\glfw\internal.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\glfw\platform.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\glfw\win32\platform.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\lua\lapi.h" />
     <ClInclude Include="..\..\..\contrib\lua\lauxlib.h" />
@@ -846,387 +859,515 @@
     <ClInclude Include="..\..\..\contrib\Rocket\Source\Debugger\SystemInterface.h" />
     <ClInclude Include="..\..\..\contrib\SDL2\audio\SDL_audiodev_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\audio\SDL_audiomem.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\audio\SDL_audio_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\audio\SDL_sysaudio.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\audio\SDL_wave.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\audio\winmm\SDL_winmm.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\begin_code.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\close_code.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\core\windows\SDL_windows.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\blank_cursor.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\default_cursor.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\scancodes_darwin.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\scancodes_linux.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\scancodes_windows.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\scancodes_xfree86.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_clipboardevents_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_dropevents_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_events_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_gesture_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_keyboard_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_mouse_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_sysevents.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_touch_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\events\SDL_windowevents_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\haptic\SDL_haptic_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\haptic\SDL_syshaptic.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\input\evdev\SDL_evdev.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\joystick\SDL_gamecontrollerdb.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\joystick\SDL_joystick_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\joystick\SDL_sysjoystick.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\joystick\windows\SDL_dxjoystick_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\libm\math_libm.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\libm\math_private.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\mmx.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\opengl\SDL_glfuncs.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\opengl\SDL_shaders_gl.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\SDL_sysrender.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\SDL_yuv_sw_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_blendfillrect.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_blendline.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_blendpoint.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_draw.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_drawline.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_drawpoint.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_render_sw_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\render\software\SDL_rotate.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_assert.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_assert_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_atomic.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_audio.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_bits.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_blendmode.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_clipboard.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_config.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_config_windows.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_copying.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_cpuinfo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_endian.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_error.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_error_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_events.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_filesystem.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_gamecontroller.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_gesture.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_haptic.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_hints.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_joystick.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_keyboard.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_keycode.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_loadso.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_log.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_main.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_messagebox.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_mouse.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_mutex.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_name.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_opengl.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_opengles.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_opengles2.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_pixels.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_platform.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_power.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_quit.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_rect.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_render.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_revision.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_rwops.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_scancode.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_shape.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_stdinc.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_surface.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_system.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_syswm.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_thread.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_timer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_touch.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_types.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_version.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\SDL_video.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\thread\SDL_systhread.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\thread\SDL_thread_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\thread\windows\SDL_systhread_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\timer\SDL_timer_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_blit.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_blit_auto.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_blit_copy.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_blit_slow.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_egl.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_pixels_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_rect_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_RLEaccel_c.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_shape_internals.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\SDL_sysvideo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_msctf.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_vkeys.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsclipboard.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsevents.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsframebuffer.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowskeyboard.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmessagebox.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmodes.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmouse.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsopengl.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsshape.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsvideo.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\SDL_windowswindow.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\SDL2\video\windows\wmmsg.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClInclude>
     <ClInclude Include="..\..\..\contrib\soil\image_DXT.h" />
     <ClInclude Include="..\..\..\contrib\soil\image_helper.h" />
@@ -1542,63 +1683,83 @@
     <ClCompile Include="..\..\..\contrib\glew\glew.c" />
     <ClCompile Include="..\..\..\contrib\glfw\enable.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\fullscreen.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\glext.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\image.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\init.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\input.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\joystick.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\stream.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\tga.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\thread.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\time.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\win32\win32_enable.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\win32\win32_fullscreen.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\win32\win32_glext.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\win32\win32_init.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\win32\win32_joystick.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\win32\win32_thread.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\win32\win32_time.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\win32\win32_window.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\glfw\window.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\lua\lapi.c" />
     <ClCompile Include="..\..\..\contrib\lua\lauxlib.c" />
@@ -1874,327 +2035,435 @@
     <ClCompile Include="..\..\..\contrib\Rocket\Source\Debugger\ElementLog.cpp" />
     <ClCompile Include="..\..\..\contrib\SDL2\atomic\SDL_atomic.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\atomic\SDL_spinlock.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_audio.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_audiocvt.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_audiodev.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_audiotypecvt.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_mixer.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\audio\SDL_wave.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\audio\winmm\SDL_winmm.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\core\windows\SDL_windows.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\cpuinfo\SDL_cpuinfo.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_clipboardevents.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_dropevents.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_events.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_gesture.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_keyboard.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_mouse.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_quit.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_touch.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\events\SDL_windowevents.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\file\SDL_rwops.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\haptic\SDL_haptic.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\haptic\windows\SDL_syshaptic.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\input\evdev\SDL_evdev.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\joystick\SDL_gamecontroller.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\joystick\SDL_joystick.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\joystick\windows\SDL_dxjoystick.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\joystick\windows\SDL_mmjoystick.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\e_atan2.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\e_log.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\e_pow.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\e_rem_pio2.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\e_sqrt.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\k_cos.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\k_rem_pio2.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\k_sin.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\s_atan.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\s_copysign.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\s_cos.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\s_fabs.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\s_floor.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\s_scalbn.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\libm\s_sin.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\loadso\windows\SDL_sysloadso.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\power\SDL_power.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\power\windows\SDL_syspower.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\direct3d\SDL_render_d3d.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\opengl\SDL_render_gl.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\opengl\SDL_shaders_gl.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\SDL_render.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\SDL_yuv_mmx.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\SDL_yuv_sw.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_blendfillrect.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_blendline.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_blendpoint.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_drawline.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_drawpoint.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_render_sw.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\render\software\SDL_rotate.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\SDL.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\SDL_assert.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\SDL_error.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\SDL_hints.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\SDL_log.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_getenv.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_iconv.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_malloc.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_qsort.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_stdlib.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\stdlib\SDL_string.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\thread\generic\SDL_syscond.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\thread\SDL_thread.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\thread\windows\SDL_sysmutex.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\thread\windows\SDL_syssem.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\thread\windows\SDL_systhread.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\thread\windows\SDL_systls.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\timer\SDL_timer.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\timer\windows\SDL_systimer.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_0.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_1.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_A.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_auto.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_copy.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_N.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_blit_slow.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_bmp.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_clipboard.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_egl.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_fillrect.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_pixels.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_rect.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_RLEaccel.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_shape.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_stretch.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_surface.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\SDL_video.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsclipboard.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsevents.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsframebuffer.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowskeyboard.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmessagebox.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmodes.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmouse.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsopengl.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsshape.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsvideo.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\SDL2\video\windows\SDL_windowswindow.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\soil\image_DXT.c" />
     <ClCompile Include="..\..\..\contrib\soil\image_helper.c" />
@@ -2278,47 +2547,61 @@
     <None Include="..\..\..\contrib\Rocket\Source\Core\Pool.inl" />
     <None Include="..\..\..\contrib\SDL2\doxyfile">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\joystick\sort_controllers.py">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsclipboard.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsevents.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsframebuffer.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowskeyboard.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmessagebox.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmodes.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsmouse.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsopengl.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsshape.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowsvideo.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
     <None Include="..\..\..\contrib\SDL2\video\windows\SDL_windowswindow.c-e">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </None>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="..\..\..\contrib\SDL2\main\windows\version.rc">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">true</ExcludedFromBuild>
     </ResourceCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

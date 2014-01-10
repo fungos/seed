@@ -38,9 +38,9 @@
 
 namespace Seed {
 
-SEED_SINGLETON_DEFINE(LeakReport)
-
 #if defined(DEBUG)
+
+SEED_SINGLETON_DEFINE(LeakReport)
 
 LeakReport::LeakReport()
 {
