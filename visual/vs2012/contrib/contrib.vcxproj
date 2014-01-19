@@ -9,6 +9,10 @@
       <Configuration>Debug SDL2</Configuration>
       <Platform>Win32</Platform>
     </ProjectConfiguration>
+    <ProjectConfiguration Include="Release SDL2|Win32">
+      <Configuration>Release SDL2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
     <ProjectConfiguration Include="Release SDL|Win32">
       <Configuration>Release SDL</Configuration>
       <Platform>Win32</Platform>
@@ -21,6 +25,12 @@
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
@@ -45,6 +55,9 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
   <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'" Label="PropertySheets">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -53,6 +66,12 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;C:\Projects\seed\contrib\otterui\inc;C:\Projects\seed\contrib\otterui\src;$(IncludePath)</IncludePath>
+    <OutDir>$(ProjectDir)..\..\..\lib\$(IntDir)</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <IncludePath>$(ProjectDir)..\..\..\contrib;$(ProjectDir)..\..\..\contrib\Bullet;$(ProjectDir)..\..\..\contrib\physfs;$(ProjectDir)..\..\..\contrib\windows\SDL\;C:\Projects\seed\contrib\otterui\inc;C:\Projects\seed\contrib\otterui\src;$(IncludePath)</IncludePath>
     <OutDir>$(ProjectDir)..\..\..\lib\$(IntDir)</OutDir>
@@ -70,6 +89,23 @@
     <OutDir>$(ProjectDir)..\..\..\lib\$(IntDir)</OutDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>TurnOffAllWarnings</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;PLATFORM_WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4068;4275</DisableSpecificWarnings>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">
     <ClCompile>
       <PrecompiledHeader>
       </PrecompiledHeader>
@@ -111,7 +147,7 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
-      <PreprocessorDefinitions>WIN32;PLATFORM_WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PLATFORM_WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -1660,6 +1696,7 @@
     <ClCompile Include="..\..\..\contrib\freetype\src\gxvalid\gxvalid.c" />
     <ClCompile Include="..\..\..\contrib\freetype\src\gxvalid\gxvfgen.c">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\freetype\src\gzip\ftgzip.c" />
@@ -1836,6 +1873,7 @@
     <ClCompile Include="..\..\..\contrib\physfs\extras\physfsrwops.c" />
     <ClCompile Include="..\..\..\contrib\physfs\physfs.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">CompileAsC</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">CompileAsC</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">CompileAsC</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\physfs\physfs_byteorder.c" />
@@ -2493,38 +2531,47 @@
     <ClCompile Include="..\..\..\contrib\vorbis\vorbiswindow.c" />
     <ClCompile Include="..\..\..\contrib\yajl\yajl.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">Default</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\yajl\yajl_alloc.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">Default</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\yajl\yajl_buf.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">Default</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\yajl\yajl_encode.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">Default</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\yajl\yajl_gen.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">Default</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\yajl\yajl_lex.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">Default</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\yajl\yajl_parser.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">Default</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\yajl\yajl_tree.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">Default</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">Default</CompileAs>
     </ClCompile>
     <ClCompile Include="..\..\..\contrib\yajl\yajl_version.c">
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">Default</CompileAs>
+      <CompileAs Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">Default</CompileAs>
       <CompileAs Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">Default</CompileAs>
     </ClCompile>
   </ItemGroup>

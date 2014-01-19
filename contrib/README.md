@@ -39,7 +39,7 @@ SDL2
 
 GLEW
 
-PhysicsFS
+PhysicsFS 2.0.3
 
 SOIL
 
@@ -51,7 +51,7 @@ Bullet Physics Library 2.81 r2613
 
 vectormath
 
-yajl
+yajl (custom version from https://github.com/fungos/yajl)
 
 lua
 

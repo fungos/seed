@@ -9,7 +9,7 @@
 JoystickSample::JoystickSample()
 	: cPres()
 	, pObject(nullptr)
-	, vPlayerVectorDirection()
+	, vPlayerVectorDirection(0.0f, 0.0f, 0.0f)
 	, fVelocity(0.0f)
 	, bPresentationLoaded(false)
 {

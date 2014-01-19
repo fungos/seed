@@ -215,15 +215,17 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 
 void Box2DSample::DestroyPhysics()
 {
-	for (b2Body *b = pWorld->GetBodyList(); b; b = b->GetNext())
+	for (auto *next = pWorld->GetBodyList(); next;)
 	{
-		ISceneObject *obj = static_cast<ISceneObject *>(b->GetUserData());
+		auto cur = next;
+		next = next->GetNext();
+		auto *obj = static_cast<ISceneObject *>(cur->GetUserData());
 		if (obj != nullptr)
 		{
 			pScene->Remove(obj);
 			sdDelete(obj);
-			pWorld->DestroyBody(b);
 		}
+		pWorld->DestroyBody(cur);
 	}
 }
 

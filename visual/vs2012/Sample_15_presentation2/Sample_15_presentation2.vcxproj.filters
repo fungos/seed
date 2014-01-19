@@ -7,10 +7,10 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\samples\05_joystick_input\pres_sample.cpp" />
-    <ClCompile Include="..\..\..\samples\05_joystick_input\main.cpp" />
+    <ClCompile Include="..\..\..\samples\15_presentation2\pres_sample.cpp" />
+    <ClCompile Include="..\..\..\samples\15_presentation2\main.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\samples\05_joystick_input\pres_sample.h" />
+    <ClInclude Include="..\..\..\samples\15_presentation2\pres_sample.h" />
   </ItemGroup>
 </Project>
