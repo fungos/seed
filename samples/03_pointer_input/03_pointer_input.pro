@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	pointer_sample.cpp
 
@@ -11,3 +9,5 @@ OTHER_FILES += \
 	../bin/frame03.png \
 	../bin/pointer_sample.scene \
 	../bin/pointer_sample.config
+
+include("../sample.pri")

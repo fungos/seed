@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	sprite_sample.cpp
 
@@ -13,3 +11,5 @@ OTHER_FILES += \
 	../bin/frame03.png \
 	../bin/sprite_sample.scene \
 	../bin/sprite_sample.config
+
+include("../sample.pri")

@@ -67,6 +67,9 @@ using namespace Seed::OGL;
 #include <wchar.h>
 
 #include <SDL/SDL.h>
+#if defined(_MSC_VER)
+#undef main
+#endif
 
 #if defined(__APPLE_CC__) && (__APPLE_CC__ < 5666)
 #include <SDL_image/SDL_image.h>

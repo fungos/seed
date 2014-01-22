@@ -13,9 +13,9 @@ RendererSample::RendererSample()
 	, cScene()
 	, cViewport()
 	, cRenderer()
-	, vFrom()
-	, vCurrent()
-	, vTo()
+	, vFrom(0.0f, 0.0f, 0.0f)
+	, vCurrent(0.0f, 0.0f, 0.0f)
+	, vTo(0.0f, 0.0f, 0.0f)
 	, fElapsed(0.0f)
 	, fDir(1.0f)
 	, bRotate(false)
@@ -132,8 +132,8 @@ void RendererSample::OnInputPointerRelease(const EventInputPointer *ev)
 		if (pObject)
 			vFrom = pObject->GetPosition();
 
-		vTo.setX(ev->GetX());
-		vTo.setY(ev->GetY());
+		vTo.setX(f32(ev->GetX()));
+		vTo.setY(f32(ev->GetY()));
 		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}

@@ -156,19 +156,7 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 		return false;
 
 	sName = reader.ReadString("sName", "presentation");
-	String prefabs = reader.ReadString("sPrefabs", "");
 	SEED_CHECK_RETURN(pRendererManager->Load(reader, res), false, "Could not load renderers");
-
-/*
-	auto rends = reader.SelectArray("aRenderer");
-	if (rends)
-	{
-		for (u32 i = 0; i < rends; i++)
-		{
-			reader.SelectNext();
-		}
-		reader.UnselectArray();
-	}*/
 
 	auto vps = reader.SelectArray("aViewport");
 	SEED_CHECK_RETURN(vps, false, "At least one viewport is required,'aViewport'' is empty or inexistent");
@@ -222,9 +210,10 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 	SEED_ASSERT_MSG(pFinishedScenes, "Could instantiate pFinishedScenes");
 	memset(pFinishedScenes,  0, sizeof(bool) * vRenderer.Size());
 
+	String prefabs = reader.ReadString("sPrefabs", "");
 	if (!prefabs.empty())
 	{
-		this->PrefabsPhase();
+		this->PrefabsPhase(prefabs);
 	}
 	else
 	{
@@ -344,40 +333,31 @@ void Presentation::GotoScenePhase()
 	this->ScenesPhase();
 }
 
-void Presentation::PrefabsPhase()
+void Presentation::PrefabsPhase(const String &prefabs)
 {
-	auto i = u32{0};
-	for (auto obj: vRenderer)
-	{
-		if (!obj->sPrefabToLoad.empty())
+	auto cb = [&](Job *self) {
+		auto job = static_cast<PrefabFileLoader *>(self);
+
+		if (job->GetState() == eJobState::Completed)
 		{
-			auto cb = [&](Job *self) {
-				auto job = static_cast<PrefabFileLoader *>(self);
+			Reader r(job->pFile);
+			pPrefabManager->Load(r, job->pRes);
 
-				if (job->GetState() == eJobState::Completed)
-				{
-					Reader r(job->pFile);
-					pPrefabManager->Load(r, job->pRes);
-
-					this->PrefabLoaded(job);
-				}
-				else if (job->GetState() == eJobState::Aborted)
-				{
-					this->PrefabAborted(job);
-				}
-				sdDelete(self);
-			};
-
-			auto ldr = sdNew(PrefabFileLoader(i, obj->sPrefabToLoad, cb));
-			SEED_ASSERT_MSG(ldr, "Could instantiate PrefabFileLoader");
-			ldr->SetResourceManager(pRes);
-
-			Log(TAG "Scheduling prefab loading job: %s.", obj->sPrefabToLoad.c_str());
-			pJobManager->Add(ldr);
-
-			++i;
+			this->PrefabLoaded(job);
 		}
-	}
+		else if (job->GetState() == eJobState::Aborted)
+		{
+			this->PrefabAborted(job);
+		}
+		sdDelete(self);
+	};
+
+	auto ldr = sdNew(PrefabFileLoader(0, prefabs, cb));
+	SEED_ASSERT_MSG(ldr, "Could instantiate PrefabFileLoader");
+	ldr->SetResourceManager(pRes);
+
+	Log(TAG "Scheduling prefab loading job: %s.", prefabs.c_str());
+	pJobManager->Add(ldr);
 }
 
 void Presentation::ScenesPhase()

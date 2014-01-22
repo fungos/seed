@@ -9,7 +9,7 @@
 KeyboardSample::KeyboardSample()
 	: cPres()
 	, pObject(nullptr)
-	, vPlayerVectorDirection()
+	, vPlayerVectorDirection(0.0f, 0.0f, 0.0f)
 	, fVelocity(0.0f)
 	, bPresentationLoaded(false)
 {
@@ -68,6 +68,11 @@ void KeyboardSample::OnSystemShutdown(const EventSystem *ev)
 void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
+
+	if(k == eKey::Enter)
+	{
+		pScreen->ToggleFullscreen();
+	}
 
 	if (k == eKey::Up)
 	{

@@ -39,24 +39,24 @@ IInputJoystick::IInputJoystick()
 {
 #if defined(DEBUG)
 	buttonsName[0] = "None";
-	buttonsName[1] = "Button0";
-	buttonsName[2] = "Button1";
-	buttonsName[4] = "Button2";
-	buttonsName[8] = "Button3";
-	buttonsName[16] = "JoystickUp";
-	buttonsName[32] = "JoystickRight";
-	buttonsName[64] = "JoystickDown";
-	buttonsName[128] = "JoystickLeft";
-	buttonsName[256] = "Button8";
-	buttonsName[512] = "Button9";
-	buttonsName[1024] = "Button10";
-	buttonsName[2048] = "Button11";
-	buttonsName[4096] = "Button12";
-	buttonsName[8192] = "Button13";
-	buttonsName[16384] = "Button14";
-	buttonsName[32768] = "Button15";
-	buttonsName[65536] = "Invalid";
-	buttonsName[131072] = "All";
+	buttonsName[1] = "Button1";
+	buttonsName[2] = "Button2";
+	buttonsName[3] = "Button3";
+	buttonsName[4] = "JoystickUp";
+	buttonsName[5] = "JoystickRight";
+	buttonsName[6] = "JoystickDown";
+	buttonsName[7] = "JoystickLeft";
+	buttonsName[8] = "Button8";
+	buttonsName[9] = "Button9";
+	buttonsName[10] = "Button10";
+	buttonsName[11] = "Button11";
+	buttonsName[12] = "Button12";
+	buttonsName[13] = "Button13";
+	buttonsName[14] = "Button14";
+	buttonsName[15] = "Button15";
+	buttonsName[16] = "Button16";
+	buttonsName[17] = "All";
+	buttonsName[18] = "Invalid";
 #endif
 }
 

@@ -1,5 +1,5 @@
 #include "state_sleeping.h"
-#include "data/agent_data.h"
+#include "../data/agent_data.h"
 
 StateSleeping::StateSleeping(AgentData *agentData)
 	: pAgentData(agentData)

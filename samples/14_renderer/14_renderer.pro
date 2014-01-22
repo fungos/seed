@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	renderer_sample.cpp
 
@@ -10,3 +8,5 @@ OTHER_FILES += \
 	../bin/renderer_app.config \
 	../bin/renderer_sample.scene \
 	../bin/frame03.png
+
+include("../sample.pri")

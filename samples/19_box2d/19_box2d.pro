@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	box2d_sample.cpp
 
@@ -12,3 +10,5 @@ OTHER_FILES += \
 	../bin/ground.png \
 	../bin/box2d_sample.scene \
 	../bin/box2d_sample.config
+
+include("../sample.pri")

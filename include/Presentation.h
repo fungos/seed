@@ -84,7 +84,7 @@ class SEED_CORE_API Presentation : public IDataObject
 		void PrefabAborted(PrefabFileLoader *ldr);
 
 		void GotoScenePhase();
-		void PrefabsPhase();
+		void PrefabsPhase(const String &prefabs);
 		void ScenesPhase();
 
 		// IDataObject

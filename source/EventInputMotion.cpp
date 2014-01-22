@@ -32,7 +32,7 @@
 
 namespace Seed {
 
-EventInputMotion::EventInputMotion(u32 j, Vector3f ptAcc, f32 fMag, f32 fVel)
+EventInputMotion::EventInputMotion(u32 j, const Vector3f &ptAcc, f32 fMag, f32 fVel)
 	: IEventInput()
 	, ptAcceleration()
 	, iJoystick(j)

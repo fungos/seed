@@ -40,7 +40,7 @@
 	#include "api/ogl/oglES1RendererDevice.h"
 	#endif
 
-#elif defined(BUILD_SDL) || defined(BUILD_GLFW)
+#elif defined(BUILD_SDL) || defined(BUILD_GLFW) || defined(BUILD_SDL2)
 	#include "platform/pc/pcRendererDevice.h"
 
 	#if defined(SEED_ENABLE_OGLES2)

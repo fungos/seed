@@ -160,7 +160,7 @@ void TileSet::Set(Reader &reader)
 
 bool TileSet::Load(Reader &reader, ResourceManager *res)
 {
-	SEED_ASSERT(res)
+	SEED_ASSERT(res);
 	if (!this->Unload())
 		return false;
 

@@ -44,6 +44,12 @@
     <Filter Include="platform\qt">
       <UniqueIdentifier>{bde528fd-e87b-437a-a7bc-d7e79091a048}</UniqueIdentifier>
     </Filter>
+    <Filter Include="platform\sdl2">
+      <UniqueIdentifier>{be5a0ed2-3daf-4354-a9e2-476e5b406dd9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\soil">
+      <UniqueIdentifier>{a4c6751b-9811-4522-b8b5-45a059141b8e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Animation.cpp" />
@@ -276,6 +282,46 @@
     <ClCompile Include="..\..\..\source\platform\qt\qtSystem.cpp">
       <Filter>platform\qt</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2Input.cpp">
+      <Filter>platform\sdl2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2Screen.cpp">
+      <Filter>platform\sdl2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2System.cpp">
+      <Filter>platform\sdl2</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\soil\soilTexture.cpp">
+      <Filter>api\soil</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\ogl20RendererDevice.cpp">
+      <Filter>api\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\ogl20Shader.cpp">
+      <Filter>api\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\ogl20ShaderProgram.cpp">
+      <Filter>api\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES1Shader.cpp">
+      <Filter>api\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES1ShaderProgram.cpp">
+      <Filter>api\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES2RendererDevice.cpp">
+      <Filter>api\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES2Shader.cpp">
+      <Filter>api\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES2ShaderProgram.cpp">
+      <Filter>api\gl</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\interface\IShader.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\ShaderManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Container.h" />
@@ -590,6 +636,51 @@
     <ClInclude Include="..\..\..\include\api\oal\vorbis_util.h">
       <Filter>api\oal</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Defines.h">
+      <Filter>platform\sdl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Input.h">
+      <Filter>platform\sdl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Screen.h">
+      <Filter>platform\sdl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2System.h">
+      <Filter>platform\sdl2</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\soil\soilTexture.h">
+      <Filter>api\soil</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\ogl20RendererDevice.h">
+      <Filter>api\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\ogl20Shader.h">
+      <Filter>api\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\ogl20ShaderProgram.h">
+      <Filter>api\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglES1RendererDevice.h">
+      <Filter>api\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglES2RendererDevice.h">
+      <Filter>api\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglES2Shader.h">
+      <Filter>api\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglES2ShaderProgram.h">
+      <Filter>api\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglHeaders.h">
+      <Filter>api\gl</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\interface\IShader.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Shader.h" />
+    <ClInclude Include="..\..\..\include\ShaderManager.h" />
+    <ClInclude Include="..\..\..\include\ShaderProgram.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\platform\ios\iosView.mm">

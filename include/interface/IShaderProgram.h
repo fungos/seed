@@ -52,7 +52,7 @@ class SEED_CORE_API IShaderProgram : public IObject // Soon to be IDataObject
 		virtual void Use() = 0;
 		virtual void Unbind() = 0;
 		virtual void AttachShader(IShader *shader) = 0;
-		virtual void BindAttribute(u32 index, String attribName) = 0;
+		virtual void BindAttribute(const u32 index, const String attribName) = 0;
 		virtual void Link() = 0;
 
 		u32 GetID() const

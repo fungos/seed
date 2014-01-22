@@ -4,7 +4,7 @@ TEMPLATE = lib
 INCLUDEPATH += include/ contrib/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER SEED_ENABLE_OGL20
 
-CONFIG += glfw
+CONFIG += sdl2
 CONFIG += staticlib
 #CONFIG += check
 
@@ -146,7 +146,10 @@ SOURCES += source/ViewManager.cpp \
 	source/PrefabManager.cpp \
 	source/map/MetadataObject.cpp \
 	source/Memory.cpp \
-	source/Thread.cpp
+	source/Thread.cpp \
+	source/platform/sdl2/sdl2System.cpp \
+	source/platform/sdl2/sdl2Screen.cpp \
+	source/platform/sdl2/sdl2Input.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -217,4 +220,8 @@ HEADERS += include/*.h \
 	include/renderer/Viewport.h \
 	include/Memory.h \
 	include/Semaphore.h \
-	include/api/ogl/oglHeaders.h
+	include/api/ogl/oglHeaders.h \
+	include/platform/sdl2/sdl2System.h \
+	include/platform/sdl2/sdl2Screen.h \
+	include/platform/sdl2/sdl2Input.h \
+	include/platform/sdl2/sdl2Defines.h

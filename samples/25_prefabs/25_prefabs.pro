@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	prefabs_sample.cpp
 
@@ -28,3 +26,5 @@ OTHER_FILES += \
 	../bin/prefabs_sample.scene \
 	../bin/prefabs_sample.prefabs \
 	../bin/prefabs_sample.config
+
+include("../sample.pri")

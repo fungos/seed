@@ -7,21 +7,30 @@
 win32 {
 	INCLUDEPATH += contrib/windows/
 	CONFIG -= glfw
-	CONFIG += sdl
+	CONFIG -= sdl
+	CONFIG += sdl2
 }
 
 macx {
-	!editor:!glfw {
-		message("Seed for OSX must use GLFW, disabling SDL.")
-		CONFIG -= sdl
-		CONFIG += glfw
-	}
+	DEFINES += __MACOSX__
+	CONFIG -= sdl
+	CONFIG -= glfw
+	CONFIG += sdl2
 	INCLUDEPATH += contrib/osx/
+
+	sdl2 {
+		LIBS += -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit -framework QTKit -framework CoreFoundation -framework CoreAudio -framework AudioUnit -framework ForceFeedback -framework Carbon -framework AudioToolbox
+		DEFINES += TARGET_API_MAC_OSX _THREAD_SAFE
+	}
 }
 
-unix {
-	DEFINES += LINUX
-	CONFIG += sdl
+unix:!macx {
+	DEFINES += __LINUX__
+	CONFIG -= sdl
+	CONFIG += sdl2
+	sdl2 {
+		DEFINES += _THREAD_SAFE
+	}
 }
 
 qt {
@@ -31,6 +40,8 @@ qt {
 	DEFINES += BUILD_GLFW
 } else:sdl {
 	DEFINES += BUILD_SDL
+} else:sdl2 {
+	DEFINES += BUILD_SDL2
 }
 
 CONFIG(debug, debug|release) {

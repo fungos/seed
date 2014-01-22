@@ -4,9 +4,9 @@ SpriteSample::SpriteSample()
 	: cPres()
 	, pObject(nullptr)
 	, pCamera(nullptr)
-	, vFrom()
-	, vCurrent()
-	, vTo()
+	, vFrom(0.0f, 0.0f, 0.0f)
+	, vCurrent(0.0f, 0.0f, 0.0f)
+	, vTo(0.0f, 0.0f, 0.0f)
 	, fElapsed(0.0f)
 	, fDir(1.0f)
 	, bRotate(false)
@@ -21,9 +21,8 @@ SpriteSample::~SpriteSample()
 bool SpriteSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("sprite_sample.config", [&](Presentation *pres, Renderer *rend)
+	return cPres.Load("sprite_sample.config", [&](Presentation *pres, Renderer *)
 	{
-		UNUSED(rend)
 		pCamera = pres->GetViewportByName("MainView")->GetCamera();
 		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
 

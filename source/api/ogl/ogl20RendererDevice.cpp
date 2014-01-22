@@ -85,7 +85,7 @@
 	#if defined(__APPLE_CC__) || defined(BUILD_GLFW)
 		#define PIXEL_FORMAT_32 GL_RGBA
 	#else
-		#define PIXEL_FORMAT_32 GL_BGRA
+		#define PIXEL_FORMAT_32 GL_RGBA //BGRA
 	#endif
 	#if defined(BUILD_SDL)
 		#include "platform/sdl/sdlDefines.h"
@@ -106,6 +106,10 @@
 #define GL_USAGE(x)		this->GetOpenGLBufferUsageType(x)
 #define GL_ELEMTYPE(x)	this->GetOpenGLElementType(x)
 #define GL_ELEMSIZE(x)	this->GetOpenGLElementSizeByType(x)
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 #define TAG "[OGL20RendererDevice] "
 
@@ -371,6 +375,7 @@ void OGL20RendererDevice::TextureRequest(ITexture *texture)
 void OGL20RendererDevice::TextureRequestProcess() const
 {
 	WARNING(FIXME - mutex lock guard here)
+
 	GL_TRACE("BEGIN TextureRequestProcess")
 	ITextureVector::iterator it = vTexture.begin();
 	ITextureVector::iterator end = vTexture.end();
@@ -397,7 +402,7 @@ void OGL20RendererDevice::TextureRequestProcess() const
 				switch (texture->GetCompressionType())
 				{
 #if defined(BUILD_IOS)
-					case TextureCompression_RGB_PVRTC_2BPPV1:
+					case eTextureCompression::RGB_PVRTC_2BPPV1:
 					{
 						//GLuint bpp = 2;
 						GLsizei size = w * h * bpp / 8;
@@ -408,8 +413,10 @@ void OGL20RendererDevice::TextureRequestProcess() const
 						glCompressedTexImage2D(GL_TEXTURE_2D, 0, GL_COMPRESSED_RGB_PVRTC_2BPPV1_IMG, w, h, 0, size, data);
 					}
 					break;
+#else
+					case eTextureCompression::RGB_PVRTC_2BPPV1:
 #endif
-
+					case eTextureCompression::None:
 					default:
 					{
 						switch (bpp)
@@ -442,6 +449,7 @@ void OGL20RendererDevice::TextureRequestProcess() const
 							break;
 						}
 					}
+					break;
 				}
 			}
 			else if (w && h)// Render Target, 32bits only
@@ -806,7 +814,7 @@ void OGL20RendererDevice::EnableScissor(bool b) const
 
 void OGL20RendererDevice::SetScissor(f32 x, f32 y, f32 w, f32 h) const
 {
-	glScissor(x, y, w, h);
+	glScissor(GLint(x), GLint(y), GLsizei(w), GLsizei(h));
 }
 
 void OGL20RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const

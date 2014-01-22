@@ -1,5 +1,3 @@
-include("../sample.pri")
-
 SOURCES += main.cpp \
 	save_sample.cpp
 
@@ -11,3 +9,5 @@ OTHER_FILES += \
 	../bin/save_sample.scene \
 	../bin/save_app.config \
 	../bin/save_sample.config
+
+include("../sample.pri")

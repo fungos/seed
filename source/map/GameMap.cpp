@@ -64,7 +64,7 @@ void GameMap::Set(Reader &reader)
 {
 	ITransformable::Unserialize(reader);
 
-	sName = reader.ReadString("name", sName.c_str());
+	sName = reader.ReadString("sName", sName.c_str());
 	String resource = reader.ReadString("sResource", "");
 	if (resource != "")
 	{
