@@ -430,6 +430,68 @@ eKey Input::GetKeyCode(u32 key) const
 		return static_cast<eKey>(u32(eKey::A) + (key - 'a'));
 	else
 	{
+		switch (key)
+		{
+			case 127: return eKey::Delete;
+			case 256: return eKey::Pad0;
+			case 257: return eKey::Pad1;
+			case 258: return eKey::Pad2;
+			case 259: return eKey::Pad3;
+			case 260: return eKey::Pad4;
+			case 261: return eKey::Pad5;
+			case 262: return eKey::Pad6;
+			case 263: return eKey::Pad7;
+			case 264: return eKey::Pad8;
+			case 265: return eKey::Pad9;
+			case 266: return eKey::PadPeriod;
+			case 267: return eKey::PadDivide;
+			case 268: return eKey::PadMultiply;
+			case 269: return eKey::PadMinus;
+			case 270: return eKey::PadPlus;
+			case 271: return eKey::PadEnter;
+			case 272: return eKey::PadEquals;
+			case 273: return eKey::Up;
+			case 274: return eKey::Down;
+			case 275: return eKey::Right;
+			case 276: return eKey::Left;
+			case 277: return eKey::Insert;
+			case 278: return eKey::Home;
+			case 279: return eKey::End;
+			case 280: return eKey::PageUp;
+			case 281: return eKey::PageDown;
+			case 282: return eKey::F1;
+			case 283: return eKey::F2;
+			case 284: return eKey::F3;
+			case 285: return eKey::F4;
+			case 286: return eKey::F5;
+			case 287: return eKey::F6;
+			case 288: return eKey::F7;
+			case 289: return eKey::F8;
+			case 290: return eKey::F9;
+			case 291: return eKey::F10;
+			case 292: return eKey::F11;
+			case 293: return eKey::F12;
+			case 294: return eKey::F13;
+			case 295: return eKey::F14;
+			case 296: return eKey::F15;
+			case 300: return eKey::NumLock;
+			case 301: return eKey::CapsLock;
+			case 302: return eKey::ScrollLock;
+			case 303: return eKey::RightShift;
+			case 304: return eKey::LeftShift;
+			case 305: return eKey::RightCtrl;
+			case 306: return eKey::LeftCtrl;
+			case 307: return eKey::RightAlt;
+			case 308: return eKey::LeftAlt;
+			case 309: return eKey::Application;
+			case 310: return eKey::Application;
+			case 311: return eKey::LeftGui;
+			case 312: return eKey::RightGui;
+			case 313: return eKey::AalterAse;
+			case 314: return eKey::Menu;
+			case 316: return eKey::PrintScreen;
+		}
+
 		eKey k = static_cast<eKey>(key);
 		return k;
 	}

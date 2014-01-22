@@ -25,7 +25,7 @@
 #include "SDL2/SDL_platform.h"
 
 /* This is a set of defines to configure the SDL features */
-
+#define HAVE_LIBC
 #if !defined(_STDINT_H_) && (!defined(HAVE_STDINT_H) || !_HAVE_STDINT_H)
 #if defined(__GNUC__) || defined(__DMC__) || defined(__WATCOMC__)
 #define HAVE_STDINT_H   1

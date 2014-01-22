@@ -30,7 +30,7 @@
 
 #include "ShaderProgram.h"
 
-#if defined (BUILD_IOS) && !defined(SEED_ENABLE_OGLES2)
+#if defined(BUILD_IOS) && !defined(SEED_ENABLE_OGLES1)
 
 #include <OpenGLES/ES1/gl.h>
 

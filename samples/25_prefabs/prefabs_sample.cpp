@@ -60,7 +60,7 @@ void PrefabsSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 	else if (k == eKey::F1)
 		pResourceManager->Print();
 	else if (k == eKey::F2)
-		pLeakReport->Print();
+		LeakReportPrint();
 	else if (k == eKey::F3)
 		pResourceManager->GarbageCollect();
 	else if (k == eKey::Left)

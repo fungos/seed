@@ -42,7 +42,7 @@
 
 #define MAX_JOYSTICKS 32
 
-const u32 sdl2KeyCodeFactor = 1073741625;
+const u32 sdl2KeyCodeFactor = 1073741625; // offset for this table http://wiki.libsdl.org/SDLKeycodeLookup
 
 namespace Seed { namespace SDL2 {
 
