@@ -1,9 +1,5 @@
 #include "shader_sample.h"
 
-#include "Shader.h"
-#include "ShaderProgram.h"
-#include "ShaderManager.h"
-
 SceneNode *gScene;
 
 enum
@@ -12,17 +8,10 @@ enum
 };
 
 ShaderSample::ShaderSample()
-	: pObject(nullptr)
-	, pCamera(nullptr)
+	: pCamera(nullptr)
 	, cScene()
 	, cViewport()
 	, cRenderer()
-	, vFrom()
-	, vCurrent()
-	, vTo()
-	, fElapsed(0.0f)
-	, fDir(1.0f)
-	, bRotate(false)
 {
 }
 
@@ -33,6 +22,24 @@ ShaderSample::~ShaderSample()
 bool ShaderSample::Initialize()
 {
 	/* ------- Rendering Initialization ------- */
+	pShaderManager->Add("Simple", sdNew(OGL20ShaderProgram("Simple")));
+
+	pShaderManager->AttachShader("SimpleVertex", sdNew(OGL20Shader(eShaderType::Vertex)));
+	pShaderManager->AttachShader("SimpleFragment", sdNew(OGL20Shader(eShaderType::Pixel)));
+	pShaderManager->LoadShaderSource("SimpleVertex", "simple.vs", pResourceManager);
+	pShaderManager->LoadShaderSource("SimpleFragment", "simple.fs", pResourceManager);
+
+	pShaderManager->CompileShader("SimpleVertex");
+	pShaderManager->CompileShader("SimpleFragment");
+	pShaderManager->AttachShaderToProgram("Simple", "SimpleVertex");
+	pShaderManager->AttachShaderToProgram("Simple", "SimpleFragment");
+
+	pShaderManager->BindAttribute("Simple", 0, "vPosition");
+
+	pShaderManager->LinkShaderProgram("Simple");
+
+	pShaderManager->GetShaderProgram("Simple")->Use();
+
 	cRenderer.SetScene(&cScene);
 
 	cViewport.sName = "MainView";
@@ -59,10 +66,6 @@ bool ShaderSample::Initialize()
 
 			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
 			cViewport.SetCamera(pCamera);
-
-			pObject = (ISceneObject *)gScene->GetChildByName("Panda");
-			if (pObject)
-				vFrom = vCurrent = pObject->GetPosition();
 		}
 		else if (job->GetState() == eJobState::Aborted)
 		{
@@ -71,34 +74,21 @@ bool ShaderSample::Initialize()
 		sdDelete(self);
 	};
 
-	pJobManager->Add(sdNew(FileLoader("renderer_sample.scene", cb)));
+	pJobManager->Add(sdNew(FileLoader("shader_sample.scene", cb)));
 	pSystem->AddListener(this);
 	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
 
 	return true;
 }
 
 bool ShaderSample::Update(Seconds dt)
 {
-	if (pObject)
-	{
-		fElapsed += dt;
-		if (fElapsed > 1.0f)
-			fElapsed = 1.0f;
-
-		vCurrent = ((1.f - fElapsed) * vFrom) + (fElapsed * vTo);
-		pObject->SetPosition(vCurrent);
-		if (bRotate)
-			pObject->SetRotation(pObject->GetRotation() + fDir);
-	}
-
+	UNUSED(dt)
 	return true;
 }
 
 bool ShaderSample::Shutdown()
 {
-	pInput->RemovePointerListener(this);
 	pInput->RemoveKeyboardListener(this);
 	pSystem->RemoveListener(this);
 
@@ -128,32 +118,4 @@ void ShaderSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->Print();
 	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
-}
-
-void ShaderSample::OnInputPointerRelease(const EventInputPointer *ev)
-{
-	if (ev->GetReleased() == eInputButton::MouseLeft)
-	{
-		if (pObject)
-			vFrom = pObject->GetPosition();
-
-		vTo.setX(ev->GetX());
-		vTo.setY(ev->GetY());
-		vTo += pCamera->GetPosition();
-		fElapsed = 0.0f;
-	}
-	else if (ev->GetReleased() == eInputButton::MouseRight)
-	{
-		bRotate = !bRotate;
-	}
-	else if (ev->GetReleased() == eInputButton::MouseUp)
-	{
-		fDir = 1.0f;
-		bRotate = true;
-	}
-	else if (ev->GetReleased() == eInputButton::MouseDown)
-	{
-		fDir = -1.0f;
-		bRotate = true;
-	}
 }

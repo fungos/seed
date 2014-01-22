@@ -2,14 +2,18 @@
 #define _SHADERSAMPLE_H_
 
 #include <Seed.h>
+#include <ShaderManager.h>
+#include <ShaderProgram.h>
+#include <Shader.h>
+
 using namespace Seed;
+using namespace Seed::OpenGL;
 
 extern SceneNode *gScene;
 
 class ShaderSample : public IGameApp,
 					public IEventSystemListener,
-					public IEventInputKeyboardListener,
-					public IEventInputPointerListener
+					public IEventInputKeyboardListener
 {
 	SEED_DISABLE_COPY(ShaderSample)
 
@@ -27,24 +31,12 @@ class ShaderSample : public IGameApp,
 		// IEventInputKeyboardListener
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
 
-		// IEventInputPointerListener
-		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-
 	protected:
-		ISceneObject *pObject;
 		Camera		*pCamera;
 
 		SceneNode	cScene;
 		Viewport	cViewport;
 		Renderer	cRenderer;
-
-		Vector3f	vFrom;
-		Vector3f	vCurrent;
-		Vector3f	vTo;
-
-		f32			fElapsed;
-		f32			fDir;
-		bool		bRotate : 1;
 };
 
 #endif // _SHADERSAMPLE_H_
