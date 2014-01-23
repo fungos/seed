@@ -8,10 +8,11 @@ enum
 };
 
 ShaderSample::ShaderSample()
-	: pCamera(nullptr)
-	, cScene()
-	, cViewport()
-	, cRenderer()
+	: cPres()
+	, pObject(nullptr)
+	, pProgram(nullptr)
+	, pVertexShader(nullptr)
+	, pPixelShader(nullptr)
 {
 }
 
@@ -22,63 +23,36 @@ ShaderSample::~ShaderSample()
 bool ShaderSample::Initialize()
 {
 	/* ------- Rendering Initialization ------- */
-	pShaderManager->Add("Simple", sdNew(OGL20ShaderProgram("Simple")));
+	pProgram = sdNew(OGL20ShaderProgram("Simple"));
+	pVertexShader = sdNew(OGL20Shader(eShaderType::Vertex));
+	pPixelShader = sdNew(OGL20Shader(eShaderType::Pixel));
 
-	pShaderManager->AttachShader("SimpleVertex", sdNew(OGL20Shader(eShaderType::Vertex)));
-	pShaderManager->AttachShader("SimpleFragment", sdNew(OGL20Shader(eShaderType::Pixel)));
-	pShaderManager->LoadShaderSource("SimpleVertex", "simple.vs", pResourceManager);
-	pShaderManager->LoadShaderSource("SimpleFragment", "simple.fs", pResourceManager);
+	IGameApp::Initialize();
+	return cPres.Load("shader_sample.config", [&](Presentation *pres, Renderer *) {
+		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		pSystem->AddListener(this);
+		pInput->AddKeyboardListener(this);
 
-	pShaderManager->CompileShader("SimpleVertex");
-	pShaderManager->CompileShader("SimpleFragment");
-	pShaderManager->AttachShaderToProgram("Simple", "SimpleVertex");
-	pShaderManager->AttachShaderToProgram("Simple", "SimpleFragment");
+		pShaderManager->Add("Simple", pProgram);
+		pShaderManager->AttachShader("SimpleVertex", pVertexShader);
+		pShaderManager->AttachShader("SimpleFragment", pPixelShader);
+		pShaderManager->LoadShaderSource("SimpleVertex", "simple.vs", pResourceManager);
+		pShaderManager->LoadShaderSource("SimpleFragment", "simple.fs", pResourceManager);
 
-	pShaderManager->BindAttribute("Simple", 0, "vPosition");
+		pShaderManager->CompileShader("SimpleVertex");
+		pShaderManager->CompileShader("SimpleFragment");
+		pShaderManager->AttachShaderToProgram("Simple", "SimpleVertex");
+		pShaderManager->AttachShaderToProgram("Simple", "SimpleFragment");
 
-	pShaderManager->LinkShaderProgram("Simple");
+		pShaderManager->BindAttribute("Simple", 0, "vPosition");
+		pShaderManager->BindAttribute("Simple", 1, "vTexCoord");
+		pShaderManager->BindAttribute("Simple", 2, "vColor");
+		pShaderManager->LinkShaderProgram("Simple");
 
-	pShaderManager->GetShaderProgram("Simple")->Use();
-
-	cRenderer.SetScene(&cScene);
-
-	cViewport.sName = "MainView";
-	cRenderer.sName = "MainRenderer";
-
-	cViewport.SetHeight(pScreen->GetHeight());
-	cViewport.SetWidth(pScreen->GetWidth());
-	cViewport.SetRenderer(&cRenderer);
-
-	pViewManager->Add(&cViewport);
-	pRendererManager->Add(&cRenderer);
-	pSceneManager->Add(&cScene);
-
-	gScene = &cScene;
-	/* ------- Rendering Initialization ------- */
-
-	auto cb = [&](Job *self) {
-		auto job = static_cast<FileLoader *>(self);
-
-		if (self->GetState() == eJobState::Completed)
-		{
-			Reader r(job->pFile);
-			gScene->Load(r);
-
-			pCamera = (Camera *)gScene->GetChildByName("MainCamera");
-			cViewport.SetCamera(pCamera);
-		}
-		else if (job->GetState() == eJobState::Aborted)
-		{
-			// ...
-		}
-		sdDelete(self);
-	};
-
-	pJobManager->Add(sdNew(FileLoader("shader_sample.scene", cb)));
-	pSystem->AddListener(this);
-	pInput->AddKeyboardListener(this);
-
-	return true;
+		pShaderManager->SetTexture("Simple", 0, "mTexture");
+		pShaderManager->Validate("Simple");
+		pShaderManager->GetShaderProgram("Simple")->Use();
+	});
 }
 
 bool ShaderSample::Update(Seconds dt)
@@ -89,17 +63,18 @@ bool ShaderSample::Update(Seconds dt)
 
 bool ShaderSample::Shutdown()
 {
+	cPres.Unload();
+
+	pShaderManager->Reset();
+	
+	sdDelete(pPixelShader);
+	sdDelete(pVertexShader);
+	sdDelete(pProgram);
+
 	pInput->RemoveKeyboardListener(this);
 	pSystem->RemoveListener(this);
 
-	pSceneManager->Reset();
-	pRendererManager->Reset();
-	pViewManager->Reset();
-	gScene->Unload();
-
-	IGameApp::Shutdown();
-
-	return true;
+	return IGameApp::Shutdown();
 }
 
 void ShaderSample::OnSystemShutdown(const EventSystem *ev)

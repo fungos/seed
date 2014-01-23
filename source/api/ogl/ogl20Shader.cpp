@@ -32,6 +32,7 @@
 
 #if defined(SEED_ENABLE_OGL20)
 
+#include "Memory.h"
 #include "api/ogl/oglHeaders.h"
 
 #define TAG "[Shader] "
@@ -75,6 +76,16 @@ void OGL20Shader::Compile() const
 	{
 		glCompileShader(iShaderHandle);
 		//bCompiled = true;
+
+		GLint len;
+		glGetShaderiv(iShaderHandle, GL_INFO_LOG_LENGTH, &len);
+		if (len > 1)
+		{
+			GLchar *buff = (GLchar *)sdAlloc(len);
+			glGetShaderInfoLog(iShaderHandle, len, &len, buff);
+			Log("[Shader::Compile] %s: %s", sFilename.c_str(), buff);
+			sdFree(buff);
+		}
 	}
 }
 

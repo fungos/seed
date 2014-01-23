@@ -37,12 +37,15 @@ namespace Seed
 {
 
 IShaderProgram::IShaderProgram()
-	: iProgramId(0)
-	, bLinked(false)
-	, bActive(false)
+	: sName()
 	, vShaders()
 	, mAttributes()
+	, iProgramId(0)
+	, arTexUnit()
+	, bLinked(false)
+	, bActive(false)
 {
+	memset(arTexUnit, 0xff, sizeof(arTexUnit));
 }
 
 IShaderProgram::~IShaderProgram()
@@ -65,16 +68,29 @@ void IShaderProgram::AttachShader(IShader *shader)
 	SEED_ABSTRACT_METHOD;
 }
 
-void IShaderProgram::BindAttribute(u32 index, String attribName)
+void IShaderProgram::BindAttribute(u32 index, const String &attributeName)
 {
 	UNUSED(index);
-	UNUSED(attribName);
+	UNUSED(attributeName);
+	SEED_ABSTRACT_METHOD;
+}
+
+void IShaderProgram::SetTexture(u32 unit, const String &uniformName)
+{
+	UNUSED(unit);
+	UNUSED(uniformName);
 	SEED_ABSTRACT_METHOD;
 }
 
 void IShaderProgram::Link()
 {
 	SEED_ABSTRACT_METHOD;
+}
+
+bool IShaderProgram::Validate()
+{
+	SEED_ABSTRACT_METHOD;
+	return false;
 }
 
 } // namespace

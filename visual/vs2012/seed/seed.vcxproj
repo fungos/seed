@@ -71,6 +71,7 @@
     <ClCompile Include="..\..\..\source\interface\ISceneObject.cpp" />
     <ClCompile Include="..\..\..\source\interface\IScreen.cpp" />
     <ClCompile Include="..\..\..\source\interface\IShader.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IShaderProgram.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISoundSource.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISoundSystem.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISystem.cpp" />
@@ -272,7 +273,6 @@
     <ClInclude Include="..\..\..\include\interface\IInputPointer.h" />
     <ClInclude Include="..\..\..\include\interface\IManager.h" />
     <ClInclude Include="..\..\..\include\interface\IMusic.h" />
-    <ClInclude Include="..\..\..\include\interface\IMutex.h" />
     <ClInclude Include="..\..\..\include\interface\IObject.h" />
     <ClInclude Include="..\..\..\include\interface\IReader.h" />
     <ClInclude Include="..\..\..\include\interface\IRenderable.h" />
@@ -281,6 +281,7 @@
     <ClInclude Include="..\..\..\include\interface\ISceneObject.h" />
     <ClInclude Include="..\..\..\include\interface\IScreen.h" />
     <ClInclude Include="..\..\..\include\interface\IShader.h" />
+    <ClInclude Include="..\..\..\include\interface\IShaderProgram.h" />
     <ClInclude Include="..\..\..\include\interface\ISound.h" />
     <ClInclude Include="..\..\..\include\interface\ISoundSource.h" />
     <ClInclude Include="..\..\..\include\interface\ISoundSystem.h" />
@@ -309,7 +310,6 @@
     <ClInclude Include="..\..\..\include\Memory.h" />
     <ClInclude Include="..\..\..\include\Movie.h" />
     <ClInclude Include="..\..\..\include\Music.h" />
-    <ClInclude Include="..\..\..\include\Mutex.h" />
     <ClInclude Include="..\..\..\include\Number.h" />
     <ClInclude Include="..\..\..\include\Particle.h" />
     <ClInclude Include="..\..\..\include\ParticleEmitter.h" />
@@ -592,7 +592,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_LIB;BUILD_SDL;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;BUILD_SDL;DEBUG;SEED_ENABLE_OGL20;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4521;4275</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>

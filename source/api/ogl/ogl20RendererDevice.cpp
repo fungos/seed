@@ -142,8 +142,9 @@ OGL20RendererDevice::OGL20RendererDevice()
 	pScreen->renderBuffer = 1;
 #endif
 
+	char *vendor = (char *)glGetString(GL_VENDOR);
 	char *version = (char *)glGetString(GL_VERSION);
-	Info(TAG "OpenGL Version: %s", version);
+	Info(TAG "OpenGL Version: %s - %s", version, vendor);
 
 	GLint maxSize;
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxSize);

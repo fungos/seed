@@ -52,8 +52,10 @@ class SEED_CORE_API IShaderProgram : public IObject // Soon to be IDataObject
 		virtual void Use() = 0;
 		virtual void Unbind() = 0;
 		virtual void AttachShader(IShader *shader) = 0;
-		virtual void BindAttribute(const u32 index, const String attribName) = 0;
+		virtual void BindAttribute(u32 index, const String &attributeName) = 0;
+		virtual void SetTexture(u32 unit, const String &uniformName = "") = 0;
 		virtual void Link() = 0;
+		virtual bool Validate() = 0;
 
 		u32 GetID() const
 		{
@@ -61,12 +63,13 @@ class SEED_CORE_API IShaderProgram : public IObject // Soon to be IDataObject
 		}
 
 	protected:
-		u32						iProgramId;
 		String					sName;
-		bool					bLinked;
-		bool					bActive;
 		mutable IShaderVector	vShaders;
 		Map<String, u32>		mAttributes;
+		u32						iProgramId;
+		u32						arTexUnit[4];
+		bool					bLinked;
+		bool					bActive;
 };
 
 } // end namespace

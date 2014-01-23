@@ -34,6 +34,7 @@
 
 #include "api/ogl/oglHeaders.h"
 #include "Shader.h"
+#include "Memory.h"
 
 #define TAG "[Shader] "
 
@@ -54,6 +55,13 @@ OGL20ShaderProgram::~OGL20ShaderProgram()
 void OGL20ShaderProgram::Use()
 {
 	glUseProgram(iProgramId);
+
+	for (u32 i = 0; i < 4; i++)
+	{
+		if (arTexUnit[i] != 0xffffffff)
+			glUniform1i(arTexUnit[i], i);
+	}
+
 	bActive = true;
 }
 
@@ -69,16 +77,53 @@ void OGL20ShaderProgram::AttachShader(IShader *shader)
 	glAttachShader(iProgramId, shader->GetShaderHandle());
 }
 
-void OGL20ShaderProgram::BindAttribute(const u32 index, const String attribName)
+void OGL20ShaderProgram::BindAttribute(u32 index, const String &attributeName)
 {
-	mAttributes[attribName] = index;
-	glBindAttribLocation(iProgramId, index, attribName.c_str());
+	mAttributes[attributeName] = index;
+	glBindAttribLocation(iProgramId, index, attributeName.c_str());
+}
+
+void OGL20ShaderProgram::SetTexture(u32 unit, const String &uniformName)
+{
+	if (!uniformName.empty())
+		arTexUnit[unit] = glGetUniformLocation(iProgramId, uniformName.c_str());
+	else
+		arTexUnit[unit] = 0xffffffff;
 }
 
 void OGL20ShaderProgram::Link()
 {
 	glLinkProgram(iProgramId);
+
+	GLint len;
+	glGetProgramiv(iProgramId, GL_INFO_LOG_LENGTH, &len);
+	if (len > 1)
+	{
+		GLchar *buff = (GLchar *)sdAlloc(len);
+		glGetProgramInfoLog(iProgramId, len, &len, buff);
+		Log("[Shader::Link] %s: %s", sName.c_str(), buff);
+		sdFree(buff);
+	}
+
 	bLinked = true;
+}
+
+bool OGL20ShaderProgram::Validate()
+{
+	GLint len, status;
+
+	glValidateProgram(iProgramId);
+	glGetProgramiv(iProgramId, GL_INFO_LOG_LENGTH, &len);
+	if (len > 1)
+	{
+		GLchar *buff = (GLchar *)sdAlloc(len);
+		glGetProgramInfoLog(iProgramId, len, &len, buff);
+		Log("[Shader::Validate] %s: %s", sName.c_str(), buff);
+		sdFree(buff);
+	}
+
+	glGetProgramiv(iProgramId, GL_VALIDATE_STATUS, &status);
+	return (status != 0);
 }
 
 }} // namespace

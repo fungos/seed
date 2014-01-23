@@ -41,6 +41,7 @@
 #include "map/MapLayerMosaic.h"
 #include "map/TileSet.h"
 #include "interface/IDataObject.h"
+#include "interface/IShader.h"
 
 namespace Seed {
 
@@ -77,6 +78,7 @@ SEED_CREATE_DEFINITION(MapLayerMosaic)
 SEED_CREATE_DEFINITION(MapLayerTiled)
 SEED_CREATE_DEFINITION(TileSet)
 SEED_CREATE_DEFINITION(GameMap)
+SEED_CREATE_DEFINITION(IShader)
 
 #undef SEED_CREATE_DEFINITION_DELETE
 #undef SEED_CREATE_DEFINITION_NEW

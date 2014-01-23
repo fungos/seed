@@ -57,11 +57,14 @@ class SEED_CORE_API ShaderManager : public IManager
 		virtual void AttachShader(const String &shaderName, IShader *shader);
 		virtual void LoadShaderSource(const String &shaderName, const String &filename, ResourceManager *res);
 		virtual void CompileShader(const String &shaderName);
-		virtual void BindAttribute(const String &shaderProgramName, const u32 index, const String &attribName);
+		virtual void BindAttribute(const String &shaderProgramName, u32 index, const String &attributeName);
+		virtual void SetTexture(const String &shaderProgramName, u32 unit, const String &uniformName);
 		virtual bool LinkShaderProgram(const String &shaderProgramName);
 		virtual void AttachShaderToProgram(const String &shaderProgramName, const String &shaderName);
 		virtual void Use(const String &shaderProgramName);
-		IShaderProgram* GetShaderProgram(const String &shaderProgramName);
+		virtual bool Validate(const String &shaderProgramName);
+		IShaderProgram *GetShaderProgram(const String &shaderProgramName);
+
 		void Add(const String &shaderProgramName, IShaderProgram *shaderProgram);
 		void Remove(const String &shaderProgramName);
 

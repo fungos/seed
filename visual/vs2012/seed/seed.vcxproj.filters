@@ -322,6 +322,9 @@
       <Filter>interface</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\ShaderManager.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IShaderProgram.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Container.h" />
@@ -359,7 +362,6 @@
     <ClInclude Include="..\..\..\include\Memory.h" />
     <ClInclude Include="..\..\..\include\Movie.h" />
     <ClInclude Include="..\..\..\include\Music.h" />
-    <ClInclude Include="..\..\..\include\Mutex.h" />
     <ClInclude Include="..\..\..\include\Number.h" />
     <ClInclude Include="..\..\..\include\Particle.h" />
     <ClInclude Include="..\..\..\include\ParticleEmitter.h" />
@@ -465,9 +467,6 @@
       <Filter>interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\interface\IMusic.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\interface\IMutex.h">
       <Filter>interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\interface\IObject.h">
@@ -681,6 +680,9 @@
     <ClInclude Include="..\..\..\include\Shader.h" />
     <ClInclude Include="..\..\..\include\ShaderManager.h" />
     <ClInclude Include="..\..\..\include\ShaderProgram.h" />
+    <ClInclude Include="..\..\..\include\interface\IShaderProgram.h">
+      <Filter>interface</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\platform\ios\iosView.mm">

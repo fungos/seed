@@ -94,17 +94,27 @@ void ShaderManager::CompileShader(const String &shaderName)
 	}
 }
 
-void ShaderManager::BindAttribute(const String &shaderProgramName, const u32 index, const String &attribName)
+void ShaderManager::BindAttribute(const String &shaderProgramName, u32 index, const String &attributeName)
 {
 	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
 
 	if (it != mShaderPrograms.end())
 	{
 		IShaderProgram *shaderProgram = (*it).second;
-		shaderProgram->BindAttribute(index, attribName);
+		shaderProgram->BindAttribute(index, attributeName);
 	}
 }
 
+void ShaderManager::SetTexture(const String &shaderProgramName, u32 unit, const String &uniformName)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
+
+	if (it != mShaderPrograms.end())
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		shaderProgram->SetTexture(unit, uniformName);
+	}
+}
 
 bool ShaderManager::LinkShaderProgram(const String &shaderProgramName)
 {
@@ -147,6 +157,21 @@ void ShaderManager::Use(const String &shaderProgramName)
 
 		pCurrentProgram->Use();
 	}
+}
+
+bool ShaderManager::Validate(const String &shaderProgramName)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
+
+	if (it != mShaderPrograms.end())
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		pCurrentProgram = shaderProgram;
+
+		return pCurrentProgram->Validate();
+	}
+
+	return false;
 }
 
 IShaderProgram* ShaderManager::GetShaderProgram(const String &shaderProgramName)

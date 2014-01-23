@@ -32,11 +32,11 @@ class ShaderSample : public IGameApp,
 		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
 
 	protected:
-		Camera		*pCamera;
-
-		SceneNode	cScene;
-		Viewport	cViewport;
-		Renderer	cRenderer;
+		Presentation cPres;
+		ISceneObject *pObject;
+		IShaderProgram *pProgram;
+		IShader *pVertexShader;
+		IShader *pPixelShader;
 };
 
 #endif // _SHADERSAMPLE_H_
