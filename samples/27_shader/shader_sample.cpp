@@ -13,6 +13,8 @@ ShaderSample::ShaderSample()
 	, pProgram(nullptr)
 	, pVertexShader(nullptr)
 	, pPixelShader(nullptr)
+	, fElapsedTime(0.0f)
+	, bInitialized(false)
 {
 }
 
@@ -51,13 +53,20 @@ bool ShaderSample::Initialize()
 
 		pShaderManager->SetTexture("Simple", 0, "mTexture");
 		pShaderManager->Validate("Simple");
-		pShaderManager->GetShaderProgram("Simple")->Use();
+		pShaderManager->GetShaderProgram("Simple")->Use(); // shader object to use should be inside a material or sprite or whatever.
+
+		bInitialized = true;
 	});
 }
 
 bool ShaderSample::Update(Seconds dt)
 {
-	UNUSED(dt)
+	if (!bInitialized)
+		return true;
+
+	fElapsedTime += dt;
+	pShaderManager->SetUniform("Simple", "fElapsedTime", fElapsedTime);
+
 	return true;
 }
 

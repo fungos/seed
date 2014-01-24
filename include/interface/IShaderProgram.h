@@ -54,6 +54,7 @@ class SEED_CORE_API IShaderProgram : public IObject // Soon to be IDataObject
 		virtual void AttachShader(IShader *shader) = 0;
 		virtual void BindAttribute(u32 index, const String &attributeName) = 0;
 		virtual void SetTexture(u32 unit, const String &uniformName = "") = 0;
+		virtual void SetUniform(const String &uniformName, f32 value) = 0;
 		virtual void Link() = 0;
 		virtual bool Validate() = 0;
 

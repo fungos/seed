@@ -116,6 +116,17 @@ void ShaderManager::SetTexture(const String &shaderProgramName, u32 unit, const 
 	}
 }
 
+void ShaderManager::SetUniform(const String &shaderProgramName, const String &uniformName, f32 value)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
+
+	if (it != mShaderPrograms.end())
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		shaderProgram->SetUniform(uniformName, value);
+	}
+}
+
 bool ShaderManager::LinkShaderProgram(const String &shaderProgramName)
 {
 	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);

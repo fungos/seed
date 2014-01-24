@@ -82,6 +82,13 @@ void IShaderProgram::SetTexture(u32 unit, const String &uniformName)
 	SEED_ABSTRACT_METHOD;
 }
 
+void IShaderProgram::SetUniform(const String &uniformName, f32 value)
+{
+	UNUSED(value);
+	UNUSED(uniformName);
+	SEED_ABSTRACT_METHOD;
+}
+
 void IShaderProgram::Link()
 {
 	SEED_ABSTRACT_METHOD;

@@ -37,6 +37,8 @@ class ShaderSample : public IGameApp,
 		IShaderProgram *pProgram;
 		IShader *pVertexShader;
 		IShader *pPixelShader;
+		f32 fElapsedTime;
+		bool bInitialized;
 };
 
 #endif // _SHADERSAMPLE_H_

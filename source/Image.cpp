@@ -115,7 +115,7 @@ void Image::Render(const Matrix4f &worldTransform)
 	packet.nFlags = flags;
 	packet.vPivot = vTransformedPivot;
 
-	auto box= Rect4f{0, 0, this->GetWidth(), this->GetHeight()};
+	auto box = Rect4f{0, 0, this->GetWidth(), this->GetHeight()};
 	packet.fRadius = box.CircleRadius();
 
 	pRendererDevice->UploadData(&packet);

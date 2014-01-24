@@ -541,6 +541,8 @@ void OGL20RendererDevice::UploadData(void *userData)
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 
+	pShaderManager->GetShaderProgram("Simple")->Use(); // fixme, for now string may come from renderpacket.
+
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 

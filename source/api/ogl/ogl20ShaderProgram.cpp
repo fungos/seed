@@ -59,7 +59,10 @@ void OGL20ShaderProgram::Use()
 	for (u32 i = 0; i < 4; i++)
 	{
 		if (arTexUnit[i] != 0xffffffff)
+		{
+			glActiveTexture(GL_TEXTURE0 + i);
 			glUniform1i(arTexUnit[i], i);
+		}
 	}
 
 	bActive = true;
@@ -89,6 +92,15 @@ void OGL20ShaderProgram::SetTexture(u32 unit, const String &uniformName)
 		arTexUnit[unit] = glGetUniformLocation(iProgramId, uniformName.c_str());
 	else
 		arTexUnit[unit] = 0xffffffff;
+}
+
+void OGL20ShaderProgram::SetUniform(const String &uniformName, f32 value)
+{
+	GLint loc = glGetUniformLocation(iProgramId, uniformName.c_str());
+	if (loc != -1)
+	{
+		glUniform1f(loc, value);
+	}
 }
 
 void OGL20ShaderProgram::Link()
