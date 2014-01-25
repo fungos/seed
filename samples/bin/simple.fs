@@ -8,7 +8,7 @@ uniform sampler2D mTexture;
 uniform float fElapsedTime;
 
 varying vec2 vOutUV;
-varying lowp vec4 vOutColor;
+varying vec4 vOutColor;
 
 void main()
 {

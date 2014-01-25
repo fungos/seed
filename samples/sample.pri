@@ -23,7 +23,7 @@ unix:!macx {
 }
 
 macx {
-		DEFINES += LINUX TARGET_API_MAC_CARBON TARGET_API_MAC_OSX _THREAD_SAFE USE_API_SOIL
+		DEFINES += LINUX TARGET_API_MAC_CARBON TARGET_API_MAC_OSX _THREAD_SAFE USE_API_SOIL SEED_ENABLE_OGL20
 		INCLUDEPATH += ../../contrib/osx/
 		LIBS += -lseed -lseedcontrib -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit -framework QTKit -framework CoreFoundation -framework CoreAudio -framework AudioUnit -framework ForceFeedback -framework Carbon -framework AudioToolbox
 		CONFIG -= sdl
