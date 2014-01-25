@@ -244,6 +244,15 @@ const ITexture *TileSet::GetTexture() const
 	return pTexture;
 }
 
+void TileSet::SetTexture(ITexture *texture)
+{
+	SEED_ASSERT(texture);
+
+	pTexture->Release();
+	pTexture = texture;
+	pTexture->Acquire();
+}
+
 const String &TileSet::GetProperty(const String &property) const
 {
 	return mProperties.at(property);

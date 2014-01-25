@@ -52,6 +52,7 @@ class SEED_CORE_API TileSet : public IDataObject
 		u32 GetFirstTileId() const;
 		const Rect4f *GetTileUV(u32 tileId) const;
 		const ITexture *GetTexture() const;
+		void SetTexture(ITexture *texture);
 
 		const String &GetProperty(const String &property) const;
 		const String &GetTileProperty(u32 tileId, const String &property) const;
