@@ -191,7 +191,7 @@ IShaderProgram* ShaderManager::GetShaderProgram(const String &shaderProgramName)
 
 	if (it == mShaderPrograms.end())
 	{
-		Log(TAG "The shader program '%s' was not found", shaderProgramName.c_str());
+//		Log(TAG "The shader program '%s' was not found", shaderProgramName.c_str());
 		return nullptr;
 	}
 

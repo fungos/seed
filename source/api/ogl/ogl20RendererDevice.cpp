@@ -541,7 +541,9 @@ void OGL20RendererDevice::UploadData(void *userData)
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 
-	pShaderManager->GetShaderProgram("Simple")->Use(); // fixme, for now string may come from renderpacket.
+	auto program = pShaderManager->GetShaderProgram("Simple");
+	if (program)
+		program->Use(); // fixme, for now string may come from renderpacket.
 
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
@@ -820,6 +822,7 @@ void OGL20RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
 	GL_TRACE("BEGIN SetViewport")
 	glViewport(static_cast<GLint>(x), static_cast<GLint>(y), static_cast<GLsizei>(w), static_cast<GLsizei>(h));
+	//glOrtho(0.0f, w, h, 0, SEED_MAX_PRIORITY, -SEED_MAX_PRIORITY);
 	GL_TRACE("END SetViewport")
 }
 

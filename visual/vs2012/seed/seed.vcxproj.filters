@@ -26,9 +26,6 @@
     <Filter Include="api\oal">
       <UniqueIdentifier>{2de3250f-8ca7-4c4a-b0b0-ce6fe1d86cfd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="api\gl">
-      <UniqueIdentifier>{30b90917-6f93-463a-bcb6-7fef5778ad13}</UniqueIdentifier>
-    </Filter>
     <Filter Include="api\yajl">
       <UniqueIdentifier>{3aaf6bc0-591f-4239-8982-bce0fee1821c}</UniqueIdentifier>
     </Filter>
@@ -49,6 +46,9 @@
     </Filter>
     <Filter Include="api\soil">
       <UniqueIdentifier>{a4c6751b-9811-4522-b8b5-45a059141b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\ogl">
+      <UniqueIdentifier>{30b90917-6f93-463a-bcb6-7fef5778ad13}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -213,7 +213,7 @@
       <Filter>api\oal</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES1RendererDevice.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\yajl\JsonReader.cpp">
       <Filter>api\yajl</Filter>
@@ -295,28 +295,28 @@
       <Filter>api\soil</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\ogl20RendererDevice.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\ogl20Shader.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\ogl20ShaderProgram.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES1Shader.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES1ShaderProgram.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES2RendererDevice.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES2Shader.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES2ShaderProgram.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\interface\IShader.cpp">
       <Filter>interface</Filter>
@@ -651,28 +651,28 @@
       <Filter>api\soil</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\ogl20RendererDevice.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\ogl20Shader.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\ogl20ShaderProgram.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglES1RendererDevice.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglES2RendererDevice.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglES2Shader.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglES2ShaderProgram.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglHeaders.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\interface\IShader.h">
       <Filter>interface</Filter>

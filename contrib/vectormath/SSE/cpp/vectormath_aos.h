@@ -715,7 +715,7 @@ class Vector4
 public:
     // Default constructor; does no initialization
     // 
-    __forceinline Vector4( ) { };
+    __forceinline Vector4( ) : mVec128() { };
 
     // Construct a 4-D vector from x, y, z, and w elements
     // 
