@@ -48,6 +48,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample_14_renderer", "Sampl
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Sample_27_shader", "Sample_27_shader\Sample_27_shader.vcxproj", "{6E284429-DAAC-4A7D-95FD-D1DE67A1FB1D}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ggj14", "..\..\..\ggj14\project\vs2012\ggj14\ggj14.vcxproj", "{C2E9D8AD-02CD-420B-A434-AFA574CC559C}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug SDL|Win32 = Debug SDL|Win32
@@ -240,6 +242,14 @@ Global
 		{6E284429-DAAC-4A7D-95FD-D1DE67A1FB1D}.Release SDL|Win32.Build.0 = Release SDL|Win32
 		{6E284429-DAAC-4A7D-95FD-D1DE67A1FB1D}.Release SDL2|Win32.ActiveCfg = Release SDL2|Win32
 		{6E284429-DAAC-4A7D-95FD-D1DE67A1FB1D}.Release SDL2|Win32.Build.0 = Release SDL2|Win32
+		{C2E9D8AD-02CD-420B-A434-AFA574CC559C}.Debug SDL|Win32.ActiveCfg = Debug SDL2|Win32
+		{C2E9D8AD-02CD-420B-A434-AFA574CC559C}.Debug SDL|Win32.Build.0 = Debug SDL2|Win32
+		{C2E9D8AD-02CD-420B-A434-AFA574CC559C}.Debug SDL2|Win32.ActiveCfg = Debug SDL2|Win32
+		{C2E9D8AD-02CD-420B-A434-AFA574CC559C}.Debug SDL2|Win32.Build.0 = Debug SDL2|Win32
+		{C2E9D8AD-02CD-420B-A434-AFA574CC559C}.Release SDL|Win32.ActiveCfg = Debug SDL2|Win32
+		{C2E9D8AD-02CD-420B-A434-AFA574CC559C}.Release SDL|Win32.Build.0 = Debug SDL2|Win32
+		{C2E9D8AD-02CD-420B-A434-AFA574CC559C}.Release SDL2|Win32.ActiveCfg = Debug SDL2|Win32
+		{C2E9D8AD-02CD-420B-A434-AFA574CC559C}.Release SDL2|Win32.Build.0 = Debug SDL2|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

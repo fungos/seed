@@ -377,6 +377,21 @@
     <Filter Include="otterui\inc\Math">
       <UniqueIdentifier>{fe65d7ea-b637-46b0-ba81-973b9d5293c5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="vectormath">
+      <UniqueIdentifier>{d0300366-f2f9-4b4b-ba99-eb25885814c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vectormath\SEE">
+      <UniqueIdentifier>{20601da3-5d95-47e2-9d03-d93a64703678}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vectormath\SEE\cpp">
+      <UniqueIdentifier>{9420cfe4-8603-411d-9af1-b513aa1e25f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vectormath\scalar">
+      <UniqueIdentifier>{c1f8e8e3-c7b5-46ff-a2c9-d50af22039ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="vectormath\scalar\cpp">
+      <UniqueIdentifier>{4cdf2d25-2d55-4480-a3da-9c9128ad6269}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\contrib\Box2D\Box2D.h">
@@ -3112,6 +3127,45 @@
     <ClInclude Include="..\..\..\contrib\otterui\inc\Math\VectorMath.h">
       <Filter>otterui\inc\Math</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\boolInVec.h">
+      <Filter>vectormath\SEE\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\floatInVec.h">
+      <Filter>vectormath\SEE\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\mat_aos.h">
+      <Filter>vectormath\SEE\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\quat_aos.h">
+      <Filter>vectormath\SEE\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\vec_aos.h">
+      <Filter>vectormath\SEE\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\vecidx_aos.h">
+      <Filter>vectormath\SEE\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\vectormath_aos.h">
+      <Filter>vectormath\SEE\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\boolInVec.h">
+      <Filter>vectormath\scalar\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\floatInVec.h">
+      <Filter>vectormath\scalar\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\mat_aos.h">
+      <Filter>vectormath\scalar\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\quat_aos.h">
+      <Filter>vectormath\scalar\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\vec_aos.h">
+      <Filter>vectormath\scalar\cpp</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\vectormath_aos.h">
+      <Filter>vectormath\scalar\cpp</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\contrib\Box2D\Dynamics\b2Body.cpp">
@@ -5149,6 +5203,9 @@
   <ItemGroup>
     <Text Include="..\..\..\contrib\bullet\BulletMultiThreaded\SpuNarrowPhaseCollisionTask\readme.txt">
       <Filter>Bullet\BulletMultiThreaded\SpuNarrowPhaseCollisionTask</Filter>
+    </Text>
+    <Text Include="..\..\..\contrib\vectormath\SSE\cpp\readme_e.txt">
+      <Filter>vectormath\SEE\cpp</Filter>
     </Text>
   </ItemGroup>
   <ItemGroup>

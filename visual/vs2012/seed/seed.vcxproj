@@ -25,15 +25,27 @@
     <ClCompile Include="..\..\..\source\api\oal\oalSoundSource.cpp" />
     <ClCompile Include="..\..\..\source\api\oal\oalSoundSystem.cpp" />
     <ClCompile Include="..\..\..\source\api\oal\vorbis_util.cpp" />
-    <ClCompile Include="..\..\..\source\api\ogl\ogl20RendererDevice.cpp" />
-    <ClCompile Include="..\..\..\source\api\ogl\ogl20Shader.cpp" />
-    <ClCompile Include="..\..\..\source\api\ogl\ogl20ShaderProgram.cpp" />
+    <ClCompile Include="..\..\..\source\api\ogl\ogl20RendererDevice.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\ogl20Shader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\ogl20ShaderProgram.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES1RendererDevice.cpp" />
     <ClCompile Include="..\..\..\source\api\ogl\oglES1Shader.cpp" />
     <ClCompile Include="..\..\..\source\api\ogl\oglES1ShaderProgram.cpp" />
-    <ClCompile Include="..\..\..\source\api\ogl\oglES2RendererDevice.cpp" />
-    <ClCompile Include="..\..\..\source\api\ogl\oglES2Shader.cpp" />
-    <ClCompile Include="..\..\..\source\api\ogl\oglES2ShaderProgram.cpp" />
+    <ClCompile Include="..\..\..\source\api\ogl\oglES2RendererDevice.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES2Shader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES2ShaderProgram.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\api\rocket\RocketInterface.cpp" />
     <ClCompile Include="..\..\..\source\api\soil\soilTexture.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
@@ -201,7 +213,9 @@
     <ClCompile Include="..\..\..\source\SceneNode.cpp" />
     <ClCompile Include="..\..\..\source\SceneObjectFactory.cpp" />
     <ClCompile Include="..\..\..\source\SeedInit.cpp" />
-    <ClCompile Include="..\..\..\source\ShaderManager.cpp" />
+    <ClCompile Include="..\..\..\source\ShaderManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
     <ClCompile Include="..\..\..\source\Sprite.cpp" />
     <ClCompile Include="..\..\..\source\Thread.cpp" />
     <ClCompile Include="..\..\..\source\ThreadManager.cpp" />
@@ -218,13 +232,25 @@
     <ClInclude Include="..\..\..\include\api\oal\oalSoundSource.h" />
     <ClInclude Include="..\..\..\include\api\oal\oalSoundSystem.h" />
     <ClInclude Include="..\..\..\include\api\oal\vorbis_util.h" />
-    <ClInclude Include="..\..\..\include\api\ogl\ogl20RendererDevice.h" />
-    <ClInclude Include="..\..\..\include\api\ogl\ogl20Shader.h" />
-    <ClInclude Include="..\..\..\include\api\ogl\ogl20ShaderProgram.h" />
+    <ClInclude Include="..\..\..\include\api\ogl\ogl20RendererDevice.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\ogl20Shader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\ogl20ShaderProgram.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglES1RendererDevice.h" />
-    <ClInclude Include="..\..\..\include\api\ogl\oglES2RendererDevice.h" />
-    <ClInclude Include="..\..\..\include\api\ogl\oglES2Shader.h" />
-    <ClInclude Include="..\..\..\include\api\ogl\oglES2ShaderProgram.h" />
+    <ClInclude Include="..\..\..\include\api\ogl\oglES2RendererDevice.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglES2Shader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglES2ShaderProgram.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglHeaders.h" />
     <ClInclude Include="..\..\..\include\api\soil\soilTexture.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
@@ -454,9 +480,15 @@
     <ClInclude Include="..\..\..\include\SeedInit.h" />
     <ClInclude Include="..\..\..\include\SeedRun.h" />
     <ClInclude Include="..\..\..\include\Semaphore.h" />
-    <ClInclude Include="..\..\..\include\Shader.h" />
-    <ClInclude Include="..\..\..\include\ShaderManager.h" />
-    <ClInclude Include="..\..\..\include\ShaderProgram.h" />
+    <ClInclude Include="..\..\..\include\Shader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ShaderManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ShaderProgram.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="..\..\..\include\Singleton.h" />
     <ClInclude Include="..\..\..\include\Sound.h" />
     <ClInclude Include="..\..\..\include\SoundSource.h" />
@@ -592,7 +624,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_LIB;BUILD_SDL;DEBUG;SEED_ENABLE_OGL20;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;BUILD_SDL;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4521;4275</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
