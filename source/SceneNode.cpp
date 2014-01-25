@@ -137,7 +137,7 @@ void ISceneNode::Dump(u32 level)
 	for (auto obj: vChild)
 	{
 		for (decltype(level) i = 0; i < level + 1; i++) fprintf(stdout, "-");
-		Log(" %s", obj->sName.c_str());
+		Log(" %s (Parented: %s, Pos: %d,%d)", obj->sName.c_str(), (obj->GetParent() ? "Yes" : "No"), s32(obj->GetX()), s32(obj->GetY()));
 
 		if (obj->IsNode())
 			(static_cast<ISceneNode *>(obj))->Dump(level + 1);
