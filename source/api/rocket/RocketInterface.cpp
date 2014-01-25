@@ -358,19 +358,23 @@ void RocketInterface::OnInputPointerMove(const EventInputPointer *ev)
 	pCurrent->ProcessMouseMove(ev->GetX(), ev->GetY(), iModifierState);
 }
 
-void RocketInterface::OnInputKeyboardPress(const EventInputKeyboard *ev)
+bool RocketInterface::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
 	Rocket::Core::Input::KeyIdentifier key = (Rocket::Core::Input::KeyIdentifier)ev->GetKey();
 	pCurrent->ProcessKeyDown(key, iModifierState);
 
 	// FIXME: Do full key->text processing
 	pCurrent->ProcessTextInput(key);
+
+	return true;
 }
 
-void RocketInterface::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool RocketInterface::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	Rocket::Core::Input::KeyIdentifier key = (Rocket::Core::Input::KeyIdentifier)ev->GetKey();
 	pCurrent->ProcessKeyUp(key, iModifierState);
+	
+	return true;
 }
 
 void RocketInterface::Render(const Matrix4f &worldTransform)

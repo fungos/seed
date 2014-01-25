@@ -100,7 +100,7 @@ void TileSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	}
 }
 
-void TileSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool TileSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -127,6 +127,8 @@ void TileSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		case eKey::D:
 			vDir.setX(0.0f);
 		break;
-		default: return;
+		default: return true;
 	}
+
+	return true;
 }

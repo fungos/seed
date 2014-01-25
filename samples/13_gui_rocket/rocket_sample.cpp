@@ -48,7 +48,7 @@ void RocketSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void RocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool RocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -62,6 +62,8 @@ void RocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		this->ReloadGUI();
 	else if (k == eKey::F12)
 		Rocket::Debugger::SetVisible(!Rocket::Debugger::IsVisible());
+
+	return true;
 }
 
 bool RocketSample::UnloadGUI()

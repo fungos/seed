@@ -92,7 +92,7 @@ void ShaderSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void ShaderSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool ShaderSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -102,4 +102,6 @@ void ShaderSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->Print();
 	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
+
+	return true;
 }

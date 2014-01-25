@@ -51,7 +51,7 @@ void PrefabsSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void PrefabsSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool PrefabsSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -77,4 +77,6 @@ void PrefabsSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 		pSprite->SetAnimation(iAnimation);
 	}
+
+	return true;
 }
