@@ -113,7 +113,7 @@ void RendererSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void RendererSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool RendererSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -123,6 +123,8 @@ void RendererSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->Print();
 	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
+
+	return true;
 }
 
 void RendererSample::OnInputPointerRelease(const EventInputPointer *ev)

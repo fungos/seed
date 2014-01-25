@@ -65,7 +65,7 @@ void KeyboardSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
+bool KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -105,9 +105,11 @@ void KeyboardSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		// Sum the normalized vector down with the current vector
 		vPlayerVectorDirection += VECTOR_DOWN;
 	}
+
+	return true;
 }
 
-void KeyboardSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool KeyboardSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -134,4 +136,6 @@ void KeyboardSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 	if (k == eKey::Escape)
 		pSystem->Shutdown();
+
+	return true;
 }

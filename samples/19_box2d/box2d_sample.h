@@ -21,15 +21,15 @@ class Box2DSample : public IGameApp,
 		virtual bool Shutdown();
 
 		// IEventSystemListener
-		virtual void OnSystemShutdown(const EventSystem *ev);
+		virtual void OnSystemShutdown(const EventSystem *ev) override;
 
 		// IEventInputKeyboardListener
-		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
+		virtual bool OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
 
 		// IEventInputPointerListener
-		virtual void OnInputPointerPress(const EventInputPointer *ev);
-		virtual void OnInputPointerRelease(const EventInputPointer *ev);
-		virtual void OnInputPointerMove(const EventInputPointer *ev);
+		virtual void OnInputPointerPress(const EventInputPointer *ev) override;
+		virtual void OnInputPointerRelease(const EventInputPointer *ev) override;
+		virtual void OnInputPointerMove(const EventInputPointer *ev) override;
 
 	private:
 		void CreateBody(Image *img, f32 x, f32 y);

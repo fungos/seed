@@ -72,17 +72,20 @@ void JoystickSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void JoystickSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
+bool JoystickSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
 	UNUSED(ev)
+	return true;
 }
 
-void JoystickSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool JoystickSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
 	if (k == eKey::Escape)
 		pSystem->Shutdown();
+
+	return true;
 }
 
 void JoystickSample::OnInputJoystickButtonPress(const EventInputJoystick *ev)

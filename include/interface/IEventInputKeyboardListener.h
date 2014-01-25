@@ -45,8 +45,8 @@ class SEED_CORE_API IEventInputKeyboardListener : public IEventListener
 		IEventInputKeyboardListener() = default;
 		virtual ~IEventInputKeyboardListener() {}
 
-		virtual void OnInputKeyboardPress(const EventInputKeyboard *ev)		SEED_PURE_VIRTUAL_EVENT
-		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev)	SEED_PURE_VIRTUAL_EVENT
+		virtual bool OnInputKeyboardPress(const EventInputKeyboard *ev)		{ UNUSED(ev); return true; }
+		virtual bool OnInputKeyboardRelease(const EventInputKeyboard *ev)	{ UNUSED(ev); return true; }
 };
 
 } // namespace

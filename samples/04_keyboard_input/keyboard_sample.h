@@ -20,13 +20,13 @@ class KeyboardSample : public IGameApp,
 		virtual bool Shutdown();
 
 		// IEventSystemListener
-		virtual void OnSystemShutdown(const EventSystem *ev);
+		virtual void OnSystemShutdown(const EventSystem *ev) override;
 
 		// IEventInputKeyboardListener
-		virtual void OnInputKeyboardPress(const EventInputKeyboard *ev);
+		virtual bool OnInputKeyboardPress(const EventInputKeyboard *ev) override;
 
 		// IEventInputKeyboardListener
-		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
+		virtual bool OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
 
 	protected:
 		Presentation cPres;

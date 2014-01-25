@@ -74,7 +74,7 @@ void NetUDPSocketSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void NetUDPSocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool NetUDPSocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -96,4 +96,6 @@ void NetUDPSocketSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		sPacketData.vRemotePlayer = vPlayer;
 		cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
 	}
+
+	return true;
 }

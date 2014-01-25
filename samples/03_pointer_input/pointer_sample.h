@@ -20,13 +20,13 @@ class PointerSample : public IGameApp,
 		virtual bool Shutdown();
 
 		// IEventSystemListener
-		virtual void OnSystemShutdown(const EventSystem *ev);
+		virtual void OnSystemShutdown(const EventSystem *ev) override;
 
 		// IEventInputKeyboardListener
-		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
+		virtual bool OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
 
 		// IEventInputPointerListener
-		virtual void OnInputPointerRelease(const EventInputPointer *ev);
+		virtual void OnInputPointerRelease(const EventInputPointer *ev) override;
 
 	protected:
 		Presentation cPres;
