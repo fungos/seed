@@ -177,8 +177,10 @@ void ISoundSystem::StopMusic(f32 ms, IMusic *mus)
 			pCurrentMusic->nState = eMusicState::Stop;
 			pCurrentMusic = nullptr;
 		}
-	}
 
+		return;
+	}
+	
 	if (pNewMusic)
 	{
 		fMusicFadeTime = ms;
