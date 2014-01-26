@@ -51,6 +51,22 @@ ITransformable::ITransformable()
 	, fRotation(0.0f)
 	, bTransformationChanged(true)
 {
+	memset(&mTransform, 0, sizeof(mTransform));
+	memset(&vPos, 0, sizeof(vPos));
+	memset(&vPivot, 0, sizeof(vPivot));
+	memset(&vTransformedPivot, 0, sizeof(vTransformedPivot));
+	memset(&vScale, 0, sizeof(vScale));
+	memset(&vBoundingBox, 0, sizeof(vBoundingBox));
+
+	vPivot.setX(SEED_PIVOT_VALUE);
+	vPivot.setY(SEED_PIVOT_VALUE);
+	vPivot.setZ(SEED_PIVOT_VALUE);
+
+	vScale.setX(1.0f);
+	vScale.setY(1.0f);
+	vScale.setZ(1.0f);
+
+	vBoundingBox.setZ(1.0f);
 }
 
 ITransformable::~ITransformable()

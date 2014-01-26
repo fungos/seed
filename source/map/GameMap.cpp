@@ -257,6 +257,17 @@ void GameMap::Render(const Matrix4f &worldTransform)
 	}
 }
 
+u32 GameMap::AddLayer(IMapLayer *layer)
+{
+	auto layerId = vLayers.Size();
+
+	vLayers += layer;
+	layer->bMarkForDeletion = true;
+	cMapLayers.Add(layer);
+
+	return layerId;
+}
+
 u32 GameMap::AddLayerTiled()
 {
 	auto layerId = vLayers.Size();
