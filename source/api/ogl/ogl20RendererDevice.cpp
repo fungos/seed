@@ -107,6 +107,10 @@
 #define GL_ELEMTYPE(x)	this->GetOpenGLElementType(x)
 #define GL_ELEMSIZE(x)	this->GetOpenGLElementSizeByType(x)
 
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
+
 #define TAG "[OGL20RendererDevice] "
 
 namespace Seed { namespace OpenGL {

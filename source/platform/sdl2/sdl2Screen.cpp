@@ -37,11 +37,13 @@
 #include "Configuration.h"
 #include "Texture.h"
 
+/*
 #if defined(WIN32)
 #define USER_DEFAULT_SCREEN_DPI	96
 #include <WinUser.h>
 #include <SDL/SDL_syswm.h>
 #endif
+*/
 
 #define TAG "[Screen] "
 
@@ -133,7 +135,7 @@ bool Screen::InitializeVideo()
 	}
 
 	this->SetupOpenGL();
-
+/*
 #if defined(WIN32)
 	int dpiX = 0, dpiY = 0;
 	HDC hdc = GetDC(NULL);
@@ -158,7 +160,7 @@ bool Screen::InitializeVideo()
 		iWidth = 800;
 		iHeight = 600;
 	}
-#endif
+#endif*/
 
 	pWindow = SDL_CreateWindow(pConfiguration->GetApplicationTitle().c_str(),
 								SDL_WINDOWPOS_UNDEFINED,
@@ -176,12 +178,12 @@ bool Screen::InitializeVideo()
 	else
 	{
 #if defined(WIN32)
-		bool icon = false;
+		//bool icon = false;
 
 		/*
 		If there is a icon.ico file in the SAME directory of the executable (can't be workdir) we will use it, otherwise we will look for
 		<workdir>/data/icon.bmp and use it instead.
-		*/
+		*//*
 		SDL_SysWMinfo info;
 		SDL_VERSION(&info.version);
 		if (SDL_GetWMInfo(&info) > 0)
@@ -203,7 +205,7 @@ bool Screen::InitializeVideo()
 				::SendMessage(hWnd, WM_SETICON, ICON_SMALL, (LPARAM)lilIcon);
 			}
 		}
-		if (!icon)
+		if (!icon)*/
 #endif
 	}
 

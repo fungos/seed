@@ -237,6 +237,9 @@ bool Music::Update(Seconds dt)
 
 bool Music::DoStream(ALuint buffer)
 {
+	if (!vorbisInfo)
+		return false;
+
 	return ogg_update_stream(&oggStream, vorbisInfo->rate, eFormat, buffer, bLoop);
 }
 
