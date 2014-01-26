@@ -57,7 +57,7 @@ class SEED_CORE_API GameMap : public ISceneObject
 		IMapLayer *GetLayerAt(u32 index);
 		IMapLayer *GetLayerByName(const String &name);
 
-		u32 GameMap::AddLayer(IMapLayer *layer);
+		u32 AddLayer(IMapLayer *layer);
 
 		TileSet *GetTileSet(const String &name);
 
