@@ -81,6 +81,9 @@ void ISceneNode::Add(ISceneObject *obj)
 
 void ISceneNode::Remove(ISceneObject *obj)
 {
+	if (obj == nullptr)
+		return;
+
 	obj->SetParent(nullptr);
 	vChild -= obj;
 }
