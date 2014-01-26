@@ -319,6 +319,37 @@ TileSet *MapLayerTiled::GetTileSet()
 	return pTileSet;
 }
 
+void MapLayerTiled::SetTileAt(u32 x, u32 y, u32 tileId)
+{
+	if (x < 0)
+		x = 0;
+	if (y < 0)
+		y = 0;
+
+	if (TILE(x, y) == tileId)
+		return;
+
+	TILE(x, y) = tileId;
+	bRebuildMesh = true;
+}
+
+void MapLayerTiled::SetTileAt(const Vector3f pos, u32 tileId)
+{
+	s32 x = static_cast<s32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
+	s32 y = static_cast<s32>((pos.getY() / ptTileSize.y) + ptMapSizeHalf.y);
+
+	if (x < 0)
+		x = 0;
+	if (y < 0)
+		y = 0;
+
+	if (TILE(x, y) == tileId)
+		return;
+
+	TILE(x, y) = tileId;
+	bRebuildMesh = true;
+}
+
 u32 MapLayerTiled::GetTileAt(const Vector3f &pos) const
 {
 	s32 x = static_cast<s32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
