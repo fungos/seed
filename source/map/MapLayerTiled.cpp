@@ -325,10 +325,10 @@ void MapLayerTiled::SetTileAt(u32 x, u32 y, u32 tileId)
 		x = 0;
 	if (y < 0)
 		y = 0;
-	if (x > s32(ptMapSize.x))
-		x = s32(ptMapSize.x);
-	if (y > s32(ptMapSize.y))
-		y = s32(ptMapSize.y);
+	if (x >= s32(ptMapSize.x))
+		x = s32(ptMapSize.x) - 1;
+	if (y >= s32(ptMapSize.y))
+		y = s32(ptMapSize.y) - 1;
 
 	if (TILE(x, y) == tileId)
 		return;
@@ -346,10 +346,10 @@ void MapLayerTiled::SetTileAt(const Vector3f pos, u32 tileId)
 		x = 0;
 	if (y < 0)
 		y = 0;
-	if (x > s32(ptMapSize.x))
-		x = s32(ptMapSize.x);
-	if (y > s32(ptMapSize.y))
-		y = s32(ptMapSize.y);
+	if (x >= s32(ptMapSize.x))
+		x = s32(ptMapSize.x) - 1;
+	if (y >= s32(ptMapSize.y))
+		y = s32(ptMapSize.y) - 1;
 
 	if (TILE(x, y) == tileId)
 		return;
@@ -367,10 +367,10 @@ u32 MapLayerTiled::GetTileAt(const Vector3f &pos) const
 		x = 0;
 	if (y < 0)
 		y = 0;
-	if (x > s32(ptMapSize.x))
-		x = s32(ptMapSize.x);
-	if (y > s32(ptMapSize.y))
-		y = s32(ptMapSize.y);
+	if (x >= s32(ptMapSize.x))
+		x = s32(ptMapSize.x) - 1;
+	if (y >= s32(ptMapSize.y))
+		y = s32(ptMapSize.y) - 1;
 
 	return TILE(x, y);
 }
