@@ -204,8 +204,15 @@ TileSet *TileSet::Clone() const
 	auto tilesH = pTexture->GetHeight() / ptTileSize.y;
 
 	sdAcquire(pTexture);
+
 	obj->pTileUV = sdNewArray(Rect4f, (tilesW * tilesH));
-	memcpy(&obj->pTileUV, &pTileUV, sizeof(Rect4f) * (tilesW * tilesH));
+	for (u32 y = 0; y < ptTiles.y; y++)
+	{
+		for (u32 x = 0; x < ptTiles.x; x++)
+		{
+			obj->pTileUV[(x) + (ptTiles.x * (y))] = pTileUV[(x) + (ptTiles.x * (y))];
+		}
+	}
 
 	obj->pTexture = pTexture;
 	obj->pTileUV = pTileUV;
