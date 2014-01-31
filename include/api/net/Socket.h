@@ -56,7 +56,7 @@ class SEED_CORE_API Socket
 	public:
 		Socket();
 		virtual ~Socket();
-		virtual bool Open(unsigned short port);
+		virtual bool Open(u32 port);
 		virtual void Close();
 		virtual bool IsOpen() const;
 		virtual bool Send(const Address &destination, const void *data, int size);

@@ -3,61 +3,61 @@
 namespace Seed { namespace Net {
 
 Address::Address()
+	: iAddress(0)
+	, iPort(0)
 {
-	address = 0;
-	port = 0;
 }
 
-Address::Address(unsigned char a, unsigned char b, unsigned char c, unsigned char d, unsigned short port)
+Address::Address(u32 a, u32 b, u32 c, u32 d, u32 port)
 {
-	this->address = ( a << 24 ) | ( b << 16 ) | ( c << 8 ) | d;
-	this->port = port;
+	iAddress = ((a & 0xff) << 24) | ((b & 0xff) << 16) | ((c & 0xff) << 8) | (d & 0xff);
+	iPort = port;
 }
 
-Address::Address(unsigned int address, unsigned short port)
+Address::Address(u32 address, u32 port)
 {
-	this->address = address;
-	this->port = port;
+	iAddress = address;
+	iPort = port;
 }
 
-unsigned int Address::GetAddress() const
+u32 Address::GetAddress() const
 {
-	return address;
+	return iAddress;
 }
 
-unsigned char Address::GetA() const
+u32 Address::GetA() const
 {
-	return (unsigned char) (address >> 24);
+	return u32(char(iAddress >> 24));
 }
 
-unsigned char Address::GetB() const
+u32 Address::GetB() const
 {
-	return (unsigned char) (address >> 16);
+	return u32(char(iAddress >> 16));
 }
 
-unsigned char Address::GetC() const
+u32 Address::GetC() const
 {
-	return (unsigned char) (address >> 8);
+	return u32(char(iAddress >> 8));
 }
 
-unsigned char Address::GetD() const
+u32 Address::GetD() const
 {
-	return (unsigned char) (address);
+	return u32(char(iAddress));
 }
 
-unsigned short Address::GetPort() const
+u32 Address::GetPort() const
 {
-	return port;
+	return iPort;
 }
 
-bool Address::operator == ( const Address & other ) const
+bool Address::operator ==(const Address & other) const
 {
-	return address == other.address && port == other.port;
+	return iAddress == other.iAddress && iPort == other.iPort;
 }
 
-bool Address::operator != ( const Address & other ) const
+bool Address::operator !=(const Address & other) const
 {
-	return ! ( *this == other );
+	return !(*this == other);
 }
 
 

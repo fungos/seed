@@ -337,7 +337,7 @@ void MapLayerTiled::SetTileAt(u32 x, u32 y, u32 tileId)
 	bRebuildMesh = true;
 }
 
-void MapLayerTiled::SetTileAt(const Vector3f pos, u32 tileId)
+void MapLayerTiled::SetTileAt(const Vector3f &pos, u32 tileId)
 {
 	s32 x = static_cast<s32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
 	s32 y = static_cast<s32>((pos.getY() / ptTileSize.y) + ptMapSizeHalf.y);

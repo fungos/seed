@@ -50,6 +50,12 @@
     <Filter Include="api\ogl">
       <UniqueIdentifier>{30b90917-6f93-463a-bcb6-7fef5778ad13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="api\net">
+      <UniqueIdentifier>{2d24fcaf-113c-4edd-b1d1-2ffb28051bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\theora">
+      <UniqueIdentifier>{4be709c3-64cc-4adb-aac0-3fa735da263d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Animation.cpp" />
@@ -325,6 +331,16 @@
     <ClCompile Include="..\..\..\source\interface\IShaderProgram.cpp">
       <Filter>interface</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\api\net\Address.cpp">
+      <Filter>api\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\net\Socket.cpp">
+      <Filter>api\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\theora\Theora.cpp">
+      <Filter>api\theora</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\LeafMessage.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Container.h" />
@@ -682,6 +698,13 @@
     <ClInclude Include="..\..\..\include\ShaderProgram.h" />
     <ClInclude Include="..\..\..\include\interface\IShaderProgram.h">
       <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\LeafMessage.h" />
+    <ClInclude Include="..\..\..\include\api\net\Address.h">
+      <Filter>api\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\net\Socket.h">
+      <Filter>api\net</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

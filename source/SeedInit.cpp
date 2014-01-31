@@ -63,6 +63,7 @@
 #include "Image.h"
 #include "Movie.h"
 #include "ParticleEmitter.h"
+#include "LeafMessage.h"
 
 #if defined(SEED_ENABLE_OGLES2) || defined(SEED_ENABLE_OGL20)
 #include "ShaderManager.h"
@@ -184,6 +185,8 @@ void GetVersion(u32 *major, u32 *middle, u32 *minor)
 
 bool Initialize()
 {
+	LEAF(Initialize());
+
 	if (!Private::pApplication)
 	{
 		fprintf(stderr, "ERROR: You should set a GameApp by calling SetGameApp(IGameApp *app, int argc, char **argv)!\n");

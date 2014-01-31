@@ -34,10 +34,9 @@
 #include "Defines.h"
 #include "interface/IObject.h"
 #include "Container.h"
+#include "IShader.h"
 
 namespace Seed {
-
-class IShader;
 
 class SEED_CORE_API IShaderProgram : public IObject // Soon to be IDataObject
 {
