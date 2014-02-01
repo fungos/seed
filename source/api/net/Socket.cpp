@@ -1,5 +1,6 @@
 #include "Log.h"
 #include "api/net/Socket.h"
+#include <limits> 
 
 #define TAG "[SocketUDP] "
 
@@ -21,7 +22,8 @@ Socket::Socket()
 	iHandle = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
 	#if defined(_MSC_VER)
-	setsockopt(iHandle, SOL_SOCKET, SO_BROADCAST);
+	bool optVal = true;
+	setsockopt(iHandle, SOL_SOCKET, SO_BROADCAST, (const char *)&optVal, sizeof(bool));
 	#elif defined(__APPLE_CC__) || defined(__linux__)
 	int optval = 1;
 	setsockopt(iHandle, SOL_SOCKET, SO_BROADCAST, &optval, sizeof(optval));
@@ -41,8 +43,10 @@ Socket::~Socket()
 	#endif
 }
 
-bool Socket::Open(unsigned short port)
+bool Socket::Open(u32 port)
 {
+	SEED_ASSERT(port < std::numeric_limits<unsigned short>::max());
+
 	sockaddr_in address;
 	address.sin_family = AF_INET;
 	address.sin_addr.s_addr = INADDR_ANY;
@@ -59,7 +63,7 @@ bool Socket::Open(unsigned short port)
 		// Setting the socket as non-blocking
 		#if defined(_MSC_VER)
 		DWORD nonBlocking = 1;
-		if (ioctlsocket(handle, FIONBIO, &nonBlocking ) != 0)
+		if (ioctlsocket(iHandle, FIONBIO, &nonBlocking ) != 0)
 		{
 			Log(TAG "failed to set non-blocking socket");
 			return false;
@@ -122,7 +126,7 @@ int Socket::Receive(Address &sender, void *data, int size)
 		return 0;
 
 	unsigned int address = ntohl(from.sin_addr.s_addr);
-	unsigned int port = ntohs(from.sin_port);
+	unsigned short port = ntohs(from.sin_port);
 
 	sender = Address(address, port);
 

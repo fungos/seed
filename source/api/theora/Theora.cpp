@@ -384,7 +384,7 @@ bool Theora::IsStopped() const
 
 void Theora::Pause()
 {
-	fLastFrameTime = 0.0f;
+	fLastFrameTime = Milliseconds(0.0f);
 	bPaused = true;
 	bPlaying = false;
 }
@@ -440,16 +440,16 @@ bool Theora::WaitFrameRate()
 {
 	bool ret = false;
 	if (!fLastFrameTime)
-		fLastFrameTime = pTimer->GetMilliseconds();
+		fLastFrameTime = pTimer->GetSeconds();
 
 	//hold fps
-	Milliseconds fTime	 = pTimer->GetMilliseconds();
+	Seconds fTime		 = pTimer->GetSeconds();
 	fElapsedTime		+= (fTime - fLastFrameTime);
 	fLastFrameTime		 = fTime;
 
 	if (fElapsedTime >= fDelay)
 	{
-		fElapsedTime -= fDelay;
+		fElapsedTime -= Seconds(fDelay);
 		ret = true;
 	}
 

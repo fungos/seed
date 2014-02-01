@@ -27,6 +27,7 @@ bool NetUDPSocketSample::Initialize()
 
 	auto bytesRead = 0;
 	cSocket.Send(Address(127, 0, 0, 1, iPort), &sPacketData, sizeof(sPacketData));
+	//cSocket.Send(Address(127, 0, 0, 1, 11115), "TESTE", strlen("TESTE")+1);
 
 	while (!bytesRead)
 	{

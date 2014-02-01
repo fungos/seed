@@ -28,35 +28,57 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __ADDRESS_H__
-#define __ADDRESS_H__
+#include "LeafMessage.h"
 
-#include "Defines.h"
+#if defined(SEED_USE_LEAF)
 
-namespace Seed { namespace Net
+#include "api/net/Address.h"
+
+namespace Seed {
+
+SEED_SINGLETON_DEFINE(Leaf)
+
+Leaf::Leaf()
 {
+}
 
-class SEED_CORE_API Address
+Leaf::~Leaf()
 {
-	public:
-		Address();
-		Address(u32 a, u32 b, u32 c, u32 d, u32 port);
-		Address(u32 address, u32 port);
-		Address(Address &) = default;
-		u32 GetAddress() const;
-		u32 GetA() const;
-		u32 GetB() const;
-		u32 GetC() const;
-		u32 GetD() const;
-		u32 GetPort() const;
-		bool operator==(const Address &other) const;
-		bool operator!=(const Address &other) const;
+}
 
-	private:
-		u32 iAddress;
-		u32 iPort;
-};
+void Leaf::Initialize()
+{
+	iPort = 11115;
+	cAddress = Address(127, 0, 0, 1, iPort);
 
-}} // namespace
+	//cSocket.Open(iPort);
+}
 
-#endif // __ADDRESS_H__
+void Leaf::Log(const char *msg)
+{
+	Send(ePacket::Log, strlen(msg) + 1, (const u8 *)msg);
+}
+
+void Leaf::Error(const char *msg)
+{
+	Send(ePacket::Error, strlen(msg) + 1, (const u8 *)msg);
+}
+
+void Leaf::Dbg(const char *msg)
+{
+	Send(ePacket::Debug, strlen(msg) + 1, (const u8 *)msg);
+}
+
+void Leaf::Send(ePacket packetId, u32 packetSize, const u8 *packetData)
+{
+	Packet p;
+	p.iPacketId = packetId;
+	p.iPacketSize = packetSize;
+
+	cSocket.Send(cAddress, &p, sizeof(p));
+	cSocket.Send(cAddress, packetData, packetSize);
+}
+
+} // namespace
+
+#endif

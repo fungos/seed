@@ -28,35 +28,67 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __ADDRESS_H__
-#define __ADDRESS_H__
+#ifndef __LEAF_MESSAGE_H__
+#define __LEAF_MESSAGE_H__
+
+#include "Config.h"
+
+#if defined(SEED_USE_LEAF)
 
 #include "Defines.h"
+#include "Singleton.h"
+#include "api/net/Socket.h"
+#include "api/net/Address.h"
 
-namespace Seed { namespace Net
-{
+namespace Seed {
 
-class SEED_CORE_API Address
+using namespace Seed::Net;
+
+class Leaf
 {
+	SEED_DECLARE_SINGLETON(Leaf)
+	SEED_DISABLE_COPY(Leaf)
+
 	public:
-		Address();
-		Address(u32 a, u32 b, u32 c, u32 d, u32 port);
-		Address(u32 address, u32 port);
-		Address(Address &) = default;
-		u32 GetAddress() const;
-		u32 GetA() const;
-		u32 GetB() const;
-		u32 GetC() const;
-		u32 GetD() const;
-		u32 GetPort() const;
-		bool operator==(const Address &other) const;
-		bool operator!=(const Address &other) const;
+		enum class ePacket : u32
+		{
+			Log			= 0x01,
+			Error		= 0x02,
+			Debug		= 0x03
+		};
+
+	public:
+		void Initialize();
+
+		void Log(const char *msg);
+		void Error(const char *msg);
+		void Dbg(const char *msg);
+
+	protected:
+		void Send(ePacket packetId, u32 packetSize, const u8 *packetData);
 
 	private:
-		u32 iAddress;
+		Socket cSocket;
+
+		Address cAddress;
 		u32 iPort;
+
+		struct Packet
+		{
+			ePacket iPacketId;
+			u32 iPacketSize;
+			// data
+		};
 };
 
-}} // namespace
+} // namespace
 
-#endif // __ADDRESS_H__
+#define LEAF(x)		Leaf::GetInstance()->x
+
+#else
+
+#define LEAF(x)
+
+#endif // SEED_USE_LEAF
+
+#endif // __LEAF_MESSAGE_H__
