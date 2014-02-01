@@ -622,7 +622,7 @@ void OGL20RendererDevice::UploadData(void *userData)
 		}
 
 		glPointSize(5.0f);
-		if (!ebo)
+		if (!ebo | !elemPtr)
 			glDrawArrays(GL_POINTS, 0, vbo->iLength);
 		else
 			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
