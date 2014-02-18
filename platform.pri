@@ -25,7 +25,7 @@ macx {
 }
 
 unix:!macx {
-	DEFINES += __LINUX__
+	DEFINES += __LINUX__ PHYSFS_NO_CDROM_SUPPORT
 	CONFIG -= sdl
 	CONFIG += sdl2
 	sdl2 {

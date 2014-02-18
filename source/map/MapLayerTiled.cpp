@@ -34,6 +34,7 @@
 #include "ResourceManager.h"
 #include "Image.h"
 #include "Memory.h"
+#include "Configuration.h"
 
 #define TILE(x, y) pTileData[(x) + (ptMapSize.y * (y))]
 
@@ -278,7 +279,7 @@ void MapLayerTiled::Render(const Matrix4f &worldTransform)
 {
 	if (pTileSet)
 	{
-		ePacketFlags flags = ePacketFlags::None;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
+		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
 
 		RendererPacket packet;
 		packet.nMeshType = eMeshType::Triangles;
