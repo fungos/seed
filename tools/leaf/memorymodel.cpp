@@ -4,26 +4,6 @@
 
 // http://qt-project.org/doc/qt-4.8/model-view-programming.html
 
-class AllocationLessThan
-{
-public:
-	inline AllocationLessThan() {}
-	inline bool operator()(const QPair<QVariant, int> &l, const QPair<QVariant, int> &r) const
-	{
-		return l.first < r.first;
-	}
-};
-
-class AllocationGreaterThan
-{
-public:
-	inline AllocationGreaterThan() {}
-	inline bool operator()(const QPair<QVariant, int> &l, const QPair<QVariant, int> &r) const
-	{
-		return r.first < l.first;
-	}
-};
-
 AllocationItem::AllocationItem(AllocationData *data)
 {
 	pData = data;
@@ -67,7 +47,7 @@ QVariant AllocationItem::data(int column, int role) const
 				case 7: return pData->sCall;
 				case 8: return pData->iLine;
 
-				case 0: 
+				case 0:
 				default: return QVariant();
 			}
 		}
@@ -139,6 +119,26 @@ QVariant MemoryModel::data(const QModelIndex &index, int role) const
 	auto item = vItems[row];
 	return item->data(col, role);
 }
+/*
+class AllocationLessThan
+{
+public:
+	inline AllocationLessThan() {}
+	inline bool operator()(const QPair<QVariant, int> &l, const QPair<QVariant, int> &r) const
+	{
+		return l.first < r.first;
+	}
+};
+
+class AllocationGreaterThan
+{
+public:
+	inline AllocationGreaterThan() {}
+	inline bool operator()(const QPair<QVariant, int> &l, const QPair<QVariant, int> &r) const
+	{
+		return r.first < l.first;
+	}
+};
 
 void MemoryModel::sort(int column, Qt::SortOrder order)
 {
@@ -179,7 +179,7 @@ void MemoryModel::sort(int column, Qt::SortOrder order)
 
 	changePersistentIndexList(changedPersistentIndexesFrom, changedPersistentIndexesTo);
 }
-
+*/
 void MemoryModel::alloc(const PacketAllocationInfo *packet)
 {
 	auto data = new AllocationData();

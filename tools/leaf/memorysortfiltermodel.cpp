@@ -9,6 +9,17 @@ MemorySortFilterModel::MemorySortFilterModel(QObject *parent)
 {
 }
 
+bool MemorySortFilterModel::lessThan(const QModelIndex &left, const QModelIndex &right) const
+{
+	QVariant leftData = sourceModel()->data(left);
+	QVariant rightData = sourceModel()->data(right);
+
+	QString leftString = leftData.toString();
+	QString rightString = rightData.toString();
+
+	return QString::localeAwareCompare(leftString, rightString) < 0;
+}
+
 bool MemorySortFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
 	QModelIndex index1 = sourceModel()->index(sourceRow, 1, sourceParent);

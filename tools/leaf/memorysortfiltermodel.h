@@ -23,7 +23,7 @@ class MemorySortFilterModel : public QSortFilterProxyModel
 
 	protected:
 		bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
-		//bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
+		bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
 
 	private:
 		bool frameInRange(quint32 frame) const;
