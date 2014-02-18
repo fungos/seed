@@ -346,7 +346,6 @@ void Shutdown()
 
 	ProfilerReportPrint;
 	ProfilerTerminate;
-	LeakReportPrint();
 
 	Private::bInitialized = false;
 	Private::pApplication = nullptr;

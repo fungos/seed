@@ -68,7 +68,7 @@
 #define SEED_USE_THEORA						0
 #define SEED_USE_ROCKET_GUI					1
 #define SEED_ENABLE_OGL20					1
-#define SEED_USE_LEAF						0
+#define SEED_USE_LEAF						1
 
 /*
 Transformable objects have only one pivot for calculating the object position, scale and rotation.
@@ -125,5 +125,11 @@ Use wide char paths
 #if defined(DEBUG)
 	#define SEED_LOG_RESOURCEMANAGER		1
 #endif // DEBUG
+
+#if SEED_USE_LEAF == 1
+#define LEAF(x)		Seed::Leaf::GetInstance()->x
+#else
+#define LEAF(x)
+#endif
 
 #endif // __CONFIG_H__

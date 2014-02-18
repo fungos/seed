@@ -79,7 +79,6 @@
     <ClCompile Include="..\..\..\source\JobManager.cpp" />
     <ClCompile Include="..\..\..\source\Key.cpp" />
     <ClCompile Include="..\..\..\source\Keyframe.cpp" />
-    <ClCompile Include="..\..\..\source\LeakReport.cpp" />
     <ClCompile Include="..\..\..\source\Movie.cpp" />
     <ClCompile Include="..\..\..\source\Particle.cpp" />
     <ClCompile Include="..\..\..\source\ParticleEmitter.cpp" />
@@ -334,13 +333,13 @@
     <ClCompile Include="..\..\..\source\api\net\Address.cpp">
       <Filter>api\net</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\api\net\Socket.cpp">
-      <Filter>api\net</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\api\theora\Theora.cpp">
       <Filter>api\theora</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\LeafMessage.cpp" />
+    <ClCompile Include="..\..\..\source\api\net\UDPSocket.cpp">
+      <Filter>api\net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Container.h" />
@@ -370,7 +369,6 @@
     <ClInclude Include="..\..\..\include\JobManager.h" />
     <ClInclude Include="..\..\..\include\Key.h" />
     <ClInclude Include="..\..\..\include\Keyframe.h" />
-    <ClInclude Include="..\..\..\include\LeakReport.h" />
     <ClInclude Include="..\..\..\include\LocalDefines.h" />
     <ClInclude Include="..\..\..\include\Log.h" />
     <ClInclude Include="..\..\..\include\Manager.h" />
@@ -703,7 +701,7 @@
     <ClInclude Include="..\..\..\include\api\net\Address.h">
       <Filter>api\net</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\include\api\net\Socket.h">
+    <ClInclude Include="..\..\..\include\api\net\UDPSocket.h">
       <Filter>api\net</Filter>
     </ClInclude>
   </ItemGroup>

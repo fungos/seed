@@ -31,12 +31,13 @@
 #ifndef __SOCKET_H__
 #define __SOCKET_H__
 
-#include "Defines.h"
+#include "../../Defines.h"
 #include "Address.h"
 
 #if defined(_MSC_VER)
 #include <winsock2.h>
 #pragma comment( lib, "wsock32.lib" )
+#undef GetObject
 #elif defined(__APPLE_CC__) || defined(__linux__)
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -49,18 +50,20 @@
 namespace Seed { namespace Net
 {
 
-class SEED_CORE_API Socket
+class SEED_CORE_API UDPSocket
 {
-	SEED_DISABLE_COPY(Socket)
+	SEED_DISABLE_COPY(UDPSocket)
 
 	public:
-		Socket();
-		virtual ~Socket();
-		virtual bool Open(u32 port);
-		virtual void Close();
-		virtual bool IsOpen() const;
-		virtual bool Send(const Address &destination, const void *data, int size);
-		virtual int Receive(Address &sender, void *data, int size);
+		UDPSocket();
+		~UDPSocket();
+
+		bool Open(u32 port);
+		void Close();
+		bool IsOpen() const;
+
+		bool Send(const Address &destination, const void *data, u32 size);
+		u32 Receive(Address &sender, void *data, u32 size);
 
 	private:
 		Address cAddress;

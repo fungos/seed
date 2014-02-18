@@ -30,7 +30,7 @@
 
 #include "LeafMessage.h"
 
-#if defined(SEED_USE_LEAF)
+#if SEED_USE_LEAF == 1
 
 #include "api/net/Address.h"
 
@@ -46,12 +46,21 @@ Leaf::~Leaf()
 {
 }
 
-void Leaf::Initialize()
+bool Leaf::Initialize()
 {
 	iPort = 11115;
 	cAddress = Address(127, 0, 0, 1, iPort);
 
-	//cSocket.Open(iPort);
+	//cSocket.Open(iPort + 1);
+
+	return true;
+}
+
+bool Leaf::Shutdown()
+{
+	//cSocket.Close();
+
+	return true;
 }
 
 void Leaf::Log(const char *msg)
@@ -67,6 +76,16 @@ void Leaf::Error(const char *msg)
 void Leaf::Dbg(const char *msg)
 {
 	Send(ePacket::Debug, strlen(msg) + 1, (const u8 *)msg);
+}
+
+void Leaf::Alloc(const void *data, u32 size)
+{
+	Send(ePacket::Allocation, size, (const u8 *)data);
+}
+
+void Leaf::Free(const void *data, u32 size)
+{
+	Send(ePacket::Free, size, (const u8 *)data);
 }
 
 void Leaf::Send(ePacket packetId, u32 packetSize, const u8 *packetData)

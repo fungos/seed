@@ -1,5 +1,5 @@
 #include "Log.h"
-#include "api/net/Socket.h"
+#include "api/net/UDPSocket.h"
 #include <limits> 
 
 #define TAG "[SocketUDP] "
@@ -7,7 +7,7 @@
 namespace Seed { namespace Net
 {
 
-Socket::Socket()
+UDPSocket::UDPSocket()
 	: cAddress()
 	, iHandle(0)
 	, bIsOpen(false)
@@ -35,7 +35,7 @@ Socket::Socket()
 	}
 }
 
-Socket::~Socket()
+UDPSocket::~UDPSocket()
 {
 	#if defined(_MSC_VER)
 	// Finalize the socket
@@ -43,7 +43,7 @@ Socket::~Socket()
 	#endif
 }
 
-bool Socket::Open(u32 port)
+bool UDPSocket::Open(u32 port)
 {
 	SEED_ASSERT(port < std::numeric_limits<unsigned short>::max());
 
@@ -83,7 +83,7 @@ bool Socket::Open(u32 port)
 	return bIsOpen;
 }
 
-void Socket::Close()
+void UDPSocket::Close()
 {
 	#if defined(_MSC_VER)
 	closesocket(iHandle);
@@ -94,12 +94,12 @@ void Socket::Close()
 	bIsOpen = false;
 }
 
-bool Socket::IsOpen() const
+bool UDPSocket::IsOpen() const
 {
 	return bIsOpen;
 }
 
-bool Socket::Send(const Address &destination, const void *data, int size)
+bool UDPSocket::Send(const Address &destination, const void *data, u32 size)
 {
 	sockaddr_in address;
 	address.sin_family = AF_INET;
@@ -108,10 +108,10 @@ bool Socket::Send(const Address &destination, const void *data, int size)
 
 	int sentBytes = sendto(iHandle, (const char*)data, size, 0, (sockaddr*)&address, sizeof(sockaddr_in));
 
-	return sentBytes == size;
+	return sentBytes == s32(size);
 }
 
-int Socket::Receive(Address &sender, void *data, int size)
+u32 UDPSocket::Receive(Address &sender, void *data, u32 size)
 {
 	#if defined(_MSC_VER)
 	typedef int socklen_t;

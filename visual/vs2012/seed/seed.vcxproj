@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Animation.cpp" />
     <ClCompile Include="..\..\..\source\api\net\Address.cpp" />
-    <ClCompile Include="..\..\..\source\api\net\Socket.cpp" />
+    <ClCompile Include="..\..\..\source\api\net\UDPSocket.cpp" />
     <ClCompile Include="..\..\..\source\api\oal\oalMusic.cpp" />
     <ClCompile Include="..\..\..\source\api\oal\oalSound.cpp" />
     <ClCompile Include="..\..\..\source\api\oal\oalSoundSource.cpp" />
@@ -98,7 +98,6 @@
     <ClCompile Include="..\..\..\source\Key.cpp" />
     <ClCompile Include="..\..\..\source\Keyframe.cpp" />
     <ClCompile Include="..\..\..\source\LeafMessage.cpp" />
-    <ClCompile Include="..\..\..\source\LeakReport.cpp" />
     <ClCompile Include="..\..\..\source\Manager.cpp" />
     <ClCompile Include="..\..\..\source\map\GameMap.cpp" />
     <ClCompile Include="..\..\..\source\map\IMapLayer.cpp" />
@@ -232,7 +231,7 @@
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Animation.h" />
     <ClInclude Include="..\..\..\include\api\net\Address.h" />
-    <ClInclude Include="..\..\..\include\api\net\Socket.h" />
+    <ClInclude Include="..\..\..\include\api\net\UDPSocket.h" />
     <ClInclude Include="..\..\..\include\api\oal\oalMusic.h" />
     <ClInclude Include="..\..\..\include\api\oal\oalSound.h" />
     <ClInclude Include="..\..\..\include\api\oal\oalSoundSource.h" />
@@ -328,7 +327,6 @@
     <ClInclude Include="..\..\..\include\Key.h" />
     <ClInclude Include="..\..\..\include\Keyframe.h" />
     <ClInclude Include="..\..\..\include\LeafMessage.h" />
-    <ClInclude Include="..\..\..\include\LeakReport.h" />
     <ClInclude Include="..\..\..\include\LocalDefines.h" />
     <ClInclude Include="..\..\..\include\Log.h" />
     <ClInclude Include="..\..\..\include\Manager.h" />
@@ -594,10 +592,11 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>_DEBUG;_LIB;BUILD_SDL2;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>SEED_USE_LEAF=1;_DEBUG;_LIB;BUILD_SDL2;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4521;4275</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

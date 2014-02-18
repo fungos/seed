@@ -31,14 +31,9 @@
 #ifndef __LEAF_MESSAGE_H__
 #define __LEAF_MESSAGE_H__
 
-#include "Config.h"
-
-#if defined(SEED_USE_LEAF)
-
 #include "Defines.h"
 #include "Singleton.h"
-#include "api/net/Socket.h"
-#include "api/net/Address.h"
+#include "api/net/UDPSocket.h"
 
 namespace Seed {
 
@@ -52,24 +47,29 @@ class Leaf
 	public:
 		enum class ePacket : u32
 		{
-			Log			= 0x01,
-			Error		= 0x02,
-			Debug		= 0x03
+			Log			= 1,
+			Error		= 2,
+			Debug		= 3,
+
+			Allocation  = 100,
+			Free		= 101
 		};
 
 	public:
-		void Initialize();
+		bool Initialize();
+		bool Shutdown();
 
 		void Log(const char *msg);
 		void Error(const char *msg);
 		void Dbg(const char *msg);
+		void Alloc(const void *data, u32 size);
+		void Free(const void *data, u32 size);
 
 	protected:
 		void Send(ePacket packetId, u32 packetSize, const u8 *packetData);
 
 	private:
-		Socket cSocket;
-
+		UDPSocket cSocket;
 		Address cAddress;
 		u32 iPort;
 
@@ -82,13 +82,5 @@ class Leaf
 };
 
 } // namespace
-
-#define LEAF(x)		Leaf::GetInstance()->x
-
-#else
-
-#define LEAF(x)
-
-#endif // SEED_USE_LEAF
 
 #endif // __LEAF_MESSAGE_H__

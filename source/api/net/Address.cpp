@@ -1,3 +1,4 @@
+#include "Defines.h"
 #include "api/net/Address.h"
 
 namespace Seed { namespace Net {

@@ -42,6 +42,7 @@
 #include "map/TileSet.h"
 #include "interface/IDataObject.h"
 #include "interface/IShader.h"
+#include "LeafMessage.h"
 
 namespace Seed {
 
@@ -50,14 +51,28 @@ namespace Seed {
 #define SEED_CREATE_DEFINITION_NEW(type)			template <>	\
 													type *SeedLogNew(type *obj, const char *stmt, const char *file, int line, const char *func) \
 													{ \
-														pLeakReport->LogNew((IObject *)obj, stmt, file, line, func); \
+														AllocationInfo info; \
+														info.iAddr = (intptr_t)obj; \
+														info.iLine = line; \
+														info.iFrame = 0; \
+														info.bFreed = false; \
+														info.iLifetime = 0; \
+														info.iTime = pTimer->GetMilliseconds(); \
+														strcpy(info.strCall, stmt); \
+														strcpy(info.strFile, file); \
+														strcpy(info.strFunc, func); \
+														LEAF(Alloc(&info, sizeof(AllocationInfo))); \
 														return obj; \
 													}
 
 #define SEED_CREATE_DEFINITION_DELETE(type)			template <>	\
 													void SeedLogDelete(type *ptr) \
 													{ \
-														pLeakReport->LogDelete((IObject *)ptr); \
+														FreeInfo info; \
+														info.iAddr = (intptr_t)ptr; \
+														info.iFrame = 0; \
+														info.iTime = pTimer->GetMilliseconds(); \
+														LEAF(Free(&info, sizeof(FreeInfo))); \
 														delete ptr; \
 													}
 

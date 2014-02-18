@@ -31,38 +31,80 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
-#include "LeakReport.h"
-
 #if defined(DEBUG)
+
+#include "LeafMessage.h"
+#include "Defines.h"
+#include "System.h"
 
 #define sdNew(T)				SeedLogNew((new T), #T, __FILE__, __LINE__, __FUNC__)
 #define sdDelete(ptr)			{ if (ptr) SeedLogDelete(ptr); ptr = nullptr; }
-
-#define sdNewArray(T, L)		pLeakReport->LogNew((new T[L]), #T, __FILE__, __LINE__, __FUNC__)
+#define sdNewArray(T, L)		SeedLogNew((new T[L]), #T, __FILE__, __LINE__, __FUNC__)
 #define sdDeleteArray(ptr)		{ if (ptr) SeedLogDeleteArray(ptr); ptr = nullptr; }
 #define sdAlloc(S)				malloc(S)
 #define sdFree(ptr)				{ if (ptr) free(ptr); ptr = nullptr; }
 
 namespace Seed {
 
+struct AllocationInfo
+{
+	intptr_t      iAddr;
+	u32           iLine;
+	u32           iFrame;
+	Milliseconds  iTime;
+	char          strCall[256];
+	char          strFile[256];
+	char          strFunc[256];
+	bool          bFreed;
+	Milliseconds  iLifetime;
+};
+
+struct FreeInfo
+{
+	intptr_t      iAddr;
+	u32           iFrame;
+	Milliseconds  iTime;
+};
+
 template <class T>
 T *SeedLogNew(T *obj, const char *stmt, const char *file, int line, const char *func)
 {
-	pLeakReport->LogNew(obj, stmt, file, line, func);
+	AllocationInfo info;
+	info.iAddr = (intptr_t)obj;
+	info.iLine = line;
+	info.iFrame = 0;
+	info.bFreed = false;
+	info.iLifetime = 0;
+	info.iTime = pTimer->GetMilliseconds();
+	strcpy(info.strCall, stmt);
+	strcpy(info.strFile, file);
+	strcpy(info.strFunc, func);
+
+	LEAF(Alloc(&info, sizeof(AllocationInfo)));
+
 	return obj;
 }
 
 template <class T>
 void SeedLogDelete(T *ptr)
 {
-	pLeakReport->LogDelete((void *)ptr);
+	FreeInfo info;
+	info.iAddr = (intptr_t)ptr;
+	info.iFrame = 0;
+	info.iTime = pTimer->GetMilliseconds();
+	LEAF(Free(&info, sizeof(FreeInfo)));
+
 	delete ptr;
 }
 
 template <class T>
 void SeedLogDeleteArray(T *ptr)
 {
-	pLeakReport->LogDelete((void *)ptr);
+	FreeInfo info;
+	info.iAddr = (intptr_t)ptr;
+	info.iFrame = 0;
+	LEAF(Free(&info, sizeof(FreeInfo)));
+
 	delete [] ptr;
 }
 

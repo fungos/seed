@@ -59,8 +59,6 @@ bool ParticleSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pSystem->Shutdown();
 	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == eKey::F2)
-		LeakReportPrint();
 	else if (k == eKey::F3)
 		pResourceManager->GarbageCollect();
 	else if (k == eKey::Left)

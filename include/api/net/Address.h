@@ -31,8 +31,6 @@
 #ifndef __ADDRESS_H__
 #define __ADDRESS_H__
 
-#include "Defines.h"
-
 namespace Seed { namespace Net
 {
 
@@ -43,12 +41,14 @@ class SEED_CORE_API Address
 		Address(u32 a, u32 b, u32 c, u32 d, u32 port);
 		Address(u32 address, u32 port);
 		Address(Address &) = default;
+
 		u32 GetAddress() const;
 		u32 GetA() const;
 		u32 GetB() const;
 		u32 GetC() const;
 		u32 GetD() const;
 		u32 GetPort() const;
+
 		bool operator==(const Address &other) const;
 		bool operator!=(const Address &other) const;
 
