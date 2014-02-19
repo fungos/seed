@@ -21,6 +21,8 @@ class MemorySortFilterModel : public QSortFilterProxyModel
 		quint32 filterMaximumAddr() const { return iMaxAddr; }
 		void setFilterMaximumAddr(quint32 addr);
 
+		void hideFreed(bool hide);
+
 	protected:
 		bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const override;
 		bool lessThan(const QModelIndex &left, const QModelIndex &right) const override;
@@ -34,6 +36,8 @@ class MemorySortFilterModel : public QSortFilterProxyModel
 
 		quint32 iMinAddr;
 		quint32 iMaxAddr;
+
+		bool bShowFreed;
 };
 
 #endif // MEMORYSORTFILTERMODEL_H

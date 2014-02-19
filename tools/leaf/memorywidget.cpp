@@ -6,8 +6,10 @@
 #include <QGroupBox>
 #include <QTreeView>
 #include <QDebug>
+#include <QCheckBox>
 
 #include "memorysortfiltermodel.h"
+#include "memorymodel.h"
 #include "filterwidget.h"
 
 MemoryWidget::MemoryWidget(QWidget *parent)
@@ -37,12 +39,24 @@ MemoryWidget::MemoryWidget(QWidget *parent)
 	toAddrLabel = new QLabel(tr("To:"));
 	toAddrLabel->setBuddy(toAddr);
 
-	connect(filterWidget, SIGNAL(filterChanged()),      this, SLOT(textFilterChanged()));
-	connect(filterWidget, SIGNAL(textChanged(QString)), this, SLOT(textFilterChanged()));
-	connect(fromFrame,    SIGNAL(textChanged(QString)), this, SLOT(frameFilterChanged()));
-	connect(toFrame,      SIGNAL(textChanged(QString)), this, SLOT(frameFilterChanged()));
-	connect(fromAddr,     SIGNAL(textChanged(QString)), this, SLOT(addrFilterChanged()));
-	connect(toAddr,       SIGNAL(textChanged(QString)), this, SLOT(addrFilterChanged()));
+	showHexAddrCheck = new QCheckBox;
+	showHexAddrCheck->setChecked(true);
+	showHexAddrLabel = new QLabel(tr("Hex Addresses"));
+	showHexAddrLabel->setBuddy(showHexAddrCheck);
+
+	showFreedCheck = new QCheckBox;
+	showFreedCheck->setChecked(false);
+	showFreedLabel = new QLabel(tr("Show Freed"));
+	showFreedLabel->setBuddy(showFreedCheck);
+
+	connect(filterWidget,     SIGNAL(filterChanged()),      this, SLOT(textFilterChanged()));
+	connect(filterWidget,     SIGNAL(textChanged(QString)), this, SLOT(textFilterChanged()));
+	connect(fromFrame,        SIGNAL(textChanged(QString)), this, SLOT(frameFilterChanged()));
+	connect(toFrame,          SIGNAL(textChanged(QString)), this, SLOT(frameFilterChanged()));
+	connect(fromAddr,         SIGNAL(textChanged(QString)), this, SLOT(addrFilterChanged()));
+	connect(toAddr,           SIGNAL(textChanged(QString)), this, SLOT(addrFilterChanged()));
+	connect(showFreedCheck,   SIGNAL(stateChanged(int)),    this, SLOT(showFreedChanged(int)));
+	connect(showHexAddrCheck, SIGNAL(stateChanged(int)),    this, SLOT(showHexAddrChanged(int)));
 
 	pProxyView = new QTreeView;
 	pProxyView->setSortingEnabled(true);
@@ -63,6 +77,10 @@ MemoryWidget::MemoryWidget(QWidget *parent)
 	proxyLayout->addWidget(fromAddr, 4, 1);
 	proxyLayout->addWidget(toAddrLabel, 4, 2);
 	proxyLayout->addWidget(toAddr, 4, 3);
+	proxyLayout->addWidget(showFreedCheck, 5, 0);
+	proxyLayout->addWidget(showFreedLabel, 5, 1);
+	proxyLayout->addWidget(showHexAddrCheck, 5, 2);
+	proxyLayout->addWidget(showHexAddrLabel, 5, 3);
 
 	proxyGroupBox = new QGroupBox(tr("Allocations"));
 	proxyGroupBox->setLayout(proxyLayout);
@@ -72,13 +90,14 @@ MemoryWidget::MemoryWidget(QWidget *parent)
 	setLayout(mainLayout);
 }
 
-void MemoryWidget::setModel(QAbstractItemModel *model)
+void MemoryWidget::setModel(MemoryModel *model)
 {
+	pModel = model;
 	pProxyModel->setSourceModel(model);
-	pProxyView->setModel(model);
+	pProxyView->setModel(pProxyModel);
 
-	pProxyView->setColumnHidden(0, true);
-	pProxyView->setColumnHidden(8, true);
+	pProxyView->setColumnHidden(7, true); // line
+	pProxyView->setColumnHidden(8, true); // freed
 }
 
 void MemoryWidget::frameFilterChanged()
@@ -99,3 +118,12 @@ void MemoryWidget::textFilterChanged()
 	pProxyModel->setFilterRegExp(regExp);
 }
 
+void MemoryWidget::showFreedChanged(int state)
+{
+	pProxyModel->hideFreed(state == Qt::Unchecked);
+}
+
+void MemoryWidget::showHexAddrChanged(int state)
+{
+	pModel->setHexadecimalAddress(state == Qt::Checked);
+}

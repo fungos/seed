@@ -54,6 +54,7 @@ class MemoryModel : public QAbstractTableModel
 
 		void alloc(const PacketAllocationInfo *data);
 		void free(const PacketFreeInfo *msg);
+		void setHexadecimalAddress(bool hex);
 
 	signals:
 
@@ -62,6 +63,7 @@ class MemoryModel : public QAbstractTableModel
 	private:
 		QStringList vHeader;
 		QList<AllocationItem *> vItems;
+		bool bHexAddress;
 };
 
 #endif // MEMORYMODEL_H

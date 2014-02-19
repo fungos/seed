@@ -6,6 +6,9 @@ MemorySortFilterModel::MemorySortFilterModel(QObject *parent)
 	: QSortFilterProxyModel(parent)
 	, iMinFrame(0)
 	, iMaxFrame(0)
+	, iMinAddr(0)
+	, iMaxAddr(0)
+	, bShowFreed(false)
 {
 }
 
@@ -13,6 +16,10 @@ bool MemorySortFilterModel::lessThan(const QModelIndex &left, const QModelIndex 
 {
 	QVariant leftData = sourceModel()->data(left);
 	QVariant rightData = sourceModel()->data(right);
+
+	auto t = leftData.type();
+	if (t == QVariant::ULongLong)
+		return leftData.toULongLong() < rightData.toULongLong();
 
 	QString leftString = leftData.toString();
 	QString rightString = rightData.toString();
@@ -22,6 +29,7 @@ bool MemorySortFilterModel::lessThan(const QModelIndex &left, const QModelIndex 
 
 bool MemorySortFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const
 {
+	QModelIndex index0 = sourceModel()->index(sourceRow, 0, sourceParent);
 	QModelIndex index1 = sourceModel()->index(sourceRow, 1, sourceParent);
 	QModelIndex index2 = sourceModel()->index(sourceRow, 2, sourceParent);
 	QModelIndex index3 = sourceModel()->index(sourceRow, 3, sourceParent);
@@ -29,40 +37,25 @@ bool MemorySortFilterModel::filterAcceptsRow(int sourceRow, const QModelIndex &s
 	QModelIndex index5 = sourceModel()->index(sourceRow, 5, sourceParent);
 	QModelIndex index6 = sourceModel()->index(sourceRow, 6, sourceParent);
 	QModelIndex index7 = sourceModel()->index(sourceRow, 7, sourceParent);
-	QModelIndex index8 = sourceModel()->index(sourceRow, 8, sourceParent);
-/*
-	auto s1 = sourceModel()->data(index1).toString();
-	auto s2 = sourceModel()->data(index2).toString();
-	auto s3 = sourceModel()->data(index3).toString();
-	auto s4 = sourceModel()->data(index4).toString();
-	auto s5 = sourceModel()->data(index5).toString();
-	auto s6 = sourceModel()->data(index6).toString();
-	auto s7 = sourceModel()->data(index7).toString();
-	auto s8 = sourceModel()->data(index8).toString();
+	QModelIndex index8 = sourceModel()->index(sourceRow, 7, sourceParent);
 
-	auto r1 = s1.contains(filterRegExp());
-	auto r2 = s2.contains(filterRegExp());
-	auto r3 = s3.contains(filterRegExp());
-	auto r4 = s4.contains(filterRegExp());
-	auto r5 = s5.contains(filterRegExp());
-	auto r6 = s6.contains(filterRegExp());
-	auto r7 = s7.contains(filterRegExp());
-	auto r8 = s8.contains(filterRegExp());
-*/
 	auto str = (
+				sourceModel()->data(index0).toString().contains(filterRegExp()) ||
 				sourceModel()->data(index1).toString().contains(filterRegExp()) ||
 				sourceModel()->data(index2).toString().contains(filterRegExp()) ||
 				sourceModel()->data(index3).toString().contains(filterRegExp()) ||
 				sourceModel()->data(index4).toString().contains(filterRegExp()) ||
 				sourceModel()->data(index5).toString().contains(filterRegExp()) ||
 				sourceModel()->data(index6).toString().contains(filterRegExp()) ||
-				sourceModel()->data(index7).toString().contains(filterRegExp()) ||
-				sourceModel()->data(index8).toString().contains(filterRegExp())
+				sourceModel()->data(index7).toString().contains(filterRegExp())
 			);
-	auto frame = frameInRange(sourceModel()->data(index3).toUInt());
-	auto addr = addrInRange(sourceModel()->data(index4).toUInt());
 
-	return str && frame && addr;
+	auto frame = frameInRange(sourceModel()->data(index2).toUInt());
+	auto addr = addrInRange(sourceModel()->data(index3).toUInt());
+	auto v = sourceModel()->data(index8).toBool();
+	auto hide = (!bShowFreed && v) || bShowFreed;
+
+	return str && frame && addr && hide;
 }
 
 void MemorySortFilterModel::setFilterMinimumFrame(quint32 frame)
@@ -115,4 +108,9 @@ bool MemorySortFilterModel::addrInRange(quint32 addr) const
 		return addr > iMinAddr;
 
 	return addr < iMaxAddr;
+}
+
+void MemorySortFilterModel::hideFreed(bool hide)
+{
+	bShowFreed = hide;
 }

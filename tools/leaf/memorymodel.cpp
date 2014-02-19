@@ -38,16 +38,15 @@ QVariant AllocationItem::data(int column, int role) const
 		{
 			switch (column)
 			{
-				case 1: return pData->iTime;
-				case 2: return pData->iLifetime;
-				case 3: return pData->iFrame;
-				case 4: return pData->iAddr;
-				case 5: return QString("%1:%2").arg(pData->sFile).arg(pData->iLine);
-				case 6: return pData->sFunction;
-				case 7: return pData->sCall;
-				case 8: return pData->iLine;
-
-				case 0:
+				case 0: return pData->iTime;
+				case 1: return pData->iLifetime;
+				case 2: return pData->iFrame;
+				case 3: return pData->iAddr;
+				case 4: return QString("%1:%2").arg(pData->sFile).arg(pData->iLine);
+				case 5: return pData->sFunction;
+				case 6: return pData->sCall;
+				case 7: return pData->iLine;
+				case 8: return pData->bFreed;
 				default: return QVariant();
 			}
 		}
@@ -58,8 +57,8 @@ QVariant AllocationItem::data(int column, int role) const
 
 MemoryModel::MemoryModel(QObject *parent)
 	: QAbstractTableModel(parent)
+	, bHexAddress(true)
 {
-	vHeader << tr("id");
 	vHeader << tr("Time");
 	vHeader << tr("Lifetime");
 	vHeader << tr("Frame");
@@ -68,6 +67,7 @@ MemoryModel::MemoryModel(QObject *parent)
 	vHeader << tr("Function");
 	vHeader << tr("Call");
 	vHeader << tr("Line");
+	vHeader << tr("Free");
 }
 
 MemoryModel::~MemoryModel()
@@ -85,11 +85,9 @@ int MemoryModel::rowCount(const QModelIndex &) const
 	return vItems.length();
 }
 
-bool MemoryModel::insertRows(int, int, const QModelIndex &parent)
+bool MemoryModel::insertRows(int row, int count, const QModelIndex &parent)
 {
-	auto l = vItems.length();
-	beginInsertRows(parent, l, l);
-
+	beginInsertRows(parent, row, row + count - 1);
 	endInsertRows();
 	return true;
 }
@@ -117,69 +115,26 @@ QVariant MemoryModel::data(const QModelIndex &index, int role) const
 		return QVariant();
 
 	auto item = vItems[row];
-	return item->data(col, role);
+	auto variant = item->data(col, role);
+
+	if (col == 3 && bHexAddress && role == Qt::DisplayRole) // Addresss
+	{
+		auto hex = QString::number(variant.toULongLong(), 16);
+		QString pad("0x0000000000000000");
+		pad.chop(hex.length());
+		return pad + hex;
+	}
+
+	return variant;
 }
-/*
-class AllocationLessThan
+
+void MemoryModel::setHexadecimalAddress(bool hex)
 {
-public:
-	inline AllocationLessThan() {}
-	inline bool operator()(const QPair<QVariant, int> &l, const QPair<QVariant, int> &r) const
-	{
-		return l.first < r.first;
-	}
-};
-
-class AllocationGreaterThan
-{
-public:
-	inline AllocationGreaterThan() {}
-	inline bool operator()(const QPair<QVariant, int> &l, const QPair<QVariant, int> &r) const
-	{
-		return r.first < l.first;
-	}
-};
-
-void MemoryModel::sort(int column, Qt::SortOrder order)
-{
-	if (column >= columnCount())
-		return;
-
-	QVector<QPair<QVariant, int> > sortable;
-	sortable.reserve(vItems.length());
-	for (int row = 0; row < vItems.length(); ++row)
-	{
-		QVariant value = vItems[row]->data(column, Qt::DisplayRole);
-		sortable.append(QPair<QVariant, int>(value, row));
-	}
-
-	if (order == Qt::AscendingOrder)
-	{
-		AllocationLessThan lt;
-		qStableSort(sortable.begin(), sortable.end(), lt);
-	}
-	else
-	{
-		AllocationGreaterThan gt;
-		qStableSort(sortable.begin(), sortable.end(), gt);
-	}
-
-	QModelIndexList changedPersistentIndexesFrom, changedPersistentIndexesTo;
-	for (int i = 0; i < vItems.length(); ++i)
-	{
-		int r = sortable.at(i).second;
-		for (int c = 0; c < columnCount(); ++c)
-		{
-			QPersistentModelIndex from(createIndex(r, c));
-			QPersistentModelIndex to(createIndex(i, c));
-			changedPersistentIndexesFrom.append(from);
-			changedPersistentIndexesTo.append(to);
-		}
-	}
-
-	changePersistentIndexList(changedPersistentIndexesFrom, changedPersistentIndexesTo);
+	emit layoutAboutToBeChanged();
+	bHexAddress = hex;
+	emit layoutChanged();
 }
-*/
+
 void MemoryModel::alloc(const PacketAllocationInfo *packet)
 {
 	auto data = new AllocationData();
@@ -196,7 +151,12 @@ void MemoryModel::alloc(const PacketAllocationInfo *packet)
 	auto item = new AllocationItem(data);
 	vItems.push_back(item);
 
-	insertRow(0);
+	insertRow(vItems.length());
+
+	// hack: I could not get it right to get the data "refreshed" in the view when inserted on model
+	// so I emit two signals to do a full layout refresh :(
+	emit layoutAboutToBeChanged();
+	emit layoutChanged();
 }
 
 void MemoryModel::free(const PacketFreeInfo *msg)
