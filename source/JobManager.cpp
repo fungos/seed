@@ -57,10 +57,14 @@ bool JobManager::Reset()
 		vQueue.pop();
 
 		job->Abort();
+		sdDelete(job);
 	}
 
 	for (auto job: vRunning)
+	{
 		job->Abort();
+		sdDelete(job);
+	}
 
 	JobVector().swap(vRunning);
 

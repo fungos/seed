@@ -34,6 +34,7 @@
 
 #include "Memory.h"
 #include "api/ogl/oglHeaders.h"
+#include "Log.h"
 
 #define TAG "[Shader] "
 
@@ -65,7 +66,9 @@ bool OGL20Shader::Load(const String &filename, ResourceManager *res)
 		bLoaded = true;
 	}
 	else
+	{
 		Log(TAG "ERROR: Could not find/load shader %s.", filename.c_str());
+	}
 
 	return bLoaded;
 }

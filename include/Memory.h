@@ -31,17 +31,44 @@
 #ifndef MEMORY_H
 #define MEMORY_H
 
+#include <new>
+
+#if !defined(__FUNC__)
+	#if defined(__GNUC__)
+		#define __FUNC__	__PRETTY_FUNCTION__
+	#else
+		#define __FUNC__	__FUNCSIG__
+	#endif
+#endif
+
+enum class eAllocationTag
+{
+	DoNotTrack,
+	Unknown, // C static initializers, STL operators, others.
+	User = 1000,
+
+};
+
 #if defined(DEBUG)
+
+void *operator new(std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__) throw();
+void *operator new(std::size_t size) throw();
+void operator delete(void *p) throw();
+void operator delete(void *p, eAllocationTag, const char *, const char *, const char *, int) throw();
+void *operator new[](std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__) throw();
+void *operator new[](std::size_t size) throw();
+void operator delete[](void *p) throw();
+void operator delete[](void *p, eAllocationTag, const char *, const char *, const char *, int) throw();
 
 #include "LeafMessage.h"
 #include "Defines.h"
 #include "System.h"
 
-#define sdNew(T)				SeedLogNew((new T), #T, __FILE__, __LINE__, __FUNC__)
-#define sdDelete(ptr)			{ if (ptr) SeedLogDelete(ptr); ptr = nullptr; }
-#define sdNewArray(T, L)		SeedLogNew((new T[L]), #T, __FILE__, __LINE__, __FUNC__)
-#define sdDeleteArray(ptr)		{ if (ptr) SeedLogDeleteArray(ptr); ptr = nullptr; }
-#define sdAlloc(S)				malloc(S)
+#define sdNew(T)				new (eAllocationTag::User, #T, __FUNC__, __FILE__, __LINE__) T
+#define sdDelete(ptr)			{ if (ptr) delete ptr; ptr = nullptr; }
+#define sdNewArray(T, L)		new (eAllocationTag::User, #T "[" #L "]", __FUNC__, __FILE__, __LINE__) T[(L)]
+#define sdDeleteArray(ptr)		{ if (ptr) delete[] ptr; ptr = nullptr; }
+#define sdAlloc(S)				Allocator::Alloc(S, eAllocationTag::User, #S, __FUNC__, __FILE__, __LINE__)
 #define sdFree(ptr)				{ if (ptr) free(ptr); ptr = nullptr; }
 
 namespace Seed {
@@ -66,79 +93,53 @@ struct FreeInfo
 	Milliseconds  iTime;
 };
 
-template <class T>
-T *SeedLogNew(T *obj, const char *stmt, const char *file, int line, const char *func)
+class Allocator
 {
-	AllocationInfo info;
-	info.iAddr = (intptr_t)obj;
-	info.iLine = line;
-	info.iFrame = 0;
-	info.bFreed = false;
-	info.iLifetime = 0;
-	info.iTime = pTimer->GetMilliseconds();
-	strcpy(info.strCall, stmt);
-	strcpy(info.strFile, file);
-	strcpy(info.strFunc, func);
+	public:
+		static void *Alloc(size_t size, eAllocationTag tag = eAllocationTag::Unknown, const char *stmt = "", const char *func = "", const char *file = __FILE__, int line = __LINE__)
+		{
+			UNUSED(tag)
+			UNUSED(stmt)
+			UNUSED(file)
+			UNUSED(line)
+			UNUSED(func)
+			SEED_ASSERT_FMT(size, "allocing 0 bytes at %s:%d: %s.", file, line, func);
 
-	LEAF(Alloc(&info, sizeof(AllocationInfo)));
+			auto addr = malloc(size);
 
-	return obj;
-}
+			if (tag != eAllocationTag::DoNotTrack)
+			{
+				AllocationInfo info;
+				info.iAddr = (intptr_t)addr;
+				info.iLine = line;
+				info.iFrame = 0;
+				info.bFreed = false;
+				info.iLifetime = 0;
+				info.iTime = pTimer->GetMilliseconds();
+				strcpy(info.strCall, stmt);
+				strcpy(info.strFile, file);
+				strcpy(info.strFunc, func);
 
-template <class T>
-void SeedLogDelete(T *ptr)
-{
-	FreeInfo info;
-	info.iAddr = (intptr_t)ptr;
-	info.iFrame = 0;
-	info.iTime = pTimer->GetMilliseconds();
-	LEAF(Free(&info, sizeof(FreeInfo)));
+				LEAF(Alloc(&info, sizeof(AllocationInfo)));
+			}
 
-	delete ptr;
-}
+			return addr;
+		}
 
-template <class T>
-void SeedLogDeleteArray(T *ptr)
-{
-	FreeInfo info;
-	info.iAddr = (intptr_t)ptr;
-	info.iFrame = 0;
-	LEAF(Free(&info, sizeof(FreeInfo)));
+		static void Free(void *p, bool track = true)
+		{
+			SEED_ASSERT_MSG(p, "freeing null pointer.");
 
-	delete [] ptr;
-}
-
-#define SEED_CREATE_DECLARATION_NEW(type)			class type;							\
-													template <>							\
-													type *SeedLogNew(type *obj, const char *stmt, const char *file, int line, const char *func);
-
-#define SEED_CREATE_DECLARATION_DELETE(type)		class type;							\
-													template <>							\
-													void SeedLogDelete(type *ptr);
-
-
-#define SEED_CREATE_DECLARATION(type)				SEED_CREATE_DECLARATION_NEW(type) \
-													SEED_CREATE_DECLARATION_DELETE(type)
-
-SEED_CREATE_DECLARATION(Sprite)
-SEED_CREATE_DECLARATION(Image)
-SEED_CREATE_DECLARATION(ParticleEmitter)
-SEED_CREATE_DECLARATION(Camera)
-SEED_CREATE_DECLARATION(Frame)
-SEED_CREATE_DECLARATION(IDataObject)
-SEED_CREATE_DECLARATION(ISceneObject)
-SEED_CREATE_DECLARATION(MetadataObject)
-SEED_CREATE_DECLARATION(MapLayerMetadata)
-SEED_CREATE_DECLARATION(MapLayerMosaic)
-SEED_CREATE_DECLARATION(MapLayerTiled)
-SEED_CREATE_DECLARATION(TileSet)
-SEED_CREATE_DECLARATION(GameMap)
-SEED_CREATE_DECLARATION(IShader)
-
-#undef SEED_CREATE_DECLARATION_DELETE
-#undef SEED_CREATE_DECLARATION_NEW
-#undef SEED_CREATE_DECLARATION
-
+			if (track)
+			{
+				FreeInfo info;
+				info.iAddr = (intptr_t)p;
+				info.iFrame = 0;
+				LEAF(Free(&info, sizeof(FreeInfo)));
+			}
+			free(p);
+		}
+};
 
 }
 
@@ -151,6 +152,61 @@ SEED_CREATE_DECLARATION(IShader)
 #define sdAlloc(S)				malloc(S)
 #define sdFree(ptr)				{ free(ptr); ptr = nullptr;}
 
+class Allocator
+{
+	public:
+		static void *Alloc(size_t size, eAllocationTag, const char *, const char *, const char *, int)
+		{
+			return malloc(size);
+		}
+
+		static void Free(void *p, bool)
+		{
+			free(p);
+		}
+};
+
 #endif // DEBUG
+
+#define SEED_DECLARE_NEW_AND_DELETE_OPERATORS													\
+		inline void *operator new(size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__) \
+		{																						\
+			return Allocator::Alloc(size, tag, stmt, func, file, line);							\
+		}																						\
+																								\
+		inline void operator delete(void *p) 													\
+		{																						\
+			Allocator::Free(p);																	\
+		}																						\
+																								\
+		inline void *operator new[](std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__) \
+		{																						\
+			return Allocator::Alloc(size, tag, stmt, func, file, line);							\
+		}																						\
+																								\
+		inline void operator delete[](void* p)													\
+		{																						\
+			Allocator::Free(p);																	\
+		}																						\
+																								\
+		inline void *operator new(std::size_t, void *place, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__) \
+		{																						\
+			return place;																		\
+		}																						\
+																								\
+		inline void operator delete(void *, void *)												\
+		{																						\
+																								\
+		}																						\
+																								\
+		inline void* operator new[](std::size_t, void *place, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__) \
+		{																						\
+			return place;																		\
+		}																						\
+																								\
+		inline void operator delete[](void *, void *)											\
+		{																						\
+																								\
+		}
 
 #endif // MEMORY_H

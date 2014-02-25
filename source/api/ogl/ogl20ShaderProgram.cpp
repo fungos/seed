@@ -35,6 +35,7 @@
 #include "api/ogl/oglHeaders.h"
 #include "Shader.h"
 #include "Memory.h"
+#include "Log.h"
 
 #define TAG "[Shader] "
 
