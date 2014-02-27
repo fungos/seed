@@ -42,11 +42,12 @@ QVariant AllocationItem::data(int column, int role) const
 				case 1: return pData->iLifetime;
 				case 2: return pData->iFrame;
 				case 3: return pData->iAddr;
-				case 4: return QString("%1:%2").arg(pData->sFile).arg(pData->iLine);
-				case 5: return pData->sFunction;
-				case 6: return pData->sCall;
-				case 7: return pData->iLine;
-				case 8: return pData->bFreed;
+				case 4: return pData->iSize;
+				case 5: return QString("%1:%2").arg(pData->sFile).arg(pData->iLine);
+				case 6: return pData->sFunction;
+				case 7: return pData->sCall;
+				case 8: return pData->iLine;
+				case 9: return pData->bFreed;
 				default: return QVariant();
 			}
 		}
@@ -57,12 +58,17 @@ QVariant AllocationItem::data(int column, int role) const
 
 MemoryModel::MemoryModel(QObject *parent)
 	: QAbstractTableModel(parent)
+	, mMutex()
+	, iTotalSize(0)
+	, iMaxTotalSize(0)
+	, iMaxUniqueSize(0)
 	, bHexAddress(true)
 {
 	vHeader << tr("Time");
 	vHeader << tr("Lifetime");
 	vHeader << tr("Frame");
 	vHeader << tr("Address");
+	vHeader << tr("Size");
 	vHeader << tr("File");
 	vHeader << tr("Function");
 	vHeader << tr("Call");
@@ -73,6 +79,7 @@ MemoryModel::MemoryModel(QObject *parent)
 MemoryModel::~MemoryModel()
 {
 	qDeleteAll(vItems);
+	vItems.clear();
 }
 
 int MemoryModel::columnCount(const QModelIndex &) const
@@ -117,7 +124,7 @@ QVariant MemoryModel::data(const QModelIndex &index, int role) const
 	auto item = vItems[row];
 	auto variant = item->data(col, role);
 
-	if (col == 3 && bHexAddress && role == Qt::DisplayRole) // Addresss
+	if (col == 3 && bHexAddress && role == Qt::DisplayRole) // Addresss - FIXME: hard coded column number
 	{
 		auto hex = QString::number(variant.toULongLong(), 16);
 		QString pad("0x0000000000000000");
@@ -135,11 +142,35 @@ void MemoryModel::setHexadecimalAddress(bool hex)
 	emit layoutChanged();
 }
 
+void MemoryModel::clear()
+{
+	QMutexLocker lock(&mMutex);
+	if (!vItems.length())
+		return;
+
+	removeRows(0, vItems.length());
+	qDeleteAll(vItems);
+	vItems.clear();
+
+	iTotalSize = 0;
+	iMaxTotalSize = 0;
+	iMaxUniqueSize = 0;
+
+	this->update();
+}
+
+void MemoryModel::update()
+{
+	emit layoutAboutToBeChanged();
+	emit layoutChanged();
+}
+
 void MemoryModel::alloc(const PacketAllocationInfo *packet)
 {
 	auto data = new AllocationData();
 	data->iFrame = packet->iFrame;
 	data->iAddr = packet->iAddr;
+	data->iSize = packet->iSize;
 	data->sCall = QString(packet->strCall);
 	data->sFile = QString(packet->strFile);
 	data->sFunction = QString(packet->strFunc);
@@ -149,9 +180,23 @@ void MemoryModel::alloc(const PacketAllocationInfo *packet)
 	data->bFreed = false;
 
 	auto item = new AllocationItem(data);
-	vItems.push_back(item);
 
-	insertRow(vItems.length());
+	{
+		QMutexLocker lock(&mMutex);
+		vItems.push_back(item);
+
+		insertRow(vItems.length());
+
+		iTotalSize += data->iSize;
+		
+		if (iTotalSize > iMaxTotalSize)
+			iMaxTotalSize = iTotalSize;
+
+		if (data->iSize > iMaxUniqueSize)
+			iMaxUniqueSize = data->iSize;
+
+		emit onTotalsChanged(iTotalSize, iMaxTotalSize, iMaxUniqueSize);
+	}
 
 	// hack: I could not get it right to get the data "refreshed" in the view when inserted on model
 	// so I emit two signals to do a full layout refresh :(
@@ -166,8 +211,18 @@ void MemoryModel::free(const PacketFreeInfo *msg)
 		auto data = obj->getData();
 		if (data->iAddr == msg->iAddr && !data->bFreed)
 		{
+			emit layoutAboutToBeChanged(); // FIXME: problems? performance?
 			data->bFreed = true;
 			data->iLifetime = msg->iTime - data->iLifetime;
+			emit layoutChanged();
+
+			{
+				QMutexLocker lock(&mMutex);
+				iTotalSize -= data->iSize;
+				emit onTotalsChanged(iTotalSize, iMaxTotalSize, iMaxUniqueSize);
+			}
+
+			return;
 		}
 	}
 }

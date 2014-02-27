@@ -6,15 +6,16 @@ class QUdpSocket;
 
 struct PacketAllocationInfo
 {
-	quint32       iAddr; // intptr_t, seed 32bits <> qt 64bits...
+	quint64       iAddr; // intptr_t
+	quint64       iSize;
+	quint64       iTime;
+	quint64       iLifetime;
 	quint32       iLine;
 	quint32       iFrame;
-	quint64       iTime;
 	char          strCall[256];
 	char          strFile[256];
 	char          strFunc[256];
 	bool          bFreed;
-	quint64       iLifetime;
 };
 Q_DECLARE_METATYPE(PacketAllocationInfo *)
 
@@ -34,11 +35,13 @@ class MessageListener : public QObject
 
 	signals:
 		void onLog(const QString &msg);
-		void onLeafPrintLog(const QString &msg);
-		void onLeafPrintError(const QString &msg);
-		void onLeafPrintDebug(const QString &msg);
+		void onPrintLog(const QString &msg);
+		void onPrintError(const QString &msg);
+		void onPrintDebug(const QString &msg);
 		void onAllocation(const PacketAllocationInfo *msg);
 		void onFree(const PacketFreeInfo *msg);
+		void onStart();
+		void onStop();
 
 	public slots:
 		void processMessage();

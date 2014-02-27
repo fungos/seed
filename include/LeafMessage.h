@@ -33,6 +33,7 @@
 
 #include "Defines.h"
 #include "Singleton.h"
+#include "Thread.h"
 #include "api/net/UDPSocket.h"
 
 namespace Seed {
@@ -51,6 +52,9 @@ class Leaf
 			Error		= 2,
 			Debug		= 3,
 
+			Start		= 4,
+			Stop		= 5,
+
 			Allocation  = 100,
 			Free		= 101
 		};
@@ -59,19 +63,23 @@ class Leaf
 		bool Initialize();
 		bool Shutdown();
 
-		void Log(const char *msg);
-		void Error(const char *msg);
-		void Dbg(const char *msg);
-		void Alloc(const void *data, u32 size);
-		void Free(const void *data, u32 size);
+		void Log(const char *msg) const;
+		void Error(const char *msg) const;
+		void Dbg(const char *msg) const;
+		void Alloc(const void *data, u32 size) const;
+		void Free(const void *data, u32 size) const;
+		void Start() const;
+		void Stop() const;
 
 	protected:
-		void Send(ePacket packetId, u32 packetSize, const u8 *packetData);
+		void Send(ePacket packetId, u32 packetSize, const u8 *packetData) const;
 
 	private:
-		UDPSocket cSocket;
+		mutable Mutex mMutex;
+		mutable UDPSocket cSocket;
 		Address cAddress;
 		u32 iPort;
+		bool bEnabled = false;
 
 		struct Packet
 		{

@@ -186,6 +186,7 @@ void GetVersion(u32 *major, u32 *middle, u32 *minor)
 bool Initialize()
 {
 	LEAF(Initialize());
+	LEAF(Start());
 
 	if (!Private::pApplication)
 	{
@@ -346,6 +347,9 @@ void Shutdown()
 
 	ProfilerReportPrint;
 	ProfilerTerminate;
+
+	LEAF(Stop());
+	LEAF(Shutdown());
 
 	Private::bInitialized = false;
 	Private::pApplication = nullptr;

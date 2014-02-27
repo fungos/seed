@@ -7,6 +7,7 @@
 #include <QTreeView>
 #include <QDebug>
 #include <QCheckBox>
+#include <QStatusBar>
 
 #include "memorysortfiltermodel.h"
 #include "memorymodel.h"
@@ -14,6 +15,9 @@
 
 MemoryWidget::MemoryWidget(QWidget *parent)
 	: QWidget(parent)
+	, iTotal(0)
+	, iMaxTotal(0)
+	, iMaxUnique(0)
 {
 	pProxyModel = new MemorySortFilterModel(this);
 
@@ -85,9 +89,40 @@ MemoryWidget::MemoryWidget(QWidget *parent)
 	proxyGroupBox = new QGroupBox(tr("Allocations"));
 	proxyGroupBox->setLayout(proxyLayout);
 
+	totalMemLabel = new QLabel(tr("Total: %1").arg(iTotal));
+	maxTotalMemLabel = new QLabel(tr("Maximum: %1").arg(iMaxTotal));
+	maxUniqueMemLabel = new QLabel(tr("Biggest: %1").arg(iMaxUnique));
+
 	QVBoxLayout *mainLayout = new QVBoxLayout;
 	mainLayout->addWidget(proxyGroupBox);
 	setLayout(mainLayout);
+}
+
+QStatusBar *MemoryWidget::statusBar()
+{
+	auto w = new QStatusBar;
+
+	// FIXME: MainWindow status bar will keep ownership, so it will destroy sit and its children, here we recreate.
+	// in theory we can crash updating status bar when changing tabs... 
+	totalMemLabel = new QLabel(tr("Total: %1").arg(iTotal));
+	maxTotalMemLabel = new QLabel(tr("Maximum: %1").arg(iMaxTotal));
+	maxUniqueMemLabel = new QLabel(tr("Biggest: %1").arg(iMaxUnique));
+
+	w->addWidget(totalMemLabel);
+	w->addWidget(maxTotalMemLabel);
+	w->addWidget(maxUniqueMemLabel);
+
+	return w;
+}
+
+void MemoryWidget::clear()
+{
+	if (pModel)
+		pModel->clear();
+
+	iTotal = 0;
+	iMaxTotal = 0;
+	iMaxUnique = 0;
 }
 
 void MemoryWidget::setModel(MemoryModel *model)
@@ -96,8 +131,18 @@ void MemoryWidget::setModel(MemoryModel *model)
 	pProxyModel->setSourceModel(model);
 	pProxyView->setModel(pProxyModel);
 
-	pProxyView->setColumnHidden(7, true); // line
-	pProxyView->setColumnHidden(8, true); // freed
+	if (model)
+	{
+		connect(model, SIGNAL(onTotalsChanged(quint64, quint64, quint64)), this, SLOT(totalsChanged(quint64, quint64, quint64)));
+	}
+	else
+	{
+		disconnect(this, SLOT(totalsChanged(quint64, quint64, quint64)));
+	}
+
+	// FIXME: hardcoded column numbers
+	pProxyView->setColumnHidden(8, true); // line
+	pProxyView->setColumnHidden(9, true); // freed
 }
 
 void MemoryWidget::frameFilterChanged()
@@ -121,9 +166,21 @@ void MemoryWidget::textFilterChanged()
 void MemoryWidget::showFreedChanged(int state)
 {
 	pProxyModel->hideFreed(state == Qt::Unchecked);
+	pModel->update(); // FIXME: HACK to cause an signal updating view
 }
 
 void MemoryWidget::showHexAddrChanged(int state)
 {
 	pModel->setHexadecimalAddress(state == Qt::Checked);
+}
+
+void MemoryWidget::totalsChanged(quint64 total, quint64 maxTotal, quint64 maxUnique)
+{
+	iTotal = total;
+	iMaxTotal = maxTotal;
+	iMaxUnique = maxUnique;
+
+	totalMemLabel->setText(tr("Total: %1").arg(total));
+	maxTotalMemLabel->setText(tr("Maximum: %1").arg(maxTotal));
+	maxUniqueMemLabel->setText(tr("Biggest: %1").arg(maxUnique));
 }

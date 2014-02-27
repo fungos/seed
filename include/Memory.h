@@ -73,17 +73,20 @@ void operator delete[](void *p, eAllocationTag, const char *, const char *, cons
 
 namespace Seed {
 
+SEED_COMPILE_TIME_ASSERT(Milliseconds, sizeof(Milliseconds) == 8);
+
 struct AllocationInfo
 {
-	intptr_t      iAddr;
+	u64           iAddr;
+	u64           iSize;
+	Milliseconds  iTime;
+	Milliseconds  iLifetime;
 	u32           iLine;
 	u32           iFrame;
-	Milliseconds  iTime;
 	char          strCall[256];
 	char          strFile[256];
 	char          strFunc[256];
 	bool          bFreed;
-	Milliseconds  iLifetime;
 };
 
 struct FreeInfo
@@ -116,6 +119,7 @@ class Allocator
 				info.bFreed = false;
 				info.iLifetime = 0;
 				info.iTime = pTimer->GetMilliseconds();
+				info.iSize = size;
 				strcpy(info.strCall, stmt);
 				strcpy(info.strFile, file);
 				strcpy(info.strFunc, func);
@@ -135,6 +139,7 @@ class Allocator
 				FreeInfo info;
 				info.iAddr = (intptr_t)p;
 				info.iFrame = 0;
+				info.iTime = pTimer->GetMilliseconds();
 				LEAF(Free(&info, sizeof(FreeInfo)));
 			}
 			free(p);

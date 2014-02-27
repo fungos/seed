@@ -24,16 +24,22 @@ class MainWindow : public QMainWindow
 		explicit MainWindow(QWidget *parent = 0);
 		~MainWindow();
 
+		void resetWidgets();
+
 	public slots:
 		void onLog(const QString &msg);
-		void onLeafPrintLog(const QString &msg);
-		void onLeafPrintError(const QString &msg);
-		void onLeafPrintDebug(const QString &msg);
+		void onPrintLog(const QString &msg);
+		void onPrintError(const QString &msg);
+		void onPrintDebug(const QString &msg);
 		void onAllocation(const PacketAllocationInfo *msg);
 		void onFree(const PacketFreeInfo *msg);
+		void onStart();
+		void onStop();
+		void onTabChanged(int index);
 
 	private:
 		Ui::MainWindow *ui;
+		QStatusBar *pDefaultStatusBar;
 		QTabWidget *pMainWidget;
 		QTextEdit *pConsole;
 		QTextEdit *pLog;
@@ -43,6 +49,8 @@ class MainWindow : public QMainWindow
 		MemoryModel *pMemoryModel;
 
 		MessageListener *pMessageListener;
+
+		QString mTitle;
 };
 
 #endif // MAINWINDOW_H

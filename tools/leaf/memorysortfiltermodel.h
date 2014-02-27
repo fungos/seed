@@ -37,7 +37,7 @@ class MemorySortFilterModel : public QSortFilterProxyModel
 		quint32 iMinAddr;
 		quint32 iMaxAddr;
 
-		bool bShowFreed;
+		bool bHideFreed;
 };
 
 #endif // MEMORYSORTFILTERMODEL_H

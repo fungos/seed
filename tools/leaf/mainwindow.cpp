@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include <QLabel>
+
 #include "messagelistener.h"
 #include "memorywidget.h"
 #include "memorymodel.h"
@@ -8,6 +10,7 @@
 MainWindow::MainWindow(QWidget *parent)
 	: QMainWindow(parent)
 	, ui(new Ui::MainWindow)
+	, pDefaultStatusBar(nullptr)
 	, pMainWidget(nullptr)
 	, pConsole(nullptr)
 	, pLog(nullptr)
@@ -41,13 +44,44 @@ MainWindow::MainWindow(QWidget *parent)
 	pMessageListener = new MessageListener;
 
 	connect(pMessageListener, SIGNAL(onLog(const QString &)), this, SLOT(onLog(const QString &)));
-	connect(pMessageListener, SIGNAL(onLeafPrintLog(const QString &)),   this, SLOT(onLeafPrintLog(const QString &)));
-	connect(pMessageListener, SIGNAL(onLeafPrintError(const QString &)), this, SLOT(onLeafPrintError(const QString &)));
-	connect(pMessageListener, SIGNAL(onLeafPrintDebug(const QString &)), this, SLOT(onLeafPrintDebug(const QString &)));
+	connect(pMessageListener, SIGNAL(onPrintLog(const QString &)),   this, SLOT(onPrintLog(const QString &)));
+	connect(pMessageListener, SIGNAL(onPrintError(const QString &)), this, SLOT(onPrintError(const QString &)));
+	connect(pMessageListener, SIGNAL(onPrintDebug(const QString &)), this, SLOT(onPrintDebug(const QString &)));
 	connect(pMessageListener, SIGNAL(onAllocation(const PacketAllocationInfo *)), this, SLOT(onAllocation(const PacketAllocationInfo *)));
 	connect(pMessageListener, SIGNAL(onFree(const PacketFreeInfo *)), this, SLOT(onFree(const PacketFreeInfo *)));
+	connect(pMessageListener, SIGNAL(onStart()), this, SLOT(onStart()));
+	connect(pMessageListener, SIGNAL(onStop()), this, SLOT(onStop()));
+	connect(pMainWidget, SIGNAL(currentChanged(int)), this, SLOT(onTabChanged(int)));
 
 	pMainWidget->setCurrentWidget(pMemoryWidget);
+	mTitle = tr("Seed/Leaf Inspector");
+	this->setWindowTitle(mTitle);
+}
+
+void MainWindow::onTabChanged(int index)
+{
+	// FIXME: create a widget with contents and statusbar, we may add more things after.
+	auto widget = pMainWidget->widget(index);
+
+	if (widget == pMemoryWidget)
+	{
+		setStatusBar(pMemoryWidget->statusBar());
+	}
+	else
+	{
+		auto defaultStatusBar = new QStatusBar;
+		defaultStatusBar->addWidget(new QLabel(tr("Hello")));
+		setStatusBar(defaultStatusBar);
+	}
+}
+
+void MainWindow::resetWidgets()
+{
+	pLog->clear();
+	pError->clear();
+	pDebug->clear();
+	pConsole->clear();
+	pMemoryWidget->clear();
 }
 
 void MainWindow::onLog(const QString &msg)
@@ -55,17 +89,17 @@ void MainWindow::onLog(const QString &msg)
 	pConsole->append(msg);
 }
 
-void MainWindow::onLeafPrintLog(const QString &msg)
+void MainWindow::onPrintLog(const QString &msg)
 {
 	pLog->append(msg);
 }
 
-void MainWindow::onLeafPrintError(const QString &msg)
+void MainWindow::onPrintError(const QString &msg)
 {
 	pError->append(msg);
 }
 
-void MainWindow::onLeafPrintDebug(const QString &msg)
+void MainWindow::onPrintDebug(const QString &msg)
 {
 	pDebug->append(msg);
 }
@@ -78,6 +112,17 @@ void MainWindow::onAllocation(const PacketAllocationInfo *msg)
 void MainWindow::onFree(const PacketFreeInfo *msg)
 {
 	pMemoryModel->free(msg);
+}
+
+void MainWindow::onStart()
+{
+	resetWidgets();
+	this->setWindowTitle(QString("%0 - %1").arg(mTitle).arg(tr("Link Up")));
+}
+
+void MainWindow::onStop()
+{
+	this->setWindowTitle(QString("%0 - %1").arg(mTitle).arg(tr("Link Down")));
 }
 
 MainWindow::~MainWindow()

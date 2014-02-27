@@ -1,6 +1,19 @@
 #include "messagelistener.h"
 #include <QtNetwork>
 
+enum class ePacket : quint32
+{
+	Log			= 1,
+	Error		= 2,
+	Debug		= 3,
+
+	Start		= 4,
+	Stop		= 5,
+
+	Allocation  = 100,
+	Free		= 101
+};
+
 MessageListener::MessageListener(QObject *parent)
 	: QObject(parent)
 	, pSocket(nullptr)
@@ -25,31 +38,46 @@ void MessageListener::processMessage()
 		buf.setByteOrder(QDataStream::LittleEndian);
 		buf >> p.iPacketId;
 		buf >> p.iPacketSize;
-		p.baData.resize(pSocket->pendingDatagramSize());
-		pSocket->readDatagram(p.baData.data(), p.baData.size());
+
+		if (p.iPacketSize)
+		{
+			p.baData.resize(pSocket->pendingDatagramSize());
+			pSocket->readDatagram(p.baData.data(), p.baData.size());
+
+			// FIXME: Verify if the data is good and emit onLog
+		}
 
 		//emit onLog(QString("Leaf Message: %1 %2").arg(p.iPacketId).arg(p.baData.data()));
 		switch (p.iPacketId)
 		{
-			case 1:
-				emit onLeafPrintLog(QString("%1").arg(p.baData.data()));
+			case ePacket::Log:
+				emit onPrintLog(QString("%1").arg(p.baData.data()));
 			break;
 
-			case 2:
-				emit onLeafPrintError(QString("%1").arg(p.baData.data()));
+			case ePacket::Error:
+				emit onPrintError(QString("%1").arg(p.baData.data()));
 			break;
 
-			case 3:
-				emit onLeafPrintDebug(QString("%1").arg(p.baData.data()));
+			case ePacket::Debug:
+				emit onPrintDebug(QString("%1").arg(p.baData.data()));
 			break;
 
-			case 100:
+			case ePacket::Start:
+				emit onStart();
+			break;
+
+			case ePacket::Stop:
+				emit onStop();
+			break;
+
+			case ePacket::Allocation:
 			{
 				PacketAllocationInfo *pi = nullptr;
 				pi = static_cast<PacketAllocationInfo *>((void *)p.baData.data());
 /*
-				emit onLog(QString("Received allocation: %1, %2, %3, %4, %5, %6")
+				emit onLog(QString("Received allocation: %1, %2, %3, %4, %5, %6, %7")
 							.arg(pi->iAddr)
+							.arg(pi->iSize)
 							.arg(pi->strCall)
 							.arg(pi->strFile)
 							.arg(pi->strFunc)
@@ -61,7 +89,7 @@ void MessageListener::processMessage()
 			}
 			break;
 
-			case 101:
+			case ePacket::Free:
 			{
 				PacketFreeInfo *pi = nullptr;
 				pi = static_cast<PacketFreeInfo *>((void *)p.baData.data());
