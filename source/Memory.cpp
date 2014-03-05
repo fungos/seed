@@ -29,61 +29,47 @@
 */
 
 #include "Memory.h"
-#include "Sprite.h"
-#include "Image.h"
-#include "ParticleEmitter.h"
-#include "Camera.h"
-#include "Frame.h"
-#include "map/GameMap.h"
-#include "map/MetadataObject.h"
-#include "map/MapLayerMetadata.h"
-#include "map/MapLayerTiled.h"
-#include "map/MapLayerMosaic.h"
-#include "map/TileSet.h"
-#include "interface/IDataObject.h"
-#include "interface/IShader.h"
 
-namespace Seed {
+#if defined(DEBUG)
 
-#ifdef DEBUG
+void *operator new(std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file, int line) throw()
+{
+	return Seed::Allocator::Alloc(size, tag, stmt, func, file, line);
+}
 
-#define SEED_CREATE_DEFINITION_NEW(type)			template <>	\
-													type *SeedLogNew(type *obj, const char *stmt, const char *file, int line, const char *func) \
-													{ \
-														pLeakReport->LogNew((IObject *)obj, stmt, file, line, func); \
-														return obj; \
-													}
+void *operator new(std::size_t size) throw()
+{
+	return Seed::Allocator::Alloc(size, eAllocationTag::DoNotTrack);
+}
 
-#define SEED_CREATE_DEFINITION_DELETE(type)			template <>	\
-													void SeedLogDelete(type *ptr) \
-													{ \
-														pLeakReport->LogDelete((IObject *)ptr); \
-														delete ptr; \
-													}
+void operator delete(void *p) throw()
+{
+	Seed::Allocator::Free(p);
+}
 
-#define SEED_CREATE_DEFINITION(type)				SEED_CREATE_DEFINITION_NEW(type) \
-													SEED_CREATE_DEFINITION_DELETE(type)
+void operator delete(void *p, eAllocationTag, const char *, const char *, const char *, int) throw()
+{
+	Seed::Allocator::Free(p);
+}
 
+void *operator new[](std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file, int line) throw()
+{
+	return Seed::Allocator::Alloc(size, tag, stmt, func, file, line);
+}
 
-SEED_CREATE_DEFINITION_DELETE(IDataObject)
-SEED_CREATE_DEFINITION_DELETE(ISceneObject)
-SEED_CREATE_DEFINITION(Sprite)
-SEED_CREATE_DEFINITION(Image)
-SEED_CREATE_DEFINITION(Camera)
-SEED_CREATE_DEFINITION(Frame)
-SEED_CREATE_DEFINITION(ParticleEmitter)
-SEED_CREATE_DEFINITION(MetadataObject)
-SEED_CREATE_DEFINITION(MapLayerMetadata)
-SEED_CREATE_DEFINITION(MapLayerMosaic)
-SEED_CREATE_DEFINITION(MapLayerTiled)
-SEED_CREATE_DEFINITION(TileSet)
-SEED_CREATE_DEFINITION(GameMap)
-SEED_CREATE_DEFINITION(IShader)
+void *operator new[](std::size_t size) throw()
+{
+	return Seed::Allocator::Alloc(size, eAllocationTag::DoNotTrack);
+}
 
-#undef SEED_CREATE_DEFINITION_DELETE
-#undef SEED_CREATE_DEFINITION_NEW
-#undef SEED_CREATE_DEFINITION
+void operator delete[](void *p) throw()
+{
+	Seed::Allocator::Free(p);
+}
+
+void operator delete[](void *p, eAllocationTag, const char *, const char *, const char *, int) throw()
+{
+	Seed::Allocator::Free(p);
+}
 
 #endif
-
-}

@@ -71,36 +71,6 @@ using namespace Seed::SOIL;
 #include <SDL2/SDL.h>
 #undef main
 
-#if defined(__MWERKS__)
-#pragma warning off (10342)
-#endif // __MWERKS__
-
-#if defined(__MINGW32__)
-	#if defined(SEED_BUILD_SHARED)
-		#define SEED_CORE_API __declspec(dllexport)
-	#elif defined(SEED_EXTRA_BUILD)
-		#define SEED_PLATFORM_API __declspec(dllexport)
-		#define SEED_EXTRA_API __declspec(dllexport)
-		#define SEED_CORE_API __declspec(dllimport)
-	#elif defined(SEED_USE_LGPL)
-		#define SEED_CORE_API __declspec(dllimport)
-		#define SEED_EXTRA_API __declspec(dllimport)
-		#define SEED_PLATFORM_API _declspec(dllimport)
-	#endif // __MINGW32__
-#elif defined(_MSC_VER)
-	#if defined(SEED_BUILD_SHARED)
-		#define SEED_CORE_API _declspec(dllexport)
-	#elif defined(SEED_EXTRA_BUILD)
-		#define SEED_CORE_API _declspec(dllimport)
-		#define SEED_EXTRA_API _declspec(dllexport)
-		#define SEED_PLATFORM_API _declspec(dllexport)
-	#elif defined(SEED_USE_LGPL)
-		#define SEED_CORE_API __declspec(dllimport)
-		#define SEED_EXTRA_API __declspec(dllimport)
-		#define SEED_PLATFORM_API _declspec(dllimport)
-	#endif // _MSC_VER
-#endif
-
 #if defined(EMSCRIPTEN)
 #define PLATFORM Emscripten\|SDL
 #elif defined(__FLASHPLAYER)

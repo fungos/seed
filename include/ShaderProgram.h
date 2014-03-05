@@ -31,6 +31,8 @@
 #ifndef __SHADERPROGRAM_H__
 #define __SHADERPROGRAM_H__
 
+#include "Config.h"
+
 #if defined(BUILD_IOS)
 	#if defined(SEED_ENABLE_OGLES2)
 	#include "api/ogl/oglES2ShaderProgram.h"

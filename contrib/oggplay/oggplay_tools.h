@@ -47,7 +47,7 @@
 extern "C" {
 #endif
 
-#ifdef WIN32
+#ifdef _MSC_VER
 #include <time.h>
 #else
 #include <sys/time.h>

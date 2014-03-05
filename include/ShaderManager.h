@@ -34,11 +34,9 @@
 #include "interface/IManager.h"
 #include "Singleton.h"
 #include "Container.h"
+#include "interface/IShaderProgram.h"
 
 namespace Seed {
-
-class IShader;
-class IShaderProgram;
 
 typedef Map<String, IShaderProgram*> ShaderProgramMap;
 typedef ShaderProgramMap::iterator ShaderProgramMapIterator;

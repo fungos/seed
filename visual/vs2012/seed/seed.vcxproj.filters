@@ -50,6 +50,12 @@
     <Filter Include="api\ogl">
       <UniqueIdentifier>{30b90917-6f93-463a-bcb6-7fef5778ad13}</UniqueIdentifier>
     </Filter>
+    <Filter Include="api\net">
+      <UniqueIdentifier>{2d24fcaf-113c-4edd-b1d1-2ffb28051bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\theora">
+      <UniqueIdentifier>{4be709c3-64cc-4adb-aac0-3fa735da263d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Animation.cpp" />
@@ -73,7 +79,6 @@
     <ClCompile Include="..\..\..\source\JobManager.cpp" />
     <ClCompile Include="..\..\..\source\Key.cpp" />
     <ClCompile Include="..\..\..\source\Keyframe.cpp" />
-    <ClCompile Include="..\..\..\source\LeakReport.cpp" />
     <ClCompile Include="..\..\..\source\Movie.cpp" />
     <ClCompile Include="..\..\..\source\Particle.cpp" />
     <ClCompile Include="..\..\..\source\ParticleEmitter.cpp" />
@@ -325,6 +330,16 @@
     <ClCompile Include="..\..\..\source\interface\IShaderProgram.cpp">
       <Filter>interface</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\api\net\Address.cpp">
+      <Filter>api\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\theora\Theora.cpp">
+      <Filter>api\theora</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\LeafMessage.cpp" />
+    <ClCompile Include="..\..\..\source\api\net\UDPSocket.cpp">
+      <Filter>api\net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Container.h" />
@@ -354,7 +369,6 @@
     <ClInclude Include="..\..\..\include\JobManager.h" />
     <ClInclude Include="..\..\..\include\Key.h" />
     <ClInclude Include="..\..\..\include\Keyframe.h" />
-    <ClInclude Include="..\..\..\include\LeakReport.h" />
     <ClInclude Include="..\..\..\include\LocalDefines.h" />
     <ClInclude Include="..\..\..\include\Log.h" />
     <ClInclude Include="..\..\..\include\Manager.h" />
@@ -682,6 +696,13 @@
     <ClInclude Include="..\..\..\include\ShaderProgram.h" />
     <ClInclude Include="..\..\..\include\interface\IShaderProgram.h">
       <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\LeafMessage.h" />
+    <ClInclude Include="..\..\..\include\api\net\Address.h">
+      <Filter>api\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\net\UDPSocket.h">
+      <Filter>api\net</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
