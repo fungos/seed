@@ -23,7 +23,7 @@
 #undef Free
 #endif
 
-#include "physfs_internal.h"
+#include "physfs/physfs_internal.h"
 
 
 /* Wrap PHYSFS_Allocator in a CFAllocator... */
@@ -280,6 +280,9 @@ char *__PHYSFS_platformCalcBaseDir(const char *argv0)
 		if (cfrange.location != kCFNotFound)
 			CFStringDelete(cfmutstr, cfrange);  /* chop that, too. */
 	} /* if */
+
+	// Added to solve resource path problem in mac os x
+	CFStringAppend(cfmutstr, CFSTR("/Contents/Resources/"));
 
 	retval = convertCFString(cfmutstr);
 	CFRelease(cfmutstr);
