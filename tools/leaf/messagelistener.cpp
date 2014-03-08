@@ -50,27 +50,27 @@ void MessageListener::processMessage()
 		//emit onLog(QString("Leaf Message: %1 %2").arg(p.iPacketId).arg(p.baData.data()));
 		switch (p.iPacketId)
 		{
-			case ePacket::Log:
+			case (int)ePacket::Log:
 				emit onPrintLog(QString("%1").arg(p.baData.data()));
 			break;
 
-			case ePacket::Error:
+			case (int)ePacket::Error:
 				emit onPrintError(QString("%1").arg(p.baData.data()));
 			break;
 
-			case ePacket::Debug:
+			case (int)ePacket::Debug:
 				emit onPrintDebug(QString("%1").arg(p.baData.data()));
 			break;
 
-			case ePacket::Start:
+			case (int)ePacket::Start:
 				emit onStart();
 			break;
 
-			case ePacket::Stop:
+			case (int)ePacket::Stop:
 				emit onStop();
 			break;
 
-			case ePacket::Allocation:
+			case (int)ePacket::Allocation:
 			{
 				PacketAllocationInfo *pi = nullptr;
 				pi = static_cast<PacketAllocationInfo *>((void *)p.baData.data());
@@ -89,7 +89,7 @@ void MessageListener::processMessage()
 			}
 			break;
 
-			case ePacket::Free:
+			case (int)ePacket::Free:
 			{
 				PacketFreeInfo *pi = nullptr;
 				pi = static_cast<PacketFreeInfo *>((void *)p.baData.data());

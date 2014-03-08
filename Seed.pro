@@ -39,7 +39,6 @@ SOURCES += source/Viewport.cpp \
 	source/Particle.cpp \
 	source/Movie.cpp \
 	source/Manager.cpp \
-	source/LeakReport.cpp \
 	source/Keyframe.cpp \
 	source/Key.cpp \
 	source/Image.cpp \
@@ -109,7 +108,7 @@ SOURCES += source/Viewport.cpp \
 	source/platform/sdl/sdlInput.cpp \
 	source/api/yajl/JsonWriter.cpp \
 	source/api/net/Address.cpp \
-	source/api/net/Socket.cpp \
+	source/api/net/UDPSocket.cpp \
 	source/Writer.cpp \
 	source/interface/IWriter.cpp \
 	source/SceneObjectFactory.cpp \
