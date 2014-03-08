@@ -4,6 +4,9 @@
 #include "messagelistener.h"
 #include <QStandardItemModel>
 
+#define QT_THREAD_SUPPORT
+#include <qmutex.h>
+
 class QStandardItemModel;
 class QAbstractItemModel;
 

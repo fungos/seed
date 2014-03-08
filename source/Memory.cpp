@@ -37,7 +37,7 @@ void *operator new(std::size_t size, eAllocationTag tag, const char *stmt, const
 	return Seed::Allocator::Alloc(size, tag, stmt, func, file, line);
 }
 
-void *operator new(std::size_t size) throw()
+void *operator new(std::size_t size)
 {
 	return Seed::Allocator::Alloc(size, eAllocationTag::DoNotTrack);
 }
@@ -57,7 +57,7 @@ void *operator new[](std::size_t size, eAllocationTag tag, const char *stmt, con
 	return Seed::Allocator::Alloc(size, tag, stmt, func, file, line);
 }
 
-void *operator new[](std::size_t size) throw()
+void *operator new[](std::size_t size)
 {
 	return Seed::Allocator::Alloc(size, eAllocationTag::DoNotTrack);
 }
