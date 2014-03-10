@@ -71,7 +71,7 @@
 #define SEED_USE_THEORA						0
 #define SEED_USE_ROCKET_GUI					1
 #define SEED_ENABLE_OGL20					1
-#define SEED_USE_LEAF						1
+#define SEED_USE_LEAF						0
 
 /*
 Transformable objects have only one pivot for calculating the object position, scale and rotation.

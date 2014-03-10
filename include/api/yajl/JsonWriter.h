@@ -53,6 +53,7 @@ class SEED_CORE_API JsonWriter: public IWriter
 		// IWriter
 		virtual bool Save(const String &file) override;
 		virtual void WriteString(const char *key, const char *value) const override;
+		virtual void WriteU32(u32 value) const override;
 		virtual void WriteU32(const char *key, u32 value) const override;
 		virtual void WriteS32(const char *key, s32 value) const override;
 		virtual void WriteF32(const char *key, f32 value) const override;
