@@ -34,10 +34,13 @@
 #include "../../Defines.h"
 #include "Address.h"
 
-#if defined(_MSC_VER)
+#if defined(__WINDOWS__)
+#define NOUSER
 #include <winsock2.h>
-#pragma comment( lib, "wsock32.lib" )
 #undef GetObject
+	#if defined(_MSC_VER)
+	#pragma comment( lib, "wsock32.lib" )
+	#endif
 #elif defined(__APPLE_CC__) || defined(__linux__)
 #include <sys/socket.h>
 #include <netinet/in.h>
