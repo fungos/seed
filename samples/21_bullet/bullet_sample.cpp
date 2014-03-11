@@ -142,7 +142,7 @@ void BulletSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void BulletSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool BulletSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -152,6 +152,8 @@ void BulletSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->Print();
 	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
+
+	return true;
 }
 
 void BulletSample::OnInputPointerPress(const EventInputPointer *ev)

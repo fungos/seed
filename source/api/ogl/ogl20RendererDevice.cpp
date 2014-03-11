@@ -146,8 +146,9 @@ OGL20RendererDevice::OGL20RendererDevice()
 	pScreen->renderBuffer = 1;
 #endif
 
+	char *vendor = (char *)glGetString(GL_VENDOR);
 	char *version = (char *)glGetString(GL_VERSION);
-	Info(TAG "OpenGL Version: %s", version);
+	Info(TAG "OpenGL Version: %s - %s", version, vendor);
 
 	GLint maxSize;
 	glGetIntegerv(GL_MAX_TEXTURE_SIZE, &maxSize);
@@ -544,6 +545,10 @@ void OGL20RendererDevice::UploadData(void *userData)
 		glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	}
 
+	auto program = pShaderManager->GetShaderProgram("Simple");
+	if (program)
+		program->Use(); // fixme, for now string may come from renderpacket.
+
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 
@@ -617,7 +622,7 @@ void OGL20RendererDevice::UploadData(void *userData)
 		}
 
 		glPointSize(5.0f);
-		if (!ebo)
+		if (!ebo || !elemPtr)
 			glDrawArrays(GL_POINTS, 0, vbo->iLength);
 		else
 			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
@@ -821,6 +826,7 @@ void OGL20RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const
 {
 	GL_TRACE("BEGIN SetViewport")
 	glViewport(static_cast<GLint>(x), static_cast<GLint>(y), static_cast<GLsizei>(w), static_cast<GLsizei>(h));
+	//glOrtho(0.0f, w, h, 0, SEED_MAX_PRIORITY, -SEED_MAX_PRIORITY);
 	GL_TRACE("END SetViewport")
 }
 

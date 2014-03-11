@@ -109,8 +109,8 @@ class SEED_CORE_API RocketInterface :
 		virtual void OnInputPointerMove(const EventInputPointer *ev) override;
 
 		// IEventInputKeyboardListener
-		virtual void OnInputKeyboardPress(const EventInputKeyboard *ev) override;
-		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
+		virtual bool OnInputKeyboardPress(const EventInputKeyboard *ev) override;
+		virtual bool OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
 
 		// IDataObject
 		virtual bool Load(Reader &, ResourceManager *) override { return true; }

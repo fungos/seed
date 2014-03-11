@@ -78,7 +78,7 @@ void TileSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void TileSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
+bool TileSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -96,11 +96,13 @@ void TileSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		case eKey::D:
 			vDir.setX(fSpeed);
 		break;
-		default: return;
+		default: return true;
 	}
+
+	return true;
 }
 
-void TileSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool TileSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -127,6 +129,8 @@ void TileSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		case eKey::D:
 			vDir.setX(0.0f);
 		break;
-		default: return;
+		default: return true;
 	}
+
+	return true;
 }

@@ -22,7 +22,7 @@ class ImageSample : public IGameApp,
 		virtual void OnSystemShutdown(const EventSystem *ev);
 
 		// IEventInputKeyboardListener
-		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
+		virtual bool OnInputKeyboardRelease(const EventInputKeyboard *ev);
 
 	protected:
 		Presentation cPres;

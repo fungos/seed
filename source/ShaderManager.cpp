@@ -94,17 +94,38 @@ void ShaderManager::CompileShader(const String &shaderName)
 	}
 }
 
-void ShaderManager::BindAttribute(const String &shaderProgramName, const u32 index, const String &attribName)
+void ShaderManager::BindAttribute(const String &shaderProgramName, u32 index, const String &attributeName)
 {
 	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
 
 	if (it != mShaderPrograms.end())
 	{
 		IShaderProgram *shaderProgram = (*it).second;
-		shaderProgram->BindAttribute(index, attribName);
+		shaderProgram->BindAttribute(index, attributeName);
 	}
 }
 
+void ShaderManager::SetTexture(const String &shaderProgramName, u32 unit, const String &uniformName)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
+
+	if (it != mShaderPrograms.end())
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		shaderProgram->SetTexture(unit, uniformName);
+	}
+}
+
+void ShaderManager::SetUniform(const String &shaderProgramName, const String &uniformName, f32 value)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
+
+	if (it != mShaderPrograms.end())
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		shaderProgram->SetUniform(uniformName, value);
+	}
+}
 
 bool ShaderManager::LinkShaderProgram(const String &shaderProgramName)
 {
@@ -149,13 +170,28 @@ void ShaderManager::Use(const String &shaderProgramName)
 	}
 }
 
+bool ShaderManager::Validate(const String &shaderProgramName)
+{
+	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
+
+	if (it != mShaderPrograms.end())
+	{
+		IShaderProgram *shaderProgram = (*it).second;
+		pCurrentProgram = shaderProgram;
+
+		return pCurrentProgram->Validate();
+	}
+
+	return false;
+}
+
 IShaderProgram* ShaderManager::GetShaderProgram(const String &shaderProgramName)
 {
 	ShaderProgramMapIterator it = mShaderPrograms.find(shaderProgramName);
 
 	if (it == mShaderPrograms.end())
 	{
-		Log(TAG "The shader program '%s' was not found", shaderProgramName.c_str());
+//		Log(TAG "The shader program '%s' was not found", shaderProgramName.c_str());
 		return nullptr;
 	}
 

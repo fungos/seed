@@ -53,6 +53,11 @@ void IWriter::WriteString(const char *key, const char *value) const
 	UNUSED(value)
 }
 
+void IWriter::WriteU32(u32 value) const
+{
+	UNUSED(value)
+}
+
 void IWriter::WriteU32(const char *key, u32 value) const
 {
 	UNUSED(key)

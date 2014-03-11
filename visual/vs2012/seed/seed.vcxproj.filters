@@ -26,9 +26,6 @@
     <Filter Include="api\oal">
       <UniqueIdentifier>{2de3250f-8ca7-4c4a-b0b0-ce6fe1d86cfd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="api\gl">
-      <UniqueIdentifier>{30b90917-6f93-463a-bcb6-7fef5778ad13}</UniqueIdentifier>
-    </Filter>
     <Filter Include="api\yajl">
       <UniqueIdentifier>{3aaf6bc0-591f-4239-8982-bce0fee1821c}</UniqueIdentifier>
     </Filter>
@@ -49,6 +46,15 @@
     </Filter>
     <Filter Include="api\soil">
       <UniqueIdentifier>{a4c6751b-9811-4522-b8b5-45a059141b8e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\ogl">
+      <UniqueIdentifier>{30b90917-6f93-463a-bcb6-7fef5778ad13}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\net">
+      <UniqueIdentifier>{2d24fcaf-113c-4edd-b1d1-2ffb28051bcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="api\theora">
+      <UniqueIdentifier>{4be709c3-64cc-4adb-aac0-3fa735da263d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -73,7 +79,6 @@
     <ClCompile Include="..\..\..\source\JobManager.cpp" />
     <ClCompile Include="..\..\..\source\Key.cpp" />
     <ClCompile Include="..\..\..\source\Keyframe.cpp" />
-    <ClCompile Include="..\..\..\source\LeakReport.cpp" />
     <ClCompile Include="..\..\..\source\Movie.cpp" />
     <ClCompile Include="..\..\..\source\Particle.cpp" />
     <ClCompile Include="..\..\..\source\ParticleEmitter.cpp" />
@@ -213,7 +218,7 @@
       <Filter>api\oal</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES1RendererDevice.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\yajl\JsonReader.cpp">
       <Filter>api\yajl</Filter>
@@ -295,33 +300,46 @@
       <Filter>api\soil</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\ogl20RendererDevice.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\ogl20Shader.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\ogl20ShaderProgram.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES1Shader.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES1ShaderProgram.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES2RendererDevice.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES2Shader.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\api\ogl\oglES2ShaderProgram.cpp">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\interface\IShader.cpp">
       <Filter>interface</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\ShaderManager.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IShaderProgram.cpp">
+      <Filter>interface</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\net\Address.cpp">
+      <Filter>api\net</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\theora\Theora.cpp">
+      <Filter>api\theora</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\LeafMessage.cpp" />
+    <ClCompile Include="..\..\..\source\api\net\UDPSocket.cpp">
+      <Filter>api\net</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Container.h" />
@@ -351,7 +369,6 @@
     <ClInclude Include="..\..\..\include\JobManager.h" />
     <ClInclude Include="..\..\..\include\Key.h" />
     <ClInclude Include="..\..\..\include\Keyframe.h" />
-    <ClInclude Include="..\..\..\include\LeakReport.h" />
     <ClInclude Include="..\..\..\include\LocalDefines.h" />
     <ClInclude Include="..\..\..\include\Log.h" />
     <ClInclude Include="..\..\..\include\Manager.h" />
@@ -359,7 +376,6 @@
     <ClInclude Include="..\..\..\include\Memory.h" />
     <ClInclude Include="..\..\..\include\Movie.h" />
     <ClInclude Include="..\..\..\include\Music.h" />
-    <ClInclude Include="..\..\..\include\Mutex.h" />
     <ClInclude Include="..\..\..\include\Number.h" />
     <ClInclude Include="..\..\..\include\Particle.h" />
     <ClInclude Include="..\..\..\include\ParticleEmitter.h" />
@@ -465,9 +481,6 @@
       <Filter>interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\interface\IMusic.h">
-      <Filter>interface</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\include\interface\IMutex.h">
       <Filter>interface</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\interface\IObject.h">
@@ -652,28 +665,28 @@
       <Filter>api\soil</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\ogl20RendererDevice.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\ogl20Shader.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\ogl20ShaderProgram.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglES1RendererDevice.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglES2RendererDevice.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglES2Shader.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglES2ShaderProgram.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\ogl\oglHeaders.h">
-      <Filter>api\gl</Filter>
+      <Filter>api\ogl</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\include\interface\IShader.h">
       <Filter>interface</Filter>
@@ -681,6 +694,16 @@
     <ClInclude Include="..\..\..\include\Shader.h" />
     <ClInclude Include="..\..\..\include\ShaderManager.h" />
     <ClInclude Include="..\..\..\include\ShaderProgram.h" />
+    <ClInclude Include="..\..\..\include\interface\IShaderProgram.h">
+      <Filter>interface</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\LeafMessage.h" />
+    <ClInclude Include="..\..\..\include\api\net\Address.h">
+      <Filter>api\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\net\UDPSocket.h">
+      <Filter>api\net</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\source\platform\ios\iosView.mm">

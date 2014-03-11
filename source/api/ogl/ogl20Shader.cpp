@@ -32,7 +32,9 @@
 
 #if defined(SEED_ENABLE_OGL20)
 
+#include "Memory.h"
 #include "api/ogl/oglHeaders.h"
+#include "Log.h"
 
 #define TAG "[Shader] "
 
@@ -64,7 +66,9 @@ bool OGL20Shader::Load(const String &filename, ResourceManager *res)
 		bLoaded = true;
 	}
 	else
+	{
 		Log(TAG "ERROR: Could not find/load shader %s.", filename.c_str());
+	}
 
 	return bLoaded;
 }
@@ -75,6 +79,16 @@ void OGL20Shader::Compile() const
 	{
 		glCompileShader(iShaderHandle);
 		//bCompiled = true;
+
+		GLint len;
+		glGetShaderiv(iShaderHandle, GL_INFO_LOG_LENGTH, &len);
+		if (len > 1)
+		{
+			GLchar *buff = (GLchar *)sdAlloc(len);
+			glGetShaderInfoLog(iShaderHandle, len, &len, buff);
+			Log("[Shader::Compile] %s: %s", sFilename.c_str(), buff);
+			sdFree(buff);
+		}
 	}
 }
 

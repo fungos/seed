@@ -43,10 +43,7 @@
 #include "ViewManager.h"
 #include "renderer/Viewport.h"
 
-#if defined(WIN32)
-#define WM_IME_SETCONTEXT			0x281
-#define WM_IME_NOTIFY				0x282
-#define WM_DWMCOMPOSITIONCHANGED	0x31e
+#if defined(_MSC_VER)
 #include <SDL/SDL_syswm.h>
 #endif
 

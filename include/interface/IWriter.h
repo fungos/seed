@@ -45,6 +45,7 @@ class SEED_CORE_API IWriter
 
 		virtual bool Save(const String &file);
 		virtual void WriteString(const char *key, const char *value) const;
+		virtual void WriteU32(u32 value) const;
 		virtual void WriteU32(const char *key, u32 value) const;
 		virtual void WriteS32(const char *key, s32 value) const;
 		virtual void WriteF32(const char *key, f32 value) const;

@@ -101,7 +101,7 @@ class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 		f32			fFps;
 		u32			iFpsDenom;
 		u32			iFpsNum;
-		f32			fDelay;
+		Seconds		fDelay;
 		u32			iFrameCount;
 		u32			iUntilFrame;
 		u32			iTrack;
@@ -119,8 +119,8 @@ class SEED_CORE_API Theora : public Thread, public Image /*, public IVideo*/
 		f32			fTexScaleX;
 		f32			fTexScaleY;
 
-		Milliseconds fLastFrameTime;
-		Milliseconds fElapsedTime;
+		Seconds		fLastFrameTime;
+		Seconds		fElapsedTime;
 
 		Texture		cTexture;
 

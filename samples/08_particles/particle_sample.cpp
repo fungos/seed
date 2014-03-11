@@ -51,7 +51,7 @@ void ParticleSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void ParticleSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool ParticleSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -59,8 +59,6 @@ void ParticleSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pSystem->Shutdown();
 	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == eKey::F2)
-		LeakReportPrint();
 	else if (k == eKey::F3)
 		pResourceManager->GarbageCollect();
 	else if (k == eKey::Left)
@@ -77,4 +75,6 @@ void ParticleSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 		pObject->SetAnimation(iAnimation);
 	}
+
+	return true;
 }

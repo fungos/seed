@@ -54,7 +54,7 @@ void PrefabsSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void PrefabsSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool PrefabsSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -62,8 +62,6 @@ void PrefabsSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pSystem->Shutdown();
 	else if (k == eKey::F1)
 		pResourceManager->Print();
-	else if (k == eKey::F2)
-		LeakReportPrint();
 	else if (k == eKey::F3)
 		pResourceManager->GarbageCollect();
 	else if (k == eKey::Left)
@@ -80,4 +78,6 @@ void PrefabsSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 		pSprite->SetAnimation(iAnimation);
 	}
+
+	return true;
 }

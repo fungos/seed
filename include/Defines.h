@@ -59,6 +59,36 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 //#define override
 #endif
 
+#if defined(__MWERKS__)
+#pragma warning off (10342)
+#endif // __MWERKS__
+
+#if defined(__MINGW32__)
+	#if defined(SEED_BUILD_SHARED)
+		#define SEED_CORE_API __declspec(dllexport)
+	#elif defined(SEED_EXTRA_BUILD)
+		#define SEED_PLATFORM_API __declspec(dllexport)
+		#define SEED_EXTRA_API __declspec(dllexport)
+		#define SEED_CORE_API __declspec(dllimport)
+	#elif defined(SEED_USE_LGPL)
+		#define SEED_CORE_API __declspec(dllimport)
+		#define SEED_EXTRA_API __declspec(dllimport)
+		#define SEED_PLATFORM_API _declspec(dllimport)
+	#endif // __MINGW32__
+#elif defined(_MSC_VER)
+	#if defined(SEED_BUILD_SHARED)
+		#define SEED_CORE_API _declspec(dllexport)
+	#elif defined(SEED_EXTRA_BUILD)
+		#define SEED_CORE_API _declspec(dllimport)
+		#define SEED_EXTRA_API _declspec(dllexport)
+		#define SEED_PLATFORM_API _declspec(dllexport)
+	#elif defined(SEED_USE_LGPL)
+		#define SEED_CORE_API __declspec(dllimport)
+		#define SEED_EXTRA_API __declspec(dllimport)
+		#define SEED_PLATFORM_API _declspec(dllimport)
+	#endif // _MSC_VER
+#endif
+
 #define SEED_STRINGIZE_HELPER(x)	#x
 #define SEED_STRINGIZE(x)			SEED_STRINGIZE_HELPER(x)
 #define SEED_DO_PRAGMA(x)			_Pragma (#x)
@@ -184,8 +214,6 @@ SEED_COMPILE_TIME_ASSERT(s64, sizeof(s64) == 8);
 
 typedef enum { SEED_ENUM_ASSERT_VALUE } SEED_ENUM_ASSERT;
 SEED_COMPILE_TIME_ASSERT(enum, sizeof(SEED_ENUM_ASSERT) == sizeof(u32));
-
-#include "LeakReport.h"
 
 extern "C" { namespace Seed {
 	class ResourceManager;

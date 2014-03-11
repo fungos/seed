@@ -45,11 +45,14 @@ class SEED_CORE_API OGL20ShaderProgram : public IShaderProgram
 		OGL20ShaderProgram(String name);
 		virtual ~OGL20ShaderProgram();
 
-		virtual void Use();
-		virtual void Unbind();
-		virtual void AttachShader(IShader *shader);
-		virtual void BindAttribute(const u32 index, const String attribName);
-		virtual void Link();
+		virtual void Use() override;
+		virtual void Unbind() override;
+		virtual void AttachShader(IShader *shader) override;
+		virtual void BindAttribute(u32 index, const String &attributeName) override;
+		virtual void SetTexture(u32 unit, const String &uniformName = "") override;
+		virtual void SetUniform(const String &uniformName, f32 value) override;
+		virtual void Link() override;
+		virtual bool Validate() override;
 };
 
 }} // namespace

@@ -160,8 +160,11 @@ void ISoundSystem::StopMusic(f32 ms, IMusic *mus)
 
 		if (pNewMusic == mus)
 			pNewMusic = nullptr;
+
+		return;
 	}
-	else if (pCurrentMusic)
+
+	if (pCurrentMusic)
 	{
 		fMusicFadeTime = ms;
 		if (ms)
@@ -172,6 +175,24 @@ void ISoundSystem::StopMusic(f32 ms, IMusic *mus)
 		else
 		{
 			pCurrentMusic->nState = eMusicState::Stop;
+			pCurrentMusic = nullptr;
+		}
+
+		return;
+	}
+	
+	if (pNewMusic)
+	{
+		fMusicFadeTime = ms;
+		if (ms)
+		{
+			fMusicStartFadeTime = pTimer->GetSeconds();
+			pNewMusic->nState = eMusicState::FadeOut;
+		}
+		else
+		{
+			pNewMusic->nState = eMusicState::Stop;
+			pNewMusic = nullptr;
 		}
 	}
 }

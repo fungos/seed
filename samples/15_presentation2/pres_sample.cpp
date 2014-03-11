@@ -41,7 +41,7 @@ void PresentationSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void PresentationSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool PresentationSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -51,6 +51,8 @@ void PresentationSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->Print();
 	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
+
+	return true;
 }
 
 void PresentationSample::OnInputPointerRelease(const EventInputPointer *ev)

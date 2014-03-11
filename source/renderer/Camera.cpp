@@ -79,6 +79,7 @@ void Camera::SetView(const Rect4f &rect)
 {
 	rViewArea = rect;
 	rBoundingBox = Rect4f(0.0f, 0.0f, static_cast<f32>(pScreen->GetWidth()), static_cast<f32>(pScreen->GetHeight()));
+	//rBoundingBox = Rect4f(0.0f, 0.0f, rect.Width(), rect.Height());
 }
 
 void Camera::Update(Seconds dt)

@@ -34,6 +34,7 @@
 #include "ResourceManager.h"
 #include "Image.h"
 #include "Memory.h"
+#include "Configuration.h"
 
 #define TILE(x, y) pTileData[(x) + (ptMapSize.y * (y))]
 
@@ -278,7 +279,7 @@ void MapLayerTiled::Render(const Matrix4f &worldTransform)
 {
 	if (pTileSet)
 	{
-		ePacketFlags flags = ePacketFlags::None;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
+		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
 
 		RendererPacket packet;
 		packet.nMeshType = eMeshType::Triangles;
@@ -314,6 +315,46 @@ void MapLayerTiled::SetMapSize(Point2u mapSize)
 	bResizeMap = true;
 }
 
+TileSet *MapLayerTiled::GetTileSet()
+{
+	return pTileSet;
+}
+
+void MapLayerTiled::SetTileAt(u32 x, u32 y, u32 tileId)
+{
+	if (x >= ptMapSize.x)
+		x = ptMapSize.x - 1;
+	if (y >= ptMapSize.y)
+		y = ptMapSize.y - 1;
+
+	if (TILE(x, y) == tileId)
+		return;
+
+	TILE(x, y) = tileId;
+	bRebuildMesh = true;
+}
+
+void MapLayerTiled::SetTileAt(const Vector3f &pos, u32 tileId)
+{
+	s32 x = static_cast<s32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
+	s32 y = static_cast<s32>((pos.getY() / ptTileSize.y) + ptMapSizeHalf.y);
+
+	if (x < 0)
+		x = 0;
+	if (y < 0)
+		y = 0;
+	if (x >= s32(ptMapSize.x))
+		x = s32(ptMapSize.x) - 1;
+	if (y >= s32(ptMapSize.y))
+		y = s32(ptMapSize.y) - 1;
+
+	if (TILE(x, y) == tileId)
+		return;
+
+	TILE(x, y) = tileId;
+	bRebuildMesh = true;
+}
+
 u32 MapLayerTiled::GetTileAt(const Vector3f &pos) const
 {
 	s32 x = static_cast<s32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
@@ -323,6 +364,10 @@ u32 MapLayerTiled::GetTileAt(const Vector3f &pos) const
 		x = 0;
 	if (y < 0)
 		y = 0;
+	if (x >= s32(ptMapSize.x))
+		x = s32(ptMapSize.x) - 1;
+	if (y >= s32(ptMapSize.y))
+		y = s32(ptMapSize.y) - 1;
 
 	return TILE(x, y);
 }

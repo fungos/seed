@@ -34,7 +34,8 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v120</PlatformToolset>
-    <CharacterSet>NotSet</CharacterSet>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
@@ -111,8 +112,11 @@
       </PrecompiledHeader>
       <WarningLevel>TurnOffAllWarnings</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;PLATFORM_WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;PLATFORM_WIN32;NDEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;FT_DEBUG_LEVEL_ERROR;FT_DEBUG_LEVEL_TRACE;FT2_BUILD_LIBRARY;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <DisableSpecificWarnings>4068;4275</DisableSpecificWarnings>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -1411,6 +1415,19 @@
     <ClInclude Include="..\..\..\contrib\soil\stbi_DDS_aug.h" />
     <ClInclude Include="..\..\..\contrib\soil\stbi_DDS_aug_c.h" />
     <ClInclude Include="..\..\..\contrib\soil\stb_image_aug.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\boolInVec.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\floatInVec.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\mat_aos.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\quat_aos.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\vectormath_aos.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\vec_aos.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\boolInVec.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\floatInVec.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\mat_aos.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\quat_aos.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\vecidx_aos.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\vectormath_aos.h" />
+    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\vec_aos.h" />
     <ClInclude Include="..\..\..\contrib\vorbis\backends.h" />
     <ClInclude Include="..\..\..\contrib\vorbis\bitrate.h" />
     <ClInclude Include="..\..\..\contrib\vorbis\books\coupled\res_books_51.h" />
@@ -2577,6 +2594,7 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\contrib\bullet\BulletMultiThreaded\SpuNarrowPhaseCollisionTask\readme.txt" />
+    <Text Include="..\..\..\contrib\vectormath\SSE\cpp\readme_e.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\contrib\freetype\src\pcf\README" />

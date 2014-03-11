@@ -28,46 +28,97 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#ifndef __SOCKET_H__
-#define __SOCKET_H__
+#include "LeafMessage.h"
 
-#include "Defines.h"
-#include "Address.h"
+#if SEED_USE_LEAF == 1
 
-#if defined(_MSC_VER)
-#include <winsock2.h>
-#pragma comment( lib, "wsock32.lib" )
-#elif defined(__APPLE_CC__) || defined(__linux__)
-#include <sys/socket.h>
-#include <netinet/in.h>
-#include <fcntl.h>
-#if defined(__linux__)
-#include <unistd.h>
-#endif
-#endif
+#include "api/net/Address.h"
 
-namespace Seed { namespace Net
+namespace Seed {
+
+SEED_SINGLETON_DEFINE(Leaf)
+
+Leaf::Leaf()
 {
+}
 
-class SEED_CORE_API Socket
+Leaf::~Leaf()
 {
-	SEED_DISABLE_COPY(Socket)
+}
 
-	public:
-		Socket();
-		virtual ~Socket();
-		virtual bool Open(unsigned short port);
-		virtual void Close();
-		virtual bool IsOpen() const;
-		virtual bool Send(const Address &destination, const void *data, int size);
-		virtual int Receive(Address &sender, void *data, int size);
+bool Leaf::Initialize()
+{
+	iPort = 11115;
+	cAddress = Address(127, 0, 0, 1, iPort);
 
-	private:
-		Address cAddress;
-		u32 iHandle;
-		bool bIsOpen : 1;
-};
+	// FIXME: performance check: locks, interlockexchange, critical sections, etc.
+	ScopedMutexLock lock(mMutex);
+	bEnabled = true;
 
-}} // namespace
+	//cSocket.Open(iPort + 1);
 
-#endif // __SOCKET_H__
+	return true;
+}
+
+bool Leaf::Shutdown()
+{
+	ScopedMutexLock lock(mMutex);
+	//cSocket.Close();
+	bEnabled = false;
+
+	return true;
+}
+
+void Leaf::Log(const char *msg) const
+{
+	Send(ePacket::Log, strlen(msg) + 1, (const u8 *)msg);
+}
+
+void Leaf::Error(const char *msg) const
+{
+	Send(ePacket::Error, strlen(msg) + 1, (const u8 *)msg);
+}
+
+void Leaf::Dbg(const char *msg) const
+{
+	Send(ePacket::Debug, strlen(msg) + 1, (const u8 *)msg);
+}
+
+void Leaf::Alloc(const void *data, u32 size) const
+{
+	Send(ePacket::Allocation, size, (const u8 *)data);
+}
+
+void Leaf::Free(const void *data, u32 size) const
+{
+	Send(ePacket::Free, size, (const u8 *)data);
+}
+
+void Leaf::Start() const
+{
+	Send(ePacket::Start, 0, nullptr);
+}
+
+void Leaf::Stop() const
+{
+	Send(ePacket::Stop, 0, nullptr);
+}
+
+void Leaf::Send(ePacket packetId, u32 packetSize, const u8 *packetData) const
+{
+	if (!bEnabled)
+		return;
+
+	Packet p;
+	p.iPacketId = packetId;
+	p.iPacketSize = packetSize;
+
+	ScopedMutexLock lock(mMutex);
+	cSocket.Send(cAddress, &p, sizeof(p));
+	if (packetSize && packetData)
+		cSocket.Send(cAddress, packetData, packetSize);
+}
+
+} // namespace
+
+#endif

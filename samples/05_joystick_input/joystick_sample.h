@@ -20,17 +20,17 @@ class JoystickSample : public IGameApp,
 		virtual bool Shutdown();
 
 		// IEventSystemListener
-		virtual void OnSystemShutdown(const EventSystem *ev);
+		virtual void OnSystemShutdown(const EventSystem *ev) override;
 
 		// IEventInputKeyboardListener
-		virtual void OnInputKeyboardPress(const EventInputKeyboard *ev);
-		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
+		virtual bool OnInputKeyboardPress(const EventInputKeyboard *ev) override;
+		virtual bool OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
 
 		// IEventInputJoystickListener
-		virtual void OnInputJoystickButtonPress(const EventInputJoystick *ev);
-		virtual void OnInputJoystickButtonRelease(const EventInputJoystick *ev);
-		virtual void OnInputJoystickDPadMove(const EventInputJoystick *ev);
-		virtual void OnInputJoystickAxisMove(const EventInputJoystick *ev);
+		virtual void OnInputJoystickButtonPress(const EventInputJoystick *ev) override;
+		virtual void OnInputJoystickButtonRelease(const EventInputJoystick *ev) override;
+		virtual void OnInputJoystickDPadMove(const EventInputJoystick *ev) override;
+		virtual void OnInputJoystickAxisMove(const EventInputJoystick *ev) override;
 
 	protected:
 		Presentation cPres;

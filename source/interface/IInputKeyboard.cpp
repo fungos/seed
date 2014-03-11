@@ -575,15 +575,15 @@ void IInputKeyboard::RemoveKeyboardListener(IEventInputKeyboardListener *listene
 void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 {
 	SEED_ASSERT(ev);
-
+/*
 #if defined(DEBUG)
 	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[static_cast<u32>(ev->GetKey())], ev->GetModifier());
 #endif
-
-	for (auto each: vKeyboardListeners)
+*/
+	auto listeners = vKeyboardListeners;
+	for (auto each: listeners)
 	{
-		each->OnInputKeyboardPress(ev);
-		if (ev->IsConsumed())
+		if (!each->OnInputKeyboardPress(ev))
 			break;
 	}
 }
@@ -591,15 +591,15 @@ void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 void IInputKeyboard::SendEventKeyboardRelease(const EventInputKeyboard *ev)
 {
 	SEED_ASSERT(ev);
-
+/*
 #if defined(DEBUG)
 	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[static_cast<u32>(ev->GetKey())], static_cast<u32>(ev->GetModifier()));
 #endif
-
-	for (auto each: vKeyboardListeners)
+*/
+	auto listeners = vKeyboardListeners;
+	for (auto each: listeners)
 	{
-		each->OnInputKeyboardRelease(ev);
-		if (ev->IsConsumed())
+		if (!each->OnInputKeyboardRelease(ev))
 			break;
 	}
 }

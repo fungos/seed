@@ -67,7 +67,7 @@ void SpriteSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void SpriteSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool SpriteSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -77,6 +77,8 @@ void SpriteSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->Print();
 	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
+
+	return true;
 }
 
 void SpriteSample::OnInputPointerRelease(const EventInputPointer *ev)

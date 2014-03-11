@@ -45,19 +45,6 @@ class SEED_CORE_API IEvent : public IObject
 	public:
 		IEvent() = default;
 		virtual ~IEvent() {}
-
-		void Consume()
-		{
-			bConsumed = true;
-		}
-
-		bool IsConsumed() const
-		{
-			return bConsumed;
-		}
-
-	protected:
-		bool bConsumed = false;
 };
 
 } // namespace

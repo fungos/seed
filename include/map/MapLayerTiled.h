@@ -57,7 +57,10 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		void SetTileSet(TileSet *tileSet);
 		void LoadData(Reader &reader, u32 len);
 
+		TileSet *GetTileSet();
 		u32 GetTileAt(const Vector3f &pos) const;
+		void SetTileAt(const Vector3f &pos, u32 tileId);
+		void SetTileAt(u32 tileX, u32 tileY, u32 tileId);
 
 		// IMapLayer
 		virtual MapLayerTiled *AsTiled() override;

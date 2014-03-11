@@ -45,6 +45,7 @@ IShader::IShader()
 
 IShader::~IShader()
 {
+	this->Unload();
 }
 
 void IShader::Compile() const

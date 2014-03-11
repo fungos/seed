@@ -28,41 +28,52 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "LeakReport.h"
-#include "Defines.h"
-#include "Log.h"
+#ifndef __SOCKET_H__
+#define __SOCKET_H__
 
-#include <map>
+#include "../../Defines.h"
+#include "Address.h"
 
-#define TAG "[LeakReport] "
+#if defined(__WINDOWS__)
+#define NOUSER
+#include <winsock2.h>
+#undef GetObject
+	#if defined(_MSC_VER)
+	#pragma comment( lib, "wsock32.lib" )
+	#endif
+#elif defined(__APPLE_CC__) || defined(__linux__)
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <fcntl.h>
+#if defined(__linux__)
+#include <unistd.h>
+#endif
+#endif
 
-namespace Seed {
-
-#if defined(DEBUG)
-
-SEED_SINGLETON_DEFINE(LeakReport)
-
-LeakReport::LeakReport()
+namespace Seed { namespace Net
 {
-	memset(arInfo, '\0', sizeof(arInfo));
-}
 
-LeakReport::~LeakReport()
+class SEED_CORE_API UDPSocket
 {
-}
+	SEED_DISABLE_COPY(UDPSocket)
 
-void LeakReport::Print()
-{
-	for (int i = 0; i < SEED_LEAK_MAX; i++)
-	{
-		if (arInfo[i].ptrAddr)
-		{
-			Log(TAG "\t[0x%8x] %s:%d: %s -> %s", arInfo[i].ptrAddr, arInfo[i].strFile, arInfo[i].iLine, arInfo[i].strFunc, arInfo[i].strCall);
-		}
-	}
-}
+	public:
+		UDPSocket();
+		~UDPSocket();
 
-#endif // DEBUG
+		bool Open(u32 port);
+		void Close();
+		bool IsOpen() const;
 
-} // namespace
+		bool Send(const Address &destination, const void *data, u32 size);
+		u32 Receive(Address &sender, void *data, u32 size);
 
+	private:
+		Address cAddress;
+		u32 iHandle;
+		bool bIsOpen : 1;
+};
+
+}} // namespace
+
+#endif // __SOCKET_H__

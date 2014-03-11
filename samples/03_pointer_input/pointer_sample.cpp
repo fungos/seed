@@ -63,7 +63,7 @@ void PointerSample::OnSystemShutdown(const EventSystem *ev)
 	pSystem->Shutdown();
 }
 
-void PointerSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
+bool PointerSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	auto k = ev->GetKey();
 
@@ -73,6 +73,8 @@ void PointerSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		pResourceManager->Print();
 	else if (k == eKey::F2)
 		pResourceManager->GarbageCollect();
+
+	return true;
 }
 
 void PointerSample::OnInputPointerRelease(const EventInputPointer *ev)

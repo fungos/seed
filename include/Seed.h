@@ -62,7 +62,7 @@
 #include <Job.h>
 
 #include <Memory.h>
-#include <LeakReport.h>
+#include <LeafMessage.h>
 
 #include <Image.h>
 #include <interface/IEventInputMotionListener.h>

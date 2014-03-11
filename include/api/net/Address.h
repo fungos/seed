@@ -31,29 +31,32 @@
 #ifndef __ADDRESS_H__
 #define __ADDRESS_H__
 
-#include "Defines.h"
-
 namespace Seed { namespace Net
 {
+
 class SEED_CORE_API Address
 {
 	public:
-
 		Address();
-		Address( unsigned char a, unsigned char b, unsigned char c, unsigned char d, unsigned short port );
-		Address( unsigned int address, unsigned short port );
-		unsigned int GetAddress() const;
-		unsigned char GetA() const;
-		unsigned char GetB() const;
-		unsigned char GetC() const;
-		unsigned char GetD() const;
-		unsigned short GetPort() const;
-		bool operator == ( const Address & other ) const;
-		bool operator != ( const Address & other ) const;
+		Address(u32 a, u32 b, u32 c, u32 d, u32 port);
+		Address(u32 address, u32 port);
+		Address(Address &) = default;
+
+		u32 GetAddress() const;
+		u32 GetA() const;
+		u32 GetB() const;
+		u32 GetC() const;
+		u32 GetD() const;
+		u32 GetPort() const;
+
+		bool operator==(const Address &other) const;
+		bool operator!=(const Address &other) const;
 
 	private:
-		unsigned int address;
-		unsigned short port;
+		u32 iAddress;
+		u32 iPort;
 };
-}}
+
+}} // namespace
+
 #endif // __ADDRESS_H__
