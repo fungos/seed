@@ -322,14 +322,10 @@ TileSet *MapLayerTiled::GetTileSet()
 
 void MapLayerTiled::SetTileAt(u32 x, u32 y, u32 tileId)
 {
-	if (x < 0)
-		x = 0;
-	if (y < 0)
-		y = 0;
-	if (x >= s32(ptMapSize.x))
-		x = s32(ptMapSize.x) - 1;
-	if (y >= s32(ptMapSize.y))
-		y = s32(ptMapSize.y) - 1;
+	if (x >= ptMapSize.x)
+		x = ptMapSize.x - 1;
+	if (y >= ptMapSize.y)
+		y = ptMapSize.y - 1;
 
 	if (TILE(x, y) == tileId)
 		return;

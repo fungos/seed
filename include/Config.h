@@ -3,7 +3,10 @@
 
 #include "LocalDefines.h"
 
+#if !defined(NOMINMAX)
 #define NOMINMAX // Windows ftw
+#endif
+#define COM_NO_WINDOWS_H
 
 #if defined(SEED_BUILD)
 	#if !defined(SEED_USE_STATIC)

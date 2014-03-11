@@ -6,6 +6,7 @@ HEADERS += \
 
 OTHER_FILES += \
 	../bin/shader_app.config \
+	../bin/shader_sample.config \
 	../bin/shader_sample.scene \
 	../bin/frame03.png \
 	../bin/simple.vs \

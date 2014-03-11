@@ -1,6 +1,6 @@
 #include "Log.h"
 #include "api/net/UDPSocket.h"
-#include <limits> 
+#include <limits>
 
 #define TAG "[SocketUDP] "
 
@@ -12,7 +12,7 @@ UDPSocket::UDPSocket()
 	, iHandle(0)
 	, bIsOpen(false)
 {
-	#if defined(_MSC_VER)
+	#if defined(_MSC_VER) || defined(__WINDOWS__)
 	// Initialize the socket
 	WSADATA WsaData;
 	WSAStartup(MAKEWORD(2,2), &WsaData);
@@ -21,7 +21,7 @@ UDPSocket::UDPSocket()
 	// Creating a socket
 	iHandle = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
 
-	#if defined(_MSC_VER)
+	#if defined(_MSC_VER) || defined(__WINDOWS__)
 	bool optVal = true;
 	setsockopt(iHandle, SOL_SOCKET, SO_BROADCAST, (const char *)&optVal, sizeof(bool));
 	#elif defined(__APPLE_CC__) || defined(__linux__)
@@ -37,7 +37,7 @@ UDPSocket::UDPSocket()
 
 UDPSocket::~UDPSocket()
 {
-	#if defined(_MSC_VER)
+	#if defined(_MSC_VER) || defined(__WINDOWS__)
 	// Finalize the socket
 	WSACleanup();
 	#endif
@@ -61,7 +61,7 @@ bool UDPSocket::Open(u32 port)
 	else
 	{
 		// Setting the socket as non-blocking
-		#if defined(_MSC_VER)
+		#if defined(_MSC_VER) || defined(__WINDOWS__)
 		DWORD nonBlocking = 1;
 		if (ioctlsocket(iHandle, FIONBIO, &nonBlocking ) != 0)
 		{
@@ -85,7 +85,7 @@ bool UDPSocket::Open(u32 port)
 
 void UDPSocket::Close()
 {
-	#if defined(_MSC_VER)
+	#if defined(_MSC_VER) || defined(__WINDOWS__)
 	closesocket(iHandle);
 	#elif defined(__APPLE_CC__) || defined(__linux__)
 	shutdown(iHandle, SHUT_RDWR);
@@ -113,7 +113,7 @@ bool UDPSocket::Send(const Address &destination, const void *data, u32 size)
 
 u32 UDPSocket::Receive(Address &sender, void *data, u32 size)
 {
-	#if defined(_MSC_VER)
+	#if defined(_MSC_VER) || defined(__WINDOWS__)
 	typedef int socklen_t;
 	#endif
 

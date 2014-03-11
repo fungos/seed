@@ -1,7 +1,8 @@
 TARGET = seed
 TEMPLATE = lib
 
-INCLUDEPATH += include/ contrib/
+BASE = ../seed/
+INCLUDEPATH += include/
 DEFINES += SEED_BUILD SEED_ENABLE_PROFILER SEED_ENABLE_OGL20
 
 CONFIG += sdl2
@@ -9,9 +10,9 @@ CONFIG += staticlib
 #CONFIG += check
 
 CONFIG(debug, debug|release) {
-	DESTDIR =../seed/lib/debug
+	DESTDIR = $${BASE}/lib/debug
 } else {
-	DESTDIR = ../seed/lib/release
+	DESTDIR = $${BASE}/lib/release
 }
 
 
@@ -152,7 +153,8 @@ SOURCES += source/Viewport.cpp \
 	source/Thread.cpp \
 	source/platform/sdl2/sdl2System.cpp \
 	source/platform/sdl2/sdl2Screen.cpp \
-	source/platform/sdl2/sdl2Input.cpp
+	source/platform/sdl2/sdl2Input.cpp \
+	source/LeafMessage.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -228,4 +230,5 @@ HEADERS += include/*.h \
 	include/platform/sdl2/sdl2System.h \
 	include/platform/sdl2/sdl2Screen.h \
 	include/platform/sdl2/sdl2Input.h \
-	include/platform/sdl2/sdl2Defines.h
+	include/platform/sdl2/sdl2Defines.h \
+	include/LeafMessage.h
