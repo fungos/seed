@@ -123,7 +123,7 @@ class Allocator
 				strcpy(info.strCall, stmt);
 				strcpy(info.strFile, file);
 				strcpy(info.strFunc, func);
-
+				UNUSED(info);
 				LEAF(Alloc(&info, sizeof(AllocationInfo)));
 			}
 
@@ -140,6 +140,7 @@ class Allocator
 				info.iAddr = (intptr_t)p;
 				info.iFrame = 0;
 				info.iTime = pTimer->GetMilliseconds();
+				UNUSED(info);
 				LEAF(Free(&info, sizeof(FreeInfo)));
 			}
 			free(p);
