@@ -23,7 +23,7 @@ macx {
 	CONFIG -= sdl
 	CONFIG -= glfw
 	CONFIG += sdl2
-	INCLUDEPATH += contrib/osx/
+	INCLUDEPATH += $${BASE}/contrib/ $${BASE}/contrib/osx
 
 	sdl2 {
 		LIBS += -framework OpenAL -framework OpenGL -framework Cocoa -framework IOKit -framework QTKit -framework CoreFoundation -framework CoreAudio -framework AudioUnit -framework ForceFeedback -framework Carbon -framework AudioToolbox

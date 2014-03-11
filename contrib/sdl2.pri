@@ -457,6 +457,7 @@ unix:!macx:SOURCES += \
 macx:SOURCES += \
 	SDL2/loadso/dlopen/SDL_sysloadso.c \
 	SDL2/power/macosx/SDL_syspower.c \
+	SDL2/timer/unix/SDL_systimer.c \
 	SDL2/thread/pthread/SDL_systls.c \
 	SDL2/thread/pthread/SDL_syssem.c \
 	SDL2/thread/pthread/SDL_sysmutex.c \
@@ -538,5 +539,5 @@ win32:SOURCES += \
 	SDL2/thread/generic/SDL_syscond.c \
 #	SDL2/audio/directsound/SDL_directsound.c \
 #	SDL2/render/direct3d/SDL_render_d3d.c
-	
+
 macx:HEADERS += SDL2/audio/coreaudio/SDL_coreaudio.h
