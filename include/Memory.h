@@ -51,14 +51,14 @@ enum class eAllocationTag
 
 #if defined(DEBUG)
 
-void *operator new(std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__) throw();
+void *operator new(std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__);
 void *operator new(std::size_t size);
-void operator delete(void *p) throw();
-void operator delete(void *p, eAllocationTag, const char *, const char *, const char *, int) throw();
-void *operator new[](std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__) throw();
+void operator delete(void *p);
+void operator delete(void *p, eAllocationTag, const char *, const char *, const char *, int);
+void *operator new[](std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__);
 void *operator new[](std::size_t size);
-void operator delete[](void *p) throw();
-void operator delete[](void *p, eAllocationTag, const char *, const char *, const char *, int) throw();
+void operator delete[](void *p);
+void operator delete[](void *p, eAllocationTag, const char *, const char *, const char *, int);
 
 #include "LeafMessage.h"
 #include "Defines.h"

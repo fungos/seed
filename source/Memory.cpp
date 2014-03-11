@@ -42,7 +42,7 @@ void *operator new(std::size_t size)
 	return Seed::Allocator::Alloc(size, eAllocationTag::DoNotTrack);
 }
 
-void operator delete(void *p)
+void operator delete(void *p) noexcept(true)
 {
 	Seed::Allocator::Free(p);
 }
@@ -62,7 +62,7 @@ void *operator new[](std::size_t size)
 	return Seed::Allocator::Alloc(size, eAllocationTag::DoNotTrack);
 }
 
-void operator delete[](void *p)
+void operator delete[](void *p) noexcept(true)
 {
 	Seed::Allocator::Free(p);
 }

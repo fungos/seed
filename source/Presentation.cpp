@@ -263,15 +263,6 @@ bool Presentation::Unload()
 	return true;
 }
 
-Renderer *Presentation::GetRendererByName(const String &name)
-{
-	RendererVectorIterator it = std::find_if(vRenderer.begin(), vRenderer.end(), FindRendererByName(name));
-	if (it == vRenderer.end())
-		return nullptr;
-
-	return (*it);
-}
-
 Viewport *Presentation::GetViewportByName(const String &name)
 {
 	ViewportVectorIterator it = std::find_if(vViewport.begin(), vViewport.end(), FindViewportByName(name));
