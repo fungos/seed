@@ -3,18 +3,12 @@ CONFIG += console
 CONFIG -= qt
 CONFIG += sdl2
 
-INCLUDEPATH += ../../include ../../contrib
+BASE = ../../
+INCLUDEPATH += $${BASE}/include
+include("../platform.pri")
 include("../compiler.pri")
 
-CONFIG(debug, debug|release) {
-		DESTDIR = ../bin
-		DEFINES += DEBUG
-		LIBS += -L../../lib/debug
-} else {
-		DESTDIR = ../bin
-		DEFINES += RELEASE
-		LIBS += -L../../lib/release
-}
+DESTDIR = ../bin
 
 unix:!macx {
 		DEFINES += LINUX USE_API_SOIL SEED_ENABLE_OGL20
@@ -38,24 +32,3 @@ macx {
 		#		LIBS += -lSDL -lSDL_image
 		#}
 }
-
-win32 {
-		LIBS += -L../../contrib/windows/ -lseed -lseedcontrib -mwindows -lmingw32 -lopengl32 -lopenal32
-		INCLUDEPATH += ../../contrib/windows/
-		CONFIG -= glfw
-		CONFIG += sdl
-		sdl {
-				DEFINES += WIN32 main=SDL_main
-				LIBS += -lSDLmain -lSDL -lSDL_image -lgdi32
-		}
-}
-
-glfw {
-		DEFINES += BUILD_GLFW
-} else:sdl {
-		DEFINES += BUILD_SDL
-} else:sdl2 {
-		DEFINES += BUILD_SDL2
-}
-
-#LIBS += -L../../../libRocket/Build -lRocketCore -lRocketControls -lRocketDebugger

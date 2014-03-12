@@ -30,14 +30,14 @@
 
 #include "EventPresentation.h"
 #include "Presentation.h"
-#include "Renderer.h"
+#include "renderer/Viewport.h"
 
 namespace Seed {
 
-EventPresentation::EventPresentation(Presentation *p, Renderer *r)
+EventPresentation::EventPresentation(Presentation *p, Viewport *v)
 	: IEvent()
 	, pPresentation(p)
-	, pRenderer(r)
+	, pViewport(v)
 {
 }
 
@@ -50,9 +50,9 @@ Presentation *EventPresentation::GetPresentation() const
 	return pPresentation;
 }
 
-Renderer *EventPresentation::GetRenderer() const
+Viewport *EventPresentation::GetViewport() const
 {
-	return pRenderer;
+	return pViewport;
 }
 
 } // namespace

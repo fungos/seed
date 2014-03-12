@@ -28,12 +28,13 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
-#include "Renderer.h"
+#include "renderer/Renderer.h"
+#include "renderer/Camera.h"
 #include "Log.h"
 #include "SceneNode.h"
 #include "RendererDevice.h"
-#include "Camera.h"
 #include "Profiler.h"
+#include "Memory.h"
 
 #include <algorithm>
 #include <vector>
@@ -191,14 +192,12 @@ void Renderer::End() const
 	pRendererDevice->End();
 }
 
-void Renderer::SetScene(SceneNode *node)
+Renderer *Renderer::Clone() const
 {
-	pScene = node;
-}
+	Renderer *r = sdNew(Renderer);
+	SEED_ASSERT_MSG(r, "Could not instantiate Renderer");
 
-SceneNode *Renderer::GetScene() const
-{
-	return pScene;
+	return r;
 }
 
 } // namespace

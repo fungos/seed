@@ -41,7 +41,7 @@
 #include "EventInputJoystick.h"
 #include "EventSystem.h"
 #include "ViewManager.h"
-#include "Viewport.h"
+#include "renderer/Viewport.h"
 
 #if defined(_MSC_VER)
 #include <SDL/SDL_syswm.h>

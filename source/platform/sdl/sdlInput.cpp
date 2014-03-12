@@ -41,7 +41,7 @@
 #include "EventInputJoystick.h"
 #include "EventSystem.h"
 #include "ViewManager.h"
-#include "Viewport.h"
+#include "renderer/Viewport.h"
 
 #if defined(WIN32)
 #include <SDL/SDL_syswm.h>

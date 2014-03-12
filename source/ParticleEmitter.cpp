@@ -120,7 +120,8 @@ ParticleEmitter *ParticleEmitter::Clone() const
 	// particles, vertex, template
 	obj->arParticles = sdNewArray(Particle, iParticlesAmount);
 	obj->pVertex = static_cast<sVertex *>(sdAlloc(size));
-	obj->pTemplate = pTemplate->Clone();
+	if (pTemplate)
+		obj->pTemplate = pTemplate->Clone();
 	memcpy(obj->pVertex, pVertex, size);
 
 	obj->GenerateCloneName(sName);

@@ -29,38 +29,21 @@
 */
 
 #include "Presentation.h"
+#include "renderer/RendererManager.h"
+#include "renderer/Renderer.h"
+#include "renderer/Viewport.h"
 #include "Enum.h"
-#include "Viewport.h"
 #include "ViewManager.h"
-#include "Renderer.h"
-#include "RendererManager.h"
 #include "SceneNode.h"
 #include "SceneManager.h"
 #include "JobManager.h"
 #include "Screen.h"
-#include "EventPresentation.h"
 #include "PrefabManager.h"
 #include "Memory.h"
 
 #define TAG "[Presentation] "
 
 namespace Seed {
-
-class FindRendererByName
-{
-	public:
-		FindRendererByName(const String &name)
-			: sName(name)
-		{}
-
-		bool operator()(const Renderer *r) const
-		{
-			return (r->sName == sName);
-		}
-
-	private:
-		String sName;
-};
 
 class FindViewportByName
 {
@@ -107,15 +90,15 @@ class SceneFileLoader : public FileLoader
 			pRes = res;
 		}
 
-		void SetRenderer(Renderer *renderer)
+		void SetViewport(Viewport *viewport)
 		{
-			pRenderer = renderer;
+			pViewport = viewport;
 		}
 
 	protected:
 		Presentation *pParent = nullptr;
 		ResourceManager *pRes = nullptr;
-		Renderer *pRenderer = nullptr;
+		Viewport *pViewport = nullptr;
 		SceneNode *pScene = nullptr;
 		u32 iId = 0;
 };
@@ -147,7 +130,6 @@ class PrefabFileLoader : public FileLoader
 Presentation::Presentation()
 	: pRes(nullptr)
 	, pFinishedScenes(nullptr)
-	, pFinishedPrefabs(nullptr)
 {
 }
 
@@ -173,42 +155,11 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 	if (!this->Unload())
 		return false;
 
-	iPrefabsCount = 0;
 	sName = reader.ReadString("sName", "presentation");
-
-	auto rends = reader.SelectArray("aRenderer");
-	SEED_ASSERT_MSG(rends, "At least one renderer is required, 'aRenderer' is empty or inexistent");
-	if (rends)
-	{
-		for (u32 i = 0; i < rends; i++)
-		{
-			reader.SelectNext();
-
-			String n = reader.ReadString("sName", "");
-			SEED_ASSERT_MSG(!n.empty(), "Renderer requires a name - sName");
-
-			String s = reader.ReadString("sScene", "");
-			SEED_ASSERT_MSG(!s.empty(), "A scene file is required - sScene");
-
-			String p = reader.ReadString("sPrefabs", "");
-			if (!p.empty())
-				iPrefabsCount++;
-
-			Renderer *r = sdNew(Renderer);
-			SEED_ASSERT_MSG(r, "Could instantiate Renderer");
-			r->sName = n;
-			r->sSceneToAttach = s;
-			r->sPrefabToLoad = p;
-
-			Log(TAG "Renderer %s created.", n.c_str());
-			vRenderer += r;
-			pRendererManager->Add(r);
-		}
-		reader.UnselectArray();
-	}
+	SEED_CHECK_RETURN(pRendererManager->Load(reader, res), false, "Could not load renderers");
 
 	auto vps = reader.SelectArray("aViewport");
-	SEED_ASSERT_MSG(vps, "At least one viewport is required,'aViewport'' is empty or inexistent");
+	SEED_CHECK_RETURN(vps, false, "At least one viewport is required,'aViewport'' is empty or inexistent");
 	if (vps)
 	{
 		for (u32 i = 0; i < vps; i++)
@@ -216,7 +167,7 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 			reader.SelectNext();
 
 			String n = reader.ReadString("sName", "");
-			SEED_ASSERT_MSG(!n.empty(), "Viewport requires a name - sName");
+			SEED_CHECK_RETURN(!n.empty(), false, "Viewport requires a name - sName");
 
 			u32 x = reader.ReadU32("iX", 0);
 			u32 y = reader.ReadU32("iY", 0);
@@ -224,20 +175,29 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 			u32 h = reader.ReadU32("iHeight", pScreen->GetHeight());
 
 			String c = reader.ReadString("sCamera", "");
-			SEED_ASSERT_MSG(!c.empty(), "Viewport requires a camera name referenceRendererSceneLoader - sCamera");
+			SEED_CHECK_RETURN(!c.empty(), false, "Viewport '%s' requires a camera 'sCamera' name reference", n.c_str());
+
+			String s = reader.ReadString("sScene", "");
+			SEED_CHECK_RETURN(!s.empty(), false, "Viewport '%s' requires a scene 'sScene'", n.c_str());
 
 			String r = reader.ReadString("sRenderer", "");
-			SEED_ASSERT_MSG(!r.empty(), "Viewport requires a renderer name reference - sRenderer");
+			SEED_CHECK_RETURN(!r.empty(), false, "Viewport '%s' requires a renderer 'sRenderer' name reference", n.c_str());
 
-			Renderer *rend = this->GetRendererByName(r);
-			SEED_ASSERT_FMT(rend, "Could not find a renderer named %s for viewport %s", r.c_str(), n.c_str());
+			auto rend = pRendererManager->Get(r);
+			SEED_CHECK_RETURN(rend, false, "Could not find a renderer named %s for viewport %s", r.c_str(), n.c_str());
+
+			Renderer *clone = rend->Clone();
+			SEED_ASSERT_MSG(clone, "Could not clone Renderer");
+			vRenderer += clone;
 
 			Viewport *vp = sdNew(Viewport);
-			SEED_ASSERT_MSG(vp, "Could instantiate Viewport");
+			SEED_ASSERT_MSG(vp, "Could not instantiate Viewport");
+
 			vp->SetArea(Rect4u(x, y, w, h));
-			vp->SetRenderer(rend);
+			vp->SetRenderer(clone);
 			vp->sName = n;
 			vp->sCameraNameToAttach = c;
+			vp->sSceneToAttach = s;
 
 			Log(TAG "Viewport %s (at %dx%d size: %dx%d) created.", n.c_str(), x, y, w, h);
 			vViewport += vp;
@@ -250,12 +210,10 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 	SEED_ASSERT_MSG(pFinishedScenes, "Could instantiate pFinishedScenes");
 	memset(pFinishedScenes,  0, sizeof(bool) * vRenderer.Size());
 
-	if (iPrefabsCount)
+	String prefabs = reader.ReadString("sPrefabs", "");
+	if (!prefabs.empty())
 	{
-		pFinishedPrefabs = (bool *)sdAlloc(sizeof(bool) * iPrefabsCount);
-		SEED_ASSERT_MSG(pFinishedPrefabs, "Could instantiate pFinishedPrefabs");
-		memset(pFinishedPrefabs, 0, sizeof(bool) * iPrefabsCount);
-		this->PrefabsPhase();
+		this->PrefabsPhase(prefabs);
 	}
 	else
 	{
@@ -268,13 +226,13 @@ bool Presentation::Load(Reader &reader, ResourceManager *res)
 bool Presentation::Write(Writer &writer)
 {
 	UNUSED(writer)
+	WARNING(IMPL - MapLayerTiled::Write(...))
 	return true;
 }
 
 bool Presentation::Unload()
 {
 	sdFree(pFinishedScenes);
-	sdFree(pFinishedPrefabs);
 
 	for (auto obj: vViewport)
 	{
@@ -305,15 +263,6 @@ bool Presentation::Unload()
 	return true;
 }
 
-Renderer *Presentation::GetRendererByName(const String &name)
-{
-	RendererVectorIterator it = std::find_if(vRenderer.begin(), vRenderer.end(), FindRendererByName(name));
-	if (it == vRenderer.end())
-		return nullptr;
-
-	return (*it);
-}
-
 Viewport *Presentation::GetViewportByName(const String &name)
 {
 	ViewportVectorIterator it = std::find_if(vViewport.begin(), vViewport.end(), FindViewportByName(name));
@@ -330,7 +279,7 @@ void Presentation::SceneLoaded(SceneFileLoader *ldr)
 	SEED_ASSERT(pFinishedScenes);
 	for (auto obj: vViewport)
 	{
-		if (obj->GetRenderer() == ldr->pRenderer)
+		if (obj == ldr->pViewport)
 		{
 			Camera *cam = (Camera *)ldr->pScene->GetChildByName(obj->sCameraNameToAttach);
 			obj->SetCamera(cam);
@@ -364,82 +313,54 @@ void Presentation::SceneLoaded(SceneFileLoader *ldr)
 void Presentation::SceneAborted(SceneFileLoader *ldr)
 {
 	if (fnCallback)
-		fnCallback(this, ldr->pRenderer);
+		fnCallback(this, ldr->pViewport);
 }
 
 
 void Presentation::PrefabLoaded(PrefabFileLoader *ldr)
 {
 	SEED_ASSERT(ldr);
-	SEED_ASSERT(pFinishedPrefabs);
-	if (!pFinishedPrefabs[ldr->iId])
-	{
-		Log(TAG "Prefab file '%s' finished loading.", ldr->sFilename.c_str());
-		pFinishedPrefabs[ldr->iId] = true;
-	}
-
+	Log(TAG "Prefab file '%s' finished loading.", ldr->sFilename.c_str());
 	this->GotoScenePhase();
 }
 
 void Presentation::PrefabAborted(PrefabFileLoader *ldr)
 {
 	SEED_ASSERT(ldr);
-	SEED_ASSERT(pFinishedPrefabs);
-	if (!pFinishedPrefabs[ldr->iId])
-	{
-		Log(TAG "Prefab file '%s' failed loading.", ldr->sFilename.c_str());
-		pFinishedPrefabs[ldr->iId] = true;
-	}
-
+	Log(TAG "Prefab file '%s' failed loading.", ldr->sFilename.c_str());
 	this->GotoScenePhase();
 }
 
 void Presentation::GotoScenePhase()
 {
-	SEED_ASSERT(pFinishedPrefabs);
-	for (u32 i = 0; i < iPrefabsCount; ++i)
-	{
-		if (!pFinishedPrefabs[i])
-			return;
-	}
-
 	this->ScenesPhase();
 }
 
-void Presentation::PrefabsPhase()
+void Presentation::PrefabsPhase(const String &prefabs)
 {
-	auto i = u32{0};
-	for (auto obj: vRenderer)
-	{
-		if (!obj->sPrefabToLoad.empty())
+	auto cb = [&](Job *self) {
+		auto job = static_cast<PrefabFileLoader *>(self);
+
+		if (job->GetState() == eJobState::Completed)
 		{
-			auto cb = [&](Job *self) {
-				auto job = static_cast<PrefabFileLoader *>(self);
+			Reader r(job->pFile);
+			pPrefabManager->Load(r, job->pRes);
 
-				if (job->GetState() == eJobState::Completed)
-				{
-					Reader r(job->pFile);
-					pPrefabManager->Load(r, job->pRes);
-
-					this->PrefabLoaded(job);
-				}
-				else if (job->GetState() == eJobState::Aborted)
-				{
-					this->PrefabAborted(job);
-				}
-				sdDelete(self);
-			};
-
-			auto ldr = sdNew(PrefabFileLoader(i, obj->sPrefabToLoad, cb));
-			SEED_ASSERT_MSG(ldr, "Could instantiate PrefabFileLoader");
-			ldr->SetResourceManager(pRes);
-
-			Log(TAG "Scheduling prefab loading job: %s.", obj->sPrefabToLoad.c_str());
-			pJobManager->Add(ldr);
-
-			++i;
+			this->PrefabLoaded(job);
 		}
-	}
+		else if (job->GetState() == eJobState::Aborted)
+		{
+			this->PrefabAborted(job);
+		}
+		sdDelete(self);
+	};
+
+	auto ldr = sdNew(PrefabFileLoader(0, prefabs, cb));
+	SEED_ASSERT_MSG(ldr, "Could instantiate PrefabFileLoader");
+	ldr->SetResourceManager(pRes);
+
+	Log(TAG "Scheduling prefab loading job: %s.", prefabs.c_str());
+	pJobManager->Add(ldr);
 }
 
 void Presentation::ScenesPhase()
@@ -447,11 +368,10 @@ void Presentation::ScenesPhase()
 	// After all json parsing, we can start the scene loading jobs
 	// so we guarantee that we have all our reference names
 	auto i = u32{0};
-	for (auto obj: vRenderer)
+	for (auto obj: vViewport)
 	{
 		auto cb = [&](Job *self) {
 			auto job = static_cast<SceneFileLoader *>(self);
-
 			if (job->GetState() == eJobState::Completed)
 			{
 				auto scene = sdNew(SceneNode);
@@ -461,8 +381,9 @@ void Presentation::ScenesPhase()
 				Reader r(job->pFile);
 				scene->Load(r, job->pRes);
 
-				job->pRenderer->SetScene(scene);
+				job->pViewport->SetScene(scene);
 				job->pScene = scene;
+				pRendererManager->Add(job->pViewport->pRenderer);
 				job->pParent->SceneLoaded(job);
 			}
 			else if (job->GetState() == eJobState::Aborted)
@@ -475,7 +396,7 @@ void Presentation::ScenesPhase()
 		auto ldr = sdNew(SceneFileLoader(i, obj->sSceneToAttach, cb));
 		SEED_ASSERT_MSG(ldr, "Could instantiate SceneFileLoader");
 		ldr->SetResourceManager(pRes);
-		ldr->SetRenderer(obj);
+		ldr->SetViewport(obj);
 		ldr->SetPresentation(this);
 
 		Log(TAG "Scheduling scene job for scene %s.", obj->sSceneToAttach.c_str());
