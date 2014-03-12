@@ -10,4 +10,9 @@ Path::~Path()
 {
 }
 
+void Path::AppendStep(const Vector3f &vector3f)
+{
+	cSteps.push(vector3f);
+}
+
 } // namespace

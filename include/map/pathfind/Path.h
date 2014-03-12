@@ -2,6 +2,8 @@
 #define __PATH_H__
 
 #include "../../Defines.h"
+#include "Container.h"
+#include "MathUtil.h"
 
 namespace Seed {
 
@@ -12,6 +14,10 @@ class SEED_CORE_API Path
 	public:
 		Path();
 		virtual ~Path();
+		void AppendStep(const Vector3f &vector3f);
+
+	private:
+		Stack<Vector3f> cSteps;
 };
 
 } // end namespace
