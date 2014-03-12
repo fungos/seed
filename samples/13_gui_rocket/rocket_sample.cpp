@@ -21,13 +21,16 @@ RocketSample::~RocketSample()
 bool RocketSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("rocket_sample.config", [&](Presentation *pres, Renderer *) {
-		pScene = pres->GetRendererByName("MainRenderer")->GetScene();
+	return cPres.Load("rocket_sample.config", [&](Presentation *pres, Viewport *aborted) {
+		if (!aborted)
+		{
+			pScene = pres->GetViewportByName("MainView")->GetScene();
 
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
 
-		this->InitializeGUI();
+			this->InitializeGUI();
+		}
 	});
 }
 

@@ -21,7 +21,7 @@ BulletSample::~BulletSample()
 
 bool BulletSample::Initialize()
 {
-	cPres.Load("bullet_sample.config", [&](Presentation *, Renderer *) { /* TODO */ });
+	cPres.Load("bullet_sample.config", [&](Presentation *, Viewport *) { /* TODO */ });
 
 	/*
 	 * Create a World

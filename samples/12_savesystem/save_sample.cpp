@@ -108,20 +108,24 @@ bool SaveSample::Initialize()
 		Log("Could not prepare the savesystem.");
 	}
 
-	return cPres.Load("save_sample.config", [&](Presentation *pres, Renderer *) {
-		pCamera = pres->GetViewportByName("MainView")->GetCamera();
-		pImage = (Image *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+	return cPres.Load("save_sample.config", [&](Presentation *pres, Viewport *aborted) {
+		if (!aborted)
+		{
+			auto vp = pres->GetViewportByName("MainView");
+			pCamera = vp->GetCamera();
+			pImage = (Image *)vp->GetScene()->GetChildByName("Panda");
 
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
-		pInput->AddPointerListener(this);
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+			pInput->AddPointerListener(this);
 
-		MySlotStruct slot;
-		pSaveSystem->Load(0, &slot);
+			MySlotStruct slot;
+			pSaveSystem->Load(0, &slot);
 
-		auto v = Vector3f(slot.fPosX, slot.fPosY, pImage->GetPosition().getZ());
-		vFrom = vTo = v;
-		pImage->SetPosition(v);
+			auto v = Vector3f(slot.fPosX, slot.fPosY, pImage->GetPosition().getZ());
+			vFrom = vTo = v;
+			pImage->SetPosition(v);
+		}
 	});
 }
 

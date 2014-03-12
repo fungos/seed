@@ -13,14 +13,17 @@ SfxSample::~SfxSample()
 bool SfxSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("sfx_sample.config", [&](Presentation *, Renderer *) {
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
-		pInput->AddPointerListener(this);
+	return cPres.Load("sfx_sample.config", [&](Presentation *, Viewport *aborted) {
+		if (!aborted)
+		{
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+			pInput->AddPointerListener(this);
 
-		musTheme.Load("theme.ogg");
-		musTheme.SetVolume(.2f);
-		pSoundSystem->PlayMusic(&musTheme);
+			musTheme.Load("theme.ogg");
+			musTheme.SetVolume(.2f);
+			pSoundSystem->PlayMusic(&musTheme);
+		}
 	});
 }
 

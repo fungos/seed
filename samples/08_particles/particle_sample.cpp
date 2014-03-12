@@ -15,10 +15,13 @@ ParticleSample::~ParticleSample()
 bool ParticleSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("particle_sample.config", [&](Presentation *pres, Renderer *) {
-		pEmitter = (ParticleEmitter *)pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Emitter");
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
+	return cPres.Load("particle_sample.config", [&](Presentation *pres, Viewport *aborted) {
+		if (!aborted)
+		{
+			pEmitter = (ParticleEmitter *)pres->GetViewportByName("MainView")->GetScene()->GetChildByName("Emitter");
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+		}
 	});
 }
 
