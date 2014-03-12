@@ -34,13 +34,14 @@
 #include "interface/IDataObject.h"
 #include "ResourceManager.h"
 #include "Container.h"
+#include "renderer/Renderer.h"
 
 namespace Seed {
 
 class Viewport;
 class Camera;
-class Renderer;
 class SceneNode;
+class Renderer;
 class SceneFileLoader;
 class PrefabFileLoader;
 
@@ -54,10 +55,10 @@ class SEED_CORE_API Presentation : public IDataObject
 	/*!
 	* \brief Callback
 	* Callback to execute when the presentation load is finished. If the presentation load was aborted due some error,
-	* it will call the callback with a renderer parameter with the faulty rebderer, otherwise the renderer will be null.
-	* All renderers loaded in a presentation can be queried/get by name.
+	* it will call the callback with a viewport aborted set, otherwise the viewport will be null and you should query it
+	* from the presentation using GetViewportByName.
 	*/
-	typedef std::function<void(Presentation *, Renderer *)> Callback;
+	typedef std::function<void (Presentation *, Viewport *)> Callback;
 	SEED_DISABLE_COPY(Presentation)
 	SEED_DECLARE_RTTI(Presentation, IDataObject)
 
@@ -66,8 +67,6 @@ class SEED_CORE_API Presentation : public IDataObject
 		virtual ~Presentation();
 
 		bool Load(const String &filename, Callback cb, ResourceManager *res = pResourceManager);
-
-		Renderer *GetRendererByName(const String &name);
 		Viewport *GetViewportByName(const String &name);
 
 		// IDataObject
@@ -85,7 +84,7 @@ class SEED_CORE_API Presentation : public IDataObject
 		void PrefabAborted(PrefabFileLoader *ldr);
 
 		void GotoScenePhase();
-		void PrefabsPhase();
+		void PrefabsPhase(const String &prefabs);
 		void ScenesPhase();
 
 		// IDataObject
@@ -95,8 +94,6 @@ class SEED_CORE_API Presentation : public IDataObject
 	private:
 		ResourceManager *pRes;
 		bool *pFinishedScenes;
-		bool *pFinishedPrefabs;
-		u32 iPrefabsCount;
 
 		Callback fnCallback;
 		ViewportVector vViewport;

@@ -14,12 +14,16 @@ ImageSample::~ImageSample()
 bool ImageSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("image_sample.config", [&](Presentation *pres, Renderer *) {
-		pCamera = pres->GetViewportByName("MainView")->GetCamera();
-		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+	return cPres.Load("image_sample.config", [&](Presentation *pres, Viewport *aborted) {
+		if (!aborted)
+		{
+			auto vp = pres->GetViewportByName("MainView");
+			pCamera = vp->GetCamera();
+			pObject = vp->GetScene()->GetChildByName("Panda");
 
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+		}
 	});
 }
 

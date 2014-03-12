@@ -21,17 +21,20 @@ VideoSample::~VideoSample()
 bool VideoSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("video_sample.config", [&](Presentation *pres, Renderer *rend)
+	return cPres.Load("video_sample.config", [&](Presentation *pres, Viewport *aborted)
 	{
-		UNUSED(rend)
-		pCamera = pres->GetViewportByName("MainView")->GetCamera();
-		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Theora");
+		if (!aborted)
+		{
+			auto vp = pres->GetViewportByName("MainView");
+			pCamera = vp->GetCamera();
+			pObject = vp->GetScene()->GetChildByName("Theora");
 
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
-		pInput->AddPointerListener(this);
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+			pInput->AddPointerListener(this);
 
-		bLoaded = true;
+			bLoaded = true;
+		}
 	});
 }
 

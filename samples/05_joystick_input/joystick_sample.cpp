@@ -31,16 +31,17 @@ bool JoystickSample::Initialize()
 	vPlayerVectorDirection = VECTOR_ZERO;
 
 	// Initialize the game by a config file
-	return cPres.Load("joystick_sample.config",  [&](Presentation *pres, Renderer *rend)
+	return cPres.Load("joystick_sample.config",  [&](Presentation *pres, Viewport *aborted)
 	{
-		UNUSED(rend)
+		if (!aborted)
+		{
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+			pInput->AddJoystickListener(this);
 
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
-		pInput->AddJoystickListener(this);
-
-		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
-		bPresentationLoaded = true;
+			pObject = pres->GetViewportByName("MainView")->GetScene()->GetChildByName("Panda");
+			bPresentationLoaded = true;
+		}
 	});
 }
 
@@ -94,12 +95,12 @@ void JoystickSample::OnInputJoystickButtonPress(const EventInputJoystick *ev)
 
 	if (k == eInputButton::Button14)
 	{
-		pObject = cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda2");
+		pObject = cPres.GetViewportByName("MainView")->GetScene()->GetChildByName("Panda2");
 	}
 
 	if (k == eInputButton::Button13)
 	{
-		pObject = cPres.GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
+		pObject = cPres.GetViewportByName("MainView")->GetScene()->GetChildByName("Panda");
 	}
 
 	if (k == eInputButton::JoystickUp)

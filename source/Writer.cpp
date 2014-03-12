@@ -99,6 +99,11 @@ void Writer::WriteS32(const char *key, s32 value) const
 	pOpaque->WriteS32(key, value);
 }
 
+void Writer::WriteU32(u32 value) const
+{
+	pOpaque->WriteU32(value);
+}
+
 void Writer::WriteU32(const char *key, u32 value) const
 {
 	pOpaque->WriteU32(key, value);

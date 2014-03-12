@@ -169,7 +169,7 @@ bool GameMap::LoadTiled(Reader &reader)
 bool GameMap::Write(Writer &writer)
 {
 	UNUSED(writer)
-	//#pragma warning "IMPL - GameMap::Write(Writer &writer)"
+	WARNING(IMPL - GameMap::Write(...))
 	return true;
 }
 

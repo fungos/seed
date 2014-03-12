@@ -80,7 +80,7 @@ void MapLayerMosaic::Set(Reader &reader)
 bool MapLayerMosaic::Write(Writer &writer)
 {
 	UNUSED(writer)
-	WARNING(IMPL - MapLayerMosaic::Writer(...))
+	WARNING(IMPL - MapLayerMosaic::Write(...))
 	return false;
 }
 

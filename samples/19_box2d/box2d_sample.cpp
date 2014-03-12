@@ -38,20 +38,23 @@ Box2DSample::~Box2DSample()
 
 bool Box2DSample::Initialize()
 {
-	cPres.Load("box2d_sample.config", [&](Presentation *pres, Renderer *) {
-		pScene = pres->GetRendererByName("MainRenderer")->GetScene();
-		pCamera = static_cast<Camera *>(pScene->GetChildByName("MainCamera"));
+	cPres.Load("box2d_sample.config", [&](Presentation *pres, Viewport *aborted) {
+		if (!aborted)
+		{
+			pScene = pres->GetViewportByName("MainView")->GetScene();
+			pCamera = static_cast<Camera *>(pScene->GetChildByName("MainCamera"));
 
-		ISceneObject *obj = pScene->GetChildByName("Ground");
-		obj->SetPosition(pGround->GetPosition().x * M2PIX, pGround->GetPosition().y * M2PIX);
-		obj->SetVisible(true);
-		pGround->SetUserData(obj);
+			auto obj = pScene->GetChildByName("Ground");
+			obj->SetPosition(pGround->GetPosition().x * M2PIX, pGround->GetPosition().y * M2PIX);
+			obj->SetVisible(true);
+			pGround->SetUserData(obj);
 
-		this->CreateBody(static_cast<Image *>(pScene->GetChildByName("Panda")), 0.0f, 0.0f);
+			this->CreateBody(static_cast<Image *>(pScene->GetChildByName("Panda")), 0.0f, 0.0f);
 
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
-		pInput->AddPointerListener(this);
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+			pInput->AddPointerListener(this);
+		}
 	});
 
 	pWorld = sdNew(b2World(b2Vec2(0.0f, 10.0f)));
@@ -79,12 +82,12 @@ bool Box2DSample::Update(Seconds dt)
 	pWorld->Step(dt, 8, 3);
 	pWorld->ClearForces();
 
-	for (b2Body *b = pWorld->GetBodyList(); b; b = b->GetNext())
+	for (auto b = pWorld->GetBodyList(); b; b = b->GetNext())
 	{
-		ISceneObject *obj = (ISceneObject *)b->GetUserData();
+		auto obj = (ISceneObject *)b->GetUserData();
 		if (obj != nullptr)
 		{
-			b2Vec2 p = b->GetPosition();
+			auto p = b->GetPosition();
 			f32 a = b->GetAngle() * RAD2DEG;
 			obj->SetPosition(p.x * M2PIX, p.y * M2PIX);
 			obj->SetRotation(a);

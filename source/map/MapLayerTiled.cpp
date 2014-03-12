@@ -82,7 +82,7 @@ void MapLayerTiled::Set(Reader &reader)
 bool MapLayerTiled::Write(Writer &writer)
 {
 	UNUSED(writer)
-	WARNING(IMPL - MapLayerTiled::Writer(...))
+	WARNING(IMPL - MapLayerTiled::Write(...))
 	return false;
 }
 

@@ -11,9 +11,12 @@ PresentationSample::~PresentationSample()
 
 bool PresentationSample::Initialize()
 {
-	return cPres.Load("pres1.config", [&](Presentation *, Renderer *) {
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
+	return cPres.Load("pres1.config", [&](Presentation *, Viewport *aborted) {
+		if (!aborted)
+		{
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+		}
 	});
 }
 

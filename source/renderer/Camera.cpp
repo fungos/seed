@@ -28,14 +28,14 @@
 * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 */
 
+#include <algorithm>
 #include "Defines.h"
-#include "Camera.h"
 #include "Log.h"
 #include "Enum.h"
 #include "interface/ITexture.h"
 #include "Screen.h"
 #include "Memory.h"
-#include <algorithm>
+#include "renderer/Camera.h"
 
 #define TAG "[Camera] "
 

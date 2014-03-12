@@ -173,7 +173,7 @@ bool TileSet::Load(Reader &reader, ResourceManager *res)
 bool TileSet::Write(Writer &writer)
 {
 	UNUSED(writer)
-	//#pragma warning ("IMPL - TileSet::Write(Writer &writer)")
+	WARNING(IMPL - MapLayerTiled::Write(...))
 	return true;
 }
 

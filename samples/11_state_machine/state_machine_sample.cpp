@@ -22,9 +22,12 @@ StateMachineSample::~StateMachineSample()
 
 bool StateMachineSample::Initialize()
 {
-	bool init = cPres.Load("state_machine_sample.config", [&](Presentation *, Renderer *) {
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
+	bool init = cPres.Load("state_machine_sample.config", [&](Presentation *, Viewport *aborted) {
+		if (!aborted)
+		{
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+		}
 	});
 
 	// Create the data for state machine

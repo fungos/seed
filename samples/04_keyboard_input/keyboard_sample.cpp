@@ -31,13 +31,16 @@ bool KeyboardSample::Initialize()
 	vPlayerVectorDirection = VECTOR_ZERO;
 
 	// Initialize the game by a config file
-	return cPres.Load("keyboard_sample.config", [&](Presentation *pres, Renderer *) {
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
+	return cPres.Load("keyboard_sample.config", [&](Presentation *pres, Viewport *aborted) {
+		if (!aborted)
+		{
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
 
-		// Retreive the sprite of player
-		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
-		bPresentationLoaded = true;
+			// Retreive the sprite of player
+			pObject = pres->GetViewportByName("MainView")->GetScene()->GetChildByName("Panda");
+			bPresentationLoaded = true;
+		}
 	});
 }
 

@@ -36,7 +36,7 @@
 namespace Seed {
 
 class Presentation;
-class Renderer;
+class Viewport;
 
 class SEED_CORE_API EventPresentation: public IEvent
 {
@@ -44,22 +44,22 @@ class SEED_CORE_API EventPresentation: public IEvent
 	SEED_DECLARE_RTTI(EventPresentation, IEvent)
 
 	public:
-		EventPresentation(Presentation *p, Renderer *r);
+		EventPresentation(Presentation *p, Viewport *r);
 		virtual ~EventPresentation();
 
 		/// Get the presentation that emitted the event on load successful.
 		Presentation *GetPresentation() const;
 
 		/**
-		 * In case of loading error, return the renderer that failed to load.
-		 * But Renderer will be null in case of success, so you shouldn't use
-		 * ev->GetRenderer() inside OnPresentationLoaded().
+		 * In case of loading error, return the viewport that failed to load.
+		 * But viewport will be null in case of success, so you shouldn't use
+		 * ev->GetViewport() inside OnPresentationLoaded().
 		 */
-		Renderer *GetRenderer() const;
+		Viewport *GetViewport() const;
 
 	protected:
 		Presentation	*pPresentation;
-		Renderer		*pRenderer;
+		Viewport		*pViewport;
 };
 
 } // namespace

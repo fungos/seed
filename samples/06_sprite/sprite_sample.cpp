@@ -21,16 +21,20 @@ SpriteSample::~SpriteSample()
 bool SpriteSample::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("sprite_sample.config", [&](Presentation *pres, Renderer *)
-	{
-		pCamera = pres->GetViewportByName("MainView")->GetCamera();
-		pObject = pres->GetRendererByName("MainRenderer")->GetScene()->GetChildByName("Panda");
 
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
-		pInput->AddPointerListener(this);
+	return cPres.Load("sprite_sample.config", [&](Presentation *pres, Viewport *aborted) {
+		if (!aborted)
+		{
+			auto vp = pres->GetViewportByName("MainView");
+			pCamera = vp->GetCamera();
+			pObject = vp->GetScene()->GetChildByName("Panda");
 
-		bLoaded = true;
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+			pInput->AddPointerListener(this);
+
+			bLoaded = true;
+		}
 	});
 }
 

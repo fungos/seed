@@ -35,7 +35,11 @@
 #include "Address.h"
 
 #if defined(__WINDOWS__)
-#define NOUSER
+	#if !defined(_MSC_VER)
+		#define NOUSER
+	#else
+		#define _OLE2_H_ // I love windows _|_
+	#endif
 #include <winsock2.h>
 #undef GetObject
 	#if defined(_MSC_VER)
