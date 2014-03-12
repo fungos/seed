@@ -11,8 +11,14 @@ FLAGSXX += -std=c++11
 USE_CCACHE=FALSE
 USE_CLANG=FALSE
 
-unix {
-	FLAGSXX += -std=c++11
+unix:!macx {
+	FLAGSXX += -stdlib=libstdc++
+
+	system(which ccache):USE_CCACHE=TRUE
+	system(which clang++):USE_CLANG=TRUE
+}
+
+macx {
 	FLAGSXX += -stdlib=libc++
 
 	system(which ccache):USE_CCACHE=TRUE

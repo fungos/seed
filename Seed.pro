@@ -131,6 +131,9 @@ SOURCES += source/ViewManager.cpp \
 	source/map/MapLayerMosaic.cpp \
 	source/map/MapLayerTiled.cpp \
 	source/map/TileSet.cpp \
+	source/map/pathfind/IPathfinder.cpp \
+	source/map/pathfind/AStarPathfinder.cpp \
+	source/map/pathfind/Path.cpp \
 	source/interface/IShader.cpp \
 	source/interface/IShaderProgram.cpp \
 	source/ShaderManager.cpp \
@@ -201,6 +204,9 @@ HEADERS += include/*.h \
 	include/map/MapLayerMosaic.h \
 	include/map/MapLayerTiled.h \
 	include/map/TileSet.h \
+	include/map/pathfind/IPathfinder.h \
+	include/map/pathfind/AStarPathfinder.h \
+	include/map/pathfind/Path.h \
 	include/api/ogl/oglES2RendererDevice.h \
 	include/interface/IShader.h \
 	include/Shader.h \
