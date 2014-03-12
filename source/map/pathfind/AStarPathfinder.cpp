@@ -65,13 +65,13 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 		// If reached the end position, construct the path and return it
 		if(current->iTile == iEndNode)
 		{
-			TileNode step = current;
+			TileNode *step = current;
 
 			// Push each tile pos into the steps stack
-			while (step.iTile != iStartNode)
+			while (step->iTile != iStartNode)
 			{
-				path.AppendStep(step.cPos);
-				step = step.parent;
+				path.AppendStep(step->cPos);
+				step = step->parent;
 			}
 			path.AppendStep(start);
 
