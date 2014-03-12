@@ -11,10 +11,13 @@ PresentationSample::~PresentationSample()
 
 bool PresentationSample::Initialize()
 {
-	return cPres.Load("pres2.config", [&](Presentation *, Renderer *) {
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
-		pInput->AddPointerListener(this);
+	return cPres.Load("pres2.config", [&](Presentation *, Viewport *aborted) {
+		if (!aborted)
+		{
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
+			pInput->AddPointerListener(this);
+		}
 	});
 }
 

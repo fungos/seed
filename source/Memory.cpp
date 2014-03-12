@@ -32,6 +32,12 @@
 
 #if defined(DEBUG)
 
+#if !defined(_MSC_VER)
+#define SEED_NOEXCEPT	noexcept(true)
+#else
+#define SEED_NOEXCEPT
+#endif
+
 void *operator new(std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file, int line)
 {
 	return Seed::Allocator::Alloc(size, tag, stmt, func, file, line);
@@ -42,7 +48,7 @@ void *operator new(std::size_t size)
 	return Seed::Allocator::Alloc(size, eAllocationTag::DoNotTrack);
 }
 
-void operator delete(void *p) noexcept(true)
+void operator delete(void *p) SEED_NOEXCEPT
 {
 	Seed::Allocator::Free(p);
 }
@@ -62,7 +68,7 @@ void *operator new[](std::size_t size)
 	return Seed::Allocator::Alloc(size, eAllocationTag::DoNotTrack);
 }
 
-void operator delete[](void *p) noexcept(true)
+void operator delete[](void *p) SEED_NOEXCEPT
 {
 	Seed::Allocator::Free(p);
 }

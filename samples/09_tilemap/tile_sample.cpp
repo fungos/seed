@@ -19,27 +19,31 @@ TileSample::~TileSample()
 
 bool TileSample::Initialize()
 {
-	return cPres.Load("tile_sample.config", [&](Presentation *pres, Renderer *) {
-		gScene = pres->GetRendererByName("MainRenderer")->GetScene();
-		pCamera = pres->GetViewportByName("MainView")->GetCamera();
+	return cPres.Load("tile_sample.config", [&](Presentation *pres, Viewport *aborted) {
+		if (!aborted)
+		{
+			auto vp = pres->GetViewportByName("MainView");
+			gScene = vp->GetScene();
+			pCamera = vp->GetCamera();
 
-		pPlayer = (ISceneObject *)gScene->GetChildByName("Player");
+			pPlayer = (ISceneObject *)gScene->GetChildByName("Player");
 
-		pMap = (GameMap *)gScene->GetChildByName("Map");
-		pCamera->SetParent(pPlayer);
-		vDir = Vector3f(0.0f, 0.0f, 0.0f);
+			pMap = (GameMap *)gScene->GetChildByName("Map");
+			pCamera->SetParent(pPlayer);
+			vDir = Vector3f(0.0f, 0.0f, 0.0f);
 
-		/* How to read the various properties in a tiled map */
-		auto mapName = pMap->GetProperty("map_name");
-		auto layerVelocity = pMap->GetLayerByName("Ground")->GetProperty("velocity");
-		auto type = pMap->GetTileSet("Desert")->GetProperty("terrain_type");
-		auto tileProp1 = pMap->GetTileSet("Desert")->GetTileProperty(1, "type");
-		auto tileProp30 = pMap->GetTileSet("Desert")->GetTileProperty(30, "type");
+			/* How to read the various properties in a tiled map */
+			auto mapName = pMap->GetProperty("map_name");
+			auto layerVelocity = pMap->GetLayerByName("Ground")->GetProperty("velocity");
+			auto type = pMap->GetTileSet("Desert")->GetProperty("terrain_type");
+			auto tileProp1 = pMap->GetTileSet("Desert")->GetTileProperty(1, "type");
+			auto tileProp30 = pMap->GetTileSet("Desert")->GetTileProperty(30, "type");
 
-		pSystem->AddListener(this);
-		pInput->AddKeyboardListener(this);
+			pSystem->AddListener(this);
+			pInput->AddKeyboardListener(this);
 
-		bLoaded = true;
+			bLoaded = true;
+		}
 	});
 }
 

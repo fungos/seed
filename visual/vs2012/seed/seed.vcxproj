@@ -104,6 +104,9 @@
     <ClCompile Include="..\..\..\source\map\MapLayerMosaic.cpp" />
     <ClCompile Include="..\..\..\source\map\MapLayerTiled.cpp" />
     <ClCompile Include="..\..\..\source\map\MetadataObject.cpp" />
+    <ClCompile Include="..\..\..\source\map\pathfind\AStarPathfinder.cpp" />
+    <ClCompile Include="..\..\..\source\map\pathfind\IPathfinder.cpp" />
+    <ClCompile Include="..\..\..\source\map\pathfind\Path.cpp" />
     <ClCompile Include="..\..\..\source\map\TileSet.cpp" />
     <ClCompile Include="..\..\..\source\Memory.cpp" />
     <ClCompile Include="..\..\..\source\Movie.cpp" />
@@ -335,6 +338,9 @@
     <ClInclude Include="..\..\..\include\map\MapLayerMosaic.h" />
     <ClInclude Include="..\..\..\include\map\MapLayerTiled.h" />
     <ClInclude Include="..\..\..\include\map\MetadataObject.h" />
+    <ClInclude Include="..\..\..\include\map\pathfind\AStarPathfinder.h" />
+    <ClInclude Include="..\..\..\include\map\pathfind\IPathfinder.h" />
+    <ClInclude Include="..\..\..\include\map\pathfind\Path.h" />
     <ClInclude Include="..\..\..\include\map\TileSet.h" />
     <ClInclude Include="..\..\..\include\MathUtil.h" />
     <ClInclude Include="..\..\..\include\Memory.h" />
@@ -592,7 +598,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level4</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>SEED_USE_LEAF=1;_DEBUG;_LIB;BUILD_SDL2;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_LIB;BUILD_SDL2;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4521;4275</DisableSpecificWarnings>
       <ExceptionHandling>Sync</ExceptionHandling>

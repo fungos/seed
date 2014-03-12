@@ -29,7 +29,7 @@ RendererSample::~RendererSample()
 bool RendererSample::Initialize()
 {
 	/* ------- Rendering Initialization ------- */
-	cRenderer.SetScene(&cScene);
+	cViewport.SetScene(&cScene);
 
 	cViewport.sName = "MainView";
 	cRenderer.sName = "MainRenderer";
