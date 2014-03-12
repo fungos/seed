@@ -11,20 +11,23 @@ class SEED_CORE_API AStarPathfinder : public IPathfinder
 {
 	SEED_DISABLE_COPY(AStarPathfinder)
 	SEED_DECLARE_RTTI(AStarPathfinder, IPathfinder)
+	SEED_DECLARE_CONTAINER(Vector, TileNode)
 
 	public:
-		AStarPathfinder();
+		AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight,
+						Heuristic *heuristic, MapLayerTiled *mapBackground,
+						MapLayerTiled *mapColliders);
 		virtual ~AStarPathfinder();
+		bool CheckOpenNeighborByTileId(const u32 tileId);
+		bool CheckCloseNeighborByTileId(const u32 tileId);
 
 		// IPathfinder
-		virtual Path &FindPath(const Vector3f &start, const Vector3f &end, MapLayerTiled &map, Path &path) override;
+		virtual Path &FindPath(const Vector3f &start, const Vector3f &end, Path &path) override;
 
 	private:
-		Stack<u32>	sOpen;
-		u32			iStartNode;
-		u32			iEndNode;
-		f32			fEuristic;
-
+		TileNodeVector	vOpen;
+		TileNodeVector	vClose;
+		TileNode *pStartNode;
 };
 
 }// end namespace

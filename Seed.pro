@@ -154,7 +154,8 @@ SOURCES += source/Viewport.cpp \
 	source/platform/sdl2/sdl2System.cpp \
 	source/platform/sdl2/sdl2Screen.cpp \
 	source/platform/sdl2/sdl2Input.cpp \
-	source/LeafMessage.cpp
+	source/LeafMessage.cpp \
+    source/map/pathfind/Heuristic.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm
@@ -231,4 +232,5 @@ HEADERS += include/*.h \
 	include/platform/sdl2/sdl2Screen.h \
 	include/platform/sdl2/sdl2Input.h \
 	include/platform/sdl2/sdl2Defines.h \
-	include/LeafMessage.h
+	include/LeafMessage.h \
+    include/map/pathfind/Heuristic.h

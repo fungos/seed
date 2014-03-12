@@ -53,6 +53,7 @@ namespace Seed {
 // Declare a global constant for pi and a few multiples.
 // Math constants
 const f32 kPi = 3.14159265358979323846f; // M_PI
+const f32 kSqrt2 = 1.4142135623730951; // SQRT2
 const f32 k2Pi = kPi * 2.0f;
 
 const f32 kPiOver2 = kPi / 2.0f; // M_PI_2 1.57079632679489661923f

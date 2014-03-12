@@ -2,7 +2,6 @@
 
 namespace Seed {
 
-
 IPathfinder::IPathfinder()
 {
 }
@@ -11,28 +10,174 @@ IPathfinder::~IPathfinder()
 {
 }
 
-Path &IPathfinder::FindPath(const Vector3f &start, const Vector3f &end, MapLayerTiled &map, Path &path)
+Path &IPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path &path)
 {
 	UNUSED(start);
 	UNUSED(end);
-	UNUSED(map);
 	SEED_ABSTRACT_METHOD;
 	return path;
 }
 
-f32 IPathfinder::Manhattan(const Vector3f &point) const
+void IPathfinder::GetNeigboursAtTile(TileNode tile)
 {
-	return point.getX() + point.getY();
-}
+	u32 tileScaleX = pMapBackground->GetScaleX();
+	u32 tileScaleY = pMapBackground->GetScaleY();
+	Vector3f seachPos;
 
-f32 IPathfinder::Euclidean(const Vector3f &point) const
-{
-	return sqrt(point.getX() * point.getX() + point.getY() * point.getY());
-}
+	/**
+	 * Get the neighbors of the given node.
+	 *
+	 *     offsets      diagonalOffsets:
+	 *  +---+---+---+    +---+---+---+
+	 *  |   | 0 |   |    | 0 |   | 1 |
+	 *  +---+---+---+    +---+---+---+
+	 *  | 3 |   | 1 |    |   |   |   |
+	 *  +---+---+---+    +---+---+---+
+	 *  |   | 2 |   |    | 3 |   | 2 |
+	 *  +---+---+---+    +---+---+---+
+	 *
+	 */
+	bool	s0 = false, d0 = false,
+			s1 = false, d1 = false,
+			s2 = false, d2 = false,
+			s3 = false, d3 = false;
 
-f32 IPathfinder::Chebyshev(const Vector3f &point) const
-{
-	return maxElem(point);
+	// ↑
+	seachPos.setX(tile.cPos.getX()); seachPos.setY(tile.cPos.getY() - tileScaleY);
+	if (!pMapColliders->GetTileAt(seachPos))
+	{
+		TileNode *tileNode = sdNew(TileNode);
+		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
+		tileNode->cPos = seachPos;
+		tileNode->iG = 0;
+		tileNode->iF = 0;
+		tileNode->bIsWalkable = true;
+
+		vNeighbors.push_back(tileNode);
+		s0 = true;
+	}
+
+	// →
+	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY());
+	if (!pMapColliders->GetTileAt(seachPos))
+	{
+		TileNode *tileNode = sdNew(TileNode);
+		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
+		tileNode->cPos = seachPos;
+		tileNode->iG = 0;
+		tileNode->iF = 0;
+		tileNode->bIsWalkable = true;
+
+		vNeighbors.push_back(tileNode);
+		s1 = true;
+	}
+
+	// ↓
+	seachPos.setX(tile.cPos.getX()); seachPos.setY(tile.cPos.getY() + tileScaleY);
+	if (!pMapColliders->GetTileAt(seachPos))
+	{
+		TileNode *tileNode = sdNew(TileNode);
+		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
+		tileNode->cPos = seachPos;
+		tileNode->iG = 0;
+		tileNode->iF = 0;
+		tileNode->bIsWalkable = true;
+
+		vNeighbors.push_back(tileNode);
+		s2 = true;
+	}
+
+	// ←
+	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY());
+	if (!pMapColliders->GetTileAt(seachPos))
+	{
+		TileNode *tileNode = sdNew(TileNode);
+		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
+		tileNode->cPos = seachPos;
+		tileNode->iG = 0;
+		tileNode->iF = 0;
+		tileNode->bIsWalkable = true;
+
+		vNeighbors.push_back(tileNode);
+		s3 = true;
+	}
+
+
+	if (!bIsDiagonalAllowed)
+	{
+		return;
+	}
+
+	if (!bIsCornerCrossable)
+	{
+		d0 = s3 && s0;
+		d1 = s0 && s1;
+		d2 = s1 && s2;
+		d3 = s2 && s3;
+	}
+	else
+	{
+		d0 = s3 || s0;
+		d1 = s0 || s1;
+		d2 = s1 || s2;
+		d3 = s2 || s3;
+	}
+
+	// ↖
+	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY() - tileScaleY);
+	if (d0 && !pMapColliders->GetTileAt(seachPos))
+	{
+		TileNode *tileNode = sdNew(TileNode);
+		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
+		tileNode->cPos = seachPos;
+		tileNode->iG = 0;
+		tileNode->iF = 0;
+		tileNode->bIsWalkable = true;
+
+		vNeighbors.push_back(tileNode);
+	}
+
+	// ↗
+	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY() - tileScaleY);
+	if (d1 && !pMapColliders->GetTileAt(seachPos))
+	{
+		TileNode *tileNode = sdNew(TileNode);
+		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
+		tileNode->cPos = seachPos;
+		tileNode->iG = 0;
+		tileNode->iF = 0;
+		tileNode->bIsWalkable = true;
+
+		vNeighbors.push_back(tileNode);
+	}
+
+	// ↘
+	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY() + tileScaleY);
+	if (d2 && !pMapColliders->GetTileAt(seachPos))
+	{
+		TileNode *tileNode = sdNew(TileNode);
+		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
+		tileNode->cPos = seachPos;
+		tileNode->iG = 0;
+		tileNode->iF = 0;
+		tileNode->bIsWalkable = true;
+
+		vNeighbors.push_back(tileNode);
+	}
+
+	// ↙
+	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY() + tileScaleY);
+	if (d3 && !pMapColliders->GetTileAt(seachPos))
+	{
+		TileNode *tileNode = sdNew(TileNode);
+		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
+		tileNode->cPos = seachPos;
+		tileNode->iG = 0;
+		tileNode->iF = 0;
+		tileNode->bIsWalkable = true;
+
+		vNeighbors.push_back(tileNode);
+	}
 }
 
 } // namespace

@@ -43,8 +43,6 @@ class TileSet;
 class GameMap;
 class Image;
 
-SEED_DECLARE_CONTAINER(Vector, TileSet)
-
 class SEED_CORE_API MapLayerTiled : public IMapLayer
 {
 	friend class GameMap;
@@ -62,7 +60,6 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		TileSet *GetTileSet();
 
 		u32 GetTileAt(const Vector3f &pos) const;
-		void GetNeighborsTileAt(u32 tile, bool isDiagonalAllowed, bool isCornerCrossable, TileSetVector &tilesetVector);
 		void SetTileAt(const Vector3f &pos, u32 tileId);
 		void SetTileAt(u32 tileX, u32 tileY, u32 tileId);
 
