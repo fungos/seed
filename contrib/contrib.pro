@@ -7,9 +7,9 @@ QMAKE_CXXFLAGS -= -fno-rtti
 
 CONFIG += staticlib sdl2 rocket box2d yajl physfs oggvorbistheora freetype vectormath
 
-BASE = ../
-include(../platform.pri)
+BASE = ..
 include(../compiler.pri)
+include(../platform.pri)
 
 CONFIG(debug, debug|release) {
 	DESTDIR = ../lib/debug

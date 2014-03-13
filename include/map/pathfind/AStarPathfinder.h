@@ -10,12 +10,11 @@ namespace Seed {
 class SEED_CORE_API AStarPathfinder : public IPathfinder
 {
 	SEED_DISABLE_COPY(AStarPathfinder)
-	SEED_DECLARE_RTTI(AStarPathfinder, IPathfinder)
 	SEED_DECLARE_CONTAINER(Vector, TileNode)
 
 	public:
 		AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight,
-						Heuristic *heuristic, MapLayerTiled *mapBackground,
+						MapLayerTiled *mapBackground,
 						MapLayerTiled *mapColliders);
 		virtual ~AStarPathfinder();
 		bool CheckOpenNeighborByTileId(const u32 tileId);
@@ -23,6 +22,9 @@ class SEED_CORE_API AStarPathfinder : public IPathfinder
 
 		// IPathfinder
 		virtual Path &FindPath(const Vector3f &start, const Vector3f &end, Path &path) override;
+
+	protected:
+		void Destroy();
 
 	private:
 		TileNodeVector	vOpen;

@@ -12,7 +12,7 @@ DESTDIR = ../bin
 
 unix:!macx {
 		DEFINES += LINUX USE_API_SOIL SEED_ENABLE_OGL20
-		LIBS += -lseed -lseedcontrib -lGL -lopenal -lX11 -lm -ldl -lpthread -lrt -lc++abi
+		LIBS += -lseed -lseedcontrib -lGL -lopenal -lX11 -lm -ldl -lpthread -lrt #-lc++abi
 		QMAKE_CXXFLAGS += -std=c++11 #-v
 }
 

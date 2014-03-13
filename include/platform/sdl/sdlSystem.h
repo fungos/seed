@@ -91,7 +91,6 @@ class SEED_CORE_API System : public ISystem
 		u32		arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
 		bool	bShutdown : 1;
 		bool	bSleeping : 1;
-		bool	bDefaultCursorEnabled : 1;
 };
 
 #define pSystem Seed::SDL::System::GetInstance()

@@ -20,8 +20,8 @@ Path &IPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path &pa
 
 void IPathfinder::GetNeigboursAtTile(TileNode tile)
 {
-	u32 tileScaleX = pMapBackground->GetScaleX();
-	u32 tileScaleY = pMapBackground->GetScaleY();
+	auto tileScaleX = pMapBackground->GetScaleX();
+	auto tileScaleY = pMapBackground->GetScaleY();
 	Vector3f seachPos;
 
 	/**
@@ -43,10 +43,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 			s3 = false, d3 = false;
 
 	// ↑
-	seachPos.setX(tile.cPos.getX()); seachPos.setY(tile.cPos.getY() - tileScaleY);
+	seachPos.setX(tile.cPos.getX());
+	seachPos.setY(tile.cPos.getY() - tileScaleY);
 	if (!pMapColliders->GetTileAt(seachPos))
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
 		tileNode->iG = 0;
@@ -58,10 +59,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// →
-	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY());
+	seachPos.setX(tile.cPos.getX() + tileScaleX);
+	seachPos.setY(tile.cPos.getY());
 	if (!pMapColliders->GetTileAt(seachPos))
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
 		tileNode->iG = 0;
@@ -73,10 +75,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ↓
-	seachPos.setX(tile.cPos.getX()); seachPos.setY(tile.cPos.getY() + tileScaleY);
+	seachPos.setX(tile.cPos.getX());
+	seachPos.setY(tile.cPos.getY() + tileScaleY);
 	if (!pMapColliders->GetTileAt(seachPos))
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
 		tileNode->iG = 0;
@@ -88,10 +91,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ←
-	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY());
+	seachPos.setX(tile.cPos.getX() - tileScaleX);
+	seachPos.setY(tile.cPos.getY());
 	if (!pMapColliders->GetTileAt(seachPos))
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
 		tileNode->iG = 0;
@@ -102,11 +106,8 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 		s3 = true;
 	}
 
-
 	if (!bIsDiagonalAllowed)
-	{
 		return;
-	}
 
 	if (!bIsCornerCrossable)
 	{
@@ -124,10 +125,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ↖
-	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY() - tileScaleY);
+	seachPos.setX(tile.cPos.getX() - tileScaleX);
+	seachPos.setY(tile.cPos.getY() - tileScaleY);
 	if (d0 && !pMapColliders->GetTileAt(seachPos))
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
 		tileNode->iG = 0;
@@ -138,10 +140,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ↗
-	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY() - tileScaleY);
+	seachPos.setX(tile.cPos.getX() + tileScaleX);
+	seachPos.setY(tile.cPos.getY() - tileScaleY);
 	if (d1 && !pMapColliders->GetTileAt(seachPos))
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
 		tileNode->iG = 0;
@@ -152,10 +155,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ↘
-	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY() + tileScaleY);
+	seachPos.setX(tile.cPos.getX() + tileScaleX);
+	seachPos.setY(tile.cPos.getY() + tileScaleY);
 	if (d2 && !pMapColliders->GetTileAt(seachPos))
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
 		tileNode->iG = 0;
@@ -166,10 +170,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ↙
-	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY() + tileScaleY);
+	seachPos.setX(tile.cPos.getX() - tileScaleX);
+	seachPos.setY(tile.cPos.getY() + tileScaleY);
 	if (d3 && !pMapColliders->GetTileAt(seachPos))
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
 		tileNode->iG = 0;
