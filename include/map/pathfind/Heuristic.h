@@ -10,9 +10,6 @@ namespace Seed {
 class SEED_CORE_API Heuristic
 {
 	public:
-		Heuristic();
-		virtual ~Heuristic();
-
 		static f32 Manhattan(u32 x, u32 y)
 		{
 			return x + y;
