@@ -40,7 +40,7 @@ class SEED_CORE_API Address
 		Address();
 		Address(u32 a, u32 b, u32 c, u32 d, u32 port);
 		Address(u32 address, u32 port);
-		Address(Address &) = default;
+		Address(const Address &) = default;
 
 		u32 GetAddress() const;
 		u32 GetA() const;

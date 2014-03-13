@@ -7,18 +7,28 @@
 
 namespace Seed {
 
-class SEED_CORE_API Heuristic : public IObject
+class SEED_CORE_API Heuristic
 {
-	SEED_DISABLE_COPY(Heuristic)
-	SEED_DECLARE_RTTI(Heuristic, IObject)
-
 	public:
-		Heuristic();
-		virtual ~Heuristic();
+		static f32 Manhattan(u32 x, u32 y)
+		{
+			return x + y;
+		}
 
-		f32 Manhattan(const u32 x, const u32 y) const;
-		f32 Euclidean(const u32 x, const u32 y) const;
-		f32 Chebyshev(const u32 x, const u32 y) const;
+		static f32 SquareEuclidean(u32 x, u32 y)
+		{
+			return (x * x + y * y);
+		}
+
+		static f32 Euclidean(u32 x, u32 y)
+		{
+			return sqrt(x * x + y * y);
+		}
+
+		static f32 Chebyshev(u32 x, u32 y)
+		{
+			return std::max(x, y);
+		}
 };
 
 }

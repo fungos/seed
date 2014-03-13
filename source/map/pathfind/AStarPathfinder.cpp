@@ -19,20 +19,32 @@ class FindNeighborByTilePos
 		Vector3f cPos;
 };
 
-AStarPathfinder::AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable
-								, u32 weight, Heuristic *heuristic, MapLayerTiled *mapBackground
-								)
+AStarPathfinder::AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight, MapLayerTiled *mapBackground)
 	: pStartNode(nullptr)
 {
 	bIsDiagonalAllowed = isDiagonalAllowed;
 	bIsCornerCrossable = isCornerCrossable;
 	iWeight = weight;
-	pHeuristic = heuristic;
 	pMapBackground = mapBackground;
 }
 
 AStarPathfinder::~AStarPathfinder()
 {
+	this->Destroy();
+}
+
+void AStarPathfinder::Destroy()
+{
+	for (auto obj : vOpen)
+		sdDelete(obj);
+
+	for (auto obj : vClose)
+		sdDelete(obj);
+
+	TileNodeVector().swap(vOpen);
+	TileNodeVector().swap(vClose);
+
+	pStartNode = nullptr;
 }
 
 Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path &path)
@@ -46,11 +58,11 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 
 	u32 i = 0;
 	// While the open list is not empty
-	while(!vOpen.empty())
+	while (!vOpen.empty())
 	{
 		i++;
 		// Get the current tilenode (the minimum 'f' value)
-		TileNode *current = *vOpen.begin();
+		auto current = vOpen.begin();
 		Log("\nStep[%i]: x:%f y:%f", i, current->cPos.getX(), current->cPos.getY());
 
 		// Remove from open list and add to the close list
@@ -61,7 +73,7 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 		if(current->cPos.getX() == end.getX()
 			&& current->cPos.getY() == end.getY())
 		{
-			TileNode *step = current;
+			auto step = current;
 
 			// Push each tile pos into the steps stack
 			while (step->cPos.getX() != start.getX()
@@ -78,14 +90,13 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 		// Get neigbours of the current node
 		this->GetNeigboursAtTile(*current);
 
-		for(u32 i = 0; i < vNeighbors.size(); ++i)
+		for (u32 i = 0; i < vNeighbors.size(); ++i)
 		{
-			TileNode *neighbor = vNeighbors.at(i);
+			auto neighbor = vNeighbors.at(i);
 
 			if(this->CheckCloseNeighborByTilePos(neighbor->cPos))
 			{
 				continue;
-			}
 
 			// Get the distance between current node and the neighbor
 			// and calculate the next g score
@@ -100,7 +111,7 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 			{
 				neighbor->iG = ng;
 				neighbor->iH = neighbor->iH
-						|| iWeight * pHeuristic->Manhattan(
+						|| iWeight * Heuristic::Manhattan(
 							abs(neighbor->cPos.getX() - end.getX()),
 							abs(neighbor->cPos.getY() - end.getY()));
 				neighbor->iF = neighbor->iG + neighbor->iH;
@@ -129,19 +140,13 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 bool AStarPathfinder::CheckOpenNeighborByTilePos(const Vector3f &pos)
 {
 	TileNodeSetIterator it = std::find_if(vOpen.begin(), vOpen.end(), FindNeighborByTilePos(pos));
-	if(it == vOpen.end())
-		return false;
-	else
-		return true;
+	return (it != vOpen.end());
 }
 
 bool AStarPathfinder::CheckCloseNeighborByTilePos(const Vector3f &pos)
 {
 	TileNodeVectorIterator it = std::find_if(vClose.begin(), vClose.end(), FindNeighborByTilePos(pos));
-	if(it == vClose.end())
-		return false;
-	else
-		return true;
+	return (it != vClose.end());
 }
 
 }

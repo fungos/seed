@@ -57,7 +57,6 @@ System::System()
 	, arRetraceCount()
 	, bShutdown(false)
 	, bSleeping(false)
-	, bDefaultCursorEnabled(false)
 {
 }
 

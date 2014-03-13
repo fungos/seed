@@ -1,5 +1,7 @@
 INCLUDEPATH += physfs/
 
+DEFINES += PHYSFS_NO_CDROM_SUPPORT
+
 SOURCES += \
 	physfs/physfs_unicode.c \
 	physfs/physfs_byteorder.c \
@@ -32,7 +34,7 @@ SOURCES += \
 	physfs/archivers/grp.c \
 	physfs/archivers/dir.c
 
-	
+
 HEADERS += \
 	physfs/physfs_platforms.h \
 	physfs/physfs_internal.h \

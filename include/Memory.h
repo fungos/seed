@@ -51,13 +51,24 @@ enum class eAllocationTag
 
 #if defined(DEBUG)
 
+#if !defined(_MSC_VER)
+#define SEED_THROW
+#define SEED_NOEXCEPT	noexcept(true)
+#elif __LINUX__
+#define SEED_THROW		_GLIBCXX_THROW (std::bad_alloc)
+#define SEED_NOEXCEPT	_GLIBCXX_NOEXCEPT
+#else
+#define SEED_THROW
+#define SEED_NOEXCEPT
+#endif
+
 void *operator new(std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__);
-void *operator new(std::size_t size);
-void operator delete(void *p);
+void *operator new(std::size_t size) SEED_THROW;
+void operator delete(void *p) SEED_NOEXCEPT;
 void operator delete(void *p, eAllocationTag, const char *, const char *, const char *, int);
 void *operator new[](std::size_t size, eAllocationTag tag, const char *stmt, const char *func, const char *file = __FILE__, int line = __LINE__);
-void *operator new[](std::size_t size);
-void operator delete[](void *p);
+void *operator new[](std::size_t size) SEED_THROW;
+void operator delete[](void *p) SEED_NOEXCEPT;
 void operator delete[](void *p, eAllocationTag, const char *, const char *, const char *, int);
 
 #include "LeafMessage.h"
@@ -151,6 +162,8 @@ class Allocator
 
 #else // DEBUG
 
+#include <stdlib.h>
+
 #define sdNew(T)				new T
 #define sdDelete(ptr)			{ if (ptr) delete ptr; ptr = nullptr; }
 #define sdNewArray(T, L)		new T[L]
@@ -161,7 +174,7 @@ class Allocator
 class Allocator
 {
 	public:
-		static void *Alloc(size_t size, eAllocationTag, const char *, const char *, const char *, int)
+		static void *Alloc(std::size_t size, eAllocationTag, const char *, const char *, const char *, int)
 		{
 			return malloc(size);
 		}

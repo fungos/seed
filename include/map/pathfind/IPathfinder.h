@@ -26,10 +26,9 @@ struct TileNode
 	}
 };
 
-class SEED_CORE_API IPathfinder : public IObject
+class SEED_CORE_API IPathfinder
 {
 	SEED_DISABLE_COPY(IPathfinder)
-	SEED_DECLARE_RTTI(IPathfinder, IObject)
 	SEED_DECLARE_CONTAINER(Vector, TileNode)
 
 	public:
@@ -41,13 +40,11 @@ class SEED_CORE_API IPathfinder : public IObject
 		void GetNeigboursAtTile(TileNode tile);
 
 	protected:
+		MapLayerTiled		*pMapBackground;
+		TileNodeVector		vNeighbors;
+		u32					iWeight;
 		bool				bIsDiagonalAllowed;
 		bool				bIsCornerCrossable;
-		u32					iWeight;
-		TileNodeVector		vNeighbors;
-
-		Heuristic			*pHeuristic;
-		MapLayerTiled		*pMapBackground;
 };
 
 } // end namespace

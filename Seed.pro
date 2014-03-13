@@ -153,8 +153,7 @@ SOURCES += source/ViewManager.cpp \
 	source/platform/sdl2/sdl2System.cpp \
 	source/platform/sdl2/sdl2Screen.cpp \
 	source/platform/sdl2/sdl2Input.cpp \
-	source/LeafMessage.cpp \
-    source/map/pathfind/Heuristic.cpp
+	source/LeafMessage.cpp
 
 OTHER_FILES += \
 	source/platform/ios/iosView.mm

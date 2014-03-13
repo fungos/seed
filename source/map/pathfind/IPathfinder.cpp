@@ -22,8 +22,9 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 {
 	vNeighbors.clear();
 
-	u32 tileScaleX = 40;//pMapBackground->GetScaleX();
-	u32 tileScaleY = 40;//pMapBackground->GetScaleY();
+	auto tileScaleX = 40;//pMapBackground->GetScaleX();
+	auto tileScaleY = 40;//pMapBackground->GetScaleY();
+
 	Vector3f seachPos;
 
 	/**
@@ -45,10 +46,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 			s3 = false, d3 = false;
 
 	// ↑
-	seachPos.setX(tile.cPos.getX()); seachPos.setY(tile.cPos.getY() - tileScaleY);
+	seachPos.setX(tile.cPos.getX());
+	seachPos.setY(tile.cPos.getY() - tileScaleY);
 	if (pMapBackground-> GetTileAt(seachPos) != 3)
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
@@ -57,10 +59,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// →
-	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY());
+	seachPos.setX(tile.cPos.getX() + tileScaleX);
+	seachPos.setY(tile.cPos.getY());
 	if (pMapBackground->GetTileAt(seachPos) != 3)
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
@@ -69,10 +72,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ↓
-	seachPos.setX(tile.cPos.getX()); seachPos.setY(tile.cPos.getY() + tileScaleY);
+	seachPos.setX(tile.cPos.getX());
+	seachPos.setY(tile.cPos.getY() + tileScaleY);
 	if (pMapBackground->GetTileAt(seachPos) != 3)
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
@@ -81,10 +85,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ←
-	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY());
+	seachPos.setX(tile.cPos.getX() - tileScaleX);
+	seachPos.setY(tile.cPos.getY());
 	if (pMapBackground->GetTileAt(seachPos) != 3)
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
@@ -92,11 +97,8 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 		Log("←: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
-
 	if (!bIsDiagonalAllowed)
-	{
 		return;
-	}
 
 	if (!bIsCornerCrossable)
 	{
@@ -114,10 +116,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ↖
-	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY() - tileScaleY);
+	seachPos.setX(tile.cPos.getX() - tileScaleX);
+	seachPos.setY(tile.cPos.getY() - tileScaleY);
 	if (d0 && pMapBackground->GetTileAt(seachPos) != 3)
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
@@ -125,10 +128,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ↗
-	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY() - tileScaleY);
+	seachPos.setX(tile.cPos.getX() + tileScaleX);
+	seachPos.setY(tile.cPos.getY() - tileScaleY);
 	if (d1 && pMapBackground->GetTileAt(seachPos) != 3)
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
@@ -136,10 +140,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ↘
-	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY() + tileScaleY);
+	seachPos.setX(tile.cPos.getX() + tileScaleX);
+	seachPos.setY(tile.cPos.getY() + tileScaleY);
 	if (d2 && pMapBackground->GetTileAt(seachPos) != 3)
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
@@ -147,10 +152,11 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 	}
 
 	// ↙
-	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY() + tileScaleY);
+	seachPos.setX(tile.cPos.getX() - tileScaleX);
+	seachPos.setY(tile.cPos.getY() + tileScaleY);
 	if (d3 && pMapBackground->GetTileAt(seachPos) != 3)
 	{
-		TileNode *tileNode = sdNew(TileNode);
+		auto tileNode = sdNew(TileNode);
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
