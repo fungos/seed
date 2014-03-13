@@ -20,8 +20,10 @@ Path &IPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path &pa
 
 void IPathfinder::GetNeigboursAtTile(TileNode tile)
 {
-	u32 tileScaleX = pMapBackground->GetScaleX();
-	u32 tileScaleY = pMapBackground->GetScaleY();
+	vNeighbors.clear();
+
+	u32 tileScaleX = 40;//pMapBackground->GetScaleX();
+	u32 tileScaleY = 40;//pMapBackground->GetScaleY();
 	Vector3f seachPos;
 
 	/**
@@ -44,62 +46,50 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 
 	// ↑
 	seachPos.setX(tile.cPos.getX()); seachPos.setY(tile.cPos.getY() - tileScaleY);
-	if (!pMapColliders->GetTileAt(seachPos))
+	if (pMapBackground-> GetTileAt(seachPos) != 3)
 	{
 		TileNode *tileNode = sdNew(TileNode);
-		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
-		tileNode->iG = 0;
-		tileNode->iF = 0;
-		tileNode->bIsWalkable = true;
 
 		vNeighbors.push_back(tileNode);
 		s0 = true;
+		Log("↑: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// →
 	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY());
-	if (!pMapColliders->GetTileAt(seachPos))
+	if (pMapBackground->GetTileAt(seachPos) != 3)
 	{
 		TileNode *tileNode = sdNew(TileNode);
-		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
-		tileNode->iG = 0;
-		tileNode->iF = 0;
-		tileNode->bIsWalkable = true;
 
 		vNeighbors.push_back(tileNode);
 		s1 = true;
+		Log("→: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// ↓
 	seachPos.setX(tile.cPos.getX()); seachPos.setY(tile.cPos.getY() + tileScaleY);
-	if (!pMapColliders->GetTileAt(seachPos))
+	if (pMapBackground->GetTileAt(seachPos) != 3)
 	{
 		TileNode *tileNode = sdNew(TileNode);
-		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
-		tileNode->iG = 0;
-		tileNode->iF = 0;
-		tileNode->bIsWalkable = true;
 
 		vNeighbors.push_back(tileNode);
 		s2 = true;
+		Log("↓: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// ←
 	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY());
-	if (!pMapColliders->GetTileAt(seachPos))
+	if (pMapBackground->GetTileAt(seachPos) != 3)
 	{
 		TileNode *tileNode = sdNew(TileNode);
-		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
-		tileNode->iG = 0;
-		tileNode->iF = 0;
-		tileNode->bIsWalkable = true;
 
 		vNeighbors.push_back(tileNode);
 		s3 = true;
+		Log("←: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 
@@ -125,58 +115,46 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 
 	// ↖
 	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY() - tileScaleY);
-	if (d0 && !pMapColliders->GetTileAt(seachPos))
+	if (d0 && pMapBackground->GetTileAt(seachPos) != 3)
 	{
 		TileNode *tileNode = sdNew(TileNode);
-		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
-		tileNode->iG = 0;
-		tileNode->iF = 0;
-		tileNode->bIsWalkable = true;
 
 		vNeighbors.push_back(tileNode);
+		Log("↖: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// ↗
 	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY() - tileScaleY);
-	if (d1 && !pMapColliders->GetTileAt(seachPos))
+	if (d1 && pMapBackground->GetTileAt(seachPos) != 3)
 	{
 		TileNode *tileNode = sdNew(TileNode);
-		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
-		tileNode->iG = 0;
-		tileNode->iF = 0;
-		tileNode->bIsWalkable = true;
 
 		vNeighbors.push_back(tileNode);
+		Log("↗: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// ↘
 	seachPos.setX(tile.cPos.getX() + tileScaleX); seachPos.setY(tile.cPos.getY() + tileScaleY);
-	if (d2 && !pMapColliders->GetTileAt(seachPos))
+	if (d2 && pMapBackground->GetTileAt(seachPos) != 3)
 	{
 		TileNode *tileNode = sdNew(TileNode);
-		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
-		tileNode->iG = 0;
-		tileNode->iF = 0;
-		tileNode->bIsWalkable = true;
 
 		vNeighbors.push_back(tileNode);
+		Log("↘: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// ↙
 	seachPos.setX(tile.cPos.getX() - tileScaleX); seachPos.setY(tile.cPos.getY() + tileScaleY);
-	if (d3 && !pMapColliders->GetTileAt(seachPos))
+	if (d3 && pMapBackground->GetTileAt(seachPos) != 3)
 	{
 		TileNode *tileNode = sdNew(TileNode);
-		tileNode->iTile = pMapColliders->GetTileAt(seachPos);
 		tileNode->cPos = seachPos;
-		tileNode->iG = 0;
-		tileNode->iF = 0;
-		tileNode->bIsWalkable = true;
 
 		vNeighbors.push_back(tileNode);
+		Log("↙: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 }
 

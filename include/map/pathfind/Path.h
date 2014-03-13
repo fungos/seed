@@ -15,6 +15,7 @@ class SEED_CORE_API Path
 		Path();
 		virtual ~Path();
 		void AppendStep(const Vector3f &vector3f);
+		Stack<Vector3f> &GetSteps();
 
 	private:
 		Stack<Vector3f> cSteps;

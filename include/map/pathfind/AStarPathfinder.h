@@ -4,6 +4,7 @@
 #include "Container.h"
 #include "map/pathfind/IPathfinder.h"
 #include "map/TileSet.h"
+#include <set>
 
 namespace Seed {
 
@@ -13,21 +14,23 @@ class SEED_CORE_API AStarPathfinder : public IPathfinder
 	SEED_DECLARE_RTTI(AStarPathfinder, IPathfinder)
 	SEED_DECLARE_CONTAINER(Vector, TileNode)
 
+	typedef std::set<TileNode *> TileNodeSet;
+	typedef TileNodeSet::iterator TileNodeSetIterator;
+
 	public:
 		AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight,
-						Heuristic *heuristic, MapLayerTiled *mapBackground,
-						MapLayerTiled *mapColliders);
+						Heuristic *heuristic, MapLayerTiled *mapBackground);
 		virtual ~AStarPathfinder();
-		bool CheckOpenNeighborByTileId(const u32 tileId);
-		bool CheckCloseNeighborByTileId(const u32 tileId);
+		bool CheckOpenNeighborByTilePos(const Vector3f &pos);
+		bool CheckCloseNeighborByTilePos(const Vector3f &pos);
 
 		// IPathfinder
 		virtual Path &FindPath(const Vector3f &start, const Vector3f &end, Path &path) override;
 
 	private:
-		TileNodeVector	vOpen;
-		TileNodeVector	vClose;
-		TileNode *pStartNode;
+		TileNodeSet				vOpen;
+		TileNodeVector			vClose;
+		TileNode				*pStartNode;
 };
 
 }// end namespace

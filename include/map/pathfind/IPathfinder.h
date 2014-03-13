@@ -4,6 +4,7 @@
 #include "../../Defines.h"
 #include "../../interface/IObject.h"
 #include "map/MapLayerTiled.h"
+#include "map/MapLayerMetadata.h"
 #include "map/pathfind/Heuristic.h"
 #include "Path.h"
 #include "MathUtil.h"
@@ -11,14 +12,18 @@
 
 namespace Seed {
 
-struct TileNode {
-	u32			iTile;
+struct TileNode
+{
 	Vector3f	cPos;
-	u32			iF; // depth
-	u32			iG; // cost
-	u32			iH; // heuristic
-	TileNode	*parent;
-	bool		bIsWalkable;
+	u32			iF{0}; // depth
+	u32			iG{0}; // cost
+	u32			iH{0}; // heuristic
+	TileNode	*parent{nullptr};
+
+	bool operator<(const TileNode& other) const
+	{
+		return iF < other.iF;
+	}
 };
 
 class SEED_CORE_API IPathfinder : public IObject
@@ -43,7 +48,6 @@ class SEED_CORE_API IPathfinder : public IObject
 
 		Heuristic			*pHeuristic;
 		MapLayerTiled		*pMapBackground;
-		MapLayerTiled		*pMapColliders;
 };
 
 } // end namespace
