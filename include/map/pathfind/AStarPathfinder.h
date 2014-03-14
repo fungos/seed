@@ -17,7 +17,7 @@ class SEED_CORE_API AStarPathfinder : public IPathfinder
 	typedef TileNodeSet::iterator TileNodeSetIterator;
 
 	public:
-		AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight, MapLayerTiled *mapBackground);
+		AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight, u32 colliderTileId, MapLayerTiled *mapBackground);
 
 		virtual ~AStarPathfinder();
 		bool CheckOpenNeighborByTilePos(const Vector3f &pos);

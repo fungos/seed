@@ -14,11 +14,14 @@ class SEED_CORE_API Path
 	public:
 		Path();
 		virtual ~Path();
-		void AppendStep(const Vector3f &vector3f);
-		Stack<Vector3f> &GetSteps();
+		void AppendPositionStep(const Vector3f &vector3f);
+		void AppendDirectionStep(const Vector3f &vector3f);
+		Stack<Vector3f> &GetPositionSteps();
+		Stack<Vector3f> &GetDirectionSteps();
 
 	private:
-		Stack<Vector3f> cSteps;
+		Stack<Vector3f> cPositionSteps;
+		Stack<Vector3f> cDirectionSteps;
 };
 
 } // end namespace

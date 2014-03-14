@@ -19,12 +19,13 @@ class FindNeighborByTilePos
 		Vector3f cPos;
 };
 
-AStarPathfinder::AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight, MapLayerTiled *mapBackground)
+AStarPathfinder::AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight, u32 colliderTileId, MapLayerTiled *mapBackground)
 	: pStartNode(nullptr)
 {
 	bIsDiagonalAllowed = isDiagonalAllowed;
 	bIsCornerCrossable = isCornerCrossable;
 	iWeight = weight;
+	iColliderTileId = colliderTileId;
 	pMapBackground = mapBackground;
 }
 
@@ -41,7 +42,7 @@ void AStarPathfinder::Destroy()
 	for (auto obj : vClose)
 		sdDelete(obj);
 
-	TileNodeVector().swap(vOpen);
+	TileNodeSet().swap(vOpen);
 	TileNodeVector().swap(vClose);
 
 	pStartNode = nullptr;
@@ -62,7 +63,8 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 	{
 		i++;
 		// Get the current tilenode (the minimum 'f' value)
-		auto current = vOpen.begin();
+		auto current = *vOpen.begin();
+
 		Log("\nStep[%i]: x:%f y:%f", i, current->cPos.getX(), current->cPos.getY());
 
 		// Remove from open list and add to the close list
@@ -79,10 +81,11 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 			while (step->cPos.getX() != start.getX()
 					&& step->cPos.getY() != start.getY())
 			{
-				path.AppendStep(step->cPos);
+				path.AppendPositionStep(step->cPos);
+				path.AppendDirectionStep(step->cDir);
 				step = step->parent;
 			}
-			path.AppendStep(start);
+			path.AppendPositionStep(start);
 
 			return path;
 		}
@@ -95,13 +98,12 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 			auto neighbor = vNeighbors.at(i);
 
 			if(this->CheckCloseNeighborByTilePos(neighbor->cPos))
-			{
 				continue;
 
 			// Get the distance between current node and the neighbor
 			// and calculate the next g score
-			u32 ng = current->iG + ((neighbor->cPos.getX() - current->cPos.getX() >= 40
-									|| neighbor->cPos.getY() - current->cPos.getY() >= 40)
+			u32 ng = current->iG + ((neighbor->cPos.getX() - current->cPos.getX() >= iWeight
+									|| neighbor->cPos.getY() - current->cPos.getY() >= iWeight)
 									? 1
 									: kSqrt2);
 

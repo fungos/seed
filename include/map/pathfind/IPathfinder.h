@@ -15,6 +15,7 @@ namespace Seed {
 struct TileNode
 {
 	Vector3f	cPos;
+	Vector3f	cDir;
 	u32			iF{0}; // depth
 	u32			iG{0}; // cost
 	u32			iH{0}; // heuristic
@@ -43,6 +44,7 @@ class SEED_CORE_API IPathfinder
 		MapLayerTiled		*pMapBackground;
 		TileNodeVector		vNeighbors;
 		u32					iWeight;
+		u32					iColliderTileId;
 		bool				bIsDiagonalAllowed;
 		bool				bIsCornerCrossable;
 };
