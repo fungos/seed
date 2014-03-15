@@ -66,7 +66,6 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 
 		vNeighbors.push_back(tileNode);
 		s0 = true;
-		Log("↑: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// →
@@ -80,7 +79,6 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 
 		vNeighbors.push_back(tileNode);
 		s1 = true;
-		Log("→: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// ↓
@@ -94,7 +92,6 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 
 		vNeighbors.push_back(tileNode);
 		s2 = true;
-		Log("↓: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// ←
@@ -108,7 +105,6 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 
 		vNeighbors.push_back(tileNode);
 		s3 = true;
-		Log("←: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	if (!bIsDiagonalAllowed)
@@ -139,7 +135,6 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
-		Log("↖: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// ↗
@@ -152,7 +147,6 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
-		Log("↗: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// ↘
@@ -165,7 +159,6 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
-		Log("↘: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 
 	// ↙
@@ -178,7 +171,6 @@ void IPathfinder::GetNeigboursAtTile(TileNode tile)
 		tileNode->cPos = seachPos;
 
 		vNeighbors.push_back(tileNode);
-		Log("↙: x:%f y:%f", seachPos.getX(), seachPos.getY());
 	}
 }
 

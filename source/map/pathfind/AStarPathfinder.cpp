@@ -41,29 +41,25 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 	// Push the start node into the open list
 	vOpen.push_back(pStartNode);
 
-	u32 i = 0;
 	// While the open list is not empty
 	while (!vOpen.empty())
 	{
-		i++;
 		// Get the current tilenode (the minimum 'f' value)
 		auto current = *vOpen.begin();
-
-		Log("\nStep[%i]: x:%f y:%f ----> End: x:%f y:%f", i, ceil(current->cPos.getX()), ceil(current->cPos.getY()), ceil(end.getX()), ceil(end.getY()));
 
 		// Remove from open list and add to the close list
 		vOpen.erase(vOpen.begin());
 		vClose.push_back(current);
 
 		// If reached the end position, construct the path and return it
-		if(ceil(current->cPos.getX()) == ceil(end.getX())
-			&& ceil(current->cPos.getY()) == ceil(end.getY()))
+		if( ((ceil(current->cPos.getX()) <= end.getX() + iWeight/2) && (ceil(current->cPos.getX()) >= end.getX() - iWeight/2))
+			&& ((ceil(current->cPos.getY()) <= end.getY() + iWeight/2) && (ceil(current->cPos.getY()) >= end.getY() - iWeight/2)) )
 		{
 			auto step = current;
 
 			// Push each tile pos into the steps stack
-			while (ceil(step->cPos.getX()) != ceil(start.getX())
-					&& ceil(step->cPos.getY()) != ceil(start.getY()))
+			while (step->cPos.getX() != start.getX()
+					|| step->cPos.getY() != start.getY())
 			{
 				path.AppendPositionStep(step->cPos);
 				path.AppendDirectionStep(step->cDir);
@@ -71,6 +67,8 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 			}
 			path.AppendPositionStep(start);
 
+			vOpen.clear();
+			vClose.clear();
 			return path;
 		}
 
@@ -98,7 +96,7 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 			if(!this->CheckOpenNeighborByTilePos(neighbor->cPos) || ng < neighbor->uG)
 			{
 				neighbor->uG = ng;
-				neighbor->uH = neighbor->uG * Heuristic::Manhattan(abs(neighbor->cPos.getX() - end.getX()), abs(neighbor->cPos.getY() - end.getY()));
+				neighbor->uH = 1 * Heuristic::Manhattan(abs(ceil(neighbor->cPos.getX() - end.getX())), abs(ceil(neighbor->cPos.getY() - end.getY())));
 				neighbor->uF = neighbor->uG + neighbor->uH;
 				neighbor->parent = current;
 
@@ -117,7 +115,6 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 				}
 			}
 		}
-
 		// Sort based on 'f' value
 		std::sort(vOpen.begin(), vOpen.end(), TileNodeAscendingPrioritySort());
 	}

@@ -51,7 +51,7 @@ class SEED_CORE_API FindNeighborByTilePos
 
 		bool operator()(const TileNode *t) const
 		{
-			return (t->cPos.getX() == cPos.getX() && t->cPos.getY() == cPos.getY());
+			return (ceil(t->cPos.getX()) == ceil(cPos.getX()) && ceil(t->cPos.getY()) == ceil(cPos.getY()));
 		}
 
 	private:
