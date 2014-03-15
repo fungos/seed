@@ -3,22 +3,6 @@
 
 namespace Seed {
 
-class FindNeighborByTilePos
-{
-	public:
-		FindNeighborByTilePos(const Vector3f &pos)
-			: cPos(pos)
-		{}
-
-		bool operator()(const TileNode *t) const
-		{
-			return (t->cPos.getX() == cPos.getX() && t->cPos.getY() == cPos.getY());
-		}
-
-	private:
-		Vector3f cPos;
-};
-
 AStarPathfinder::AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight, u32 colliderTileId, MapLayerTiled *mapBackground)
 	: pStartNode(nullptr)
 {
@@ -42,7 +26,7 @@ void AStarPathfinder::Destroy()
 	for (auto obj : vClose)
 		sdDelete(obj);
 
-	TileNodeSet().swap(vOpen);
+	TileNodeVector().swap(vOpen);
 	TileNodeVector().swap(vClose);
 
 	pStartNode = nullptr;
@@ -55,7 +39,7 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 	pStartNode->cPos = start;
 
 	// Push the start node into the open list
-	vOpen.insert(pStartNode);
+	vOpen.push_back(pStartNode);
 
 	u32 i = 0;
 	// While the open list is not empty
@@ -65,21 +49,21 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 		// Get the current tilenode (the minimum 'f' value)
 		auto current = *vOpen.begin();
 
-		Log("\nStep[%i]: x:%f y:%f", i, current->cPos.getX(), current->cPos.getY());
+		Log("\nStep[%i]: x:%f y:%f ----> End: x:%f y:%f", i, ceil(current->cPos.getX()), ceil(current->cPos.getY()), ceil(end.getX()), ceil(end.getY()));
 
 		// Remove from open list and add to the close list
 		vOpen.erase(vOpen.begin());
 		vClose.push_back(current);
 
 		// If reached the end position, construct the path and return it
-		if(current->cPos.getX() == end.getX()
-			&& current->cPos.getY() == end.getY())
+		if(ceil(current->cPos.getX()) == ceil(end.getX())
+			&& ceil(current->cPos.getY()) == ceil(end.getY()))
 		{
 			auto step = current;
 
 			// Push each tile pos into the steps stack
-			while (step->cPos.getX() != start.getX()
-					&& step->cPos.getY() != start.getY())
+			while (ceil(step->cPos.getX()) != ceil(start.getX())
+					&& ceil(step->cPos.getY()) != ceil(start.getY()))
 			{
 				path.AppendPositionStep(step->cPos);
 				path.AppendDirectionStep(step->cDir);
@@ -102,37 +86,40 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 
 			// Get the distance between current node and the neighbor
 			// and calculate the next g score
-			u32 ng = current->iG + ((neighbor->cPos.getX() - current->cPos.getX() >= iWeight
-									|| neighbor->cPos.getY() - current->cPos.getY() >= iWeight)
-									? 1
-									: kSqrt2);
+			f32 ng = current->uG;
+			if((neighbor->cPos.getX() - current->cPos.getX() == iWeight) &&
+					neighbor->cPos.getY() - current->cPos.getY() == iWeight)
+				ng = current->uG + kSqrt2;
+			else
+				ng = current->uG + 1;
 
 			// Check if the neighbor has not been inspected yet, or
 			// can be reached with smaller cost from the current node
-			if(!this->CheckOpenNeighborByTilePos(neighbor->cPos) || ng < neighbor->iG)
+			if(!this->CheckOpenNeighborByTilePos(neighbor->cPos) || ng < neighbor->uG)
 			{
-				neighbor->iG = ng;
-				neighbor->iH = neighbor->iH
-						|| iWeight * Heuristic::Manhattan(
-							abs(neighbor->cPos.getX() - end.getX()),
-							abs(neighbor->cPos.getY() - end.getY()));
-				neighbor->iF = neighbor->iG + neighbor->iH;
+				neighbor->uG = ng;
+				neighbor->uH = neighbor->uG * Heuristic::Manhattan(abs(neighbor->cPos.getX() - end.getX()), abs(neighbor->cPos.getY() - end.getY()));
+				neighbor->uF = neighbor->uG + neighbor->uH;
 				neighbor->parent = current;
 
 				if(!this->CheckOpenNeighborByTilePos(neighbor->cPos))
 				{
-					vOpen.insert(neighbor);
+					vOpen.push_back(neighbor);
 				}
 				else
 				{
 					// the neighbor can be reached with smaller cost.
 					// Since its f value has been updated, we have to
 					// update its position in the open list
-					vOpen.erase(vOpen.find(neighbor));
-					vOpen.insert(neighbor);
+					TileNodeVectorIterator it = std::find_if(vOpen.begin(), vOpen.end(), FindNeighborByTilePos(neighbor->cPos));
+					auto &newNeighbor = *it;
+					newNeighbor = neighbor;
 				}
 			}
 		}
+
+		// Sort based on 'f' value
+		std::sort(vOpen.begin(), vOpen.end(), TileNodeAscendingPrioritySort());
 	}
 
 	// Fail to find the path
@@ -141,7 +128,7 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 
 bool AStarPathfinder::CheckOpenNeighborByTilePos(const Vector3f &pos)
 {
-	TileNodeSetIterator it = std::find_if(vOpen.begin(), vOpen.end(), FindNeighborByTilePos(pos));
+	TileNodeVectorIterator it = std::find_if(vOpen.begin(), vOpen.end(), FindNeighborByTilePos(pos));
 	return (it != vOpen.end());
 }
 

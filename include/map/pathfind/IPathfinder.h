@@ -14,17 +14,12 @@ namespace Seed {
 
 struct TileNode
 {
-	Vector3f	cPos;
-	Vector3f	cDir;
-	u32			iF{0}; // depth
-	u32			iG{0}; // cost
-	u32			iH{0}; // heuristic
-	TileNode	*parent{nullptr};
-
-	bool operator<(const TileNode& other) const
-	{
-		return iF < other.iF;
-	}
+		Vector3f	cPos;
+		Vector3f	cDir;
+		f32			uF{0}; // depth
+		f32			uG{0}; // cost
+		f32			uH{0}; // heuristic
+		TileNode	*parent{nullptr};
 };
 
 class SEED_CORE_API IPathfinder

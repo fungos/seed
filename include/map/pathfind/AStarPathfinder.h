@@ -13,9 +13,6 @@ class SEED_CORE_API AStarPathfinder : public IPathfinder
 	SEED_DISABLE_COPY(AStarPathfinder)
 	SEED_DECLARE_CONTAINER(Vector, TileNode)
 
-	typedef std::set<TileNode *> TileNodeSet;
-	typedef TileNodeSet::iterator TileNodeSetIterator;
-
 	public:
 		AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight, u32 colliderTileId, MapLayerTiled *mapBackground);
 
@@ -30,9 +27,35 @@ class SEED_CORE_API AStarPathfinder : public IPathfinder
 		void Destroy();
 
 	private:
-		TileNodeSet				vOpen;
+		TileNodeVector			vOpen;
 		TileNodeVector			vClose;
 		TileNode				*pStartNode;
+};
+
+/// TileNode ascending predicate
+struct SEED_CORE_API TileNodeAscendingPrioritySort
+{
+	bool operator()(TileNode * const &left, TileNode * const &right)
+	{
+		return (left->uF < right->uF);
+	}
+};
+
+// Find TileNode by position
+class SEED_CORE_API FindNeighborByTilePos
+{
+	public:
+		FindNeighborByTilePos(const Vector3f &pos)
+			: cPos(pos)
+		{}
+
+		bool operator()(const TileNode *t) const
+		{
+			return (t->cPos.getX() == cPos.getX() && t->cPos.getY() == cPos.getY());
+		}
+
+	private:
+		Vector3f cPos;
 };
 
 }// end namespace

@@ -215,7 +215,6 @@ HEADERS += include/*.h \
 	include/ShaderManager.h \
 	include/api/ogl/oglES2Shader.h \
 	include/api/ogl/oglES2ShaderProgram.h \
-	include/map/TileSet.h \
 	include/api/ogl/ogl20RendererDevice.h \
 	include/api/ogl/ogl20Shader.h \
 	include/api/ogl/ogl20ShaderProgram.h \
@@ -233,4 +232,4 @@ HEADERS += include/*.h \
 	include/platform/sdl2/sdl2Input.h \
 	include/platform/sdl2/sdl2Defines.h \
 	include/LeafMessage.h \
-    include/map/pathfind/Heuristic.h
+	include/map/pathfind/Heuristic.h
