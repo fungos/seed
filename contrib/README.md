@@ -10,6 +10,7 @@ libRocket 1.2.1 bc8b334d2f477f250a885de68c9f621e297faf1c
 - Renamed Debugger/Geometry.cpp to Debugger/DebugGeometry.cpp (qmake);
 - Renamed Debugger/Plugin.cpp to Debugger/DebugPlugin.cpp (qmake);
 - Renamed Debugger/SystemInterface.cpp to Debugger/DebugSystemInterface.cpp (qmake);
+- BUGFIX: NULL pointer freeing on Core/FontFaceHandle.cpp:64 (~FontFaceHandle() -> delete[] i->second.bitmap_data;)
 
 OtterUI 1.3.6.3 3de4464203a253cd5b89d36bd0bdefbe2f965fca
 

@@ -52,7 +52,7 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 		vClose.push_back(current);
 
 		// If reached the end position, construct the path and return it
-		if( ((ceil(current->cPos.getX()) <= end.getX() + iWeight/2) && (ceil(current->cPos.getX()) >= end.getX() - iWeight/2))
+		if ( ((ceil(current->cPos.getX()) <= end.getX() + iWeight/2) && (ceil(current->cPos.getX()) >= end.getX() - iWeight/2))
 			&& ((ceil(current->cPos.getY()) <= end.getY() + iWeight/2) && (ceil(current->cPos.getY()) >= end.getY() - iWeight/2)) )
 		{
 			auto step = current;
@@ -79,13 +79,13 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 		{
 			auto neighbor = vNeighbors.at(i);
 
-			if(this->CheckCloseNeighborByTilePos(neighbor->cPos))
+			if (this->CheckCloseNeighborByTilePos(neighbor->cPos))
 				continue;
 
 			// Get the distance between current node and the neighbor
 			// and calculate the next g score
 			f32 ng = current->uG;
-			if((neighbor->cPos.getX() - current->cPos.getX() == iWeight) &&
+			if ((neighbor->cPos.getX() - current->cPos.getX() == iWeight) &&
 					neighbor->cPos.getY() - current->cPos.getY() == iWeight)
 				ng = current->uG + kSqrt2;
 			else
@@ -93,14 +93,14 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 
 			// Check if the neighbor has not been inspected yet, or
 			// can be reached with smaller cost from the current node
-			if(!this->CheckOpenNeighborByTilePos(neighbor->cPos) || ng < neighbor->uG)
+			if (!this->CheckOpenNeighborByTilePos(neighbor->cPos) || ng < neighbor->uG)
 			{
 				neighbor->uG = ng;
 				neighbor->uH = 1 * Heuristic::Manhattan(abs(ceil(neighbor->cPos.getX() - end.getX())), abs(ceil(neighbor->cPos.getY() - end.getY())));
 				neighbor->uF = neighbor->uG + neighbor->uH;
 				neighbor->parent = current;
 
-				if(!this->CheckOpenNeighborByTilePos(neighbor->cPos))
+				if (!this->CheckOpenNeighborByTilePos(neighbor->cPos))
 				{
 					vOpen.push_back(neighbor);
 				}
@@ -109,7 +109,8 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 					// the neighbor can be reached with smaller cost.
 					// Since its f value has been updated, we have to
 					// update its position in the open list
-					TileNodeVectorIterator it = std::find_if(vOpen.begin(), vOpen.end(), FindNeighborByTilePos(neighbor->cPos));
+					auto f = FindNeighborByTilePos(neighbor->cPos);
+					auto it = std::find_if(vOpen.begin(), vOpen.end(), [&f](const TileNode *t) { return f(t); }); // HACK thanks VS2013, best compiler evarrr!!
 					auto &newNeighbor = *it;
 					newNeighbor = neighbor;
 				}
@@ -125,13 +126,15 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 
 bool AStarPathfinder::CheckOpenNeighborByTilePos(const Vector3f &pos)
 {
-	TileNodeVectorIterator it = std::find_if(vOpen.begin(), vOpen.end(), FindNeighborByTilePos(pos));
+	auto f = FindNeighborByTilePos(pos);
+	TileNodeVectorIterator it = std::find_if (vOpen.begin(), vOpen.end(), [&f](const TileNode *t) { return f(t); }); // HACK thanks VS2013, I reaally love you _|_ !!
 	return (it != vOpen.end());
 }
 
 bool AStarPathfinder::CheckCloseNeighborByTilePos(const Vector3f &pos)
 {
-	TileNodeVectorIterator it = std::find_if(vClose.begin(), vClose.end(), FindNeighborByTilePos(pos));
+	auto f = FindNeighborByTilePos(pos);
+	TileNodeVectorIterator it = std::find_if (vClose.begin(), vClose.end(), [&f](const TileNode *t) { return f(t); }); // HACK thanks VS2013, forevar!!
 	return (it != vClose.end());
 }
 

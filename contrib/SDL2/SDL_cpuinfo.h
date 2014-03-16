@@ -38,8 +38,8 @@
 #define __MMX__
 #define __3dNOW__
 #endif
-#define __SSE__
-#define __SSE2__
+//#define __SSE__
+//#define __SSE2__  // HACK VS2013
 #elif defined(__MINGW64_VERSION_MAJOR)
 #include <intrin.h>
 #else

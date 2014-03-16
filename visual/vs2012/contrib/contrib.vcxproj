@@ -1421,13 +1421,6 @@
     <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\quat_aos.h" />
     <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\vectormath_aos.h" />
     <ClInclude Include="..\..\..\contrib\vectormath\scalar\cpp\vec_aos.h" />
-    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\boolInVec.h" />
-    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\floatInVec.h" />
-    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\mat_aos.h" />
-    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\quat_aos.h" />
-    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\vecidx_aos.h" />
-    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\vectormath_aos.h" />
-    <ClInclude Include="..\..\..\contrib\vectormath\SSE\cpp\vec_aos.h" />
     <ClInclude Include="..\..\..\contrib\vorbis\backends.h" />
     <ClInclude Include="..\..\..\contrib\vorbis\bitrate.h" />
     <ClInclude Include="..\..\..\contrib\vorbis\books\coupled\res_books_51.h" />
@@ -2594,7 +2587,6 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\..\..\contrib\bullet\BulletMultiThreaded\SpuNarrowPhaseCollisionTask\readme.txt" />
-    <Text Include="..\..\..\contrib\vectormath\SSE\cpp\readme_e.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\contrib\freetype\src\pcf\README" />

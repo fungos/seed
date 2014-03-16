@@ -61,7 +61,8 @@ FontFaceHandle::FontFaceHandle()
 FontFaceHandle::~FontFaceHandle()
 {
 	for (FontGlyphMap::iterator i = glyphs.begin(); i != glyphs.end(); ++i)
-		delete[] i->second.bitmap_data;
+		if (i->second.bitmap_data) // FIX: null pointer free
+			delete[] i->second.bitmap_data;
 
 	for (FontLayerMap::iterator i = layers.begin(); i != layers.end(); ++i)
 		delete i->second;

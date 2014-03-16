@@ -33,7 +33,7 @@ class SEED_CORE_API IPathfinder
 
 		// Common Operations
 		virtual Path &FindPath(const Vector3f &start, const Vector3f &end, Path &path) = 0;
-		void GetNeigboursAtTile(TileNode tile);
+		void GetNeigboursAtTile(const TileNode &tile);
 
 	protected:
 		MapLayerTiled		*pMapBackground;

@@ -56,10 +56,12 @@
     <Filter Include="api\theora">
       <UniqueIdentifier>{4be709c3-64cc-4adb-aac0-3fa735da263d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="map\pathfind">
+      <UniqueIdentifier>{dedacb79-a2ea-4663-b57c-42fd35da0346}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Animation.cpp" />
-    <ClCompile Include="..\..\..\source\Camera.cpp" />
     <ClCompile Include="..\..\..\source\Checksum.cpp" />
     <ClCompile Include="..\..\..\source\Configuration.cpp" />
     <ClCompile Include="..\..\..\source\EventFileSystem.cpp" />
@@ -86,8 +88,6 @@
     <ClCompile Include="..\..\..\source\Profiler.cpp" />
     <ClCompile Include="..\..\..\source\Rand.cpp" />
     <ClCompile Include="..\..\..\source\Reader.cpp" />
-    <ClCompile Include="..\..\..\source\Renderer.cpp" />
-    <ClCompile Include="..\..\..\source\RendererManager.cpp" />
     <ClCompile Include="..\..\..\source\ResourceGroup.cpp" />
     <ClCompile Include="..\..\..\source\ResourceLoader.cpp" />
     <ClCompile Include="..\..\..\source\ResourceManager.cpp" />
@@ -101,7 +101,6 @@
     <ClCompile Include="..\..\..\source\Timeline.cpp" />
     <ClCompile Include="..\..\..\source\Updater.cpp" />
     <ClCompile Include="..\..\..\source\ViewManager.cpp" />
-    <ClCompile Include="..\..\..\source\Viewport.cpp" />
     <ClCompile Include="..\..\..\source\Writer.cpp" />
     <ClCompile Include="..\..\..\source\interface\ICartridge.cpp">
       <Filter>interface</Filter>
@@ -340,11 +339,23 @@
     <ClCompile Include="..\..\..\source\api\net\UDPSocket.cpp">
       <Filter>api\net</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\source\renderer\Camera.cpp" />
+    <ClCompile Include="..\..\..\source\renderer\Renderer.cpp" />
+    <ClCompile Include="..\..\..\source\renderer\RendererManager.cpp" />
+    <ClCompile Include="..\..\..\source\renderer\Viewport.cpp" />
+    <ClCompile Include="..\..\..\source\map\pathfind\Path.cpp">
+      <Filter>map\pathfind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\map\pathfind\IPathfinder.cpp">
+      <Filter>map\pathfind</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\map\pathfind\AStarPathfinder.cpp">
+      <Filter>map\pathfind</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\..\include\Container.h" />
     <ClInclude Include="..\..\..\include\Animation.h" />
-    <ClInclude Include="..\..\..\include\Camera.h" />
     <ClInclude Include="..\..\..\include\Cartridge.h" />
     <ClInclude Include="..\..\..\include\Checksum.h" />
     <ClInclude Include="..\..\..\include\Config.h" />
@@ -386,9 +397,7 @@
     <ClInclude Include="..\..\..\include\Rand.h" />
     <ClInclude Include="..\..\..\include\Reader.h" />
     <ClInclude Include="..\..\..\include\Rect.h" />
-    <ClInclude Include="..\..\..\include\Renderer.h" />
     <ClInclude Include="..\..\..\include\RendererDevice.h" />
-    <ClInclude Include="..\..\..\include\RendererManager.h" />
     <ClInclude Include="..\..\..\include\ResourceGroup.h" />
     <ClInclude Include="..\..\..\include\ResourceLoader.h" />
     <ClInclude Include="..\..\..\include\ResourceManager.h" />
@@ -415,7 +424,6 @@
     <ClInclude Include="..\..\..\include\Updater.h" />
     <ClInclude Include="..\..\..\include\Vertex.h" />
     <ClInclude Include="..\..\..\include\ViewManager.h" />
-    <ClInclude Include="..\..\..\include\Viewport.h" />
     <ClInclude Include="..\..\..\include\Writer.h" />
     <ClInclude Include="..\..\..\include\interface\ICartridge.h">
       <Filter>interface</Filter>
@@ -703,6 +711,19 @@
     </ClInclude>
     <ClInclude Include="..\..\..\include\api\net\UDPSocket.h">
       <Filter>api\net</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\renderer\Camera.h" />
+    <ClInclude Include="..\..\..\include\renderer\Renderer.h" />
+    <ClInclude Include="..\..\..\include\renderer\RendererManager.h" />
+    <ClInclude Include="..\..\..\include\renderer\Viewport.h" />
+    <ClInclude Include="..\..\..\include\map\pathfind\Path.h">
+      <Filter>map\pathfind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\map\pathfind\IPathfinder.h">
+      <Filter>map\pathfind</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\map\pathfind\AStarPathfinder.h">
+      <Filter>map\pathfind</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
