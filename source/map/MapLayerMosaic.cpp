@@ -81,6 +81,11 @@ bool MapLayerMosaic::Write(Writer &writer)
 {
 	UNUSED(writer)
 	WARNING(IMPL - MapLayerMosaic::Write(...))
+
+	writer.OpenNode();
+		writer.WriteString("type", "mosaiclayer");
+	writer.CloseNode();
+
 	return false;
 }
 

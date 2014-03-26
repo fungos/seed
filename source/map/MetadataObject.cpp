@@ -113,8 +113,35 @@ void MetadataObject::Set(Reader &reader)
 
 bool MetadataObject::Write(Writer &writer)
 {
-	UNUSED(writer)
-	WARNING(IMPL - MapLayerTiled::Write(...))
+	writer.OpenNode();
+		writer.WriteString("name", sName.c_str());
+		//writer.WriteString("type", "");
+		writer.WriteBool("visible", this->IsVisible());
+		writer.WriteF32("x", this->GetX());
+		writer.WriteF32("y", this->GetY());
+		switch (nType)
+		{
+			case eMetaType::Polygon:
+				writer.OpenArray("polygon");
+					this->WriteVertices(writer);
+				writer.CloseArray();
+			break;
+
+			case eMetaType::Polyline:
+				writer.OpenArray("polyline");
+					this->WriteVertices(writer);
+				writer.CloseArray();
+			break;
+
+			case eMetaType::Rect:
+			default:
+				writer.WriteF32("height", rBox.Height());
+				writer.WriteF32("width", rBox.Width());
+			break;
+		}
+		this->WriteProperties(writer);
+	writer.CloseNode();
+
 	return true;
 }
 
@@ -221,10 +248,10 @@ void MetadataObject::ReadVertices(Reader &reader, u32 size)
 
 	auto x = 0.0f;
 	auto y = 0.0f;
-	auto minX = 999999.f;
-	auto minY = 999999.f;
-	auto maxX = -999999.f;
-	auto maxY = -999999.f;
+	auto minX = std::numeric_limits<float>::max();
+	auto minY = std::numeric_limits<float>::max();
+	auto maxX = std::numeric_limits<float>::min();
+	auto maxY = std::numeric_limits<float>::min();
 
 	for (u32 i = 0, p = 0; i < size; i++)
 	{
@@ -247,6 +274,21 @@ void MetadataObject::ReadVertices(Reader &reader, u32 size)
 	rBox = Rect4f(minX, minY, maxX - minX, maxY - minY);
 }
 
+void MetadataObject::WriteVertices(Writer &writer)
+{
+	if (!iVertices)
+		return;
+
+	SEED_ASSERT_MSG(pVertices, "Error trying to write polygon vertices");
+	for (u32 i = 0; i < iVertices; i++)
+	{
+		writer.OpenNode();
+			writer.WriteF32("x", pVertices[0]);
+			writer.WriteF32("y", pVertices[1]);
+		writer.CloseNode();
+	}
+}
+
 void MetadataObject::ReadProperties(Reader &reader)
 {
 	if (reader.SelectNode("properties"))
@@ -262,6 +304,14 @@ void MetadataObject::ReadProperties(Reader &reader)
 		}
 		reader.UnselectNode();
 	}
+}
+
+void MetadataObject::WriteProperties(Writer &writer)
+{
+	writer.OpenNode("properties");
+	for (auto &kv : mProperties)
+		writer.WriteString((kv.first).c_str(), (kv.second).c_str());
+	writer.CloseNode();
 }
 
 const f32 *MetadataObject::GetVertices() const

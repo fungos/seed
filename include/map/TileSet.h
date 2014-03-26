@@ -65,6 +65,12 @@ class SEED_CORE_API TileSet : public IDataObject
 		virtual void Set(Reader &reader) override;
 
 	protected:
+		void ReadProperties(Reader &reader);
+		void WriteProperties(Writer &writer);
+
+		void ReadTileProperties(Reader &reader);
+		void WriteTileProperties(Writer &writer);
+
 		void RebuildUVMapping();
 
 	private:

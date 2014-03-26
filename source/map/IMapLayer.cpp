@@ -60,13 +60,29 @@ void IMapLayer::ReadProperties(Reader &reader)
 	}
 }
 
+void IMapLayer::WriteProperties(Writer &writer)
+{
+	writer.OpenNode("properties");
+	for (auto &kv : mProperties)
+		writer.WriteString((kv.first).c_str(), (kv.second).c_str());
+	writer.CloseNode();
+}
+
 void IMapLayer::ReadMapLayer(Reader &reader)
 {
-	this->SetPosition(reader.ReadF32("x", this->GetX()), reader.ReadF32("y", this->GetY()));
+	sName = reader.ReadString("name", sName.c_str());
 	this->SetVisible(reader.ReadBool("visible", this->IsVisible()));
 	this->SetOpacity(reader.ReadF32("opacity", this->GetOpacity()));
+	this->SetPosition(reader.ReadF32("x", this->GetX()), reader.ReadF32("y", this->GetY()));
+}
 
-	sName = reader.ReadString("name", sName.c_str());
+void IMapLayer::WriteMapLayer(Writer &writer)
+{
+	writer.WriteString("name", sName.c_str());
+	writer.WriteBool("visible", this->IsVisible());
+	writer.WriteF32("opacity", this->GetOpacity());
+	writer.WriteF32("x", this->GetX());
+	writer.WriteF32("y", this->GetY());
 }
 
 const String &IMapLayer::GetProperty(const String &property) const

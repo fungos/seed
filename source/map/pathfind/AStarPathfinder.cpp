@@ -84,7 +84,7 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 
 			// Get the distance between current node and the neighbor
 			// and calculate the next g score
-			f32 ng = current->uG;
+			auto ng = current->uG;
 			if ((neighbor->cPos.getX() - current->cPos.getX() == iWeight) &&
 					neighbor->cPos.getY() - current->cPos.getY() == iWeight)
 				ng = current->uG + kSqrt2;

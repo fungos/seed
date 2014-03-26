@@ -58,7 +58,10 @@ class SEED_CORE_API IMapLayer : public ISceneNode
 
 	protected:
 		void ReadProperties(Reader &reader);
+		void WriteProperties(Writer &writer);
+
 		void ReadMapLayer(Reader &reader);
+		void WriteMapLayer(Writer &writer);
 
 		Map<String, String> mProperties;
 

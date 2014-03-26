@@ -86,48 +86,8 @@ void TileSet::Set(Reader &reader)
 	ptTileSize.x = reader.ReadU32("tileheight", ptTileSize.x);
 	ptTileSize.y = reader.ReadU32("tilewidth", ptTileSize.y);
 
-	// properties are accomulatives
-	if (reader.SelectNode("properties"))
-	{
-		auto k = 0;
-		while (1)
-		{
-			const char *key = reader.GetKey(k++);
-			if (!key)
-				break;
-
-			mProperties[key] = reader.ReadString(key, "");
-		}
-		reader.UnselectNode();
-	}
-
-	if (reader.SelectNode("tileproperties"))
-	{
-		auto k = 0;
-		while (1)
-		{
-			const char *key = reader.GetKey(k++);
-			if (!key)
-				break;
-
-			if (reader.SelectNode(key))
-			{
-				auto kv = atoi(key) + iFirstId;
-				auto ks = 0;
-				while (1)
-				{
-					const char *keyStr = reader.GetKey(ks++);
-					if (!keyStr)
-						break;
-
-					mTileProperties[kv][keyStr] = reader.ReadString(keyStr, "");
-				}
-
-				reader.UnselectNode();
-			}
-		}
-		reader.UnselectNode();
-	}
+	this->ReadProperties(reader);
+	this->ReadTileProperties(reader);
 
 	auto texW = reader.ReadU32("imagewidth", 0);
 	auto texH = reader.ReadU32("imageheight", 0);
@@ -158,6 +118,54 @@ void TileSet::Set(Reader &reader)
 	this->RebuildUVMapping();
 }
 
+void TileSet::ReadTileProperties(Reader &reader)
+{
+	if (reader.SelectNode("tileproperties"))
+	{
+		auto k = 0;
+		while (1)
+		{
+			const char *key = reader.GetKey(k++);
+			if (!key)
+				break;
+
+			if (reader.SelectNode(key))
+			{
+				auto kv = atoi(key) + iFirstId;
+				auto ks = 0;
+				while (1)
+				{
+					const char *keyStr = reader.GetKey(ks++);
+					if (!keyStr)
+						break;
+
+					mTileProperties[kv][keyStr] = reader.ReadString(keyStr, "");
+				}
+
+				reader.UnselectNode();
+			}
+		}
+		reader.UnselectNode();
+	}
+}
+
+void TileSet::ReadProperties(Reader &reader)
+{
+	if (reader.SelectNode("properties"))
+	{
+		u32 k = 0;
+		while (1)
+		{
+			const char *key = reader.GetKey(k++);
+			if (!key)
+				break;
+
+			mProperties[key] = reader.ReadString(key, "");
+		}
+		reader.UnselectNode();
+	}
+}
+
 bool TileSet::Load(Reader &reader, ResourceManager *res)
 {
 	SEED_ASSERT(res);
@@ -170,11 +178,51 @@ bool TileSet::Load(Reader &reader, ResourceManager *res)
 	return true;
 }
 
+/*
+ * Here we will ignore Seed json standard to be compatible with tiled on both read+write.
+ */
 bool TileSet::Write(Writer &writer)
 {
-	UNUSED(writer)
-	WARNING(IMPL - MapLayerTiled::Write(...))
+	SEED_ASSERT_FMT(pTexture, "Missing a texture for tileset %s when writing to file.", sName.c_str());
+
+	writer.OpenNode();
+		writer.WriteString("name", sName.c_str());
+		writer.WriteString("image", pTexture->GetFilename().c_str());
+		writer.WriteU32("firstgid", iFirstId);
+		writer.WriteU32("margin", iMargin);
+		writer.WriteU32("spacing", iSpacing);
+		writer.WriteU32("tileheight", ptTileSize.x);
+		writer.WriteU32("tilewidth", ptTileSize.y);
+		writer.WriteU32("imagewidth", pTexture->GetWidth());
+		writer.WriteU32("imageheight", pTexture->GetHeight());
+		this->WriteProperties(writer);
+		this->WriteTileProperties(writer);
+	writer.CloseNode();
+
 	return true;
+}
+
+void TileSet::WriteProperties(Writer &writer)
+{
+	writer.OpenNode("properties");
+	for (auto &kv : mProperties)
+		writer.WriteString((kv.first).c_str(), (kv.second).c_str());
+	writer.CloseNode();
+}
+
+void TileSet::WriteTileProperties(Writer &writer)
+{
+	char tostr[16];
+	writer.OpenNode("tileproperties");
+	for (auto &kvt : mTileProperties)
+	{
+		snprintf(tostr, sizeof(tostr), "%d", kvt.first);
+		writer.OpenNode(tostr);
+		for (auto &kvp : kvt.second)
+			writer.WriteString((kvp.first).c_str(), (kvp.second).c_str());
+		writer.CloseNode();
+	}
+	writer.CloseNode();
 }
 
 bool TileSet::Unload()

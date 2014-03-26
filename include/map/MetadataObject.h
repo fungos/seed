@@ -61,7 +61,10 @@ class SEED_CORE_API MetadataObject : public ISceneNode
 
 	protected:
 		void ReadProperties(Reader &reader);
+		void WriteProperties(Writer &writer);
+
 		void ReadVertices(Reader &reader, u32 size);
+		void WriteVertices(Writer &writer);
 
 	private:
 		enum class eMetaType {

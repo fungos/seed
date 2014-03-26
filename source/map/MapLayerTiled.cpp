@@ -81,9 +81,25 @@ void MapLayerTiled::Set(Reader &reader)
 
 bool MapLayerTiled::Write(Writer &writer)
 {
-	UNUSED(writer)
-	WARNING(IMPL - MapLayerTiled::Write(...))
-	return false;
+	if (!iDataLen)
+		return false;
+
+	SEED_ASSERT_FMT(pTileData, "Could not write tile data (%s).", sName.c_str());
+	writer.OpenNode();
+		writer.WriteString("type", "tilelayer");
+
+		this->WriteMapLayer(writer);
+		writer.WriteU32("width", ptMapSize.x);
+		writer.WriteU32("height", ptMapSize.y);
+
+		this->WriteProperties(writer);
+
+		writer.OpenArray("data");
+			for (u32 i = 0; i < iDataLen; i++)
+				writer.WriteU32(pTileData[i]);
+		writer.CloseArray();
+	writer.CloseNode();
+	return true;
 }
 
 bool MapLayerTiled::Unload()

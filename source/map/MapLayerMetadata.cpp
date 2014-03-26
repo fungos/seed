@@ -78,7 +78,7 @@ void MapLayerMetadata::Set(Reader &reader)
 	this->SetWidth(ptMapSize.x);
 	this->SetHeight(ptMapSize.y);
 
-	// overwrite readmaplayer x,y - I don't know if these values are used anyway
+	// ATTENTION: overwrite readmaplayer x,y - I don't know if these values are used anyway
 	this->SetPosition(-ptHalfSize.x - (ptTileSize.x * 0.5f), -ptHalfSize.y - (ptTileSize.y * 0.5f));
 
 	auto len = reader.SelectArray("objects");
@@ -88,9 +88,28 @@ void MapLayerMetadata::Set(Reader &reader)
 
 bool MapLayerMetadata::Write(Writer &writer)
 {
-	UNUSED(writer)
-	WARNING(IMPL - MapLayerMetadata::Write(...));
-	return false;
+	// Write should ignore parent position
+	auto oldPos = this->GetPosition();
+	this->SetPosition(0.0f, 0.0f, 0.0f);
+
+	writer.OpenNode();
+		writer.WriteString("type", "objectgroup");
+
+		this->WriteMapLayer(writer);
+		writer.WriteF32("width", ptSize.x);
+		writer.WriteF32("height", ptSize.y);
+
+		this->WriteProperties(writer);
+
+		writer.OpenArray("objects");
+			for (auto obj : vChild)
+				obj->Write(writer);
+		writer.CloseArray();
+	writer.CloseNode();
+
+	this->SetPosition(oldPos);
+
+	return true;
 }
 
 MapLayerMetadata *MapLayerMetadata::Clone() const

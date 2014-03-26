@@ -76,10 +76,14 @@ class SEED_CORE_API GameMap : public ISceneObject
 		virtual void Set(Reader &reader) override;
 
 	protected:
+		void ReadProperties(Reader &reader);
+		void WriteProperties(Writer &writer);
+
 		u32 AddLayerTiled();
 		u32 AddLayerMetadata(Point2u tileSize);
 		u32 AddLayerMosaic();
 		bool LoadTiled(Reader &reader);
+		bool WriteTiled(Writer &writer);
 
 	protected:
 		enum class eLayerType

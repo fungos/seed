@@ -80,15 +80,22 @@ void GameMap::Set(Reader &reader)
 	}
 }
 
-bool GameMap::LoadTiled(Reader &reader)
+bool GameMap::Write(Writer &writer)
 {
-	ptMapSize.x = reader.ReadU32("width", ptMapSize.x);
-	ptMapSize.y = reader.ReadU32("height", ptMapSize.y);
-	ptTileSize.x = reader.ReadU32("tilewidth", ptTileSize.x);
-	ptTileSize.y = reader.ReadU32("tileheight", ptTileSize.y);
+	writer.OpenNode();
+		writer.WriteString("sName", sName.c_str());
+		ITransformable::Serialize(writer);
 
-//	String ori = reader.ReadString("orientation", "");
-//	u32 version = reader.ReadU32("version", 1);
+		writer.OpenNode("cGameMap");
+			this->WriteTiled(writer);
+		writer.CloseNode();
+	writer.CloseNode();
+
+	return true;
+}
+
+void GameMap::ReadProperties(Reader &reader)
+{
 	if (reader.SelectNode("properties"))
 	{
 		u32 k = 0;
@@ -102,6 +109,53 @@ bool GameMap::LoadTiled(Reader &reader)
 		}
 		reader.UnselectNode();
 	}
+}
+
+void GameMap::WriteProperties(Writer &writer)
+{
+	writer.OpenNode("properties");
+	for (auto &kv : mProperties)
+		writer.WriteString((kv.first).c_str(), (kv.second).c_str());
+	writer.CloseNode();
+}
+
+bool GameMap::WriteTiled(Writer &writer)
+{
+	writer.OpenNode();
+		writer.WriteString("orientation", "orthogonal");
+		writer.WriteU32("width", ptMapSize.x);
+		writer.WriteU32("height", ptMapSize.y);
+		writer.WriteU32("tilewidth", ptTileSize.x);
+		writer.WriteU32("tileheight", ptTileSize.y);
+
+		this->WriteProperties(writer);
+
+		writer.OpenArray("tilesets");
+		for (auto obj : vTileSets)
+			obj->Write(writer);
+		writer.CloseArray();
+
+		writer.OpenArray("layers");
+		for (auto obj : vLayers)
+			obj->Write(writer);
+		writer.CloseArray();
+
+	writer.CloseNode();
+
+	return true;
+}
+
+bool GameMap::LoadTiled(Reader &reader)
+{
+	ptMapSize.x = reader.ReadU32("width", ptMapSize.x);
+	ptMapSize.y = reader.ReadU32("height", ptMapSize.y);
+	ptTileSize.x = reader.ReadU32("tilewidth", ptTileSize.x);
+	ptTileSize.y = reader.ReadU32("tileheight", ptTileSize.y);
+
+//	String ori = reader.ReadString("orientation", "");
+//	u32 version = reader.ReadU32("version", 1);
+
+	this->ReadProperties(reader);
 
 	u32 tileSetCount = reader.SelectArray("tilesets");
 	for (u32 i = 0; i < tileSetCount; i++)
@@ -163,13 +217,6 @@ bool GameMap::LoadTiled(Reader &reader)
 	this->SetWidth(f32(ptMapSize.x * ptTileSize.x));
 	this->SetHeight(f32(ptMapSize.y * ptTileSize.y));
 
-	return true;
-}
-
-bool GameMap::Write(Writer &writer)
-{
-	UNUSED(writer)
-	WARNING(IMPL - GameMap::Write(...))
 	return true;
 }
 
