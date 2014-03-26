@@ -35,9 +35,9 @@
 
 namespace Seed {
 
-MapLayerMetadata::MapLayerMetadata(Point2f tileSize)
+MapLayerMetadata::MapLayerMetadata()
 	: pRes(nullptr)
-	, ptTileSize(tileSize)
+	, ptTileSize(0.0f, 0.0f)
 	, ptSize(0.0f, 0.0f)
 	, ptMapSize(0.0f, 0.0f)
 	, ptHalfSize(0.0f, 0.0f)
@@ -114,7 +114,7 @@ bool MapLayerMetadata::Write(Writer &writer)
 
 MapLayerMetadata *MapLayerMetadata::Clone() const
 {
-	auto obj = sdNew(MapLayerMetadata(ptTileSize));
+	auto obj = sdNew(MapLayerMetadata);
 	obj->GenerateCloneName(sName);
 
 	obj->pRes = pRes;
@@ -156,6 +156,17 @@ void MapLayerMetadata::LoadData(Reader &reader, u32 len)
 		obj->bMarkForDeletion = true;
 		this->Add(obj);
 	}
+}
+
+void MapLayerMetadata::SetMapSize(Point2f mapSize)
+{
+	ptMapSize = mapSize;
+	ptHalfSize = mapSize * 0.5f;
+}
+
+void MapLayerMetadata::SetTileSize(Point2f tileSize)
+{
+	ptTileSize = tileSize;
 }
 
 void MapLayerMetadata::Render(const Matrix4f &worldTransform)

@@ -152,6 +152,14 @@ typedef Color Color4b;
 
 #include "Log.h"
 
+//#define SEED_COUNT(x)						((sizeof(x)/sizeof(0[x])) / ((size_t)(!(sizeof(x) % sizeof(0[x])))))
+
+template <typename T, size_t N>
+constexpr size_t countof(T(&)[N])
+{
+	return N;
+}
+
 // Debugging
 #if defined(DEBUG)
 	#if defined(__GNUC__)

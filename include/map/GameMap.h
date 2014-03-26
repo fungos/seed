@@ -60,9 +60,14 @@ class SEED_CORE_API GameMap : public ISceneObject
 		u32 AddLayer(IMapLayer *layer);
 
 		TileSet *GetTileSet(const String &name);
+		void AddTileSet(TileSet *tileset);
 
 		int GetLayerCount() const;
 		const String GetProperty(const String &property) const;
+		void SetProperty(const String &key, const String &value = "");
+
+		void SetTileSize(Point2u tileSize);
+		void SetMapSize(Point2u mapSize);
 
 		// SceneNode
 		virtual void Update(Seconds dt) override;
@@ -101,6 +106,8 @@ class SEED_CORE_API GameMap : public ISceneObject
 
 		Point2u ptMapSize;
 		Point2u ptTileSize;
+
+		bool bLoaded;
 };
 
 } // namespace

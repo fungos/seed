@@ -51,6 +51,7 @@ GameMap::GameMap()
 	, mProperties()
 	, ptMapSize(0, 0)
 	, ptTileSize(32, 32)
+	, bLoaded(false)
 {
 	cMapLayers.SetParent(this);
 }
@@ -78,6 +79,8 @@ void GameMap::Set(Reader &reader)
 		if (reader.SelectNode("cGameMap"))
 			this->LoadTiled(reader);
 	}
+
+	this->bLoaded = true;
 }
 
 bool GameMap::Write(Writer &writer)
@@ -123,6 +126,7 @@ bool GameMap::WriteTiled(Writer &writer)
 {
 	writer.OpenNode();
 		writer.WriteString("orientation", "orthogonal");
+		writer.WriteU32("version", 1);
 		writer.WriteU32("width", ptMapSize.x);
 		writer.WriteU32("height", ptMapSize.y);
 		writer.WriteU32("tilewidth", ptTileSize.x);
@@ -235,6 +239,8 @@ bool GameMap::Unload()
 	ptTileSize = Point2u(32, 32);
 	sName = this->GetTypeName();
 
+	bLoaded = false;
+
 	return true;
 }
 
@@ -282,6 +288,7 @@ GameMap *GameMap::Clone() const
 	obj->cColor = cColor;
 	obj->bColorChanged = bColorChanged;
 	obj->bVisible = bVisible;
+	obj->bLoaded = true;
 
 	return obj;
 }
@@ -332,7 +339,9 @@ u32 GameMap::AddLayerMetadata(Point2u tileSize)
 	auto layerId = vLayers.Size();
 
 	Point2f size(f32(tileSize.x), f32(tileSize.y));
-	auto layer = sdNew(MapLayerMetadata(size));
+	auto layer = sdNew(MapLayerMetadata);
+	layer->SetTileSize(size);
+
 	vLayers += layer;
 	layer->bMarkForDeletion = true;
 	cMapLayers.Add(layer);
@@ -373,6 +382,11 @@ IMapLayer *GameMap::GetLayerByName(const String &name)
 	return map;
 }
 
+void GameMap::AddTileSet(TileSet *tileset)
+{
+	vTileSets += tileset;
+}
+
 TileSet *GameMap::GetTileSet(const String &name)
 {
 	TileSet *ts = nullptr;
@@ -394,10 +408,27 @@ int GameMap::GetLayerCount() const
 	return vLayers.Size();
 }
 
+void GameMap::SetProperty(const String &key, const String &value)
+{
+	mProperties[key] = value;
+}
+
 const String GameMap::GetProperty(const String &property) const
 {
 	auto it = mProperties.find(property);
 	return mProperties.end() == it ? "" : it->second;
+}
+
+void GameMap::SetTileSize(Point2u tileSize)
+{
+	SEED_ASSERT(!bLoaded);
+	ptTileSize = tileSize;
+}
+
+void GameMap::SetMapSize(Point2u mapSize)
+{
+	SEED_ASSERT(!bLoaded);
+	ptMapSize = mapSize;
 }
 
 } // namespace

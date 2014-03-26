@@ -45,10 +45,12 @@ class SEED_CORE_API MapLayerMetadata : public IMapLayer
 	SEED_DISABLE_COPY(MapLayerMetadata)
 
 	public:
-		MapLayerMetadata(Point2f tileSize);
+		MapLayerMetadata();
 		virtual ~MapLayerMetadata();
 
 		void LoadData(Reader &reader, u32 len);
+		void SetMapSize(Point2f mapSize);
+		void SetTileSize(Point2f tileSize);
 
 		// IMapLayer
 		virtual MapLayerMetadata *AsMetadata() override;

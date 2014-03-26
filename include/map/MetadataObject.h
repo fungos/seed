@@ -48,10 +48,15 @@ class SEED_CORE_API MetadataObject : public ISceneNode
 
 		virtual const f32 *GetVertices() const;
 		virtual const String GetProperty(const String &property) const;
+		virtual void SetProperty(const String &key, const String &value = "");
 		virtual bool CheckHit(const Rect4f &area, Rect4f &overlap) const;
 
 		// IRenderable
 		virtual void Render(const Matrix4f &worldTransform) override;
+
+		// ITransformable
+		virtual void SetHeight(f32 h) override;
+		virtual void SetWidth(f32 w) override;
 
 		// IDataObject
 		virtual bool Write(Writer &writer) override;

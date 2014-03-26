@@ -51,6 +51,7 @@ class SEED_CORE_API IMapLayer : public ISceneNode
 		virtual f32 GetOpacity() const;
 
 		virtual const String &GetProperty(const String &property) const;
+		virtual void SetProperty(const String &key, const String &value = "");
 
 		virtual MapLayerTiled *AsTiled();
 		virtual MapLayerMosaic *AsMosaic();

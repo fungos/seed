@@ -303,9 +303,16 @@ void TileSet::SetTexture(ITexture *texture)
 {
 	SEED_ASSERT(texture);
 
-	pTexture->Release();
+	if (pTexture)
+		pTexture->Release();
+
 	pTexture = texture;
 	pTexture->Acquire();
+}
+
+void TileSet::SetTileSize(Point2u tileSize)
+{
+	ptTileSize = tileSize;
 }
 
 const String &TileSet::GetProperty(const String &property) const

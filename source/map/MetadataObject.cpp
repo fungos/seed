@@ -107,8 +107,8 @@ void MetadataObject::Set(Reader &reader)
 	if (y)
 		this->SetY(y);
 
-	this->SetWidth(rBox.Width());
-	this->SetHeight(rBox.Height());
+	ITransformable::SetWidth(rBox.Width());
+	ITransformable::SetHeight(rBox.Height());
 }
 
 bool MetadataObject::Write(Writer &writer)
@@ -314,9 +314,26 @@ void MetadataObject::WriteProperties(Writer &writer)
 	writer.CloseNode();
 }
 
+void MetadataObject::SetHeight(f32 h)
+{
+	rBox.y2 = rBox.y1 + h;
+	ITransformable::SetHeight(h);
+}
+
+void MetadataObject::SetWidth(f32 w)
+{
+	rBox.x2 = rBox.x1 + w;
+	ITransformable::SetWidth(w);
+}
+
 const f32 *MetadataObject::GetVertices() const
 {
 	return pVertices;
+}
+
+void MetadataObject::SetProperty(const String &key, const String &value)
+{
+	mProperties[key] = value;
 }
 
 const String MetadataObject::GetProperty(const String &property) const

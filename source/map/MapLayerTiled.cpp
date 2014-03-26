@@ -68,7 +68,7 @@ MapLayerTiled::~MapLayerTiled()
 void MapLayerTiled::Set(Reader &reader)
 {
 	u32 len = reader.SelectArray("data");
-	this->LoadData(reader, len);
+	this->LoadTileData(reader, len);
 	reader.UnselectArray();
 
 	// map size is in tiles and is only important to tile based maps, so we read it here
@@ -178,7 +178,7 @@ MapLayerTiled *MapLayerTiled::Clone() const
 	return obj;
 }
 
-void MapLayerTiled::LoadData(Reader &reader, u32 len)
+void MapLayerTiled::LoadTileData(Reader &reader, u32 len)
 {
 	if (len > 0)
 	{
@@ -199,6 +199,21 @@ void MapLayerTiled::LoadData(Reader &reader, u32 len)
 		sdFree(pTileData);
 
 	iDataLen = len;
+	bRebuildMesh = true;
+}
+
+void MapLayerTiled::SetTileData(u32 *data, u32 size)
+{
+	SEED_ASSERT_FMT(data && size, "Trying to set null tile data (%s)", sName.c_str());
+
+	if (!pTileData || iDataLen != size)
+	{
+		sdFree(pTileData);
+		pTileData = (u32 *)sdAlloc(sizeof(u32) * size);
+	}
+
+	memcpy(pTileData, data, sizeof(u32) * size);
+	iDataLen = size;
 	bRebuildMesh = true;
 }
 

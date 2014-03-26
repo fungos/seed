@@ -55,7 +55,7 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		void SetMapSize(Point2u mapSize);
 		void SetTileSize(Point2u tileSize);
 		void SetTileSet(TileSet *tileSet);
-		void LoadData(Reader &reader, u32 len);
+		void SetTileData(u32 *data, u32 size);
 
 		TileSet *GetTileSet();
 
@@ -75,6 +75,9 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		virtual bool Unload() override;
 		virtual MapLayerTiled *Clone() const override;
 		virtual void Set(Reader &reader) override;
+
+	protected:
+		void LoadTileData(Reader &reader, u32 len);
 
 	private:
 		u32			 *pTileData;

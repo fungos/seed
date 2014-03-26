@@ -85,6 +85,11 @@ void IMapLayer::WriteMapLayer(Writer &writer)
 	writer.WriteF32("y", this->GetY());
 }
 
+void IMapLayer::SetProperty(const String &key, const String &value)
+{
+	mProperties[key] = value;
+}
+
 const String &IMapLayer::GetProperty(const String &property) const
 {
 	return mProperties.at(property);
