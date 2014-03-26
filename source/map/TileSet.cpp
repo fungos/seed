@@ -315,9 +315,19 @@ void TileSet::SetTileSize(Point2u tileSize)
 	ptTileSize = tileSize;
 }
 
+void TileSet::SetProperty(const String &key, const String &value)
+{
+	mProperties[key] = value;
+}
+
 const String &TileSet::GetProperty(const String &property) const
 {
 	return mProperties.at(property);
+}
+
+void TileSet::SetTileProperty(u32 tileId, const String &key, const String &value)
+{
+	mTileProperties[tileId][key] = value;
 }
 
 const String &TileSet::GetTileProperty(u32 tileId, const String &property) const

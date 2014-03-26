@@ -56,7 +56,9 @@ class SEED_CORE_API TileSet : public IDataObject
 		void SetTileSize(Point2u tileSize);
 
 		const String &GetProperty(const String &property) const;
+		void SetProperty(const String &key, const String &value = "");
 		const String &GetTileProperty(u32 tileId, const String &property) const;
+		void SetTileProperty(u32 tileId, const String &key, const String &value = "");
 
 		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
