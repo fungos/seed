@@ -109,16 +109,15 @@ void Keyframe::Set(Reader &reader)
 	auto event = String(reader.ReadString("sEvent", ""));
 	if (event != "")
 	{
-		std::transform(event.begin(), event.end(), event.begin(), tolower);
-		if (event == "stop")
+		if (StringUtil::Equals(event, "stop"))
 		{
 			iEvent = KeyframeEventStop;
 		}
-		else if (event == "restart")
+		else if (StringUtil::Equals(event, "restart"))
 		{
 			iEvent = KeyframeEventRestart;
 		}
-		else if (event == "goto")
+		else if (StringUtil::Equals(event, "goto"))
 		{
 			iEvent = KeyframeEventJumpToFrame;
 		}

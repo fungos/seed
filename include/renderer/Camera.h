@@ -56,6 +56,8 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual ~Camera();
 
 		virtual void SetProjection(eProjection type);
+		virtual eProjection GetProjection() const;
+
 		virtual bool Contains(ITransformable *obj, Matrix4f &worldMatrix);
 		virtual void SetView(const Rect4f &rect);
 

@@ -64,6 +64,11 @@ void Camera::SetProjection(eProjection type)
 	nProjection = type;
 }
 
+eProjection Camera::GetProjection() const
+{
+	return nProjection;
+}
+
 bool Camera::Contains(ITransformable *obj, Matrix4f &worldMatrix)
 {
 	auto ret = false;
@@ -180,6 +185,13 @@ bool Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)
 	UNUSED(worldTransform)
 	WARNING(IMPL - Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform))
 
+	worldTransform = mInverse * obj->mTransform;
+	auto op = worldTransform.getTranslation();
+	auto ox = op.getX();
+	auto oy = op.getY();
+	auto box = Rect4f{ox, oy, obj->GetWidth(), obj->GetHeight()};
+	return rBoundingBox.Intersect(ox, oy, box.CircleRadius());
+
 	return true;
 }
 
@@ -236,10 +248,9 @@ void Camera::Set(Reader &reader)
 	String proj = reader.ReadString("sProjection", "");
 	if (proj != "")
 	{
-		std::transform(proj.begin(), proj.end(), proj.begin(), ::tolower);
-		if (proj == "perspective")
+		if (StringUtil::Equals(proj, "perspective"))
 			nProjection = eProjection::Perspective;
-		else if (proj == "orthogonal")
+		else if (StringUtil::Equals(proj, "orthogonal"))
 			nProjection = eProjection::Orthogonal;
 	}
 

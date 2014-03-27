@@ -39,6 +39,7 @@ namespace Seed {
 
 class IRenderer;
 class ITexture;
+class Camera;
 struct IHardwareBuffer;
 
 /// Rendering device interface
@@ -80,13 +81,12 @@ class SEED_CORE_API IRendererDevice : public IManager
 		virtual bool CheckFrameBufferStatus() const;
 
 		// Support
+		virtual void SetCamera(const Camera *camera);
 		virtual void EnableScissor(bool b) const;
 		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const;
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const;
 		virtual f32 GetHorizontalTexelOffset() const;
 		virtual f32 GetVerticalTexelOffset() const;
-		virtual void Enable2D() const;
-		virtual void Disable2D() const;
 		virtual void Begin() const;
 		virtual void End() const;
 

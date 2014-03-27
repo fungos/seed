@@ -116,26 +116,25 @@ Color IRenderable::GetColor() const
 void IRenderable::SetBlendingByName(const String &blending)
 {
 	String name = blending;
-	std::transform(name.begin(), name.end(), name.begin(), ::tolower);
 
 	nBlendOperation = eBlendMode::None;
-	if (name == "merge")
+	if (StringUtil::Equals(name, "merge"))
 		nBlendOperation = eBlendMode::Merge;
-	else if (name == "screen")
+	else if (StringUtil::Equals(name, "screen"))
 		nBlendOperation = eBlendMode::Screen;
-	else if (name == "overlay")
+	else if (StringUtil::Equals(name, "overlay"))
 		nBlendOperation = eBlendMode::Overlay;
-	else if (name == "lighten")
+	else if (StringUtil::Equals(name, "lighten"))
 		nBlendOperation = eBlendMode::Lighten;
-	else if (name == "decaloverlay")
+	else if (StringUtil::Equals(name, "decaloverlay"))
 		nBlendOperation = eBlendMode::DecalOverlay;
-	else if (name == "colordodge")
+	else if (StringUtil::Equals(name, "colordodge"))
 		nBlendOperation = eBlendMode::ColorDodge;
-	else if (name == "modulatealpha")
+	else if (StringUtil::Equals(name, "modulatealpha"))
 		nBlendOperation = eBlendMode::ModulateAlpha;
-	else if (name == "modulate")
+	else if (StringUtil::Equals(name, "modulate"))
 		nBlendOperation = eBlendMode::Modulate;
-	else if (name == "additive")
+	else if (StringUtil::Equals(name, "additive"))
 		nBlendOperation = eBlendMode::Additive;
 
 	bColorChanged = true;

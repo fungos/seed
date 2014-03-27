@@ -93,35 +93,29 @@ ResourceManager *pResourceManager = nullptr;
 
 #define MAX_FRAME_DELTA ((1.0f / 60.0f) * 5.0f)
 
-#ifdef _MSC_VER
-#define SEED_strcasecmp _stricmp
-#else
-#define SEED_strcasecmp strcasecmp
-#endif
-
 int CommandLineParameter(char **argv, int pos)
 {
 	const char *param = argv[pos];
 	int consume = 1;
 
-	if (!SEED_strcasecmp(param, "--no-sound"))
+	if (!StringUtil::Equals(param, "--no-sound"))
 	{
 		Private::bDisableSound = true;
 	}
-	else if (!SEED_strcasecmp(param, "--no-thread"))
+	else if (!StringUtil::Equals(param, "--no-thread"))
 	{
 		Private::bDisableThread = true;
 	}
-	else if (!SEED_strcasecmp(param, "--no-resourceloader"))
+	else if (!StringUtil::Equals(param, "--no-resourceloader"))
 	{
 		Private::bDisableResourceLoader = true;
 	}
-	else if (!SEED_strcasecmp(param, "--config"))
+	else if (!StringUtil::Equals(param, "--config"))
 	{
 		Private::sConfigFile = argv[pos + 1];
 		consume++;
 	}
-	else if (!SEED_strcasecmp(param, "--workdir"))
+	else if (!StringUtil::Equals(param, "--workdir"))
 	{
 		Private::sWorkDir = argv[pos + 1];
 		consume++;

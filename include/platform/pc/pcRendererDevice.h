@@ -78,13 +78,13 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		virtual void AttachDepthBuffer(u32 buffer) override;
 		virtual bool CheckFrameBufferStatus() const override;
 
+		// Support
+		virtual void SetCamera(const Camera *camera) override;
 		virtual void EnableScissor(bool b) const override;
 		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const override;
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const override;
 		virtual f32 GetHorizontalTexelOffset() const override;
 		virtual f32 GetVerticalTexelOffset() const override;
-		virtual void Enable2D() const override;
-		virtual void Disable2D() const override;
 
 		// Features
 		virtual bool NeedPowerOfTwoTextures() const override;

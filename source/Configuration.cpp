@@ -85,32 +85,31 @@ void Configuration::Load(const String &file)
 			Private::bDisableSound = r.ReadBool("bDisableSound", false);
 
 		String renderer = r.ReadString("sRendererDevice", "auto");
-		std::transform(renderer.begin(), renderer.end(), renderer.begin(), ::tolower);
 
 		// FIXME: A better way to select the renderer (via register/unregister handlers?)
 		// also, a way to detect the default system renderer.
 		// FIXME: Clean up this, only what is really needed.
-		if (renderer == "auto")
+		if (StringUtil::Equals(renderer, "auto"))
 			nRendererDeviceType = eRendererDeviceType::Auto;
-		else if (renderer == "ogl" || renderer == "opengl")
+		else if (StringUtil::Equals(renderer, "ogl") || StringUtil::Equals(renderer, "opengl"))
 			nRendererDeviceType = eRendererDeviceType::OpenGLAny;
-		else if (renderer == "ogles1" || renderer == "opengl es1")
+		else if (StringUtil::Equals(renderer, "ogles1") || StringUtil::Equals(renderer, "opengl es1"))
 			nRendererDeviceType = eRendererDeviceType::OpenGLES1;
-		else if (renderer == "ogles2" || renderer == "opengl es2")
+		else if (StringUtil::Equals(renderer, "ogles2") || StringUtil::Equals(renderer, "opengl es2"))
 			nRendererDeviceType = eRendererDeviceType::OpenGLES2;
-		else if (renderer == "ogl2" || renderer == "opengl 2.x")
+		else if (StringUtil::Equals(renderer, "ogl2") || StringUtil::Equals(renderer, "opengl 2.x"))
 			nRendererDeviceType = eRendererDeviceType::OpenGL2x;
-		else if (renderer == "ogl3" || renderer == "opengl 3.x")
+		else if (StringUtil::Equals(renderer, "ogl3") || StringUtil::Equals(renderer, "opengl 3.x"))
 			nRendererDeviceType = eRendererDeviceType::OpenGL3x;
-		else if (renderer == "ogl4" || renderer == "opengl 4.x")
+		else if (StringUtil::Equals(renderer, "ogl4") || StringUtil::Equals(renderer, "opengl 4.x"))
 			nRendererDeviceType = eRendererDeviceType::OpenGL4x;
-		else if (renderer == "dx8" || renderer == "directx 8")
+		else if (StringUtil::Equals(renderer, "dx8") || StringUtil::Equals(renderer, "directx 8"))
 			nRendererDeviceType = eRendererDeviceType::DirectX8;
-		else if (renderer == "dx9" || renderer == "directx 9")
+		else if (StringUtil::Equals(renderer, "dx9") || StringUtil::Equals(renderer, "directx 9"))
 			nRendererDeviceType = eRendererDeviceType::DirectX9;
-		else if (renderer == "dx10" || renderer == "directx 10")
+		else if (StringUtil::Equals(renderer, "dx10") || StringUtil::Equals(renderer, "directx 10"))
 			nRendererDeviceType = eRendererDeviceType::DirectX10;
-		else if (renderer == "dx11" || renderer == "directx 11")
+		else if (StringUtil::Equals(renderer, "dx11") || StringUtil::Equals(renderer, "directx 11"))
 			nRendererDeviceType = eRendererDeviceType::DirectX11;
 		else
 			Log("[Configuration] Unknown renderer %s - fallbacking to OpenGL 1.x.", renderer.c_str());

@@ -44,6 +44,7 @@
 namespace Seed {
 
 class ITexture;
+class Camera;
 
 namespace OpenGL {
 
@@ -89,11 +90,10 @@ class SEED_CORE_API OGL20RendererDevice : public IRendererDevice
 		virtual bool CheckFrameBufferStatus() const override;
 
 		// Support
+		virtual void SetCamera(const Camera *camera) override;
 		virtual void EnableScissor(bool b) const override;
 		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const override;
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const override;
-		virtual void Enable2D() const override;
-		virtual void Disable2D() const override;
 
 		// Features
 		virtual bool NeedPowerOfTwoTextures() const override;
@@ -110,9 +110,15 @@ class SEED_CORE_API OGL20RendererDevice : public IRendererDevice
 
 	protected:
 		mutable ITextureVector vTexture;
+		const Camera *pCamera;
 
 	private:
-		SEED_DISABLE_COPY(OGL20RendererDevice);
+		SEED_DISABLE_COPY(OGL20RendererDevice)
+
+		void Prepare() const;
+		void Restore() const;
+		void Enable2D() const;
+		void Disable2D() const;
 
 		int GetOpenGLBufferUsageType(eBufferUsage usage) const;
 		int GetOpenGLBufferTargetType(eBufferTarget type) const;

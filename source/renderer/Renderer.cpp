@@ -135,6 +135,7 @@ void Renderer::Render(Camera *camera)
 	{
 		this->Culler(camera);
 
+		pRendererDevice->SetCamera(camera);
 		this->Begin();
 			this->RenderObjects(vVisibleRenderables);
 		this->End();

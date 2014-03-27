@@ -114,6 +114,8 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 	#include "platform/qt/qtDefines.h"
 #endif // platform selector
 
+#include "String.h"
+
 #ifndef SEED_CORE_API
 #define SEED_CORE_API
 #endif
@@ -127,8 +129,6 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #endif
 
 #define UNUSED(var)						(void)var;
-
-typedef std::string String;
 
 struct Color
 {

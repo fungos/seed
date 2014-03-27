@@ -33,6 +33,7 @@
 #if defined(SEED_ENABLE_OGL20)
 
 #include "api/ogl/oglHeaders.h"
+#include "renderer/Camera.h"
 #include "Log.h"
 #include "Screen.h"
 #include "Texture.h"
@@ -178,8 +179,6 @@ bool OGL20RendererDevice::Initialize()
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 #endif
 
-	this->Enable2D();
-
 	GL_TRACE("END Initialize")
 	return ret;
 }
@@ -193,7 +192,6 @@ bool OGL20RendererDevice::Reset()
 
 bool OGL20RendererDevice::Shutdown()
 {
-	this->Disable2D();
 	this->Reset();
 	return IRendererDevice::Shutdown();
 }
@@ -208,6 +206,8 @@ void OGL20RendererDevice::BackbufferClear(const Color &color) const
 
 void OGL20RendererDevice::Begin() const
 {
+	this->Prepare();
+
 	GL_TRACE("BEGIN Begin")
 
 	this->TextureRequestProcess();
@@ -236,6 +236,8 @@ void OGL20RendererDevice::End() const
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_VERTEX_ARRAY);
 	GL_TRACE("END End");
+
+	this->Restore();
 }
 
 void OGL20RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &color) const
@@ -809,6 +811,12 @@ bool OGL20RendererDevice::CheckFrameBufferStatus() const
 #endif
 }
 
+void OGL20RendererDevice::SetCamera(const Camera *camera)
+{
+	SEED_ASSERT(camera);
+	pCamera = camera;
+}
+
 void OGL20RendererDevice::EnableScissor(bool b) const
 {
 	if (b)
@@ -999,6 +1007,42 @@ void OGL20RendererDevice::Disable2D() const
 bool OGL20RendererDevice::NeedPowerOfTwoTextures() const
 {
 	return bNeedPowerOfTwoTexture;
+}
+
+void OGL20RendererDevice::Prepare() const
+{
+	if (!pCamera)
+		return;
+
+	switch (pCamera->GetProjection())
+	{
+		case eProjection::Perspective:
+			this->Enable2D();
+		break;
+
+		case eProjection::Orthogonal:
+		default:
+			this->Enable2D();
+		break;
+	}
+}
+
+void OGL20RendererDevice::Restore() const
+{
+	if (!pCamera)
+		return;
+
+	switch (pCamera->GetProjection())
+	{
+		case eProjection::Perspective:
+			this->Disable2D();
+		break;
+
+		case eProjection::Orthogonal:
+		default:
+			this->Disable2D();
+		break;
+	}
 }
 
 }} // namespace

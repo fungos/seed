@@ -55,8 +55,9 @@ namespace OpenGL {
 class SEED_CORE_API OGLES2RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
-
 	SEED_DECLARE_CONTAINER(Vector, ITexture)
+	SEED_DISABLE_COPY(OGLES2RendererDevice);
+
 	public:
 		OGLES2RendererDevice();
 		virtual ~OGLES2RendererDevice();
@@ -96,8 +97,6 @@ class SEED_CORE_API OGLES2RendererDevice : public IRendererDevice
 		virtual void EnableScissor(bool b) const override;
 		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const override;
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const override;
-		virtual void Enable2D() const override;
-		virtual void Disable2D() const override;
 
 		// Features
 		virtual bool NeedPowerOfTwoTextures() const override;
@@ -116,7 +115,8 @@ class SEED_CORE_API OGLES2RendererDevice : public IRendererDevice
 		mutable ITextureVector vTexture;
 
 	private:
-		SEED_DISABLE_COPY(OGLES2RendererDevice);
+		void Enable2D() const;
+		void Disable2D() const;
 
 		int GetOpenGLBufferUsageType(eBufferUsage usage) const;
 		int GetOpenGLBufferTargetType(eBufferTarget type) const;

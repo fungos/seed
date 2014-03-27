@@ -30,6 +30,7 @@
 
 #include "interface/IRendererDevice.h"
 #include "Log.h"
+#include "renderer/Camera.h"
 
 namespace Seed {
 
@@ -166,6 +167,12 @@ bool IRendererDevice::CheckFrameBufferStatus() const
 	return true;
 }
 
+void IRendererDevice::SetCamera(const Camera *camera)
+{
+	UNUSED(camera);
+	SEED_ABSTRACT_METHOD;
+}
+
 void IRendererDevice::EnableScissor(bool b) const
 {
 	UNUSED(b);
@@ -225,16 +232,6 @@ void IRendererDevice::DrawLines(f32 *points, u32 len, const Color &color) const
 	UNUSED(points);
 	UNUSED(len);
 	UNUSED(color);
-	SEED_ABSTRACT_METHOD;
-}
-
-void IRendererDevice::Enable2D() const
-{
-	SEED_ABSTRACT_METHOD;
-}
-
-void IRendererDevice::Disable2D() const
-{
 	SEED_ABSTRACT_METHOD;
 }
 
