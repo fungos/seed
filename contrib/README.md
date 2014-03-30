@@ -52,6 +52,8 @@ Bullet Physics Library 2.81 r2613
 
 vectormath
 
+glm 0.9.5.2
+
 yajl (custom version from https://github.com/fungos/yajl)
 
 lua
