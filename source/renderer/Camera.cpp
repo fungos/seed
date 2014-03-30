@@ -36,6 +36,7 @@
 #include "Screen.h"
 #include "Memory.h"
 #include "renderer/Camera.h"
+#include <glm/matrix.hpp>
 
 #define TAG "[Camera] "
 
@@ -69,7 +70,7 @@ eProjection Camera::GetProjection() const
 	return nProjection;
 }
 
-bool Camera::Contains(ITransformable *obj, Matrix4f &worldMatrix)
+bool Camera::Contains(ITransformable *obj, mat4 &worldMatrix)
 {
 	auto ret = false;
 	if (nProjection == eProjection::Orthogonal)
@@ -93,20 +94,20 @@ void Camera::Update(Seconds dt)
 	bTransformationChanged = this->IsChanged();
 	if (bTransformationChanged)
 	{
-		auto x2 = vBoundingBox.getX() * 0.5f;
-		auto y2 = vBoundingBox.getY() * 0.5f;
+		auto x2 = vBoundingBox.x * 0.5f;
+		auto y2 = vBoundingBox.y * 0.5f;
 		auto x1 = -x2;
 		auto y1 = -y2;
-		auto z = vPos.getZ();
+		auto z = vPos.z;
 
-		aMesh[0].cVertex = Vector3f{x1, y1, z};
-		aMesh[1].cVertex = Vector3f{x2, y1, z};
-		aMesh[2].cVertex = Vector3f{x1, y2, z};
-		aMesh[3].cVertex = Vector3f{x2, y2, z};
+		aMesh[0].cVertex = vec3{x1, y1, z};
+		aMesh[1].cVertex = vec3{x2, y1, z};
+		aMesh[2].cVertex = vec3{x1, y2, z};
+		aMesh[3].cVertex = vec3{x2, y2, z};
 
 		this->UpdateTransform();
 
-		mInverse = inverse(mTransform);
+		mInverse = glm::inverse(mTransform);
 	}
 
 	if (bColorChanged)
@@ -123,11 +124,11 @@ void Camera::Update(Seconds dt)
 	bTransformationChanged = false;
 }
 
-void Camera::Render(const Matrix4f &worldTransform)
+void Camera::Render(const mat4 &worldTransform)
 {
 	UNUSED(worldTransform)
 
-	WARNING(IMPL - Camera::Render(const Matrix4f &worldTransform) - Camera representation)
+	WARNING(IMPL - Camera::Render(const mat4 &worldTransform) - Camera representation)
 //	RendererPacket packet;
 //	packet.iSize = iNumVertices;
 //	packet.nMeshType = nMeshType;
@@ -168,29 +169,25 @@ ITexture *Camera::GetTexture() const
 	return pTexture;
 }
 
-bool Camera::IsInView(ITransformable *obj, Matrix4f &worldTransform)
+bool Camera::IsInView(ITransformable *obj, mat4 &worldTransform)
 {
 	SEED_ASSERT(obj);
 	worldTransform = mInverse * obj->mTransform;
-	auto op = worldTransform.getTranslation();
-	auto ox = op.getX();
-	auto oy = op.getY();
-	auto box = Rect4f{ox, oy, obj->GetWidth(), obj->GetHeight()};
-	return rBoundingBox.Intersect(ox, oy, box.CircleRadius());
+	auto op = GLM_GetTranslationFromMatrix(worldTransform);
+	auto box = Rect4f{op.x, op.y, obj->GetWidth(), obj->GetHeight()};
+	return rBoundingBox.Intersect(op.x, op.y, box.CircleRadius());
 }
 
-bool Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform)
+bool Camera::IsInFrustum(ITransformable *obj, mat4 &worldTransform)
 {
 	UNUSED(obj)
 	UNUSED(worldTransform)
-	WARNING(IMPL - Camera::IsInFrustum(ITransformable *obj, Matrix4f &worldTransform))
+	WARNING(IMPL - Camera::IsInFrustum(ITransformable *obj, mat4 &worldTransform))
 
 	worldTransform = mInverse * obj->mTransform;
-	auto op = worldTransform.getTranslation();
-	auto ox = op.getX();
-	auto oy = op.getY();
-	auto box = Rect4f{ox, oy, obj->GetWidth(), obj->GetHeight()};
-	return rBoundingBox.Intersect(ox, oy, box.CircleRadius());
+	auto op = GLM_GetTranslationFromMatrix(worldTransform);
+	auto box = Rect4f{op.x, op.y, obj->GetWidth(), obj->GetHeight()};
+	return rBoundingBox.Intersect(op.x, op.y, box.CircleRadius());
 
 	return true;
 }

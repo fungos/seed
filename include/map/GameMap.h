@@ -33,7 +33,7 @@
 
 #include "SceneNode.h"
 #include "interface/IResource.h"
-#include "Point.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
@@ -66,12 +66,12 @@ class SEED_CORE_API GameMap : public ISceneObject
 		const String GetProperty(const String &property) const;
 		void SetProperty(const String &key, const String &value = "");
 
-		void SetTileSize(Point2u tileSize);
-		void SetMapSize(Point2u mapSize);
+		void SetTileSize(uvec2 tileSize);
+		void SetMapSize(uvec2 mapSize);
 
 		// SceneNode
 		virtual void Update(Seconds dt) override;
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 		virtual void Reset() override; // call Unload
 
 		// IDataObject
@@ -85,7 +85,7 @@ class SEED_CORE_API GameMap : public ISceneObject
 		void WriteProperties(Writer &writer);
 
 		u32 AddLayerTiled();
-		u32 AddLayerMetadata(Point2u tileSize);
+		u32 AddLayerMetadata(uvec2 tileSize);
 		u32 AddLayerMosaic();
 		bool LoadTiled(Reader &reader);
 		bool WriteTiled(Writer &writer);
@@ -104,8 +104,8 @@ class SEED_CORE_API GameMap : public ISceneObject
 		TileSetVector vTileSets;
 		Map<String, String> mProperties;
 
-		Point2u ptMapSize;
-		Point2u ptTileSize;
+		uvec2 ptMapSize;
+		uvec2 ptTileSize;
 
 		bool bLoaded;
 };

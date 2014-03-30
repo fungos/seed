@@ -33,8 +33,9 @@
 
 #include "Defines.h"
 #include "Enum.h"
-#include "MathUtil.h"
-#include "Point.h"
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
+#include <glm/mat4x4.hpp>
 
 namespace Seed {
 
@@ -46,9 +47,9 @@ struct ElementBuffer;
 struct sVertex
 {
 	// To be compatible with DX, we use FVF. So we must respect the DX FVF ordering in this struct.
-	Vector3f	cVertex;
+	vec3		cVertex;
 	Color4b		cColor;
-	Point2f		cCoords;
+	vec2		cCoords;
 
 	sVertex()
 		: cVertex(0.0f, 0.0f, 0.0f)
@@ -75,7 +76,7 @@ enum class ePacketFlags
 /// Renderer Packet
 struct RendererPacket
 {
-	const Matrix4f			*pTransform;
+	const mat4				*pTransform;
 	const ITexture			*pTexture;
 	VertexBuffer			*pVertexBuffer;
 	ElementBuffer			*pElementBuffer;
@@ -83,7 +84,7 @@ struct RendererPacket
 	eMeshType				nMeshType;
 	eBlendMode				nBlendMode;
 	ePacketFlags			nFlags;
-	Vector3f				vPivot;
+	vec3					vPivot;
 	f32						fRadius;
 
 	RendererPacket()

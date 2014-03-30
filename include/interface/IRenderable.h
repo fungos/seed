@@ -35,7 +35,6 @@
 #include "Enum.h"
 #include "Reader.h"
 #include "Writer.h"
-#include "MathUtil.h"
 
 namespace Seed {
 
@@ -51,7 +50,7 @@ class SEED_CORE_API IRenderable
 		IRenderable();
 		virtual ~IRenderable();
 
-		virtual void Render(const Matrix4f &worldTransform) = 0;
+		virtual void Render(const mat4 &worldTransform) = 0;
 		virtual void Update(Seconds dt) = 0;
 
 		virtual void SetColor(u32 r, u32 g, u32 b, u32 a);

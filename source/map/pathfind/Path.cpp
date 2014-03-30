@@ -10,22 +10,22 @@ Path::~Path()
 {
 }
 
-void Path::AppendPositionStep(const Vector3f &vector3f)
+void Path::AppendPositionStep(const vec3 &vec3)
 {
-	cPositionSteps.push(vector3f);
+	cPositionSteps.push(vec3);
 }
 
-void Path::AppendDirectionStep(const Vector3f &vector3f)
+void Path::AppendDirectionStep(const vec3 &vec3)
 {
-	cDirectionSteps.push(vector3f);
+	cDirectionSteps.push(vec3);
 }
 
-Stack<Vector3f> &Path::GetPositionSteps()
+Stack<vec3> &Path::GetPositionSteps()
 {
 	return cPositionSteps;
 }
 
-Stack<Vector3f> &Path::GetDirectionSteps()
+Stack<vec3> &Path::GetDirectionSteps()
 {
 	return cDirectionSteps;
 }

@@ -134,7 +134,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 
 		// IRenderable
 		virtual void Update(Seconds dt) override;
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 
 		// IDataObject
 		virtual bool Write(Writer &writer) override;
@@ -143,7 +143,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		virtual void Set(Reader &reader) override;
 
 	private:
-		void MoveEverything(const Vector3f &pos);
+		void MoveEverything(const vec3 &pos);
 
 		Particle				*arParticles;
 		ITexture				*pTexture;
@@ -152,7 +152,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject
 		Sprite					*pTemplate;
 		String					sSprite;
 		String					sBlending;
-		Vector3f				vPrevLocation;
+		vec3					vPrevLocation;
 		Rect4f					rBoundingBox;
 
 		f32						fAge;

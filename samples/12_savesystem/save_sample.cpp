@@ -122,7 +122,7 @@ bool SaveSample::Initialize()
 			MySlotStruct slot;
 			pSaveSystem->Load(0, &slot);
 
-			auto v = Vector3f(slot.fPosX, slot.fPosY, pImage->GetPosition().getZ());
+			auto v = vec3{slot.fPosX, slot.fPosY, pImage->GetPosition().z};
 			vFrom = vTo = v;
 			pImage->SetPosition(v);
 		}
@@ -152,8 +152,8 @@ bool SaveSample::Shutdown()
 	pSaveSystem->Load(0, &slot);
 	strlcpy(slot.pcName, "Panda Player", MY_GAME_NAME_LEN);
 	slot.iLevel = 100;
-	slot.fPosX = pImage->GetPosition().getX();
-	slot.fPosY = pImage->GetPosition().getY();
+	slot.fPosX = pImage->GetPosition().x;
+	slot.fPosY = pImage->GetPosition().y;
 	pSaveSystem->Save(0, &slot);
 
 	cPres.Unload();
@@ -194,8 +194,8 @@ void SaveSample::OnInputPointerRelease(const EventInputPointer *ev)
 		if (pImage)
 			vFrom = pImage->GetPosition();
 
-		vTo.setX(f32(ev->GetX()));
-		vTo.setY(f32(ev->GetY()));
+		vTo.x = f32(ev->GetX());
+		vTo.y = f32(ev->GetY());
 		vTo += pCamera->GetPosition();
 		fElapsed = 0.0f;
 	}

@@ -139,7 +139,7 @@ void Movie::Update(Seconds dt)
 	ISceneNode::Update(dt);
 }
 
-void Movie::Render(const Matrix4f &)
+void Movie::Render(const mat4 &)
 {
 }
 

@@ -518,7 +518,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	const ITexture *texture = packet->pTexture;
 	VertexBuffer *vbo = (VertexBuffer *)packet->pVertexBuffer;
 	ElementBuffer *ebo = (ElementBuffer *)packet->pElementBuffer;
-	Vector3f pivot = packet->vPivot;
+	vec3 pivot = packet->vPivot;
 
 	this->SetBlendingOperation(packet->nBlendMode, packet->cColor);
 
@@ -604,8 +604,9 @@ void OGLES1RendererDevice::UploadData(void *userData)
 
 		if (packet->fRadius)
 		{
-			Vector3f op = packet->pTransform->getTranslation();
-			pRendererDevice->DrawCircle(op.getX(), op.getY(), packet->fRadius, Color(255, 0, 255, 255));
+			auto translation = GLM_GetTranslationFromMatrix(*packet->pTransform);
+			vec3 op{translation[0], translation[1], translation[2]};
+			pRendererDevice->DrawCircle(op.x, op.y, packet->fRadius, Color(255, 0, 255, 255));
 		}
 
 //		glPointSize(5.0f);
@@ -618,12 +619,15 @@ void OGLES1RendererDevice::UploadData(void *userData)
 		#if !defined (BUILD_IOS)
 			glBegin(GL_POINTS);
 				glColor3f(1.0f, 0.0f, 1.0f);
-				glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
+				glVertex3f(pivot.x, pivot.y, pivot.z);
 			glEnd();
 		#endif
 
-		Vector3f op = packet->pTransform->getTranslation();
-		pRendererDevice->DrawCircle(pivot.getX() + op.getX(), pivot.getY() + op.getY(), 3, Color(255, 0, 255, 255));
+		{
+			auto translation = GLM_GetTranslationFromMatrix(*packet->pTransform);
+			vec3 op{translation[0], translation[1], translation[2]};
+			pRendererDevice->DrawCircle(pivot.x + op.x, pivot.y + op.y, 3, Color(255, 0, 255, 255));
+		}
 
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);

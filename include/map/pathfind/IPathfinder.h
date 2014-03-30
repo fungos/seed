@@ -7,19 +7,18 @@
 #include "map/MapLayerMetadata.h"
 #include "map/pathfind/Heuristic.h"
 #include "Path.h"
-#include "MathUtil.h"
 #include "Memory.h"
 
 namespace Seed {
 
 struct TileNode
 {
-		Vector3f	cPos;
-		Vector3f	cDir;
-		f32			uF{0}; // depth
-		f32			uG{0}; // cost
-		f32			uH{0}; // heuristic
-		TileNode	*parent{nullptr};
+	vec3		cPos;
+	vec3		cDir;
+	f32			uF{0}; // depth
+	f32			uG{0}; // cost
+	f32			uH{0}; // heuristic
+	TileNode	*parent{nullptr};
 };
 
 class SEED_CORE_API IPathfinder
@@ -32,7 +31,7 @@ class SEED_CORE_API IPathfinder
 		virtual ~IPathfinder();
 
 		// Common Operations
-		virtual Path &FindPath(const Vector3f &start, const Vector3f &end, Path &path) = 0;
+		virtual Path &FindPath(const vec3 &start, const vec3 &end, Path &path) = 0;
 		void GetNeigboursAtTile(const TileNode &tile);
 
 	protected:

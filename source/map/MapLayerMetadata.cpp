@@ -59,9 +59,9 @@ bool MapLayerMetadata::Unload()
 {
 	IMapLayer::Unload();
 
-	// ptTileSize = Point2f(0.0f, 0.0f); // Do not clear tilesize.
-	ptMapSize = Point2f(0.0f, 0.0f);
-	ptHalfSize = Point2f(0.0f, 0.0f);
+	// ptTileSize = vec2(0.0f, 0.0f); // Do not clear tilesize.
+	ptMapSize = vec2(0.0f, 0.0f);
+	ptHalfSize = vec2(0.0f, 0.0f);
 
 	return true;
 }
@@ -158,18 +158,18 @@ void MapLayerMetadata::LoadData(Reader &reader, u32 len)
 	}
 }
 
-void MapLayerMetadata::SetMapSize(Point2f mapSize)
+void MapLayerMetadata::SetMapSize(vec2 mapSize)
 {
 	ptMapSize = mapSize;
 	ptHalfSize = mapSize * 0.5f;
 }
 
-void MapLayerMetadata::SetTileSize(Point2f tileSize)
+void MapLayerMetadata::SetTileSize(vec2 tileSize)
 {
 	ptTileSize = tileSize;
 }
 
-void MapLayerMetadata::Render(const Matrix4f &worldTransform)
+void MapLayerMetadata::Render(const mat4 &worldTransform)
 {
 	for (auto obj: vChild)
 		obj->Render(worldTransform);

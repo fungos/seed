@@ -34,7 +34,7 @@
 #include "Defines.h"
 #include "Rect.h"
 #include "SceneNode.h"
-#include "Point.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
@@ -52,7 +52,7 @@ class SEED_CORE_API MetadataObject : public ISceneNode
 		virtual bool CheckHit(const Rect4f &area, Rect4f &overlap) const;
 
 		// IRenderable
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 
 		// ITransformable
 		virtual void SetHeight(f32 h) override;
@@ -82,7 +82,7 @@ class SEED_CORE_API MetadataObject : public ISceneNode
 		f32					*pVertices;
 		f32					*pCached;
 		u32					iVertices;
-		Point2f				ptOffset;
+		vec2				ptOffset;
 		eMetaType			nType;
 		Rect4f				rBox;
 };

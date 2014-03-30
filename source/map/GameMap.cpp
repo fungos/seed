@@ -235,8 +235,8 @@ bool GameMap::Unload()
 	TileSetVector().swap(vTileSets);
 	mProperties.clear();
 
-	ptMapSize = Point2u(0, 0);
-	ptTileSize = Point2u(32, 32);
+	ptMapSize = uvec2(0, 0);
+	ptTileSize = uvec2(32, 32);
 	sName = this->GetTypeName();
 
 	bLoaded = false;
@@ -302,7 +302,7 @@ void GameMap::Update(Seconds dt)
 	this->UpdateTransform();
 }
 
-void GameMap::Render(const Matrix4f &worldTransform)
+void GameMap::Render(const mat4 &worldTransform)
 {
 	for (decltype(cMapLayers.Size()) i = 0; i < cMapLayers.Size(); i++)
 	{
@@ -334,11 +334,11 @@ u32 GameMap::AddLayerTiled()
 	return layerId;
 }
 
-u32 GameMap::AddLayerMetadata(Point2u tileSize)
+u32 GameMap::AddLayerMetadata(uvec2 tileSize)
 {
 	auto layerId = vLayers.Size();
 
-	Point2f size(f32(tileSize.x), f32(tileSize.y));
+	vec2 size{f32(tileSize.x), f32(tileSize.y)};
 	auto layer = sdNew(MapLayerMetadata);
 	layer->SetTileSize(size);
 
@@ -419,13 +419,13 @@ const String GameMap::GetProperty(const String &property) const
 	return mProperties.end() == it ? "" : it->second;
 }
 
-void GameMap::SetTileSize(Point2u tileSize)
+void GameMap::SetTileSize(uvec2 tileSize)
 {
 	SEED_ASSERT(!bLoaded);
 	ptTileSize = tileSize;
 }
 
-void GameMap::SetMapSize(Point2u mapSize)
+void GameMap::SetMapSize(uvec2 mapSize)
 {
 	SEED_ASSERT(!bLoaded);
 	ptMapSize = mapSize;

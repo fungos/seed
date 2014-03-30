@@ -52,7 +52,7 @@ void MapLayerMosaic::Reset()
 	this->Unload();
 }
 
-void MapLayerMosaic::Initialize(Point2u tileSize, u32 count, const LayerMosaicHeader *data)
+void MapLayerMosaic::Initialize(uvec2 tileSize, u32 count, const LayerMosaicHeader *data)
 {
 	ptiTileSize = tileSize;
 	for (u32 i = 0; i < count; i++)
@@ -165,10 +165,10 @@ Sprite *MapLayerMosaic::GetObject(u32 at)
 	return vObjects.at(at);
 }
 
-Point2i MapLayerMosaic::ViewAt(Point2i pos)
+ivec2 MapLayerMosaic::ViewAt(ivec2 pos)
 {
 	cScene.SetPosition(-pos.x / static_cast<f32>(pScreen->GetWidth()), -pos.y / static_cast<f32>(pScreen->GetHeight()));
-	return Point2i(0, 0);
+	return ivec2(0, 0);
 }
 
 void MapLayerMosaic::Update(Seconds dt)
@@ -176,7 +176,7 @@ void MapLayerMosaic::Update(Seconds dt)
 	cScene.Update(dt);
 }
 
-void MapLayerMosaic::Render(const Matrix4f &worldTransform)
+void MapLayerMosaic::Render(const mat4 &worldTransform)
 {
 	for (auto obj: vObjects)
 		obj->Render(worldTransform);

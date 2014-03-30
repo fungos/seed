@@ -1,10 +1,10 @@
 #include "joystick_sample.h"
 
-#define VECTOR_UP		Vector3f(0.f, -0.05f, 0.f);
-#define VECTOR_DOWN		Vector3f(0.f,  0.05f, 0.f);
-#define VECTOR_LEFT		Vector3f(-0.05f, 0.f, 0.f);
-#define VECTOR_RIGHT	Vector3f( 0.05f, 0.f, 0.f);
-#define VECTOR_ZERO		Vector3f(0.f, 0.f, 0.f);
+#define VECTOR_UP		vec3{ 0.0f, -0.05f, 0.f};
+#define VECTOR_DOWN		vec3{ 0.0f,  0.05f, 0.f};
+#define VECTOR_LEFT		vec3{-0.05f, 0.0f,  0.f};
+#define VECTOR_RIGHT	vec3{ 0.05f, 0.0f,  0.f};
+#define VECTOR_ZERO		vec3{ 0.0f,  0.0f,  0.f};
 
 JoystickSample::JoystickSample()
 	: cPres()

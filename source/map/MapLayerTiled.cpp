@@ -72,7 +72,7 @@ void MapLayerTiled::Set(Reader &reader)
 	reader.UnselectArray();
 
 	// map size is in tiles and is only important to tile based maps, so we read it here
-	this->SetMapSize(Point2u(reader.ReadU32("width", ptMapSize.x), reader.ReadU32("height", ptMapSize.y)));
+	this->SetMapSize(uvec2(reader.ReadU32("width", ptMapSize.x), reader.ReadU32("height", ptMapSize.y)));
 
 	// read the generic map info in base class
 	this->ReadMapLayer(reader);
@@ -108,9 +108,9 @@ bool MapLayerTiled::Unload()
 	sdFree(pVertex);
 	sdFree(pTileData);
 
-	ptTileSize = Point2u(0, 0);
-	ptMapSizeHalf = Point2f(0.0f, 0.0f);
-	ptMapSize = Point2u(0, 0);
+	ptTileSize = uvec2{0, 0};
+	ptMapSizeHalf = vec2{0.0f, 0.0f};
+	ptMapSize = uvec2{0, 0};
 	pTileSet = nullptr;
 	sName = this->GetTypeName();
 
@@ -265,19 +265,19 @@ void MapLayerTiled::Update(Seconds dt)
 					pVertex[v + 0].cCoords.x = uv->x1;
 					pVertex[v + 0].cCoords.y = uv->y1;
 					pVertex[v + 0].cColor = c;
-					pVertex[v + 0].cVertex = Vector3f(tx - halfTileW, ty - halfTileH, 1.0f);
+					pVertex[v + 0].cVertex = vec3(tx - halfTileW, ty - halfTileH, 1.0f);
 					pVertex[v + 1].cCoords.x = uv->x2;
 					pVertex[v + 1].cCoords.y = uv->y1;
 					pVertex[v + 1].cColor = c;
-					pVertex[v + 1].cVertex = Vector3f(tx + halfTileW, ty - halfTileH, 1.0f);
+					pVertex[v + 1].cVertex = vec3(tx + halfTileW, ty - halfTileH, 1.0f);
 					pVertex[v + 2].cCoords.x = uv->x1;
 					pVertex[v + 2].cCoords.y = uv->y2;
 					pVertex[v + 2].cColor = c;
-					pVertex[v + 2].cVertex = Vector3f(tx - halfTileW, ty + halfTileH, 1.0f);
+					pVertex[v + 2].cVertex = vec3(tx - halfTileW, ty + halfTileH, 1.0f);
 					pVertex[v + 3].cCoords.x = uv->x2;
 					pVertex[v + 3].cCoords.y = uv->y2;
 					pVertex[v + 3].cColor = c;
-					pVertex[v + 3].cVertex = Vector3f(tx + halfTileW, ty + halfTileH, 1.0f);
+					pVertex[v + 3].cVertex = vec3(tx + halfTileW, ty + halfTileH, 1.0f);
 
 					pElements[e + 0] = v + 0;
 					pElements[e + 1] = v + 1;
@@ -306,7 +306,7 @@ void MapLayerTiled::Update(Seconds dt)
 		this->UpdateTransform();
 }
 
-void MapLayerTiled::Render(const Matrix4f &worldTransform)
+void MapLayerTiled::Render(const mat4 &worldTransform)
 {
 	if (pTileSet)
 	{
@@ -333,13 +333,13 @@ void MapLayerTiled::SetTileSet(TileSet *tileSet)
 	bRebuildMesh = true;
 }
 
-void MapLayerTiled::SetTileSize(Point2u tileSize)
+void MapLayerTiled::SetTileSize(uvec2 tileSize)
 {
 	ptTileSize = tileSize;
 	bRebuildMesh = true;
 }
 
-void MapLayerTiled::SetMapSize(Point2u mapSize)
+void MapLayerTiled::SetMapSize(uvec2 mapSize)
 {
 	ptMapSize = mapSize;
 	bRebuildMesh = true;
@@ -365,10 +365,10 @@ void MapLayerTiled::SetTileAt(u32 x, u32 y, u32 tileId)
 	bRebuildMesh = true;
 }
 
-void MapLayerTiled::SetTileAt(const Vector3f &pos, u32 tileId)
+void MapLayerTiled::SetTileAt(const vec3 &pos, u32 tileId)
 {
-	s32 x = static_cast<s32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
-	s32 y = static_cast<s32>((pos.getY() / ptTileSize.y) + ptMapSizeHalf.y);
+	s32 x = static_cast<s32>((pos.x / ptTileSize.x) + ptMapSizeHalf.x);
+	s32 y = static_cast<s32>((pos.y / ptTileSize.y) + ptMapSizeHalf.y);
 
 	if (x < 0)
 		x = 0;
@@ -386,10 +386,10 @@ void MapLayerTiled::SetTileAt(const Vector3f &pos, u32 tileId)
 	bRebuildMesh = true;
 }
 
-u32 MapLayerTiled::GetTileAt(const Vector3f &pos) const
+u32 MapLayerTiled::GetTileAt(const vec3 &pos) const
 {
-	s32 x = static_cast<s32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
-	s32 y = static_cast<s32>((pos.getY() / ptTileSize.y) + ptMapSizeHalf.y);
+	s32 x = static_cast<s32>((pos.x / ptTileSize.x) + ptMapSizeHalf.x);
+	s32 y = static_cast<s32>((pos.y / ptTileSize.y) + ptMapSizeHalf.y);
 
 	if (x < 0)
 		x = 0;

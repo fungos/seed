@@ -101,7 +101,7 @@ class SEED_CORE_API Sprite : public ISceneObject
 
 		// ISceneObject
 		virtual void Update(Seconds dt) override;
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 
 		// IDataObject
 		virtual bool Write(Writer &writer) override;

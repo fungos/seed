@@ -31,7 +31,6 @@
 #ifndef __MAPLAYERTILED_H__
 #define __MAPLAYERTILED_H__
 
-#include "Point.h"
 #include "map/IMapLayer.h"
 #include "interface/ITexture.h"
 #include "RendererDevice.h"
@@ -52,15 +51,15 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		MapLayerTiled();
 		virtual ~MapLayerTiled();
 
-		void SetMapSize(Point2u mapSize);
-		void SetTileSize(Point2u tileSize);
+		void SetMapSize(uvec2 mapSize);
+		void SetTileSize(uvec2 tileSize);
 		void SetTileSet(TileSet *tileSet);
 		void SetTileData(u32 *data, u32 size);
 
 		TileSet *GetTileSet();
 
-		u32 GetTileAt(const Vector3f &pos) const;
-		void SetTileAt(const Vector3f &pos, u32 tileId);
+		u32 GetTileAt(const vec3 &pos) const;
+		void SetTileAt(const vec3 &pos, u32 tileId);
 		void SetTileAt(u32 tileX, u32 tileY, u32 tileId);
 
 		// IMapLayer
@@ -68,7 +67,7 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 
 		// SceneNode
 		virtual void Update(Seconds delta) override;
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 
 		// IDataObject
 		virtual bool Write(Writer &writer) override;
@@ -88,9 +87,9 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		ElementBuffer cElementBuffer;
 
 		u32		iDataLen;
-		Point2u ptTileSize;
-		Point2u ptMapSize;
-		Point2f ptMapSizeHalf;
+		uvec2	ptTileSize;
+		uvec2	ptMapSize;
+		vec2	ptMapSizeHalf;
 
 		bool	bRebuildMesh : 1;
 		bool	bResizeMap : 1;

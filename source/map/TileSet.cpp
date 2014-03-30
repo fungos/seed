@@ -235,8 +235,8 @@ bool TileSet::Unload()
 	iFirstId = 1;
 	iMargin = 0;
 	iSpacing = 0;
-	ptTileSize = Point2u(0, 0);
-	ptTiles = Point2u(0, 0);
+	ptTileSize = uvec2(0, 0);
+	ptTiles = uvec2(0, 0);
 
 	sName = this->GetTypeName();
 
@@ -310,7 +310,7 @@ void TileSet::SetTexture(ITexture *texture)
 	pTexture->Acquire();
 }
 
-void TileSet::SetTileSize(Point2u tileSize)
+void TileSet::SetTileSize(uvec2 tileSize)
 {
 	ptTileSize = tileSize;
 }

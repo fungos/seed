@@ -38,13 +38,13 @@ class RendererSample : public IGameApp,
 		Viewport	cViewport;
 		Renderer	cRenderer;
 
-		Vector3f	vFrom;
-		Vector3f	vCurrent;
-		Vector3f	vTo;
+		vec3	vFrom;
+		vec3	vCurrent;
+		vec3	vTo;
 
-		f32			fElapsed;
-		f32			fDir;
-		bool		bRotate : 1;
+		f32		fElapsed;
+		f32		fDir;
+		bool	bRotate : 1;
 };
 
 #endif // _RENDERERSAMPLE_H_

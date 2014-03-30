@@ -67,7 +67,7 @@ void ISceneNode::Update(Seconds dt)
 	this->UpdateTransform();
 }
 
-void ISceneNode::Render(const Matrix4f &worldTransform)
+void ISceneNode::Render(const mat4 &worldTransform)
 {
 	UNUSED(worldTransform)
 }

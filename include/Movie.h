@@ -58,7 +58,7 @@ class SEED_CORE_API Movie : public ISceneNode
 
 		// IRenderable
 		virtual void Update(Seconds dt) override;
-		virtual void Render(const Matrix4f &) override;
+		virtual void Render(const mat4 &) override;
 
 		// IDataObject
 		virtual bool Write(Writer &writer) override;

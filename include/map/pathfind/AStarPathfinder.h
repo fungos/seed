@@ -17,11 +17,11 @@ class SEED_CORE_API AStarPathfinder : public IPathfinder
 		AStarPathfinder(bool isDiagonalAllowed, bool isCornerCrossable, u32 weight, u32 colliderTileId, MapLayerTiled *mapBackground);
 
 		virtual ~AStarPathfinder();
-		bool CheckOpenNeighborByTilePos(const Vector3f &pos);
-		bool CheckCloseNeighborByTilePos(const Vector3f &pos);
+		bool CheckOpenNeighborByTilePos(const vec3 &pos);
+		bool CheckCloseNeighborByTilePos(const vec3 &pos);
 
 		// IPathfinder
-		virtual Path &FindPath(const Vector3f &start, const Vector3f &end, Path &path) override;
+		virtual Path &FindPath(const vec3 &start, const vec3 &end, Path &path) override;
 
 	protected:
 		void Destroy();
@@ -45,17 +45,17 @@ struct SEED_CORE_API TileNodeAscendingPrioritySort
 class SEED_CORE_API FindNeighborByTilePos
 {
 	public:
-		FindNeighborByTilePos(const Vector3f &pos)
+		FindNeighborByTilePos(const vec3 &pos)
 			: cPos(pos)
 		{}
 
 		bool operator()(const TileNode *t) const
 		{
-			return (ceil(t->cPos.getX()) == ceil(cPos.getX()) && ceil(t->cPos.getY()) == ceil(cPos.getY()));
+			return (ceil(t->cPos.x) == ceil(cPos.x) && ceil(t->cPos.y) == ceil(cPos.y));
 		}
 
 	private:
-		Vector3f cPos;
+		vec3 cPos;
 };
 
 }// end namespace

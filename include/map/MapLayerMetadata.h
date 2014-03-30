@@ -32,7 +32,7 @@
 #define __MAPLAYERMETADATA_H__
 
 #include "map/IMapLayer.h"
-#include "Point.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
@@ -49,14 +49,14 @@ class SEED_CORE_API MapLayerMetadata : public IMapLayer
 		virtual ~MapLayerMetadata();
 
 		void LoadData(Reader &reader, u32 len);
-		void SetMapSize(Point2f mapSize);
-		void SetTileSize(Point2f tileSize);
+		void SetMapSize(vec2 mapSize);
+		void SetTileSize(vec2 tileSize);
 
 		// IMapLayer
 		virtual MapLayerMetadata *AsMetadata() override;
 
 		// SceneNode
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 		virtual void Reset() override;
 
 		// IDataObject
@@ -67,10 +67,10 @@ class SEED_CORE_API MapLayerMetadata : public IMapLayer
 
 	private:
 		ResourceManager *pRes;
-		Point2f ptTileSize;
-		Point2f ptSize;
-		Point2f ptMapSize;
-		Point2f ptHalfSize;
+		vec2 ptTileSize;
+		vec2 ptSize;
+		vec2 ptMapSize;
+		vec2 ptHalfSize;
 };
 
 } // namespace

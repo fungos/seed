@@ -32,8 +32,8 @@
 #define __KEYFRAME_H__
 
 #include "Defines.h"
-#include "Point.h"
 #include "interface/IDataObject.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
@@ -64,9 +64,9 @@ class SEED_CORE_API Keyframe : public IDataObject
 		virtual void Set(Reader &reader) override;
 
 	public:
-		Point2f		ptPos;
-		Point2f		ptPivot;
-		Point2f		ptScale;
+		vec2		ptPos;
+		vec2		ptPivot;
+		vec2		ptScale;
 
 		f32			fRotation;
 		f32			fEasing;

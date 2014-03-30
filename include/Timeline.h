@@ -32,9 +32,9 @@
 #define __TIMELINE_H__
 
 #include "Defines.h"
-#include "Point.h"
 #include "Container.h"
 #include "interface/IDataObject.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
@@ -115,9 +115,9 @@ class SEED_CORE_API Timeline : public IDataObject
 		s32			iKeyframeTo;
 		s32			iPriority;
 
-		Point2f		ptParentPosition;
-		Point2f		ptParentLocalPosition;
-		Point2f		ptParentScale;
+		vec2		ptParentPosition;
+		vec2		ptParentLocalPosition;
+		vec2		ptParentScale;
 		f32			fParentRotation;
 
 		KeyframeMap	mapKeyframes;

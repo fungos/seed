@@ -3,7 +3,6 @@
 
 #include "../../Defines.h"
 #include "../../interface/IObject.h"
-#include "MathUtil.h"
 
 namespace Seed {
 

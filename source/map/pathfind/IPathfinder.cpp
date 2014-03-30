@@ -2,15 +2,15 @@
 
 namespace Seed {
 
-const Vector3f vectorUp		{0, -1, 0};	// ↑
-const Vector3f vectorRight	{1, 0, 0};	// →
-const Vector3f vectorDown	{0, 1, 0};	// ↓
-const Vector3f vectorLeft	{-1, 0, 0};	// ←
+const vec3 vectorUp		{0, -1, 0};	// ↑
+const vec3 vectorRight	{1, 0, 0};	// →
+const vec3 vectorDown	{0, 1, 0};	// ↓
+const vec3 vectorLeft	{-1, 0, 0};	// ←
 
-const Vector3f vectorUpLeft		= vectorUp + vectorLeft;	// ↖
-const Vector3f vectorUpRight	= vectorUp + vectorRight;	// ↗
-const Vector3f vectorDownRight	= vectorDown + vectorRight;	// ↘
-const Vector3f vectorDownLeft	= vectorDown + vectorLeft;	// ↙
+const vec3 vectorUpLeft		= vectorUp + vectorLeft;	// ↖
+const vec3 vectorUpRight	= vectorUp + vectorRight;	// ↗
+const vec3 vectorDownRight	= vectorDown + vectorRight;	// ↘
+const vec3 vectorDownLeft	= vectorDown + vectorLeft;	// ↙
 
 IPathfinder::IPathfinder()
 {
@@ -20,7 +20,7 @@ IPathfinder::~IPathfinder()
 {
 }
 
-Path &IPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path &path)
+Path &IPathfinder::FindPath(const vec3 &start, const vec3 &end, Path &path)
 {
 	UNUSED(start);
 	UNUSED(end);
@@ -35,7 +35,7 @@ void IPathfinder::GetNeigboursAtTile(const TileNode &tile)
 	auto tileScaleX = iWeight;
 	auto tileScaleY = iWeight;
 
-	Vector3f seachPos;
+	vec3 seachPos;
 
 	/**
 	 * Get the neighbors of the given node.
@@ -56,8 +56,8 @@ void IPathfinder::GetNeigboursAtTile(const TileNode &tile)
 			s3 = false, d3 = false;
 
 	// ↑
-	seachPos.setX(tile.cPos.getX());
-	seachPos.setY(tile.cPos.getY() - tileScaleY);
+	seachPos.x = tile.cPos.x;
+	seachPos.y = tile.cPos.y - tileScaleY;
 	if (pMapBackground-> GetTileAt(seachPos) != iColliderTileId)
 	{
 		auto tileNode = sdNew(TileNode);
@@ -69,8 +69,8 @@ void IPathfinder::GetNeigboursAtTile(const TileNode &tile)
 	}
 
 	// →
-	seachPos.setX(tile.cPos.getX() + tileScaleX);
-	seachPos.setY(tile.cPos.getY());
+	seachPos.x = tile.cPos.x + tileScaleX;
+	seachPos.y = tile.cPos.y;
 	if (pMapBackground->GetTileAt(seachPos) != iColliderTileId)
 	{
 		auto tileNode = sdNew(TileNode);
@@ -82,8 +82,8 @@ void IPathfinder::GetNeigboursAtTile(const TileNode &tile)
 	}
 
 	// ↓
-	seachPos.setX(tile.cPos.getX());
-	seachPos.setY(tile.cPos.getY() + tileScaleY);
+	seachPos.x = tile.cPos.x;
+	seachPos.y = tile.cPos.y + tileScaleY;
 	if (pMapBackground->GetTileAt(seachPos) != iColliderTileId)
 	{
 		auto tileNode = sdNew(TileNode);
@@ -95,8 +95,8 @@ void IPathfinder::GetNeigboursAtTile(const TileNode &tile)
 	}
 
 	// ←
-	seachPos.setX(tile.cPos.getX() - tileScaleX);
-	seachPos.setY(tile.cPos.getY());
+	seachPos.x = tile.cPos.x - tileScaleX;
+	seachPos.y = tile.cPos.y;
 	if (pMapBackground->GetTileAt(seachPos) != iColliderTileId)
 	{
 		auto tileNode = sdNew(TileNode);
@@ -126,8 +126,8 @@ void IPathfinder::GetNeigboursAtTile(const TileNode &tile)
 	}
 
 	// ↖
-	seachPos.setX(tile.cPos.getX() - tileScaleX);
-	seachPos.setY(tile.cPos.getY() - tileScaleY);
+	seachPos.x = tile.cPos.x - tileScaleX;
+	seachPos.y = tile.cPos.y - tileScaleY;
 	if (d0 && pMapBackground->GetTileAt(seachPos) != iColliderTileId)
 	{
 		auto tileNode = sdNew(TileNode);
@@ -138,8 +138,8 @@ void IPathfinder::GetNeigboursAtTile(const TileNode &tile)
 	}
 
 	// ↗
-	seachPos.setX(tile.cPos.getX() + tileScaleX);
-	seachPos.setY(tile.cPos.getY() - tileScaleY);
+	seachPos.x = tile.cPos.x + tileScaleX;
+	seachPos.y = tile.cPos.y - tileScaleY;
 	if (d1 && pMapBackground->GetTileAt(seachPos) != iColliderTileId)
 	{
 		auto tileNode = sdNew(TileNode);
@@ -150,8 +150,8 @@ void IPathfinder::GetNeigboursAtTile(const TileNode &tile)
 	}
 
 	// ↘
-	seachPos.setX(tile.cPos.getX() + tileScaleX);
-	seachPos.setY(tile.cPos.getY() + tileScaleY);
+	seachPos.x = tile.cPos.x + tileScaleX;
+	seachPos.y = tile.cPos.y + tileScaleY;
 	if (d2 && pMapBackground->GetTileAt(seachPos) != iColliderTileId)
 	{
 		auto tileNode = sdNew(TileNode);
@@ -162,8 +162,8 @@ void IPathfinder::GetNeigboursAtTile(const TileNode &tile)
 	}
 
 	// ↙
-	seachPos.setX(tile.cPos.getX() - tileScaleX);
-	seachPos.setY(tile.cPos.getY() + tileScaleY);
+	seachPos.x = tile.cPos.x - tileScaleX;
+	seachPos.y = tile.cPos.y + tileScaleY;
 	if (d3 && pMapBackground->GetTileAt(seachPos) != iColliderTileId)
 	{
 		auto tileNode = sdNew(TileNode);

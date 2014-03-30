@@ -30,7 +30,7 @@ bool TileSample::Initialize()
 
 			pMap = (GameMap *)gScene->GetChildByName("Map");
 			pCamera->SetParent(pPlayer);
-			vDir = Vector3f(0.0f, 0.0f, 0.0f);
+			vDir = vec3{0.0f, 0.0f, 0.0f};
 
 			/* How to read the various properties in a tiled map */
 			auto mapName = pMap->GetProperty("map_name");
@@ -89,16 +89,16 @@ bool TileSample::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	switch (k)
 	{
 		case eKey::W:
-			vDir.setY(-fSpeed);
+			vDir.y = -fSpeed;
 		break;
 		case eKey::S:
-			vDir.setY(fSpeed);
+			vDir.y = fSpeed;
 		break;
 		case eKey::A:
-			vDir.setX(-fSpeed);
+			vDir.x = -fSpeed;
 		break;
 		case eKey::D:
-			vDir.setX(fSpeed);
+			vDir.x = fSpeed;
 		break;
 		default: return true;
 	}
@@ -122,16 +122,16 @@ bool TileSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 			pResourceManager->GarbageCollect();
 		break;
 		case eKey::W:
-			vDir.setY(0.0f);
+			vDir.y = 0.0f;
 		break;
 		case eKey::S:
-			vDir.setY(0.0f);
+			vDir.y = 0.0f;
 		break;
 		case eKey::A:
-			vDir.setX(0.0f);
+			vDir.x = 0.0f;
 		break;
 		case eKey::D:
-			vDir.setX(0.0f);
+			vDir.x = 0.0f;
 		break;
 		default: return true;
 	}

@@ -3,7 +3,7 @@
 
 #include <Seed.h>
 #include <Box2D/Box2D.h>
-#include "api/net/Socket.h"
+#include "api/net/UDPSocket.h"
 #include "api/net/Address.h"
 
 #define VECTOR_UP		b2Vec2(0, -1)
@@ -42,7 +42,7 @@ class NetUDPSocketSample : public IGameApp,
 			b2Vec2 vRemotePlayer;
 		} sPacketData;
 
-		Socket cSocket;
+		UDPSocket cSocket;
 
 		b2Vec2 vPlayer;
 		b2Vec2 vEnemyPlayer;

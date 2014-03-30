@@ -35,12 +35,13 @@
 #include "SeedInit.h"
 #include "Configuration.h"
 #include "Particle.h"
-#include "MathUtil.h"
 #include "RendererDevice.h"
 #include "Sprite.h"
 #include "JobManager.h"
 #include "File.h"
 #include "Memory.h"
+#include <glm/geometric.hpp>
+#include <glm/gtc/constants.hpp>
 
 namespace Seed {
 
@@ -188,7 +189,7 @@ ParticleEmitter *ParticleEmitter::Clone() const
 void ParticleEmitter::Reset()
 {
 	ITransformable::Reset();
-	vPrevLocation = Vector3f();
+	vPrevLocation = vec3();
 	fTx = 0.0f;
 	fTy = 0.0f;
 	fScale = 1.0f;
@@ -214,8 +215,8 @@ void ParticleEmitter::Update(Seconds dt)
 
 	auto ang = 0.0f;
 	auto par = static_cast<Particle *>(nullptr);
-	auto accel = Vector3f{0.0f, 0.0f, 0.0f};
-	auto accel2 = Vector3f{0.0f, 0.0f, 0.0f};
+	auto accel = vec3{0.0f, 0.0f, 0.0f};
+	auto accel2 = vec3{0.0f, 0.0f, 0.0f};
 	auto location = this->GetPosition();
 
 	if (fAge == -2.0f && cEmitter.fLifetime != -1.0f && fInterval > 0.0f)
@@ -251,17 +252,17 @@ void ParticleEmitter::Update(Seconds dt)
 		}
 
 		accel = par->vPosition - location;
-		accel = normalize(accel);
+		accel = glm::normalize(accel);
 		accel2 = accel;
 		accel *= par->fRadialAccel;
 
-		ang = accel2.getX();
-		accel2.setX(-accel2.getY());
-		accel2.setY(ang);
+		ang = accel2.x;
+		accel2.x = -accel2.y;
+		accel2.y = ang;
 
 		accel2 *= par->fTangentialAccel;
 		par->vVelocity += (accel + accel2) * dt;
-		par->vVelocity.setY(par->vVelocity.getY() + par->fGravity * dt);
+		par->vVelocity.y = par->vVelocity.y + par->fGravity * dt;
 
 		par->fSpin += par->fSpinDelta * dt;
 		par->fSize += par->fSizeDelta * dt;
@@ -270,12 +271,11 @@ void ParticleEmitter::Update(Seconds dt)
 		par->fColorB += par->fColorDeltaB * dt;
 		par->fColorA += par->fColorDeltaA * dt;
 
-		par->vScale.setX(par->fSize);
-		par->vScale.setY(par->fSize);
+		par->vScale.x = par->vScale.y = par->fSize;
 		par->fRotation += par->fSpin;
 
 		par->vPosition += (par->vVelocity * dt);
-		rBoundingBox.Encapsulate(par->vPosition.getX(), par->vPosition.getY());
+		rBoundingBox.Encapsulate(par->vPosition.x, par->vPosition.y);
 	}
 
 	// Create more particles
@@ -306,15 +306,18 @@ void ParticleEmitter::Update(Seconds dt)
 
 			auto pos = vPrevLocation + (location - vPrevLocation) * pRand->Get(0.0f, 1.0f);
 
-			pos.setX(pos.getX() + pRand->Get(cEmitter.fWidth) - cEmitter.fWidth / 2.0f);
-			pos.setY(pos.getY() + pRand->Get(cEmitter.fHeight) - cEmitter.fHeight / 2.0f);
+			pos.x = pos.x + pRand->Get(cEmitter.fWidth) - cEmitter.fWidth / 2.0f;
+			pos.y = pos.y + pRand->Get(cEmitter.fHeight) - cEmitter.fHeight / 2.0f;
 
-			ang = cEmitter.fDirection - kPiOver2 + pRand->Get(0, cEmitter.fSpread) - cEmitter.fSpread / 2.0f;
+			ang = cEmitter.fDirection - glm::half_pi<f32>() + pRand->Get(0, cEmitter.fSpread) - cEmitter.fSpread / 2.0f;
 			if (cEmitter.bRelative)
-				ang += VectorAngle(vPrevLocation - location) + kPiOver2;
+			{
+				auto v = vPrevLocation - location;
+				ang += atan2f(v.y, v.x) + glm::half_pi<f32>();
+			}
 
-			par->vVelocity.setX(cosf(ang));
-			par->vVelocity.setY(sinf(ang));
+			par->vVelocity.x = cosf(ang);
+			par->vVelocity.y = sinf(ang);
 			par->vVelocity *= pRand->Get(cEmitter.fSpeedMin, cEmitter.fSpeedMax);
 
 			par->fGravity = pRand->Get(cEmitter.fGravityMin, cEmitter.fGravityMax);
@@ -337,17 +340,16 @@ void ParticleEmitter::Update(Seconds dt)
 			par->fColorDeltaB = (cEmitter.fColorEndB - par->fColorB) / par->fTerminalAge;
 			par->fColorDeltaA = (cEmitter.fColorEndA - par->fColorA) / par->fTerminalAge;
 
-			par->vScale.setX(par->fSize);
-			par->vScale.setY(par->fSize);
-			par->vPosition.setX(pos.getX());
-			par->vPosition.setY(pos.getY());
-			rBoundingBox.Encapsulate(par->vPosition.getX(), par->vPosition.getY());
+			par->vScale.x = par->vScale.y = par->fSize;
+			par->vPosition.x = pos.x;
+			par->vPosition.y = pos.y;
+			rBoundingBox.Encapsulate(par->vPosition.x, par->vPosition.y);
 		}
 	}
 
 	rBoundingBox.x2++;
 	rBoundingBox.y2++;
-	vBoundingBox = Vector3f{rBoundingBox.Width(), rBoundingBox.Height(), 1.0f};
+	vBoundingBox = vec3{rBoundingBox.Width(), rBoundingBox.Height(), 1.0f};
 
 	if (bParticlesFollowEmitter)
 		MoveEverything(vPos);
@@ -377,23 +379,23 @@ void ParticleEmitter::Update(Seconds dt)
 			{
 				pVertex[iVertexAmount + 0].cCoords = pTemplate->cVertex[0].cCoords;
 				pVertex[iVertexAmount + 0].cColor = c;
-				pVertex[iVertexAmount + 0].cVertex = p->vPosition + Vector3f{-fParticleWidhtHalf, -fParticleHeightHalf, 1.0f};
+				pVertex[iVertexAmount + 0].cVertex = p->vPosition + vec3{-fParticleWidhtHalf, -fParticleHeightHalf, 1.0f};
 				pVertex[iVertexAmount + 1].cCoords = pTemplate->cVertex[1].cCoords;
 				pVertex[iVertexAmount + 1].cColor = c;
-				pVertex[iVertexAmount + 1].cVertex = p->vPosition + Vector3f{fParticleWidhtHalf, -fParticleHeightHalf, 1.0f};
+				pVertex[iVertexAmount + 1].cVertex = p->vPosition + vec3{fParticleWidhtHalf, -fParticleHeightHalf, 1.0f};
 				pVertex[iVertexAmount + 2].cCoords = pTemplate->cVertex[2].cCoords;
 				pVertex[iVertexAmount + 2].cColor = c;
-				pVertex[iVertexAmount + 2].cVertex = p->vPosition + Vector3f{-fParticleWidhtHalf, fParticleHeightHalf, 1.0f};
+				pVertex[iVertexAmount + 2].cVertex = p->vPosition + vec3{-fParticleWidhtHalf, fParticleHeightHalf, 1.0f};
 
 				pVertex[iVertexAmount + 3].cCoords = pTemplate->cVertex[1].cCoords;
 				pVertex[iVertexAmount + 3].cColor = c;
-				pVertex[iVertexAmount + 3].cVertex = p->vPosition + Vector3f{fParticleWidhtHalf, -fParticleHeightHalf, 1.0f};
+				pVertex[iVertexAmount + 3].cVertex = p->vPosition + vec3{fParticleWidhtHalf, -fParticleHeightHalf, 1.0f};
 				pVertex[iVertexAmount + 4].cCoords = pTemplate->cVertex[2].cCoords;
 				pVertex[iVertexAmount + 4].cColor = c;
-				pVertex[iVertexAmount + 4].cVertex = p->vPosition + Vector3f{-fParticleWidhtHalf, fParticleHeightHalf, 1.0f};
+				pVertex[iVertexAmount + 4].cVertex = p->vPosition + vec3{-fParticleWidhtHalf, fParticleHeightHalf, 1.0f};
 				pVertex[iVertexAmount + 5].cCoords = pTemplate->cVertex[3].cCoords;
 				pVertex[iVertexAmount + 5].cColor = c;
-				pVertex[iVertexAmount + 5].cVertex = p->vPosition + Vector3f{fParticleWidhtHalf, fParticleHeightHalf, 1.0f};
+				pVertex[iVertexAmount + 5].cVertex = p->vPosition + vec3{fParticleWidhtHalf, fParticleHeightHalf, 1.0f};
 			}
 
 			iVertexAmount += 6;
@@ -403,7 +405,7 @@ void ParticleEmitter::Update(Seconds dt)
 	}
 }
 
-void ParticleEmitter::Render(const Matrix4f &worldTransform)
+void ParticleEmitter::Render(const mat4 &worldTransform)
 {
 	if (bEnabled && arParticles && pTexture)
 	{
@@ -570,7 +572,7 @@ void ParticleEmitter::SetFilter(eTextureFilterType type, eTextureFilter filter)
 	}
 }
 
-void ParticleEmitter::MoveEverything(const Vector3f &pos)
+void ParticleEmitter::MoveEverything(const vec3 &pos)
 {
 	auto dpos = pos - vPrevLocation;
 	vPrevLocation = pos;

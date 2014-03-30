@@ -132,15 +132,15 @@ bool Box2DSample::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 
 void Box2DSample::OnInputPointerPress(const EventInputPointer *ev)
 {
-	Vector3f p;
-	p.setX(f32(ev->GetX()));
-	p.setY(f32(ev->GetY()));
+	vec3 p;
+	p.x = f32(ev->GetX());
+	p.y = f32(ev->GetY());
 	p += pCamera->GetPosition();
 
 	if (ev->GetPressed() == eInputButton::MouseLeft)
 	{
-		auto mx = p.getX() * PIX2M;
-		auto my = p.getY() * PIX2M;
+		auto mx = p.x * PIX2M;
+		auto my = p.y * PIX2M;
 
 		b2AABB aabb;
 		aabb.lowerBound.Set(mx - 0.001f, my - 0.001f);
@@ -164,7 +164,7 @@ void Box2DSample::OnInputPointerPress(const EventInputPointer *ev)
 			b2MouseJointDef def;
 			def.bodyA = pGround;
 			def.bodyB = pPick;
-			def.target.Set(p.getX() * PIX2M, p.getY() * PIX2M);
+			def.target.Set(p.x * PIX2M, p.y * PIX2M);
 			def.collideConnected = true;
 			def.maxForce = 300.0f * pPick->GetMass();
 			pMouseJoint = (b2MouseJoint *)pWorld->CreateJoint((b2JointDef *)&def);
@@ -175,24 +175,24 @@ void Box2DSample::OnInputPointerPress(const EventInputPointer *ev)
 
 void Box2DSample::OnInputPointerMove(const EventInputPointer *ev)
 {
-	Vector3f p;
-	p.setX(f32(ev->GetX()));
-	p.setY(f32(ev->GetY()));
+	vec3 p;
+	p.x = f32(ev->GetX());
+	p.y = f32(ev->GetY());
 	p += pCamera->GetPosition();
 
 	if (pPick)
 	{
 		b2Vec2 v;
-		v.Set(p.getX() * PIX2M, p.getY() * PIX2M);
+		v.Set(p.x * PIX2M, p.y * PIX2M);
 		pMouseJoint->SetTarget(v);
 	}
 }
 
 void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 {
-	Vector3f p;
-	p.setX(f32(ev->GetX()));
-	p.setY(f32(ev->GetY()));
+	vec3 p;
+	p.x = f32(ev->GetX());
+	p.y = f32(ev->GetY());
 	p += pCamera->GetPosition();
 
 	if (ev->GetReleased() == eInputButton::MouseLeft)
@@ -213,7 +213,7 @@ void Box2DSample::OnInputPointerRelease(const EventInputPointer *ev)
 		ss << "Image_" << iId++;
 		img->sName = ss.str();
 
-		this->CreateBody(img, p.getX(), p.getY());
+		this->CreateBody(img, p.x, p.y);
 		pScene->Add(img);
 	}
 }

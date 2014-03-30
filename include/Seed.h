@@ -34,7 +34,6 @@
 #include <Defines.h>
 #include <Enum.h>
 
-#include <MathUtil.h>
 #include <Log.h>
 #include <Profiler.h>
 
@@ -90,7 +89,6 @@
 
 #include <Particle.h>
 #include <ParticleEmitter.h>
-#include <Point.h>
 #include <Presentation.h>
 
 #include <Rand.h>
@@ -130,6 +128,9 @@
 
 #include <api/theora/Theora.h>
 #include <api/rocket/RocketInterface.h>
+
+#include <glm/glm.hpp>
+using namespace glm;
 
 namespace Seed {}
 

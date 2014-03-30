@@ -32,7 +32,7 @@ class TileSample : public IGameApp,
 		Camera			*pCamera;
 		GameMap			*pMap;
 		Presentation	cPres;
-		Vector3f		vDir;
+		vec3			vDir;
 		float			fSpeed;
 		bool			bLoaded;
 

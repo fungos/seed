@@ -31,8 +31,20 @@
 #include "map/MetadataObject.h"
 #include "Screen.h"
 #include "RendererDevice.h"
-#include "MathUtil.h"
 #include "Memory.h"
+
+#include <glm/vec4.hpp>
+#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
+
+// FIXME: duplicate from Camera.cpp
+namespace glm
+{
+	vec4 translation(const mat4 &mat)
+	{
+		return mat[3];
+	}
+}
 
 namespace Seed {
 
@@ -196,9 +208,9 @@ MetadataObject *MetadataObject::Clone() const
 	return obj;
 }
 
-void MetadataObject::Render(const Matrix4f &worldTransform)
+void MetadataObject::Render(const mat4 &worldTransform)
 {
-	auto t = worldTransform.getTranslation();
+	auto t = glm::translation(worldTransform);
 	auto x = this->GetX();
 	auto y = this->GetY();
 	auto w = this->GetWidth();
@@ -208,8 +220,8 @@ void MetadataObject::Render(const Matrix4f &worldTransform)
 	{
 		case eMetaType::Rect:
 		{
-			x = x + t.getX();
-			y = y + t.getY();
+			x = x + t.x;
+			y = y + t.y;
 			pRendererDevice->DrawRect(x, y, w + x, h + y, Color(255, 0, 255, 255));
 		}
 		break;
@@ -219,13 +231,13 @@ void MetadataObject::Render(const Matrix4f &worldTransform)
 		{
 			for (u32 i = 0; i < iVertices * 2; i += 2)
 			{
-				pCached[i + 0] = pVertices[i + 0] + x + t.getX();
-				pCached[i + 1] = pVertices[i + 1] + y + t.getY();
+				pCached[i + 0] = pVertices[i + 0] + x + t.x;
+				pCached[i + 1] = pVertices[i + 1] + y + t.y;
 			}
 			pRendererDevice->DrawLines(pCached, iVertices, Color(255, 0, 255, 255));
 
-			x = x + t.getX() + ptOffset.x;
-			y = y + t.getY() + ptOffset.y;
+			x = x + t.x + ptOffset.x;
+			y = y + t.y + ptOffset.y;
 			pRendererDevice->DrawRect(x, y, w + x, h + y, Color(255, 0, 255, 255));
 		}
 		break;

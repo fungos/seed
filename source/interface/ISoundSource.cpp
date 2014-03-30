@@ -229,7 +229,7 @@ eSoundSourceState ISoundSource::GetState() const
 	return nState;
 }
 
-void ISoundSource::Render(const Matrix4f &worldTransform)
+void ISoundSource::Render(const mat4 &worldTransform)
 {
 	UNUSED(worldTransform);
 }

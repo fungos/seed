@@ -34,7 +34,6 @@
 #include "interface/ISceneObject.h"
 #include "Vertex.h"
 #include "Rect.h"
-#include "MathUtil.h"
 
 namespace Seed {
 
@@ -58,7 +57,7 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual void SetProjection(eProjection type);
 		virtual eProjection GetProjection() const;
 
-		virtual bool Contains(ITransformable *obj, Matrix4f &worldMatrix);
+		virtual bool Contains(ITransformable *obj, mat4 &worldMatrix);
 		virtual void SetView(const Rect4f &rect);
 
 		/// Set a texture as render target, must be a valid and initialized texture.
@@ -71,7 +70,7 @@ class SEED_CORE_API Camera : public ISceneObject
 
 		// ISceneObject
 		virtual void Update(Seconds dt) override;
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 
 		// IDataObject
 		virtual bool Write(Writer &writer) override;
@@ -80,8 +79,8 @@ class SEED_CORE_API Camera : public ISceneObject
 		virtual void Set(Reader &reader) override;
 
 	protected:
-		virtual bool IsInView(ITransformable *obj, Matrix4f &worldTransform);
-		virtual bool IsInFrustum(ITransformable *obj, Matrix4f &worldTransform);
+		virtual bool IsInView(ITransformable *obj, mat4 &worldTransform);
+		virtual bool IsInFrustum(ITransformable *obj, mat4 &worldTransform);
 
 	protected:
 		ITexture	*pTexture;
@@ -89,7 +88,7 @@ class SEED_CORE_API Camera : public ISceneObject
 		eProjection nProjection;
 		Rect4f		rViewArea; // Used to check input area
 		Rect4f		rBoundingBox; // Used to check boundaries in world
-		Matrix4f	mInverse;
+		mat4	mInverse;
 };
 
 } // namespace

@@ -33,8 +33,8 @@
 
 #include "interface/IDataObject.h"
 #include "ResourceManager.h"
-#include "Point.h"
 #include "Rect.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
@@ -53,7 +53,7 @@ class SEED_CORE_API TileSet : public IDataObject
 		const Rect4f *GetTileUV(u32 tileId) const;
 		const ITexture *GetTexture() const;
 		void SetTexture(ITexture *texture);
-		void SetTileSize(Point2u tileSize);
+		void SetTileSize(uvec2 tileSize);
 
 		const String &GetProperty(const String &property) const;
 		void SetProperty(const String &key, const String &value = "");
@@ -86,8 +86,8 @@ class SEED_CORE_API TileSet : public IDataObject
 		u32		iFirstId;
 		u32		iMargin;
 		u32		iSpacing;
-		Point2u ptTileSize;
-		Point2u ptTiles;
+		uvec2	ptTileSize;
+		uvec2	ptTiles;
 };
 
 } // namespace

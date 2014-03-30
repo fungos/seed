@@ -1,10 +1,10 @@
 #include "keyboard_sample.h"
 
-#define VECTOR_UP		Vector3f(0, -1, 0);
-#define VECTOR_DOWN		Vector3f(0, 1, 0);
-#define VECTOR_LEFT		Vector3f(-1, 0, 0);
-#define VECTOR_RIGHT	Vector3f(1, 0, 0);
-#define VECTOR_ZERO		Vector3f(0, 0, 0);
+#define VECTOR_UP		vec3{ 0.0f, -1.0f, 0.0f};
+#define VECTOR_DOWN		vec3{ 0.0f,  1.0f, 0.0f};
+#define VECTOR_LEFT		vec3{-1.0f,  0.0f, 0.0f};
+#define VECTOR_RIGHT	vec3{ 1.0f,  0.0f, 0.0f};
+#define VECTOR_ZERO		vec3{ 0.0f,  0.0f, 0.0f};
 
 KeyboardSample::KeyboardSample()
 	: cPres()

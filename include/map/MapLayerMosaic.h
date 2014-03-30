@@ -32,7 +32,7 @@
 #define __MAPLAYERMOSAIC_H__
 
 #include "map/IMapLayer.h"
-#include "Point.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
@@ -52,10 +52,10 @@ class SEED_CORE_API MapLayerMosaic : public IMapLayer
 		MapLayerMosaic();
 		virtual ~MapLayerMosaic();
 
-		virtual void Initialize(Point2u tileSize, u32 count, const LayerMosaicHeader *data);
+		virtual void Initialize(uvec2 tileSize, u32 count, const LayerMosaicHeader *data);
 		virtual void Reset();
 
-		virtual Point2i ViewAt(Point2i pos);
+		virtual ivec2 ViewAt(ivec2 pos);
 
 		virtual void SetWrap(bool b);
 		virtual bool GetWrap() const;
@@ -85,7 +85,7 @@ class SEED_CORE_API MapLayerMosaic : public IMapLayer
 
 		// IRenderable
 		virtual void Update(Seconds delta);
-		virtual void Render(const Matrix4f &worldTransform);
+		virtual void Render(const mat4 &worldTransform);
 
 		// IDataObject
 		virtual bool Unload() override;
@@ -96,7 +96,7 @@ class SEED_CORE_API MapLayerMosaic : public IMapLayer
 	private:
 		SceneNode cScene;
 		SpriteVector vObjects;
-		Point2u ptiTileSize;
+		uvec2 ptiTileSize;
 		bool bWrap : 1;
 };
 

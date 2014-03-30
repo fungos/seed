@@ -36,6 +36,10 @@
 
 #include "Config.h"
 
+#include <glm/fwd.hpp>
+using namespace glm;
+#define GLM_GetTranslationFromMatrix(x)		(x)[3]
+
 /*
 Compiler specific pragmas here
 

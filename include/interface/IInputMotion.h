@@ -33,7 +33,6 @@
 
 #include "interface/IInput.h"
 #include "Container.h"
-#include "MathUtil.h"
 
 namespace Seed {
 
@@ -53,7 +52,7 @@ class SEED_CORE_API IInputMotion
 		IInputMotion();
 		virtual ~IInputMotion();
 
-		virtual Vector3f GetAccelerationAxis(u16 joystick = 0) const;
+		virtual vec3 GetAccelerationAxis(u16 joystick = 0) const;
 		virtual f32 GetAccelerationMagnitude(u16 joystick = 0) const;
 		virtual f32 GetAccelerationSpeed(u16 joystick = 0) const;
 

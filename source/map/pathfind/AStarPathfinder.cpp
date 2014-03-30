@@ -1,5 +1,5 @@
 #include "map/pathfind/AStarPathfinder.h"
-#include <MathUtil.h>
+#include <glm/gtc/constants.hpp>
 
 namespace Seed {
 
@@ -32,7 +32,7 @@ void AStarPathfinder::Destroy()
 	pStartNode = nullptr;
 }
 
-Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path &path)
+Path &AStarPathfinder::FindPath(const vec3 &start, const vec3 &end, Path &path)
 {
 	// The initial node must be zero for g and f
 	pStartNode = sdNew(TileNode);
@@ -52,14 +52,13 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 		vClose.push_back(current);
 
 		// If reached the end position, construct the path and return it
-		if ( ((ceil(current->cPos.getX()) <= end.getX() + iWeight/2) && (ceil(current->cPos.getX()) >= end.getX() - iWeight/2))
-			&& ((ceil(current->cPos.getY()) <= end.getY() + iWeight/2) && (ceil(current->cPos.getY()) >= end.getY() - iWeight/2)) )
+		if ( ((ceil(current->cPos.x) <= end.x + iWeight/2) && (ceil(current->cPos.x) >= end.x - iWeight/2))
+			&& ((ceil(current->cPos.y) <= end.y + iWeight/2) && (ceil(current->cPos.y) >= end.y - iWeight/2)) )
 		{
 			auto step = current;
 
 			// Push each tile pos into the steps stack
-			while (step->cPos.getX() != start.getX()
-					|| step->cPos.getY() != start.getY())
+			while (step->cPos.x != start.x || step->cPos.y != start.y)
 			{
 				path.AppendPositionStep(step->cPos);
 				path.AppendDirectionStep(step->cDir);
@@ -85,9 +84,8 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 			// Get the distance between current node and the neighbor
 			// and calculate the next g score
 			auto ng = current->uG;
-			if ((neighbor->cPos.getX() - current->cPos.getX() == iWeight) &&
-					neighbor->cPos.getY() - current->cPos.getY() == iWeight)
-				ng = current->uG + kSqrt2;
+			if ((neighbor->cPos.x - current->cPos.x == iWeight) && neighbor->cPos.y - current->cPos.y == iWeight)
+				ng = current->uG + glm::root_two<f32>();
 			else
 				ng = current->uG + 1;
 
@@ -96,7 +94,7 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 			if (!this->CheckOpenNeighborByTilePos(neighbor->cPos) || ng < neighbor->uG)
 			{
 				neighbor->uG = ng;
-				neighbor->uH = 1 * Heuristic::Manhattan(abs(ceil(neighbor->cPos.getX() - end.getX())), abs(ceil(neighbor->cPos.getY() - end.getY())));
+				neighbor->uH = 1 * Heuristic::Manhattan(abs(ceil(neighbor->cPos.x - end.x)), abs(ceil(neighbor->cPos.y - end.y)));
 				neighbor->uF = neighbor->uG + neighbor->uH;
 				neighbor->parent = current;
 
@@ -124,14 +122,14 @@ Path &AStarPathfinder::FindPath(const Vector3f &start, const Vector3f &end, Path
 	return path;
 }
 
-bool AStarPathfinder::CheckOpenNeighborByTilePos(const Vector3f &pos)
+bool AStarPathfinder::CheckOpenNeighborByTilePos(const vec3 &pos)
 {
 	auto f = FindNeighborByTilePos(pos);
 	TileNodeVectorIterator it = std::find_if (vOpen.begin(), vOpen.end(), [&f](const TileNode *t) { return f(t); }); // HACK thanks VS2013, I reaally love you _|_ !!
 	return (it != vOpen.end());
 }
 
-bool AStarPathfinder::CheckCloseNeighborByTilePos(const Vector3f &pos)
+bool AStarPathfinder::CheckCloseNeighborByTilePos(const vec3 &pos)
 {
 	auto f = FindNeighborByTilePos(pos);
 	TileNodeVectorIterator it = std::find_if (vClose.begin(), vClose.end(), [&f](const TileNode *t) { return f(t); }); // HACK thanks VS2013, forevar!!

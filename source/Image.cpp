@@ -32,7 +32,6 @@
 #include "RendererDevice.h"
 #include "Texture.h"
 #include "Screen.h"
-#include "MathUtil.h"
 #include "SeedInit.h"
 #include "Configuration.h"
 #include "Memory.h"
@@ -85,21 +84,21 @@ void Image::Update(Seconds dt)
 	if (!this->IsChanged())
 		return;
 
-	auto x2 = vBoundingBox.getX() * 0.5f;
-	auto y2 = vBoundingBox.getY() * 0.5f;
+	auto x2 = vBoundingBox.x * 0.5f;
+	auto y2 = vBoundingBox.y * 0.5f;
 	auto x1 = -x2;
 	auto y1 = -y2;
-	auto z = vPos.getZ();
+	auto z = vPos.z;
 
-	vert[0].cVertex = Vector3f{x1, y1, z};
-	vert[1].cVertex = Vector3f{x2, y1, z};
-	vert[2].cVertex = Vector3f{x1, y2, z};
-	vert[3].cVertex = Vector3f{x2, y2, z};
+	vert[0].cVertex = vec3{x1, y1, z};
+	vert[1].cVertex = vec3{x2, y1, z};
+	vert[2].cVertex = vec3{x1, y2, z};
+	vert[3].cVertex = vec3{x2, y2, z};
 
 	this->UpdateTransform();
 }
 
-void Image::Render(const Matrix4f &worldTransform)
+void Image::Render(const mat4 &worldTransform)
 {
 	if (!pTexture || !pTexture->GetData())
 		return;
@@ -157,10 +156,10 @@ void Image::UpdateCoords()
 	auto t0 = 0.0f;
 	auto t1 = f32{iHeight * rInvHeight};
 
-	vert[0].cCoords = Point2f{s0, t0};
-	vert[1].cCoords = Point2f{s1, t0};
-	vert[2].cCoords = Point2f{s0, t1};
-	vert[3].cCoords = Point2f{s1, t1};
+	vert[0].cCoords = vec2{s0, t0};
+	vert[1].cCoords = vec2{s1, t0};
+	vert[2].cCoords = vec2{s0, t1};
+	vert[3].cCoords = vec2{s1, t1};
 }
 
 bool Image::Load(const String &filename, ResourceManager *res)

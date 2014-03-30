@@ -3,7 +3,7 @@
 
 #include "../../Defines.h"
 #include "Container.h"
-#include "MathUtil.h"
+#include <glm/vec3.hpp>
 
 namespace Seed {
 
@@ -14,14 +14,14 @@ class SEED_CORE_API Path
 	public:
 		Path();
 		virtual ~Path();
-		void AppendPositionStep(const Vector3f &vector3f);
-		void AppendDirectionStep(const Vector3f &vector3f);
-		Stack<Vector3f> &GetPositionSteps();
-		Stack<Vector3f> &GetDirectionSteps();
+		void AppendPositionStep(const vec3 &vec3);
+		void AppendDirectionStep(const vec3 &vec3);
+		Stack<vec3> &GetPositionSteps();
+		Stack<vec3> &GetDirectionSteps();
 
 	private:
-		Stack<Vector3f> cPositionSteps;
-		Stack<Vector3f> cDirectionSteps;
+		Stack<vec3> cPositionSteps;
+		Stack<vec3> cDirectionSteps;
 };
 
 } // end namespace

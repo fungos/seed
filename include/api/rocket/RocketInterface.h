@@ -118,7 +118,7 @@ class SEED_CORE_API RocketInterface :
 		virtual bool Unload() override { return true; }
 
 		// IRenderable
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 		virtual void Update(Seconds dt) override;
 
 	private:

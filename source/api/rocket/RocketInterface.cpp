@@ -43,6 +43,9 @@
 #include "api/rocket/RocketInterface.h"
 
 #include <Rocket/Core/Factory.h>
+#include <glm/glm.hpp>
+#define GLM_FORCE_RADIANS
+#include <glm/gtc/matrix_transform.hpp>
 
 #define TAG "[API::Rocket] "
 
@@ -72,24 +75,16 @@ RocketInterface::~RocketInterface()
 // Rocket::Core::RenderInterface
 void RocketInterface::RenderGeometry(Rocket::Core::Vertex *vertices, int num_vertices, int *indices, int num_indices, Rocket::Core::TextureHandle texture, const Rocket::Core::Vector2f &translation)
 {
-	Matrix4f transform = Matrix4f::identity();
-	Vector3f t(translation.x + this->GetHorizontalTexelOffset(), translation.y + this->GetVerticalTexelOffset(), 0.0f);
-	transform.setTranslation(t);
-
+	mat4 transform = glm::translate(mat4{1.0f}, vec3{translation.x + this->GetHorizontalTexelOffset(), translation.y + this->GetVerticalTexelOffset(), 0.0f});
 	sVertex *vert = sdNewArray(sVertex, num_vertices);
 	for (int i = 0; i < num_vertices; ++i)
 	{
-		vert[i].cVertex.setX(vertices[i].position.x);
-		vert[i].cVertex.setY(vertices[i].position.y);
-		vert[i].cVertex.setZ(0);
-
+		vert[i].cVertex = vec3{vertices[i].position.x, vertices[i].position.y, 0.0f};
 		vert[i].cColor.r = vertices[i].colour.red;
 		vert[i].cColor.g = vertices[i].colour.green;
 		vert[i].cColor.b = vertices[i].colour.blue;
 		vert[i].cColor.a = vertices[i].colour.alpha;
-
-		vert[i].cCoords.x = vertices[i].tex_coord[0];
-		vert[i].cCoords.y = vertices[i].tex_coord[1];
+		vert[i].cCoords = vec2{vertices[i].tex_coord[0], vertices[i].tex_coord[1]};
 	}
 	cElementBuffer.SetData(indices, num_indices);
 	cVertexBuffer.SetData(vert, num_vertices);
@@ -119,17 +114,12 @@ Rocket::Core::CompiledGeometryHandle RocketInterface::CompileGeometry(Rocket::Co
 	auto vert = sdNewArray(sVertex, num_vertices);
 	for (int i = 0; i < num_vertices; ++i)
 	{
-		vert[i].cVertex.setX(vertices[i].position.x);
-		vert[i].cVertex.setY(vertices[i].position.y);
-		vert[i].cVertex.setZ(0);
-
+		vert[i].cVertex = vec3{vertices[i].position.x, vertices[i].position.y, 0.0f};
 		vert[i].cColor.r = vertices[i].colour.red;
 		vert[i].cColor.g = vertices[i].colour.green;
 		vert[i].cColor.b = vertices[i].colour.blue;
 		vert[i].cColor.a = vertices[i].colour.alpha;
-
-		vert[i].cCoords.x = vertices[i].tex_coord[0];
-		vert[i].cCoords.y = vertices[i].tex_coord[1];
+		vert[i].cCoords = vec2{vertices[i].tex_coord[0], vertices[i].tex_coord[1]};
 	}
 
 	packet->pElementBuffer = sdNew(ElementBuffer);
@@ -153,9 +143,7 @@ void RocketInterface::RenderCompiledGeometry(Rocket::Core::CompiledGeometryHandl
 {
 	RendererPacket *packet = (RendererPacket *)geometry;
 
-	Matrix4f transform = Matrix4f::identity();
-	Vector3f t(translation.x + this->GetHorizontalTexelOffset(), translation.y + this->GetVerticalTexelOffset(), 0.0f);
-	transform.setTranslation(t);
+	mat4 transform = glm::translate(mat4{1.0f}, vec3(translation.x + this->GetHorizontalTexelOffset(), translation.y + this->GetVerticalTexelOffset(), 0.0f));
 	packet->pTransform = &transform;
 
 	pRendererDevice->UploadData(packet);
@@ -373,11 +361,11 @@ bool RocketInterface::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	Rocket::Core::Input::KeyIdentifier key = (Rocket::Core::Input::KeyIdentifier)ev->GetKey();
 	pCurrent->ProcessKeyUp(key, iModifierState);
-	
+
 	return true;
 }
 
-void RocketInterface::Render(const Matrix4f &worldTransform)
+void RocketInterface::Render(const mat4 &worldTransform)
 {
 	UNUSED(worldTransform)
 	if (pCurrent)

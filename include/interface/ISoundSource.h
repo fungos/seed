@@ -34,7 +34,6 @@
 #include "Defines.h"
 #include "interface/ISceneObject.h"
 #include "ISound.h"
-#include "MathUtil.h"
 
 namespace Seed {
 
@@ -89,7 +88,7 @@ class SEED_CORE_API ISoundSource : public ISceneObject
 		virtual void Set(Reader &reader) override;
 
 		// IRenderable
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 
 	protected:
 		virtual bool OnLoadFinished()= 0;

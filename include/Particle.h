@@ -32,7 +32,7 @@
 #define __PARTICLE_H__
 
 #include "Defines.h"
-#include "MathUtil.h"
+#include <glm/vec3.hpp>
 
 namespace Seed {
 
@@ -46,9 +46,9 @@ class SEED_CORE_API Particle
 		Particle(const Particle &other);
 		Particle &operator=(const Particle &other);
 
-		Vector3f vPosition;
-		Vector3f vScale;
-		Vector3f vVelocity;
+		vec3	vPosition;
+		vec3	vScale;
+		vec3	vVelocity;
 
 		f32		fRotation;
 		f32		fGravity;

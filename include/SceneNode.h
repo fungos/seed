@@ -62,7 +62,7 @@ class SEED_CORE_API ISceneNode : public ISceneObject
 
 		// IRenderable
 		virtual void Update(Seconds dt) override;
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 
 		/*! Unload all children objects deleting only if they are bMarkedForDeletion,
 		 * so if you want to keep some object loaded, remove it from the scene before

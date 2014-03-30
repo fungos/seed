@@ -41,6 +41,7 @@
 #include "Profiler.h"
 #include "Configuration.h"
 #include "Memory.h"
+#include <glm/vec3.hpp>
 
 #define TAG "[Sprite] "
 
@@ -252,10 +253,10 @@ void Sprite::ReconfigureFrame()
 	auto u1 = pFrame->fTexS1;
 	auto v1 = pFrame->fTexT1;
 
-	cVertex[0].cCoords = Point2f(u0, v0);
-	cVertex[1].cCoords = Point2f(u1, v0);
-	cVertex[2].cCoords = Point2f(u0, v1);
-	cVertex[3].cCoords = Point2f(u1, v1);
+	cVertex[0].cCoords = vec2{u0, v0};
+	cVertex[1].cCoords = vec2{u1, v0};
+	cVertex[2].cCoords = vec2{u0, v1};
+	cVertex[3].cCoords = vec2{u1, v1};
 
 	bChanged = true;
 }
@@ -471,16 +472,16 @@ void Sprite::Update(Seconds dt)
 	bChanged = false;
 	if (bTransformationChanged)
 	{
-		auto x2 = vBoundingBox.getX() * 0.5f;
-		auto y2 = vBoundingBox.getY() * 0.5f;
+		auto x2 = vBoundingBox.x * 0.5f;
+		auto y2 = vBoundingBox.y * 0.5f;
 		auto x1 = -x2;
 		auto y1 = -y2;
-		auto z = vPos.getZ();
+		auto z = vPos.z;
 
-		cVertex[0].cVertex = Vector3f(x1, y1, z);
-		cVertex[1].cVertex = Vector3f(x2, y1, z);
-		cVertex[2].cVertex = Vector3f(x1, y2, z);
-		cVertex[3].cVertex = Vector3f(x2, y2, z);
+		cVertex[0].cVertex = vec3{x1, y1, z};
+		cVertex[1].cVertex = vec3{x2, y1, z};
+		cVertex[2].cVertex = vec3{x1, y2, z};
+		cVertex[3].cVertex = vec3{x2, y2, z};
 
 		this->UpdateTransform();
 	}
@@ -499,7 +500,7 @@ void Sprite::Update(Seconds dt)
 	cVertexBuffer.SetData(cVertex, 4);
 }
 
-void Sprite::Render(const Matrix4f &worldTransform)
+void Sprite::Render(const mat4 &worldTransform)
 {
 	if (!bInitialized)
 		return;

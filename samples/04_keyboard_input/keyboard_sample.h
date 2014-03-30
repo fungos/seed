@@ -31,7 +31,7 @@ class KeyboardSample : public IGameApp,
 	protected:
 		Presentation cPres;
 		ISceneObject *pObject;
-		Vector3f	vPlayerVectorDirection;
+		vec3		vPlayerVectorDirection;
 		f32			fVelocity;
 		bool		bPresentationLoaded : 1;
 };

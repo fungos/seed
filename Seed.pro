@@ -233,4 +233,4 @@ HEADERS += include/*.h \
 	include/platform/sdl2/sdl2Defines.h \
 	include/LeafMessage.h \
 	include/map/pathfind/Heuristic.h \
-    include/String.h
+	include/String.h

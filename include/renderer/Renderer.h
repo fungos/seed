@@ -44,7 +44,7 @@ class Presentation;
 
 struct VisibleObject
 {
-	Matrix4f mWorldTransform;
+	mat4 mWorldTransform;
 	ISceneObject *pObj;
 
 	VisibleObject()
