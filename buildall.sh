@@ -45,9 +45,10 @@ then
 	rm build -rf
 fi
 
-git submodule update --init
+#git submodule update --init
 
 mkdir build
 cd build
 
-build contrib && build_seed && build_samples && build_games
+build contrib && build_seed && build_samples 
+#&& build_games
