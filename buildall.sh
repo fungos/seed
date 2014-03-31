@@ -18,6 +18,7 @@ build_seed()
 	mkdir seed
 	cd seed
 	qmake ../../Seed.pro "CONFIG+=$BUILD" && make
+	cp lib .. -rf
 	RET=$?
 	cd ..
 	return $RET
