@@ -14,7 +14,7 @@ build()
 
 build_seed()
 {
-	cd ..
+	pwd
 	mkdir seed
 	cd seed
 	qmake ../../Seed.pro "CONFIG+=$BUILD" && make

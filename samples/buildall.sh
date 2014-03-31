@@ -20,7 +20,7 @@ then
 	rm lib -rf
 fi
 
-cp ../lib . -r
+cp ../build/lib . -r
 mkdir build
 cd build
 
