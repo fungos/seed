@@ -1,5 +1,8 @@
 language: cpp
 compiler:
- - gcc
- - clang
-script: qmake && make
+  - gcc
+  - clang
+script: ./buildall.sh
+env:
+  - BUILD=debug
+  - BUILD=release
