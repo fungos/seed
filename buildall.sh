@@ -1,12 +1,12 @@
 #!/bin/bash
 
-
+echo Using compilers: $CXX, $CC
 
 build()
 {
 	mkdir $1
 	cd $1
-	qmake ../../$1/$1.pro "CONFIG+=$BUILD" && make
+	qmake ../../$1/$1.pro "CONFIG+=$BUILD QMAKE_CXX=$CXX QMAKE_CC=$CC" && make
 	RET=$?
 	cd ..
 	return $RET
