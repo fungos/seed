@@ -1497,43 +1497,10 @@ static int locateInStringList(const char *str,
 
 static void enumFilesCallback(void *data, const char *origdir, const char *str)
 {
-<<<<<<< HEAD
 #ifndef _MSC_VER	//SEED BCS
-	(void)origdir;
+    (void)origdir;
 #endif
 
-	PHYSFS_uint32 pos;
-	void *ptr;
-	char *newstr;
-	EnumStringListCallbackData *pecd = (EnumStringListCallbackData *) data;
-
-	/*
-	 * See if file is in the list already, and if not, insert it in there
-	 *  alphabetically...
-	 */
-	pos = pecd->size;
-	if (locateInStringList(str, pecd->list, &pos))
-		return;  /* already in the list. */
-
-	ptr = allocator.Realloc(pecd->list, (pecd->size + 2) * sizeof (char *));
-	newstr = (char *) allocator.Malloc(strlen(str) + 1);
-	if (ptr != NULL)
-		pecd->list = (char **) ptr;
-
-	if ((ptr == NULL) || (newstr == NULL))
-		return;  /* better luck next time. */
-
-	strcpy(newstr, str);
-
-	if (pos != pecd->size)
-	{
-		memmove(&pecd->list[pos+1], &pecd->list[pos],
-				 sizeof (char *) * ((pecd->size) - pos));
-	} /* if */
-
-	pecd->list[pos] = newstr;
-	pecd->size++;
-=======
     PHYSFS_uint32 pos;
     void *ptr;
     char *newstr;
@@ -1565,7 +1532,6 @@ static void enumFilesCallback(void *data, const char *origdir, const char *str)
 
     pecd->list[pos] = newstr;
     pecd->size++;
->>>>>>> develop
 } /* enumFilesCallback */
 
 

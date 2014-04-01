@@ -910,11 +910,7 @@ static LRESULT CALLBACK windowProc( HWND hWnd, UINT uMsg,
 			// WM_MOUSEWHEEL is not supported under Windows 95
 			if( _glfwLibrary.Sys.winVer != _GLFW_WIN_95 )
 			{
-<<<<<<< HEAD
-				int btn; //SEED bcs: this is C code, so declare only at block start :)
-=======
 				int btn;
->>>>>>> develop
 
 				wheelDelta = (((int)wParam) >> 16) / WHEEL_DELTA;
 				_glfwInput.WheelPos += wheelDelta;
