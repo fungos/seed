@@ -3,7 +3,9 @@ compiler:
   - gcc
   - clang
 script: ./buildall.sh
-before_install: sudo apt-get install qt5-qmake
+install: 
+  - sudo apt-get update
+  - sudo apt-get install qt4-qmake
 env:
   - BUILD=debug
   - BUILD=release
