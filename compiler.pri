@@ -6,7 +6,9 @@ USE_CCACHE=FALSE
 
 USE_TRAVIS=$$(TRAVIS)
 !isEmpty(USE_TRAVIS) {
-	message(Running on travis-ci.org)
+	QMAKE_CXX=$$(CXX)
+	QMAKE_CC=$$(CC)
+	message(Running on travis-ci.org using $$(CXX) and $$(CC))
 	unix:!macx {
 		#FLAGSXX += -stdlib=libstdc++
 	}
