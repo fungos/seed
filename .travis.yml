@@ -6,6 +6,7 @@ script: ./buildall.sh
 install: 
   - sudo apt-get update
   - sudo apt-get install qt4-qmake
+  - sudo apt-get install libgl1-mesa-dev libopenal-dev libxss-dev
 env:
   - BUILD=debug
   - BUILD=release
