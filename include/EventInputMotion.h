@@ -32,33 +32,30 @@
 #define __EVENT_INPUT_MOTION_H__
 
 #include "interface/IEventInput.h"
-#include "MathUtil.h"
+#include <glm/vec3.hpp>
 
 namespace Seed {
 
 /// Motion Input Event
 class SEED_CORE_API EventInputMotion : public IEventInput
 {
+	SEED_DISABLE_COPY(EventInputMotion)
+	SEED_DECLARE_RTTI(EventInputMotion, IEventInput)
+
 	public:
-		EventInputMotion(u32 j, Vector3f ptAcc, f32 fMag, f32 fVel);
+		EventInputMotion(u32 j, const vec3 &ptAcc, f32 fMag, f32 fVel);
 		virtual ~EventInputMotion();
 
 		u32 GetJoystick() const;
-		Vector3f GetAccelerationAxis() const;
+		vec3 GetAccelerationAxis() const;
 		f32 GetAccelerationMagnitude()  const;
 		f32 GetAccelerationSpeed() const;
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	protected:
-		Vector3f ptAcceleration;
+		vec3 ptAcceleration;
 		u32 iJoystick;
 		f32 fMagnitude;
 		f32 fSpeed;
-
-	private:
-		SEED_DISABLE_COPY(EventInputMotion);
 };
 
 } // namespace

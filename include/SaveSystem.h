@@ -41,7 +41,8 @@ namespace Seed {
 /// Save System
 class SEED_CORE_API SaveSystem
 {
-	SEED_SINGLETON_DECLARE(SaveSystem)
+	SEED_DECLARE_SINGLETON(SaveSystem)
+	SEED_DISABLE_COPY(SaveSystem)
 
 	public:
 		/// Save Header
@@ -54,13 +55,13 @@ class SEED_CORE_API SaveSystem
 
 	public:
 		eCartridgeError Initialize(eCartridgeSize type);
-		eCartridgeError Prepare(u32 myId, void *slotBlankData, u32 slotDataSize, void *sharedBlankData = NULL, u32 sharedSize = 0);
+		eCartridgeError Prepare(u32 myId, void *slotBlankData, u32 slotDataSize, void *sharedBlankData = nullptr, u32 sharedSize = 0);
 		eCartridgeError Check();
-		eCartridgeError FormatCard(void *slotBlankData, void *sharedBlankData = NULL);
+		eCartridgeError FormatCard(void *slotBlankData, void *sharedBlankData = nullptr);
 		eCartridgeError FormatSlot(u8 slot, void *slotBankData);
 
-		eCartridgeError Load(u32 slot, void *loadAddress, void *sharedData = NULL);
-		eCartridgeError Save(u32 slot, void *data, void *sharedData = NULL);
+		eCartridgeError Load(u32 slot, void *loadAddress, void *sharedData = nullptr);
+		eCartridgeError Save(u32 slot, void *data, void *sharedData = nullptr);
 		eCartridgeError GetLastUsedSlot(u32 *lastSlot);
 
 		eCartridgeError ReadSharedData(void *sharedData);
@@ -72,8 +73,6 @@ class SEED_CORE_API SaveSystem
 		bool IsSaving() const;
 
 	private:
-		SEED_DISABLE_COPY(SaveSystem);
-
 		eCartridgeError GetNewSlotBuffer(u32 slot, u8 *slotBuffer);
 		eCartridgeError GetSlotBuffer(u32 slot, u8 *slotBuffer);
 		eCartridgeError SetSlotBuffer(u32 slot, u8 slotBuffer);
@@ -93,7 +92,7 @@ class SEED_CORE_API SaveSystem
 		eCartridgeSize cardType;
 
 		static bool bIsSaving;
-		bool bInitialized;
+		bool bInitialized : 1;
 
 		char *pcSaveGameFolder[SEED_MAX_FOLDER_SIZE];
 };

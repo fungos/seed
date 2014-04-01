@@ -128,9 +128,9 @@
  *
  * PhysicsFS is mostly thread safe. The error messages returned by
  *  PHYSFS_getLastError are unique by thread, and library-state-setting
- *  functions are mutex'd. For efficiency, individual file accesses are
- *  not locked, so you can not safely read/write/seek/close/etc the same
- *  file from two threads at the same time. Other race conditions are bugs
+ *  functions are mutex'd. For efficiency, individual file accesses are 
+ *  not locked, so you can not safely read/write/seek/close/etc the same 
+ *  file from two threads at the same time. Other race conditions are bugs 
  *  that should be reported/patched.
  *
  * While you CAN use stdio/syscall file access in a program that has PHYSFS_*
@@ -216,10 +216,6 @@
 #ifndef _INCLUDE_PHYSFS_H_
 #define _INCLUDE_PHYSFS_H_
 
-#if defined(__linux)
-#include <sys/types.h>
-#endif
-
 #ifdef __cplusplus
 extern "C" {
 #endif
@@ -292,23 +288,15 @@ typedef PHYSFS_sint32         PHYSFS_sint64;
 typedef signed __int64        PHYSFS_sint64;
 typedef unsigned __int64      PHYSFS_uint64;
 #else
-
-#if defined(__linux) && !defined(EMSCRIPTEN) 
-typedef unsigned long uint64_t;
-#elif !defined(int64_t) && !defined(__linux)
-typedef long long int64_t;
-typedef unsigned long long uint64_t;
-#endif
-
-typedef uint64_t    PHYSFS_uint64;
-typedef int64_t      PHYSFS_sint64;
+typedef unsigned long long    PHYSFS_uint64;
+typedef signed long long      PHYSFS_sint64;
 #endif
 
 
 #ifndef DOXYGEN_SHOULD_IGNORE_THIS
 /* Make sure the types really have the right sizes */
 #define PHYSFS_COMPILE_TIME_ASSERT(name, x)               \
-	   typedef int PHYSFS_dummy_ ## name[(x) * 2 - 1]
+       typedef int PHYSFS_dummy_ ## name[(x) * 2 - 1]
 
 PHYSFS_COMPILE_TIME_ASSERT(uint8, sizeof(PHYSFS_uint8) == 1);
 PHYSFS_COMPILE_TIME_ASSERT(sint8, sizeof(PHYSFS_sint8) == 1);
@@ -352,7 +340,7 @@ PHYSFS_COMPILE_TIME_ASSERT(sint64, sizeof(PHYSFS_sint64) == 8);
  */
 typedef struct PHYSFS_File
 {
-	void *opaque;  /**< That's all you get. Don't touch. */
+    void *opaque;  /**< That's all you get. Don't touch. */
 } PHYSFS_File;
 
 
@@ -387,10 +375,10 @@ typedef struct PHYSFS_File
  */
 typedef struct PHYSFS_ArchiveInfo
 {
-	const char *extension;   /**< Archive file extension: "ZIP", for example. */
-	const char *description; /**< Human-readable archive description. */
-	const char *author;      /**< Person who did support for this archive. */
-	const char *url;         /**< URL related to this archive */
+    const char *extension;   /**< Archive file extension: "ZIP", for example. */
+    const char *description; /**< Human-readable archive description. */
+    const char *author;      /**< Person who did support for this archive. */
+    const char *url;         /**< URL related to this archive */
 } PHYSFS_ArchiveInfo;
 
 
@@ -409,15 +397,15 @@ typedef struct PHYSFS_ArchiveInfo
  */
 typedef struct PHYSFS_Version
 {
-	PHYSFS_uint8 major; /**< major revision */
-	PHYSFS_uint8 minor; /**< minor revision */
-	PHYSFS_uint8 patch; /**< patchlevel */
+    PHYSFS_uint8 major; /**< major revision */
+    PHYSFS_uint8 minor; /**< minor revision */
+    PHYSFS_uint8 patch; /**< patchlevel */
 } PHYSFS_Version;
 
 #ifndef DOXYGEN_SHOULD_IGNORE_THIS
 #define PHYSFS_VER_MAJOR 2
 #define PHYSFS_VER_MINOR 0
-#define PHYSFS_VER_PATCH 2
+#define PHYSFS_VER_PATCH 3
 #endif  /* DOXYGEN_SHOULD_IGNORE_THIS */
 
 
@@ -441,9 +429,9 @@ typedef struct PHYSFS_Version
  */
 #define PHYSFS_VERSION(x) \
 { \
-	(x)->major = PHYSFS_VER_MAJOR; \
-	(x)->minor = PHYSFS_VER_MINOR; \
-	(x)->patch = PHYSFS_VER_PATCH; \
+    (x)->major = PHYSFS_VER_MAJOR; \
+    (x)->minor = PHYSFS_VER_MINOR; \
+    (x)->patch = PHYSFS_VER_PATCH; \
 }
 
 
@@ -890,10 +878,10 @@ __EXPORT__ char **PHYSFS_getSearchPath(void);
  *          gleaned from PHYSFS_getLastError().
  */
 __EXPORT__ int PHYSFS_setSaneConfig(const char *organization,
-									const char *appName,
-									const char *archiveExt,
-									int includeCdRoms,
-									int archivesFirst);
+                                    const char *appName,
+                                    const char *archiveExt,
+                                    int includeCdRoms,
+                                    int archivesFirst);
 
 
 /* Directory management stuff ... */
@@ -1216,9 +1204,9 @@ __EXPORT__ int PHYSFS_close(PHYSFS_File *handle);
  * \sa PHYSFS_eof
  */
 __EXPORT__ PHYSFS_sint64 PHYSFS_read(PHYSFS_File *handle,
-									 void *buffer,
-									 PHYSFS_uint32 objSize,
-									 PHYSFS_uint32 objCount);
+                                     void *buffer,
+                                     PHYSFS_uint32 objSize,
+                                     PHYSFS_uint32 objCount);
 
 /**
  * \fn PHYSFS_sint64 PHYSFS_write(PHYSFS_File *handle, const void *buffer, PHYSFS_uint32 objSize, PHYSFS_uint32 objCount)
@@ -1234,9 +1222,9 @@ __EXPORT__ PHYSFS_sint64 PHYSFS_read(PHYSFS_File *handle,
  *           the reason this might be < (objCount). -1 if complete failure.
  */
 __EXPORT__ PHYSFS_sint64 PHYSFS_write(PHYSFS_File *handle,
-									  const void *buffer,
-									  PHYSFS_uint32 objSize,
-									  PHYSFS_uint32 objCount);
+                                      const void *buffer,
+                                      PHYSFS_uint32 objSize,
+                                      PHYSFS_uint32 objCount);
 
 
 /* File position stuff... */
@@ -1992,11 +1980,11 @@ __EXPORT__ int PHYSFS_symbolicLinksPermitted(void);
  */
 typedef struct PHYSFS_Allocator
 {
-	int (*Init)(void);   /**< Initialize. Can be NULL. Zero on failure. */
-	void (*Deinit)(void);  /**< Deinitialize your allocator. Can be NULL. */
-	void *(*Malloc)(PHYSFS_uint64);  /**< Allocate like malloc(). */
-	void *(*Realloc)(void *, PHYSFS_uint64); /**< Reallocate like realloc(). */
-	void (*Free)(void *); /**< Free memory from Malloc or Realloc. */
+    int (*Init)(void);   /**< Initialize. Can be NULL. Zero on failure. */
+    void (*Deinit)(void);  /**< Deinitialize your allocator. Can be NULL. */
+    void *(*Malloc)(PHYSFS_uint64);  /**< Allocate like malloc(). */
+    void *(*Realloc)(void *, PHYSFS_uint64); /**< Reallocate like realloc(). */
+    void (*Free)(void *); /**< Free memory from Malloc or Realloc. */
 } PHYSFS_Allocator;
 
 
@@ -2156,7 +2144,7 @@ typedef void (*PHYSFS_StringCallback)(void *data, const char *str);
  * \sa PHYSFS_enumerateFilesCallback
  */
 typedef void (*PHYSFS_EnumFilesCallback)(void *data, const char *origdir,
-										 const char *fname);
+                                         const char *fname);
 
 
 /**
@@ -2268,8 +2256,8 @@ __EXPORT__ void PHYSFS_getSearchPathCallback(PHYSFS_StringCallback c, void *d);
  * \sa PHYSFS_enumerateFiles
  */
 __EXPORT__ void PHYSFS_enumerateFilesCallback(const char *dir,
-											  PHYSFS_EnumFilesCallback c,
-											  void *d);
+                                              PHYSFS_EnumFilesCallback c,
+                                              void *d);
 
 /**
  * \fn void PHYSFS_utf8FromUcs4(const PHYSFS_uint32 *src, char *dst, PHYSFS_uint64 len)
@@ -2291,7 +2279,7 @@ __EXPORT__ void PHYSFS_enumerateFilesCallback(const char *dir,
  *   \param len Size, in bytes, of destination buffer.
  */
 __EXPORT__ void PHYSFS_utf8FromUcs4(const PHYSFS_uint32 *src, char *dst,
-									PHYSFS_uint64 len);
+                                    PHYSFS_uint64 len);
 
 /**
  * \fn void PHYSFS_utf8ToUcs4(const char *src, PHYSFS_uint32 *dst, PHYSFS_uint64 len)
@@ -2313,7 +2301,7 @@ __EXPORT__ void PHYSFS_utf8FromUcs4(const PHYSFS_uint32 *src, char *dst,
  *   \param len Size, in bytes, of destination buffer.
  */
 __EXPORT__ void PHYSFS_utf8ToUcs4(const char *src, PHYSFS_uint32 *dst,
-								  PHYSFS_uint64 len);
+                                  PHYSFS_uint64 len);
 
 /**
  * \fn void PHYSFS_utf8FromUcs2(const PHYSFS_uint16 *src, char *dst, PHYSFS_uint64 len)
@@ -2339,7 +2327,7 @@ __EXPORT__ void PHYSFS_utf8ToUcs4(const char *src, PHYSFS_uint32 *dst,
  *   \param len Size, in bytes, of destination buffer.
  */
 __EXPORT__ void PHYSFS_utf8FromUcs2(const PHYSFS_uint16 *src, char *dst,
-									PHYSFS_uint64 len);
+                                    PHYSFS_uint64 len);
 
 /**
  * \fn PHYSFS_utf8ToUcs2(const char *src, PHYSFS_uint16 *dst, PHYSFS_uint64 len)
@@ -2365,7 +2353,7 @@ __EXPORT__ void PHYSFS_utf8FromUcs2(const PHYSFS_uint16 *src, char *dst,
  *   \param len Size, in bytes, of destination buffer.
  */
 __EXPORT__ void PHYSFS_utf8ToUcs2(const char *src, PHYSFS_uint16 *dst,
-								  PHYSFS_uint64 len);
+                                  PHYSFS_uint64 len);
 
 /**
  * \fn void PHYSFS_utf8FromLatin1(const char *src, char *dst, PHYSFS_uint64 len)
@@ -2392,7 +2380,7 @@ __EXPORT__ void PHYSFS_utf8ToUcs2(const char *src, PHYSFS_uint16 *dst,
  *   \param len Size, in bytes, of destination buffer.
  */
 __EXPORT__ void PHYSFS_utf8FromLatin1(const char *src, char *dst,
-								  PHYSFS_uint64 len);
+                                  PHYSFS_uint64 len);
 
 /* Everything above this line is part of the PhysicsFS 2.0 API. */
 

@@ -40,45 +40,22 @@ namespace Seed {
 /// State Machine Event
 class SEED_CORE_API StateMachineEvent : public IEvent
 {
+	SEED_DECLARE_RTTI(StateMachineEvent, IEvent)
+
 	public:
-		StateMachineEvent()
-			: IEvent(IEvent::TypeStateMachine, 0)
-		{
-		}
-
-		StateMachineEvent(u32 _id)
-			: IEvent(IEvent::TypeStateMachine, _id)
-		{
-		}
-
-		inline void Initialize(u32 _id)
-		{
-			iId = _id;
-		}
-
-		virtual ~StateMachineEvent()
-		{
-		}
-
-		virtual const String GetClassName() const
-		{
-			return "StateMachineEvent";
-		}
-
-		virtual int GetObjectType() const
-		{
-			return Seed::TypeEvent;
-		}
+		StateMachineEvent() = default;
+		virtual ~StateMachineEvent() {}
 };
 
 /// State Machine State
 class SEED_CORE_API StateMachineState
 {
 	public:
+		StateMachineState() = default;
 		virtual ~StateMachineState() {}
-		virtual void OnStart(IObject *) {}
+		virtual void OnStart(void *) {}
 		virtual void OnUpdate(f32) {}
-		virtual void OnStop(IObject *) {}
+		virtual void OnStop(void *) {}
 };
 
 /// State Machine Transition
@@ -97,17 +74,17 @@ class SEED_CORE_API StateMachineTransition
 			pEvent = event;
 		}
 
-		inline StateMachineState *GetFromState() const
+		StateMachineState *GetFromState() const
 		{
 			return pFrom;
 		}
 
-		inline StateMachineState *GetToState() const
+		StateMachineState *GetToState() const
 		{
 			return pTo;
 		}
 
-		inline StateMachineEvent *GetEvent() const
+		StateMachineEvent *GetEvent() const
 		{
 			return pEvent;
 		}
@@ -116,6 +93,8 @@ class SEED_CORE_API StateMachineTransition
 /// State Machine
 class SEED_CORE_API StateMachine
 {
+	SEED_DISABLE_COPY(StateMachine)
+
 	public:
 		enum eReturnCode
 		{
@@ -129,11 +108,9 @@ class SEED_CORE_API StateMachine
 		StateMachineState *pCurrentState;
 		Vector<StateMachineTransition *> vTransitions;
 
-		SEED_DISABLE_COPY(StateMachine);
-
 	public:
 		StateMachine()
-			: pCurrentState(NULL)
+			: pCurrentState(nullptr)
 			, vTransitions()
 		{}
 
@@ -142,12 +119,12 @@ class SEED_CORE_API StateMachine
 			Vector<StateMachineTransition *>().swap(vTransitions);
 		}
 
-		eReturnCode Initialize(StateMachineState *state, IObject *userData)
+		eReturnCode Initialize(StateMachineState *state, void *userData = nullptr)
 		{
 			if (!state)
 				return StateNotFound; //invalid state
 
-			pCurrentState = NULL;
+			pCurrentState = nullptr;
 			unsigned int i = 0;
 
 			for (; i < vTransitions.size(); i++)
@@ -163,24 +140,24 @@ class SEED_CORE_API StateMachine
 			return ResultOk;
 		}
 
-		inline void RegisterTransition(StateMachineTransition *transition)
+		void RegisterTransition(StateMachineTransition *transition)
 		{
 			//Check if the transition is has a valid configuration
 			SEED_ASSERT(transition->GetFromState() && transition->GetToState() && transition->GetEvent());
 			vTransitions += transition;
 		}
 
-		inline void ClearTransitions()
+		void ClearTransitions()
 		{
 			Vector<StateMachineTransition *>().swap(vTransitions);
 		}
 
-		inline StateMachineState *GetCurrentState()
+		StateMachineState *GetCurrentState()
 		{
 			return pCurrentState;
 		}
 
-		inline eReturnCode OnEvent(StateMachineEvent *evt, IObject *pUserData)
+		eReturnCode OnEvent(StateMachineEvent *evt, void *pUserData = nullptr)
 		{
 			unsigned int i = 0;
 
@@ -211,7 +188,7 @@ class SEED_CORE_API StateMachine
 			return ResultOk;
 		}
 
-		inline eReturnCode Update(f32 dt)
+		eReturnCode Update(Seconds dt)
 		{
 			if (!pCurrentState) //not initialized
 			{

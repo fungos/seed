@@ -4,8 +4,8 @@ Copyright (c) 2003-2009 Erwin Coumans  http://bulletphysics.org
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -16,9 +16,9 @@ subject to the following restrictions:
 #ifndef BT_CONCAVE_SHAPE_H
 #define BT_CONCAVE_SHAPE_H
 
-#include "btCollisionShape.h"
-#include "BulletCollision/BroadphaseCollision/btBroadphaseProxy.h" // for the types
-#include "btTriangleCallback.h"
+#include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h> // for the types
+#include <bullet/BulletCollision/CollisionShapes/btTriangleCallback.h>
 
 /// PHY_ScalarType enumerates possible scalar types.
 /// See the btStridingMeshInterface or btHeightfieldTerrainShape for its use
@@ -40,7 +40,7 @@ protected:
 
 public:
 	BT_DECLARE_ALIGNED_ALLOCATOR();
-	
+
 	btConcaveShape();
 
 	virtual ~btConcaveShape();

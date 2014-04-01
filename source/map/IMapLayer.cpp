@@ -60,12 +60,34 @@ void IMapLayer::ReadProperties(Reader &reader)
 	}
 }
 
+void IMapLayer::WriteProperties(Writer &writer)
+{
+	writer.OpenNode("properties");
+	for (auto &kv : mProperties)
+		writer.WriteString((kv.first).c_str(), (kv.second).c_str());
+	writer.CloseNode();
+}
+
 void IMapLayer::ReadMapLayer(Reader &reader)
 {
-	this->SetPosition(reader.ReadU32("x", 0), reader.ReadU32("y", 0));
-	this->SetVisible(reader.ReadBool("visible", true));
-	this->SetOpacity(reader.ReadF32("opacity", 1.0f));
-	sName = reader.ReadString("name", "IMapLayer");
+	sName = reader.ReadString("name", sName.c_str());
+	this->SetVisible(reader.ReadBool("visible", this->IsVisible()));
+	this->SetOpacity(reader.ReadF32("opacity", this->GetOpacity()));
+	this->SetPosition(reader.ReadF32("x", this->GetX()), reader.ReadF32("y", this->GetY()));
+}
+
+void IMapLayer::WriteMapLayer(Writer &writer)
+{
+	writer.WriteString("name", sName.c_str());
+	writer.WriteBool("visible", this->IsVisible());
+	writer.WriteF32("opacity", this->GetOpacity());
+	writer.WriteF32("x", this->GetX());
+	writer.WriteF32("y", this->GetY());
+}
+
+void IMapLayer::SetProperty(const String &key, const String &value)
+{
+	mProperties[key] = value;
 }
 
 const String &IMapLayer::GetProperty(const String &property) const
@@ -75,17 +97,17 @@ const String &IMapLayer::GetProperty(const String &property) const
 
 MapLayerTiled *IMapLayer::AsTiled()
 {
-	return NULL;
+	return nullptr;
 }
 
 MapLayerMosaic *IMapLayer::AsMosaic()
 {
-	return NULL;
+	return nullptr;
 }
 
 MapLayerMetadata *IMapLayer::AsMetadata()
 {
-	return NULL;
+	return nullptr;
 }
 
 void IMapLayer::SetOpacity(f32 opacity)

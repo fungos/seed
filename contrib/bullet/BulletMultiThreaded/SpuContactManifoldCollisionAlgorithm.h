@@ -16,12 +16,12 @@ subject to the following restrictions:
 #ifndef BT_SPU_CONTACTMANIFOLD_COLLISION_ALGORITHM_H
 #define BT_SPU_CONTACTMANIFOLD_COLLISION_ALGORITHM_H
 
-#include "BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
-#include "BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
-#include "BulletCollision/CollisionDispatch/btCollisionCreateFunc.h"
-#include "BulletCollision/BroadphaseCollision/btDispatcher.h"
-#include "LinearMath/btTransformUtil.h"
-#include "BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h"
+#include <bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btDispatcher.h>
+#include <bullet/LinearMath/btTransformUtil.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionObjectWrapper.h>
 
 class btPersistentManifold;
 

@@ -16,13 +16,13 @@ subject to the following restrictions:
 #ifndef BT_CONVEX_PLANE_COLLISION_ALGORITHM_H
 #define BT_CONVEX_PLANE_COLLISION_ALGORITHM_H
 
-#include "BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h"
-#include "BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
-#include "BulletCollision/CollisionDispatch/btCollisionCreateFunc.h"
+#include <bullet/BulletCollision/BroadphaseCollision/btCollisionAlgorithm.h>
+#include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h>
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionCreateFunc.h>
 class btPersistentManifold;
-#include "btCollisionDispatcher.h"
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionDispatcher.h>
 
-#include "LinearMath/btVector3.h"
+#include <bullet/LinearMath/btVector3.h>
 
 /// btSphereBoxCollisionAlgorithm  provides sphere-box collision detection.
 /// Other features are frame-coherency (persistent data) and collision response.
@@ -58,13 +58,13 @@ public:
 	{
 		int	m_numPerturbationIterations;
 		int m_minimumPointsPerturbationThreshold;
-			
-		CreateFunc() 
+
+		CreateFunc()
 			: m_numPerturbationIterations(1),
 			m_minimumPointsPerturbationThreshold(0)
 		{
 		}
-		
+
 		virtual	btCollisionAlgorithm* CreateCollisionAlgorithm(btCollisionAlgorithmConstructionInfo& ci, const btCollisionObjectWrapper* body0Wrap,const btCollisionObjectWrapper* body1Wrap)
 		{
 			void* mem = ci.m_dispatcher1->allocateCollisionAlgorithm(sizeof(btConvexPlaneCollisionAlgorithm));

@@ -17,11 +17,11 @@ subject to the following restrictions:
 #ifndef BT_CONVEX_CAST_H
 #define BT_CONVEX_CAST_H
 
-#include "LinearMath/btTransform.h"
-#include "LinearMath/btVector3.h"
-#include "LinearMath/btScalar.h"
+#include <bullet/LinearMath/btTransform.h>
+#include <bullet/LinearMath/btVector3.h>
+#include <bullet/LinearMath/btScalar.h>
 class btMinkowskiSumShape;
-#include "LinearMath/btIDebugDraw.h"
+#include <bullet/LinearMath/btIDebugDraw.h>
 
 /// btConvexCast is an interface for Casting
 class btConvexCast

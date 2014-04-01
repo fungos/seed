@@ -34,7 +34,7 @@
 namespace Seed {
 
 ICartridge::ICartridge()
-	: eLastError(ErrorNone)
+	: nLastError(eCartridgeError::None)
 	, iSize(0)
 {
 }
@@ -45,7 +45,7 @@ ICartridge::~ICartridge()
 
 eCartridgeError ICartridge::GetLastError() const
 {
-	return eLastError;
+	return nLastError;
 }
 
 bool ICartridge::Write(u32 dest, const void *src, u32 len)

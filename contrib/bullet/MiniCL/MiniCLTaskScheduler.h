@@ -21,14 +21,14 @@ subject to the following restrictions:
 #include <assert.h>
 
 
-#include "BulletMultiThreaded/PlatformDefinitions.h"
+#include <bullet/BulletMultiThreaded/PlatformDefinitions.h>
 
 #include <stdlib.h>
 
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
 
-#include "MiniCLTask/MiniCLTask.h"
+#include <bullet/MiniCL/MiniCLTask/MiniCLTask.h>
 
 //just add your commands here, try to keep them globally unique for debugging purposes
 #define CMD_SAMPLE_TASK_COMMAND 10
@@ -116,7 +116,7 @@ struct	MiniCLKernel
 
 #if defined(USE_LIBSPE2) && defined(__SPU__)
 ////////////////////MAIN/////////////////////////////
-#include "../SpuLibspe2Support.h"
+#include <bullet/../SpuLibspe2Support.h>
 #include <spu_intrinsics.h>
 #include <spu_mfcio.h>
 #include <SpuFakeDma.h>

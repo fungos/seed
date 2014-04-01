@@ -31,7 +31,6 @@
 #ifndef __MAPLAYERTILED_H__
 #define __MAPLAYERTILED_H__
 
-#include "Point.h"
 #include "map/IMapLayer.h"
 #include "interface/ITexture.h"
 #include "RendererDevice.h"
@@ -46,32 +45,40 @@ class Image;
 class SEED_CORE_API MapLayerTiled : public IMapLayer
 {
 	friend class GameMap;
+	SEED_DISABLE_COPY(MapLayerTiled)
 
 	public:
 		MapLayerTiled();
 		virtual ~MapLayerTiled();
 
-		void SetMapSize(Point2u mapSize);
-		void SetTileSize(Point2u tileSize);
+		void SetMapSize(uvec2 mapSize);
+		void SetTileSize(uvec2 tileSize);
 		void SetTileSet(TileSet *tileSet);
-		void LoadData(Reader &reader, u32 len);
+		void SetTileData(u32 *data, u32 size);
 
-		u32 GetTileAt(Vector3f pos) const;
+		TileSet *GetTileSet();
+
+		u32 GetTileAt(const vec3 &pos) const;
+		void SetTileAt(const vec3 &pos, u32 tileId);
+		void SetTileAt(u32 tileX, u32 tileY, u32 tileId);
 
 		// IMapLayer
 		virtual MapLayerTiled *AsTiled() override;
 
 		// SceneNode
-		virtual void Update(f32 delta) override;
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Update(Seconds delta) override;
+		virtual void Render(const mat4 &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
+		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual MapLayerTiled *Clone() const override;
+		virtual void Set(Reader &reader) override;
+
+	protected:
+		void LoadTileData(Reader &reader, u32 len);
 
 	private:
-		SEED_DISABLE_COPY(MapLayerTiled);
-
 		u32			 *pTileData;
 		sVertex		 *pVertex;
 		u32			 *pElements;
@@ -80,12 +87,12 @@ class SEED_CORE_API MapLayerTiled : public IMapLayer
 		ElementBuffer cElementBuffer;
 
 		u32		iDataLen;
-		Point2u ptTileSize;
-		Point2u ptMapSize;
-		Point2f ptMapSizeHalf;
+		uvec2	ptTileSize;
+		uvec2	ptMapSize;
+		vec2	ptMapSizeHalf;
 
-		bool	bRebuildMesh;
-		bool	bResizeMap;
+		bool	bRebuildMesh : 1;
+		bool	bResizeMap : 1;
 };
 
 } // namespace

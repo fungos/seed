@@ -41,6 +41,11 @@
 #include "Screen.h"
 #include "Input.h"
 #include "EventInputPointer.h"
+#include <iostream>
+
+#include "Shader.h"
+#include "IShaderProgram.h"
+#include "ShaderManager.h"
 
 using namespace Seed;
 
@@ -53,14 +58,27 @@ char * _defaultHomePathA[MAX_PATH_SIZE];
 static int gPlatformIdentifier = 0; // 0 == iPhone, 1 == iPad
 static int gOpenGLVersion = 1;
 
+enum {
+	UNIFORM_MODELVIEW_PROJECTION_MATRIX,
+	NUM_UNIFORMS
+};
+GLint uniforms[NUM_UNIFORMS];
+
+// attribute index
+enum {
+	ATTRIB_VERTEX,
+	ATTRIB_COLOR,
+	NUM_ATTRIBUTES
+};
+
 const char *iosGetRootPath()
 {
 	CFStringRef fileString;
 	fileString = (CFStringRef)[[NSBundle mainBundle] resourcePath];
-	
+
 	CFStringGetCString(fileString, (char *)_defaultRootPathA, MAX_PATH_SIZE, kCFStringEncodingASCII);
 	//fprintf(stdout, "%s", _defaultRootPath);
-	
+
 	return (const char *)_defaultRootPathA;
 }
 
@@ -68,33 +86,24 @@ const char *iosGetHomePath()
 {
 	NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask,YES);
 	NSString *documentsDirectory= [paths objectAtIndex: 0];
-	
+
 	CFStringRef fileString;
 	fileString = (CFStringRef)documentsDirectory;
-	
+
 	CFStringGetCString(fileString, (char *)_defaultHomePathA, MAX_PATH_SIZE, kCFStringEncodingASCII);
 	//fprintf(stdout, "%s", _defaultHomePath);
-	
+
 	return (const char *)_defaultHomePathA;
 }
 
 
 @implementation AppDelegate
 
+@synthesize window = _window;
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
-	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPhone) {
-	    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPhone" bundle:nil];
-		gPlatformIdentifier = 0;
-	} else {
-	    self.viewController = [[ViewController alloc] initWithNibName:@"ViewController_iPad" bundle:nil];
-		gPlatformIdentifier = 1;
-	}
-	self.window.rootViewController = self.viewController;
-    [self.window makeKeyAndVisible];
-    return YES;
+	return YES;
 }
 
 - (void)applicationWillResignActive:(UIApplication *)application
@@ -126,97 +135,141 @@ const char *iosGetHomePath()
 
 @end
 
-
-
 @interface ViewController()
 {
 }
 
 @property (strong, nonatomic) EAGLContext *context;
-
-- (void)setupGL;
-- (void)tearDownGL;
+@property (strong, nonatomic) GLKBaseEffect *effect;
 
 @end
 
 
 @implementation ViewController
 
-- (void)dealloc
-{
-    [self tearDownGL];
-    
-    if ([EAGLContext currentContext] == self.context) {
-        [EAGLContext setCurrentContext:nil];
-    }
-	
-	[super dealloc];
-}
+@synthesize context = _context;
+@synthesize effect = _effect;
 
-- (void)viewDidLoad
+- (id) initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
-    [super viewDidLoad];
-    
-    self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
-	gOpenGLVersion = 2;
-    if (!self.context) {
-		self.context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
-		gOpenGLVersion = 1;
-		if (!self.context) {
-			NSLog(@"Failed to create ES context");
-		}
-    }
-    
-    GLKView *view = (GLKView *)self.view;
-    view.context = self.context;
-    view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
-    
-    [self setupGL];
+	self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+	if (self) {
+		// Custom initialization
+	}
+	return self;
 }
 
 - (void)didReceiveMemoryWarning
 {
-    [super didReceiveMemoryWarning];
-	
-    if ([self isViewLoaded] && ([[self view] window] == nil)) {
-        self.view = nil;
-        
-        [self tearDownGL];
-        
-        if ([EAGLContext currentContext] == self.context) {
-            [EAGLContext setCurrentContext:nil];
-        }
-        self.context = nil;
-    }
-	
-    // Dispose of any resources that can be recreated.
+	[super didReceiveMemoryWarning];
+
+	if ([self isViewLoaded] && ([[self view] window] == nil))
+	{
+		self.view = nil;
+
+		[self tearDownGL];
+
+		if ([EAGLContext currentContext] == _context)
+		{
+			[EAGLContext setCurrentContext:nil];
+		}
+		_context = nil;
+	}
+
+	// Dispose of any resources that can be recreated.
 }
 
 - (void)setupGL
 {
-    [EAGLContext setCurrentContext: self.context];
+	[EAGLContext setCurrentContext:self.context];
 	Seed::Initialize();
 }
 
 - (void)tearDownGL
 {
-    [EAGLContext setCurrentContext:self.context];
+	[EAGLContext setCurrentContext:_context];
+
 	Seed::Shutdown();
 }
 
-#pragma mark - GLKView and GLKViewController delegate methods
+- (void)viewDidLoad
+{
+	[super viewDidLoad];
+
+#if defined (SEED_ENABLE_OGLES2)
+	_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES2];
+	gOpenGLVersion = 2;
+
+	if (!_context)
+	{
+		_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+		gOpenGLVersion = 1;
+	}
+#else
+	_context = [[EAGLContext alloc] initWithAPI:kEAGLRenderingAPIOpenGLES1];
+	gOpenGLVersion = 1;
+#endif
+
+	if (!_context)
+	{
+		NSLog(@"Failed to create ES context");
+	}
+
+	GLKView *view = (GLKView *)self.view;
+	view.context = _context;
+	//view.drawableDepthFormat = GLKViewDrawableDepthFormat24;
+	view.drawableMultisample = GLKViewDrawableMultisample4X;
+
+	[self setupGL];
+}
+
+- (void)viewDidUnload
+{
+	[super viewDidUnload];
+
+	[self tearDownGL];
+
+	if ([EAGLContext currentContext] == self.context) {
+		[EAGLContext setCurrentContext:nil];
+	}
+	self.context = nil;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+{
+	// Return YES for supported orientations
+	return (interfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
+#pragma mark - GLKViewDelegate
+
+- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
+{
+	Seed::Render();
+
+	glClearColor(0.30f, 0.74f, 0.20f, 1.0f);
+	glClear(GL_COLOR_BUFFER_BIT);
+
+	GLfloat vVertices[] = {  0.0f,  0.5f, 0.0f,
+		-0.5f, -0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f };
+
+	pShaderManager->GetShaderProgram("Simple")->Use();
+
+	// Load the vertex data
+	glVertexAttribPointer ( 0, 3, GL_FLOAT, GL_FALSE, 0, vVertices );
+	glEnableVertexAttribArray ( 0 );
+
+	glDrawArrays ( GL_TRIANGLES, 0, 3 );
+}
+
+#pragma mark - GLKViewControllerDelegate
 
 - (void)update
 {
 	Seed::Update();
 }
 
-- (void)glkView:(GLKView *)view drawInRect:(CGRect)rect
-{
-	Seed::Render();
-}
-
 @end
 
 #endif // BUILD_IOS
-

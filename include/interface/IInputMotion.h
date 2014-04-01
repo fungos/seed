@@ -33,7 +33,6 @@
 
 #include "interface/IInput.h"
 #include "Container.h"
-#include "MathUtil.h"
 
 namespace Seed {
 
@@ -46,12 +45,14 @@ Platforms that support Accelerometer like input must implement this interface.
 */
 class SEED_CORE_API IInputMotion
 {
-	DECLARE_CONTAINER_TYPE(Vector, IEventInputMotionListener)
+	SEED_DECLARE_CONTAINER(Vector, IEventInputMotionListener)
+	SEED_DISABLE_COPY(IInputMotion)
+
 	public:
 		IInputMotion();
 		virtual ~IInputMotion();
 
-		virtual Vector3f GetAccelerationAxis(u16 joystick = 0) const;
+		virtual vec3 GetAccelerationAxis(u16 joystick = 0) const;
 		virtual f32 GetAccelerationMagnitude(u16 joystick = 0) const;
 		virtual f32 GetAccelerationSpeed(u16 joystick = 0) const;
 
@@ -63,9 +64,6 @@ class SEED_CORE_API IInputMotion
 
 	protected:
 		IEventInputMotionListenerVector vMotionListeners;
-
-	private:
-		SEED_DISABLE_COPY(IInputMotion);
 };
 
 } // namespace

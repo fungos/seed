@@ -32,13 +32,13 @@
 #define __MAPLAYERMOSAIC_H__
 
 #include "map/IMapLayer.h"
-#include "Point.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
 class Sprite;
 
-DECLARE_CONTAINER_TYPE(Vector, Sprite)
+SEED_DECLARE_CONTAINER(Vector, Sprite)
 
 struct LayerMosaicHeader {
 
@@ -46,14 +46,16 @@ struct LayerMosaicHeader {
 
 class SEED_CORE_API MapLayerMosaic : public IMapLayer
 {
+	SEED_DISABLE_COPY(MapLayerMosaic)
+
 	public:
 		MapLayerMosaic();
 		virtual ~MapLayerMosaic();
 
-		virtual void Initialize(Point2u tileSize, u32 count, const LayerMosaicHeader *data);
+		virtual void Initialize(uvec2 tileSize, u32 count, const LayerMosaicHeader *data);
 		virtual void Reset();
 
-		virtual Point2i ViewAt(Point2i pos);
+		virtual ivec2 ViewAt(ivec2 pos);
 
 		virtual void SetWrap(bool b);
 		virtual bool GetWrap() const;
@@ -68,40 +70,34 @@ class SEED_CORE_API MapLayerMosaic : public IMapLayer
 			it will instantiate a new object and may leak.
 
 			\param entry a struct of Layer Object basic information.
-			\return An instance of a custom object from IMetadataObject type.
+			\return An instance of a custom object from MetadataObject type.
 		*/
 		virtual Sprite *CreateSprite(const LayerMosaicHeader *entry, u32 prio);
 
 		// IMapLayer
 		virtual MapLayerMosaic *AsMosaic();
 
-		virtual void Add(ISceneObject *obj);
-		virtual void Remove(ISceneObject *obj);
-		virtual u32 Size() const;
-		virtual ISceneObject *GetChildAt(u32 i);
+		virtual void Add(ISceneObject *obj) override;
+		virtual void Remove(ISceneObject *obj) override;
+		virtual u32 Size() const override;
+		virtual ISceneObject *GetChildByName(const String &name) const override;
+		virtual ISceneObject *GetChildAt(u32 i) const override;
 
-		// SceneNode
-		virtual void Update(f32 delta);
-		virtual void Render(const Matrix4f &worldTransform);
+		// IRenderable
+		virtual void Update(Seconds delta);
+		virtual void Render(const mat4 &worldTransform);
+
+		// IDataObject
+		virtual bool Unload() override;
+		virtual bool Write(Writer &writer) override;
+		virtual MapLayerMosaic *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
-		SEED_DISABLE_COPY(MapLayerMosaic);
-
 		SceneNode cScene;
 		SpriteVector vObjects;
-		Point2u ptiTileSize;
-
-		s32 iPosX;
-		s32 iPosY;
-		s32 iOffsetX;
-		s32 iOffsetY;
-
-		u32 iMapWidth;
-		u32 iMapHeight;
-		u32 iViewWidth;
-		u32 iViewHeight;
-
-		bool bWrap;
+		uvec2 ptiTileSize;
+		bool bWrap : 1;
 };
 
 } // namespace

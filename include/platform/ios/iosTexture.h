@@ -49,6 +49,8 @@ class Texture : public ITexture
 	friend IResource *TextureResourceLoader(const String &filename, ResourceManager *res);
 	friend class Sprite;
 
+	SEED_DISABLE_COPY(Texture)
+
 	public:
 		Texture();
 		virtual ~Texture();
@@ -78,9 +80,6 @@ class Texture : public ITexture
 
 	protected:
 		void UnloadTexture();
-
-	private:
-		SEED_DISABLE_COPY(Texture);
 
 		//void LoadPVRTC(const char *file);
 		void LoadPNG(const char *file);

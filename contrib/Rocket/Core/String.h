@@ -14,7 +14,7 @@
  *
  * The above copyright notice and this permission notice shall be included in
  * all copies or substantial portions of the Software.
- * 
+ *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
  * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
@@ -51,8 +51,13 @@ ROCKETCORE_API String operator+(const char* cstring, const String& string);
 
 // Redefine Windows APIs as their STDC counterparts.
 #ifdef ROCKET_PLATFORM_WIN32
+	#if !defined(strcasecmp)
 	#define strcasecmp stricmp
+	#endif
+
+	#if !defined(strncasecmp)
 	#define strncasecmp strnicmp
+	#endif
 #endif
 
 }

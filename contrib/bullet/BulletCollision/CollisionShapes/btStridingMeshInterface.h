@@ -4,8 +4,8 @@ Copyright (c) 2003-2009 Erwin Coumans  http://bulletphysics.org
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -16,9 +16,9 @@ subject to the following restrictions:
 #ifndef BT_STRIDING_MESHINTERFACE_H
 #define BT_STRIDING_MESHINTERFACE_H
 
-#include "LinearMath/btVector3.h"
-#include "btTriangleCallback.h"
-#include "btConcaveShape.h"
+#include <bullet/LinearMath/btVector3.h>
+#include <bullet/BulletCollision/CollisionShapes/btTriangleCallback.h>
+#include <bullet/BulletCollision/CollisionShapes/btConcaveShape.h>
 
 
 
@@ -30,12 +30,12 @@ subject to the following restrictions:
 ATTRIBUTE_ALIGNED16(class ) btStridingMeshInterface
 {
 	protected:
-	
+
 		btVector3 m_scaling;
 
 	public:
 		BT_DECLARE_ALIGNED_ALLOCATOR();
-		
+
 		btStridingMeshInterface() :m_scaling(btScalar(1.),btScalar(1.),btScalar(1.))
 		{
 
@@ -54,11 +54,11 @@ ATTRIBUTE_ALIGNED16(class ) btStridingMeshInterface
 		/// this subpart has a continuous array of vertices and indices
 		/// in this way the mesh can be handled as chunks of memory with striding
 		/// very similar to OpenGL vertexarray support
-		/// make a call to unLockVertexBase when the read and write access is finished	
+		/// make a call to unLockVertexBase when the read and write access is finished
 		virtual void	getLockedVertexIndexBase(unsigned char **vertexbase, int& numverts,PHY_ScalarType& type, int& stride,unsigned char **indexbase,int & indexstride,int& numfaces,PHY_ScalarType& indicestype,int subpart=0)=0;
-		
+
 		virtual void	getLockedReadOnlyVertexIndexBase(const unsigned char **vertexbase, int& numverts,PHY_ScalarType& type, int& stride,const unsigned char **indexbase,int & indexstride,int& numfaces,PHY_ScalarType& indicestype,int subpart=0) const=0;
-	
+
 		/// unLockVertexBase finishes the access to a subpart of the triangle mesh
 		/// make a call to unLockVertexBase when the read and write access (using getLockedVertexIndexBase) is finished
 		virtual void	unLockVertexBase(int subpart)=0;
@@ -75,15 +75,15 @@ ATTRIBUTE_ALIGNED16(class ) btStridingMeshInterface
 
 		virtual bool	hasPremadeAabb() const { return false; }
 		virtual void	setPremadeAabb(const btVector3& aabbMin, const btVector3& aabbMax ) const
-                {
-                        (void) aabbMin;
-                        (void) aabbMax;
-                }
+				{
+						(void) aabbMin;
+						(void) aabbMax;
+				}
 		virtual void	getPremadeAabb(btVector3* aabbMin, btVector3* aabbMax ) const
-        {
-            (void) aabbMin;
-            (void) aabbMax;
-        }
+		{
+			(void) aabbMin;
+			(void) aabbMax;
+		}
 
 		const btVector3&	getScaling() const {
 			return m_scaling;

@@ -33,10 +33,10 @@
 
 namespace Seed {
 
-EventInputKeyboard::EventInputKeyboard(u32 key, u32 modifier, u32 scan, u32 keyboard)
-	: IEventInput(EventIdKeyboardInput)
-	, cKey(key)
-	, iModifier(modifier)
+EventInputKeyboard::EventInputKeyboard(eKey key, eModifier modifier, u32 scan, u32 keyboard)
+	: IEventInput()
+	, nKey(key)
+	, nModifier(modifier)
 	, iScancode(scan)
 	, iKeyboard(keyboard)
 {
@@ -46,14 +46,14 @@ EventInputKeyboard::~EventInputKeyboard()
 {
 }
 
-const Key &EventInputKeyboard::GetKey() const
+eKey EventInputKeyboard::GetKey() const
 {
-	return cKey;
+	return nKey;
 }
 
-u32 EventInputKeyboard::GetModifier() const
+eModifier EventInputKeyboard::GetModifier() const
 {
-	return iModifier;
+	return nModifier;
 }
 
 u32 EventInputKeyboard::GetScancode() const
@@ -68,97 +68,95 @@ u32 EventInputKeyboard::GetKeyboard() const
 
 bool EventInputKeyboard::IsShiftPressed() const
 {
-	return (iModifier & ModifierShift) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::Shift)) > 0;
 }
 
 bool EventInputKeyboard::IsShiftLeftPressed() const
 {
-	return (iModifier & Seed::ModifierShiftLeft) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::ShiftLeft)) > 0;
 }
 
 bool EventInputKeyboard::IsShiftRightPressed() const
 {
-	return (iModifier & Seed::ModifierShiftRight) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::ShiftRight)) > 0;
 }
 
 bool EventInputKeyboard::IsAltPressed() const
 {
-	return (iModifier & Seed::ModifierAlt) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::Alt)) > 0;
 }
 
 bool EventInputKeyboard::IsAltLeftPressed() const
 {
-	return (iModifier & Seed::KeyAltLeft) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::AltLeft)) > 0;
 }
 
 bool EventInputKeyboard::IsAltRightPressed() const
 {
-	return (iModifier & Seed::ModifierAltRight) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::AltRight)) > 0;
 }
 
 bool EventInputKeyboard::IsControlPressed() const
 {
-	return (iModifier & Seed::ModifierControl) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::Control)) > 0;
 }
 
 bool EventInputKeyboard::IsControlLeftPressed() const
 {
-	return (iModifier & Seed::ModifierControlLeft) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::ControlLeft)) > 0;
 }
 
 bool EventInputKeyboard::IsControlRightPressed() const
 {
-	return (iModifier & Seed::ModifierControlRight) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::ControlRight)) > 0;
 }
 
 bool EventInputKeyboard::IsMetaPressed() const
 {
-	return (iModifier & Seed::ModifierMeta) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::Meta)) > 0;
 }
 
 bool EventInputKeyboard::IsMetaLeftPressed() const
 {
-	return (iModifier & Seed::ModifierMetaLeft) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::MetaLeft)) > 0;
 }
 
 bool EventInputKeyboard::IsMetaRightPressed() const
 {
-	return (iModifier & Seed::ModifierMetaRight) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::MetaRight)) > 0;
 }
 
 bool EventInputKeyboard::IsCapsLockOn() const
 {
-	return (iModifier & Seed::ModifierCapsLock) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::CapsLock)) > 0;
 }
 
 bool EventInputKeyboard::IsNumLockOn() const
 {
-	return (iModifier & Seed::ModifierNumLock) > 0;
+	return (static_cast<u32>(nModifier) & static_cast<u32>(eModifier::NumLock)) > 0;
 }
 
 bool EventInputKeyboard::IsNumericPad() const
 {
-	return (cKey.GetValue() >= Seed::KeyPad0 && cKey.GetValue() <= Seed::KeyPadEquals);
+	return (static_cast<u32>(nKey) >= static_cast<u32>(eKey::Pad0) && static_cast<u32>(nKey) <= static_cast<u32>(eKey::PadEquals));
 }
 
 bool EventInputKeyboard::IsCharacter() const
 {
-	return cKey.IsCharacter();
+	auto k = Key(nKey);
+	return k.IsCharacter();
 }
 
 bool EventInputKeyboard::IsNumber() const
 {
-	return cKey.IsNumber();
+	auto k = Key(nKey);
+	return k.IsNumber();
 }
 
 bool EventInputKeyboard::IsLetter() const
 {
-	return cKey.IsLetter();
-}
-
-const String EventInputKeyboard::GetClassName() const
-{
-	return "EventInputKeyboard";
+	auto k = Key(nKey);
+	return k.IsLetter();
 }
 
 } // namespace

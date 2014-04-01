@@ -39,23 +39,24 @@ namespace Seed {
 /// System Event
 class SEED_CORE_API EventSystem : public IEvent
 {
+	SEED_DISABLE_COPY(EventSystem)
+	SEED_DECLARE_RTTI(EventSystem, IEvent)
+
 	public:
 		EventSystem();
-		EventSystem(Seed::eLanguage curLang, Seed::eLanguage newLang);
+		EventSystem(eLanguage curLang, eLanguage newLang);
+		EventSystem(eShutdownReason reason);
 
 		virtual ~EventSystem();
 
-		virtual Seed::eLanguage GetLanguageCurrent() const;
-		virtual Seed::eLanguage GetLanguageNew() const;
-
-		// IObject
-		virtual const String GetClassName() const override;
+		virtual eLanguage GetLanguageCurrent() const;
+		virtual eLanguage GetLanguageNew() const;
+		virtual eShutdownReason GetShutdownReason() const;
 
 	private:
-		SEED_DISABLE_COPY(EventSystem);
-
-		Seed::eLanguage nCurrentLang;
-		Seed::eLanguage nNewLang;
+		eLanguage nCurrentLang;
+		eLanguage nNewLang;
+		eShutdownReason nReason;
 };
 
 } // namespace

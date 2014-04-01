@@ -32,9 +32,9 @@
 
 namespace Seed {
 
-EventInputMotion::EventInputMotion(u32 j, Vector3f ptAcc, f32 fMag, f32 fVel)
-	: IEventInput(EventIdMotionInput)
-    , ptAcceleration()
+EventInputMotion::EventInputMotion(u32 j, const vec3 &ptAcc, f32 fMag, f32 fVel)
+	: IEventInput()
+	, ptAcceleration()
 	, iJoystick(j)
 	, fMagnitude(fMag)
 	, fSpeed(fVel)
@@ -51,7 +51,7 @@ u32 EventInputMotion::GetJoystick() const
 	return iJoystick;
 }
 
-Vector3f EventInputMotion::GetAccelerationAxis() const
+vec3 EventInputMotion::GetAccelerationAxis() const
 {
 	return ptAcceleration;
 }
@@ -64,11 +64,6 @@ f32 EventInputMotion::GetAccelerationMagnitude()  const
 f32 EventInputMotion::GetAccelerationSpeed() const
 {
 	return fSpeed;
-}
-
-const String EventInputMotion::GetClassName() const
-{
-	return "EventInputMotion";
 }
 
 } // namespace

@@ -32,12 +32,12 @@
 
 namespace Seed {
 
-EventInputPointer::EventInputPointer(u32 j, u32 pressed, u32 hold, u32 released, u32 x, u32 y)
-	: IEventInput(EventIdPointerInput)
+EventInputPointer::EventInputPointer(u32 j, eInputButton pressed, eInputButton hold, eInputButton released, u32 x, u32 y)
+	: IEventInput()
 	, iJoystick(j)
-	, iPressed(pressed)
-	, iHold(hold)
-	, iReleased(released)
+	, nPressed(pressed)
+	, nHold(hold)
+	, nReleased(released)
 	, iX(x)
 	, iY(y)
 {
@@ -52,19 +52,19 @@ u32 EventInputPointer::GetJoystick() const
 	return iJoystick;
 }
 
-u32 EventInputPointer::GetPressed()  const
+eInputButton EventInputPointer::GetPressed()  const
 {
-	return iPressed;
+	return nPressed;
 }
 
-u32 EventInputPointer::GetReleased() const
+eInputButton EventInputPointer::GetReleased() const
 {
-	return iReleased;
+	return nReleased;
 }
 
-u32 EventInputPointer::GetHold() const
+eInputButton EventInputPointer::GetHold() const
 {
-	return iHold;
+	return nHold;
 }
 
 u32 EventInputPointer::GetX() const
@@ -75,11 +75,6 @@ u32 EventInputPointer::GetX() const
 u32 EventInputPointer::GetY() const
 {
 	return iY;
-}
-
-const String EventInputPointer::GetClassName() const
-{
-	return "EventInputPointer";
 }
 
 } // namespace

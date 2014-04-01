@@ -34,12 +34,10 @@
 #include <Defines.h>
 #include <Enum.h>
 
-#include <MathUtil.h>
 #include <Log.h>
 #include <Profiler.h>
 
 #include <Cartridge.h>
-#include <Camera.h>
 #include <Checksum.h>
 #include <Container.h>
 
@@ -51,8 +49,6 @@
 #include <EventResourceLoader.h>
 #include <EventSystem.h>
 #include <EventMovie.h>
-#include <EventJob.h>
-#include <EventPresentation.h>
 
 #include <File.h>
 #include <FileSystem.h>
@@ -64,7 +60,8 @@
 #include <JobManager.h>
 #include <Job.h>
 
-#include <LeakReport.h>
+#include <Memory.h>
+#include <LeafMessage.h>
 
 #include <Image.h>
 #include <interface/IEventInputMotionListener.h>
@@ -75,17 +72,14 @@
 #include <interface/IEventSystemListener.h>
 #include <interface/IEventFileSystemListener.h>
 #include <interface/IEventMovieListener.h>
-#include <interface/IEventJobListener.h>
-#include <interface/IEventPresentationListener.h>
 #include <interface/IObject.h>
 #include <interface/ISceneObject.h>
 
 #include <Music.h>
-#include <Mutex.h>
 
 #include <map/GameMap.h>
 #include <map/IMapLayer.h>
-#include <map/IMetadataObject.h>
+#include <map/MetadataObject.h>
 #include <map/MapLayerMetadata.h>
 #include <map/MapLayerMosaic.h>
 #include <map/MapLayerTiled.h>
@@ -95,15 +89,18 @@
 
 #include <Particle.h>
 #include <ParticleEmitter.h>
-#include <Point.h>
 #include <Presentation.h>
 
 #include <Rand.h>
 #include <ResourceManager.h>
 #include <ResourceLoader.h>
 #include <ResourceGroup.h>
-#include <Renderer.h>
+
 #include <RendererDevice.h>
+#include <renderer/Camera.h>
+#include <renderer/Renderer.h>
+#include <renderer/Viewport.h>
+#include <renderer/RendererManager.h>
 
 #include <SaveSystem.h>
 #include <SceneNode.h>
@@ -124,9 +121,7 @@
 #include <Timeline.h>
 #include <Movie.h>
 
-#include <Viewport.h>
 #include <ViewManager.h>
-#include <RendererManager.h>
 
 #include <SeedInit.h>
 #include <SeedRun.h>
@@ -134,9 +129,8 @@
 #include <api/theora/Theora.h>
 #include <api/rocket/RocketInterface.h>
 
-#if defined(BUILD_SDL) && defined(WIN32)
-#undef main
-#endif
+#include <glm/glm.hpp>
+using namespace glm;
 
 namespace Seed {}
 

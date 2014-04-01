@@ -29,14 +29,18 @@
 */
 
 #include "map/MapLayerMetadata.h"
-#include "map/IMetadataObject.h"
+#include "map/MetadataObject.h"
 #include "Screen.h"
+#include "Memory.h"
 
 namespace Seed {
 
-MapLayerMetadata::MapLayerMetadata(Point2u tileSize)
-	: pRes(NULL)
-	, ptTileSize(tileSize)
+MapLayerMetadata::MapLayerMetadata()
+	: pRes(nullptr)
+	, ptTileSize(0.0f, 0.0f)
+	, ptSize(0.0f, 0.0f)
+	, ptMapSize(0.0f, 0.0f)
+	, ptHalfSize(0.0f, 0.0f)
 {
 }
 
@@ -47,50 +51,98 @@ MapLayerMetadata::~MapLayerMetadata()
 
 void MapLayerMetadata::Reset()
 {
-//	IMetadataObjectVectorIterator it = vObjects.begin();
-//	IMetadataObjectVectorIterator end = vObjects.end();
-//	for (; it != end; ++it)
-//	{
-//		Delete(*it);
-//	}
-
-//	IMetadataObjectVector().swap(vObjects);
-
-	IMapLayer::Unload(); // to clear them
-	pRes = NULL;
+	this->Unload();
+	pRes = nullptr;
 }
 
-bool MapLayerMetadata::Load(Reader &reader, ResourceManager *res)
+bool MapLayerMetadata::Unload()
 {
-	bool ret = false;
+	IMapLayer::Unload();
 
-	if (this->Unload())
-	{
-		pRes = res;
+	// ptTileSize = vec2(0.0f, 0.0f); // Do not clear tilesize.
+	ptMapSize = vec2(0.0f, 0.0f);
+	ptHalfSize = vec2(0.0f, 0.0f);
 
-		f32 h = reader.ReadF32("height", 0.0f);
-		f32 w = reader.ReadF32("width", 0.0f);
-		ptMapSize.x = h * ptTileSize.x;
-		ptMapSize.y = w * ptTileSize.y;
-		ptHalfSize.x = ptMapSize.x * 0.5f;
-		ptHalfSize.y = ptMapSize.y * 0.5f;
+	return true;
+}
 
-		this->ReadMapLayer(reader);
-		this->ReadProperties(reader);
-		this->SetWidth(ptMapSize.x);
-		this->SetHeight(ptMapSize.y);
+void MapLayerMetadata::Set(Reader &reader)
+{
+	ptSize.x = reader.ReadF32("width", ptSize.x);
+	ptSize.y = reader.ReadF32("height", ptSize.y);
+	ptMapSize = ptSize * ptTileSize;
+	ptHalfSize = ptMapSize * 0.5f;
 
-		// overwrite readmaplayer x,y - I don't know if these values are used anyway
-		this->SetPosition(-ptHalfSize.x - (ptTileSize.x * 0.5f), -ptHalfSize.y - (ptTileSize.y * 0.5f));
+	this->ReadMapLayer(reader);
+	this->ReadProperties(reader);
+	this->SetWidth(ptMapSize.x);
+	this->SetHeight(ptMapSize.y);
 
-		u32 len = reader.SelectArray("objects");
-		this->LoadData(reader, len);
-		reader.UnselectArray();
+	// ATTENTION: overwrite readmaplayer x,y - I don't know if these values are used anyway
+	this->SetPosition(-ptHalfSize.x - (ptTileSize.x * 0.5f), -ptHalfSize.y - (ptTileSize.y * 0.5f));
 
-		ret = true;
-	}
+	auto len = reader.SelectArray("objects");
+	this->LoadData(reader, len);
+	reader.UnselectArray();
+}
 
-	return ret;
+bool MapLayerMetadata::Write(Writer &writer)
+{
+	// Write should ignore parent position
+	auto oldPos = this->GetPosition();
+	this->SetPosition(0.0f, 0.0f, 0.0f);
+
+	writer.OpenNode();
+		writer.WriteString("type", "objectgroup");
+
+		this->WriteMapLayer(writer);
+		writer.WriteF32("width", ptSize.x);
+		writer.WriteF32("height", ptSize.y);
+
+		this->WriteProperties(writer);
+
+		writer.OpenArray("objects");
+			for (auto obj : vChild)
+				obj->Write(writer);
+		writer.CloseArray();
+	writer.CloseNode();
+
+	this->SetPosition(oldPos);
+
+	return true;
+}
+
+MapLayerMetadata *MapLayerMetadata::Clone() const
+{
+	auto obj = sdNew(MapLayerMetadata);
+	obj->GenerateCloneName(sName);
+
+	obj->pRes = pRes;
+	obj->ptTileSize = ptTileSize;
+	obj->ptMapSize = ptMapSize;
+	obj->ptHalfSize = ptHalfSize;
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
+
+	return obj;
 }
 
 void MapLayerMetadata::LoadData(Reader &reader, u32 len)
@@ -99,22 +151,28 @@ void MapLayerMetadata::LoadData(Reader &reader, u32 len)
 	{
 		reader.SelectNext();
 
-		IMetadataObject *obj = New(IMetadataObject());
+		auto obj = sdNew(MetadataObject);
 		obj->Load(reader, pRes);
 		obj->bMarkForDeletion = true;
 		this->Add(obj);
 	}
 }
 
-void MapLayerMetadata::Render(const Matrix4f &worldTransform)
+void MapLayerMetadata::SetMapSize(vec2 mapSize)
 {
-	ISceneObjectVectorIterator it = vChild.begin();
-	ISceneObjectVectorIterator end = vChild.end();
-	for (; it != end; ++it)
-	{
-		ISceneObject *obj = (*it);
+	ptMapSize = mapSize;
+	ptHalfSize = mapSize * 0.5f;
+}
+
+void MapLayerMetadata::SetTileSize(vec2 tileSize)
+{
+	ptTileSize = tileSize;
+}
+
+void MapLayerMetadata::Render(const mat4 &worldTransform)
+{
+	for (auto obj: vChild)
 		obj->Render(worldTransform);
-	}
 }
 
 MapLayerMetadata *MapLayerMetadata::AsMetadata()

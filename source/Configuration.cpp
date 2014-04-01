@@ -33,6 +33,7 @@
 #include "Reader.h"
 #include "Log.h"
 #include "ResourceManager.h"
+#include "Memory.h"
 #include "SeedInit.h"
 #include <algorithm>
 
@@ -41,13 +42,12 @@ namespace Seed {
 SEED_SINGLETON_DEFINE(Configuration)
 
 Configuration::Configuration()
-	: bDebugSprite(false)
-	, sWorkingDirectory("./")
+	: sWorkingDirectory("./")
 	, sTitle("")
 	, sDescription("")
 	, sPublisherName("")
-	, iRendererDeviceType(Seed::RendererDeviceAuto)
-	, iReaderType(Seed::ReaderDefault)
+	, nRendererDeviceType(eRendererDeviceType::Auto)
+	, nReaderType(eReaderType::Default)
 	, iFrameRate(60)
 	, iResolutionWidth(800)
 	, iResolutionHeight(600)
@@ -55,6 +55,7 @@ Configuration::Configuration()
 	, bWarningMultipleInstances(false)
 	, bFullScreen(false)
 	, bShowCursor(false)
+	, bDebugSprite(false)
 {
 }
 
@@ -64,7 +65,8 @@ Configuration::~Configuration()
 
 void Configuration::Load(const String &file)
 {
-	File *f = New(File(file));
+	// This must not be async, it is a starting configuration file
+	File *f = sdNew(File(file));
 	if (f && f->GetData())
 	{
 		Reader r(f);
@@ -83,30 +85,32 @@ void Configuration::Load(const String &file)
 			Private::bDisableSound = r.ReadBool("bDisableSound", false);
 
 		String renderer = r.ReadString("sRendererDevice", "auto");
-		std::transform(renderer.begin(), renderer.end(), renderer.begin(), ::tolower);
 
 		// FIXME: A better way to select the renderer (via register/unregister handlers?)
 		// also, a way to detect the default system renderer.
-		if (renderer == "auto")
-			iRendererDeviceType = Seed::RendererDeviceAuto;
-		else if (renderer == "ogl" || renderer == "opengl")
-			iRendererDeviceType = Seed::RendererDeviceOpenGLAny;
-		else if (renderer == "ogles1" || renderer == "opengl es1")
-			iRendererDeviceType = Seed::RendererDeviceOpenGLES1;
-		else if (renderer == "ogl2" || renderer == "opengl 2.x")
-			iRendererDeviceType = Seed::RendererDeviceOpenGL2x;
-		else if (renderer == "ogl3" || renderer == "opengl 3.x")
-			iRendererDeviceType = Seed::RendererDeviceOpenGL3x;
-		else if (renderer == "ogl4" || renderer == "opengl 4.x")
-			iRendererDeviceType = Seed::RendererDeviceOpenGL4x;
-		else if (renderer == "dx8" || renderer == "directx 8")
-			iRendererDeviceType = Seed::RendererDeviceDirectX8;
-		else if (renderer == "dx9" || renderer == "directx 9")
-			iRendererDeviceType = Seed::RendererDeviceDirectX9;
-		else if (renderer == "dx10" || renderer == "directx 10")
-			iRendererDeviceType = Seed::RendererDeviceDirectX10;
-		else if (renderer == "dx11" || renderer == "directx 11")
-			iRendererDeviceType = Seed::RendererDeviceDirectX11;
+		// FIXME: Clean up this, only what is really needed.
+		if (StringUtil::Equals(renderer, "auto"))
+			nRendererDeviceType = eRendererDeviceType::Auto;
+		else if (StringUtil::Equals(renderer, "ogl") || StringUtil::Equals(renderer, "opengl"))
+			nRendererDeviceType = eRendererDeviceType::OpenGLAny;
+		else if (StringUtil::Equals(renderer, "ogles1") || StringUtil::Equals(renderer, "opengl es1"))
+			nRendererDeviceType = eRendererDeviceType::OpenGLES1;
+		else if (StringUtil::Equals(renderer, "ogles2") || StringUtil::Equals(renderer, "opengl es2"))
+			nRendererDeviceType = eRendererDeviceType::OpenGLES2;
+		else if (StringUtil::Equals(renderer, "ogl2") || StringUtil::Equals(renderer, "opengl 2.x"))
+			nRendererDeviceType = eRendererDeviceType::OpenGL2x;
+		else if (StringUtil::Equals(renderer, "ogl3") || StringUtil::Equals(renderer, "opengl 3.x"))
+			nRendererDeviceType = eRendererDeviceType::OpenGL3x;
+		else if (StringUtil::Equals(renderer, "ogl4") || StringUtil::Equals(renderer, "opengl 4.x"))
+			nRendererDeviceType = eRendererDeviceType::OpenGL4x;
+		else if (StringUtil::Equals(renderer, "dx8") || StringUtil::Equals(renderer, "directx 8"))
+			nRendererDeviceType = eRendererDeviceType::DirectX8;
+		else if (StringUtil::Equals(renderer, "dx9") || StringUtil::Equals(renderer, "directx 9"))
+			nRendererDeviceType = eRendererDeviceType::DirectX9;
+		else if (StringUtil::Equals(renderer, "dx10") || StringUtil::Equals(renderer, "directx 10"))
+			nRendererDeviceType = eRendererDeviceType::DirectX10;
+		else if (StringUtil::Equals(renderer, "dx11") || StringUtil::Equals(renderer, "directx 11"))
+			nRendererDeviceType = eRendererDeviceType::DirectX11;
 		else
 			Log("[Configuration] Unknown renderer %s - fallbacking to OpenGL 1.x.", renderer.c_str());
 
@@ -120,7 +124,7 @@ void Configuration::Load(const String &file)
 		iFrameRate = r.ReadU32("iFrameRate", 60);
 	}
 
-	Delete(f);
+	sdDelete(f);
 }
 
 u32 Configuration::GetResolutionWidth() const
@@ -225,32 +229,22 @@ bool Configuration::GetFullScreen() const
 
 void Configuration::SetRendererDeviceType(eRendererDeviceType deviceType)
 {
-	iRendererDeviceType = deviceType;
+	nRendererDeviceType = deviceType;
 }
 
 eRendererDeviceType Configuration::GetRendererDeviceType() const
 {
-	return iRendererDeviceType;
+	return nRendererDeviceType;
 }
 
 void Configuration::SetReaderType(eReaderType readerType)
 {
-	iReaderType = readerType;
+	nReaderType = readerType;
 }
 
 eReaderType Configuration::GetReaderType() const
 {
-	return iReaderType;
-}
-
-const String Configuration::GetClassName() const
-{
-	return "Configuration";
-}
-
-int Configuration::GetObjectType() const
-{
-	return Seed::TypeConfiguration;
+	return nReaderType;
 }
 
 } // namespace

@@ -42,7 +42,10 @@ namespace Seed { namespace SDL {
 /// SDL Screen Module
 class SEED_CORE_API Screen : public IScreen
 {
-	SEED_SINGLETON_DECLARE(Screen)
+	SEED_DECLARE_SINGLETON(Screen)
+	SEED_DECLARE_MANAGER(Screen)
+	SEED_DISABLE_COPY(Screen)
+
 	public:
 		// IScreen
 		virtual void EnableCursor(bool b) override;
@@ -54,7 +57,7 @@ class SEED_CORE_API Screen : public IScreen
 		// IScreen
 		virtual void Update() override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
@@ -69,8 +72,6 @@ class SEED_CORE_API Screen : public IScreen
 		SDL_Surface *pSurface;
 
 	private:
-		SEED_DISABLE_COPY(Screen);
-
 		bool InitializeVideo();
 		bool Prepare();
 		void SetupOpenGL();

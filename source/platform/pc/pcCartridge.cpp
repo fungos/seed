@@ -29,10 +29,10 @@
 */
 
 #include "Cartridge.h"
-#include "LeakReport.h"
 
 #if defined(BUILD_PC)
 
+#include "Memory.h"
 #include "Log.h"
 #include "FileSystem.h"
 
@@ -45,9 +45,8 @@ namespace Seed { namespace PC {
 SEED_SINGLETON_DEFINE(Cartridge)
 
 Cartridge::Cartridge()
-	: iType(0)
-	, iCurrentSlot(-1)
-	, pData(NULL)
+	: nType(eCartridgeSize::Unlimited)
+	, pData(nullptr)
 {
 }
 
@@ -66,9 +65,9 @@ bool Cartridge::Initialize()
 
 bool Cartridge::Reset()
 {
-	Free(this->pData);
+	sdFree(this->pData);
 
-	iType = 0;
+	nType = eCartridgeSize::Unlimited;
 	iSize = 0;
 	memset(strPath, '\0', PC_MAX_PATH);
 
@@ -85,11 +84,11 @@ bool Cartridge::Shutdown()
 
 bool Cartridge::Prepare(eCartridgeSize size)
 {
-	iType = size;
+	nType = size;
 	iSize = this->GetCardType(size);
 
 	const char *p = pFileSystem->GetWriteableDirectory();
-	SEED_ASSERT_MSG(p!=NULL, "You must set a WriteableDirectory!");
+	SEED_ASSERT_MSG(p, "You must set a WriteableDirectory!");
 
 	memset(strPath, '\0', sizeof(strPath));
 
@@ -97,7 +96,7 @@ bool Cartridge::Prepare(eCartridgeSize size)
 	strncat(strPath, PATH_SEPARATOR, PC_MAX_PATH - 1);
 	strncat(strPath, CARTRIDGE_FILENAME, PC_MAX_PATH - strlen(strPath) - 1);
 
-	this->pData = static_cast<u8 *>(Alloc(iSize));
+	this->pData = static_cast<u8 *>(sdAlloc(iSize));
 	memset(this->pData, 0, iSize);
 
 	if (!this->Verify(strPath, iSize))
@@ -137,7 +136,7 @@ bool Cartridge::Read(u32 src, void *dest, u32 len)
 	if (!pFp)
 	{
 		Info(TAG "fopen %s failed", strPath);
-		eLastError = Seed::ErrorAccessDenied;
+		nLastError = eCartridgeError::AccessDenied;
 		return false;
 	}
 
@@ -146,7 +145,7 @@ bool Cartridge::Read(u32 src, void *dest, u32 len)
 	{
 		Log(TAG "fseek failed: %d", iResult);
 		fclose(pFp);
-		eLastError = Seed::ErrorAccessDenied;
+		nLastError = eCartridgeError::AccessDenied;
 		return false;
 	}
 
@@ -155,7 +154,7 @@ bool Cartridge::Read(u32 src, void *dest, u32 len)
 	{
 		Log(TAG "fread: could not load save data!");
 		fclose(pFp);
-		eLastError = Seed::ErrorDeviceFull;
+		nLastError = eCartridgeError::DeviceFull;
 		return false;
 	}
 
@@ -164,7 +163,7 @@ bool Cartridge::Read(u32 src, void *dest, u32 len)
 	{
 		Log(TAG "fseek failed: %d", iResult);
 		fclose(pFp);
-		eLastError = Seed::ErrorAccessDenied;
+		nLastError = eCartridgeError::AccessDenied;
 		return false;
 	}
 
@@ -174,7 +173,7 @@ bool Cartridge::Read(u32 src, void *dest, u32 len)
 	if (iAmountRead != len)
 	{
 		Log(TAG "fread: Could not read all the data requested: AmountRead = %d Requested = %d\n", iAmountRead, len);
-		eLastError = Seed::ErrorDeviceFull;
+		nLastError = eCartridgeError::DeviceFull;
 		return false;
 	}
 
@@ -210,7 +209,7 @@ bool Cartridge::Write(u32 dest, const void *src, u32 len)
 	if (!pFp)
 	{
 		Info(TAG "fopen: Could not open '%s' for writing", strPath);
-		eLastError = Seed::ErrorAccessDenied;
+		nLastError = eCartridgeError::AccessDenied;
 		return false;
 	}
 
@@ -218,7 +217,7 @@ bool Cartridge::Write(u32 dest, const void *src, u32 len)
 	if (iResult)
 	{
 		Log(TAG "fseek failed: %d", iResult);
-		eLastError = Seed::ErrorAccessDenied;
+		nLastError = eCartridgeError::AccessDenied;
 		fclose(pFp);
 		return false;
 	}
@@ -229,7 +228,7 @@ bool Cartridge::Write(u32 dest, const void *src, u32 len)
 	if (iAmountWritten != iSize) //len)
 	{
 		Log(TAG "fwrite: Could not write all the data requested: AmountWritten = %d, Requested = %d\n", iAmountWritten, iSize); //len);
-		eLastError = Seed::ErrorDeviceFull;
+		nLastError = eCartridgeError::DeviceFull;
 		return false;
 	}
 
@@ -241,27 +240,27 @@ u32 Cartridge::GetCardType(eCartridgeSize size)
 	u32 i = 0;
 	switch (size)
 	{
-		case Seed::Cartridge512b:
+		case eCartridgeSize::VeryTiny:
 			i = 512;
 		break;
 
-		case Seed::Cartridge8192b:
+		case eCartridgeSize::Tiny:
 			i = 8192;
 		break;
 
-		case Seed::Cartridge32768b:
+		case eCartridgeSize::Small:
 			i = 32768;
 		break;
 
-		case Seed::Cartridge65536b:
+		case eCartridgeSize::Normal:
 			i = 65536;
 		break;
 
-		case Seed::Cartridge262144b:
+		case eCartridgeSize::Large:
 			i = 262144;
 		break;
 
-		case Seed::CartridgeUnlimited:
+		case eCartridgeSize::Unlimited:
 			i = 1048576;
 		break;
 
@@ -294,7 +293,7 @@ bool Cartridge::GetFileSize(const char *filename, u32 *length)
 	FILE *fp = fopen(filename, "rb");
 	if (!fp)
 	{
-		this->eLastError = Seed::ErrorAccessDenied;
+		nLastError = eCartridgeError::AccessDenied;
 		return false;
 	}
 
@@ -303,18 +302,18 @@ bool Cartridge::GetFileSize(const char *filename, u32 *length)
 	if (ret != 0)
 	{
 		fclose(fp);
-		this->eLastError = Seed::ErrorAccessDenied;
+		nLastError = eCartridgeError::AccessDenied;
 		return false;
 	}
 
 	ret = fclose(fp);
 	if (ret != 0)
 	{
-		this->eLastError = Seed::ErrorAccessDenied;
+		nLastError = eCartridgeError::AccessDenied;
 		return false;
 	}
 
-	this->eLastError = Seed::ErrorNone;
+	nLastError = eCartridgeError::None;
 	return true;
 }
 
@@ -325,34 +324,31 @@ bool Cartridge::CreateSaveFile()
 	FILE *fp = fopen(strPath, "wb+");
 	if (fp)
 	{
-		void *pBlankData = Alloc(iSize);
+		fclose(fp);
+
+		void *pBlankData = sdAlloc(iSize);
 		memset(pBlankData, 0, iSize);
 		bool result = this->Write(0, pBlankData, iSize);
-		Free(pBlankData);
+		sdFree(pBlankData);
 
 		if (!result)
 		{
 			Log(TAG "Could not write into the newly created file.");
-			this->eLastError = Seed::ErrorDeviceFull;
+			nLastError = eCartridgeError::DeviceFull;
 			return false;
 		}
 	}
 	else
 	{
 		Log(TAG "could not create file.");
-		this->eLastError = Seed::ErrorAccessDenied;
+		nLastError = eCartridgeError::AccessDenied;
 		return false;
 	}
 
 	Log(TAG "Save data created.");
 
-	this->eLastError = Seed::ErrorNone;
+	nLastError = eCartridgeError::None;
 	return true;
-}
-
-const String Cartridge::GetClassName() const
-{
-	return "Cartridge";
 }
 
 }} // namespace

@@ -45,7 +45,9 @@ Platforms that support Joystick must implement this interface.
 */
 class SEED_CORE_API IInputJoystick
 {
-	DECLARE_CONTAINER_TYPE(Vector, IEventInputJoystickListener)
+	SEED_DECLARE_CONTAINER(Vector, IEventInputJoystickListener)
+	SEED_DISABLE_COPY(IInputJoystick)
+
 	public:
 		IInputJoystick();
 		virtual ~IInputJoystick();
@@ -64,8 +66,10 @@ class SEED_CORE_API IInputJoystick
 	protected:
 		IEventInputJoystickListenerVector vJoystickListeners;
 
+#if defined(DEBUG)
 	private:
-		SEED_DISABLE_COPY(IInputJoystick);
+		Map<u32, String> buttonsName;
+#endif
 };
 
 } // namespace

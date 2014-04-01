@@ -30,9 +30,9 @@
 
 #include "SoundSource.h"
 
-#if defined(USE_API_NULL_OAL)
+#if defined(USE_API_NULL_AL)
 
-namespace Seed { namespace OAL {
+namespace Seed { namespace NAL {
 
 SoundSource::SoundSource()
 {
@@ -85,9 +85,9 @@ void SoundSource::Resume()
 	}
 }
 
-void SoundSource::Update(f32 delta)
+void SoundSource::Update(Seconds dt)
 {
-	UNUSED(delta);
+	UNUSED(dt);
 
 	if (bTransformationChanged)
 	{
@@ -97,4 +97,4 @@ void SoundSource::Update(f32 delta)
 
 }} // namespace
 
-#endif // USE_API_NULL_OAL
+#endif // USE_API_NULL_AL

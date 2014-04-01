@@ -45,6 +45,8 @@
 #include <Rocket/Core/FileInterface.h>
 #include <Rocket/Core/SystemInterface.h>
 #include <Rocket/Core/Context.h>
+#include <Rocket/Core/EventListenerInstancer.h>
+#include <Rocket/Core/EventListener.h>
 
 namespace Seed { namespace RocketGui {
 
@@ -68,6 +70,9 @@ class SEED_CORE_API RocketInterface :
 					public IEventInputKeyboardListener,
 					public ISceneObject
 {
+	SEED_DISABLE_COPY(RocketInterface)
+	SEED_DECLARE_RTTI(RocketInterface, ISceneObject)
+
 	public:
 		RocketInterface();
 		virtual ~RocketInterface();
@@ -104,8 +109,8 @@ class SEED_CORE_API RocketInterface :
 		virtual void OnInputPointerMove(const EventInputPointer *ev) override;
 
 		// IEventInputKeyboardListener
-		virtual void OnInputKeyboardPress(const EventInputKeyboard *ev) override;
-		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
+		virtual bool OnInputKeyboardPress(const EventInputKeyboard *ev) override;
+		virtual bool OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
 
 		// IDataObject
 		virtual bool Load(Reader &, ResourceManager *) override { return true; }
@@ -113,20 +118,68 @@ class SEED_CORE_API RocketInterface :
 		virtual bool Unload() override { return true; }
 
 		// IRenderable
-		virtual void Render(const Matrix4f &worldTransform) override;
-		virtual void Update(f32 delta) override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+		virtual void Render(const mat4 &worldTransform) override;
+		virtual void Update(Seconds dt) override;
 
 	private:
-		SEED_DISABLE_COPY(RocketInterface);
+		// It should be possible to clone, but not for now.
+		virtual RocketInterface *Clone() const override { SEED_ASSERT("Cannot clone RocketInterface"); return nullptr; }
+		virtual void Set(Reader &) override {} // TODO: implement
 
 		VertexBuffer cVertexBuffer;
 		ElementBuffer cElementBuffer;
 		Rocket::Core::Context *pCurrent;
 		u32 iModifierState;
+};
+
+class SEED_CORE_API RocketEventInstancer : public Rocket::Core::EventListenerInstancer
+{
+	public:
+		RocketEventInstancer();
+		virtual ~RocketEventInstancer();
+
+		/// Instances a new event
+		virtual Rocket::Core::EventListener *InstanceEventListener(const Rocket::Core::String &value, Rocket::Core::Element *element);
+
+		/// Destroys the instancer.
+		virtual void Release();
+};
+
+class SEED_CORE_API IRocketEventListener
+{
+	public:
+		IRocketEventListener() {}
+		virtual ~IRocketEventListener() {}
+
+		virtual void OnGuiEvent(Rocket::Core::Event &event, const Rocket::Core::String &script) = 0;
+};
+
+class SEED_CORE_API RocketEventManager
+{
+	SEED_DECLARE_CONTAINER(Vector, IRocketEventListener)
+	public:
+		static void AddListener(IRocketEventListener *listener);
+		static void RemoveListener(IRocketEventListener *listener);
+		static void SendEvent(Rocket::Core::Event &event, const Rocket::Core::String &value);
+
+	private:
+		static IRocketEventListenerVector vListeners;
+};
+
+class SEED_CORE_API RocketEvent : public Rocket::Core::EventListener
+{
+	public:
+		RocketEvent(const Rocket::Core::String &value);
+		virtual ~RocketEvent();
+
+		/// Sends the event value through our event processing system.
+		virtual void ProcessEvent(Rocket::Core::Event &event);
+
+		/// Destroys the event.
+		virtual void OnDetach(Rocket::Core::Element *element);
+
+	private:
+		Rocket::Core::String sValue;
 };
 
 }} // namespace

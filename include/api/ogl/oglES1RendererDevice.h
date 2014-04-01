@@ -31,38 +31,18 @@
 #ifndef __OGLES1_RENDERER_DEVICE_H__
 #define __OGLES1_RENDERER_DEVICE_H__
 
-#if !defined(BUILD_IOS)
-#include "glew/glew.h"
-#endif
-
-#if defined(_MSC_VER)
-#pragma comment(lib, "opengl32.lib")
-#pragma comment(lib, "glu32.lib")
-#endif
-
 #include "Defines.h"
-#include "Enum.h"
-#include "Vertex.h"
-#include "Container.h"
 
 #if defined(USE_API_OGL)
 
+#include "api/ogl/oglHeaders.h"
+#include "Enum.h"
+#include "Vertex.h"
+#include "Container.h"
 #include "interface/IRendererDevice.h"
-
-#if defined(BUILD_SDL) && defined(_MSC_VER)
-#define NO_SDL_GLEXT	1
-#include <SDL/SDL_opengl.h>
-#elif defined(BUILD_SDL)
-#define NO_SDL_GLEXT	1
-#include <SDL/SDL_opengl.h>
-#endif
 
 #if defined(BUILD_IOS)
 #include <OpenGLES/ES1/gl.h>
-#elif defined(__APPLE_CC__)
-#include <OpenGL/glext.h>
-#else
-#include <GL/glext.h>
 #endif
 
 namespace Seed {
@@ -75,8 +55,9 @@ namespace OpenGL {
 class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 {
 	friend class IScreen;
+	SEED_DECLARE_CONTAINER(Vector, ITexture)
+	SEED_DISABLE_COPY(OGLES1RendererDevice)
 
-	DECLARE_CONTAINER_TYPE(Vector, ITexture)
 	public:
 		OGLES1RendererDevice();
 		virtual ~OGLES1RendererDevice();
@@ -102,7 +83,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const override;
 
 		// Render to Texture support
-		virtual u32 CreateFrameBuffer(ITexture *texture = NULL) override;
+		virtual u32 CreateFrameBuffer(ITexture *texture = nullptr) override;
 		virtual void ActivateFrameBuffer(u32 buffer = 0) override;
 		virtual void DestroyFrameBuffer(u32 buffer) override;
 		virtual u32 CreateDepthBuffer(u32 w, u32 h) override;
@@ -116,8 +97,6 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void EnableScissor(bool b) const override;
 		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const override;
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const override;
-		virtual void Enable2D() const override;
-		virtual void Disable2D() const override;
 
 		// Features
 		virtual bool NeedPowerOfTwoTextures() const override;
@@ -127,7 +106,7 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		virtual void DrawCircle(f32 x, f32 y, f32 radius, const Color &color) const override;
 		virtual void DrawLines(f32 *points, u32 len, const Color &color) const override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
@@ -136,7 +115,8 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		mutable ITextureVector vTexture;
 
 	private:
-		SEED_DISABLE_COPY(OGLES1RendererDevice);
+		void Enable2D() const;
+		void Disable2D() const;
 
 		int GetOpenGLBufferUsageType(eBufferUsage usage) const;
 		int GetOpenGLBufferTargetType(eBufferTarget type) const;
@@ -144,8 +124,8 @@ class SEED_CORE_API OGLES1RendererDevice : public IRendererDevice
 		int GetOpenGLElementType(eElementType type) const;
 		int GetOpenGLElementSizeByType(eElementType type) const;
 
-		bool bHasFrameBuffer;
-		bool bNeedPowerOfTwoTexture;
+		bool bHasFrameBuffer : 1;
+		bool bNeedPowerOfTwoTexture : 1;
 };
 
 }} // namespace

@@ -42,7 +42,7 @@ namespace Seed {
 JsonWriter::JsonWriter()
 	: gen()
 {
-	gen = yajl_gen_alloc(NULL);
+	gen = yajl_gen_alloc(nullptr);
 	yajl_gen_config(gen, yajl_gen_beautify, 1);
 }
 
@@ -76,6 +76,11 @@ void JsonWriter::WriteString(const char *key, const char *value) const
 {
 	yajl_gen_string(gen, (const unsigned char *)key, strlen(key));
 	yajl_gen_string(gen, (const unsigned char *)value, strlen(value));
+}
+
+void JsonWriter::WriteU32(u32 value) const
+{
+	yajl_gen_integer(gen, value);
 }
 
 void JsonWriter::WriteU32(const char *key, u32 value) const

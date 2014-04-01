@@ -29,44 +29,29 @@
 */
 
 #include "Job.h"
-#include "interface/IEventJobListener.h"
 
 namespace Seed {
 
-Job::Job(u32 name, IEventJobListener *listener)
-	: pListener(listener)
-	, nState(JobStopped)
-	, iName(name)
+Job::Job(JobCallback fun)
+	: fnCallback(fun)
 {
 }
 
 Job::~Job()
 {
-
 }
 
-void Job::Create(s32 priority)
+void Job::Create()
 {
-	nState = JobRunning;
-	Thread::Create(priority);
-}
-
-void Job::SetListener(IEventJobListener *listener)
-{
-	pListener = listener;
-}
-
-void Job::Update(f32 dt)
-{
-	UNUSED(dt);
+	ScopedMutexLock lock(cMutex);
+	nState = eJobState::Running;
+	Thread::Create();
 }
 
 void Job::Abort()
 {
-	cMutex.Lock();
-	nState = JobAborted;
-	cMutex.Unlock();
-
+	ScopedMutexLock lock(cMutex);
+	nState = eJobState::Aborted;
 	Thread::Destroy();
 }
 
@@ -78,6 +63,12 @@ eJobState Job::GetState() const
 bool Job::Run()
 {
 	return true;
+}
+
+void Job::OnFinished()
+{
+	if (fnCallback)
+		fnCallback(this);
 }
 
 } // namespace

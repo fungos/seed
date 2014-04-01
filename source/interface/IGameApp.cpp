@@ -33,6 +33,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "Log.h"
+#include "LeafMessage.h"
 
 #define TAG "[GameApp] "
 
@@ -60,31 +61,24 @@ bool IGameApp::Shutdown()
 void IGameApp::WriteOut(const char *msg)
 {
 	fprintf(stdout, "%s\n", msg);
+	LEAF(Log(msg));
 }
 
 void IGameApp::WriteErr(const char *msg)
 {
 	fprintf(stderr, "%s\n", msg);
+	LEAF(Error(msg));
 }
 
 void IGameApp::WriteDbg(const char *msg)
 {
 	fprintf(stdout, "%s\n", msg);
+	LEAF(Dbg(msg));
 }
 
 ResourceManager *IGameApp::GetResourceManager()
 {
 	return &cResourceManager;
-}
-
-const String IGameApp::GetClassName() const
-{
-	return "IGameApp";
-}
-
-int IGameApp::GetObjectType() const
-{
-	return Seed::TypeInterfaceGameApp;
 }
 
 } // namespace

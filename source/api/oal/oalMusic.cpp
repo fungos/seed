@@ -36,11 +36,13 @@
 #include "Log.h"
 #include "SoundSystem.h"
 #include "Reader.h"
+#include "Memory.h"
 
 #define TAG "[Music] "
 
 #if defined(DEBUG)
-#define AL_CHECK(x)	x; if (alGetError() != AL_NO_ERROR) { fprintf(stdout, TAG "Error %d", alGetError()); SEED_ASSERT_MSG(false, "Crashing."); }
+//#define AL_CHECK(x)	x; { if (ALenum _e = alGetError() != AL_NO_ERROR) { fprintf(stdout, TAG "Error %d - ", _e); SEED_ASSERT_MSG(false, "Crashing."); }}
+#define AL_CHECK(x)	x;
 #else
 #define AL_CHECK(x)	x;
 #endif
@@ -49,25 +51,24 @@ namespace Seed { namespace OAL {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 {
-	Music *music = New(Music());
+	auto music = sdNew(Music);
 	music->Load(filename, res);
 
 	return music;
 }
 
 Music::Music()
-	: pFile(NULL)
+	: pFile(nullptr)
 	, iBuffers()
 	, iSource(0)
-	, vorbisInfo(NULL)
-	, vorbisComment(NULL)
+	, vorbisInfo(nullptr)
+	, vorbisComment(nullptr)
 	, oggStream()
 	, oggFile()
 	, vorbisCb()
 	, eFormat(AL_FORMAT_MONO16)
 	, bLoop(true)
 {
-	memset(iBuffers, '\0', sizeof(iBuffers));
 }
 
 Music::~Music()
@@ -107,10 +108,10 @@ bool Music::Load(const String &filename, ResourceManager *res)
 
 		// TODO: Now File will load all data to a memory allocated buffer, for music this means something big if we are in a resource limited device.
 		//		 We need to make File able to memmap the file contents to a virtual memory address so this will be transparent to the vorbis reader
-		//		 as it will be streaming from disk Agree?. ~Danny
+		//		 as it will be streaming from disk.
 		//		 Also reading resources from different platforms (asynchronous like dvd reading on wii or nacl web files) will be more natural.
-		#warning TODO - Move to async file loading
-		pFile = New(File(sFilename));
+		// FIXME: ASYNC
+		pFile = sdNew(File(sFilename));
 		oggFile.dataPtr = pFile->GetData();
 		oggFile.dataRead = 0;
 		oggFile.dataSize = pFile->GetSize();
@@ -120,7 +121,7 @@ bool Music::Load(const String &filename, ResourceManager *res)
 		vorbisCb.seek_func = vorbis_seek;
 		vorbisCb.tell_func = vorbis_tell;
 
-		if (ov_open_callbacks(&oggFile, &oggStream, NULL, 0, vorbisCb) != 0)
+		if (ov_open_callbacks(&oggFile, &oggStream, nullptr, 0, vorbisCb) != 0)
 		{
 			Log(TAG "Could not read ogg stream (%s).", filename.c_str());
 			memset(&oggFile, '\0', sizeof(oggFile));
@@ -157,32 +158,36 @@ bool Music::Unload()
 	if (!bLoaded)
 		return true;
 
-	eState = Seed::MusicStopped;
+	pSoundSystem->StopMusic(0, this);
+	nState = eMusicState::Stopped;
 	eFormat = AL_FORMAT_MONO16;
 	fVolume = 1.0f;
 
-	pSoundSystem->StopMusic(0, this);
+	alGetError();
 	if (iSource)
 	{
+		alSourceStop(iSource);
+		alGetError();
+
 		int queued = 0;
-		AL_CHECK(alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued));
+		/*AL_CHECK*/(alGetSourcei(iSource, AL_BUFFERS_QUEUED, &queued));
 
 		while (queued--)
 		{
 			ALuint buffer;
-			AL_CHECK(alSourceUnqueueBuffers(iSource, 1, &buffer));
+			/*AL_CHECK*/(alSourceUnqueueBuffers(iSource, 1, &buffer));
 		}
 
-		AL_CHECK(alDeleteSources(1, &iSource));
+		/*AL_CHECK*/(alDeleteSources(1, &iSource));
 		iSource = 0;
 	}
 
-	AL_CHECK(alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers));
+	/*AL_CHECK*/(alDeleteBuffers(OPENAL_MUSIC_BUFFERS, iBuffers));
 	memset(iBuffers, '\0', sizeof(iBuffers));
 
 	ov_clear(&oggStream);
 	bLoaded = false;
-	Delete(pFile);
+	sdDelete(pFile);
 
 	return true;
 }
@@ -207,7 +212,7 @@ void Music::Reset()
 	AL_CHECK(alSourceQueueBuffers(iSource, OPENAL_MUSIC_BUFFERS, iBuffers));
 }
 
-bool Music::Update(f32 dt)
+bool Music::Update(Seconds dt)
 {
 	UNUSED(dt);
 
@@ -225,13 +230,16 @@ bool Music::Update(f32 dt)
 	}
 
 	if (!active)
-		eState = MusicStopped;
+		nState = eMusicState::Stopped;
 
 	return active;
 }
 
 bool Music::DoStream(ALuint buffer)
 {
+	if (!vorbisInfo)
+		return false;
+
 	return ogg_update_stream(&oggStream, vorbisInfo->rate, eFormat, buffer, bLoop);
 }
 

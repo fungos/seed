@@ -58,7 +58,7 @@ bool FileSystem::Initialize()
 	Info(TAG "Executable: %s", Seed::Private::pcArgv[0]);
 	FS_CHECK(PHYSFS_init(Seed::Private::pcArgv[0]));
 	FS_CHECK(PHYSFS_setSaneConfig(".", "", "zip", false, false));
-	FS_CHECK(PHYSFS_addToSearchPath(Seed::Private::sWorkDir.c_str(), 0));
+	FS_CHECK(PHYSFS_addToSearchPath(pConfiguration->GetWorkingDirectory().c_str(), 0));
 	Info(TAG "Using working directory as: %s", PHYSFS_getBaseDir());
 	return true;
 }
@@ -89,11 +89,6 @@ const char *FileSystem::GetWriteableDirectory() const
 bool FileSystem::IsRequired() const
 {
 	return true;
-}
-
-const String FileSystem::GetClassName() const
-{
-	return "FileSystem";
 }
 
 } // namespace

@@ -37,6 +37,7 @@
 #include "Screen.h"
 #include "RendererDevice.h"
 #include "Configuration.h"
+#include "Memory.h"
 
 #define TAG "[Texture] "
 
@@ -52,15 +53,15 @@ enum eImageFormat
 
 IResource *TextureResourceLoader(const String &filename, ResourceManager *res)
 {
-	Texture *image = New(Texture());
+	auto image = sdNew(Texture());
 	image->Load(filename, res);
 
 	return image;
 }
 
 Texture::Texture()
-	: pSurface(NULL)
-	, pData(NULL)
+	: pSurface(nullptr)
+	, pData(nullptr)
 	, iBytesPerPixel(0)
 	, iPitch(0)
 	, iAtlasWidth(0)
@@ -81,12 +82,12 @@ void Texture::Reset()
 	this->UnloadTexture();
 
 	if (bCopy)
-		Free(pData);
+		sdFree(pData);
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);
-	pSurface = NULL;
-	pData = NULL;
+	pSurface = nullptr;
+	pData = nullptr;
 
 	iBytesPerPixel = 0;
 	iPitch = 0;
@@ -112,7 +113,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		SDL_RWops *rwops = SDL_RWFromConstMem(pFile->GetData(), pFile->GetSize());
 
 		size_t extpos = SDL_strlen(pFile->GetName().c_str());
-		char *ext = pFile->GetName().c_str() - 3;
+		const char *ext = pFile->GetName().c_str() - 3;
 		ext = &ext[extpos];
 
 		u32 format = PNG;
@@ -121,7 +122,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 		else if (!SDL_strcasecmp(pImageFormatTable[JPG], ext))
 			format = JPG;
 
-		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, pImageFormatTable[format]);
+		SDL_Surface *tmp = IMG_LoadTyped_RW(rwops, 1, const_cast<char *>(pImageFormatTable[format]));
 
 		if (!tmp)
 		{
@@ -162,7 +163,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			{
 				Log(TAG "WARNING: texture size not optimal, changing from %dx%d to %dx%d", iWidth, iHeight, width, height);
 
-				SDL_Surface *pTempSurface = NULL;
+				SDL_Surface *pTempSurface = nullptr;
 				Uint32 rmask, gmask, bmask, amask;
 
 				#if SDL_BYTEORDER == SDL_BIG_ENDIAN
@@ -181,7 +182,7 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 
 				SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_OPAQUE);
 				SDL_SetAlpha(pSurface, 0, SDL_ALPHA_OPAQUE);
-				SDL_BlitSurface(pSurface, NULL, pTempSurface, NULL);
+				SDL_BlitSurface(pSurface, nullptr, pTempSurface, nullptr);
 				SDL_SetAlpha(pTempSurface, 0, SDL_ALPHA_TRANSPARENT);
 				SDL_SetAlpha(pSurface, 0, SDL_ALPHA_TRANSPARENT);
 
@@ -190,15 +191,8 @@ bool Texture::Load(const String &filename, ResourceManager *res)
 			}
 		}
 
-		// FIXME: Must divide by res_width , res_height - not by screen width/height
 		iAtlasWidth = pSurface->w;
 		iAtlasHeight = pSurface->h;
-
-		// Lets keep the iWidth and iHeight the original one so the sprite rect can match it.
-		// For texture UV mapping, we use the relation between original W and H and the converted texture W and H.
-		//iWidth = pSurface->w;
-		//iHeight = pSurface->h;
-
 		iBytesPerPixel = pSurface->format->BytesPerPixel;
 		iPitch = pSurface->pitch;
 		pData = pSurface->pixels;
@@ -217,8 +211,10 @@ bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32
 {
 	if (buffer)
 	{
+#ifndef _MSC_VER
 		SEED_ASSERT_MSG(ALIGN_FLOOR(buffer, 32) == (u8 *)buffer, "ERROR: User texture buffer MUST BE 32bits aligned!");
 		SEED_ASSERT_MSG(ROUND_UP(width, 32) == width, "ERROR: User texture scanline MUST BE 32bits aligned - pitch/stride!");
+#endif
 	}
 
 	if (this->Unload())
@@ -235,12 +231,12 @@ bool Texture::Load(const String &desc, u32 width, u32 height, Color *buffer, u32
 		if (atlasHeight)
 			iAtlasHeight = atlasHeight;
 
-		iBytesPerPixel = sizeof(Color); // FIXME: parametized?
-		iPitch = ROUND_UP(width, 32); // FIXME: parametized?
+		iBytesPerPixel = sizeof(Color);
+		iPitch = SEED_ROUND_UP(width, 32);
 
 		if (copy)
 		{
-			pData = (u8 *)Alloc(iAtlasWidth * iAtlasHeight * iBytesPerPixel);
+			pData = (u8 *)sdAlloc(iAtlasWidth * iAtlasHeight * iBytesPerPixel);
 			memcpy(pData, buffer, iAtlasWidth * iAtlasHeight * iBytesPerPixel);
 		}
 		else
@@ -261,7 +257,7 @@ void Texture::Close()
 	ITexture::Close();
 
 	if (bCopy)
-		Free(pData);
+		sdFree(pData);
 
 	bCopy = false;
 }
@@ -283,12 +279,12 @@ bool Texture::Unload()
 		this->UnloadTexture();
 
 	if (bCopy)
-		Free(pData);
+		sdFree(pData);
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);
 
-	pSurface = NULL;
+	pSurface = nullptr;
 	bLoaded = false;
 
 	return true;

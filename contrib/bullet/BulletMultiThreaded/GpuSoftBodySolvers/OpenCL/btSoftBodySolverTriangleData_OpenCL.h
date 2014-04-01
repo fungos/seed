@@ -14,8 +14,8 @@ subject to the following restrictions:
 */
 
 
-#include "BulletMultiThreaded/GpuSoftBodySolvers/Shared/btSoftBodySolverData.h"
-#include "btSoftBodySolverBuffer_OpenCL.h"
+#include <bullet/BulletMultiThreaded/GpuSoftBodySolvers/Shared/btSoftBodySolverData.h>
+#include <bullet/btSoftBodySolverBuffer_OpenCL.h>
 
 
 #ifndef BT_SOFT_BODY_SOLVER_TRIANGLE_DATA_OPENCL_H

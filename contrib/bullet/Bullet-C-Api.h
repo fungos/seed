@@ -17,7 +17,7 @@ subject to the following restrictions:
 	Draft high-level generic physics C-API. For low-level access, use the physics SDK native API's.
 	Work in progress, functionality will be added on demand.
 
-	If possible, use the richer Bullet C++ API, by including "btBulletDynamicsCommon.h"
+	If possible, use the richer Bullet C++ API, by including "btBulletDynamicsCommon.h>
 */
 
 #ifndef BULLET_C_API_H

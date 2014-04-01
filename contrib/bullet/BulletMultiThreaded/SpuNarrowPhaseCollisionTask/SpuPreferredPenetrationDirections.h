@@ -17,7 +17,7 @@ subject to the following restrictions:
 #define _SPU_PREFERRED_PENETRATION_DIRECTIONS_H
 
 
-#include "BulletCollision/BroadphaseCollision/btBroadphaseProxy.h"
+#include <bullet/BulletCollision/BroadphaseCollision/btBroadphaseProxy.h>
 
 int		spuGetNumPreferredPenetrationDirections(int shapeType, void* shape)
 {

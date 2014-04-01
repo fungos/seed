@@ -54,6 +54,8 @@ class SEED_CORE_API Sound : public ISound
 	friend class SoundSystem;
 	friend class SoundSource;
 
+	SEED_DISABLE_COPY(Sound)
+
 	public:
 		Sound();
 		virtual ~Sound();
@@ -69,8 +71,6 @@ class SEED_CORE_API Sound : public ISound
 		virtual const void *GetData() const;
 
 	private:
-		SEED_DISABLE_COPY(Sound);
-
 		void ReadData(const char *file);
 
 	private:

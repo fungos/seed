@@ -33,8 +33,8 @@
 
 #include "interface/IDataObject.h"
 #include "ResourceManager.h"
-#include "Point.h"
 #include "Rect.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
@@ -42,6 +42,9 @@ class ITexture;
 
 class SEED_CORE_API TileSet : public IDataObject
 {
+	SEED_DISABLE_COPY(TileSet)
+	SEED_DECLARE_RTTI(TileSet, IDataObject)
+
 	public:
 		TileSet();
 		virtual ~TileSet();
@@ -49,22 +52,32 @@ class SEED_CORE_API TileSet : public IDataObject
 		u32 GetFirstTileId() const;
 		const Rect4f *GetTileUV(u32 tileId) const;
 		const ITexture *GetTexture() const;
+		void SetTexture(ITexture *texture);
+		void SetTileSize(uvec2 tileSize);
 
 		const String &GetProperty(const String &property) const;
+		void SetProperty(const String &key, const String &value = "");
 		const String &GetTileProperty(u32 tileId, const String &property) const;
+		void SetTileProperty(u32 tileId, const String &key, const String &value = "");
 
 		// IDataObject
 		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
+		virtual TileSet *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+	protected:
+		void ReadProperties(Reader &reader);
+		void WriteProperties(Writer &writer);
+
+		void ReadTileProperties(Reader &reader);
+		void WriteTileProperties(Writer &writer);
+
+		void RebuildUVMapping();
 
 	private:
-		SEED_DISABLE_COPY(TileSet);
-
+		ResourceManager *pRes;
 		ITexture *pTexture;
 		Rect4f	 *pTileUV;
 		Map<String, String> mProperties;
@@ -73,7 +86,8 @@ class SEED_CORE_API TileSet : public IDataObject
 		u32		iFirstId;
 		u32		iMargin;
 		u32		iSpacing;
-		Point2u ptTileSize;
+		uvec2	ptTileSize;
+		uvec2	ptTiles;
 };
 
 } // namespace

@@ -1,0 +1,17 @@
+{
+	sType: SceneNode
+	sName: Main
+	aObjects: [
+		{
+			sType: video
+			sName: Theora
+			cScale: {x: 1, y: 1, z: 1}
+		}
+		{
+			sType: Camera
+			sName: MainCamera
+			sProjection: Orthogonal
+			cPosition: {x: -400, y: -300}
+		}
+	]
+}

@@ -45,7 +45,9 @@ Platforms that support Pointer (mouse like) input must implement this interface.
 */
 class SEED_CORE_API IInputPointer
 {
-	DECLARE_CONTAINER_TYPE(Vector, IEventInputPointerListener)
+	SEED_DECLARE_CONTAINER(Vector, IEventInputPointerListener)
+	SEED_DISABLE_COPY(IInputPointer)
+
 	public:
 		IInputPointer();
 		virtual ~IInputPointer();
@@ -80,9 +82,6 @@ class SEED_CORE_API IInputPointer
 
 	protected:
 		IEventInputPointerListenerVector vPointerListeners;
-
-	private:
-		SEED_DISABLE_COPY(IInputPointer);
 };
 
 } // namespace

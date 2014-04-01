@@ -41,20 +41,19 @@ class EventSystem;
 /// System event listener
 class SEED_CORE_API IEventSystemListener : public IEventListener
 {
+	SEED_DISABLE_COPY(IEventSystemListener)
+
 	public:
-		IEventSystemListener();
-		virtual ~IEventSystemListener();
+		IEventSystemListener() = default;
+		virtual ~IEventSystemListener() {}
 
-		virtual void OnSystemReset(const EventSystem *ev);
-		virtual void OnSystemShutdown(const EventSystem *ev);
-		virtual void OnSystemMenuCalled(const EventSystem *ev);
-		virtual void OnSystemDataManagerCalled(const EventSystem *ev);
-		virtual void OnSystemHomeEnded(const EventSystem *ev);
-		virtual void OnSystemSleep(const EventSystem *ev);
-		virtual void OnSystemLanguageChanged(const EventSystem *ev);
-
-	private:
-		SEED_DISABLE_COPY(IEventSystemListener);
+		virtual void OnSystemReset(const EventSystem *ev)				SEED_PURE_VIRTUAL_EVENT
+		virtual void OnSystemShutdown(const EventSystem *ev)			SEED_PURE_VIRTUAL_EVENT
+		virtual void OnSystemMenuCalled(const EventSystem *ev)			SEED_PURE_VIRTUAL_EVENT
+		virtual void OnSystemDataManagerCalled(const EventSystem *ev)	SEED_PURE_VIRTUAL_EVENT
+		virtual void OnSystemHomeEnded(const EventSystem *ev)			SEED_PURE_VIRTUAL_EVENT
+		virtual void OnSystemSleep(const EventSystem *ev)				SEED_PURE_VIRTUAL_EVENT
+		virtual void OnSystemLanguageChanged(const EventSystem *ev)		SEED_PURE_VIRTUAL_EVENT
 };
 
 } // namespace

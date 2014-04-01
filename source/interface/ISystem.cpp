@@ -46,10 +46,11 @@ const char *pcLanguageTable[] =
 };
 
 ISystem::ISystem()
-	: vListeners()
-	, pStrAppName(NULL)
-	, pStrAppDescription(NULL)
-	, nLanguage(Seed::en_US)
+	: mTimer()
+	, vListeners()
+	, pStrAppName(nullptr)
+	, pStrAppDescription(nullptr)
+	, nLanguage(eLanguage::en_US)
 	, bDefaultCursorEnabled(false)
 {
 }
@@ -77,31 +78,31 @@ Seed::eLanguage ISystem::GetLanguage() const
 
 const char *ISystem::GetLanguageString() const
 {
-	return pcLanguageTable[nLanguage];
+	return pcLanguageTable[static_cast<u32>(nLanguage)];
 }
 
 const char *ISystem::GetUsername() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 const char *ISystem::GetHomeFolder() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 const char *ISystem::GetApplicationDataFolder() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 const char *ISystem::GetSaveGameFolder() const
 {
 	SEED_ABSTRACT_METHOD;
-	return NULL;
+	return nullptr;
 }
 
 void ISystem::EnableDefaultCursor(bool b)
@@ -126,110 +127,49 @@ void ISystem::RemoveListener(IEventSystemListener *listener)
 
 void ISystem::SendEventReset(const EventSystem *ev)
 {
-	SEED_ASSERT(ev);
-
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-	for (; it != end; ++it)
-	{
-		IEventSystemListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnSystemReset(ev);
-	}
 }
 
 void ISystem::SendEventShutdown(const EventSystem *ev)
 {
-	SEED_ASSERT(ev);
-
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-	for (; it != end; ++it)
-	{
-		IEventSystemListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnSystemShutdown(ev);
-	}
 }
 
 void ISystem::SendEventSystemMenu(const EventSystem *ev)
 {
-	SEED_ASSERT(ev);
-
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-	for (; it != end; ++it)
-	{
-		IEventSystemListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnSystemMenuCalled(ev);
-	}
 }
 
 void ISystem::SendEventSystemDataManager(const EventSystem *ev)
 {
-	SEED_ASSERT(ev);
-
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-	for (; it != end; ++it)
-	{
-		IEventSystemListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnSystemDataManagerCalled(ev);
-	}
 }
 
 void ISystem::SendEventHomeEnded(const EventSystem *ev)
 {
-	SEED_ASSERT(ev);
-
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-	for (; it != end; ++it)
-	{
-		IEventSystemListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnSystemHomeEnded(ev);
-	}
 }
 
 void ISystem::SendEventSleep(const EventSystem *ev)
 {
-	SEED_ASSERT(ev);
-
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-	for (; it != end; ++it)
-	{
-		IEventSystemListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnSystemSleep(ev);
-	}
 }
 
 void ISystem::SendEventLanguageChanged(const EventSystem *ev)
 {
-	SEED_ASSERT(ev);
-
-	ListenerIterator it = vListeners.begin();
-	ListenerIterator end = vListeners.end();
-	for (; it != end; ++it)
-	{
-		IEventSystemListener *target = (*it);
-		SEED_ASSERT(target);
+	for (auto target: vListeners)
 		target->OnSystemLanguageChanged(ev);
-	}
 }
 
 bool ISystem::IsRequired() const
 {
 	return true;
-}
-
-const String ISystem::GetClassName() const
-{
-	return "System";
 }
 
 } // namespace

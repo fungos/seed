@@ -100,7 +100,7 @@ namespace Seed {
 
 	/// Get the version of the linked Seed
 	/**
-	Get the linked library version number, you can pass NULL to ignore any parameter.
+	Get the linked library version number, you can pass null to ignore any parameter.
 	*/
 	SEED_CORE_API void GetVersion(u32 *major, u32 *middle, u32 *minor);
 
@@ -129,7 +129,7 @@ namespace Seed {
 		SEED_CORE_API extern String		sWorkDir;
 
 		/// Last frame time
-		SEED_CORE_API extern f32 fCurrentTime;
+		SEED_CORE_API extern Seconds	fCurrentTime;
 	} // namespace
 
 	/// iPhone platform related implementation using iPhoneOS SDK

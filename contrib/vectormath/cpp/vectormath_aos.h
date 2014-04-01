@@ -37,11 +37,7 @@
 #elif (defined(__SSE__) && !defined(__APPLE__) && !defined(__linux__))
 #  include "../SSE/cpp/vectormath_aos.h"
 #else
-#if defined(MAGIC3D_IOS)
-#  include "../ios/vectormath_aos.h"
-#else
 #  include "../scalar/cpp/vectormath_aos.h"
-#endif
 #endif
 
 #endif

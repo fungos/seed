@@ -32,41 +32,45 @@
 #define __MAPLAYERMETADATA_H__
 
 #include "map/IMapLayer.h"
-#include "Point.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
-class IMetadataObject;
+class MetadataObject;
 
-DECLARE_CONTAINER_TYPE(Vector, IMetadataObject)
+SEED_DECLARE_CONTAINER(Vector, MetadataObject)
 
 class SEED_CORE_API MapLayerMetadata : public IMapLayer
 {
+	SEED_DISABLE_COPY(MapLayerMetadata)
+
 	public:
-		MapLayerMetadata(Point2u tileSize);
+		MapLayerMetadata();
 		virtual ~MapLayerMetadata();
 
 		void LoadData(Reader &reader, u32 len);
+		void SetMapSize(vec2 mapSize);
+		void SetTileSize(vec2 tileSize);
 
 		// IMapLayer
 		virtual MapLayerMetadata *AsMetadata() override;
 
 		// SceneNode
-//		virtual void Update(f32 delta) override;
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Render(const mat4 &worldTransform) override;
 		virtual void Reset() override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
-//		virtual bool Unload() override;
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
+		virtual MapLayerMetadata *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
-		SEED_DISABLE_COPY(MapLayerMetadata);
-
 		ResourceManager *pRes;
-		Point2u ptTileSize;
-		Point2f ptMapSize;
-		Point2f ptHalfSize;
+		vec2 ptTileSize;
+		vec2 ptSize;
+		vec2 ptMapSize;
+		vec2 ptHalfSize;
 };
 
 } // namespace

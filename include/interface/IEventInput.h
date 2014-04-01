@@ -38,10 +38,11 @@ namespace Seed {
 /// Base Input Event
 class SEED_CORE_API IEventInput : public IEvent
 {
+	SEED_DISABLE_COPY(IEventInput)
+
 	public:
-		IEventInput();
-		IEventInput(u32 myId);
-		virtual ~IEventInput();
+		IEventInput() = default;
+		virtual ~IEventInput() {}
 };
 
 } // namespace

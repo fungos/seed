@@ -35,6 +35,7 @@
 #include "RendererDevice.h"
 #include "SeedInit.h"
 #include "Configuration.h"
+#include "interface/ITexture.h"
 
 #ifdef WIN32
 #pragma push_macro("Delete")
@@ -57,9 +58,9 @@ SEED_SINGLETON_DEFINE(Screen)
 
 Screen::Screen()
 	: iHandle(0)
-	, bFullScreen(false)
 	, iBPP(32)
 	, iFlags(0)
+	, bFullScreen(false)
 {
 }
 
@@ -72,12 +73,12 @@ bool Screen::Reset()
 #if defined(__linux__)
 	this->InitializeVideo();
 #else
-	pResourceManager->Unload(Seed::TypeTexture);
+	//pResourceManager->Unload(Seed::TypeTexture);
 	pRendererDevice->Shutdown();
 	this->Shutdown();
 	this->Initialize();
 	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::TypeTexture);
+	//pResourceManager->Reload(Seed::TypeTexture);
 #endif
 
 	return true;
@@ -154,12 +155,12 @@ bool Screen::InitializeVideo()
 
 #if defined(WIN32)
 	int dpiX = 0, dpiY = 0;
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	if (hdc)
 	{
 		dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
 		dpiY = GetDeviceCaps(hdc, LOGPIXELSY);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 	}
 
 	int cxScreen = GetSystemMetrics(SM_CXSCREEN);
@@ -188,7 +189,7 @@ bool Screen::Shutdown()
 	Log(TAG "Terminating...");
 
 	iFadeStatus = 0;
-	nFadeType	= kFadeIn;
+	nFadeType	= eFade::In;
 	iHeight		= 0;
 	iWidth		= 0;
 	iBPP		= 32;
@@ -240,13 +241,15 @@ void Screen::ToggleFullscreen()
 	bFullScreen = !bFullScreen;
 	iFlags ^= GLFW_FULLSCREEN;
 	iFlags ^= GLFW_WINDOW;
+	pConfiguration->SetFullScreen(bFullScreen);
 
-	pResourceManager->Unload(Seed::TypeTexture);
+	pResourceManager->Unload(ITexture::GetTypeId());
 	pRendererDevice->Shutdown();
-	this->InitializeVideo();
+	pScreen->Shutdown();
+	pScreen->Initialize();
 	this->EnableCursor(pConfiguration->IsCursorEnabled());
 	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::TypeTexture);
+	pResourceManager->Reload(ITexture::GetTypeId());
 
 #if defined(WIN32)
 	if (!bFullScreen)

@@ -17,14 +17,14 @@ email: projectileman@yahoo.com
  This library is free software; you can redistribute it and/or
  modify it under the terms of EITHER:
    (1) The GNU Lesser General Public License as published by the Free
-       Software Foundation; either version 2.1 of the License, or (at
-       your option) any later version. The text of the GNU Lesser
-       General Public License is included with this library in the
-       file GIMPACT-LICENSE-LGPL.TXT.
+	   Software Foundation; either version 2.1 of the License, or (at
+	   your option) any later version. The text of the GNU Lesser
+	   General Public License is included with this library in the
+	   file GIMPACT-LICENSE-LGPL.TXT.
    (2) The BSD-style license that is included with this library in
-       the file GIMPACT-LICENSE-BSD.TXT.
+	   the file GIMPACT-LICENSE-BSD.TXT.
    (3) The zlib/libpng license that is included with this library in
-       the file GIMPACT-LICENSE-ZLIB.TXT.
+	   the file GIMPACT-LICENSE-ZLIB.TXT.
 
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -34,7 +34,7 @@ email: projectileman@yahoo.com
 -----------------------------------------------------------------------------
 */
 
-#include "gim_memory.h"
+#include <bullet/BulletCollision/Gimpact/gim_memory.h>
 
 ///Macros for sorting.
 //! Prototype for comparators
@@ -99,18 +99,18 @@ public:
 //! @{
 struct GIM_RSORT_TOKEN
 {
-    GUINT m_key;
-    GUINT m_value;
-    GIM_RSORT_TOKEN()
-    {
-    }
-    GIM_RSORT_TOKEN(const GIM_RSORT_TOKEN& rtoken)
-    {
-    	m_key = rtoken.m_key;
-    	m_value = rtoken.m_value;
-    }
+	GUINT m_key;
+	GUINT m_value;
+	GIM_RSORT_TOKEN()
+	{
+	}
+	GIM_RSORT_TOKEN(const GIM_RSORT_TOKEN& rtoken)
+	{
+		m_key = rtoken.m_key;
+		m_value = rtoken.m_value;
+	}
 
-    inline bool operator <(const GIM_RSORT_TOKEN& other) const
+	inline bool operator <(const GIM_RSORT_TOKEN& other) const
 	{
 		return (m_key < other.m_key);
 	}
@@ -159,7 +159,7 @@ inline void gim_radix_sort_rtokens(
 	GUINT pos;
 	for (i = 0; i < element_count; ++i)
 	{
-	    fi = array[i].m_key;
+		fi = array[i].m_key;
 		b0[D11_0(fi)] ++;
 		b1[D11_1(fi)] ++;
 		b2[D11_2(fi)] ++;
@@ -182,7 +182,7 @@ inline void gim_radix_sort_rtokens(
 	}
 	for (i = 0; i < element_count; ++i)
 	{
-        fi = array[i].m_key;
+		fi = array[i].m_key;
 		pos = D11_0(fi);
 		pos = ++b0[pos];
 		sorted[pos].m_key = array[i].m_key;
@@ -190,7 +190,7 @@ inline void gim_radix_sort_rtokens(
 	}
 	for (i = 0; i < element_count; ++i)
 	{
-        fi = sorted[i].m_key;
+		fi = sorted[i].m_key;
 		pos = D11_1(fi);
 		pos = ++b1[pos];
 		array[pos].m_key = sorted[i].m_key;
@@ -198,7 +198,7 @@ inline void gim_radix_sort_rtokens(
 	}
 	for (i = 0; i < element_count; ++i)
 	{
-        fi = array[i].m_key;
+		fi = array[i].m_key;
 		pos = D11_2(fi);
 		pos = ++b2[pos];
 		sorted[pos].m_key = array[i].m_key;
@@ -223,14 +223,14 @@ void gim_radix_sort_array_tokens(
 			GUINT element_count,GETKEY_CLASS uintkey_macro)
 {
 	GIM_RSORT_TOKEN * _unsorted = (GIM_RSORT_TOKEN *) gim_alloc(sizeof(GIM_RSORT_TOKEN)*element_count);
-    for (GUINT _i=0;_i<element_count;++_i)
-    {
-        _unsorted[_i].m_key = uintkey_macro(array[_i]);
-        _unsorted[_i].m_value = _i;
-    }
-    gim_radix_sort_rtokens(_unsorted,sorted_tokens,element_count);
-    gim_free(_unsorted);
-    gim_free(_unsorted);
+	for (GUINT _i=0;_i<element_count;++_i)
+	{
+		_unsorted[_i].m_key = uintkey_macro(array[_i]);
+		_unsorted[_i].m_value = _i;
+	}
+	gim_radix_sort_rtokens(_unsorted,sorted_tokens,element_count);
+	gim_free(_unsorted);
+	gim_free(_unsorted);
 }
 
 /// Sorts array in place. For generic use
@@ -247,15 +247,15 @@ void gim_radix_sort(
 	GETKEY_CLASS get_uintkey_macro, COPY_CLASS copy_elements_macro)
 {
 	GIM_RSORT_TOKEN * _sorted = (GIM_RSORT_TOKEN  *) gim_alloc(sizeof(GIM_RSORT_TOKEN)*element_count);
-    gim_radix_sort_array_tokens(array,_sorted,element_count,get_uintkey_macro);
-    T * _original_array = (T *) gim_alloc(sizeof(T)*element_count);
-    gim_simd_memcpy(_original_array,array,sizeof(T)*element_count);
-    for (GUINT _i=0;_i<element_count;++_i)
-    {
-        copy_elements_macro(array[_i],_original_array[_sorted[_i].m_value]);
-    }
-    gim_free(_original_array);
-    gim_free(_sorted);
+	gim_radix_sort_array_tokens(array,_sorted,element_count,get_uintkey_macro);
+	T * _original_array = (T *) gim_alloc(sizeof(T)*element_count);
+	gim_simd_memcpy(_original_array,array,sizeof(T)*element_count);
+	for (GUINT _i=0;_i<element_count;++_i)
+	{
+		copy_elements_macro(array[_i],_original_array[_sorted[_i].m_value]);
+	}
+	gim_free(_original_array);
+	gim_free(_sorted);
 }
 
 //! Failsafe Iterative binary search,

@@ -36,33 +36,30 @@
 namespace Seed {
 
 class Presentation;
-class Renderer;
+class Viewport;
 
 class SEED_CORE_API EventPresentation: public IEvent
 {
+	SEED_DISABLE_COPY(EventPresentation)
+	SEED_DECLARE_RTTI(EventPresentation, IEvent)
+
 	public:
-		EventPresentation(Presentation *p, Renderer *r);
+		EventPresentation(Presentation *p, Viewport *r);
 		virtual ~EventPresentation();
 
 		/// Get the presentation that emitted the event on load successful.
 		Presentation *GetPresentation() const;
 
 		/**
-		 * In case of loading error, return the renderer that failed to load.
-		 * But Renderer will be NULL in case of success, so you shouldn't use
-		 * ev->GetRenderer() inside OnPresentationLoaded().
+		 * In case of loading error, return the viewport that failed to load.
+		 * But viewport will be null in case of success, so you shouldn't use
+		 * ev->GetViewport() inside OnPresentationLoaded().
 		 */
-		Renderer *GetRenderer() const;
-
-		// IObject
-		virtual const String GetClassName() const override;
+		Viewport *GetViewport() const;
 
 	protected:
 		Presentation	*pPresentation;
-		Renderer		*pRenderer;
-
-	private:
-		SEED_DISABLE_COPY(EventPresentation);
+		Viewport		*pViewport;
 };
 
 } // namespace

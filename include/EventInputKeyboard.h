@@ -39,13 +39,17 @@ namespace Seed {
 /// Keyboard Input Event
 class SEED_CORE_API EventInputKeyboard : public IEventInput
 {
+	SEED_DISABLE_COPY(EventInputKeyboard)
+	SEED_DECLARE_RTTI(EventInputKeyboard, IEventInput)
+
 	public:
-		EventInputKeyboard(u32 key, u32 modifier, u32 scan, u32 keyboard = 0);
+		EventInputKeyboard(eKey key, eModifier modifier, u32 scan, u32 keyboard = 0);
 		virtual ~EventInputKeyboard();
 
 		u32 GetScancode() const;
-		const Key &GetKey() const;
-		u32 GetModifier() const;
+		const Key &Get() const;
+		eKey GetKey() const;
+		eModifier GetModifier() const;
 		u32	GetKeyboard() const;
 
 		// Modifiers
@@ -88,18 +92,11 @@ class SEED_CORE_API EventInputKeyboard : public IEventInput
 		 */
 		bool IsLetter() const;
 
-		// IObject
-		virtual const String GetClassName() const override;
-
 	protected:
-		//u32 iKey;
-		Key	cKey;
-		u32 iModifier;
+		eKey nKey;
+		eModifier nModifier;
 		u32 iScancode;
 		u32 iKeyboard;
-
-	private:
-		SEED_DISABLE_COPY(EventInputKeyboard);
 };
 
 } // namespace

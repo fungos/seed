@@ -33,8 +33,9 @@
 
 #include "Defines.h"
 #include "Enum.h"
-#include "MathUtil.h"
-#include "Point.h"
+#include <glm/vec3.hpp>
+#include <glm/vec2.hpp>
+#include <glm/mat4x4.hpp>
 
 namespace Seed {
 
@@ -46,9 +47,9 @@ struct ElementBuffer;
 struct sVertex
 {
 	// To be compatible with DX, we use FVF. So we must respect the DX FVF ordering in this struct.
-	Vector3f	cVertex;
+	vec3		cVertex;
 	Color4b		cColor;
-	Point2f		cCoords;
+	vec2		cCoords;
 
 	sVertex()
 		: cVertex(0.0f, 0.0f, 0.0f)
@@ -66,35 +67,35 @@ struct sVertex
 	}
 };
 
-enum ePacketFlags
+enum class ePacketFlags
 {
-	FlagNone		= 0x00,
-	FlagWireframe	= 0x01
+	None		= 0x00,
+	Wireframe	= 0x01
 };
 
 /// Renderer Packet
 struct RendererPacket
 {
-	const Matrix4f			*pTransform;
+	const mat4				*pTransform;
 	const ITexture			*pTexture;
 	VertexBuffer			*pVertexBuffer;
 	ElementBuffer			*pElementBuffer;
 	Color					cColor;
 	eMeshType				nMeshType;
 	eBlendMode				nBlendMode;
-	ePacketFlags			iFlags;
-	Vector3f				vPivot;
+	ePacketFlags			nFlags;
+	vec3					vPivot;
 	f32						fRadius;
 
 	RendererPacket()
-		: pTransform(NULL)
-		, pTexture(NULL)
-		, pVertexBuffer(NULL)
-		, pElementBuffer(NULL)
+		: pTransform(nullptr)
+		, pTexture(nullptr)
+		, pVertexBuffer(nullptr)
+		, pElementBuffer(nullptr)
 		, cColor(0, 0, 0, 255)
-		, nMeshType(Seed::TriangleStrip)
-		, nBlendMode(Seed::BlendNone)
-		, iFlags(FlagNone)
+		, nMeshType(eMeshType::TriangleStrip)
+		, nBlendMode(eBlendMode::None)
+		, nFlags(ePacketFlags::None)
 		, vPivot(0.5f, 0.5f, 0.5f)
 		, fRadius(0)
 	{

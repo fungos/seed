@@ -156,52 +156,32 @@ void IInputPointer::RemovePointerListener(IEventInputPointerListener *listener)
 
 void IInputPointer::SendEventPointerEnable(const EventInputPointer *ev)
 {
-	SEED_ASSERT(ev);
-
-	IEventInputPointerListenerVectorIterator it = vPointerListeners.begin();
-	IEventInputPointerListenerVectorIterator end = vPointerListeners.end();
-	for (; it != end; ++it)
-		(*it)->OnInputPointerEnable(ev);
+	for (auto each: vPointerListeners)
+		each->OnInputPointerEnable(ev);
 }
 
 void IInputPointer::SendEventPointerDisable(const EventInputPointer *ev)
 {
-	SEED_ASSERT(ev);
-
-	IEventInputPointerListenerVectorIterator it = vPointerListeners.begin();
-	IEventInputPointerListenerVectorIterator end = vPointerListeners.end();
-	for (; it != end; ++it)
-		(*it)->OnInputPointerDisable(ev);
+	for (auto each: vPointerListeners)
+		each->OnInputPointerDisable(ev);
 }
 
 void IInputPointer::SendEventPointerMove(const EventInputPointer *ev)
 {
-	SEED_ASSERT(ev);
-
-	IEventInputPointerListenerVectorIterator it = vPointerListeners.begin();
-	IEventInputPointerListenerVectorIterator end = vPointerListeners.end();
-	for (; it != end; ++it)
-		(*it)->OnInputPointerMove(ev);
+	for (auto each: vPointerListeners)
+		each->OnInputPointerMove(ev);
 }
 
 void IInputPointer::SendEventPointerPress(const EventInputPointer *ev)
 {
-	SEED_ASSERT(ev);
-
-	IEventInputPointerListenerVectorIterator it = vPointerListeners.begin();
-	IEventInputPointerListenerVectorIterator end = vPointerListeners.end();
-	for (; it != end; ++it)
-		(*it)->OnInputPointerPress(ev);
+	for (auto each: vPointerListeners)
+		each->OnInputPointerPress(ev);
 }
 
 void IInputPointer::SendEventPointerRelease(const EventInputPointer *ev)
 {
-	SEED_ASSERT(ev);
-
-	IEventInputPointerListenerVectorIterator it = vPointerListeners.begin();
-	IEventInputPointerListenerVectorIterator end = vPointerListeners.end();
-	for (; it != end; ++it)
-		(*it)->OnInputPointerRelease(ev);
+	for (auto each: vPointerListeners)
+		each->OnInputPointerRelease(ev);
 }
 
 } // namespace

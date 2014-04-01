@@ -32,7 +32,7 @@ email: projectileman@yahoo.com
 -----------------------------------------------------------------------------
 */
 
-#include "gim_array.h"
+#include <bullet/gim_array.h>
 
 
 #define GUINT_BIT_COUNT 32

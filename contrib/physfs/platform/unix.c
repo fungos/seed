@@ -7,7 +7,7 @@
  */
 
 #define __PHYSICSFS_INTERNAL__
-#include "physfs/physfs_platforms.h"
+#include "../physfs_platforms.h"
 
 #ifdef PHYSFS_PLATFORM_UNIX
 
@@ -63,8 +63,6 @@ int __PHYSFS_platformDeinit(void)
 /* Stub version for platforms without CD-ROM support. */
 void __PHYSFS_platformDetectAvailableCDs(PHYSFS_StringCallback cb, void *data)
 {
-	(void)cb;
-	(void)data;
 } /* __PHYSFS_platformDetectAvailableCDs */
 
 #elif (defined PHYSFS_HAVE_SYS_UCRED_H)
@@ -338,14 +336,13 @@ char *__PHYSFS_platformCurrentDir(void)
 
 int __PHYSFS_platformSetDefaultAllocator(PHYSFS_Allocator *a)
 {
-	(void)a;
 	return(0);  /* just use malloc() and friends. */
 } /* __PHYSFS_platformSetDefaultAllocator */
 
 
 #if (defined PHYSFS_NO_THREAD_SUPPORT)
 
-PHYSFS_uint64 __PHYSFS_platformGetThreadID(void) { return(0x0001); }
+void *__PHYSFS_platformGetThreadID(void) { return((void *) 0x0001); }
 void *__PHYSFS_platformCreateMutex(void) { return((void *) 0x0001); }
 void __PHYSFS_platformDestroyMutex(void *mutex) {}
 int __PHYSFS_platformGrabMutex(void *mutex) { return(1); }
@@ -360,24 +357,9 @@ typedef struct
 	PHYSFS_uint32 count;
 } PthreadMutex;
 
-/* Just in case; this is a panic value. */
-#if ((!defined SIZEOF_INT) || (SIZEOF_INT <= 0))
-#  define SIZEOF_INT 4
-#endif
-
-#if (SIZEOF_INT == 4)
-#  define PHTREAD_TO_UI64(thr) ( (PHYSFS_uint64) ((PHYSFS_uint32) (thr)) )
-#elif (SIZEOF_INT == 2)
-#  define PHTREAD_TO_UI64(thr) ( (PHYSFS_uint64) ((PHYSFS_uint16) (thr)) )
-#elif (SIZEOF_INT == 1)
-#  define PHTREAD_TO_UI64(thr) ( (PHYSFS_uint64) ((PHYSFS_uint8) (thr)) )
-#else
-#  define PHTREAD_TO_UI64(thr) ((PHYSFS_uint64) (thr))
-#endif
-
-PHYSFS_uint64 __PHYSFS_platformGetThreadID(void)
+void *__PHYSFS_platformGetThreadID(void)
 {
-	return(PHTREAD_TO_UI64(pthread_self()));
+	return( (void *) ((size_t) pthread_self()) );
 } /* __PHYSFS_platformGetThreadID */
 
 

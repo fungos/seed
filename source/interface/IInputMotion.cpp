@@ -44,11 +44,11 @@ IInputMotion::~IInputMotion()
 	IEventInputMotionListenerVector().swap(vMotionListeners);
 }
 
-Vector3f IInputMotion::GetAccelerationAxis(u16 joystick) const
+vec3 IInputMotion::GetAccelerationAxis(u16 joystick) const
 {
 	UNUSED(joystick);
 	SEED_ABSTRACT_METHOD;
-	return Vector3f(0.0f, 0.0f, 0.0f);
+	return vec3{0.0f, 0.0f, 0.0f};
 }
 
 f32 IInputMotion::GetAccelerationMagnitude(u16 joystick) const
@@ -77,12 +77,8 @@ void IInputMotion::RemoveMotionListener(IEventInputMotionListener *listener)
 
 void IInputMotion::SendEventAccelerationChanged(const EventInputMotion *ev)
 {
-	SEED_ASSERT(ev);
-
-	IEventInputMotionListenerVectorIterator it = vMotionListeners.begin();
-	IEventInputMotionListenerVectorIterator end = vMotionListeners.end();
-	for (; it != end; ++it)
-		(*it)->OnAccelerationChanged(ev);
+	for (auto each: vMotionListeners)
+		each->OnAccelerationChanged(ev);
 }
 
 } // namespace

@@ -35,12 +35,13 @@
 #include "map/MapLayerMosaic.h"
 #include "map/TileSet.h"
 #include "Screen.h"
+#include "Memory.h"
 
 namespace Seed {
 
 ISceneObject *FactoryGameMap()
 {
-	return New(GameMap());
+	return sdNew(GameMap);
 }
 
 GameMap::GameMap()
@@ -49,7 +50,8 @@ GameMap::GameMap()
 	, vTileSets()
 	, mProperties()
 	, ptMapSize(0, 0)
-	, ptTileSize(0, 0)
+	, ptTileSize(32, 32)
+	, bLoaded(false)
 {
 	cMapLayers.SetParent(this);
 }
@@ -59,41 +61,44 @@ GameMap::~GameMap()
 	this->Unload();
 }
 
-bool GameMap::Load(Reader &reader, ResourceManager *res)
+void GameMap::Set(Reader &reader)
 {
-	SEED_ASSERT(res);
+	ITransformable::Unserialize(reader);
 
-	bool ret = false;
-	if (this->Unload())
+	sName = reader.ReadString("sName", sName.c_str());
+	String resource = reader.ReadString("sResource", "");
+	if (resource != "")
 	{
-		ITransformable::Unserialize(reader);
-		sName = reader.ReadString("name", "Map");
-		String resource = reader.ReadString("sResource", "");
-		if (resource != "")
-		{
-			File f(resource);
-			Reader r(&f);
-			ret = this->LoadTiled(r, res);
-		}
-		else
-		{
-			reader.SelectNode("cGameMap");
-			ret = this->LoadTiled(reader, res);
-		}
+		// FIXME: ASYNC
+		File f(resource);
+		Reader r(&f);
+		this->LoadTiled(r);
+	}
+	else
+	{
+		if (reader.SelectNode("cGameMap"))
+			this->LoadTiled(reader);
 	}
 
-	return ret;
+	this->bLoaded = true;
 }
 
-bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
+bool GameMap::Write(Writer &writer)
 {
-	ptMapSize.x = reader.ReadU32("width", 0);
-	ptMapSize.y = reader.ReadU32("height", 0);
-	ptTileSize.x = reader.ReadU32("tilewidth", 32);
-	ptTileSize.y = reader.ReadU32("tileheight", 32);
+	writer.OpenNode();
+		writer.WriteString("sName", sName.c_str());
+		ITransformable::Serialize(writer);
 
-//	String ori = reader.ReadString("orientation", "");
-//	u32 version = reader.ReadU32("version", 1);
+		writer.OpenNode("cGameMap");
+			this->WriteTiled(writer);
+		writer.CloseNode();
+	writer.CloseNode();
+
+	return true;
+}
+
+void GameMap::ReadProperties(Reader &reader)
+{
 	if (reader.SelectNode("properties"))
 	{
 		u32 k = 0;
@@ -107,14 +112,62 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 		}
 		reader.UnselectNode();
 	}
+}
+
+void GameMap::WriteProperties(Writer &writer)
+{
+	writer.OpenNode("properties");
+	for (auto &kv : mProperties)
+		writer.WriteString((kv.first).c_str(), (kv.second).c_str());
+	writer.CloseNode();
+}
+
+bool GameMap::WriteTiled(Writer &writer)
+{
+	writer.OpenNode();
+		writer.WriteString("orientation", "orthogonal");
+		writer.WriteU32("version", 1);
+		writer.WriteU32("width", ptMapSize.x);
+		writer.WriteU32("height", ptMapSize.y);
+		writer.WriteU32("tilewidth", ptTileSize.x);
+		writer.WriteU32("tileheight", ptTileSize.y);
+
+		this->WriteProperties(writer);
+
+		writer.OpenArray("tilesets");
+		for (auto obj : vTileSets)
+			obj->Write(writer);
+		writer.CloseArray();
+
+		writer.OpenArray("layers");
+		for (auto obj : vLayers)
+			obj->Write(writer);
+		writer.CloseArray();
+
+	writer.CloseNode();
+
+	return true;
+}
+
+bool GameMap::LoadTiled(Reader &reader)
+{
+	ptMapSize.x = reader.ReadU32("width", ptMapSize.x);
+	ptMapSize.y = reader.ReadU32("height", ptMapSize.y);
+	ptTileSize.x = reader.ReadU32("tilewidth", ptTileSize.x);
+	ptTileSize.y = reader.ReadU32("tileheight", ptTileSize.y);
+
+//	String ori = reader.ReadString("orientation", "");
+//	u32 version = reader.ReadU32("version", 1);
+
+	this->ReadProperties(reader);
 
 	u32 tileSetCount = reader.SelectArray("tilesets");
 	for (u32 i = 0; i < tileSetCount; i++)
 	{
 		reader.SelectNext();
 
-		TileSet *set = New(TileSet());
-		set->Load(reader, res);
+		auto set = sdNew(TileSet);
+		set->Load(reader, pRes);
 
 		vTileSets += set;
 	}
@@ -125,28 +178,28 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 	{
 		reader.SelectNext();
 
-		u32 layerId = 0;
-		String type = reader.ReadString("type", "tilelayer");
+		auto layerId = 0;
+		auto type = String{reader.ReadString("type", "tilelayer")};
 		if (type == "tilelayer")
 		{
 			layerId = this->AddLayerTiled();
-			MapLayerTiled *tiled = vLayers[layerId]->AsTiled();
+			auto tiled = vLayers[layerId]->AsTiled();
 			if (tiled)
 			{
-				tiled->Load(reader, res);
+				tiled->Load(reader, pRes);
 				tiled->SetTileSize(ptTileSize);
 				tiled->SetTileSet(vTileSets.at(0));
-				tiled->SetPosition(-100, -100);
+				//tiled->SetPosition(-100, -100);
 				tiled->Update(0.0f);
 			}
 		}
 		else if (type == "objectgroup")
 		{
 			layerId = this->AddLayerMetadata(ptTileSize);
-			MapLayerMetadata *data = vLayers[layerId]->AsMetadata();
+			auto data = vLayers[layerId]->AsMetadata();
 			if (data)
 			{
-				data->Load(reader, res);
+				data->Load(reader, pRes);
 			}
 		}
 //		else if (type == "mosaiclayer")
@@ -165,16 +218,9 @@ bool GameMap::LoadTiled(Reader &reader, ResourceManager *res)
 	}
 	reader.UnselectArray();
 
-	this->SetWidth(ptMapSize.x * ptTileSize.x);
-	this->SetHeight(ptMapSize.y * ptTileSize.y);
+	this->SetWidth(f32(ptMapSize.x * ptTileSize.x));
+	this->SetHeight(f32(ptMapSize.y * ptTileSize.y));
 
-	return true;
-}
-
-bool GameMap::Write(Writer &writer)
-{
-	UNUSED(writer)
-	#warning IMPL - GameMap::Write(Writer &writer)
 	return true;
 }
 
@@ -183,19 +229,17 @@ bool GameMap::Unload()
 	cMapLayers.Unload();
 	IMapLayerVector().swap(vLayers);
 
-	TileSetVectorIterator it = vTileSets.begin();
-	TileSetVectorIterator end = vTileSets.end();
-	for (; it != end; ++it)
-	{
-		TileSet *obj = (*it);
-		Delete(obj);
-	}
-	TileSetVector().swap(vTileSets);
+	for (auto obj: vTileSets)
+		sdDelete(obj);
 
-	ptMapSize.x = 0;
-	ptMapSize.y = 0;
-	ptTileSize.x = 0;
-	ptTileSize.y = 0;
+	TileSetVector().swap(vTileSets);
+	mProperties.clear();
+
+	ptMapSize = uvec2(0, 0);
+	ptTileSize = uvec2(32, 32);
+	sName = this->GetTypeName();
+
+	bLoaded = false;
 
 	return true;
 }
@@ -205,29 +249,72 @@ void GameMap::Reset()
 	this->Unload();
 }
 
-void GameMap::Update(f32 dt)
+GameMap *GameMap::Clone() const
 {
-	for (u32 i = 0; i < cMapLayers.Size(); i++)
+	auto obj = sdNew(GameMap);
+	obj->GenerateCloneName(sName);
+
+	obj->ptMapSize = ptMapSize;
+	obj->ptTileSize = ptTileSize;
+	obj->mProperties = mProperties;
+
+	for (auto set: vTileSets)
+		obj->vTileSets += set->Clone();
+
+	for (auto layer: vLayers)
+	{
+		auto l = static_cast<IMapLayer *>(layer->Clone());
+
+		obj->vLayers += l;
+		obj->cMapLayers.Add(l);
+	}
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
+	obj->bLoaded = true;
+
+	return obj;
+}
+
+void GameMap::Update(Seconds dt)
+{
+	for (decltype(cMapLayers.Size()) i = 0; i < cMapLayers.Size(); i++)
 	{
 		cMapLayers.GetChildAt(i)->Update(dt);
 	}
 	this->UpdateTransform();
 }
 
-void GameMap::Render(const Matrix4f &worldTransform)
+void GameMap::Render(const mat4 &worldTransform)
 {
-	for (u32 i = 0; i < cMapLayers.Size(); i++)
+	for (decltype(cMapLayers.Size()) i = 0; i < cMapLayers.Size(); i++)
 	{
 		if (cMapLayers.GetChildAt(i)->IsVisible())
 			cMapLayers.GetChildAt(i)->Render(worldTransform);
 	}
 }
 
-u32 GameMap::AddLayerTiled()
+u32 GameMap::AddLayer(IMapLayer *layer)
 {
-	u32 layerId = vLayers.Size();
+	auto layerId = vLayers.Size();
 
-	MapLayerTiled *layer = New(MapLayerTiled());
 	vLayers += layer;
 	layer->bMarkForDeletion = true;
 	cMapLayers.Add(layer);
@@ -235,11 +322,26 @@ u32 GameMap::AddLayerTiled()
 	return layerId;
 }
 
-u32 GameMap::AddLayerMetadata(Point2u tileSize)
+u32 GameMap::AddLayerTiled()
 {
-	u32 layerId = vLayers.Size();
+	auto layerId = vLayers.Size();
 
-	MapLayerMetadata *layer = New(MapLayerMetadata(tileSize));
+	auto layer = sdNew(MapLayerTiled);
+	vLayers += layer;
+	layer->bMarkForDeletion = true;
+	cMapLayers.Add(layer);
+
+	return layerId;
+}
+
+u32 GameMap::AddLayerMetadata(uvec2 tileSize)
+{
+	auto layerId = vLayers.Size();
+
+	vec2 size{f32(tileSize.x), f32(tileSize.y)};
+	auto layer = sdNew(MapLayerMetadata);
+	layer->SetTileSize(size);
+
 	vLayers += layer;
 	layer->bMarkForDeletion = true;
 	cMapLayers.Add(layer);
@@ -249,9 +351,9 @@ u32 GameMap::AddLayerMetadata(Point2u tileSize)
 
 u32 GameMap::AddLayerMosaic()
 {
-	u32 layerId = vLayers.Size();
+	auto layerId = vLayers.Size();
 
-	MapLayerMosaic *layer = New(MapLayerMosaic());
+	auto layer = sdNew(MapLayerMosaic);
 	vLayers += layer;
 	layer->bMarkForDeletion = true;
 	cMapLayers.Add(layer);
@@ -266,13 +368,10 @@ IMapLayer *GameMap::GetLayerAt(u32 index)
 
 IMapLayer *GameMap::GetLayerByName(const String &name)
 {
-	IMapLayer *map = NULL;
+	IMapLayer *map = nullptr;
 
-	IMapLayerVectorIterator it = vLayers.begin();
-	IMapLayerVectorIterator end = vLayers.end();
-	for (; it != end; ++it)
+	for (auto obj: vLayers)
 	{
-		IMapLayer *obj = (*it);
 		if (obj->sName == name)
 		{
 			map = obj;
@@ -283,15 +382,17 @@ IMapLayer *GameMap::GetLayerByName(const String &name)
 	return map;
 }
 
+void GameMap::AddTileSet(TileSet *tileset)
+{
+	vTileSets += tileset;
+}
+
 TileSet *GameMap::GetTileSet(const String &name)
 {
-	TileSet *ts = NULL;
+	TileSet *ts = nullptr;
 
-	TileSetVectorIterator it = vTileSets.begin();
-	TileSetVectorIterator end = vTileSets.end();
-	for (; it != end; ++it)
+	for (auto obj: vTileSets)
 	{
-		TileSet *obj = (*it);
 		if (obj->sName == name)
 		{
 			ts = obj;
@@ -307,20 +408,27 @@ int GameMap::GetLayerCount() const
 	return vLayers.Size();
 }
 
-const String &GameMap::GetProperty(const String &property) const
+void GameMap::SetProperty(const String &key, const String &value)
 {
-	return mProperties.at(property);
+	mProperties[key] = value;
 }
 
-const String GameMap::GetClassName() const
+const String GameMap::GetProperty(const String &property) const
 {
-	return "GameMap";
+	auto it = mProperties.find(property);
+	return mProperties.end() == it ? "" : it->second;
 }
 
-int GameMap::GetObjectType() const
+void GameMap::SetTileSize(uvec2 tileSize)
 {
-	return Seed::TypeGameMap;
+	SEED_ASSERT(!bLoaded);
+	ptTileSize = tileSize;
 }
 
+void GameMap::SetMapSize(uvec2 mapSize)
+{
+	SEED_ASSERT(!bLoaded);
+	ptMapSize = mapSize;
+}
 
 } // namespace

@@ -16,10 +16,10 @@ subject to the following restrictions:
 #ifndef MINICL__TASK_H
 #define MINICL__TASK_H
 
-#include "BulletMultiThreaded/PlatformDefinitions.h"
-#include "LinearMath/btScalar.h"
+#include <bullet/BulletMultiThreaded/PlatformDefinitions.h>
+#include <bullet/LinearMath/btScalar.h>
 
-#include "LinearMath/btAlignedAllocator.h"
+#include <bullet/LinearMath/btAlignedAllocator.h>
 
 
 #define MINICL_MAX_ARGLENGTH (sizeof(void*))

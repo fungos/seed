@@ -4,8 +4,8 @@ Copyright (c) 2003-2007 Erwin Coumans  http://bulletphysics.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -17,8 +17,8 @@ subject to the following restrictions:
 #define BT_POSIX_THREAD_SUPPORT_H
 
 
-#include "LinearMath/btScalar.h"
-#include "PlatformDefinitions.h"
+#include <bullet/LinearMath/btScalar.h>
+#include <bullet/BulletMultiThreaded/PlatformDefinitions.h>
 
 #ifdef USE_PTHREADS //platform specifc defines are defined in PlatformDefinitions.h
 
@@ -30,23 +30,23 @@ subject to the following restrictions:
 
 
 
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
-#include "btThreadSupportInterface.h"
+#include <bullet/BulletMultiThreaded/btThreadSupportInterface.h>
 
 
 typedef void (*PosixThreadFunc)(void* userPtr,void* lsMemory);
 typedef void* (*PosixlsMemorySetupFunc)();
 
 // PosixThreadSupport helps to initialize/shutdown libspe2, start/stop SPU tasks and communication
-class PosixThreadSupport : public btThreadSupportInterface 
+class PosixThreadSupport : public btThreadSupportInterface
 {
 public:
-    typedef enum sStatus {
-        STATUS_BUSY,
-        STATUS_READY,
-        STATUS_FINISHED
-    } Status;
+	typedef enum sStatus {
+		STATUS_BUSY,
+		STATUS_READY,
+		STATUS_FINISHED
+	} Status;
 
 	// placeholder, until libspe2 support is there
 	struct	btSpuStatus
@@ -59,10 +59,10 @@ public:
 		void*	m_userPtr; //for taskDesc etc
 		void*	m_lsMemory; //initialized using PosixLocalStoreMemorySetupFunc
 
-                pthread_t thread;
-                sem_t* startSemaphore;
+				pthread_t thread;
+				sem_t* startSemaphore;
 
-        unsigned long threadUsed;
+		unsigned long threadUsed;
 	};
 private:
 
@@ -70,7 +70,7 @@ private:
 public:
 	///Setup and initialize SPU/CELL/Libspe2
 
-	
+
 
 	struct	ThreadConstructionInfo
 	{
@@ -131,8 +131,8 @@ public:
 	virtual void deleteBarrier(btBarrier* barrier);
 
 	virtual void deleteCriticalSection(btCriticalSection* criticalSection);
-	
-	
+
+
 	virtual void*	getThreadLocalMemory(int taskId)
 	{
 		return m_activeSpuStatus[taskId].m_lsMemory;

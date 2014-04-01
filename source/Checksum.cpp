@@ -32,7 +32,7 @@
 
 namespace Seed {
 
-Checksum *pChecksum = NULL;
+Checksum *pChecksum = nullptr;
 SEED_SINGLETON_DEFINE(Checksum)
 
 Checksum::Checksum()

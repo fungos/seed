@@ -1,6 +1,13 @@
 #ifndef __CONFIG_H__
 #define __CONFIG_H__
 
+#include "LocalDefines.h"
+
+#if !defined(NOMINMAX)
+#define NOMINMAX // Windows ftw
+#endif
+#define COM_NO_WINDOWS_H
+
 #if defined(SEED_BUILD)
 	#if !defined(SEED_USE_STATIC)
 		#define SEED_BUILD_SHARED	1
@@ -25,7 +32,7 @@
 #define SEED_NAME					"Seed SDK"
 #define SEED_COPYRIGHT				"Copyright (c) 2008-2009 Seed Framework Team"
 
-#define SEED_MESSAGE		SEED_NAME " " SEED_VERSION_STRING " [" SEED_PLATFORM_NAME " " SEED_TYPE " " SEED_LICENSE "]\n" SEED_COPYRIGHT
+#define SEED_BANNER					SEED_NAME " " SEED_VERSION_STRING " [" SEED_PLATFORM_NAME " " SEED_TYPE " " SEED_LICENSE "]\n" SEED_COPYRIGHT
 
 #if defined(DEBUG)
 	#define SEED_TYPE "Debug"
@@ -37,6 +44,8 @@
 	#define SEED_PLATFORM_NAME "iOS"
 #elif defined(BUILD_SDL)
 	#define SEED_PLATFORM_NAME "SDL"
+#elif defined(BUILD_SDL2)
+	#define SEED_PLATFORM_NAME "SDL2"
 #elif defined(BUILD_QT)
 	#define SEED_PLATFORM_NAME "Qt"
 #elif defined(BUILD_GLFW)
@@ -49,8 +58,9 @@
 	#define SEED_PLATFORM_NAME "NativeClient"
 #endif // BUILD_IOS
 
-#if __GNUG__ && __GNUC_MINOR__ < 7
-	#define override
+#if defined(__GNUG__) && __GNUC_MINOR__ < 7 && !defined(__clang__)
+	//#define override
+	#error Unsupported compiler - uncomment things here at your own risk.
 #endif
 
 //================================================================================
@@ -60,7 +70,8 @@
 #define SEED_USE_JSON						1
 #define SEED_USE_THEORA						0
 #define SEED_USE_ROCKET_GUI					1
-#define SEED_ENABLE_DEPTH_TEST				0
+#define SEED_ENABLE_OGL20					1
+#define SEED_USE_LEAF						0
 
 /*
 Transformable objects have only one pivot for calculating the object position, scale and rotation.
@@ -117,5 +128,11 @@ Use wide char paths
 #if defined(DEBUG)
 	#define SEED_LOG_RESOURCEMANAGER		1
 #endif // DEBUG
+
+#if SEED_USE_LEAF == 1
+#define LEAF(x)		Seed::Leaf::GetInstance()->x
+#else
+#define LEAF(x)
+#endif
 
 #endif // __CONFIG_H__

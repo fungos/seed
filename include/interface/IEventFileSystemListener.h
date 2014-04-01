@@ -41,19 +41,18 @@ class EventFileSystem;
 /// FileSystem Event Listener
 class SEED_CORE_API IEventFileSystemListener : public IEventListener
 {
+	SEED_DISABLE_COPY(IEventFileSystemListener)
+
 	public:
-		IEventFileSystemListener();
-		virtual ~IEventFileSystemListener();
+		IEventFileSystemListener() = default;
+		virtual ~IEventFileSystemListener() {}
 
-		virtual void OnFileSystemFatalError(const EventFileSystem *ev);
-		virtual void OnFileSystemWrongDiskError(const EventFileSystem *ev);
-		virtual void OnFileSystemNoDiskError(const EventFileSystem *ev);
-		virtual void OnFileSystemRetryError(const EventFileSystem *ev);
-		virtual void OnFileSystemOperationResumed(const EventFileSystem *ev);
-		virtual void OnFileSystemLoadCompleted(const EventFileSystem *ev);
-
-	private:
-		SEED_DISABLE_COPY(IEventFileSystemListener);
+		virtual void OnFileSystemFatalError(const EventFileSystem *ev)			SEED_PURE_VIRTUAL_EVENT
+		virtual void OnFileSystemWrongDiskError(const EventFileSystem *ev)		SEED_PURE_VIRTUAL_EVENT
+		virtual void OnFileSystemNoDiskError(const EventFileSystem *ev)			SEED_PURE_VIRTUAL_EVENT
+		virtual void OnFileSystemRetryError(const EventFileSystem *ev)			SEED_PURE_VIRTUAL_EVENT
+		virtual void OnFileSystemOperationResumed(const EventFileSystem *ev)	SEED_PURE_VIRTUAL_EVENT
+		virtual void OnFileSystemLoadCompleted(const EventFileSystem *ev)		SEED_PURE_VIRTUAL_EVENT
 };
 
 } // namespace

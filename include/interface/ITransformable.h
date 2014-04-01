@@ -32,10 +32,11 @@
 #define __ITRANSFORMABLE_H__
 
 #include "Defines.h"
-#include "MathUtil.h"
 #include "Reader.h"
 #include "Writer.h"
 #include "Rect.h"
+#include <glm/vec3.hpp>
+#include <glm/mat4x4.hpp>
 
 namespace Seed {
 
@@ -44,6 +45,8 @@ class SEED_CORE_API ITransformable
 {
 	friend class ParticleEmitter; // argh. fix this please.
 	friend class Camera;
+	SEED_DISABLE_COPY(ITransformable)
+
 	public:
 		ITransformable();
 		virtual ~ITransformable();
@@ -63,8 +66,8 @@ class SEED_CORE_API ITransformable
 		virtual void AddPosition(f32 x, f32 y);
 		virtual void SetPosition(f32 x, f32 y, f32 z);
 		virtual void AddPosition(f32 x, f32 y, f32 z);
-		virtual void SetPosition(const Vector3f &pos);
-		virtual void AddPosition(const Vector3f &pos);
+		virtual void SetPosition(const vec3 &pos);
+		virtual void AddPosition(const vec3 &pos);
 
 		virtual void SetPivotX(f32 x);
 		virtual void SetPivotY(f32 y);
@@ -77,8 +80,8 @@ class SEED_CORE_API ITransformable
 		virtual void AddPivot(f32 x, f32 y);
 		virtual void SetPivot(f32 x, f32 y, f32 z);
 		virtual void AddPivot(f32 x, f32 y, f32 z);
-		virtual void SetPivot(const Vector3f &pos);
-		virtual void AddPivot(const Vector3f &pos);
+		virtual void SetPivot(const vec3 &pos);
+		virtual void AddPivot(const vec3 &pos);
 
 		virtual void SetRotation(f32 rot);
 		virtual void AddRotation(f32 rot);
@@ -89,7 +92,7 @@ class SEED_CORE_API ITransformable
 		virtual void SetScale(f32 scaleXY);
 		virtual void SetScale(f32 scaleX, f32 scaleY);
 		virtual void SetScale(f32 scaleX, f32 scaleY, f32 scaleZ);
-		virtual void SetScale(const Vector3f &scale);
+		virtual void SetScale(const vec3 &scale);
 
 		virtual void AddScaleX(f32 scaleX);
 		virtual void AddScaleY(f32 scaleY);
@@ -97,7 +100,7 @@ class SEED_CORE_API ITransformable
 		virtual void AddScale(f32 scale);
 		virtual void AddScale(f32 scaleX, f32 scaleY);
 		virtual void AddScale(f32 scaleX, f32 scaleY, f32 scaleZ);
-		virtual void AddScale(const Vector3f &scale);
+		virtual void AddScale(const vec3 &scale);
 
 		virtual f32 GetWidth() const;
 		virtual f32 GetHeight() const;
@@ -106,23 +109,23 @@ class SEED_CORE_API ITransformable
 		virtual f32 GetX() const;
 		virtual f32 GetY() const;
 		virtual f32 GetZ() const;
-		virtual Vector3f GetPosition() const;
+		virtual vec3 GetPosition() const;
 
 		virtual f32 GetPivotX() const;
 		virtual f32 GetPivotY() const;
 		virtual f32 GetPivotZ() const;
-		virtual Vector3f GetPivot() const;
+		virtual vec3 GetPivot() const;
 
 		virtual f32 GetRotation() const;
 
 		virtual f32 GetScaleX() const;
 		virtual f32 GetScaleY() const;
 		virtual f32 GetScaleZ() const;
-		virtual Vector3f GetScale() const;
+		virtual vec3 GetScale() const;
 
 		virtual bool ContainsPoint(f32 x, f32 y) const;
 		virtual bool ContainsPoint(f32 x, f32 y, f32 z) const;
-		virtual bool ContainsPoint(const Vector3f &pos) const;
+		virtual bool ContainsPoint(const vec3 &pos) const;
 
 		virtual void UpdateTransform();
 		virtual void UpdateBoundingCircle();
@@ -132,7 +135,7 @@ class SEED_CORE_API ITransformable
 		/**
 		When a Transformable has a parent it will inherit all it's properies.
 		If you use a instanced Transformable and delete it, you're responsable
-		to set the parent of this object to NULL or we can crash badly.
+		to set the parent of this object to null or we can crash badly.
 		\param Set a Transformable as parent for this object
 		 */
 		virtual void SetParent(ITransformable *pParent);
@@ -146,18 +149,15 @@ class SEED_CORE_API ITransformable
 
 	protected:
 		ITransformable *pParent;
-		Matrix4f mTransform;
-		Vector3f vPos;
-		Vector3f vPivot;
-		Vector3f vTransformedPivot;
-		Vector3f vScale;
-		Vector3f vBoundingBox;
+		mat4 mTransform;
+		vec3 vPos;
+		vec3 vPivot;
+		vec3 vTransformedPivot;
+		vec3 vScale;
+		vec3 vBoundingBox;
 		f32 fBoundingCircleRadius;
 		f32 fRotation;
-		bool bTransformationChanged;
-
-	private:
-		SEED_DISABLE_COPY(ITransformable);
+		bool bTransformationChanged : 1;
 };
 
 /// Transformable ascending predicate

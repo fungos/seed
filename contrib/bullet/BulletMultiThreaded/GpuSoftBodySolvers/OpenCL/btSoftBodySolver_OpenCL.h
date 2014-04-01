@@ -16,15 +16,15 @@ subject to the following restrictions:
 #ifndef BT_SOFT_BODY_SOLVER_OPENCL_H
 #define BT_SOFT_BODY_SOLVER_OPENCL_H
 
-#include "stddef.h" //for size_t
-#include "vectormath/vmInclude.h"
+#include <bullet/stddef.h> //for size_t
+#include <bullet/vectormath/vmInclude.h>
 
-#include "BulletSoftBody/btSoftBodySolvers.h"
-#include "BulletSoftBody/btSoftBody.h"
-#include "btSoftBodySolverBuffer_OpenCL.h"
-#include "btSoftBodySolverLinkData_OpenCL.h"
-#include "btSoftBodySolverVertexData_OpenCL.h"
-#include "btSoftBodySolverTriangleData_OpenCL.h"
+#include <bullet/BulletSoftBody/btSoftBodySolvers.h>
+#include <bullet/BulletSoftBody/btSoftBody.h>
+#include <bullet/btSoftBodySolverBuffer_OpenCL.h>
+#include <bullet/btSoftBodySolverLinkData_OpenCL.h>
+#include <bullet/btSoftBodySolverVertexData_OpenCL.h>
+#include <bullet/btSoftBodySolverTriangleData_OpenCL.h>
 
 class CLFunctions
 {

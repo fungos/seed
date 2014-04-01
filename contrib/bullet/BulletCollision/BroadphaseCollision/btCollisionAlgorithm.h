@@ -16,8 +16,8 @@ subject to the following restrictions:
 #ifndef BT_COLLISION_ALGORITHM_H
 #define BT_COLLISION_ALGORITHM_H
 
-#include "LinearMath/btScalar.h"
-#include "LinearMath/btAlignedObjectArray.h"
+#include <bullet/LinearMath/btScalar.h>
+#include <bullet/LinearMath/btAlignedObjectArray.h>
 
 struct btBroadphaseProxy;
 class btDispatcher;

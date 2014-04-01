@@ -15,7 +15,8 @@
 /*                                                                         */
 /***************************************************************************/
 
-
+#include <freetype/ft2build.h>
+#include <freetype/src/autofit/aftypes.h>
 #include FT_ADVANCES_H
 
 #include "aflatin.h"

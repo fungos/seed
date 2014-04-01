@@ -34,7 +34,7 @@
 #include "Defines.h"
 #include "Log.h"
 #include "Enum.h"
-#include "interface/IThread.h"
+#include "Thread.h"
 
 #define TAG		"[ThreadManager] "
 
@@ -55,57 +55,47 @@ ThreadManager::~ThreadManager()
 
 bool ThreadManager::Initialize()
 {
-	return IModule::Initialize();
+	return IManager::Initialize();
 }
 
 bool ThreadManager::Reset()
 {
-	IThreadVector().swap(vThread);
+	ThreadVector().swap(vThread);
 	return true;
 }
 
 bool ThreadManager::Shutdown()
 {
 	this->Reset();
-	return IModule::Shutdown();
+	return IManager::Shutdown();
 }
 
-bool ThreadManager::Update(f32 dt)
+bool ThreadManager::Update(Seconds dt)
 {
 	UNUSED(dt)
 	if (bEnabled)
 	{
-		IThreadVector completed;
+		ThreadVector completed;
 
-		IThreadVectorIterator it = vThread.begin();
-		IThreadVectorIterator end = vThread.end();
-		for (; it != end; ++it)
+		for (auto each: vThread)
 		{
-			IThread *obj = (*it);
-			if (!obj->Run())
-			{
-				completed += obj;
-			}
+			if (!each->Run())
+				completed += each;
 		}
 
-		it = completed.begin();
-		end = completed.end();
-		for (; it != end; ++it)
-		{
-			IThread *obj = (*it);
-			vThread -= obj;
-		}
+		for (auto each: completed)
+			vThread -= each;
 	}
 
 	return true;
 }
 
-void ThreadManager::Add(IThread *obj)
+void ThreadManager::Add(Thread *obj)
 {
 	vThread += obj;
 }
 
-void ThreadManager::Remove(IThread *obj)
+void ThreadManager::Remove(Thread *obj)
 {
 	vThread -= obj;
 }
@@ -118,16 +108,6 @@ void ThreadManager::Disable()
 void ThreadManager::Enable()
 {
 	bEnabled = true;
-}
-
-const String ThreadManager::GetClassName() const
-{
-	return "ThreadManager";
-}
-
-int ThreadManager::GetObjectType() const
-{
-	return Seed::TypeThreadManager;
 }
 
 } // namespace

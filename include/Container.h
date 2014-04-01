@@ -37,9 +37,7 @@
 #include <map>
 #include <stack>
 
-//extern "C" { extern void Log(const char *pMessage, ...); }
-
-#define DECLARE_CONTAINER_HELPER(N, C) \
+#define SEED_DECLARE_CONTAINER_HELPER(N, C) \
 											\
 											template <typename T> \
 											class N : public C<T> \
@@ -72,13 +70,32 @@
 
 namespace Seed
 {
-	DECLARE_CONTAINER_HELPER(Vector, std::vector)
+	SEED_DECLARE_CONTAINER_HELPER(Vector, std::vector)
 }
 
 #define Stack std::stack
 #define Map std::map
-#define DECLARE_CONTAINER_TYPE(cont, type)	typedef cont<type *> type##cont; \
-											typedef type##cont::iterator type##cont##Iterator; \
+#define SEED_DECLARE_CONTAINER(cont, type)	typedef cont<type *> type##cont;									\
+											typedef type##cont::iterator type##cont##Iterator;					\
 											typedef type##cont::const_iterator Const##type##cont##Iterator;
+
+#define SEED_IMPLEMENT_VAR_HELPERS(cont, type, var)																	\
+											public:																	\
+												type##cont::iterator begin() { return var.begin(); }				\
+												type##cont::iterator end()   { return var.end();   }				\
+												type##cont::const_iterator begin() const { return var.begin(); }	\
+												type##cont::const_iterator end() const	 { return var.end();   }	\
+																													\
+												void operator+=(type *element)										\
+												{																	\
+													this->Add(element);												\
+												}																	\
+																													\
+												void operator-=(type *element)										\
+												{																	\
+													this->Remove(element);											\
+												}																	\
+																													\
+											private:
 
 #endif // __CONTAINER_H__

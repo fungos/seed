@@ -41,6 +41,9 @@ namespace Seed {
 /// File
 class SEED_CORE_API File : public IObject
 {
+	SEED_DISABLE_COPY(File)
+	SEED_DECLARE_RTTI(File, IObject)
+
 	public:
 		File();
 		File(const String &filename);
@@ -54,17 +57,11 @@ class SEED_CORE_API File : public IObject
 		bool Load(const String &filename);
 		bool Unload();
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	protected:
 		bool Check() const;
 		bool Open();
 
 	private:
-		SEED_DISABLE_COPY(File);
-
 		PHYSFS_file		*pHandle;
 		mutable u8		*pData;
 		String			sFilename;
@@ -73,17 +70,16 @@ class SEED_CORE_API File : public IObject
 
 class SEED_CORE_API FileLoader : public Job
 {
+	SEED_DISABLE_COPY(FileLoader)
+
 	public:
-		FileLoader(const String &filename, u32 name, IEventJobListener *listener);
+		FileLoader(const String &filename, JobCallback fun);
 		virtual ~FileLoader();
 
 		virtual bool Run() override;
 
 		const String sFilename;
 		File *pFile;
-
-	private:
-		SEED_DISABLE_COPY(FileLoader);
 };
 
 } // namespace

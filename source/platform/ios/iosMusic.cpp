@@ -48,14 +48,14 @@ namespace Seed { namespace iOS {
 
 IResource *MusicResourceLoader(const String &filename, ResourceManager *res)
 {
-	Music *music = New(Music());
+	auto music = New(Music());
 	music->Load(filename, res);
 
 	return music;
 }
 
 Music::Music()
-	: pAVPlayer(NULL)
+	: pAVPlayer(nullptr)
 	, bLoop(true)
 {
 }
@@ -82,7 +82,7 @@ bool Music::Load(const String &filename, ResourceManager *res)
 			//NSString *extensionName = [NSString stringWithCString: ".mp3" encoding: [NSString defaultCStringEncoding]];
 			NSString *dataPath = [@"/data/" stringByAppendingString: musicName]; //[musicName stringByAppendingString: extensionName]];
 			NSString *path = [root stringByAppendingString: dataPath];
-			NSError *err = NULL;
+			NSError *err = nullptr;
 			Log(TAG "Music: %s", [path cStringUsingEncoding: NSASCIIStringEncoding]);
 			AVAudioPlayer *p =	[[[ AVAudioPlayer alloc ] initWithContentsOfURL: [ NSURL fileURLWithPath: path ] error: &err ] retain ];
 			pAVPlayer = (void *)p;
@@ -125,7 +125,7 @@ bool Music::Unload()
 	{
 		[p stop];
 		[p release];
-		pAVPlayer = NULL;
+		pAVPlayer = nullptr;
 	}
 
 	return true;
@@ -136,7 +136,7 @@ void Music::Reset()
 	this->SetVolume(fVolume);
 }
 
-bool Music::Update(f32 dt)
+bool Music::Update(Seconds dt)
 {
 	UNUSED(dt);
 

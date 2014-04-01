@@ -34,7 +34,7 @@
 namespace Seed {
 
 EventMovie::EventMovie(const Timeline *timeline, const Keyframe *keyframe, u32 frame)
-	: IEvent(TypeMovie, EventIdMovie)
+	: IEvent()
 	, pTimeline(timeline)
 	, pKeyframe(keyframe)
 	, iFrame(frame)
@@ -58,11 +58,6 @@ const Keyframe *EventMovie::GetKeyframe() const
 u32 EventMovie::GetFrame() const
 {
 	return iFrame;
-}
-
-const String EventMovie::GetClassName() const
-{
-	return "EventMovie";
 }
 
 } // namespace

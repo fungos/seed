@@ -33,16 +33,18 @@
 #include "Screen.h"
 #include "ResourceManager.h"
 #include "Image.h"
+#include "Memory.h"
+#include "Configuration.h"
 
 #define TILE(x, y) pTileData[(x) + (ptMapSize.y * (y))]
 
 namespace Seed {
 
 MapLayerTiled::MapLayerTiled()
-	: pTileData(NULL)
-	, pVertex(NULL)
-	, pElements(NULL)
-	, pTileSet(NULL)
+	: pTileData(nullptr)
+	, pVertex(nullptr)
+	, pElements(nullptr)
+	, pTileSet(nullptr)
 	, cVertexBuffer()
 	, cElementBuffer()
 	, iDataLen(0)
@@ -51,8 +53,8 @@ MapLayerTiled::MapLayerTiled()
 	, ptMapSizeHalf(0.0f, 0.0f)
 	, bRebuildMesh(false)
 {
-	cVertexBuffer.Configure(BufferUsageNeverChange);
-	cElementBuffer.Configure(BufferUsageNeverChange, ElementTypeInt);
+	cVertexBuffer.Configure(eBufferUsage::NeverChange, eElementType::Int);
+	cElementBuffer.Configure(eBufferUsage::NeverChange, eElementType::Int);
 }
 
 MapLayerTiled::~MapLayerTiled()
@@ -63,49 +65,127 @@ MapLayerTiled::~MapLayerTiled()
 	this->Unload();
 }
 
-bool MapLayerTiled::Unload()
+void MapLayerTiled::Set(Reader &reader)
 {
-	Free(pElements)
-	Free(pVertex);
-	Free(pTileData);
-	pTileSet = NULL;
+	u32 len = reader.SelectArray("data");
+	this->LoadTileData(reader, len);
+	reader.UnselectArray();
 
+	// map size is in tiles and is only important to tile based maps, so we read it here
+	this->SetMapSize(uvec2(reader.ReadU32("width", ptMapSize.x), reader.ReadU32("height", ptMapSize.y)));
+
+	// read the generic map info in base class
+	this->ReadMapLayer(reader);
+	this->ReadProperties(reader);
+}
+
+bool MapLayerTiled::Write(Writer &writer)
+{
+	if (!iDataLen)
+		return false;
+
+	SEED_ASSERT_FMT(pTileData, "Could not write tile data (%s).", sName.c_str());
+	writer.OpenNode();
+		writer.WriteString("type", "tilelayer");
+
+		this->WriteMapLayer(writer);
+		writer.WriteU32("width", ptMapSize.x);
+		writer.WriteU32("height", ptMapSize.y);
+
+		this->WriteProperties(writer);
+
+		writer.OpenArray("data");
+			for (u32 i = 0; i < iDataLen; i++)
+				writer.WriteU32(pTileData[i]);
+		writer.CloseArray();
+	writer.CloseNode();
 	return true;
 }
 
-bool MapLayerTiled::Load(Reader &reader, ResourceManager *res)
+bool MapLayerTiled::Unload()
 {
-	UNUSED(res)
+	sdFree(pElements);
+	sdFree(pVertex);
+	sdFree(pTileData);
 
-	bool ret = false;
+	ptTileSize = uvec2{0, 0};
+	ptMapSizeHalf = vec2{0.0f, 0.0f};
+	ptMapSize = uvec2{0, 0};
+	pTileSet = nullptr;
+	sName = this->GetTypeName();
 
-	if (this->Unload())
-	{
-		u32 len = reader.SelectArray("data");
-		this->LoadData(reader, len);
-		reader.UnselectArray();
-
-		// map size is in tiles and is only important to tile based maps, so we read it here
-		this->SetMapSize(Point2u(reader.ReadU32("width", 0), reader.ReadU32("height", 0)));
-
-		// read the generic map info in base class
-		this->ReadMapLayer(reader);
-		this->ReadProperties(reader);
-
-		ret = true;
-	}
-
-	return ret;
+	return IMapLayer::Unload();
 }
 
-void MapLayerTiled::LoadData(Reader &reader, u32 len)
+MapLayerTiled *MapLayerTiled::Clone() const
+{
+	auto obj = sdNew(MapLayerTiled);
+	obj->GenerateCloneName(sName);
+
+	if (iDataLen)
+	{
+		obj->pTileData = (u32 *)sdAlloc(sizeof(u32) * iDataLen);
+		memcpy(obj->pTileData, pTileData, sizeof(u32) * iDataLen);
+	}
+
+	u32 vertexAmount = ptMapSize.x * ptMapSize.y * 4;
+	u32 elementAmount = ptMapSize.x * ptMapSize.y * 6;
+
+	obj->pVertex = (sVertex *)sdAlloc(sizeof(sVertex) * vertexAmount);
+	obj->pElements = (u32 *)sdAlloc(sizeof(u32) * elementAmount);
+
+	memcpy(obj->pVertex, pVertex, sizeof(sVertex) * vertexAmount);
+	memcpy(obj->pElements, pElements, sizeof(u32) * elementAmount);
+
+	obj->pTileSet = pTileSet->Clone();
+	obj->cVertexBuffer.SetData(obj->pVertex, cVertexBuffer.iLength);
+	obj->cElementBuffer.SetData(obj->pElements, cElementBuffer.iLength);
+
+	obj->iDataLen = iDataLen;
+	obj->ptTileSize = ptTileSize;
+	obj->ptMapSize = ptMapSize;
+	obj->ptMapSizeHalf = ptMapSizeHalf;
+
+	obj->bRebuildMesh = bRebuildMesh;
+	obj->bResizeMap = bResizeMap;
+
+	for (auto child: vChild)
+	{
+		auto cln = static_cast<ISceneObject *>(child->Clone());
+		obj->vChild += cln;
+	}
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
+
+	return obj;
+}
+
+void MapLayerTiled::LoadTileData(Reader &reader, u32 len)
 {
 	if (len > 0)
 	{
 		if (iDataLen != len)
 		{
-			Free(pTileData);
-			pTileData = (u32 *)Alloc(sizeof(u32) * len);
+			sdFree(pTileData);
+			pTileData = (u32 *)sdAlloc(sizeof(u32) * len);
 		}
 
 		for (u32 i = 0; i < len; i++)
@@ -116,30 +196,45 @@ void MapLayerTiled::LoadData(Reader &reader, u32 len)
 	}
 
 	if (!len)
-		Free(pTileData);
+		sdFree(pTileData);
 
 	iDataLen = len;
 	bRebuildMesh = true;
 }
 
-void MapLayerTiled::Update(f32 dt)
+void MapLayerTiled::SetTileData(u32 *data, u32 size)
+{
+	SEED_ASSERT_FMT(data && size, "Trying to set null tile data (%s)", sName.c_str());
+
+	if (!pTileData || iDataLen != size)
+	{
+		sdFree(pTileData);
+		pTileData = (u32 *)sdAlloc(sizeof(u32) * size);
+	}
+
+	memcpy(pTileData, data, sizeof(u32) * size);
+	iDataLen = size;
+	bRebuildMesh = true;
+}
+
+void MapLayerTiled::Update(Seconds dt)
 {
 	UNUSED(dt)
 	if (bRebuildMesh && pTileSet && pTileData)
 	{
-		this->SetWidth(ptMapSize.x * ptTileSize.x);
-		this->SetHeight(ptMapSize.y * ptTileSize.y);
+		this->SetWidth(static_cast<f32>(ptMapSize.x * ptTileSize.x));
+		this->SetHeight(static_cast<f32>(ptMapSize.y * ptTileSize.y));
 
 		u32 vertexAmount = ptMapSize.x * ptMapSize.y * 4;
 		u32 elementAmount = ptMapSize.x * ptMapSize.y * 6;
 
 		if (bResizeMap)
 		{
-			Free(pElements);
-			Free(pVertex);
+			sdFree(pElements);
+			sdFree(pVertex);
 
-			pVertex = (sVertex *)Alloc(sizeof(sVertex) * vertexAmount);
-			pElements = (u32 *)Alloc(sizeof(u32) * elementAmount);
+			pVertex = (sVertex *)sdAlloc(sizeof(sVertex) * vertexAmount);
+			pElements = (u32 *)sdAlloc(sizeof(u32) * elementAmount);
 		}
 
 		memset(pVertex, '\0', sizeof(sVertex) * vertexAmount);
@@ -155,51 +250,53 @@ void MapLayerTiled::Update(f32 dt)
 		u32 i = 0;
 		Color c(255, 255, 255, 255);
 
-		f32 curY = -ptMapSizeHalf.x;
+		f32 curY = -ptMapSizeHalf.y;
 		for (u32 y = 0; y < ptMapSize.y; y++)
 		{
-			f32 curX = -ptMapSizeHalf.y;
+			f32 curX = -ptMapSizeHalf.x;
 			for (u32 x = 0; x < ptMapSize.x; x++)
 			{
 				const Rect4f *uv = pTileSet->GetTileUV(pTileData[i]);
+				if (uv)
+				{
+					f32 tx = ptTileSize.x * curX;
+					f32 ty = ptTileSize.y * curY;
 
-				f32 tx = ptTileSize.x * curX;
-				f32 ty = ptTileSize.y * curY;
+					pVertex[v + 0].cCoords.x = uv->x1;
+					pVertex[v + 0].cCoords.y = uv->y1;
+					pVertex[v + 0].cColor = c;
+					pVertex[v + 0].cVertex = vec3(tx - halfTileW, ty - halfTileH, 1.0f);
+					pVertex[v + 1].cCoords.x = uv->x2;
+					pVertex[v + 1].cCoords.y = uv->y1;
+					pVertex[v + 1].cColor = c;
+					pVertex[v + 1].cVertex = vec3(tx + halfTileW, ty - halfTileH, 1.0f);
+					pVertex[v + 2].cCoords.x = uv->x1;
+					pVertex[v + 2].cCoords.y = uv->y2;
+					pVertex[v + 2].cColor = c;
+					pVertex[v + 2].cVertex = vec3(tx - halfTileW, ty + halfTileH, 1.0f);
+					pVertex[v + 3].cCoords.x = uv->x2;
+					pVertex[v + 3].cCoords.y = uv->y2;
+					pVertex[v + 3].cColor = c;
+					pVertex[v + 3].cVertex = vec3(tx + halfTileW, ty + halfTileH, 1.0f);
 
-				pVertex[v + 0].cCoords.x = uv->x1;
-				pVertex[v + 0].cCoords.y = uv->y1;
-				pVertex[v + 0].cColor = c;
-				pVertex[v + 0].cVertex = Vector3f(tx - halfTileW, ty - halfTileH, 1.0f);
-				pVertex[v + 1].cCoords.x = uv->x2;
-				pVertex[v + 1].cCoords.y = uv->y1;
-				pVertex[v + 1].cColor = c;
-				pVertex[v + 1].cVertex = Vector3f(tx + halfTileW, ty - halfTileH, 1.0f);
-				pVertex[v + 2].cCoords.x = uv->x1;
-				pVertex[v + 2].cCoords.y = uv->y2;
-				pVertex[v + 2].cColor = c;
-				pVertex[v + 2].cVertex = Vector3f(tx - halfTileW, ty + halfTileH, 1.0f);
-				pVertex[v + 3].cCoords.x = uv->x2;
-				pVertex[v + 3].cCoords.y = uv->y2;
-				pVertex[v + 3].cColor = c;
-				pVertex[v + 3].cVertex = Vector3f(tx + halfTileW, ty + halfTileH, 1.0f);
+					pElements[e + 0] = v + 0;
+					pElements[e + 1] = v + 1;
+					pElements[e + 2] = v + 2;
+					pElements[e + 3] = v + 1;
+					pElements[e + 4] = v + 2;
+					pElements[e + 5] = v + 3;
 
-				pElements[e + 0] = v + 0;
-				pElements[e + 1] = v + 1;
-				pElements[e + 2] = v + 2;
-				pElements[e + 3] = v + 1;
-				pElements[e + 4] = v + 2;
-				pElements[e + 5] = v + 3;
-
+					v += 4;
+					e += 6;
+				}
 				i++;
-				v += 4;
-				e += 6;
 				curX++;
 			}
 			curY++;
 		}
 
-		cVertexBuffer.SetData(pVertex, vertexAmount);
-		cElementBuffer.SetData(pElements, elementAmount);
+		cVertexBuffer.SetData(pVertex, v);
+		cElementBuffer.SetData(pElements, e);
 
 		bRebuildMesh = false;
 		bTransformationChanged = true;
@@ -209,21 +306,21 @@ void MapLayerTiled::Update(f32 dt)
 		this->UpdateTransform();
 }
 
-void MapLayerTiled::Render(const Matrix4f &worldTransform)
+void MapLayerTiled::Render(const mat4 &worldTransform)
 {
 	if (pTileSet)
 	{
-		ePacketFlags flags = FlagNone;//static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+		ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
 
 		RendererPacket packet;
-		packet.nMeshType = Seed::Triangles;
+		packet.nMeshType = eMeshType::Triangles;
 		packet.pVertexBuffer = &cVertexBuffer;
 		packet.pElementBuffer = &cElementBuffer;
 		packet.pTexture = pTileSet->GetTexture();
-		packet.nBlendMode = eBlendOperation;
+		packet.nBlendMode = nBlendOperation;
 		packet.pTransform = &worldTransform;
 		packet.cColor = cColor;
-		packet.iFlags = flags;
+		packet.nFlags = flags;
 		packet.vPivot = vTransformedPivot;
 
 		pRendererDevice->UploadData(&packet);
@@ -236,28 +333,72 @@ void MapLayerTiled::SetTileSet(TileSet *tileSet)
 	bRebuildMesh = true;
 }
 
-void MapLayerTiled::SetTileSize(Point2u tileSize)
+void MapLayerTiled::SetTileSize(uvec2 tileSize)
 {
 	ptTileSize = tileSize;
 	bRebuildMesh = true;
 }
 
-void MapLayerTiled::SetMapSize(Point2u mapSize)
+void MapLayerTiled::SetMapSize(uvec2 mapSize)
 {
 	ptMapSize = mapSize;
 	bRebuildMesh = true;
 	bResizeMap = true;
 }
 
-u32 MapLayerTiled::GetTileAt(Vector3f pos) const
+TileSet *MapLayerTiled::GetTileSet()
 {
-	s32 x = static_cast<s32>((pos.getX() / ptTileSize.x) + ptMapSizeHalf.x);
-	s32 y = static_cast<s32>((pos.getY() / ptTileSize.y) + ptMapSizeHalf.y);
+	return pTileSet;
+}
+
+void MapLayerTiled::SetTileAt(u32 x, u32 y, u32 tileId)
+{
+	if (x >= ptMapSize.x)
+		x = ptMapSize.x - 1;
+	if (y >= ptMapSize.y)
+		y = ptMapSize.y - 1;
+
+	if (TILE(x, y) == tileId)
+		return;
+
+	TILE(x, y) = tileId;
+	bRebuildMesh = true;
+}
+
+void MapLayerTiled::SetTileAt(const vec3 &pos, u32 tileId)
+{
+	s32 x = static_cast<s32>((pos.x / ptTileSize.x) + ptMapSizeHalf.x);
+	s32 y = static_cast<s32>((pos.y / ptTileSize.y) + ptMapSizeHalf.y);
 
 	if (x < 0)
 		x = 0;
 	if (y < 0)
 		y = 0;
+	if (x >= s32(ptMapSize.x))
+		x = s32(ptMapSize.x) - 1;
+	if (y >= s32(ptMapSize.y))
+		y = s32(ptMapSize.y) - 1;
+
+	if (TILE(x, y) == tileId)
+		return;
+
+	TILE(x, y) = tileId;
+	bRebuildMesh = true;
+}
+
+u32 MapLayerTiled::GetTileAt(const vec3 &pos) const
+{
+	s32 x = static_cast<s32>((pos.x / ptTileSize.x) + ptMapSizeHalf.x);
+	s32 y = static_cast<s32>((pos.y / ptTileSize.y) + ptMapSizeHalf.y);
+
+	if (x < 0)
+		x = 0;
+	if (y < 0)
+		y = 0;
+	if (x >= s32(ptMapSize.x))
+		x = s32(ptMapSize.x) - 1;
+	if (y >= s32(ptMapSize.y))
+		y = s32(ptMapSize.y) - 1;
 
 	return TILE(x, y);
 }

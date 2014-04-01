@@ -31,12 +31,8 @@
 #ifndef __PARTICLE_EMITTER_H__
 #define __PARTICLE_EMITTER_H__
 
-#include "interface/ITransformable.h"
 #include "interface/ISceneObject.h"
-#include "interface/IEventJobListener.h"
-#include "Particle.h"
 #include "Rect.h"
-#include "Vertex.h"
 #include "RendererDevice.h"
 
 namespace Seed {
@@ -45,7 +41,6 @@ class ITexture;
 class ResourceManager;
 class Particle;
 class Sprite;
-class EventJob;
 
 ISceneObject *FactoryParticleEmitter();
 
@@ -100,19 +95,22 @@ struct SEED_CORE_API EmitterConfiguration
 	f32		fHeight;
 
 	f32		fInterval;
-	bool	bRelative;
+	bool	bRelative : 1;
 };
 
 /// Particle Emitter
-class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListener
+class SEED_CORE_API ParticleEmitter : public ISceneObject
 {
+	SEED_DISABLE_COPY(ParticleEmitter)
+	SEED_DECLARE_RTTI(ParticleEmitter, ISceneObject)
+
 	public:
 		ParticleEmitter();
 		virtual ~ParticleEmitter();
 
 		virtual void Reset();
 		virtual void SetSprite(const String &filename);
-		virtual void SetAnimation(u32 anim);
+		virtual Sprite *GetSprite() const;
 
 		virtual void SetFilter(eTextureFilterType type, eTextureFilter filter);
 		virtual const EmitterConfiguration &GetConfig() const;
@@ -134,28 +132,19 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListe
 
 		virtual void SetParticlesFollowEmitter(bool bFollow);
 
-		// IEventJobListener
-		virtual void OnJobCompleted(const EventJob *ev) override;
-		virtual void OnJobAborted(const EventJob *ev) override;
-
 		// IRenderable
-		virtual void Update(f32 delta) override;
-		virtual void Render(const Matrix4f &worldTransform) override;
+		virtual void Update(Seconds dt) override;
+		virtual void Render(const mat4 &worldTransform) override;
 
 		// IDataObject
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
 		virtual bool Write(Writer &writer) override;
 		virtual bool Unload() override;
-
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+		virtual ParticleEmitter *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	private:
-		SEED_DISABLE_COPY(ParticleEmitter);
-		void MoveEverything(const Vector3f &pos);
+		void MoveEverything(const vec3 &pos);
 
-		ResourceManager			*pRes;
 		Particle				*arParticles;
 		ITexture				*pTexture;
 
@@ -163,7 +152,7 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListe
 		Sprite					*pTemplate;
 		String					sSprite;
 		String					sBlending;
-		Vector3f				vPrevLocation;
+		vec3					vPrevLocation;
 		Rect4f					rBoundingBox;
 
 		f32						fAge;
@@ -186,11 +175,11 @@ class SEED_CORE_API ParticleEmitter : public ISceneObject, public IEventJobListe
 		sVertex					*pVertex;
 		u32						iVertexAmount;
 
-		bool					bParticlesFollowEmitter;
-		bool					bPaused;
-		bool					bEnabled;
-		bool					bAutoPlay;
-		bool					bInitialized;
+		bool					bParticlesFollowEmitter : 1;
+		bool					bPaused : 1;
+		bool					bEnabled : 1;
+		bool					bAutoPlay : 1;
+		bool					bInitialized : 1;
 };
 
 } // namespace

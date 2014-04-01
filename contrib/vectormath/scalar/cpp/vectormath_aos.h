@@ -66,7 +66,7 @@ class Vector3
 public:
 	// Default constructor; does no initialization
 	//
-	inline Vector3( ) : mX(0), mY(0), mZ(0) { };
+	inline Vector3( ) : mX(0), mY(0), mZ(0) { }
 
 	// Copy a 3-D vector
 	//

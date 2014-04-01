@@ -715,7 +715,7 @@ class Vector4
 public:
     // Default constructor; does no initialization
     // 
-    __forceinline Vector4( ) { };
+    __forceinline Vector4( ) : mVec128() { };
 
     // Construct a 4-D vector from x, y, z, and w elements
     // 
@@ -1921,7 +1921,7 @@ class Matrix4
 public:
     // Default constructor; does no initialization
     // 
-    __forceinline Matrix4( ) { };
+    __forceinline Matrix4( ) : mCol0(), mCol1(), mCol2(), mCol3() { };
 
     // Copy a 4x4 matrix
     // 

@@ -32,8 +32,8 @@
 
 namespace Seed {
 
-Key::Key(int value)
-	: iValue(value)
+Key::Key(eKey value)
+	: iValue(static_cast<u32>(value))
 {
 }
 

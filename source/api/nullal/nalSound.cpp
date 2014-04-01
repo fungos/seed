@@ -30,15 +30,15 @@
 
 #include "Sound.h"
 
-#if defined(USE_API_NULL_OAL)
+#if defined(USE_API_NULL_AL)
 
-namespace Seed { namespace OAL {
+namespace Seed { namespace NAL {
 
 IResource *SoundResourceLoader(const String &filename, ResourceManager *res)
 {
 	UNUSED(res);
 
-	Sound *sound = New(Sound());
+	auto sound = New(Sound());
 	sound->Load(filename, res);
 	return sound;
 }
@@ -67,7 +67,7 @@ bool Sound::Unload()
 
 const void *Sound::GetData() const
 {
-	return NULL;
+	return nullptr;
 }
 
 u32 Sound::GetUsedMemory() const
@@ -77,4 +77,4 @@ u32 Sound::GetUsedMemory() const
 
 }} // namespace
 
-#endif // USE_API_NULL_OAL
+#endif // USE_API_NULL_AL

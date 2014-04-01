@@ -33,20 +33,23 @@
 
 #include "SceneNode.h"
 #include "interface/IResource.h"
-#include "Point.h"
+#include <glm/vec2.hpp>
 
 namespace Seed {
 
 class IMapLayer;
 class TileSet;
 
-DECLARE_CONTAINER_TYPE(Vector, IMapLayer)
-DECLARE_CONTAINER_TYPE(Vector, TileSet)
+SEED_DECLARE_CONTAINER(Vector, IMapLayer)
+SEED_DECLARE_CONTAINER(Vector, TileSet)
 
 ISceneObject *FactoryGameMap();
 
 class SEED_CORE_API GameMap : public ISceneObject
 {
+	SEED_DISABLE_COPY(GameMap)
+	SEED_DECLARE_RTTI(GameMap, ISceneObject)
+
 	public:
 		GameMap();
 		virtual ~GameMap();
@@ -54,39 +57,46 @@ class SEED_CORE_API GameMap : public ISceneObject
 		IMapLayer *GetLayerAt(u32 index);
 		IMapLayer *GetLayerByName(const String &name);
 
+		u32 AddLayer(IMapLayer *layer);
+
 		TileSet *GetTileSet(const String &name);
+		void AddTileSet(TileSet *tileset);
 
 		int GetLayerCount() const;
-		const String &GetProperty(const String &property) const;
+		const String GetProperty(const String &property) const;
+		void SetProperty(const String &key, const String &value = "");
+
+		void SetTileSize(uvec2 tileSize);
+		void SetMapSize(uvec2 mapSize);
 
 		// SceneNode
-		virtual void Update(f32 dt) override;
-		virtual void Render(const Matrix4f &worldTransform) override;
-
-		virtual bool Load(Reader &reader, ResourceManager *res = pResourceManager) override;
-		virtual bool Write(Writer &writer) override;
-		virtual bool Unload() override;
+		virtual void Update(Seconds dt) override;
+		virtual void Render(const mat4 &worldTransform) override;
 		virtual void Reset() override; // call Unload
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+		// IDataObject
+		virtual bool Write(Writer &writer) override;
+		virtual bool Unload() override;
+		virtual GameMap *Clone() const override;
+		virtual void Set(Reader &reader) override;
 
 	protected:
+		void ReadProperties(Reader &reader);
+		void WriteProperties(Writer &writer);
+
 		u32 AddLayerTiled();
-		u32 AddLayerMetadata(Point2u tileSize);
+		u32 AddLayerMetadata(uvec2 tileSize);
 		u32 AddLayerMosaic();
-		bool LoadTiled(Reader &reader, ResourceManager *res);
+		bool LoadTiled(Reader &reader);
+		bool WriteTiled(Writer &writer);
 
 	protected:
-		SEED_DISABLE_COPY(GameMap);
-
-		enum eLayerType
+		enum class eLayerType
 		{
-			LayerTypeTiled,
-			LayerTypeMetadata,
-			LayerTypeMosaic,
-			LayerTypeMax
+			Tiled,
+			Metadata,
+			Mosaic,
+			Max
 		};
 
 		SceneNode cMapLayers;
@@ -94,8 +104,10 @@ class SEED_CORE_API GameMap : public ISceneObject
 		TileSetVector vTileSets;
 		Map<String, String> mProperties;
 
-		Point2u ptMapSize;
-		Point2u ptTileSize;
+		uvec2 ptMapSize;
+		uvec2 ptTileSize;
+
+		bool bLoaded;
 };
 
 } // namespace

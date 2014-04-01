@@ -34,8 +34,9 @@
 
 #include "api/theora/Theora.h"
 #include "Log.h"
-#include "Timer.h"
+#include "System.h"
 #include "Screen.h"
+#include "Memory.h"
 
 #define TAG "[Theora] "
 #define OGGPLAY_BUFFER_SIZE		20
@@ -43,9 +44,9 @@
 namespace Seed {
 
 Theora::Theora()
-	: pPlayer(NULL)
-	, pTexData(NULL)
-	, iTime(0)
+	: pPlayer(nullptr)
+	, pTexData(nullptr)
+	, pSem(nullptr)
 	, iDuration(0)
 	, fFps(0.0f)
 	, iFpsDenom(1000)
@@ -53,7 +54,6 @@ Theora::Theora()
 	, fDelay(0.0f)
 	, iFrameCount(0)
 	, iUntilFrame(0)
-	, iLastFrameTime(0)
 	, iTrack(0)
 	, iTotalFrames(0)
 	, iWidth(0)
@@ -64,20 +64,21 @@ Theora::Theora()
 	, iTexHeight(0)
 	, fTexScaleX(0.0f)
 	, fTexScaleY(0.0f)
+	, fLastFrameTime(0.0f)
 	, fElapsedTime(0.0f)
+	, cTexture()
 	, bLoaded(false)
 	, bPaused(true)
 	, bPlaying(false)
 	, bFinished(false)
 	, bTerminateThread(false)
-	, sem(0)
 {
 }
 
 Theora::~Theora()
 {
 	this->Reset();
-	pPlayer = NULL;
+	pPlayer = nullptr;
 }
 
 void Theora::Reset()
@@ -101,21 +102,21 @@ bool Theora::Unload()
 	bPlaying = false;
 	bPaused = true;
 
-	Free(pTexData);
+	sdFree(pTexData);
 
 	return true;
 }
 
 bool Theora::Run()
 {
-	bool ret = Thread::Run();
+	bool ret = this->IsRunning();
 	if (ret)
 	{
 		if (bPlaying && !bFinished)
 		{
-	test:
 			OggPlayErrorCode r = E_OGGPLAY_TIMEOUT;
-			SEM_CHECK(sem) SEM_WAIT(sem);
+			if (pSem)
+				pSem->Wait();
 
 			while (r == E_OGGPLAY_TIMEOUT && !bTerminateThread)
 			{
@@ -124,10 +125,10 @@ bool Theora::Run()
 
 			if (r != E_OGGPLAY_CONTINUE && r != E_OGGPLAY_USER_INTERRUPT)
 			{
-				//bPlaying = false;
 				bFinished = true;
-				pTimer->Sleep(10);
-				SEM_CHECK(sem) SEM_WAIT(sem);
+				pTimer->Sleep(Milliseconds(10));
+				if (pSem)
+					pSem->Wait();
 			}
 		}
 
@@ -136,21 +137,19 @@ bool Theora::Run()
 
 	if (bTerminateThread)
 	{
-		SEM_CHECK(sem) SEM_CLOSE(sem);
-		SEM_CLEAR(sem);
-
+		sdDelete(pSem);
 		if (pPlayer)
 			oggplay_close(pPlayer);
 	}
 
-	pTimer->Sleep(10);
+	pTimer->Sleep(Milliseconds(10));
 	//Log("%d", bTerminateThread);
-	return ret;
+	return ret && this->IsRunning();
 }
 
 bool Theora::Load(const String &filename)
 {
-	return this->Load(filename, pResourceManager, pool);
+	return this->Load(filename, pResourceManager);
 }
 
 bool Theora::Load(const String &filename, ResourceManager *res)
@@ -159,7 +158,7 @@ bool Theora::Load(const String &filename, ResourceManager *res)
 
 	if (this->Unload())
 	{
-		OggPlayReader *reader = oggplay_file_reader_new(filename);
+		OggPlayReader *reader = oggplay_file_reader_new(filename.c_str());
 		pPlayer = oggplay_open_with_reader(reader);
 
 		bLoaded = false;
@@ -196,28 +195,27 @@ bool Theora::Load(const String &filename, ResourceManager *res)
 
 			oggplay_use_buffer(pPlayer, OGGPLAY_BUFFER_SIZE);
 
-			SEM_CHECK(sem) {} else SEM_CREATE(sem, OGGPLAY_BUFFER_SIZE);
-			SEM_WAIT(sem);
+			if (!pSem)
+				pSem = sdNew(Semaphore(OGGPLAY_BUFFER_SIZE));
 
+			pSem->Wait();
 			this->ConfigureRendering();
 		}
 		else
 		{
-			reader = NULL;
-			Log(TAG "ERROR: could not initialise oggplay with '%s'", filename);
+			reader = nullptr;
+			Log(TAG "ERROR: could not initialise oggplay with '%s'", filename.c_str());
 		}
 	}
 
 	return bLoaded;
 }
 
-void Theora::Update(f32 delta)
+void Theora::Update(Seconds dt)
 {
-	UNUSED(delta);
-
 	if (bPlaying)
 	{
-		Image::Update(delta);
+		Image::Update(dt);
 		if (iUntilFrame && iUntilFrame == iFrameCount)
 		{
 			this->Pause();
@@ -236,7 +234,7 @@ void Theora::Update(f32 delta)
 		u32 required = 0;
 
 		track_info = oggplay_buffer_retrieve_next(pPlayer);
-		if (track_info == NULL)
+		if (track_info == nullptr)
 		{
 			if (bFinished)
 				this->Stop();
@@ -295,7 +293,8 @@ void Theora::Update(f32 delta)
 		oggplay_buffer_release(pPlayer, track_info);
 
 	next_frame:
-		SEM_SIGNAL(sem);
+		if (pSem)
+			pSem->Notify();
 	}
 }
 
@@ -314,7 +313,8 @@ bool Theora::GoToFrame(u32 frame)
 	else
 	{
 		ret = true;
-		SEM_CHECK(sem) SEM_SIGNAL(sem);
+		if (pSem)
+			pSem->Notify();
 	}
 
 	return ret;
@@ -329,7 +329,8 @@ void Theora::Rewind()
 		Log(TAG "Cant seek backwards.");
 	}
 
-	SEM_CHECK(sem) SEM_SIGNAL(sem);
+	if (pSem)
+		pSem->Notify();
 }
 
 u32 Theora::GetFrameCount() const
@@ -383,7 +384,7 @@ bool Theora::IsStopped() const
 
 void Theora::Pause()
 {
-	iLastFrameTime = 0;
+	fLastFrameTime = Milliseconds(0.0f);
 	bPaused = true;
 	bPlaying = false;
 }
@@ -432,23 +433,23 @@ void Theora::ProcessVideoData(OggPlayVideoData *data)
 	}*/
 
 	oggplay_yuv2bgra(&yuv, &rgb);
-	cTexture.Update(static_cast<uPixel *>((void *)pTexData));
+	cTexture.Update(static_cast<Color *>((void *)pTexData));
 }
 
 bool Theora::WaitFrameRate()
 {
 	bool ret = false;
-	if (!iLastFrameTime)
-		iLastFrameTime = pTimer->GetMilliseconds();
+	if (!fLastFrameTime)
+		fLastFrameTime = pTimer->GetSeconds();
 
 	//hold fps
-	u64 iTime		= pTimer->GetMilliseconds();
-	fElapsedTime	+= (iTime - iLastFrameTime);
-	iLastFrameTime	= iTime;
+	Seconds fTime		 = pTimer->GetSeconds();
+	fElapsedTime		+= (fTime - fLastFrameTime);
+	fLastFrameTime		 = fTime;
 
 	if (fElapsedTime >= fDelay)
 	{
-		fElapsedTime -= fDelay;
+		fElapsedTime -= Seconds(fDelay);
 		ret = true;
 	}
 
@@ -472,17 +473,17 @@ void Theora::ConfigureRendering()
 	fTexScaleX = static_cast<f32>(iWidth) / static_cast<f32>(po2_width);
 	fTexScaleY = static_cast<f32>(iHeight) / static_cast<f32>(po2_height);
 
-	if (pTexData == NULL)
+	if (pTexData == nullptr)
 	{
 		//pTexData = reinterpret_cast<u8 *>(calloc(1, po2_width * po2_height * 4));
 		u32 size = po2_width * po2_height * 4;
-		pTexData = reinterpret_cast<u8 *>(Alloc(size));
-		MEMSET(pTexData, '\0', size);
+		pTexData = reinterpret_cast<u8 *>(sdAlloc(size));
+		memset(pTexData, '\0', size);
 		iTexWidth = po2_width;
 		iTexHeight = po2_height;
 	}
 
-	cTexture.Load(ROUND_UP(iWidth, 32), iHeight, static_cast<uPixel *>((void *)pTexData), iTexWidth, iTexHeight);
+	cTexture.Load("Theora Video", SEED_ROUND_UP(iWidth, 32), iHeight, static_cast<Color *>((void *)pTexData), iTexWidth, iTexHeight, false);
 	Image::Load(&cTexture);
 
 	bTerminateThread = false;
@@ -494,12 +495,6 @@ void Theora::ConfigureRendering()
 	this->Create();
 	this->Run();
 }
-
-void Theora::Render()
-{
-	Image::Render();
-}
-
 
 } // namespace
 

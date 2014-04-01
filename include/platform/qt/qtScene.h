@@ -44,6 +44,8 @@ class Scene : public QGraphicsScene
 {
 	Q_OBJECT
 
+	SEED_DISABLE_COPY(Scene)
+
 	public:
 		Scene(u32 width, u32 height);
 		virtual ~Scene();
@@ -62,8 +64,6 @@ class Scene : public QGraphicsScene
 		virtual void keyReleaseEvent(QKeyEvent *event);
 
 	private:
-		SEED_DISABLE_COPY(Scene);
-
 		QPointF pixelPosToViewPos(const QPointF& p);
 
 	private:

@@ -44,11 +44,12 @@
 #include "Log.h"
 #include "Input.h"
 #include "Updater.h"
-#include "Camera.h"
-#include "ModuleManager.h"
+#include "Manager.h"
 #include "Cartridge.h"
 #include "ViewManager.h"
-#include "RendererManager.h"
+#include "renderer/Camera.h"
+#include "renderer/RendererManager.h"
+#include "PrefabManager.h"
 #include "SceneManager.h"
 #include "RendererDevice.h"
 #include "JobManager.h"
@@ -62,6 +63,13 @@
 #include "Image.h"
 #include "Movie.h"
 #include "ParticleEmitter.h"
+#include "LeafMessage.h"
+
+#if defined(SEED_ENABLE_OGLES2) || defined(SEED_ENABLE_OGL20)
+#include "ShaderManager.h"
+#include "ShaderProgram.h"
+#include "Shader.h"
+#endif
 
 extern "C" {
 
@@ -81,7 +89,7 @@ namespace Private
 	f32			fCurrentTime;
 }
 
-ResourceManager *pResourceManager = NULL;
+ResourceManager *pResourceManager = nullptr;
 
 #define MAX_FRAME_DELTA ((1.0f / 60.0f) * 5.0f)
 
@@ -90,24 +98,24 @@ int CommandLineParameter(char **argv, int pos)
 	const char *param = argv[pos];
 	int consume = 1;
 
-	if (!strcasecmp(param, "--no-sound"))
+	if (!StringUtil::Equals(param, "--no-sound"))
 	{
 		Private::bDisableSound = true;
 	}
-	else if (!strcasecmp(param, "--no-thread"))
+	else if (!StringUtil::Equals(param, "--no-thread"))
 	{
 		Private::bDisableThread = true;
 	}
-	else if (!strcasecmp(param, "--no-resourceloader"))
+	else if (!StringUtil::Equals(param, "--no-resourceloader"))
 	{
 		Private::bDisableResourceLoader = true;
 	}
-	else if (!strcasecmp(param, "--config"))
+	else if (!StringUtil::Equals(param, "--config"))
 	{
 		Private::sConfigFile = argv[pos + 1];
 		consume++;
 	}
-	else if (!strcasecmp(param, "--workdir"))
+	else if (!StringUtil::Equals(param, "--workdir"))
 	{
 		Private::sWorkDir = argv[pos + 1];
 		consume++;
@@ -171,13 +179,16 @@ void GetVersion(u32 *major, u32 *middle, u32 *minor)
 
 bool Initialize()
 {
+	LEAF(Initialize());
+	LEAF(Start());
+
 	if (!Private::pApplication)
 	{
 		fprintf(stderr, "ERROR: You should set a GameApp by calling SetGameApp(IGameApp *app, int argc, char **argv)!\n");
 		HALT;
 	}
 
-	Info(SEED_MESSAGE, SEED_VERSION_MAJOR, SEED_VERSION_MIDDLE, SEED_VERSION_MINOR);
+	Info(SEED_BANNER, SEED_VERSION_MAJOR, SEED_VERSION_MIDDLE, SEED_VERSION_MINOR);
 
 	Info("");
 	Info(SEED_TAG "Build Configuration:");
@@ -193,8 +204,10 @@ bool Initialize()
 
 	pChecksum = Checksum::GetInstance();
 
-	ret = ret && pModuleManager->Add(pFileSystem);
+	ret = ret && pManager->Add(pFileSystem);
 	pConfiguration->Load(Private::sConfigFile);
+	if (Private::sWorkDir != "")
+		pConfiguration->SetWorkingDirectory(Private::sWorkDir); // cli has priority
 	pFileSystem->Prepare();
 	pScreen->EnableCursor(pConfiguration->IsCursorEnabled());
 
@@ -203,26 +216,30 @@ bool Initialize()
 	Info(SEED_TAG "\tThread: %s", Private::bDisableThread ? "No" : "Yes");
 	Info(SEED_TAG "\tResourceLoader: %s", Private::bDisableResourceLoader ? "No" : "Yes");
 
-	ret = ret && pModuleManager->Add(pSystem);
-	ret = ret && pModuleManager->Add(pTimer);
-	ret = ret && pModuleManager->Add(pCartridge);
-	ret = ret && pModuleManager->Add(pScreen);
-	ret = ret && pModuleManager->Add(pRendererDevice);
-	ret = ret && pModuleManager->Add(pViewManager);
-	ret = ret && pModuleManager->Add(pRendererManager);
+	ret = ret && pManager->Add(pSystem);
+	ret = ret && pManager->Add(pCartridge);
+	ret = ret && pManager->Add(pScreen);
+	ret = ret && pManager->Add(pRendererDevice);
+	ret = ret && pManager->Add(pViewManager);
+	ret = ret && pManager->Add(pRendererManager);
+	pPrefabManager->GetInstance();
+
+#if defined(SEED_ENABLE_OGLES2) || defined(SEED_ENABLE_OGL20)
+	ret = ret && pManager->Add(pShaderManager);
+#endif
 
 	if (!Private::bDisableSound)
-		ret = ret && pModuleManager->Add(pSoundSystem);
+		ret = ret && pManager->Add(pSoundSystem);
 
 #if (SEED_USE_THREAD == 1)
 	if (!Private::bDisableThread || !Private::bDisableResourceLoader)
-		ret = ret && pModuleManager->Add(pResourceLoader);
+		ret = ret && pManager->Add(pResourceLoader);
 #else
-	ret = ret && pModuleManager->Add(pThreadManager);
+	ret = ret && pManager->Add(pThreadManager);
 #endif
 
-	ret = ret && pModuleManager->Add(pJobManager);
-	ret = ret && pModuleManager->Add(pInput);
+	ret = ret && pManager->Add(pJobManager);
+	ret = ret && pManager->Add(pInput);
 
 	pUpdater->Add(Private::pApplication);
 
@@ -245,9 +262,9 @@ bool Initialize()
 	pUpdater->Add(pRendererManager);
 	pUpdater->Add(pSceneManager);
 
-	ResourceManager::Register(Seed::TypeTexture,	TextureResourceLoader);
-	ResourceManager::Register(Seed::TypeSound,		SoundResourceLoader);
-	ResourceManager::Register(Seed::TypeMusic,		MusicResourceLoader);
+	ResourceManager::Register(ITexture::GetTypeId(), TextureResourceLoader);
+	ResourceManager::Register(ISound::GetTypeId(), SoundResourceLoader);
+	ResourceManager::Register(IMusic::GetTypeId(), MusicResourceLoader);
 
 	SceneObjectFactory::Register("Sprite", FactorySprite);
 	SceneObjectFactory::Register("Movie", FactoryMovie);
@@ -260,8 +277,8 @@ bool Initialize()
 
 	Private::bInitialized = true;
 
-	ret = ret && pModuleManager->Add(Private::pApplication);
-	pModuleManager->Print();
+	ret = ret && pManager->Add(Private::pApplication);
+	pManager->Print();
 
 	return ret;
 }
@@ -271,13 +288,14 @@ void Update()
 	if (!Private::bInitialized)
 		return;
 
-	f32 newTime				= (f32)(pTimer->GetMilliseconds() / 1000.0f);
-	f32 dt					= newTime - Private::fCurrentTime;
+	const f32 maxRate		= 5.0f;
+	Seconds newTime			= pTimer->GetSeconds();
+	Seconds dt				= newTime - Private::fCurrentTime;
 	Private::fCurrentTime	= newTime;
-	f32 frameDelta			= (1.0f / pConfiguration->GetFrameRate()) * 5.0f;
+	Seconds maxFrameDt		= (Seconds(1) / pConfiguration->GetFrameRate()) * maxRate;
 
-	if (dt > frameDelta)
-		dt = frameDelta;
+	if (dt > maxFrameDt)
+		dt = maxFrameDt;
 
 	pUpdater->Run(dt);
 
@@ -289,10 +307,7 @@ void Update()
 void Render()
 {
 	pScreen->Update();
-	// FIXME: Viewport Render and Screen Update must be generic
-#if !defined(BUILD_QT)
 	pViewManager->Render();
-#endif
 }
 
 void Shutdown()
@@ -301,8 +316,10 @@ void Shutdown()
 		return;
 
 	Info(SEED_TAG "Shutting down subsystems...");
-	pModuleManager->Shutdown();
+	pPrefabManager->GetInstance()->Reset();
+	pManager->Shutdown();
 
+	pPrefabManager->DestroyInstance();
 	pSceneObjectFactory->DestroyInstance();
 	pSceneManager->DestroyInstance();
 	pJobManager->DestroyInstance();
@@ -319,16 +336,17 @@ void Shutdown()
 	pViewManager->DestroyInstance();
 	pScreen->DestroyInstance();
 	pCartridge->DestroyInstance();
-	pTimer->DestroyInstance();
 	pSystem->DestroyInstance();
 	pFileSystem->DestroyInstance();
 
 	ProfilerReportPrint;
 	ProfilerTerminate;
-	LeakReportPrint;
+
+	LEAF(Stop());
+	LEAF(Shutdown());
 
 	Private::bInitialized = false;
-	Private::pApplication = NULL;
+	Private::pApplication = nullptr;
 }
 
 } // namespace

@@ -19,7 +19,7 @@ subject to the following restrictions:
 // OpenCL support
 
 #ifdef USE_MINICL
-	#include "MiniCL/cl.h"
+	#include <bullet/MiniCL/cl.h>
 #else //USE_MINICL
 	#ifdef __APPLE__
 		#include <OpenCL/OpenCL.h>

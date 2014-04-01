@@ -4,8 +4,8 @@ Copyright (c) 2003-2006 Erwin Coumans  http://continuousphysics.com/Bullet/
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -18,7 +18,7 @@ subject to the following restrictions:
 #ifndef BT_VORONOI_SIMPLEX_SOLVER_H
 #define BT_VORONOI_SIMPLEX_SOLVER_H
 
-#include "btSimplexSolverInterface.h"
+#include <bullet/BulletCollision/NarrowPhaseCollision/btSimplexSolverInterface.h>
 
 
 
@@ -57,7 +57,7 @@ struct	btSubSimplexClosestResult
 {
 	btVector3	m_closestPointOnSimplex;
 	//MASK for m_usedVertices
-	//stores the simplex vertex-usage, using the MASK, 
+	//stores the simplex vertex-usage, using the MASK,
 	// if m_usedVertices & MASK then the related vertex is used
 	btUsageBitfield	m_usedVertices;
 	btScalar	m_barycentricCoords[4];
@@ -107,13 +107,13 @@ public:
 	btVector3	m_simplexPointsP[VORONOI_SIMPLEX_MAX_VERTS];
 	btVector3	m_simplexPointsQ[VORONOI_SIMPLEX_MAX_VERTS];
 
-	
+
 
 	btVector3	m_cachedP1;
 	btVector3	m_cachedP2;
 	btVector3	m_cachedV;
 	btVector3	m_lastW;
-	
+
 	btScalar	m_equalVertexThreshold;
 	bool		m_cachedValidClosest;
 
@@ -121,7 +121,7 @@ public:
 	btSubSimplexClosestResult m_cachedBC;
 
 	bool	m_needsUpdate;
-	
+
 	void	removeVertex(int index);
 	void	reduceVertices (const btUsageBitfield& usedVerts);
 	bool	updateClosestVectorAndPoints();
@@ -162,14 +162,14 @@ public:
 	 int getSimplex(btVector3 *pBuf, btVector3 *qBuf, btVector3 *yBuf) const;
 
 	 bool inSimplex(const btVector3& w);
-	
+
 	 void backup_closest(btVector3& v) ;
 
 	 bool emptySimplex() const ;
 
 	 void compute_points(btVector3& p1, btVector3& p2) ;
 
-	 int numVertices() const 
+	 int numVertices() const
 	 {
 		 return m_numVertices;
 	 }

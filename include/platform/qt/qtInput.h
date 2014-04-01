@@ -47,7 +47,9 @@ class Input : public IInput, public IInputPointer, public IInputKeyboard
 {
 	friend class Scene;
 
-	SEED_SINGLETON_DECLARE(Input)
+	SEED_DECLARE_SINGLETON(Input)
+	SEED_DISABLE_COPY(Input)
+
 	public:
 		// IInput
 		virtual eInputButton GetButtonCode(u32 button) const;
@@ -73,9 +75,9 @@ class Input : public IInput, public IInputPointer, public IInputKeyboard
 		virtual void SetSensitivity(u32 sens, u16 joystick = 0);
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 
-		// IModule
+		// IManager
 		virtual bool Initialize();
 		virtual bool Shutdown();
 		virtual bool Reset();
@@ -92,8 +94,6 @@ class Input : public IInput, public IInputPointer, public IInputKeyboard
 		f32 fY;
 
 	private:
-		SEED_DISABLE_COPY(Input);
-
 		eModifier TranslateModifier(u32 mod);
 		eKey TranslateKey(u32 key);
 };

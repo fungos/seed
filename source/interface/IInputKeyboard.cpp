@@ -36,7 +36,7 @@ namespace Seed {
 
 #if defined(DEBUG)
 const char *keyName[] = {
-	"KeyNone", // 0
+	"None", // 0
 	"", // 1
 	"", // 2
 	"", // 3
@@ -44,18 +44,18 @@ const char *keyName[] = {
 	"", // 5
 	"", // 6
 	"", // 7
-	"KeyBackspace",
-	"KeyTab",
+	"Backspace",
+	"Tab",
 	"", // 10
 	"", // 11
-	"KeyClear",
-	"KeyReturn/KeyEnter",
+	"Clear",
+	"Return/Enter",
 	"", // 14
 	"", // 15
 	"", // 16
 	"", // 17
 	"", // 18
-	"KeyPause",
+	"Pause",
 	"", // 20
 	"", // 21
 	"", // 22
@@ -63,113 +63,113 @@ const char *keyName[] = {
 	"", // 24
 	"", // 25
 	"", // 26
-	"KeyEscape",
+	"Escape",
 	"", // 28
 	"", // 29
 	"", // 30
 	"", // 31
 	// Ascii table 1 to 1
-	"KeySpace",
-	"KeyExclam",
-	"KeyQuoteDouble",
-	"KeyNumberSign",
-	"KeyDollar",
-	"KeyPercent",
-	"KeyAmpersand",
-	"KeyApostrophe",
-	"KeyParenLeft",
-	"KeyParenRight",
-	"KeyAsterisk",
-	"KeyPlus",
-	"KeyComma",
-	"KeyMinus",
-	"KeyPeriod",
-	"KeySlash",
-	"Key0",
-	"Key1",
-	"Key2",
-	"Key3",
-	"Key4",
-	"Key5",
-	"Key6",
-	"Key7",
-	"Key8",
-	"Key9",
-	"KeyColon",
-	"KeySemicolon",
-	"KeyLess",
-	"KeyEqual",
-	"KeyGreater",
-	"KeyQuestion",
+	"Space",
+	"Exclam",
+	"QuoteDouble",
+	"NumberSign",
+	"Dollar",
+	"Percent",
+	"Ampersand",
+	"Apostrophe",
+	"ParenLeft",
+	"ParenRight",
+	"Asterisk",
+	"Plus",
+	"Comma",
+	"Minus",
+	"Period",
+	"Slash",
+	"0",
+	"1",
+	"2",
+	"3",
+	"4",
+	"5",
+	"6",
+	"7",
+	"8",
+	"9",
+	"Colon",
+	"Semicolon",
+	"Less",
+	"Equal",
+	"Greater",
+	"Question",
 	"", // @ 64
 	// Both capital and lowercase chars are valid
-	"KeyA",
-	"KeyB",
-	"KeyC",
-	"KeyD",
-	"KeyE",
-	"KeyF",
-	"KeyG",
-	"KeyH",
-	"KeyI",
-	"KeyJ",
-	"KeyK",
-	"KeyL",
-	"KeyM",
-	"KeyN",
-	"KeyO",
-	"KeyP",
-	"KeyQ",
-	"KeyR",
-	"KeyS",
-	"KeyT",
-	"KeyU",
-	"KeyV",
-	"KeyW",
-	"KeyX",
-	"KeyY",
-	"KeyZ",
+	"A",
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z",
 
-	"KeyBracketLeft",
-	"KeyBackslash",
-	"KeyBracketRight",
-	"KeyCircum",
-	"KeyUnderscore",
-	"KeyQuoteLeft/KeyConsole",
+	"BracketLeft",
+	"Backslash",
+	"BracketRight",
+	"Circum",
+	"Underscore",
+	"QuoteLeft/Console",
 
-	"KeyA", // a 97
-	"KeyB",
-	"KeyC",
-	"KeyD",
-	"KeyE",
-	"KeyF",
-	"KeyG",
-	"KeyH",
-	"KeyI",
-	"KeyJ",
-	"KeyK",
-	"KeyL",
-	"KeyM",
-	"KeyN",
-	"KeyO",
-	"KeyP",
-	"KeyQ",
-	"KeyR",
-	"KeyS",
-	"KeyT",
-	"KeyU",
-	"KeyV",
-	"KeyW",
-	"KeyX",
-	"KeyY",
-	"KeyZ", // z 122
+	"A", // a 97
+	"B",
+	"C",
+	"D",
+	"E",
+	"F",
+	"G",
+	"H",
+	"I",
+	"J",
+	"K",
+	"L",
+	"M",
+	"N",
+	"O",
+	"P",
+	"Q",
+	"R",
+	"S",
+	"T",
+	"U",
+	"V",
+	"W",
+	"X",
+	"Y",
+	"Z", // z 122
 
-	"KeyBraceLeft",
-	"KeyBar/KeyPipe",
-	"KeyBraceRight",
-	"KeyTilde",
+	"BraceLeft",
+	"Bar/Pipe",
+	"BraceRight",
+	"Tilde",
 
-	"KeyDelete", // 127
+	"", // 127
 
 	"", // 128
 	"",
@@ -220,7 +220,7 @@ const char *keyName[] = {
 	"",
 	"",
 	"",
-	"",
+	"Delete",
 	"",
 	"",
 	"", // 180
@@ -300,73 +300,253 @@ const char *keyName[] = {
 	"",
 	"",
 
-	"KeyPad0", // 256
-	"KeyPad1",
-	"KeyPad2",
-	"KeyPad3",
-	"KeyPad4",
-	"KeyPad5",
-	"KeyPad6",
-	"KeyPad7",
-	"KeyPad8",
-	"KeyPad9",
-	"KeyPadPeriod",
-	"KeyPadDivide",
-	"KeyPadMultiply",
-	"KeyPadMinus",
-	"KeyPadPlus",
-	"KeyPadEnter",
-	"KeyPadEquals",
+	"CapsLock",
 
-	"KeyUp",
-	"KeyDown",
-	"KeyRight",
-	"KeyLeft",
-	"KeyInsert",
-	"KeyHome",
-	"KeyEnd",
-	"KeyPageUp",
-	"KeyPageDown",
+	"F1",
+	"F2",
+	"F3",
+	"F4",
+	"F5",
+	"F6",
+	"F7",
+	"F8",
+	"F9",
+	"F10",
+	"F11",
+	"F12",
 
-	"KeyF1",
-	"KeyF2",
-	"KeyF3",
-	"KeyF4",
-	"KeyF5",
-	"KeyF6",
-	"KeyF7",
-	"KeyF8",
-	"KeyF9",
-	"KeyF10",
-	"KeyF11",
-	"KeyF12",
-	"KeyF13",
-	"KeyF14",
-	"KeyF15",
+	"PrintScreen",
+	"ScrollLock",
 
-	"", // 297
-	"", // 298
-	"", // 299
+	"Pause",
+	"Insert",
+	"Home",
+	"PageUp",
+	"", //275
+	"End",
+	"PageDown",
 
-	"KeyNumLock", // 300
-	"KeyCapsLock",
-	"KeyScrollLock",
+	"Right",
+	"Left",
+	"Down",
+	"Up",
 
-	"KeyShiftRight",
-	"KeyShiftLeft",
-	"KeyControlRight",
-	"KeyControlLeft",
-	"KeyAltRight",
-	"KeyAltLeft",
-	"KeyMetaRight",
-	"KeyMetaLeft",
-	"KeySuperLeft",
-	"KeySuperRight",
-	"KeyAltGr",
-	"KeyMenu",
-	"", // 315
+	"NumLock",
+	"PadDivide",
+	"PadMultiply",
+	"PadMinus",
+	"PadPlus",
+	"PadEnter",
 
-	"KeyPrintScreen",
+	"Pad1",
+	"Pad2",
+	"Pad3",
+	"Pad4",
+	"Pad5",
+	"Pad6",
+	"Pad7",
+	"Pad8",
+	"Pad9",
+	"Pad0",
+
+	"PadPeriod",
+	"", //299
+	"Application",
+	"Power",
+	"PadEquals",
+
+	"F13",
+	"F14",
+	"F15",
+	"F16",
+	"F17",
+	"F18",
+	"F19",
+	"F20",
+	"F21",
+	"F22",
+	"F23",
+	"F24",
+
+	"Execute",
+	"Help",
+	"Menu",
+	"Select",
+	"Stop",
+	"Again",
+	"Undo",
+	"Cut",
+	"Copy",
+	"Paste",
+	"Find",
+	"Mute",
+	"VolumeUp",
+	"VolumeDown",
+	"", //329
+	"", //330
+	"", //331
+	"PadComma",
+	"PadEqualsAS400",
+
+	"", //334
+	"", //335
+	"", //336
+	"", //337
+	"", //338
+	"", //339
+	"", //340
+	"", //341
+	"", //342
+	"", //343
+	"", //344
+	"", //345
+	"", //346
+	"", //347
+	"", // 348
+	"", // 349
+	"", // 350
+	"", // 351
+
+	"AalterAse",
+	"SysReq",
+	"Cancel",
+	"Clear",
+	"Prior",
+	"Return2",
+	"Separator",
+	"Out",
+	"Oper",
+	"ClearAgain",
+	"Crsel",
+	"Exsel",
+
+	"", //364
+	"", //365
+	"", //366
+	"", //367
+	"", //368
+	"", //369
+	"", //370
+	"", //371
+	"", //372
+	"", //373
+	"", //374
+
+	"Pad00",
+	"Pad000",
+
+	"ThousandsSeparator",
+	"DecimalSeparator",
+	"CurrencyUnit",
+	"CurrencySubunit",
+
+	"PadLeftParen",
+	"PadRightParen",
+	"PadLeftBrace",
+	"PadRightBrace",
+	"PadTab",
+	"PadBackspace",
+
+	"PadA",
+	"PadB",
+	"PadC",
+	"PadD",
+	"PadE",
+	"PadF",
+
+	"PadXor",
+	"PadPower",
+	"PadPercent",
+	"PadLess",
+	"PadGreater",
+	"PadAmpersand",
+	"PadDBLampersand",
+	"PadVerticalBar",
+	"PadDBLVerticalBar",
+	"PadCplon",
+	"PadHash",
+	"PadSpace",
+	"PadAt",
+	"PadExclam",
+	"PadMemStore",
+	"PadMemRecall",
+	"PadMemClear",
+	"PadMemAdd",
+	"PadMemSubtract",
+	"PadMemMultiply",
+	"PadMemDivide",
+	"PadPlusMinus",
+	"PadClear",
+	"PadClearEntry",
+	"PadBinary",
+	"PadOctal",
+	"PadDecimal",
+	"PadHexaDecimal",
+
+	"", //421
+	"", //422
+
+	"LeftCtrl",
+	"LeftShift",
+	"LeftAlt",
+	"LeftGui",
+	"RightCtrl",
+	"RightShift",
+	"RightAlt",
+	"RightGui",
+
+	"", //431
+	"", //432
+	"", //433
+	"", //434
+	"", //435
+	"", //436
+	"", //437
+	"", //438
+	"", //439
+	"", //440
+	"", //441
+	"", //442
+	"", //443
+	"", //444
+	"", //445
+	"", //446
+	"", //447
+	"", //448
+	"", //449
+	"", //450
+	"", //451
+	"", //452
+	"", //453
+	"", //454
+	"", //455
+
+	"Mode",
+	"AudioNext",
+	"AudioPrev",
+	"AudioStop",
+	"AudioPlay",
+	"AudioMute",
+	"MediaSelect",
+	"Www",
+	"Mail",
+	"Calculator",
+	"Computer",
+	"AcSearch",
+	"AcHome",
+	"AcBack",
+	"AcForward",
+	"AcStop",
+	"AcRefresh",
+	"AcBookMarks",
+	"BrightnessDown",
+	"BrightnessUp",
+	"DisplaySwitch",
+	"KbDillumToggle",
+	"KbDillumDown",
+	"KbDillumUp",
+	"Eject",
+	"Sleep",
 
 };
 #endif
@@ -395,18 +575,15 @@ void IInputKeyboard::RemoveKeyboardListener(IEventInputKeyboardListener *listene
 void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 {
 	SEED_ASSERT(ev);
-
+/*
 #if defined(DEBUG)
-	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
+	Dbg(">>>> Key Press: %s Modifier: 0x%04x", keyName[static_cast<u32>(ev->GetKey())], ev->GetModifier());
 #endif
-
-	IEventInputKeyboardListenerVectorIterator it = vKeyboardListeners.begin();
-	IEventInputKeyboardListenerVectorIterator end = vKeyboardListeners.end();
-	for (; it != end; ++it)
+*/
+	auto listeners = vKeyboardListeners;
+	for (auto each: listeners)
 	{
-		(*it)->OnInputKeyboardPress(ev);
-
-		if (ev->IsConsumed())
+		if (!each->OnInputKeyboardPress(ev))
 			break;
 	}
 }
@@ -414,18 +591,15 @@ void IInputKeyboard::SendEventKeyboardPress(const EventInputKeyboard *ev)
 void IInputKeyboard::SendEventKeyboardRelease(const EventInputKeyboard *ev)
 {
 	SEED_ASSERT(ev);
-
+/*
 #if defined(DEBUG)
-	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[ev->GetKey().GetValue()], ev->GetModifier());
+	Dbg(">>>> Key Release: %s Modifier: 0x%04x", keyName[static_cast<u32>(ev->GetKey())], static_cast<u32>(ev->GetModifier()));
 #endif
-
-	IEventInputKeyboardListenerVectorIterator it = vKeyboardListeners.begin();
-	IEventInputKeyboardListenerVectorIterator end = vKeyboardListeners.end();
-	for (; it != end; ++it)
+*/
+	auto listeners = vKeyboardListeners;
+	for (auto each: listeners)
 	{
-		(*it)->OnInputKeyboardRelease(ev);
-
-		if (ev->IsConsumed())
+		if (!each->OnInputKeyboardRelease(ev))
 			break;
 	}
 }

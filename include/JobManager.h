@@ -31,27 +31,30 @@
 #ifndef __JOBMANAGER_H__
 #define __JOBMANAGER_H__
 
-#include "interface/IModule.h"
+#include "interface/IManager.h"
 #include "interface/IUpdatable.h"
 #include "Singleton.h"
 #include "Container.h"
+#include "Thread.h"
+
+#include <queue>
 
 namespace Seed {
 
 class Job;
-class IEventJobListener;
 
 /// Job Manager
-class SEED_CORE_API JobManager : public IModule, public IUpdatable
+class SEED_CORE_API JobManager : public IManager, public IUpdatable
 {
-	SEED_SINGLETON_DECLARE(JobManager)
-	DECLARE_CONTAINER_TYPE(Vector, Job)
-	public:
-		virtual Job *Add(Job *job);
-		virtual void Remove(Job *job);
+	SEED_DECLARE_SINGLETON(JobManager)
+	SEED_DECLARE_MANAGER(JobManager)
+	SEED_DECLARE_CONTAINER(Vector, Job)
+	SEED_DISABLE_COPY(JobManager)
 
-		// IModule
-		virtual bool Initialize() override;
+	public:
+		Job *Add(Job *job);
+
+		// IManager
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
 
@@ -59,17 +62,19 @@ class SEED_CORE_API JobManager : public IModule, public IUpdatable
 		virtual void Enable() override;
 
 		// IUpdatable
-		virtual bool Update(f32 dt) override;
+		virtual bool Update(Seconds dt) override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
+	protected:
+		void StartThreads();
 
 	private:
-		SEED_DISABLE_COPY(JobManager);
+		Mutex cMutex;
 
-		JobVector vJob;
-		bool bEnabled;
+		std::queue<Job *> vQueue;
+		JobVector vRunning;
+
+		u32 iMaxThreads = 8;
+		bool bEnabled = true;
 };
 
 #define pJobManager JobManager::GetInstance()

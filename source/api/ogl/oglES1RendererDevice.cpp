@@ -30,18 +30,13 @@
 
 #include "RendererDevice.h"
 
-#if defined(USE_API_OGL)
+#if defined(USE_API_OGL) && !defined(SEED_ENABLE_OGLES2)
 
+#include "api/ogl/oglHeaders.h"
 #include "Log.h"
 #include "Screen.h"
 #include "Texture.h"
 #include "Vertex.h"
-
-#if defined(BUILD_SDL)
-#undef NO_SDL_GLEXT
-#define NO_SDL_GLEXT	1
-#include <SDL/SDL_opengl.h>
-#endif
 
 #if defined(BUILD_IOS)
 	#define PIXEL_FORMAT_32 GL_RGBA
@@ -83,20 +78,11 @@
 	#define GL_ENABLE_BIT 0
 	#define GL_CURRENT_BIT 0
 #else
-	#if defined(__APPLE_CC__) || defined(BUILD_GLFW)
+	#if defined(__APPLE_CC__) || defined(BUILD_GLFW) || defined(BUILD_SDL2)
 		#define PIXEL_FORMAT_32 GL_RGBA
 	#else
 		#define PIXEL_FORMAT_32 GL_BGRA
 	#endif
-	#define _OPENGL_15		1
-	#if defined(__APPLE_CC__)
-		#include <OpenGL/gl.h>
-		#include <OpenGL/glext.h>
-	#else
-		#include <GL/gl.h>
-		#include <GL/glext.h>
-	#endif
-
 	#if defined(BUILD_SDL)
 		#include "platform/sdl/sdlDefines.h"
 	#endif
@@ -118,6 +104,10 @@
 #define GL_ELEMSIZE(x)	this->GetOpenGLElementSizeByType(x)
 
 #define TAG "[OGLES1RendererDevice] "
+
+#ifndef M_PI
+#define M_PI 3.14159265358979323846
+#endif
 
 namespace Seed { namespace OpenGL {
 
@@ -191,7 +181,7 @@ bool OGLES1RendererDevice::Initialize()
 
 bool OGLES1RendererDevice::Reset()
 {
-	#warning FIXME - mutex lock guard here (?)
+	WARNING(FIXME - mutex lock guard here)
 	ITextureVector().swap(vTexture);
 	return true;
 }
@@ -249,7 +239,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 	{
 		/* REPLACE */
 		default:
-		case BlendNone:
+		case eBlendMode::None:
 		{
 			// http://home.comcast.net/~tom_forsyth/blog.wiki.html#[[Premultiplied%20alpha]]
 			glTexEnvi(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_REPLACE);
@@ -258,21 +248,21 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 		break;
 
 		/* BLEND */
-		case BlendDefault:
+		case eBlendMode::Default:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
 			glBlendFunc(GL_ONE, GL_ONE);
 		}
 		break;
 
-		case BlendMerge:
+		case eBlendMode::Merge:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
 			glBlendFunc(GL_SRC_ALPHA, GL_DST_ALPHA);
 		}
 		break;
 
-		case BlendScreen:
+		case eBlendMode::Screen:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_BLEND);
 			glBlendFunc(GL_ONE, GL_ONE_MINUS_SRC_COLOR);
@@ -280,7 +270,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 		break;
 
 		/* DECAL */
-		case BlendDecalOverlay:
+		case eBlendMode::DecalOverlay:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_DECAL);
 			glBlendFunc(GL_DST_COLOR, GL_ONE);
@@ -289,7 +279,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 		break;
 
 		/* MODULATE */
-		case BlendAdditive:
+		case eBlendMode::Additive:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE);
@@ -297,7 +287,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 		}
 		break;
 
-		case BlendOverlay:
+		case eBlendMode::Overlay:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_DST_COLOR, GL_ONE);
@@ -305,7 +295,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 		}
 		break;
 
-		case BlendLighten:
+		case eBlendMode::Lighten:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_ONE_MINUS_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -313,7 +303,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 		}
 		break;
 
-		case BlendColorDodge:
+		case eBlendMode::ColorDodge:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_ONE, GL_ONE);
@@ -321,7 +311,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 		}
 		break;
 
-		case BlendModulateAlpha:
+		case eBlendMode::ModulateAlpha:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -331,7 +321,7 @@ void OGLES1RendererDevice::SetBlendingOperation(eBlendMode mode, const Color &co
 		}
 		break;
 
-		case BlendModulate:
+		case eBlendMode::Modulate:
 		{
 			glTexEnvf(GL_TEXTURE_ENV, GL_TEXTURE_ENV_MODE, GL_MODULATE);
 			glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -347,17 +337,17 @@ void OGLES1RendererDevice::SetTextureParameters(const ITexture *texture) const
 	GL_TRACE("BEGIN SetTextureParameters")
 	SEED_ASSERT(texture);
 
-	eTextureFilter min = texture->GetFilter(Seed::TextureFilterTypeMin);
-	eTextureFilter mag = texture->GetFilter(Seed::TextureFilterTypeMag);
+	eTextureFilter min = texture->GetFilter(eTextureFilterType::Min);
+	eTextureFilter mag = texture->GetFilter(eTextureFilterType::Mag);
 
-	if (min == Seed::TextureFilterLinear)
+	if (min == eTextureFilter::Linear)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	else if (min == Seed::TextureFilterNearest)
+	else if (min == eTextureFilter::Nearest)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
 
-	if (mag == Seed::TextureFilterLinear)
+	if (mag == eTextureFilter::Linear)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-	else if (mag == Seed::TextureFilterNearest)
+	else if (mag == eTextureFilter::Nearest)
 		glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
@@ -367,26 +357,24 @@ void OGLES1RendererDevice::SetTextureParameters(const ITexture *texture) const
 
 void OGLES1RendererDevice::TextureRequestAbort(ITexture *texture)
 {
-	#warning FIXME - mutex lock guard here
+	WARNING(FIXME - mutex lock guard here)
 	vTexture -= texture;
 }
 
 void OGLES1RendererDevice::TextureRequest(ITexture *texture)
 {
-	#warning FIXME - mutex lock guard here
+	WARNING(FIXME - mutex lock guard here)
 	vTexture += texture;
 }
 
 void OGLES1RendererDevice::TextureRequestProcess() const
 {
-	#warning FIXME - mutex lock guard here
+	WARNING(FIXME - mutex lock guard here)
 
 	GL_TRACE("BEGIN TextureRequestProcess")
-	ITextureVector::iterator it = vTexture.begin();
-	ITextureVector::iterator end = vTexture.end();
-	for (; it != end; ++it)
+
+	for (auto texture: vTexture)
 	{
-		ITexture *texture = (*it);
 		if (texture)
 		{
 			GLint tex = 0;
@@ -399,7 +387,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			GLuint h = texture->GetAtlasHeight();
 			const void *data = texture->GetData();
 
-			// if data == NULL then this can be a dynamic texture/render target. we need just the texture id.
+			// if data == nullptr then this can be a dynamic texture/render target. we need just the texture id.
 			if (data)
 			{
 				u32 bpp = texture->GetBytesPerPixel();
@@ -407,7 +395,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 				switch (texture->GetCompressionType())
 				{
 #if defined(BUILD_IOS)
-					case TextureCompression_RGB_PVRTC_2BPPV1:
+					case eTextureCompression::RGB_PVRTC_2BPPV1:
 					{
 						//GLuint bpp = 2;
 						GLsizei size = w * h * bpp / 8;
@@ -420,6 +408,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 					break;
 #endif
 
+					case eTextureCompression::None:
 					default:
 					{
 						switch (bpp)
@@ -456,7 +445,7 @@ void OGLES1RendererDevice::TextureRequestProcess() const
 			}
 			else if (w && h)// Render Target, 32bits only
 			{
-				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, NULL);
+				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA8, w, h, 0, PIXEL_FORMAT_32, GL_UNSIGNED_BYTE, nullptr);
 			}
 			// else is a dynamic texture from image/video.
 
@@ -529,7 +518,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	const ITexture *texture = packet->pTexture;
 	VertexBuffer *vbo = (VertexBuffer *)packet->pVertexBuffer;
 	ElementBuffer *ebo = (ElementBuffer *)packet->pElementBuffer;
-	Vector3f pivot = packet->vPivot;
+	vec3 pivot = packet->vPivot;
 
 	this->SetBlendingOperation(packet->nBlendMode, packet->cColor);
 
@@ -549,7 +538,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	GLfloat *pfm = (GLfloat *)packet->pTransform;
 	glLoadMatrixf(pfm);
 
-	void *elemPtr = NULL;
+	void *elemPtr = nullptr;
 #if USE_API_OGL_VBO
 	if (ebo)
 	{
@@ -582,10 +571,11 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	if (ebo)
 		elemPtr = ebo->pData;
 
-	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &vbo->pData[0].cColor);
+	sVertex *data = static_cast<sVertex *>(vbo->pData);
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(sVertex), &data[0].cColor);
 	if (texture)
-		glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cCoords);
-	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &vbo->pData[0].cVertex);
+		glTexCoordPointer(2, GL_FLOAT, sizeof(sVertex), &data[0].cCoords);
+	glVertexPointer(3, GL_FLOAT, sizeof(sVertex), &data[0].cVertex);
 #endif
 
 	if (!ebo)
@@ -598,7 +588,7 @@ void OGLES1RendererDevice::UploadData(void *userData)
 	GL_TRACE("END UploadData")
 
 
-	if (packet->iFlags & FlagWireframe)
+	if (static_cast<u32>(packet->nFlags) & static_cast<u32>(ePacketFlags::Wireframe))
 	{
 		glDisable(GL_TEXTURE_2D);
 		glDisable(GL_BLEND);
@@ -609,13 +599,14 @@ void OGLES1RendererDevice::UploadData(void *userData)
 			glDrawArrays(this->GetOpenGLMeshType(packet->nMeshType), 0, vbo->iLength);
 			glPopAttrib();
 		#else
-			glDrawArrays(GL_LINE_STRIP, 0, packet->iSize);
+			glDrawArrays(GL_LINE_STRIP, 0, vbo->iLength);
 		#endif
 
 		if (packet->fRadius)
 		{
-			Vector3f op = packet->pTransform->getTranslation();
-			pRendererDevice->DrawCircle(op.getX(), op.getY(), packet->fRadius, Color(255, 0, 255, 255));
+			auto translation = GLM_GetTranslationFromMatrix(*packet->pTransform);
+			vec3 op{translation[0], translation[1], translation[2]};
+			pRendererDevice->DrawCircle(op.x, op.y, packet->fRadius, Color(255, 0, 255, 255));
 		}
 
 //		glPointSize(5.0f);
@@ -625,13 +616,18 @@ void OGLES1RendererDevice::UploadData(void *userData)
 //			glDrawElements(GL_POINTS, ebo->iLength, GL_ELEMTYPE(ebo->nElemType), elemPtr);
 
 		glPointSize(7.0f);
-		glBegin(GL_POINTS);
-			glColor3f(1.0f, 0.0f, 1.0f);
-			glVertex3f(pivot.getX(), pivot.getY(), pivot.getZ());
-		glEnd();
+		#if !defined (BUILD_IOS)
+			glBegin(GL_POINTS);
+				glColor3f(1.0f, 0.0f, 1.0f);
+				glVertex3f(pivot.x, pivot.y, pivot.z);
+			glEnd();
+		#endif
 
-		Vector3f op = packet->pTransform->getTranslation();
-		pRendererDevice->DrawCircle(pivot.getX() + op.getX(), pivot.getY() + op.getY(), 3, Color(255, 0, 255, 255));
+		{
+			auto translation = GLM_GetTranslationFromMatrix(*packet->pTransform);
+			vec3 op{translation[0], translation[1], translation[2]};
+			pRendererDevice->DrawCircle(pivot.x + op.x, pivot.y + op.y, 3, Color(255, 0, 255, 255));
+		}
 
 		glEnable(GL_TEXTURE_2D);
 		glEnable(GL_BLEND);
@@ -640,32 +636,32 @@ void OGLES1RendererDevice::UploadData(void *userData)
 
 int OGLES1RendererDevice::GetOpenGLBufferUsageType(eBufferUsage usage) const
 {
-	int usages[BufferUsageCount] = {GL_STATIC_DRAW, GL_DYNAMIC_DRAW, GL_STREAM_DRAW};
-	return usages[usage];
+	int usages[static_cast<u32>(eBufferUsage::Count)] = {GL_STATIC_DRAW, GL_DYNAMIC_DRAW, GL_STREAM_DRAW};
+	return usages[static_cast<u32>(usage)];
 }
 
 int OGLES1RendererDevice::GetOpenGLElementType(eElementType type) const
 {
-	int types[ElementTypeCount] = {GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, GL_UNSIGNED_INT};
-	return types[type];
+	int types[static_cast<u32>(eElementType::Count)] = {GL_UNSIGNED_BYTE, GL_UNSIGNED_SHORT, GL_UNSIGNED_INT};
+	return types[static_cast<u32>(type)];
 }
 
 int OGLES1RendererDevice::GetOpenGLElementSizeByType(eElementType type) const
 {
-	int sizes[ElementTypeCount] = {1, 2, 4};
-	return sizes[type];
+	int sizes[static_cast<u32>(eElementType::Count)] = {1, 2, 4};
+	return sizes[static_cast<u32>(type)];
 }
 
 int OGLES1RendererDevice::GetOpenGLBufferTargetType(eBufferTarget type) const
 {
-	int types[BufferTargetCount] = {GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER};
-	return types[type];
+	int types[static_cast<u32>(eBufferTarget::Count)] = {GL_ARRAY_BUFFER, GL_ELEMENT_ARRAY_BUFFER};
+	return types[static_cast<u32>(type)];
 }
 
 int OGLES1RendererDevice::GetOpenGLMeshType(eMeshType type) const
 {
-	int types[MeshTypeCount] = {GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_LINES, GL_LINE_STRIP, GL_LINE_LOOP};
-	return types[type];
+	int types[static_cast<u32>(eMeshType::MeshTypeCount)] = {GL_TRIANGLES, GL_TRIANGLE_STRIP, GL_TRIANGLE_FAN, GL_LINES, GL_LINE_STRIP, GL_LINE_LOOP};
+	return types[static_cast<u32>(type)];
 }
 
 void OGLES1RendererDevice::DestroyHardwareBuffer(IHardwareBuffer *buf) const
@@ -680,7 +676,9 @@ void OGLES1RendererDevice::DestroyHardwareBuffer(IHardwareBuffer *buf) const
 void OGLES1RendererDevice::BackbufferFill(const Color &color) const
 {
 	GL_TRACE("BEGIN BackbufferFill")
-	const GLfloat vertices[] = {0.0f, 0.0f, 0.0f, pScreen->GetHeight(), pScreen->GetWidth(), 0.0f, pScreen->GetWidth(), pScreen->GetHeight()};
+	const f32 h = static_cast<f32>(pScreen->GetHeight());
+	const f32 w  =static_cast<f32>(pScreen->GetWidth());
+	const GLfloat vertices[] = {0.0f, 0.0f,	0.0f, h, w,0.0f, w, h};
 
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
 	glDisableClientState(GL_COLOR_ARRAY);
@@ -814,7 +812,7 @@ void OGLES1RendererDevice::EnableScissor(bool b) const
 
 void OGLES1RendererDevice::SetScissor(f32 x, f32 y, f32 w, f32 h) const
 {
-	glScissor(x, y, w, h);
+	glScissor(GLint(x), GLint(y), GLsizei(w), GLsizei(h));
 }
 
 void OGLES1RendererDevice::SetViewport(f32 x, f32 y, f32 w, f32 h) const

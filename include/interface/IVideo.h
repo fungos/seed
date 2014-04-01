@@ -39,24 +39,22 @@ namespace Seed {
 /// Video interface
 class IVideo : public ITransformable
 {
+	SEED_DISABLE_COPY(IVideo)
+
 	public:
-		IVideo();
-		virtual ~IVideo();
+		IVideo() = default;
+		virtual ~IVideo() {}
 
 		//virtual bool Load(const String &filename);
 		//virtual void Reset();
 		//virtual bool Unload();
 
-		//virtual bool Update(f32 delta);
-
-	private:
-		SEED_DISABLE_COPY(IVideo);
+		//virtual bool Update(Seconds dt);
 
 	public:
-		u32	iDuration;
-
-		u32	iWidth;
-		u32	iHeight;
+		u32	iDuration = 0;
+		u32	iWidth = 0;
+		u32	iHeight = 0;
 };
 
 } // namespace

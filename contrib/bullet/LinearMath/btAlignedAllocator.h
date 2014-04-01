@@ -20,7 +20,7 @@ subject to the following restrictions:
 ///so we replace _aligned_malloc and _aligned_free with our own
 ///that is better portable and more predictable
 
-#include "btScalar.h"
+#include <bullet/LinearMath/btScalar.h>
 //#define BT_DEBUG_MEMORY_ALLOCATIONS 1
 #ifdef BT_DEBUG_MEMORY_ALLOCATIONS
 
@@ -59,9 +59,9 @@ void btAlignedAllocSetCustomAligned(btAlignedAllocFunc *allocFunc, btAlignedFree
 ///Default implementations for unaligned and aligned allocations can be overridden by a custom allocator using btAlignedAllocSetCustom and btAlignedAllocSetCustomAligned.
 template < typename T , unsigned Alignment >
 class btAlignedAllocator {
-	
+
 	typedef btAlignedAllocator< T , Alignment > self_type;
-	
+
 public:
 
 	//just going down a list:
@@ -90,7 +90,7 @@ public:
 		btAlignedFree( reinterpret_cast< void * >( ptr ) );
 	}
 	void          destroy   ( pointer          ptr )                                 { ptr->~value_type(); }
-	
+
 
 	template < typename O > struct rebind {
 		typedef btAlignedAllocator< O , Alignment > other;

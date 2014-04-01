@@ -2,18 +2,18 @@
 #define BT_TYPE_DEFINITIONS_H
 
 ///This file provides some platform/compiler checks for common definitions
-#include "LinearMath/btScalar.h"
-#include "LinearMath/btMinMax.h"
+#include <bullet/LinearMath/btScalar.h>
+#include <bullet/LinearMath/btMinMax.h>
 
 #ifdef PFX_USE_FREE_VECTORMATH
-#include "physics_effects/base_level/base/pfx_vectormath_include.win32.h"
+#include <bullet/physics_effects/base_level/base/pfx_vectormath_include.win32.h>
 typedef Vectormath::Aos::Vector3    vmVector3;
 typedef Vectormath::Aos::Quat       vmQuat;
 typedef Vectormath::Aos::Matrix3    vmMatrix3;
 typedef Vectormath::Aos::Transform3 vmTransform3;
 typedef Vectormath::Aos::Point3     vmPoint3;
 #else
-#include "vectormath/vmInclude.h"
+#include <bullet/vectormath/vmInclude.h>
 #endif//PFX_USE_FREE_VECTORMATH
 
 
@@ -47,14 +47,14 @@ typedef union
 
 		#include <malloc.h>
 		#define memalign(alignment, size) malloc(size);
-			
+
 #include <string.h> //memcpy
 
-		
 
-		#include <stdio.h>		
+
+		#include <stdio.h>
 		#define spu_printf printf
-		
+
 #else
 		#include <stdint.h>
 		#include <stdlib.h>
@@ -63,15 +63,15 @@ typedef union
 #if defined	(__CELLOS_LV2__)
 	// Playstation 3 Cell SDK
 #include <spu_printf.h>
-		
+
 #else
 	// posix system
 
 #define USE_PTHREADS    (1)
 
 #ifdef USE_LIBSPE2
-#include <stdio.h>		
-#define spu_printf printf	
+#include <stdio.h>
+#define spu_printf printf
 #define DWORD unsigned int
 			typedef union
 			{
@@ -82,16 +82,16 @@ typedef union
 #endif // USE_LIBSPE2
 
 #endif	//__CELLOS_LV2__
-	
+
 #endif
 
 #ifdef __SPU__
-#include <stdio.h>		
+#include <stdio.h>
 #define printf spu_printf
 #endif
 
 /* Included here because we need uint*_t typedefs */
-#include "PpuAddressSpace.h"
+#include <bullet/BulletMultiThreaded/PpuAddressSpace.h>
 
 #endif //BT_TYPE_DEFINITIONS_H
 

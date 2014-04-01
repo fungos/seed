@@ -35,7 +35,6 @@
 #include "Enum.h"
 #include "Reader.h"
 #include "Writer.h"
-#include "MathUtil.h"
 
 namespace Seed {
 
@@ -45,12 +44,14 @@ Interface for renderables objects. Things that will be rendered to the screen.
 */
 class SEED_CORE_API IRenderable
 {
+	SEED_DISABLE_COPY(IRenderable)
+
 	public:
 		IRenderable();
 		virtual ~IRenderable();
 
-		virtual void Render(const Matrix4f &worldTransform) = 0;
-		virtual void Update(f32 delta) = 0;
+		virtual void Render(const mat4 &worldTransform) = 0;
+		virtual void Update(Seconds dt) = 0;
 
 		virtual void SetColor(u32 r, u32 g, u32 b, u32 a);
 		virtual void SetColor(f32 r, f32 g, f32 b, f32 a);
@@ -67,15 +68,12 @@ class SEED_CORE_API IRenderable
 		virtual void Serialize(Writer &writer);
 
 	protected:
-		eBlendMode	eBlendOperation;
-		Color		cColor;
-		bool		bColorChanged;
-		bool		bVisible;
-
 		virtual void Reset();
 
-	private:
-		SEED_DISABLE_COPY(IRenderable);
+		eBlendMode	nBlendOperation;
+		Color		cColor;
+		bool		bColorChanged : 1;
+		bool		bVisible : 1;
 };
 
 } // namespace

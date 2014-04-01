@@ -4,8 +4,8 @@
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -19,13 +19,13 @@ subject to the following restrictions:
 
 #include <stdlib.h>
 #ifdef PFX_USE_FREE_VECTORMATH
-#include "vecmath/vmInclude.h"
+#include <bullet/vecmath/vmInclude.h>
 #else
-#include "vectormath/vmInclude.h"
+#include <bullet/vectormath/vmInclude.h>
 #endif //PFX_USE_FREE_VECTORMATH
 
 
-#include "PlatformDefinitions.h"
+#include <bullet/BulletMultiThreaded/PlatformDefinitions.h>
 
 
 static inline vmVector3 read_Vector3(const float* p)
@@ -50,8 +50,10 @@ static inline void store_Vector3(const vmVector3 &src, float* p)
 
 static inline void store_Quat(const vmQuat &src, float* p)
 {
-	vmQuat vq = src;
-	storeXYZW(vq, p);
+	int *debug = NULL;
+	*debug++;
+	//vmQuat vq = src;
+	//storeXYZW(vq, p);
 }
 
 // Motion Type
@@ -98,7 +100,7 @@ public:
 	}
 
 	TrbState(const uint8_t m, const vmVector3& x, const vmQuat& q, const vmVector3& v, const vmVector3& omega );
-	
+
 	uint16_t	mSleepCount;
 	uint8_t		mMotionType;
 	uint8_t		deleted            : 1;
@@ -117,7 +119,7 @@ public:
 
 	float		linearDamping;
 	float		angularDamping;
-	
+
 	float		deltaLinearVelocity[3];
 	float		deltaAngularVelocity[3];
 
@@ -284,7 +286,7 @@ TrbState::setAuxilsCcd(const vmVector3 &centerLocal,const vmVector3 &halfLocal,f
 	vmVector3 newCenter = centerW + diffvec;
 	vmVector3 aabbMin = minPerElem(newCenter - halfW,centerW - halfW);
 	vmVector3 aabbMax = maxPerElem(newCenter + halfW,centerW + halfW);
-	
+
 	centerW = 0.5f * (aabbMin + aabbMax);
 	halfW =0.5f * (aabbMax - aabbMin);
 

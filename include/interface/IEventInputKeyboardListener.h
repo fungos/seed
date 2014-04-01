@@ -39,15 +39,14 @@ namespace Seed {
 /// Keyboard input event listener
 class SEED_CORE_API IEventInputKeyboardListener : public IEventListener
 {
+	SEED_DISABLE_COPY(IEventInputKeyboardListener)
+
 	public:
-		IEventInputKeyboardListener();
-		virtual ~IEventInputKeyboardListener();
+		IEventInputKeyboardListener() = default;
+		virtual ~IEventInputKeyboardListener() {}
 
-		virtual void OnInputKeyboardPress(const EventInputKeyboard *ev);
-		virtual void OnInputKeyboardRelease(const EventInputKeyboard *ev);
-
-	private:
-		SEED_DISABLE_COPY(IEventInputKeyboardListener);
+		virtual bool OnInputKeyboardPress(const EventInputKeyboard *ev)		{ UNUSED(ev); return true; }
+		virtual bool OnInputKeyboardRelease(const EventInputKeyboard *ev)	{ UNUSED(ev); return true; }
 };
 
 } // namespace

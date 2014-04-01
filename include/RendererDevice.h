@@ -33,10 +33,21 @@
 
 #if defined(BUILD_IOS)
 	#include "platform/pc/pcRendererDevice.h"
+
+	#if defined(SEED_ENABLE_OGLES2)
+	#include "api/ogl/oglES2RendererDevice.h"
+	#else
 	#include "api/ogl/oglES1RendererDevice.h"
-#elif defined(BUILD_SDL) || defined(BUILD_GLFW)
-	#include "api/ogl/oglES1RendererDevice.h"
+	#endif
+
+#elif defined(BUILD_SDL) || defined(BUILD_GLFW) || defined(BUILD_SDL2)
 	#include "platform/pc/pcRendererDevice.h"
+
+	#if defined(SEED_ENABLE_OGLES2)
+	#include "api/ogl/oglES2RendererDevice.h"
+	#else
+	#include "api/ogl/oglES1RendererDevice.h"
+	#endif
 
 	#if defined(SEED_ENABLE_OGL20)
 	#include "api/ogl/ogl20RendererDevice.h"

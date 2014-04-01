@@ -39,8 +39,10 @@ class MapLayerTiled;
 class MapLayerMosaic;
 class MapLayerMetadata;
 
-class SEED_CORE_API IMapLayer : public SceneNode
+class SEED_CORE_API IMapLayer : public ISceneNode
 {
+	SEED_DISABLE_COPY(IMapLayer)
+
 	public:
 		IMapLayer();
 		virtual ~IMapLayer();
@@ -49,6 +51,7 @@ class SEED_CORE_API IMapLayer : public SceneNode
 		virtual f32 GetOpacity() const;
 
 		virtual const String &GetProperty(const String &property) const;
+		virtual void SetProperty(const String &key, const String &value = "");
 
 		virtual MapLayerTiled *AsTiled();
 		virtual MapLayerMosaic *AsMosaic();
@@ -56,13 +59,14 @@ class SEED_CORE_API IMapLayer : public SceneNode
 
 	protected:
 		void ReadProperties(Reader &reader);
+		void WriteProperties(Writer &writer);
+
 		void ReadMapLayer(Reader &reader);
+		void WriteMapLayer(Writer &writer);
 
 		Map<String, String> mProperties;
 
 	private:
-		SEED_DISABLE_COPY(IMapLayer);
-
 		f32 fOpacity;
 };
 

@@ -40,6 +40,8 @@
 #include "interface/ITexture.h"
 #include "Profiler.h"
 #include "Configuration.h"
+#include "Memory.h"
+#include <glm/vec3.hpp>
 
 #define TAG "[Sprite] "
 
@@ -47,16 +49,15 @@ namespace Seed {
 
 ISceneObject *FactorySprite()
 {
-	Sprite *s = New(Sprite());
-	return s;
+	return sdNew(Sprite);
 }
 
 Sprite::Sprite()
 	: ISceneObject()
-	, pvFrames(NULL)
-	, pAnimation(NULL)
-	, pFrame(NULL)
-	, pFrameTexture(NULL)
+	, pvFrames(nullptr)
+	, pAnimation(nullptr)
+	, pFrame(nullptr)
+	, pFrameTexture(nullptr)
 	, vAnimations()
 	, iCurrentAnimation(0)
 	, iCurrentFrame(0)
@@ -104,6 +105,10 @@ Sprite::Sprite(const Sprite &other)
 	cVertex[1] = other.cVertex[1];
 	cVertex[2] = other.cVertex[2];
 	cVertex[3] = other.cVertex[3];
+	cVertexBuffer.SetData(cVertex, 4);
+
+	// ISceneObject
+	bMarkForDeletion = true;
 
 	// ITransformable
 	pParent = other.pParent;
@@ -117,7 +122,7 @@ Sprite::Sprite(const Sprite &other)
 	bTransformationChanged = other.bTransformationChanged;
 
 	// IRenderable
-	eBlendOperation = other.eBlendOperation;
+	nBlendOperation = other.nBlendOperation;
 	cColor = other.cColor;
 	bColorChanged = other.bColorChanged;
 	bVisible = other.bVisible;
@@ -143,6 +148,7 @@ Sprite &Sprite::operator=(const Sprite &other)
 		cVertex[1] = other.cVertex[1];
 		cVertex[2] = other.cVertex[2];
 		cVertex[3] = other.cVertex[3];
+		cVertexBuffer.SetData(cVertex, 4);
 
 		bInitialized = other.bInitialized;
 		bChanged = other.bChanged;
@@ -150,6 +156,9 @@ Sprite &Sprite::operator=(const Sprite &other)
 		bLoop = other.bLoop;
 		bPlaying = other.bPlaying;
 		bFinished = other.bFinished;
+
+		// ISceneObject
+		bMarkForDeletion = true;
 
 		// ISceneObject
 		sName = other.sName;
@@ -166,7 +175,7 @@ Sprite &Sprite::operator=(const Sprite &other)
 		bTransformationChanged = other.bTransformationChanged;
 
 		// IRenderable
-		eBlendOperation = other.eBlendOperation;
+		nBlendOperation = other.nBlendOperation;
 		cColor = other.cColor;
 		bColorChanged = other.bColorChanged;
 		bVisible = other.bVisible;
@@ -180,18 +189,16 @@ void Sprite::Reset()
 {
 	if (!bIsCopy)
 	{
-		AnimationVectorIterator it = vAnimations.begin();
-		AnimationVectorIterator end = vAnimations.end();
-		for (; it != end; ++it)
-			Delete(*it);
+		for (auto each: vAnimations)
+			sdDelete(each);
 	}
 
 	AnimationVector().swap(vAnimations);
 
-	pFrameTexture	= NULL;
-	pAnimation		= NULL;
-	pFrame			= NULL;
-	pvFrames		= NULL;
+	pFrameTexture	= nullptr;
+	pAnimation		= nullptr;
+	pFrame			= nullptr;
+	pvFrames		= nullptr;
 	bInitialized	= false;
 	bChanged		= false;
 	bAnimation		= false;
@@ -238,27 +245,25 @@ void Sprite::ReconfigureFrame()
 {
 	SEED_ASSERT(pFrameTexture);
 
-	ITransformable::SetWidth(pFrame->iWidth);
-	ITransformable::SetHeight(pFrame->iHeight);
+	ITransformable::SetWidth(f32(pFrame->iWidth));
+	ITransformable::SetHeight(f32(pFrame->iHeight));
 
-	f32 u0, u1, v0, v1;
+	auto u0 = pFrame->fTexS0;
+	auto v0 = pFrame->fTexT0;
+	auto u1 = pFrame->fTexS1;
+	auto v1 = pFrame->fTexT1;
 
-	u0 = pFrame->fTexS0;
-	v0 = pFrame->fTexT0;
-	u1 = pFrame->fTexS1;
-	v1 = pFrame->fTexT1;
-
-	cVertex[0].cCoords = Point2f(u0, v0);
-	cVertex[1].cCoords = Point2f(u1, v0);
-	cVertex[2].cCoords = Point2f(u0, v1);
-	cVertex[3].cCoords = Point2f(u1, v1);
+	cVertex[0].cCoords = vec2{u0, v0};
+	cVertex[1].cCoords = vec2{u1, v0};
+	cVertex[2].cCoords = vec2{u0, v1};
+	cVertex[3].cCoords = vec2{u1, v1};
 
 	bChanged = true;
 }
 
 bool Sprite::SetAnimation(u32 index)
 {
-	bool ret = false;
+	auto ret = false;
 	if (bInitialized && index < vAnimations.Size())
 	{
 		Animation *pNewAnimation = vAnimations[index];
@@ -283,13 +288,12 @@ bool Sprite::SetAnimation(u32 index)
 
 bool Sprite::SetAnimation(String name)
 {
-	bool ret = false;
+	auto ret = false;
 	if (bInitialized)
 	{
-		Animation *pNewAnimation = NULL;
-		u32 i = 0;
-
-		u32 anims = (u32)vAnimations.Size();
+		Animation *pNewAnimation = nullptr;
+		auto anims = vAnimations.Size();
+		decltype(anims) i = 0;
 		for (i = 0; i < anims; i++)
 		{
 			Animation *p = vAnimations[i];
@@ -320,15 +324,15 @@ bool Sprite::SetAnimation(String name)
 
 u32 Sprite::GetAnimationCount() const
 {
-	return (u32)vAnimations.Size();
+	return u32(vAnimations.Size());
 }
 
-u32 Sprite::GetAnimation() const
+u32 Sprite::GetCurrentAnimation() const
 {
 	return iCurrentAnimation;
 }
 
-const String Sprite::GetAnimationName() const
+const String Sprite::GetCurrentAnimationName() const
 {
 	String ret;
 	if (pAnimation)
@@ -426,16 +430,16 @@ bool Sprite::IsAnimated() const
 	return bAnimation;
 }
 
-void Sprite::Update(f32 delta)
+void Sprite::Update(Seconds dt)
 {
 	if (!bInitialized)
 		return;
 
 	if (bPlaying && bAnimation)
 	{
-		fFrameTime += delta;
+		fFrameTime += dt;
 
-		f32 rate = pFrame->fFrameRate;
+		auto rate = pFrame->fFrameRate;
 		if (fFrameTime > rate)
 		{
 			fFrameTime -= rate;
@@ -449,7 +453,7 @@ void Sprite::Update(f32 delta)
 			else
 				iCurrentFrame++;
 
-			Frame *next = pvFrames->at(iCurrentFrame);
+			auto next = pvFrames->at(iCurrentFrame);
 			if (next != pFrame)
 			{
 				pFrame = next;
@@ -468,17 +472,16 @@ void Sprite::Update(f32 delta)
 	bChanged = false;
 	if (bTransformationChanged)
 	{
-		f32  x1, y1, x2, y2, z;
-		x2 = vBoundingBox.getX() * 0.5f;
-		y2 = vBoundingBox.getY() * 0.5f;
-		x1 = -x2;
-		y1 = -y2;
-		z = vPos.getZ();
+		auto x2 = vBoundingBox.x * 0.5f;
+		auto y2 = vBoundingBox.y * 0.5f;
+		auto x1 = -x2;
+		auto y1 = -y2;
+		auto z = vPos.z;
 
-		cVertex[0].cVertex = Vector3f(x1, y1, z);
-		cVertex[1].cVertex = Vector3f(x2, y1, z);
-		cVertex[2].cVertex = Vector3f(x1, y2, z);
-		cVertex[3].cVertex = Vector3f(x2, y2, z);
+		cVertex[0].cVertex = vec3{x1, y1, z};
+		cVertex[1].cVertex = vec3{x2, y1, z};
+		cVertex[2].cVertex = vec3{x1, y2, z};
+		cVertex[3].cVertex = vec3{x2, y2, z};
 
 		this->UpdateTransform();
 	}
@@ -487,31 +490,33 @@ void Sprite::Update(f32 delta)
 	{
 		bColorChanged = false;
 
-		Color p = cColor;
+		auto p = cColor;
 		cVertex[0].cColor = p;
 		cVertex[1].cColor = p;
 		cVertex[2].cColor = p;
 		cVertex[3].cColor = p;
 	}
+
+	cVertexBuffer.SetData(cVertex, 4);
 }
 
-void Sprite::Render(const Matrix4f &worldTransform)
+void Sprite::Render(const mat4 &worldTransform)
 {
 	if (!bInitialized)
 		return;
 
-	ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? FlagWireframe : FlagNone));
+	ePacketFlags flags = static_cast<ePacketFlags>((pConfiguration->bDebugSprite ? ePacketFlags::Wireframe : ePacketFlags::None));
 
 	SEED_ASSERT(pFrameTexture);
 
 	RendererPacket packet;
-	packet.nMeshType = Seed::TriangleStrip;
+	packet.nMeshType = eMeshType::TriangleStrip;
 	packet.pVertexBuffer = &cVertexBuffer;
 	packet.pTexture = pFrameTexture;
-	packet.nBlendMode = eBlendOperation;
+	packet.nBlendMode = nBlendOperation;
 	packet.pTransform = &worldTransform;
 	packet.cColor = cColor;
-	packet.iFlags = flags;
+	packet.nFlags = flags;
 	packet.vPivot = vTransformedPivot;
 
 	Rect4f box(0, 0, this->GetWidth(), this->GetHeight());
@@ -549,102 +554,132 @@ ITexture *Sprite::GetTexture() const
 	return pFrameTexture;
 }
 
-const String Sprite::GetClassName() const
-{
-	return "Sprite";
-}
-
-int Sprite::GetObjectType() const
-{
-	return Seed::TypeSprite;
-}
-
 bool Sprite::Unload()
 {
 	if (!bIsCopy)
 	{
-		AnimationVectorIterator it = vAnimations.begin();
-		AnimationVectorIterator end = vAnimations.end();
-		for (; it != end; ++it)
-			Delete(*it);
+		for (auto each: vAnimations)
+			sdDelete(each);
 	}
 
 	AnimationVector().swap(vAnimations);
 
-	pFrameTexture	= NULL;
-	pAnimation		= NULL;
-	pFrame			= NULL;
-	pvFrames		= NULL;
+	pFrameTexture	= nullptr;
+	pAnimation		= nullptr;
+	pFrame			= nullptr;
+	pvFrames		= nullptr;
 	bInitialized	= false;
 	bChanged		= false;
+	sName = this->GetTypeName();
 
 	return true;
 }
 
-bool Sprite::Load(Reader &reader, ResourceManager *res)
+Sprite *Sprite::Clone() const
 {
-	SEED_ASSERT(res);
+	auto obj = sdNew(Sprite);
+	obj->GenerateCloneName(sName);
 
-	bool ret = false;
+	obj->pvFrames = pvFrames;
+	obj->pAnimation = pAnimation;
+	obj->pFrame = pFrame;
+	obj->pFrameTexture = pFrameTexture;
 
-	if (this->Unload())
+	obj->vAnimations = vAnimations;
+
+	obj->iCurrentAnimation = iCurrentAnimation;
+	obj->iCurrentFrame = iCurrentFrame;
+	obj->iFrames = iFrames;
+	obj->fFrameTime = fFrameTime;
+
+	obj->cVertex[0] = cVertex[0];
+	obj->cVertex[1] = cVertex[1];
+	obj->cVertex[2] = cVertex[2];
+	obj->cVertex[3] = cVertex[3];
+	obj->cVertexBuffer.SetData(obj->cVertex, 4);
+
+	obj->bInitialized = bInitialized;
+	obj->bChanged = bChanged;
+	obj->bAnimation = bAnimation;
+	obj->bLoop = bLoop;
+	obj->bPlaying = bPlaying;
+	obj->bFinished = bFinished;
+	obj->bIsCopy = true;
+
+	// ISceneObject
+	obj->bMarkForDeletion = true;
+
+	// ITransformable
+	obj->pParent = pParent;
+	obj->mTransform = mTransform;
+	obj->vPos = vPos;
+	obj->vPivot = vPivot;
+	obj->vTransformedPivot = vTransformedPivot;
+	obj->vScale = vScale;
+	obj->vBoundingBox = vBoundingBox;
+	obj->fRotation = fRotation;
+	obj->bTransformationChanged = bTransformationChanged;
+
+	// IRenderable
+	obj->nBlendOperation = nBlendOperation;
+	obj->cColor = cColor;
+	obj->bColorChanged = bColorChanged;
+	obj->bVisible = bVisible;
+
+	return obj;
+}
+
+void Sprite::Set(Reader &reader)
+{
+	sName = reader.ReadString("sName", sName.c_str());
+	auto anims = reader.SelectArray("aAnimations");
+	if (anims)
 	{
-		sName = reader.ReadString("sName", "sprite");
-		u32 anims = reader.SelectArray("aAnimations");
-		if (anims)
+		for (decltype(anims) i = 0; i < anims; i++)
 		{
-			for (u32 i = 0; i < anims; i++)
-			{
-				Animation *a = New(Animation);
-				reader.SelectNext();
-				a->Load(reader, res);
-				vAnimations += a;
-			}
-			reader.UnselectArray();
+			auto a = sdNew(Animation);
+			reader.SelectNext();
+			a->Load(reader, pRes);
+			vAnimations += a;
+		}
+		reader.UnselectArray();
 
-			bInitialized = true;
+		bInitialized = true;
 
-			ITransformable::Unserialize(reader);
-			IRenderable::Unserialize(reader);
+		ITransformable::Unserialize(reader);
+		IRenderable::Unserialize(reader);
 
-			s32 anim = reader.ReadS32("iAnimation", -1);
-			if (anim == -1)
-			{
-				String sanim = reader.ReadString("sAnimation", "");
-				if (sanim == "")
-					this->SetAnimation(0u);
-				else
-					this->SetAnimation(sanim);
-			}
+		auto anim = reader.ReadS32("iAnimation", -1);
+		if (anim == -1)
+		{
+			auto sanim = String(reader.ReadString("sAnimation", ""));
+			if (sanim == "")
+				this->SetAnimation(0u);
 			else
-				this->SetAnimation(anim);
-
-			ret = true;
+				this->SetAnimation(sanim);
 		}
 		else
-		{
-			Log(TAG " WARNING: Animations not found in the sprite '%s'", sName.c_str());
-		}
+			this->SetAnimation(anim);
 	}
 
-	return ret;
+	SEED_WARNING(!vAnimations.Size(), "Sprite '%s': Animations not found in the sprite '%s'", sName.c_str());
 }
 
 bool Sprite::Write(Writer &writer)
 {
 	writer.OpenNode();
-		writer.WriteString("sType", this->GetClassName().c_str());
+		writer.WriteString("sType", this->GetTypeName());
 		writer.WriteString("sName", sName.c_str());
-		writer.WriteS32("iAnimation", this->GetAnimation());
+		writer.WriteS32("iAnimation", this->GetCurrentAnimation());
 
 		ITransformable::Serialize(writer);
 		IRenderable::Serialize(writer);
 
 		writer.OpenArray("aAnimations");
-		u32 anims  = (u32)vAnimations.Size();
-		for (u32 i = 0; i < anims; i++)
+		auto anims  = u32(vAnimations.Size());
+		for (decltype(anims) i = 0; i < anims; i++)
 		{
-			Animation *anim = vAnimations[i];
+			auto anim = vAnimations[i];
 			anim->Write(writer);
 		}
 		writer.CloseArray();

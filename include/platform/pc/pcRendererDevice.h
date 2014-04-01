@@ -43,7 +43,10 @@ namespace Seed { namespace PC {
 /// PC Rendering Device
 class SEED_CORE_API RendererDevice : public IRendererDevice
 {
-	SEED_SINGLETON_DECLARE(RendererDevice)
+	SEED_DECLARE_SINGLETON(RendererDevice)
+	SEED_DECLARE_MANAGER(RendererDevice)
+	SEED_DISABLE_COPY(RendererDevice)
+
 	public:
 		virtual void Begin() const override;
 		virtual void End() const override;
@@ -65,7 +68,7 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		virtual void DestroyHardwareBuffer(IHardwareBuffer *buf) const override;
 
 		// Render to Texture support
-		virtual u32 CreateFrameBuffer(ITexture *texture = NULL) override;
+		virtual u32 CreateFrameBuffer(ITexture *texture = nullptr) override;
 		virtual void ActivateFrameBuffer(u32 buffer = 0) override;
 		virtual void DestroyFrameBuffer(u32 buffer) override;
 		virtual u32 CreateDepthBuffer(u32 w, u32 h) override;
@@ -75,13 +78,13 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		virtual void AttachDepthBuffer(u32 buffer) override;
 		virtual bool CheckFrameBufferStatus() const override;
 
+		// Support
+		virtual void SetCamera(const Camera *camera) override;
 		virtual void EnableScissor(bool b) const override;
 		virtual void SetScissor(f32 x, f32 y, f32 w, f32 h) const override;
 		virtual void SetViewport(f32 x, f32 y, f32 w, f32 h) const override;
 		virtual f32 GetHorizontalTexelOffset() const override;
 		virtual f32 GetVerticalTexelOffset() const override;
-		virtual void Enable2D() const override;
-		virtual void Disable2D() const override;
 
 		// Features
 		virtual bool NeedPowerOfTwoTextures() const override;
@@ -94,14 +97,12 @@ class SEED_CORE_API RendererDevice : public IRendererDevice
 		// Other
 		virtual void Update() override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
 
 	private:
-		SEED_DISABLE_COPY(RendererDevice);
-
 		IRendererDevice cNull;
 		IRendererDevice	*pApiDevice;
 };

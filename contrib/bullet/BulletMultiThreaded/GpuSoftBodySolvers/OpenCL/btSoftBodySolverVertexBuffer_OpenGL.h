@@ -17,9 +17,9 @@ subject to the following restrictions:
 #define BT_SOFT_BODY_SOLVER_VERTEX_BUFFER_OPENGL_H
 
 
-#include "BulletSoftBody/btSoftBodySolverVertexBuffer.h"
+#include <bullet/BulletSoftBody/btSoftBodySolverVertexBuffer.h>
 #ifdef USE_MINICL
-	#include "MiniCL/cl.h"
+	#include <bullet/MiniCL/cl.h>
 #else //USE_MINICL
 	#ifdef __APPLE__
 		#include <OpenCL/OpenCL.h>

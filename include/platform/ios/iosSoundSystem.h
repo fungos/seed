@@ -51,31 +51,25 @@ namespace Seed { namespace iOS {
 /// iOS Sound Module
 class SoundSystem : public ISoundSystem
 {
-	SEED_SINGLETON_DECLARE(SoundSystem)
+	SEED_DECLARE_SINGLETON(SoundSystem)
+	SEED_DISABLE_COPY(SoundSystem)
+
 	public:
 		// ISoundSystem
-		//virtual void PlayMusic(IMusic *mus, f32 ms = 0);
-		//virtual void StopMusic(f32 ms = 0, IMusic *mus = NULL);
-		//virtual void StopSounds();
 		virtual void Pause();
 		virtual void Resume();
 
-		//virtual void Add(ISoundSource *src);
-		//virtual void Remove(ISoundSource *src);
-
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 
-		// IModule
+		// IManager
 		virtual bool Initialize();
 		virtual bool Reset();
 		virtual bool Shutdown();
 
 	private:
-		SEED_DISABLE_COPY(SoundSystem);
-
-		void UpdateMusic(f32 dt, IMusic *mus);
-		void UpdateSounds(f32 dt);
+		void UpdateMusic(Seconds dt, IMusic *mus);
+		void UpdateSounds(Seconds dt);
 
 	private:
 		ALCdevice			*pDevice;

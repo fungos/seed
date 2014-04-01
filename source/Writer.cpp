@@ -32,6 +32,7 @@
 #include "Configuration.h"
 #include "api/yajl/JsonWriter.h"
 #include "Log.h"
+#include "Memory.h"
 
 #define TAG "[Writer] "
 
@@ -49,22 +50,22 @@ Writer::Writer()
 Writer::~Writer()
 {
 	if (pOpaque != &cNullWriter)
-		Delete(pOpaque);
+		sdDelete(pOpaque);
 
-	pOpaque = NULL;
+	pOpaque = nullptr;
 }
 
 void Writer::Init()
 {
-	if (pOpaque == &cNullWriter || pOpaque == NULL)
+	if (pOpaque == &cNullWriter || pOpaque == nullptr)
 	{
 		switch (pConfiguration->GetReaderType())
 		{
 #if defined(SEED_USE_JSON)
-			case ReaderJson:
+			case eReaderType::Json:
 			{
 				Info(TAG "Creating Writer json");
-				pOpaque = New(JsonWriter());
+				pOpaque = sdNew(JsonWriter);
 			}
 			break;
 #endif
@@ -73,7 +74,7 @@ void Writer::Init()
 			{
 #if defined(SEED_USE_JSON)
 				Info(TAG "Creating Writer json");
-				pOpaque = New(JsonWriter());
+				pOpaque = sdNew(JsonWriter);
 #else
 				Info(TAG "Failed creating Writer, using null");
 #endif
@@ -98,9 +99,14 @@ void Writer::WriteS32(const char *key, s32 value) const
 	pOpaque->WriteS32(key, value);
 }
 
+void Writer::WriteU32(u32 value) const
+{
+	pOpaque->WriteU32(value);
+}
+
 void Writer::WriteU32(const char *key, u32 value) const
 {
-	pOpaque->WriteS32(key, value);
+	pOpaque->WriteU32(key, value);
 }
 
 void Writer::WriteF32(const char *key, f32 value) const

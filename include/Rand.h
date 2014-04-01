@@ -39,7 +39,9 @@ namespace Seed {
 /// Randomizer
 class SEED_CORE_API Rand
 {
-	SEED_SINGLETON_DECLARE(Rand)
+	SEED_DECLARE_SINGLETON(Rand)
+	SEED_DISABLE_COPY(Rand)
+
 	public:
 		void Initialize(u32 seed = 0);
 		u32 Get(u32 max);
@@ -48,8 +50,6 @@ class SEED_CORE_API Rand
 		f32 Get(f32 min, f32 max);
 
 	private:
-		SEED_DISABLE_COPY(Rand);
-
 		u32 iSeed;
 };
 

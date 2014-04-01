@@ -41,6 +41,8 @@ extern SEED_CORE_API IWriter cNullWriter;
 /// Data Writer
 class SEED_CORE_API Writer : public IWriter
 {
+	SEED_DISABLE_COPY(Writer)
+
 	public:
 		Writer();
 		virtual ~Writer();
@@ -50,6 +52,7 @@ class SEED_CORE_API Writer : public IWriter
 		virtual void WriteString(const char *key, const char *value) const override;
 		virtual void WriteS32(const char *key, s32 value) const override;
 		virtual void WriteU32(const char *key, u32 value) const override;
+		virtual void WriteU32(u32 value) const override;
 		virtual void WriteF32(const char *key, f32 value) const override;
 		virtual void WriteBool(const char *key, bool value) const override;
 		virtual void OpenArray(const char *key) override;
@@ -58,8 +61,6 @@ class SEED_CORE_API Writer : public IWriter
 		virtual void CloseNode() override;
 
 	private:
-		SEED_DISABLE_COPY(Writer);
-
 		void Init();
 		IWriter *pOpaque;
 };

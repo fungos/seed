@@ -34,37 +34,37 @@
 #include "Defines.h"
 #include "Thread.h"
 #include "Enum.h"
-#include "Mutex.h"
+
+#include <functional>
+#include <mutex>
 
 namespace Seed {
-
-class IEventJobListener;
 
 class SEED_CORE_API Job : public Thread
 {
 	friend class JobManager;
+	SEED_DISABLE_COPY(Job)
+
 	public:
-		Job(u32 name, IEventJobListener *listener);
+		typedef std::function<void(Job *)> JobCallback;
+
+		Job(JobCallback fun);
 		virtual ~Job();
 
-		void SetListener(IEventJobListener *listener);
-		void Update(f32 dt);
 		void Abort();
-
 		eJobState GetState() const;
+
+	protected:
+		virtual void OnFinished();
 
 		// Thread
 		virtual bool Run() override;
-		virtual void Create(s32 priority = 31) override;
+		virtual void Create() override;
 
 	protected:
-		IEventJobListener *pListener;
+		JobCallback fnCallback;
 		Mutex cMutex;
-		eJobState nState;
-		u32 iName;
-
-	private:
-		SEED_DISABLE_COPY(Job);
+		eJobState nState = eJobState::Stopped;
 };
 
 } // namespace

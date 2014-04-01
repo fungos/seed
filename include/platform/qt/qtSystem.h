@@ -42,9 +42,12 @@
 namespace Seed { namespace QT {
 
 /// Qt System Module
-class System : public ISystem
+class SEED_CORE_API System : public ISystem
 {
-	SEED_SINGLETON_DECLARE(System)
+	SEED_DECLARE_SINGLETON(System)
+	SEED_DECLARE_MANAGER(System)
+	SEED_DISABLE_COPY(System)
+
 	public:
 		// ISystem
 		virtual void GoToMenu();
@@ -71,27 +74,24 @@ class System : public ISystem
 
 		void SetWidget(QWidget *widget);
 
-		// IModule
+		// IManager
 		virtual bool Initialize();
 		virtual bool Shutdown();
 		virtual bool Reset();
 
 		// IUpdatable
-		virtual bool Update(f32 dt);
+		virtual bool Update(Seconds dt);
 
 	private:
-		SEED_DISABLE_COPY(System);
-
-	private:
-		u64		iLastFrameTime;
-		u64		iFpsTime;
+		f32		fLastFrameTime;
+		f32		fFpsTime;
 		f32		fElapsedTime;
 		u32		iRetraceCount;
 		u32		iFrameRate;
 		u32		iRetraceIndex;
 		u32		arRetraceCount[SYSTEM_RETRACE_HISTORY_MAX];
-		bool	bShutdown;
-		bool	bSleeping;
+		bool	bShutdown : 1;
+		bool	bSleeping : 1;
 		QWidget	*pWidget;
 };
 

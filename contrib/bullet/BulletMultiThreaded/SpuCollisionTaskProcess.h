@@ -4,8 +4,8 @@ Copyright (c) 2003-2007 Erwin Coumans  http://bulletphysics.com
 
 This software is provided 'as-is', without any express or implied warranty.
 In no event will the authors be held liable for any damages arising from the use of this software.
-Permission is granted to anyone to use this software for any purpose, 
-including commercial applications, and to alter it and redistribute it freely, 
+Permission is granted to anyone to use this software for any purpose,
+including commercial applications, and to alter it and redistribute it freely,
 subject to the following restrictions:
 
 1. The origin of this software must not be misrepresented; you must not claim that you wrote the original software. If you use this software in a product, an acknowledgment in the product documentation would be appreciated but is not required.
@@ -18,24 +18,24 @@ subject to the following restrictions:
 
 #include <assert.h>
 
-#include "LinearMath/btScalar.h"
+#include <bullet/LinearMath/btScalar.h>
 
-#include "PlatformDefinitions.h"
-#include "LinearMath/btAlignedObjectArray.h"
-#include "SpuNarrowPhaseCollisionTask/SpuGatheringCollisionTask.h" // for definitions processCollisionTask and createCollisionLocalStoreMemory
+#include <bullet/BulletMultiThreaded/PlatformDefinitions.h>
+#include <bullet/LinearMath/btAlignedObjectArray.h>
+#include <bullet/BulletMultiThreaded/SpuNarrowPhaseCollisionTask/SpuGatheringCollisionTask.h> // for definitions processCollisionTask and createCollisionLocalStoreMemory
 
-#include "btThreadSupportInterface.h"
+#include <bullet/BulletMultiThreaded/btThreadSupportInterface.h>
 
 
-//#include "SPUAssert.h"
+//#include <bullet/SPUAssert.h>
 #include <string.h>
 
 
-#include "BulletCollision/CollisionDispatch/btCollisionObject.h"
-#include "BulletCollision/CollisionShapes/btCollisionShape.h"
-#include "BulletCollision/CollisionShapes/btConvexShape.h"
+#include <bullet/BulletCollision/CollisionDispatch/btCollisionObject.h>
+#include <bullet/BulletCollision/CollisionShapes/btCollisionShape.h>
+#include <bullet/BulletCollision/CollisionShapes/btConvexShape.h>
 
-#include "LinearMath/btAlignedAllocator.h"
+#include <bullet/LinearMath/btAlignedAllocator.h>
 
 #include <stdio.h>
 
@@ -64,7 +64,7 @@ class btDispatcher;
 //	uint16_t numPages;
 //	uint16_t taskId;
 //
-//	struct	CollisionTask_LocalStoreMemory*	m_lsMemory; 
+//	struct	CollisionTask_LocalStoreMemory*	m_lsMemory;
 //}
 //
 //#if  defined(__CELLOS_LV2__) || defined(USE_LIBSPE2)
@@ -121,9 +121,9 @@ class SpuCollisionTaskProcess
 
 public:
 	SpuCollisionTaskProcess(btThreadSupportInterface*	threadInterface, unsigned int maxNumOutstandingTasks);
-	
+
 	~SpuCollisionTaskProcess();
-	
+
 	///call initialize in the beginning of the frame, before addCollisionPairToTask
 	void initialize2(bool useEpa = false);
 

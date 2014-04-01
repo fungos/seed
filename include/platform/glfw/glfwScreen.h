@@ -42,7 +42,10 @@ namespace Seed { namespace GLFW {
 /// GLFW Screen Module
 class SEED_CORE_API Screen : public IScreen
 {
-	SEED_SINGLETON_DECLARE(Screen)
+	SEED_DECLARE_SINGLETON(Screen)
+	SEED_DECLARE_MANAGER(Screen)
+	SEED_DISABLE_COPY(Screen)
+
 	public:
 		// IScreen
 		virtual void EnableCursor(bool b) override;
@@ -52,7 +55,7 @@ class SEED_CORE_API Screen : public IScreen
 		virtual bool IsFullscreen() const override;
 		virtual void Update() override;
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
@@ -61,8 +64,6 @@ class SEED_CORE_API Screen : public IScreen
 		int iHandle;
 
 	private:
-		SEED_DISABLE_COPY(Screen);
-
 		bool InitializeVideo();
 		void Prepare();
 		void SwapSurfaces();
@@ -72,9 +73,9 @@ class SEED_CORE_API Screen : public IScreen
 #endif // DEBUG
 
 	private:
-		bool		bFullScreen;
-		int			iBPP;
-		int			iFlags;
+		u32		iBPP;
+		u32		iFlags;
+		bool	bFullScreen : 1;
 };
 
 #define pScreen Seed::GLFW::Screen::GetInstance()

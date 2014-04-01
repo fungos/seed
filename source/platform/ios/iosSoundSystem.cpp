@@ -54,8 +54,8 @@ namespace Seed { namespace iOS {
 SEED_SINGLETON_DEFINE(SoundSystem);
 
 SoundSystem::SoundSystem()
-	: pDevice(NULL)
-	, pContext(NULL)
+	: pDevice(nullptr)
+	, pContext(nullptr)
 {
 	this->Reset();
 }
@@ -69,7 +69,7 @@ bool SoundSystem::Initialize()
 	Log(TAG "Initializing...");
 	bool r = this->Reset();
 
-	pDevice = alcOpenDevice(NULL);
+	pDevice = alcOpenDevice(nullptr);
 	if (!pDevice)
 	{
 		Info(TAG "WARNING: Could not open OpenAL device - running wihtout sound!");
@@ -78,7 +78,7 @@ bool SoundSystem::Initialize()
 	}
 	else
 	{
-		pContext = alcCreateContext(pDevice, NULL);
+		pContext = alcCreateContext(pDevice, nullptr);
 		if (!pContext)
 		{
 			Info(TAG "WARNING: Could not create OpenAL context - running without sound!");
@@ -87,7 +87,7 @@ bool SoundSystem::Initialize()
 		}
 		else
 		{
-			IModule::Initialize();
+			IManager::Initialize();
 			alcMakeContextCurrent(pContext);
 
 			ALCint v1 = 0;
@@ -110,22 +110,18 @@ bool SoundSystem::Reset()
 	{
 		fMusicStartFadeTime = 0.0f;
 		fMusicFadeTime = 0.0f;
-		
-		ISoundSourceVectorIterator it = vSource.begin();
-		ISoundSourceVectorIterator end = vSource.end();
-		for (; it != end; ++it)
-			(*it)->Stop();
-		
-		it = vSource.begin();
-		end = vSource.end();
-		for (; it != end; ++it)
-			(*it)->Unload();
-		
+
+		for (auto each: vSource)
+			each->Stop();
+
+		for (auto each: vSource)
+			each->Unload();
+
 		ISoundSourceVector().swap(vSource);
-		
+
 		this->StopMusic();
-		pCurrentMusic = NULL;
-		pNewMusic = NULL;
+		pCurrentMusic = nullptr;
+		pNewMusic = nullptr;
 	}
 	return true;
 }
@@ -141,13 +137,13 @@ bool SoundSystem::Shutdown()
 		alcDestroyContext(pContext);
 		alcCloseDevice(pDevice);
 
-		IModule::Shutdown();
+		IManager::Shutdown();
 		Log(TAG "Terminated.");
 	}
 	return r;
 }
 
-bool SoundSystem::Update(f32 dt)
+bool SoundSystem::Update(Seconds dt)
 {
 	if (bInitialized && !bPaused)
 	{
@@ -165,23 +161,19 @@ bool SoundSystem::Update(f32 dt)
 	return true;
 }
 
-void SoundSystem::UpdateSounds(f32 dt)
+void SoundSystem::UpdateSounds(Seconds dt)
 {
 	UNUSED(dt);
 
 	if (bChanged)
 	{
-		ISoundSourceVectorIterator it = vSource.begin();
-		ISoundSourceVectorIterator end = vSource.end();
-		for (; it != end; ++it)
-			(*it)->UpdateVolume();
+		for (auto each: vSource)
+			each->UpdateVolume();
 	}
 
-	ISoundSourceVector::iterator it = vSource.begin();
-	ISoundSourceVector::iterator end = vSource.begin();
-	for (; it != end; ++it)
+	for (auto each: vSource)
 	{
-		SoundSource *src = static_cast<SoundSource *>(*it);
+		auto src = static_cast<SoundSource *>(each);
 
 		eSoundSourceState state = src->GetState();
 		if (state == SourceNone)
@@ -255,7 +247,7 @@ void SoundSystem::UpdateSounds(f32 dt)
 
 			case Seed::SourceFadingIn:
 			{
-				f32 elapsed = static_cast<f32>(pTimer->GetMilliseconds() - src->fStartFadeTime);
+				Seconds elapsed = pTimer->GetSeconds() - src->fStartFadeTime;
 				f32 volume = ((elapsed * src->fVolume) / src->fFadeTime);
 				//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
@@ -277,7 +269,7 @@ void SoundSystem::UpdateSounds(f32 dt)
 
 			case Seed::SourceFadingOut:
 			{
-				f32 elapsed = src->fFadeTime - static_cast<f32>(pTimer->GetMilliseconds() - src->fStartFadeTime);
+				Seconds elapsed = src->fFadeTime - (pTimer->GetSeconds() - src->fStartFadeTime);
 				f32 volume = ((elapsed * src->fVolume) / src->fFadeTime);
 				//Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
@@ -299,7 +291,7 @@ void SoundSystem::UpdateSounds(f32 dt)
 	}
 }
 
-void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
+void SoundSystem::UpdateMusic(Seconds dt, IMusic *m)
 {
 	Music *mus = static_cast<Music *>(m);
 	if (bChanged)
@@ -338,7 +330,7 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 			if (mus == pCurrentMusic)
 			{
 				pCurrentMusic = pNewMusic;
-				pNewMusic = NULL;
+				pNewMusic = nullptr;
 			}
 
 			if (mus->bAutoUnload)
@@ -371,7 +363,7 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 
 		case Seed::MusicFadingIn:
 		{
-			f32 elapsed = static_cast<f32>(pTimer->GetMilliseconds() - fMusicStartFadeTime);
+			Seconds elapsed = pTimer->GetSeconds() - fMusicStartFadeTime;
 			f32 volume = ((elapsed * mus->fVolume) / fMusicFadeTime);
 			Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
@@ -397,7 +389,7 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 		/* FIXME: 2009-15-06 | BUG | SDL | Fadeout / Fadein nao estao funcionando (alSourcef AL_GAIN) */
 		case Seed::MusicFadingOut:
 		{
-			f32 elapsed = fMusicFadeTime - static_cast<f32>(pTimer->GetMilliseconds() - fMusicStartFadeTime);
+			Seconds elapsed = fMusicFadeTime - (pTimer->GetSeconds() - fMusicStartFadeTime);
 			f32 volume = ((elapsed * mus->fVolume) / fMusicFadeTime);
 			Log(TAG "Elapsed: %f Volume: %f", elapsed, volume);
 
@@ -418,43 +410,39 @@ void SoundSystem::UpdateMusic(f32 dt, IMusic *m)
 		break;
 	}
 }
-	
+
 void SoundSystem::Pause()
 {
 	ISoundSystem::Pause();
-	
-	ISoundSourceVector::iterator it = vSource.begin();
-	ISoundSourceVector::iterator end = vSource.begin();
-	for (; it != end; ++it)
+
+	for (auto each: vSource)
 	{
-		SoundSource *src = static_cast<SoundSource *>(*it);
+		auto src = static_cast<SoundSource *>(each);
 		src->Pause();
 		alSourcePause(src->iSource);
 	}
-	
+
 	if (pCurrentMusic)
 		static_cast<Music *>(pCurrentMusic)->eState = Seed::MusicPaused;
-	
+
 	if (pNewMusic)
 		static_cast<Music *>(pNewMusic)->eState = Seed::MusicPaused;
 }
 
 void SoundSystem::Resume()
 {
-	ISoundSourceVectorIterator it = vSource.begin();
-	ISoundSourceVectorIterator end = vSource.end();
-	for (; it != end; ++it)
-		(*it)->Resume();
-	
+	for (auto each: vSource)
+		each->Resume();
+
 	if (pCurrentMusic)
 		static_cast<Music *>(pCurrentMusic)->eState = Seed::MusicPlay;
-	
+
 	if (pNewMusic)
 		static_cast<Music *>(pNewMusic)->eState = Seed::MusicPlay;
-	
+
 	ISoundSystem::Resume();
 }
-	
+
 }} // namespace
 
 #endif // BUILD_IOS

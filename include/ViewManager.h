@@ -31,7 +31,7 @@
 #ifndef __VIEW_MANAGER_H__
 #define __VIEW_MANAGER_H__
 
-#include "interface/IModule.h"
+#include "interface/IManager.h"
 #include "Singleton.h"
 #include "Container.h"
 
@@ -41,10 +41,13 @@ class Viewport;
 class Renderer;
 
 /// Viewport Manager Module
-class SEED_CORE_API ViewManager : public IModule
+class SEED_CORE_API ViewManager : public IManager
 {
-	SEED_SINGLETON_DECLARE(ViewManager)
-	DECLARE_CONTAINER_TYPE(Vector, Viewport)
+	SEED_DECLARE_SINGLETON(ViewManager)
+	SEED_DECLARE_MANAGER(ViewManager)
+	SEED_DECLARE_CONTAINER(Vector, Viewport)
+	SEED_DISABLE_COPY(ViewManager)
+
 	public:
 		void Add(Viewport *view);
 		void Remove(Viewport *view);
@@ -56,7 +59,7 @@ class SEED_CORE_API ViewManager : public IModule
 
 		Viewport *GetViewportAt(u32 x, u32 y);
 
-		// IModule
+		// IManager
 		virtual bool Initialize() override;
 		virtual bool Reset() override;
 		virtual bool Shutdown() override;
@@ -64,16 +67,10 @@ class SEED_CORE_API ViewManager : public IModule
 		virtual void Disable() override;
 		virtual void Enable() override;
 
-		// IObject
-		virtual const String GetClassName() const override;
-		virtual int GetObjectType() const override;
-
 	private:
-		SEED_DISABLE_COPY(ViewManager);
-
 		ViewportVector vViewport;
 		Viewport *pCurrentViewport;
-		bool bEnabled;
+		bool bEnabled : 1;
 };
 
 #define pViewManager ViewManager::GetInstance()

@@ -1,4 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
+<<<<<<< HEAD
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -7,12 +8,68 @@
     </ProjectConfiguration>
     <ProjectConfiguration Include="Release|Win32">
       <Configuration>Release</Configuration>
+=======
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug SDL|Win32">
+      <Configuration>Debug SDL</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug SDL2|Win32">
+      <Configuration>Debug SDL2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release SDL2|Win32">
+      <Configuration>Release SDL2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release SDL|Win32">
+      <Configuration>Release SDL</Configuration>
+>>>>>>> develop
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\..\source\Animation.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\Camera.cpp" />
+=======
+    <ClCompile Include="..\..\..\source\api\net\Address.cpp" />
+    <ClCompile Include="..\..\..\source\api\net\UDPSocket.cpp" />
+    <ClCompile Include="..\..\..\source\api\oal\oalMusic.cpp" />
+    <ClCompile Include="..\..\..\source\api\oal\oalSound.cpp" />
+    <ClCompile Include="..\..\..\source\api\oal\oalSoundSource.cpp" />
+    <ClCompile Include="..\..\..\source\api\oal\oalSoundSystem.cpp" />
+    <ClCompile Include="..\..\..\source\api\oal\vorbis_util.cpp" />
+    <ClCompile Include="..\..\..\source\api\ogl\ogl20RendererDevice.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\ogl20Shader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\ogl20ShaderProgram.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES1RendererDevice.cpp" />
+    <ClCompile Include="..\..\..\source\api\ogl\oglES1Shader.cpp" />
+    <ClCompile Include="..\..\..\source\api\ogl\oglES1ShaderProgram.cpp" />
+    <ClCompile Include="..\..\..\source\api\ogl\oglES2RendererDevice.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES2Shader.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\ogl\oglES2ShaderProgram.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\rocket\RocketInterface.cpp" />
+    <ClCompile Include="..\..\..\source\api\soil\soilTexture.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\api\theora\Theora.cpp" />
+    <ClCompile Include="..\..\..\source\api\yajl\JsonReader.cpp" />
+    <ClCompile Include="..\..\..\source\api\yajl\JsonWriter.cpp" />
+>>>>>>> develop
     <ClCompile Include="..\..\..\source\Checksum.cpp" />
     <ClCompile Include="..\..\..\source\Configuration.cpp" />
     <ClCompile Include="..\..\..\source\EventFileSystem.cpp" />
@@ -20,7 +77,10 @@
     <ClCompile Include="..\..\..\source\EventInputKeyboard.cpp" />
     <ClCompile Include="..\..\..\source\EventInputMotion.cpp" />
     <ClCompile Include="..\..\..\source\EventInputPointer.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\EventJob.cpp" />
+=======
+>>>>>>> develop
     <ClCompile Include="..\..\..\source\EventMovie.cpp" />
     <ClCompile Include="..\..\..\source\EventPresentation.cpp" />
     <ClCompile Include="..\..\..\source\EventResourceLoader.cpp" />
@@ -30,6 +90,7 @@
     <ClCompile Include="..\..\..\source\Frame.cpp" />
     <ClCompile Include="..\..\..\source\Image.cpp" />
     <ClCompile Include="..\..\..\source\interface\ICartridge.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\interface\IDataObject.cpp" />
     <ClCompile Include="..\..\..\source\interface\IEvent.cpp" />
     <ClCompile Include="..\..\..\source\interface\IEventFileSystemListener.cpp" />
@@ -46,34 +107,52 @@
     <ClCompile Include="..\..\..\source\interface\IEventSystemListener.cpp" />
     <ClCompile Include="..\..\..\source\interface\IGameApp.cpp" />
     <ClCompile Include="..\..\..\source\interface\IInput.cpp" />
+=======
+    <ClCompile Include="..\..\..\source\interface\IGameApp.cpp" />
+>>>>>>> develop
     <ClCompile Include="..\..\..\source\interface\IInputJoystick.cpp" />
     <ClCompile Include="..\..\..\source\interface\IInputKeyboard.cpp" />
     <ClCompile Include="..\..\..\source\interface\IInputMotion.cpp" />
     <ClCompile Include="..\..\..\source\interface\IInputPointer.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\interface\IModule.cpp" />
     <ClCompile Include="..\..\..\source\interface\IMusic.cpp" />
     <ClCompile Include="..\..\..\source\interface\IMutex.cpp" />
     <ClCompile Include="..\..\..\source\interface\IObject.cpp" />
+=======
+    <ClCompile Include="..\..\..\source\interface\IManager.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IMusic.cpp" />
+>>>>>>> develop
     <ClCompile Include="..\..\..\source\interface\IReader.cpp" />
     <ClCompile Include="..\..\..\source\interface\IRenderable.cpp" />
     <ClCompile Include="..\..\..\source\interface\IRendererDevice.cpp" />
     <ClCompile Include="..\..\..\source\interface\IResource.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISceneObject.cpp" />
     <ClCompile Include="..\..\..\source\interface\IScreen.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\interface\ISound.cpp" />
+=======
+    <ClCompile Include="..\..\..\source\interface\IShader.cpp" />
+    <ClCompile Include="..\..\..\source\interface\IShaderProgram.cpp" />
+>>>>>>> develop
     <ClCompile Include="..\..\..\source\interface\ISoundSource.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISoundSystem.cpp" />
     <ClCompile Include="..\..\..\source\interface\ISystem.cpp" />
     <ClCompile Include="..\..\..\source\interface\ITexture.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\interface\IThread.cpp" />
     <ClCompile Include="..\..\..\source\interface\ITransformable.cpp" />
     <ClCompile Include="..\..\..\source\interface\IUpdatable.cpp" />
     <ClCompile Include="..\..\..\source\interface\IVideo.cpp" />
+=======
+    <ClCompile Include="..\..\..\source\interface\ITransformable.cpp" />
+>>>>>>> develop
     <ClCompile Include="..\..\..\source\interface\IWriter.cpp" />
     <ClCompile Include="..\..\..\source\Job.cpp" />
     <ClCompile Include="..\..\..\source\JobManager.cpp" />
     <ClCompile Include="..\..\..\source\Key.cpp" />
     <ClCompile Include="..\..\..\source\Keyframe.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\LeakReport.cpp" />
     <ClCompile Include="..\..\..\source\map\GameMap.cpp" />
     <ClCompile Include="..\..\..\source\map\IMapLayer.cpp" />
@@ -86,10 +165,84 @@
     <ClCompile Include="..\..\..\source\Movie.cpp" />
     <ClCompile Include="..\..\..\source\Particle.cpp" />
     <ClCompile Include="..\..\..\source\ParticleEmitter.cpp" />
+=======
+    <ClCompile Include="..\..\..\source\LeafMessage.cpp" />
+    <ClCompile Include="..\..\..\source\Manager.cpp" />
+    <ClCompile Include="..\..\..\source\map\GameMap.cpp" />
+    <ClCompile Include="..\..\..\source\map\IMapLayer.cpp" />
+    <ClCompile Include="..\..\..\source\map\MapLayerMetadata.cpp" />
+    <ClCompile Include="..\..\..\source\map\MapLayerMosaic.cpp" />
+    <ClCompile Include="..\..\..\source\map\MapLayerTiled.cpp" />
+    <ClCompile Include="..\..\..\source\map\MetadataObject.cpp" />
+    <ClCompile Include="..\..\..\source\map\pathfind\AStarPathfinder.cpp" />
+    <ClCompile Include="..\..\..\source\map\pathfind\IPathfinder.cpp" />
+    <ClCompile Include="..\..\..\source\map\pathfind\Path.cpp" />
+    <ClCompile Include="..\..\..\source\map\TileSet.cpp" />
+    <ClCompile Include="..\..\..\source\Memory.cpp" />
+    <ClCompile Include="..\..\..\source\Movie.cpp" />
+    <ClCompile Include="..\..\..\source\Particle.cpp" />
+    <ClCompile Include="..\..\..\source\ParticleEmitter.cpp" />
+    <ClCompile Include="..\..\..\source\platform\glfw\glfwInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\glfw\glfwScreen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\glfw\glfwSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosMusic.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosScreen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSound.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSoundSource.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSoundSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\ios\iosTexture.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+>>>>>>> develop
     <ClCompile Include="..\..\..\source\platform\pc\pcCartridge.cpp" />
     <ClCompile Include="..\..\..\source\platform\pc\pcLog.cpp" />
     <ClCompile Include="..\..\..\source\platform\pc\pcRendererDevice.cpp" />
     <ClCompile Include="..\..\..\source\platform\pc\seed_win32.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\platform\sdl\sdlInput.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlMutex.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlScreen.cpp" />
@@ -97,12 +250,54 @@
     <ClCompile Include="..\..\..\source\platform\sdl\sdlTexture.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlThread.cpp" />
     <ClCompile Include="..\..\..\source\platform\sdl\sdlTimer.cpp" />
+=======
+    <ClCompile Include="..\..\..\source\platform\qt\qtInput.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtScene.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtScreen.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtSurface.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\qt\qtSystem.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2Input.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2Screen.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl2\sdl2System.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlInput.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlScreen.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlSystem.cpp" />
+    <ClCompile Include="..\..\..\source\platform\sdl\sdlTexture.cpp" />
+    <ClCompile Include="..\..\..\source\PrefabManager.cpp" />
+>>>>>>> develop
     <ClCompile Include="..\..\..\source\Presentation.cpp" />
     <ClCompile Include="..\..\..\source\Profiler.cpp" />
     <ClCompile Include="..\..\..\source\Rand.cpp" />
     <ClCompile Include="..\..\..\source\Reader.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\Renderer.cpp" />
     <ClCompile Include="..\..\..\source\RendererManager.cpp" />
+=======
+    <ClCompile Include="..\..\..\source\renderer\Camera.cpp" />
+    <ClCompile Include="..\..\..\source\renderer\Renderer.cpp" />
+    <ClCompile Include="..\..\..\source\renderer\RendererManager.cpp" />
+    <ClCompile Include="..\..\..\source\renderer\Viewport.cpp" />
+>>>>>>> develop
     <ClCompile Include="..\..\..\source\ResourceGroup.cpp" />
     <ClCompile Include="..\..\..\source\ResourceLoader.cpp" />
     <ClCompile Include="..\..\..\source\ResourceManager.cpp" />
@@ -111,20 +306,328 @@
     <ClCompile Include="..\..\..\source\SceneNode.cpp" />
     <ClCompile Include="..\..\..\source\SceneObjectFactory.cpp" />
     <ClCompile Include="..\..\..\source\SeedInit.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\Sprite.cpp" />
+=======
+    <ClCompile Include="..\..\..\source\ShaderManager.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\Sprite.cpp" />
+    <ClCompile Include="..\..\..\source\Thread.cpp" />
+>>>>>>> develop
     <ClCompile Include="..\..\..\source\ThreadManager.cpp" />
     <ClCompile Include="..\..\..\source\Timeline.cpp" />
     <ClCompile Include="..\..\..\source\Updater.cpp" />
     <ClCompile Include="..\..\..\source\ViewManager.cpp" />
+<<<<<<< HEAD
     <ClCompile Include="..\..\..\source\Viewport.cpp" />
     <ClCompile Include="..\..\..\source\Writer.cpp" />
   </ItemGroup>
+=======
+    <ClCompile Include="..\..\..\source\Writer.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\include\Animation.h" />
+    <ClInclude Include="..\..\..\include\api\net\Address.h" />
+    <ClInclude Include="..\..\..\include\api\net\UDPSocket.h" />
+    <ClInclude Include="..\..\..\include\api\oal\oalMusic.h" />
+    <ClInclude Include="..\..\..\include\api\oal\oalSound.h" />
+    <ClInclude Include="..\..\..\include\api\oal\oalSoundSource.h" />
+    <ClInclude Include="..\..\..\include\api\oal\oalSoundSystem.h" />
+    <ClInclude Include="..\..\..\include\api\oal\vorbis_util.h" />
+    <ClInclude Include="..\..\..\include\api\ogl\ogl20RendererDevice.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\ogl20Shader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\ogl20ShaderProgram.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglES1RendererDevice.h" />
+    <ClInclude Include="..\..\..\include\api\ogl\oglES2RendererDevice.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglES2Shader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglES2ShaderProgram.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\api\ogl\oglHeaders.h" />
+    <ClInclude Include="..\..\..\include\api\soil\soilTexture.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Cartridge.h" />
+    <ClInclude Include="..\..\..\include\Checksum.h" />
+    <ClInclude Include="..\..\..\include\Config.h" />
+    <ClInclude Include="..\..\..\include\Configuration.h" />
+    <ClInclude Include="..\..\..\include\Container.h" />
+    <ClInclude Include="..\..\..\include\Defines.h" />
+    <ClInclude Include="..\..\..\include\Enum.h" />
+    <ClInclude Include="..\..\..\include\EventFileSystem.h" />
+    <ClInclude Include="..\..\..\include\EventInputJoystick.h" />
+    <ClInclude Include="..\..\..\include\EventInputKeyboard.h" />
+    <ClInclude Include="..\..\..\include\EventInputMotion.h" />
+    <ClInclude Include="..\..\..\include\EventInputPointer.h" />
+    <ClInclude Include="..\..\..\include\EventMovie.h" />
+    <ClInclude Include="..\..\..\include\EventPresentation.h" />
+    <ClInclude Include="..\..\..\include\EventResourceLoader.h" />
+    <ClInclude Include="..\..\..\include\EventSystem.h" />
+    <ClInclude Include="..\..\..\include\File.h" />
+    <ClInclude Include="..\..\..\include\FileSystem.h" />
+    <ClInclude Include="..\..\..\include\Frame.h" />
+    <ClInclude Include="..\..\..\include\Image.h" />
+    <ClInclude Include="..\..\..\include\Input.h" />
+    <ClInclude Include="..\..\..\include\interface\ICartridge.h" />
+    <ClInclude Include="..\..\..\include\interface\IDataObject.h" />
+    <ClInclude Include="..\..\..\include\interface\IEvent.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventFileSystemListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventInput.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventInputJoystickListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventInputKeyboardListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventInputMotionListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventInputPointerListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventMovieListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventResourceLoaderListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IEventSystemListener.h" />
+    <ClInclude Include="..\..\..\include\interface\IGameApp.h" />
+    <ClInclude Include="..\..\..\include\interface\IHardwareBuffer.h" />
+    <ClInclude Include="..\..\..\include\interface\IInput.h" />
+    <ClInclude Include="..\..\..\include\interface\IInputJoystick.h" />
+    <ClInclude Include="..\..\..\include\interface\IInputKeyboard.h" />
+    <ClInclude Include="..\..\..\include\interface\IInputMotion.h" />
+    <ClInclude Include="..\..\..\include\interface\IInputPointer.h" />
+    <ClInclude Include="..\..\..\include\interface\IManager.h" />
+    <ClInclude Include="..\..\..\include\interface\IMusic.h" />
+    <ClInclude Include="..\..\..\include\interface\IObject.h" />
+    <ClInclude Include="..\..\..\include\interface\IReader.h" />
+    <ClInclude Include="..\..\..\include\interface\IRenderable.h" />
+    <ClInclude Include="..\..\..\include\interface\IRendererDevice.h" />
+    <ClInclude Include="..\..\..\include\interface\IResource.h" />
+    <ClInclude Include="..\..\..\include\interface\ISceneObject.h" />
+    <ClInclude Include="..\..\..\include\interface\IScreen.h" />
+    <ClInclude Include="..\..\..\include\interface\IShader.h" />
+    <ClInclude Include="..\..\..\include\interface\IShaderProgram.h" />
+    <ClInclude Include="..\..\..\include\interface\ISound.h" />
+    <ClInclude Include="..\..\..\include\interface\ISoundSource.h" />
+    <ClInclude Include="..\..\..\include\interface\ISoundSystem.h" />
+    <ClInclude Include="..\..\..\include\interface\ISystem.h" />
+    <ClInclude Include="..\..\..\include\interface\ITexture.h" />
+    <ClInclude Include="..\..\..\include\interface\ITransformable.h" />
+    <ClInclude Include="..\..\..\include\interface\IUpdatable.h" />
+    <ClInclude Include="..\..\..\include\interface\IVideo.h" />
+    <ClInclude Include="..\..\..\include\interface\IWriter.h" />
+    <ClInclude Include="..\..\..\include\Job.h" />
+    <ClInclude Include="..\..\..\include\JobManager.h" />
+    <ClInclude Include="..\..\..\include\Key.h" />
+    <ClInclude Include="..\..\..\include\Keyframe.h" />
+    <ClInclude Include="..\..\..\include\LeafMessage.h" />
+    <ClInclude Include="..\..\..\include\LocalDefines.h" />
+    <ClInclude Include="..\..\..\include\Log.h" />
+    <ClInclude Include="..\..\..\include\Manager.h" />
+    <ClInclude Include="..\..\..\include\map\GameMap.h" />
+    <ClInclude Include="..\..\..\include\map\IMapLayer.h" />
+    <ClInclude Include="..\..\..\include\map\MapLayerMetadata.h" />
+    <ClInclude Include="..\..\..\include\map\MapLayerMosaic.h" />
+    <ClInclude Include="..\..\..\include\map\MapLayerTiled.h" />
+    <ClInclude Include="..\..\..\include\map\MetadataObject.h" />
+    <ClInclude Include="..\..\..\include\map\pathfind\AStarPathfinder.h" />
+    <ClInclude Include="..\..\..\include\map\pathfind\IPathfinder.h" />
+    <ClInclude Include="..\..\..\include\map\pathfind\Path.h" />
+    <ClInclude Include="..\..\..\include\map\TileSet.h" />
+    <ClInclude Include="..\..\..\include\MathUtil.h" />
+    <ClInclude Include="..\..\..\include\Memory.h" />
+    <ClInclude Include="..\..\..\include\Movie.h" />
+    <ClInclude Include="..\..\..\include\Music.h" />
+    <ClInclude Include="..\..\..\include\Number.h" />
+    <ClInclude Include="..\..\..\include\Particle.h" />
+    <ClInclude Include="..\..\..\include\ParticleEmitter.h" />
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwDefines.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwScreen.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\glfw\glfwSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosDefines.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosMusic.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosScreen.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSound.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSoundSource.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSoundSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosSystemStub.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosTexture.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\ios\iosView.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtDefines.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtInput.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtPch.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtScene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtScreen.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtSurface.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\qt\qtSystem.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Defines.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Input.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2Screen.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl2\sdl2System.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlDefines.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlInput.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlScreen.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlSystem.h" />
+    <ClInclude Include="..\..\..\include\platform\sdl\sdlTexture.h" />
+    <ClInclude Include="..\..\..\include\Point.h" />
+    <ClInclude Include="..\..\..\include\PrefabManager.h" />
+    <ClInclude Include="..\..\..\include\Presentation.h" />
+    <ClInclude Include="..\..\..\include\Profiler.h" />
+    <ClInclude Include="..\..\..\include\Rand.h" />
+    <ClInclude Include="..\..\..\include\Reader.h" />
+    <ClInclude Include="..\..\..\include\Rect.h" />
+    <ClInclude Include="..\..\..\include\RendererDevice.h" />
+    <ClInclude Include="..\..\..\include\renderer\Camera.h" />
+    <ClInclude Include="..\..\..\include\renderer\Renderer.h" />
+    <ClInclude Include="..\..\..\include\renderer\RendererManager.h" />
+    <ClInclude Include="..\..\..\include\renderer\Viewport.h" />
+    <ClInclude Include="..\..\..\include\ResourceGroup.h" />
+    <ClInclude Include="..\..\..\include\ResourceLoader.h" />
+    <ClInclude Include="..\..\..\include\ResourceManager.h" />
+    <ClInclude Include="..\..\..\include\SaveSystem.h" />
+    <ClInclude Include="..\..\..\include\SceneManager.h" />
+    <ClInclude Include="..\..\..\include\SceneNode.h" />
+    <ClInclude Include="..\..\..\include\SceneObjectFactory.h" />
+    <ClInclude Include="..\..\..\include\Screen.h" />
+    <ClInclude Include="..\..\..\include\Seed.h" />
+    <ClInclude Include="..\..\..\include\SeedInit.h" />
+    <ClInclude Include="..\..\..\include\SeedRun.h" />
+    <ClInclude Include="..\..\..\include\Semaphore.h" />
+    <ClInclude Include="..\..\..\include\Shader.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ShaderManager.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\ShaderProgram.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </ClInclude>
+    <ClInclude Include="..\..\..\include\Singleton.h" />
+    <ClInclude Include="..\..\..\include\Sound.h" />
+    <ClInclude Include="..\..\..\include\SoundSource.h" />
+    <ClInclude Include="..\..\..\include\SoundSystem.h" />
+    <ClInclude Include="..\..\..\include\Sprite.h" />
+    <ClInclude Include="..\..\..\include\StateMachine.h" />
+    <ClInclude Include="..\..\..\include\System.h" />
+    <ClInclude Include="..\..\..\include\Texture.h" />
+    <ClInclude Include="..\..\..\include\Thread.h" />
+    <ClInclude Include="..\..\..\include\ThreadManager.h" />
+    <ClInclude Include="..\..\..\include\Timeline.h" />
+    <ClInclude Include="..\..\..\include\Timer.h" />
+    <ClInclude Include="..\..\..\include\Updater.h" />
+    <ClInclude Include="..\..\..\include\Vertex.h" />
+    <ClInclude Include="..\..\..\include\ViewManager.h" />
+    <ClInclude Include="..\..\..\include\Writer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\source\platform\ios\iosView.mm">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">true</ExcludedFromBuild>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">true</ExcludedFromBuild>
+    </None>
+  </ItemGroup>
+>>>>>>> develop
   <PropertyGroup Label="Globals">
     <ProjectGuid>{86AE299C-0A83-4BBF-9718-41E7D1F04071}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>seed</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+<<<<<<< HEAD
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
@@ -135,12 +638,38 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <PlatformToolset>v110</PlatformToolset>
+=======
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'" Label="Configuration">
+    <ConfigurationType>StaticLibrary</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+>>>>>>> develop
     <WholeProgramOptimization>true</WholeProgramOptimization>
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
   </ImportGroup>
+<<<<<<< HEAD
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
@@ -160,13 +689,108 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;BUILD_SDL;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <DisableSpecificWarnings>4521</DisableSpecificWarnings>
+=======
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
+    <IncludePath>$(ProjectDir)..\..\..\include\;$(ProjectDir)..\..\..\contrib\;$(ProjectDir)..\..\..\contrib\windows\;$(ProjectDir)..\..\..\;$(IncludePath)</IncludePath>
+    <OutDir>..\..\..\lib\$(IntDir)</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">
+    <IncludePath>$(ProjectDir)..\..\..\include\;$(ProjectDir)..\..\..\contrib\;$(ProjectDir)..\..\..\contrib\windows\;$(ProjectDir)..\..\..\;$(IncludePath)</IncludePath>
+    <OutDir>..\..\..\lib\$(IntDir)</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">
+    <IncludePath>$(ProjectDir)..\..\..\include\;$(ProjectDir)..\..\..\contrib\;$(ProjectDir)..\..\..\contrib\windows\;$(ProjectDir)..\..\..\;$(IncludePath)</IncludePath>
+    <OutDir>..\..\..\lib\$(IntDir)</OutDir>
+    <TargetName>$(ProjectName)</TargetName>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
+    <IncludePath>$(ProjectDir)..\..\..\include\;$(ProjectDir)..\..\..\contrib\;$(ProjectDir)..\..\..\contrib\windows\;$(ProjectDir)..\..\..\;$(IncludePath)</IncludePath>
+    <OutDir>..\..\..\lib\$(IntDir)</OutDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_LIB;BUILD_SDL2;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4521;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ShowIncludes>false</ShowIncludes>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;BUILD_SDL2;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4521;4275;4530</DisableSpecificWarnings>
+      <ExceptionHandling>false</ExceptionHandling>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <DebugInformationFormat>None</DebugInformationFormat>
+      <MinimalRebuild />
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>_DEBUG;_LIB;BUILD_SDL;DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>true</SDLCheck>
+      <DisableSpecificWarnings>4521;4275</DisableSpecificWarnings>
+      <ExceptionHandling>Sync</ExceptionHandling>
+>>>>>>> develop
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+    </Link>
+<<<<<<< HEAD
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+=======
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL|Win32'">
+>>>>>>> develop
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <PrecompiledHeader>
@@ -174,7 +798,11 @@
       <Optimization>MaxSpeed</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
+<<<<<<< HEAD
       <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+=======
+      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;BUILD_SDL;RELEASE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+>>>>>>> develop
       <SDLCheck>true</SDLCheck>
     </ClCompile>
     <Link>
@@ -183,6 +811,12 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+<<<<<<< HEAD
+=======
+    <Lib>
+      <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
+    </Lib>
+>>>>>>> develop
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

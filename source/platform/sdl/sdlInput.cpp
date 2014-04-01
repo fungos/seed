@@ -41,13 +41,16 @@
 #include "EventInputJoystick.h"
 #include "EventSystem.h"
 #include "ViewManager.h"
-#include "Viewport.h"
+#include "renderer/Viewport.h"
 
 #if defined(WIN32)
-#define WM_IME_SETCONTEXT			0x281
-#define WM_IME_NOTIFY				0x282
-#define WM_DWMCOMPOSITIONCHANGED	0x31e
 #include <SDL/SDL_syswm.h>
+#endif
+
+#if defined(EMSCRIPTEN)
+#define SDL_EVENT_KEY_WHICH 0
+#else
+#define SDL_EVENT_KEY_WHICH event.key.which
 #endif
 
 #define TAG "[Input] "
@@ -122,13 +125,10 @@ bool Input::Initialize()
 	return r;
 }
 
-bool Input::Update(f32 dt)
+bool Input::Update(Seconds dt)
 {
 	UNUSED(dt);
 
-/*
-FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate configurado pelo usuario. Verificar tambem... | Danny Angelo Carminati Grein
-*/
 	SDL_Event event;
 	while (SDL_PollEvent(&event))
 	{
@@ -210,14 +210,14 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 
 			case SDL_KEYDOWN:
 			{
-				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, 0); // key.which deprecated
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), GetModifierCode(event.key.keysym.mod), event.key.keysym.scancode, SDL_EVENT_KEY_WHICH); // key.which deprecated
 				this->SendEventKeyboardPress(&ev);
 			}
 			break;
 
 			case SDL_KEYUP:
 			{
-				EventInputKeyboard ev(event.key.keysym.sym, event.key.keysym.mod, event.key.keysym.scancode, 0); // key.which deprecated
+				EventInputKeyboard ev(GetKeyCode(event.key.keysym.sym), GetModifierCode(event.key.keysym.mod), event.key.keysym.scancode, SDL_EVENT_KEY_WHICH); // key.which deprecated
 				this->SendEventKeyboardRelease(&ev);
 			}
 			break;
@@ -235,7 +235,7 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 				x = iX = event.motion.x;
 				y = iY = event.motion.y;
 
-				EventInputPointer ev(0, 0, 0, 0, x, y);
+				EventInputPointer ev(0, eInputButton::None, eInputButton::None, eInputButton::None, x, y);
 				this->SendEventPointerMove(&ev);
 			}
 			break;
@@ -246,7 +246,7 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 				x = iX = event.motion.x;
 				y = iY = event.motion.y;
 
-				const EventInputPointer ev(0, 0, 0, this->ConvertButtonFlags(event.button.button), x, y);
+				const EventInputPointer ev(0, eInputButton::None, eInputButton::None, eInputButton(this->ConvertButtonFlags(event.button.button)), x, y);
 				this->SendEventPointerRelease(&ev);
 			}
 			break;
@@ -257,35 +257,35 @@ FIXME: 2009-02-17 | BUG | Usar polling? Isso deve ferrar com o frame rate config
 				x = iX = event.motion.x;
 				y = iY = event.motion.y;
 
-				const EventInputPointer ev(0, this->ConvertButtonFlags(event.button.button), 0, 0, x, y);
+				const EventInputPointer ev(0, eInputButton(this->ConvertButtonFlags(event.button.button)), eInputButton::None, eInputButton::None, x, y);
 				this->SendEventPointerPress(&ev);
 			}
 			break;
 
 			case SDL_JOYBUTTONDOWN:
 			{
-				const EventInputJoystick ev(event.jbutton.which, event.jbutton.button, 0, 0, 0, 0);
+				const EventInputJoystick ev(event.jbutton.which, this->GetJoystickButtonCode(event.jbutton.button), eInputButton::None, eInputButton::None, 0, 0);
 				this->SendEventJoystickButtonPress(&ev);
 			}
 			break;
 
 			case SDL_JOYBUTTONUP:
 			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, event.jbutton.button, 0, 0);
+				const EventInputJoystick ev(event.jbutton.which, eInputButton::None, eInputButton::None, this->GetJoystickButtonCode(event.jbutton.button), 0, 0);
 				this->SendEventJoystickButtonRelease(&ev);
 			}
 			break;
 
 			case SDL_JOYAXISMOTION:
 			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, 0, event.jaxis.axis, event.jaxis.value);
+				const EventInputJoystick ev(event.jbutton.which, eInputButton::None, eInputButton::None, eInputButton::None, event.jaxis.axis, event.jaxis.value);
 				this->SendEventJoystickAxisMove(&ev);
 			}
 			break;
 
 			case SDL_JOYHATMOTION:
 			{
-				const EventInputJoystick ev(event.jbutton.which, 0, 0, 0, event.jhat.hat, event.jhat.value);
+				const EventInputJoystick ev(event.jbutton.which, eInputButton::None, eInputButton::None, eInputButton::None, event.jhat.hat, event.jhat.value);
 				this->SendEventJoystickDPadMove(&ev);
 			}
 			break;
@@ -336,13 +336,13 @@ bool Input::IsPointerEnabled(u16 joystick) const
 f32 Input::GetX(u16 joystick) const
 {
 	UNUSED(joystick);
-	return iX;
+	return static_cast<f32>(iX);
 }
 
 f32 Input::GetY(u16 joystick) const
 {
 	UNUSED(joystick);
-	return iY;
+	return static_cast<f32>(iY);
 }
 
 f32 Input::GetRelativeX(u16 joystick) const
@@ -369,20 +369,25 @@ f32 Input::GetDistance(u16 joystick) const
 	return 0;
 }
 
-Seed::eInputButton Input::GetButtonCode(u32 button) const
+eInputButton Input::GetJoystickButtonCode(u32 button) const
 {
-	Seed::eInputButton btn = Seed::ButtonInvalid;
+	return eInputButton(button); // FIXME: BUTTON MAPPING
+}
+
+eInputButton Input::GetMouseButtonCode(u32 button) const
+{
+	eInputButton btn = eInputButton::Invalid;
 
 	if (button & SDL_BUTTON_LMASK)
-		btn = Seed::ButtonLeft;
+		btn = eInputButton::MouseLeft;
 	else if (button & SDL_BUTTON_RMASK)
-		btn = Seed::ButtonRight;
+		btn = eInputButton::MouseRight;
 	else if (button & SDL_BUTTON_MMASK)
-		btn = Seed::ButtonMiddle;
+		btn = eInputButton::MouseMiddle;
 	else if (button & SDL_BUTTON(SDL_BUTTON_WHEELUP))
-		btn = Seed::ButtonUp;
+		btn = eInputButton::MouseUp;
 	else if (button & SDL_BUTTON(SDL_BUTTON_WHEELDOWN))
-		btn = Seed::ButtonDown;
+		btn = eInputButton::MouseDown;
 
 	return btn;
 }
@@ -391,7 +396,7 @@ u32 Input::ConvertButtonFlags(u32 flags)
 {
 	u32 converted = 0;
 
-	converted |= this->GetButtonCode(SDL_BUTTON(flags));
+	converted |= u32(this->GetMouseButtonCode(SDL_BUTTON(flags)));
 
 	return converted;
 }
@@ -419,16 +424,82 @@ void Input::SetSensitivity(u32 sens, u16 joystick)
 	UNUSED(joystick);
 }
 
-Seed::eKey Input::GetKeyCode(u32 key) const
+eKey Input::GetKeyCode(u32 key) const
 {
-	Seed::eKey k = static_cast<Seed::eKey>(key);
+	if (key >= 'a' && key <= 'z')
+		return static_cast<eKey>(u32(eKey::A) + (key - 'a'));
+	else
+	{
+		switch (key)
+		{
+			case 127: return eKey::Delete;
+			case 256: return eKey::Pad0;
+			case 257: return eKey::Pad1;
+			case 258: return eKey::Pad2;
+			case 259: return eKey::Pad3;
+			case 260: return eKey::Pad4;
+			case 261: return eKey::Pad5;
+			case 262: return eKey::Pad6;
+			case 263: return eKey::Pad7;
+			case 264: return eKey::Pad8;
+			case 265: return eKey::Pad9;
+			case 266: return eKey::PadPeriod;
+			case 267: return eKey::PadDivide;
+			case 268: return eKey::PadMultiply;
+			case 269: return eKey::PadMinus;
+			case 270: return eKey::PadPlus;
+			case 271: return eKey::PadEnter;
+			case 272: return eKey::PadEquals;
+			case 273: return eKey::Up;
+			case 274: return eKey::Down;
+			case 275: return eKey::Right;
+			case 276: return eKey::Left;
+			case 277: return eKey::Insert;
+			case 278: return eKey::Home;
+			case 279: return eKey::End;
+			case 280: return eKey::PageUp;
+			case 281: return eKey::PageDown;
+			case 282: return eKey::F1;
+			case 283: return eKey::F2;
+			case 284: return eKey::F3;
+			case 285: return eKey::F4;
+			case 286: return eKey::F5;
+			case 287: return eKey::F6;
+			case 288: return eKey::F7;
+			case 289: return eKey::F8;
+			case 290: return eKey::F9;
+			case 291: return eKey::F10;
+			case 292: return eKey::F11;
+			case 293: return eKey::F12;
+			case 294: return eKey::F13;
+			case 295: return eKey::F14;
+			case 296: return eKey::F15;
+			case 300: return eKey::NumLock;
+			case 301: return eKey::CapsLock;
+			case 302: return eKey::ScrollLock;
+			case 303: return eKey::RightShift;
+			case 304: return eKey::LeftShift;
+			case 305: return eKey::RightCtrl;
+			case 306: return eKey::LeftCtrl;
+			case 307: return eKey::RightAlt;
+			case 308: return eKey::LeftAlt;
+			case 309: return eKey::Application;
+			case 310: return eKey::Application;
+			case 311: return eKey::LeftGui;
+			case 312: return eKey::RightGui;
+			case 313: return eKey::AalterAse;
+			case 314: return eKey::Menu;
+			case 316: return eKey::PrintScreen;
+		}
 
-	return k;
+		eKey k = static_cast<eKey>(key);
+		return k;
+	}
 }
 
-Seed::eModifier Input::GetModifierCode(u32 mod) const
+eModifier Input::GetModifierCode(u32 mod) const
 {
-	Seed::eModifier m = static_cast<Seed::eModifier>(mod);
+	eModifier m = static_cast<eModifier>(mod);
 
 	return m;
 }

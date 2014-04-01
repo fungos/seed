@@ -32,7 +32,13 @@
 #define __SEED_DEFINES_H__
 
 #include <string>
+#include <chrono>
+
 #include "Config.h"
+
+#include <glm/fwd.hpp>
+using namespace glm;
+#define GLM_GetTranslationFromMatrix(x)		(x)[3]
 
 /*
 Compiler specific pragmas here
@@ -41,19 +47,69 @@ About warning 4251 - DLL export for templatized classes (std and others)
 http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 */
 #if defined(_MSC_VER)
+#pragma warning(disable:4514) // unreferenced inline function has been removed (/WD)
+#pragma warning(disable:4820) // 'n' bytes padding added after data memeber 'y' (/WD)
+#pragma warning(disable:4350) // behavior change: 'method1' called instead of 'method2' (/WD)
 #pragma warning(disable:4127) // conditional expression is constant
 #pragma warning(disable:4201) // nonstandard extension used : nameless struct/union
 #pragma warning(disable:4530)
 #pragma warning(disable:4996) // _CRT_SECURE_NO_WARNINGS
 #pragma warning(disable:4251) // stl + dll
+#pragma warning(disable:4324) // structure was padded due to __declspec(align())
+#pragma warning(disable:4316) // object allocated on the heap may not be aligned X
+#pragma warning(disable:4351) // new behavior: elements of array 'X' will be default initialized
+#pragma warning(disable:4275) // non dll-interface class 'X' used as base for dll-interface class 'Y'
 #else
-#define override
+//#define override
+#endif
+
+#if defined(__MWERKS__)
+#pragma warning off (10342)
+#endif // __MWERKS__
+
+#if defined(__MINGW32__)
+	#if defined(SEED_BUILD_SHARED)
+		#define SEED_CORE_API __declspec(dllexport)
+	#elif defined(SEED_EXTRA_BUILD)
+		#define SEED_PLATFORM_API __declspec(dllexport)
+		#define SEED_EXTRA_API __declspec(dllexport)
+		#define SEED_CORE_API __declspec(dllimport)
+	#elif defined(SEED_USE_LGPL)
+		#define SEED_CORE_API __declspec(dllimport)
+		#define SEED_EXTRA_API __declspec(dllimport)
+		#define SEED_PLATFORM_API _declspec(dllimport)
+	#endif // __MINGW32__
+#elif defined(_MSC_VER)
+	#if defined(SEED_BUILD_SHARED)
+		#define SEED_CORE_API _declspec(dllexport)
+	#elif defined(SEED_EXTRA_BUILD)
+		#define SEED_CORE_API _declspec(dllimport)
+		#define SEED_EXTRA_API _declspec(dllexport)
+		#define SEED_PLATFORM_API _declspec(dllexport)
+	#elif defined(SEED_USE_LGPL)
+		#define SEED_CORE_API __declspec(dllimport)
+		#define SEED_EXTRA_API __declspec(dllimport)
+		#define SEED_PLATFORM_API _declspec(dllimport)
+	#endif // _MSC_VER
+#endif
+
+#define SEED_STRINGIZE_HELPER(x)	#x
+#define SEED_STRINGIZE(x)			SEED_STRINGIZE_HELPER(x)
+#define SEED_DO_PRAGMA(x)			_Pragma (#x)
+
+#if BUILD_MESSAGES == 1 && !defined(_MSC_VER)
+#define WARNING(desc)	SEED_DO_PRAGMA(message (__FILE__ "(" SEED_STRINGIZE(__LINE__) ") : warning: " #desc));
+						//Wrn("WARNING: " __FILE__ "(" SEED_STRINGIZE(__LINE__) "): " SEED_STRINGIZE(desc));
+#else
+#define WARNING(desc)	//Wrn("WARNING: " __FILE__ "(" SEED_STRINGIZE(__LINE__) "): " SEED_STRINGIZE(desc));
 #endif
 
 #define OV_EXCLUDE_STATIC_CALLBACKS
 
 #if defined(BUILD_SDL)
 	#include "platform/sdl/sdlDefines.h"
+#elif defined(BUILD_SDL2)
+	#include "platform/sdl2/sdl2Defines.h"
 #elif defined(BUILD_GLFW)
 	#include "platform/glfw/glfwDefines.h"
 #elif defined(BUILD_IOS)
@@ -61,6 +117,8 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #elif defined(BUILD_QT)
 	#include "platform/qt/qtDefines.h"
 #endif // platform selector
+
+#include "String.h"
 
 #ifndef SEED_CORE_API
 #define SEED_CORE_API
@@ -75,8 +133,6 @@ http://www.unknownroad.com/rtfm/VisualStudio/warningC4251.html
 #endif
 
 #define UNUSED(var)						(void)var;
-
-typedef std::string String;
 
 struct Color
 {
@@ -98,50 +154,64 @@ struct Color
 
 typedef Color Color4b;
 
+#include "Log.h"
+
+//#define SEED_COUNT(x)						((sizeof(x)/sizeof(0[x])) / ((size_t)(!(sizeof(x) % sizeof(0[x])))))
+
+template <typename T, size_t N>
+constexpr size_t countof(T(&)[N])
+{
+	return N;
+}
+
 // Debugging
 #if defined(DEBUG)
-	#include "Log.h"
-	#define SEED_ASSERT(x)				if (!(x)) { Log("%s:%d - " #x, __FILE__, __LINE__); HALT}
-	#define SEED_ASSERT_MSG(x, msg)		if (!(x)) { Log("%s:%d - " #msg, __FILE__, __LINE__); HALT}
-
 	#if defined(__GNUC__)
 		#define __FUNC__					__PRETTY_FUNCTION__
 	#else
 		#define __FUNC__					__FUNCSIG__
 	#endif
 
-	#define SEED_ABSTRACT_METHOD		Dbg(SEED_TAG "WARNING: Calling an 'abstract' method: [%s] (%s:%d).", __FUNC__, __FILE__, __LINE__);
-	#define SEED_DEPRECATED_METHOD		Dbg(SEED_TAG "WARNING: Calling a deprected method, please fix it: [%s] (%s:%d)", __FUNC__, __FILE__, __LINE__);
+	#define SEED_ASSERT(x)					if (!(x)) { Err("%s:%d: " #x, __FILE__, __LINE__); HALT}
+	#define SEED_ASSERT_MSG(x, msg)			if (!(x)) { Err("%s:%d: (" #x "): " #msg, __FILE__, __LINE__); HALT}
+	#define SEED_ASSERT_FMT(x, msg, ...)	if (!(x)) { Err("%s:%d: (" #x "): " #msg, __FILE__, __LINE__, __VA_ARGS__); HALT}
+	#define SEED_WARNING(x, msg, ...)		if (x)    { Wrn("%s:%d: WARNING: (" #x "): " #msg, __FILE__, __LINE__, __VA_ARGS__); }
+	#define SEED_CHECK_RETURN(x, ret, msg, ...)	if (!(x)) { Err("%s:%d: ERROR: (" #x "): " #msg, __FILE__, __LINE__); return ret; }
+	#define SEED_ABSTRACT_METHOD			Dbg(SEED_TAG "WARNING: Calling an 'abstract' method: [%s] (%s:%d).", __FUNC__, __FILE__, __LINE__);
+	#define SEED_DEPRECATED_METHOD			Dbg(SEED_TAG "WARNING: Calling a deprected method, please fix it: [%s] (%s:%d)", __FUNC__, __FILE__, __LINE__);
 #else
+	#define SEED_CHECK_RETURN(x, ret, msg, ...)	if (!(x)) { Err("ERROR: " #msg); return ret; }
+
 	#define SEED_ABSTRACT_METHOD
 	#define SEED_DEPRECATED_METHOD
 
 	#if defined(__GNUC__)
 		#define SEED_ASSERT(...)
 		#define SEED_ASSERT_MSG(...)
+		#define SEED_ASSERT_FMT(...)
+		#define SEED_WARNING(...)
 	#else
 		#define SEED_ASSERT
 		#define SEED_ASSERT_MSG
+		#define SEED_ASSERT_FMT
+		#define SEED_WARNING
 	#endif // __GNUC__
 
 #endif // DEBUG
 
-#define SEED_INVALID_ID					0xFFFFFFFF
+#define SEED_INVALID_ID						0xFFFFFFFF
 
-#define CLAMP(val,min,max) 				((val) = (((val) < (min)) ? (min) : ((val) > (max)) ? (max) : (val)))
-#define ROUND_UP(value, alignment)		(((u32)(value) + (alignment-1)) & ~(alignment-1))
-#define ROUND_DOWN(value, alignment)	((u32)(value) & ~(alignment-1))
-#define PTR_OFF(ptr) 			((size_t)(ptr))
-#define ALIGN_OFFSET(ptr, align)	(PTR_OFF(ptr) & ((align) - 1))
-#define ALIGN_FLOOR(ptr, align)		((u8 *)(ptr) - ( PTR_OFF(ptr) & ((align) - 1)))
-#define ALIGN_CEIL(ptr, align) 		((u8 *)(ptr) + (-PTR_OFF(ptr) & ((align) - 1)))
+#define SEED_CLAMP(val,min,max) 			((val) = (((val) < (min)) ? (min) : ((val) > (max)) ? (max) : (val)))
+#define SEED_ROUND_UP(value, alignment)		(((intptr_t)(value) + (alignment-1)) & ~(alignment-1))
+#define SEED_ROUND_DOWN(value, alignment)	((intptr_t)(value) & ~(alignment-1))
+#define SEED_PTR_OFF(ptr)					((intptr_t)(ptr))
+#define SEED_ALIGN_OFFSET(ptr, align)		(SEED_PTR_OFF(ptr) & ((align) - 1))
+#define SEED_ALIGN_FLOOR(ptr, align)		((u8 *)(ptr) - ( SEED_PTR_OFF(ptr) & ((align) - 1)))
+#define SEED_ALIGN_CEIL(ptr, align)			((u8 *)(ptr) + (-SEED_PTR_OFF(ptr) & ((align) - 1)))
 
-#define SEED_DISABLE_COPY(Class)		Class(const Class &); \
-										Class &operator=(const Class &)
-
-
-#define SEED_FORWARD_DECLARATION(Class) namespace Seed { class Class; }
-
+#define SEED_DISABLE_COPY(Class)			private:										\
+												Class(const Class &) = delete;				\
+												Class &operator=(const Class &) = delete;	\
 
 #define SEED_COMPILE_TIME_ASSERT(name, x)	typedef int __seed_compile_assert_ ## name[(x) * 2 - 1]
 
@@ -157,11 +227,17 @@ SEED_COMPILE_TIME_ASSERT(s64, sizeof(s64) == 8);
 typedef enum { SEED_ENUM_ASSERT_VALUE } SEED_ENUM_ASSERT;
 SEED_COMPILE_TIME_ASSERT(enum, sizeof(SEED_ENUM_ASSERT) == sizeof(u32));
 
-#include "LeakReport.h"
-
 extern "C" { namespace Seed {
 	class ResourceManager;
 	SEED_CORE_API extern ResourceManager *pResourceManager;
 }}
+
+namespace Seed {
+	typedef std::chrono::high_resolution_clock Clock;
+	typedef long long Milliseconds; // we use the raw numbers directly internally, no conversions needed.
+	typedef float Seconds; // same here
+	typedef std::chrono::duration<Milliseconds, std::milli> Duration;
+	typedef std::chrono::time_point<std::chrono::high_resolution_clock> TimePoint;
+}
 
 #endif // __SEED_DEFINES_H__

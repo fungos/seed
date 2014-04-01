@@ -16,14 +16,14 @@ email: projectileman@yahoo.com
  This library is free software; you can redistribute it and/or
  modify it under the terms of EITHER:
    (1) The GNU Lesser General Public License as published by the Free
-       Software Foundation; either version 2.1 of the License, or (at
-       your option) any later version. The text of the GNU Lesser
-       General Public License is included with this library in the
-       file GIMPACT-LICENSE-LGPL.TXT.
+	   Software Foundation; either version 2.1 of the License, or (at
+	   your option) any later version. The text of the GNU Lesser
+	   General Public License is included with this library in the
+	   file GIMPACT-LICENSE-LGPL.TXT.
    (2) The BSD-style license that is included with this library in
-       the file GIMPACT-LICENSE-BSD.TXT.
+	   the file GIMPACT-LICENSE-BSD.TXT.
    (3) The zlib/libpng license that is included with this library in
-       the file GIMPACT-LICENSE-ZLIB.TXT.
+	   the file GIMPACT-LICENSE-ZLIB.TXT.
 
  This library is distributed in the hope that it will be useful,
  but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -32,9 +32,9 @@ email: projectileman@yahoo.com
 
 -----------------------------------------------------------------------------
 */
-#include "gim_geometry.h"
-#include "gim_radixsort.h"
-#include "gim_array.h"
+#include <bullet/BulletCollision/Gimpact/gim_geometry.h>
+#include <bullet/BulletCollision/Gimpact/gim_radixsort.h>
+#include <bullet/BulletCollision/Gimpact/gim_array.h>
 
 
 /**
@@ -51,48 +51,48 @@ Configuration var for applying interpolation of  contact normals
 class GIM_CONTACT
 {
 public:
-    btVector3 m_point;
-    btVector3 m_normal;
-    GREAL m_depth;//Positive value indicates interpenetration
-    GREAL m_distance;//Padding not for use
-    GUINT m_feature1;//Face number
-    GUINT m_feature2;//Face number
+	btVector3 m_point;
+	btVector3 m_normal;
+	GREAL m_depth;//Positive value indicates interpenetration
+	GREAL m_distance;//Padding not for use
+	GUINT m_feature1;//Face number
+	GUINT m_feature2;//Face number
 public:
-    GIM_CONTACT()
-    {
-    }
+	GIM_CONTACT()
+	{
+	}
 
-    GIM_CONTACT(const GIM_CONTACT & contact):
+	GIM_CONTACT(const GIM_CONTACT & contact):
 				m_point(contact.m_point),
 				m_normal(contact.m_normal),
 				m_depth(contact.m_depth),
 				m_feature1(contact.m_feature1),
 				m_feature2(contact.m_feature2)
-    {
-    	m_point = contact.m_point;
-    	m_normal = contact.m_normal;
-    	m_depth = contact.m_depth;
-    	m_feature1 = contact.m_feature1;
-    	m_feature2 = contact.m_feature2;
-    }
+	{
+		m_point = contact.m_point;
+		m_normal = contact.m_normal;
+		m_depth = contact.m_depth;
+		m_feature1 = contact.m_feature1;
+		m_feature2 = contact.m_feature2;
+	}
 
-    GIM_CONTACT(const btVector3 &point,const btVector3 & normal,
-    	 			GREAL depth, GUINT feature1, GUINT feature2):
+	GIM_CONTACT(const btVector3 &point,const btVector3 & normal,
+					GREAL depth, GUINT feature1, GUINT feature2):
 				m_point(point),
 				m_normal(normal),
 				m_depth(depth),
 				m_feature1(feature1),
 				m_feature2(feature2)
-    {
-    }
+	{
+	}
 
 	//! Calcs key for coord classification
-    SIMD_FORCE_INLINE GUINT calc_key_contact() const
-    {
-    	GINT _coords[] = {
-    		(GINT)(m_point[0]*1000.0f+1.0f),
-    		(GINT)(m_point[1]*1333.0f),
-    		(GINT)(m_point[2]*2133.0f+3.0f)};
+	SIMD_FORCE_INLINE GUINT calc_key_contact() const
+	{
+		GINT _coords[] = {
+			(GINT)(m_point[0]*1000.0f+1.0f),
+			(GINT)(m_point[1]*1333.0f),
+			(GINT)(m_point[2]*2133.0f+3.0f)};
 		GUINT _hash=0;
 		GUINT *_uitmp = (GUINT *)(&_coords[0]);
 		_hash = *_uitmp;
@@ -101,11 +101,11 @@ public:
 		_uitmp++;
 		_hash += (*_uitmp)<<8;
 		return _hash;
-    }
+	}
 
-    SIMD_FORCE_INLINE void interpolate_normals( btVector3 * normals,GUINT normal_count)
-    {
-    	btVector3 vec_sum(m_normal);
+	SIMD_FORCE_INLINE void interpolate_normals( btVector3 * normals,GUINT normal_count)
+	{
+		btVector3 vec_sum(m_normal);
 		for(GUINT i=0;i<normal_count;i++)
 		{
 			vec_sum += normals[i];
@@ -117,7 +117,7 @@ public:
 		GIM_INV_SQRT(vec_sum_len,vec_sum_len); // 1/sqrt(vec_sum_len)
 
 		m_normal = vec_sum*vec_sum_len;
-    }
+	}
 
 };
 
@@ -130,7 +130,7 @@ public:
 	}
 
 	SIMD_FORCE_INLINE void push_contact(const btVector3 &point,const btVector3 & normal,
-    	 			GREAL depth, GUINT feature1, GUINT feature2)
+					GREAL depth, GUINT feature1, GUINT feature2)
 	{
 		push_back_mem();
 		GIM_CONTACT & newele = back();

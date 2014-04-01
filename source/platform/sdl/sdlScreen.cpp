@@ -35,6 +35,7 @@
 #include "RendererDevice.h"
 #include "SeedInit.h"
 #include "Configuration.h"
+#include "Texture.h"
 
 #if defined(WIN32)
 #define USER_DEFAULT_SCREEN_DPI	96
@@ -50,7 +51,7 @@ SEED_SINGLETON_DEFINE(Screen)
 Screen::Screen()
 	: iHandle(0)
 	, surfaceSize(0)
-	, pSurface(NULL)
+	, pSurface(nullptr)
 	, bFullScreen(false)
 	, iBPP(32)
 	, iFlags(0)
@@ -66,12 +67,12 @@ bool Screen::Reset()
 #if defined(__linux__)
 	this->InitializeVideo();
 #else
-	pResourceManager->Unload(Seed::TypeTexture);
+	pResourceManager->Unload(ITexture::GetTypeId());
 	pRendererDevice->Shutdown();
 	this->Shutdown();
 	this->Initialize();
 	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::TypeTexture);
+	pResourceManager->Reload(ITexture::GetTypeId());
 #endif
 
 	return true;
@@ -121,7 +122,7 @@ bool Screen::Prepare()
 		else
 		{
 			Log(TAG "Error: Failed to auto detect video mode.");
-			return;
+			return false;
 		}
 	}
 
@@ -131,7 +132,7 @@ bool Screen::Prepare()
 	if (bFullScreen)
 		iFlags |= SDL_FULLSCREEN;
 
-	return (videoInfo != NULL);
+	return (videoInfo != nullptr);
 }
 
 bool Screen::Initialize()
@@ -170,15 +171,15 @@ bool Screen::InitializeVideo()
 	if (pSurface)
 	{
 		SDL_FreeSurface(pSurface);
-		pSurface = NULL;
+		pSurface = nullptr;
 	}
 
 #if defined(__APPLE_CC__) || defined(__linux__)
 	this->SetupOpenGL();
 #else
 	eRendererDeviceType type = pConfiguration->GetRendererDeviceType();
-	if (type == Seed::RendererDeviceOpenGL1x || type == Seed::RendererDeviceOpenGL2x ||
-		type == Seed::RendererDeviceOpenGL3x || type == Seed::RendererDeviceOpenGL4x)
+	if (type == eRendererDeviceType::OpenGL1x || type == eRendererDeviceType::OpenGL2x ||
+		type == eRendererDeviceType::OpenGL3x || type == eRendererDeviceType::OpenGL4x)
 	{
 		this->SetupOpenGL();
 	}
@@ -192,12 +193,12 @@ bool Screen::InitializeVideo()
 
 #if defined(WIN32)
 	int dpiX = 0, dpiY = 0;
-	HDC hdc = GetDC(NULL);
+	HDC hdc = GetDC(nullptr);
 	if (hdc)
 	{
 		dpiX = GetDeviceCaps(hdc, LOGPIXELSX);
 		dpiY = GetDeviceCaps(hdc, LOGPIXELSY);
-		ReleaseDC(NULL, hdc);
+		ReleaseDC(nullptr, hdc);
 	}
 
 	int cxScreen = GetSystemMetrics(SM_CXSCREEN);
@@ -239,14 +240,14 @@ bool Screen::InitializeVideo()
 			HWND hWnd = info.window;
 			iHandle = (u32)hWnd;
 
-			const HANDLE bigIcon = ::LoadImageA(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
+			const HANDLE bigIcon = ::LoadImageA(nullptr, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXICON), ::GetSystemMetrics(SM_CYICON), LR_LOADFROMFILE);
 			if (bigIcon)
 			{
 				icon = true;
 				::SendMessage(hWnd, WM_SETICON, ICON_BIG, (LPARAM)bigIcon);
 			}
 
-			const HANDLE lilIcon = ::LoadImageA(NULL, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
+			const HANDLE lilIcon = ::LoadImageA(nullptr, "icon.ico", IMAGE_ICON, ::GetSystemMetrics(SM_CXSMICON), ::GetSystemMetrics(SM_CYSMICON), LR_LOADFROMFILE);
 			if (bigIcon)
 			{
 				icon = true;
@@ -261,7 +262,7 @@ bool Screen::InitializeVideo()
 			{
 				Uint32 colorkey = SDL_MapRGB(icon->format, 255, 0, 255);
 				SDL_SetColorKey(icon, SDL_SRCCOLORKEY, colorkey);
-				SDL_WM_SetIcon(icon, NULL);
+				SDL_WM_SetIcon(icon, nullptr);
 			}
 		}
 	}
@@ -274,7 +275,7 @@ bool Screen::Shutdown()
 	Log(TAG "Terminating...");
 
 	iFadeStatus = 0;
-	nFadeType	= kFadeIn;
+	nFadeType   = eFade::In;
 	bFading		= false;
 	iHeight		= 0;
 	iWidth		= 0;
@@ -283,7 +284,7 @@ bool Screen::Shutdown()
 
 	if (pSurface)
 		SDL_FreeSurface(pSurface);
-	pSurface = NULL;
+	pSurface = nullptr;
 
 	SDL_QuitSubSystem(SDL_INIT_VIDEO);
 
@@ -351,12 +352,12 @@ void Screen::ToggleFullscreen()
 #else
 	iFlags ^= SDL_FULLSCREEN;
 
-	pResourceManager->Unload(Seed::TypeTexture);
+	pResourceManager->Unload(ITexture::GetTypeId());
 	pRendererDevice->Shutdown();
 	this->InitializeVideo();
 	this->EnableCursor(pConfiguration->IsCursorEnabled());
 	pRendererDevice->Initialize();
-	pResourceManager->Reload(Seed::TypeTexture);
+	pResourceManager->Reload(ITexture::GetTypeId());
 
 #if defined(WIN32)
 	if (!bFullScreen)

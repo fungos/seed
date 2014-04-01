@@ -33,6 +33,7 @@
 #if defined(USE_API_OAL)
 
 #include "Log.h"
+#include "Memory.h"
 #include <vector>
 
 #define TAG "[Sound] "
@@ -42,7 +43,7 @@ namespace Seed { namespace OAL {
 
 IResource *SoundResourceLoader(const String &filename, ResourceManager *res)
 {
-	Sound *sound = New(Sound());
+	auto sound = sdNew(Sound);
 	sound->Load(filename, res);
 	return sound;
 }
@@ -77,18 +78,18 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 
 		alGenBuffers(1, &iBuffer);
 
-		#warning TODO - Move to async file loading
-		File *pFile = New(File(filename));
-		oggFile.dataPtr = pFile->GetData();
+		// FIXME: ASYNC
+		auto file = sdNew(File(filename));
+		oggFile.dataPtr = file->GetData();
 		oggFile.dataRead = 0;
-		oggFile.dataSize = iSize = pFile->GetSize();
+		oggFile.dataSize = iSize = file->GetSize();
 
 		vorbisCb.read_func = vorbis_read;
 		vorbisCb.close_func = vorbis_close;
 		vorbisCb.seek_func = vorbis_seek;
 		vorbisCb.tell_func = vorbis_tell;
 
-		if (ov_open_callbacks(&oggFile, &oggStream, NULL, 0, vorbisCb) != 0)
+		if (ov_open_callbacks(&oggFile, &oggStream, nullptr, 0, vorbisCb) != 0)
 		{
 			Log(TAG "Could not read ogg file from memory");
 			memset(&oggFile, '\0', sizeof(oggFile));
@@ -128,7 +129,7 @@ bool Sound::Load(const String &filename, ResourceManager *res)
 		}
 
 		bLoaded = true;
-		Delete(pFile);
+		sdDelete(file);
 	}
 
 	return bLoaded;

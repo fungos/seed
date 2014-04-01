@@ -38,7 +38,6 @@ SEED_SINGLETON_DEFINE(Updater)
 
 Updater::Updater()
 	: vUpdatable()
-	, fAccumulator(0.0f)
 {
 }
 
@@ -57,16 +56,12 @@ void Updater::Remove(IUpdatable *obj)
 	vUpdatable -= obj;
 }
 
-void Updater::Run(f32 dt)
+void Updater::Run(Seconds dt)
 {
 	SEED_FUNCTION_PROFILER;
 
-	IUpdatableVectorIterator it = vUpdatable.begin();
-	IUpdatableVectorIterator end = vUpdatable.end();
-	for (; it != end; ++it)
-	{
-		(*it)->Update(dt);
-	}
+	for (auto each: vUpdatable)
+		each->Update(dt);
 }
 
 } // namespace

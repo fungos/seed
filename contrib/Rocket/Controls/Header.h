@@ -30,7 +30,10 @@
 
 #include <Rocket/Core/Platform.h>
 #define STATIC_LIB
+
+#ifndef _MSC_VER
 #pragma GCC diagnostic ignored "-Wswitch"
+#endif
 
 #if !defined STATIC_LIB
 	#ifdef ROCKET_PLATFORM_WIN32

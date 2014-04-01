@@ -64,10 +64,13 @@ template <class TYPE> class Rect
 
 		Rect<TYPE> &operator=(const Rect<TYPE> &rect)
 		{
-			x1	= rect.x1;
-			y1	= rect.y1;
-			x2	= rect.x2;
-			y2	= rect.y2;
+			if (this != &rect)
+			{
+				x1 = rect.x1;
+				y1 = rect.y1;
+				x2 = rect.x2;
+				y2 = rect.y2;
+			}
 
 			return *this;
 		}
@@ -109,9 +112,9 @@ template <class TYPE> class Rect
 			left2   = rect.x1;
 			right1  = this->x2;
 			right2  = rect.x2;
-			top1    = this->y;
-			top2    = rect.y;
-			bottom1 = this->y1;
+			top1    = this->y1;
+			top2    = rect.y1;
+			bottom1 = this->y2;
 			bottom2 = rect.y2;
 
 			if (bottom1 < top2) return(false);
@@ -159,14 +162,14 @@ template <class TYPE> class Rect
 
 			rectDst.x1 = over_left;
 			rectDst.y1 = over_top;
-			rectDst.x2 = (TYPE)(over_right - over_left);
-			rectDst.y2 = (TYPE)(over_bottom - over_top);
+			rectDst.x2 = over_right;
+			rectDst.y2 = over_bottom;
 
-			if (bottom1 < top2) return(false);
-			if (top1 > bottom2) return(false);
+			if (bottom1 < top2) return false;
+			if (top1 > bottom2) return false;
 
-			if (right1 < left2) return(false);
-			if (left1 > right2) return(false);
+			if (right1 < left2) return false;
+			if (left1 > right2) return false;
 
 			return true;
 		}
@@ -205,9 +208,9 @@ template <class TYPE> class Rect
 		inline bool Intersect(f32 x, f32 y, f32 radius) const
 		{
 			f32 cx = x;
-			CLAMP(cx, x1, x2);
+			SEED_CLAMP(cx, x1, x2);
 			f32 cy = y;
-			CLAMP(cy, y1, y2);
+			SEED_CLAMP(cy, y1, y2);
 
 			f32 dx = x - cx;
 			f32 dy = y - cy;
@@ -241,7 +244,7 @@ template <class TYPE> class Rect
 
 		void Print()
 		{
-			Log("Rect info: x1 -> %d, y1 -> %d, x2 -> %d, y2 -> %d", x1, y1, x2, y2);
+			Log("Rect info: x1 -> %f, y1 -> %f, x2 -> %f, y2 -> %f", x1, y1, x2, y2);
 		}
 };
 

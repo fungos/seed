@@ -1,0 +1,205 @@
+{
+	sType: sprite
+	sName: particles
+	aAnimations: [
+		{
+			aFrames: [
+				{
+					sName: "particle 0"
+					sResource: particle_00.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 1"
+					sResource: particle_01.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 2"
+					sResource: particle_02.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 3"
+					sResource: particle_03.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 4"
+					sResource: particle_04.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 5"
+					sResource: particle_05.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 6"
+					sResource: particle_06.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 7"
+					sResource: particle_07.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 8"
+					sResource: particle_08.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 9"
+					sResource: particle_09.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 10"
+					sResource: particle_10.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 11"
+					sResource: particle_11.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 12"
+					sResource: particle_12.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 13"
+					sResource: particle_13.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 14"
+					sResource: particle_14.tga
+				}
+			]
+		}
+		{
+			aFrames: [
+				{
+					sName: "particle 15"
+					sResource: particle_15.tga
+				}
+			]
+		}
+		{
+			iFps: 7
+			bAnimated: true
+			bLoop: true
+			aFrames: [
+				{
+					sName: "particle 00"
+					sResource: particle_00.tga
+				}
+				{
+					sName: "particle 01"
+					sResource: particle_01.tga
+				}
+				{
+					sName: "particle 02"
+					sResource: particle_02.tga
+				}
+				{
+					sName: "particle 03"
+					sResource: particle_03.tga
+				}
+				{
+					sName: "particle 04"
+					sResource: particle_04.tga
+				}
+				{
+					sName: "particle 05"
+					sResource: particle_05.tga
+				}
+				{
+					sName: "particle 06"
+					sResource: particle_06.tga
+				}
+				{
+					sName: "particle 07"
+					sResource: particle_07.tga
+				}
+				{
+					sName: "particle 08"
+					sResource: particle_08.tga
+				}
+				{
+					sName: "particle 09"
+					sResource: particle_09.tga
+				}
+				{
+					sName: "particle 10"
+					sResource: particle_10.tga
+				}
+				{
+					sName: "particle 11"
+					sResource: particle_11.tga
+				}
+				{
+					sName: "particle 12"
+					sResource: particle_12.tga
+				}
+				{
+					sName: "particle 13"
+					sResource: particle_13.tga
+				}
+				{
+					sName: "particle 14"
+					sResource: particle_14.tga
+				}
+				{
+					sName: "particle 15"
+					sResource: particle_15.tga
+				}
+			]
+		}
+	]
+}
