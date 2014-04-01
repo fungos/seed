@@ -18,16 +18,14 @@ before_install:
 install: 
   # g++4.8.1
   - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
-  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8"; fi
+  - if [ "$CXX" = "g++" ]; then export CXX="g++-4.8" CC="gcc-4.8"; fi
 
   # clang 3.4
   - if [ "$CXX" == "clang++" ]; then sudo apt-get install --allow-unauthenticated -qq clang-3.4; fi
-  - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4"; fi
+  - if [ "$CXX" == "clang++" ]; then export CXX="clang++-3.4" CC="clang-3.4"; fi
   - sudo apt-get update
   - sudo apt-get install qt4-qmake
   - sudo apt-get install libgl1-mesa-dev libopenal-dev libxss-dev libxxf86vm-dev
-  
-  - $CXX --version
 
 env:
   - BUILD=debug
