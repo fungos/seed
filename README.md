@@ -1,6 +1,4 @@
-Seed
+Welcome to Seed Framework
 ====
 
-Seed Framework 2
-
-Soon on github...
+Status: [![Build Status](https://travis-ci.org/fungos/seed.svg?branch=master)](https://travis-ci.org/fungos/seed)
