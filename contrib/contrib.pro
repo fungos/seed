@@ -8,7 +8,7 @@ QMAKE_CXXFLAGS -= -fno-rtti
 CONFIG += staticlib sdl2 rocket box2d yajl physfs oggvorbistheora freetype vectormath
 
 BASE = ..
-#include(../compiler.pri)
+include(../compiler.pri)
 include(../platform.pri)
 
 FLAGSXX -= -stdlib=libc++
